@@ -1,0 +1,42 @@
+button.btn.btn-secondary {
+    margin-left: 10px;
+}
+/*Sidebar icon*/
+.sidebar .nav .nav-item .nav-link i.menu-icon {
+    font-size: 1.125rem;
+    line-height: 1;
+    margin-left: auto;
+    color: #3ba135;
+}
+
+button.login-btn.mt-2.btn.btn-primary {
+    width: 100%;
+}
+.card.bg-white.my-5.mx-auto {
+    border-radius: 1rem;
+    max-width: 350px;
+}
+img.logo-img-login {
+    max-width: 100px;
+}
+
+.navbar-brand-wrapper.d-flex.align-items-center {
+    background-color: #fff;
+    justify-content: center;
+}
+.table thead th,.table tbody td{
+    padding: 15px;
+}
+.dash-ico{
+    color: #0b5ed7 !important;
+    background: rgba(11,94,215,0.1) !important;
+    border: none !important;
+    height: 50px;
+    width: 50px;
+}
+.v-top th, .v-top td{
+    vertical-align: top !important;
+}
+th.text-right.font-weight-bold, td.text-right.font-weight-bold {
+    color: #e558ef;
+}

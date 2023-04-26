@@ -1,0 +1,148 @@
+.card-body.tutorinput {
+    display: flex;
+}
+
+.tutor-list.col-md-4 {
+    margin-left: 216px;
+}
+
+input.rmdp-input {
+    height: 38px;
+}
+
+.rmdp-wrapper.rmdp-shadow.rmdp-input.date {
+    height: 100%;
+}
+
+.rmdp-input {
+    padding: 5px 31px 3px 12px;
+    height: 40px;
+}
+
+.oneline {
+    /* text-align: start; */
+    display: contents;
+}
+
+h3.main-text {
+    color: #343a40;
+    font-size: 1.125rem;
+    margin-bottom: -25px;
+}
+
+.profile-img {
+    height: 100px;
+    width: 100px;
+    border-radius: 5px;
+    margin-bottom: 2rem;
+}
+
+.profile-details {
+    display: flex;
+}
+
+.wallet-Earnings {
+    margin-bottom: -52px;
+    margin-top: 4%;
+}
+
+h3.wallet-text {
+    font-size: 15px;
+}
+
+span.wallet-rs {
+    color: green;
+    font-weight: 500;
+    font-size: 20px;
+}
+
+.justify-content-md-start {
+    margin-top: 4%;
+}
+
+td.d-flex.flex-column {
+    white-space: break-spaces;
+}
+
+.button {
+    background-color: white;
+    /* border: none; */
+    padding: 10px 20px;
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+.activeb {
+    background-color: #0d6efd;
+    color: white;
+}
+
+@media screen and (max-width: 600px) {
+    .oneline {
+        top: 0;
+        position: relative;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+    }
+    .position-relative {
+        position: relative !important;
+        overflow: auto;
+    }
+    .rmdp-input {
+        border: 1px solid #c0c4d6;
+        border-radius: 5px;
+        height: 40px;
+        margin: 10px 0px;
+        padding: 5px 31px 3px 12px;
+        font-size: 13px;
+    }
+    .card.new-table {
+        overflow: auto;
+    }
+    .d-grid.gap-2.d-md-flex.justify-content-md-end {
+        margin-top: 16%;
+    }
+    /* select.form-select {
+        margin-top: 10%;
+    } */
+    .page-headers {
+        margin-top: 24%;
+    }
+    .justify-content-md-start {
+        margin-top: 14%;
+    }
+}
+
+@media only screen and (min-width: 700px) {
+    .oneline {
+        top: 0;
+        position: relative;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        margin: auto;
+    }
+    .position-relative {
+        position: relative !important;
+        overflow: auto;
+    }
+    .rmdp-input {
+        border: 1px solid #c0c4d6;
+        border-radius: 5px;
+        height: 40px;
+        /* margin: 10px 0px; */
+        padding: 5px 31px 3px 12px;
+        font-size: 13px;
+    }
+    .card.new-table {
+        overflow: auto;
+    }
+}
+
+@media only screen and (min-width: 320px) {
+    .mobiltutordetails {
+        text-align: center;
+    }
+}
