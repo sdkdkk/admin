@@ -21,7 +21,8 @@ import Tutorexam from './components/Tutorexam/Tutorexam';
 import Signup from './components/Login/Signup';
 import Tutordetails from './components/Tutors/Tutordetails';
 import Studentdetails from './components/Student/Studentdetails';
-
+import Testexam from './components/Tutorexam/Testexam';
+import Examdetails from './components/Tutorexam/Examdetails';
 
 function App() {
   return (
@@ -47,6 +48,9 @@ function App() {
         <Route path="/tutordetails/:_id" element={<Tutordetails/>} />
         <Route path="tutorexam" element={<Tutorexam/>} />
         <Route path="/studentdetails/:_id" element={<Studentdetails/>} />
+        <Route path="testexam" element={<Testexam/>} />
+        <Route path="examdetails" element={<Examdetails/>} />
+      
       </Routes>
       <Scroll/>
     </BrowserRouter>

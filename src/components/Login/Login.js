@@ -15,7 +15,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { signIn } from "../../Redux/Loginpages/authSlice";
 import { useNavigate } from "react-router-dom";
 
-
 const Login = () => {
   const auth = useSelector((state) => state.auth);
   const token = useSelector((state) => state.auth.token);
@@ -30,16 +29,25 @@ const Login = () => {
     formState: { errors: errors1 },
   } = useForm({});
 
+  // const onSubmit1 = (data) => {
+  //   console.log("data1", data);
+  //   localStorage.setItem("data", token);
+  //   dispatch(signIn(data));
+  //   setTimeout(() => {
+  //     navigate("/");
+  //   }, 500);
+  // };
 
   const onSubmit1 = (data) => {
     console.log("data1", data);
     localStorage.setItem("data", token);
     dispatch(signIn(data));
     setTimeout(() => {
-      navigate("/");
+      if (auth.isAuthenticated) {
+        navigate("/");
+      }
     }, 500);
   };
-
 
   return (
     <div>
@@ -103,10 +111,6 @@ const Login = () => {
                       }
                     </div>
                   </div>
-
-                  <span className="text-danger-signin">
-                    {auth.error ? JSON.stringify(auth.error.error) : ""}
-                  </span>
                   <div className="mt--5 text-end">
                     <Link className="color-primary pt--10" to="#">
                       Forgot password?
@@ -122,6 +126,9 @@ const Login = () => {
                     </div>
                   </div>
                 </form>
+                <span className="text-danger-signin">
+                  {auth.error ? JSON.stringify(auth.error.error) : ""}
+                </span>
               </MDBCardBody>
             </MDBCard>
           </MDBCol>
@@ -132,5 +139,3 @@ const Login = () => {
 };
 
 export default Login;
-
-

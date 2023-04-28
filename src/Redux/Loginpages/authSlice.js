@@ -180,7 +180,7 @@ authSlice.actions;
 export const Testimoniald = (formData) => async(dispatch) => {
     try {
         const { data } = await axios.post(
-            "https://632eb541b7314fc02f48d2d2.mockapi.io/crud-utube",
+            "https://vaidik-backend.onrender.com/admin/testimonial",
             formData
         );
         dispatch(TestimonialdSuccess(data));

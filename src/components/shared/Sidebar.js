@@ -72,12 +72,13 @@ const Sidebar = () => {
                     Student List
                   </Link>
                 </li>
-                
+             
                 <li className="nav-item">
                   <Link className="nav-link" to="/tutordetails">
-                    Student Bank details
+                    Student details
                   </Link>
                 </li>
+                
               </ul>
             </div>
           </li>
@@ -113,6 +114,15 @@ const Sidebar = () => {
               <i className="icon-screen-desktop menu-icon"></i>
             </Link>
           </li>
+
+
+           {/*Test Exam*/}
+           <li className="nav-item">
+                  <Link className="nav-link" to="/testexam">
+                     <span className="menu-title">Testexam</span>
+                     <i className="icon-screen-desktop menu-icon"></i>
+                  </Link>
+               </li>
 
           {/*pages*/}
           <li className="nav-item nav-category">

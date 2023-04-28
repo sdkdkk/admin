@@ -23,11 +23,7 @@ const Tutorlist = () => {
   const users = useSelector((state) => state.user.data.document);
   const Suspended = useSelector((state) => state.suspended.data.document);
   const working = useSelector((state) => state.working.data.document);
-  const isLoadinguser=useSelector((state) => state.user.isLoading);
-
-
-
-
+  const isLoadinguser = useSelector((state) => state.user.isLoading);
 
   const [selectedStatus, setSelectedStatus] = useState("working");
   const [status, setStatus] = useState({
@@ -105,193 +101,194 @@ const Tutorlist = () => {
         <div className="container-fluid page-body-wrapper">
           <Sidebar />
 
-          {isLoadinguser  ? (
-        <p style={{marginLeft:"500px",marginTop:"250px"}}>
-          <ColorRing
-                    visible={true}
-                    height="80"
-                    width="80"
-                    ariaLabel="blocks-loading"
-                    wrapperStyle={{}}
-                    wrapperClass="blocks-wrapper"
-                    colors={["black"]}
-                  />
-        </p>
-      ) : (
-        <div className="main-panel">
-        <div className="content-wrapper">
-          <div className="oneline">
-            <h3 className="main-text">Tutors List</h3>
-          </div>
-          <div className="page-header">
-            <div className="col-md-12">
-              <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-                <button
-                  onClick={fetchData3}
-                  className={activeButton === 1 ? 'activeb' : ''}
-                  // className="btn btn-primary me-md-2 active"
-                  type="button" style={{borderRadius:"4px"}}>
-                  Working
-                </button>
-                <button
-                  onClick={fetchData2}
-                  className={activeButton === 2 ? 'activeb' : ''}
-                  // className="btn btn-primary"
-                  type="button" style={{borderRadius:"4px"}}>
-                  Suspended
-                </button>
-                <button
-                  onClick={fetchData1}
-                  className={activeButton === 3 ? 'activeb' : ''}
-                  // className="btn btn-primary"
-                  type="button" style={{borderRadius:"4px"}}>
-                  Unverified
-                </button>
-              </div>
-            </div>
-          </div>
-
-          <div>
-            {Loader ? (
-              <div className="loader-end text-end" >
-                {Loader ? (
-                  <ColorRing
-                    visible={true}
-                    height="80"
-                    width="80"
-                    ariaLabel="blocks-loading"
-                    wrapperStyle={{}}
-                    wrapperClass="blocks-wrapper"
-                    colors={["black"]}
-                  />
-                ) : null}
-              </div>
-            ) : (
-              <>
-                <div className="row">
-                  <div className="col-12 grid-margin stretch-card">
-                    <div className="card">
-                      <div className="card-body">
-                        <div className="row">
-                          <div className="col-md-6">
-                            <input
-                              type="text"
-                              id="fname"
-                              placeholder="search name"
-                              name="fname"
-                              onChange={(e) => {
-                                setSearchTerm(e.target.value);
-                              }}
-                            />
-                          </div>
-                          <div className="col-md-4">
-                            <DatePicker
-                              rangeHover
-                              className="rmdp-input date"
-                              value={values}
-                              onChange={setValues}
-                              range
-                              render={<InputIcon />}
-                              width={500}
-                            />
-                          </div>
-                          <div className="col-md-2">
-                            <Button className="algin-right">Search</Button>
-                          </div>
-                        </div>
-                      </div>
+          {isLoadinguser ? (
+            <p style={{ marginLeft: "500px", marginTop: "250px" }}>
+              <ColorRing
+                visible={true}
+                height="80"
+                width="80"
+                ariaLabel="blocks-loading"
+                wrapperStyle={{}}
+                wrapperClass="blocks-wrapper"
+                colors={["black"]}
+              />
+            </p>
+          ) : (
+            <div className="main-panel">
+              <div className="content-wrapper">
+                <div className="oneline">
+                  <h3 className="main-text">Tutors List</h3>
+                </div>
+                <div className="page-header">
+                  <div className="col-md-12">
+                    <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+                      <button
+                        onClick={fetchData3}
+                        className={activeButton === 1 ? "activeb" : ""}
+                        // className="btn btn-primary me-md-2 active"
+                        type="button"
+                        style={{ borderRadius: "4px" }}>
+                        Working
+                      </button>
+                      <button
+                        onClick={fetchData2}
+                        className={activeButton === 2 ? "activeb" : ""}
+                        // className="btn btn-primary"
+                        type="button"
+                        style={{ borderRadius: "4px" }}>
+                        Suspended
+                      </button>
+                      <button
+                        onClick={fetchData1}
+                        className={activeButton === 3 ? "activeb" : ""}
+                        // className="btn btn-primary"
+                        type="button"
+                        style={{ borderRadius: "4px" }}>
+                        Unverified
+                      </button>
                     </div>
                   </div>
                 </div>
-                <div className="row">
-                  <div className="col-12 grid-margin stretch-card">
-                    <div className="card new-table">
-                      <div className="card-body">
-                        <table className="table v-top">
-                          <thead>
-                            <tr>
-                              <th scope="col">Reg.DATE</th>
-                              <th scope="col">USER NAME</th>
-                              <th scope="col">EMAIL</th>
-                              <th scope="col">MOBILE NO</th>
-                              <th scope="col">SUBJECTS</th>
-                              <th scope="col">BALANCE</th>
-                              <th scope="col">Action</th>
-                            </tr>
-                          </thead>
-                          {displayUsers &&
-                            displayUsers
-                            .filter((val) => {
-                              if (!val.name) {
-                                return true; // or return true, depending on how you want to handle this case
-                              }
-                              if (searchTerm === "") {
-                                return true;
-                              } else if (
-                                val.name.toLowerCase().includes(searchTerm.toLowerCase())
-                              ) {
-                                return true;
-                              } else {
-                                return false;
-                              }
-                            })
-                              .map((data) => (
-                                <tbody key={data._id}>
+
+                <div>
+                  {Loader ? (
+                    <div className="loader-end text-end">
+                      {Loader ? (
+                        <ColorRing
+                          visible={true}
+                          height="80"
+                          width="80"
+                          ariaLabel="blocks-loading"
+                          wrapperStyle={{}}
+                          wrapperClass="blocks-wrapper"
+                          colors={["black"]}
+                        />
+                      ) : null}
+                    </div>
+                  ) : (
+                    <>
+                      <div className="row">
+                        <div className="col-12 grid-margin stretch-card">
+                          <div className="card">
+                            <div className="card-body">
+                              <div className="row">
+                                <div className="col-md-6">
+                                  <input
+                                    type="text"
+                                    id="fname"
+                                    placeholder="search name"
+                                    name="fname"
+                                    onChange={(e) => {
+                                      setSearchTerm(e.target.value);
+                                    }}
+                                  />
+                                </div>
+                                <div className="col-md-4">
+                                  <DatePicker
+                                    rangeHover
+                                    className="rmdp-input date"
+                                    value={values}
+                                    onChange={setValues}
+                                    range
+                                    render={<InputIcon />}
+                                    width={500}
+                                  />
+                                </div>
+                                <div className="col-md-2">
+                                  <Button className="algin-right">
+                                    Search
+                                  </Button>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className="row">
+                        <div className="col-12 grid-margin stretch-card">
+                          <div className="card new-table">
+                            <div className="card-body">
+                              <table className="table v-top">
+                                <thead>
                                   <tr>
-                                    <td>
-                                      <Moment format="D MMM YYYY" withTitle>
-                                        {data.updatedAt}
-                                      </Moment>
-                                    </td>
-                                    <td>{data.name}</td>
-                                    <td>{data.email}</td>
-                                    <td>{data.mobileNo}</td>
-                                    <td>
-                                      {numberWithCommas(data.subjects)}
-                                    </td>
-                                    <td>{data.balance}</td>
-                                    <td>
-                                      <Link
-                                        to={`/tutordetails/${data._id}`}>
-                                        <button className="btn btn-primary btn-sm">
-                                          click
-                                        </button>
-                                      </Link>
-                                    </td>
+                                    <th scope="col">Reg.DATE</th>
+                                    <th scope="col">USER NAME</th>
+                                    <th scope="col">EMAIL</th>
+                                    <th scope="col">MOBILE NO</th>
+                                    <th scope="col">SUBJECTS</th>
+                                    <th scope="col">BALANCE</th>
+                                    <th scope="col">Action</th>
                                   </tr>
-                                </tbody>
-                              ))}
-                        </table>
-                        <div className="table-pagination">
-                          <Pagination
-                            count={4}
-                            page={currentPage}
-                            onChange={handleChange}
-                            shape="rounded"
-                            variant="outlined"
-                            showFirstButton
-                            showLastButton
-                          />
+                                </thead>
+                                {displayUsers &&
+                                  displayUsers
+                                    .filter((val) => {
+                                      if (!val.name) {
+                                        return true; // or return true, depending on how you want to handle this case
+                                      }
+                                      if (searchTerm === "") {
+                                        return true;
+                                      } else if (
+                                        val.name
+                                          .toLowerCase()
+                                          .includes(searchTerm.toLowerCase())
+                                      ) {
+                                        return true;
+                                      } else {
+                                        return false;
+                                      }
+                                    })
+                                    .map((data) => (
+                                      <tbody key={data._id}>
+                                        <tr>
+                                          <td>
+                                            <Moment
+                                              format="D MMM YYYY"
+                                              withTitle>
+                                              {data.updatedAt}
+                                            </Moment>
+                                          </td>
+                                          <td>{data.name}</td>
+                                          <td>{data.email}</td>
+                                          <td>{data.mobileNo}</td>
+                                          <td>
+                                            {numberWithCommas(data.subjects)}
+                                          </td>
+                                          <td>{data.balance}</td>
+                                          <td>
+                                            <Link
+                                              to={`/tutordetails/${data._id}`}>
+                                              <button className="btn btn-primary btn-sm">
+                                                click
+                                              </button>
+                                            </Link>
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                    ))}
+                              </table>
+                              <div className="table-pagination">
+                                <Pagination
+                                  count={4}
+                                  page={currentPage}
+                                  onChange={handleChange}
+                                  shape="rounded"
+                                  variant="outlined"
+                                  showFirstButton
+                                  showLastButton
+                                />
+                              </div>
+                            </div>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  </div>
+                    </>
+                  )}
                 </div>
-              </>
-            )}
-          </div>
-        </div>
-        <Footer />
-      </div>
-      )}
-
-
-
-
-
-
-
-         
+              </div>
+              <Footer />
+            </div>
+          )}
         </div>
       </div>
     </div>

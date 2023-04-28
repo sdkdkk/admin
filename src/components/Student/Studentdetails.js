@@ -17,6 +17,7 @@ import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import { ColorRing } from "react-loader-spinner";
 import Moment from "react-moment";
+import Footer from "../shared/Footer";
 
 const Studentdetails = () => {
   //   const tutordetails = useSelector((state) => state.tutordetail);
@@ -25,47 +26,51 @@ const Studentdetails = () => {
   const [studentdetail, setStudentdetail] = useState([]);
   const [studentque, setStudentque] = useState([]);
   const [studenttransation, setStudenttransation] = useState([]);
-  console.log(studentque);
+  console.log(studentdetail);
   const token = localStorage.getItem("token");
   const [Loader, setLoader] = useState(true);
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.post(
-          `https://vaidik-backend.onrender.com/admin/studentquestionanswer/${_id}`,
-          {
-            token: token,
-          }
-        );
-        const response1 = await axios.post(
-          `https://vaidik-backend.onrender.com/admin/studenttransactiondetails/${_id}`,
-          {
-            token: token,
-          }
-        );
-        const response2 = await axios.post(
-          `https://vaidik-backend.onrender.com/admin/studentdetails/${_id}`,
-          {
-            token: token,
-          }
-        );
-        setStudentque(response.data.message);
-        setStudenttransation(response1.data.transaction);
-        setStudentdetail(response2.data.document);
-        setLoader(false);
-      } catch (error) {
-        if (error.response) {
-          console.log(error.response.status);
-          console.log(error.response.data);
-          console.log(error.response.headers);
-        } else if (error.request) {
-          console.log(error.request);
-        } else {
-          console.log("Error", error.message);
-        }
-      }
-    };
 
+
+
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.post(
+        `https://vaidik-backend.onrender.com/admin/studentquestionanswer/${_id}`,
+        {
+          token: token,
+        }
+      );
+      const response1 = await axios.post(
+        `https://vaidik-backend.onrender.com/admin/studenttransactiondetails/${_id}`,
+        {
+          token: token,
+        }
+      );
+      const response2 = await axios.post(
+        `https://vaidik-backend.onrender.com/admin/studentdetails/${_id}`,
+        {
+          token: token,
+        }
+      );
+      setStudentque(response.data.message);
+      setStudenttransation(response1.data.transaction);
+      setStudentdetail(response2.data.document);
+      setLoader(false);
+    } catch (error) {
+      if (error.response) {
+        console.log(error.response.status);
+        console.log(error.response.data);
+        console.log(error.response.headers);
+      } else if (error.request) {
+        console.log(error.request);
+      } else {
+        console.log("Error", error.message);
+      }
+    }
+  };
+
+  useEffect(() => {
     fetchData();
   }, []);
 
@@ -79,6 +84,7 @@ const Studentdetails = () => {
     setCurrentPage(value);
   };
 
+  const [clicked, setClicked] = useState(false);
   const [currentPage1, setCurrentPage1] = useState(1);
   const [postsPerPage1] = useState(6);
   const indexOfLastPage1 = currentPage1 * postsPerPage1;
@@ -92,13 +98,21 @@ const Studentdetails = () => {
     setCurrentPage1(value);
   };
 
+  
+  const toggle = (index) => {
+    if (clicked === index) {
+      //if clicked question is already active, then close it
+      return setClicked(null);
+    }
+    setClicked(index);
+  };
+
   return (
     <div className="container-scroller">
       <Navbar />
       <div className="container-fluid page-body-wrapper">
         <Sidebar />
 
-        <div>
           {Loader ? (
             <div className="loader-end text-end" style={{marginLeft:"500px",marginTop:"250px"}}>
               {Loader ? (
@@ -167,9 +181,9 @@ const Studentdetails = () => {
                         }}>
                         <h6>Subject</h6>
                         <div className="gap-2 d-md-flex justify-content-md-end">
-                          <span className="badge rounded-pill bg-warning"></span>
+                          <span className="badge rounded-pill bg-warning">CHEM</span>
                           <span className="badge rounded-pill bg-primary">
-                            {" "}
+                            {" "}Maths
                           </span>
                           <span className="badge rounded-pill bg-dark">
                             Maths
@@ -273,56 +287,77 @@ const Studentdetails = () => {
                 <table className="table ">
                   <thead>
                     <tr>
-                      <th scope="col">Date</th>
-                      <th scope="col">Answer</th>
+                      <th scope="col">Questions</th>
                       <th scope="col">Student</th>
-                      <th scope="col">Earnings</th>
+                      
                       <th scope="col">Action</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    {displayque.map((Data, id) => {
+                  { displayque.map((Data, index) => {
                       return (
-                        <tr key={id}>
-                          <td>{Data.date}</td>
-                          <td>
-                            <b>{Data.allQuestions.question}</b>
-                            {/* <p>{Data.Answer}</p> */}
-                          </td>
-                          <td>
-                            {Data.student === "Sohan.." ? (
-                              <span className="badge rounded-pill bg-info text-dark">
-                                {Data.allQuestions.questionPrice}
-                              </span>
-                            ) : (
-                              <span className="badge rounded-pill bg-danger text-dark">
-                                {Data.allQuestions.questionPrice}
-                              </span>
-                            )}
-                          </td>
-                          <td>
-                            {Data.earings === "10" ? (
-                              <span className="badge bg-warning text-dark">
-                                {Data.earings}
-                              </span>
-                            ) : (
-                              <span className="badge bg-danger text-dark">
-                                {Data.earings}
-                              </span>
-                            )}
-                          </td>
-                          <td
-                            className="cursor-pointer"
-                            style={{ cursor: "pointer" }}>
-                            <BsThreeDotsVertical />
-                          </td>
-                        </tr>
+                        <tbody key={index}>
+                          <tr
+                            onClick={() => toggle(index)}
+                            className={
+                              clicked === index ? "toggle-close" : "bg-white"
+                            }
+                            style={{cursor:"pointer"}}
+                          >
+                             <td className="text-success"><b>{Data.allQuestions.question}</b></td>
+                            <td>
+                              {Data.tutor}
+                              {clicked === index ? (
+                                <>
+                                  <span className="list-group-item mt-2 ">
+                                    <b>question</b>:{Data.allQuestions.question}
+                                  </span>
+                                  <span className="list-group-item mt-2 ">
+                                  
+                                    <b>dateOfPosted</b>:<Moment format="D MMM YYYY" withTitle>
+                                  {Data.allQuestions.dateOfPosted}
+                                </Moment>
+                                  </span>
+                                  <span className="list-group-item mt-2 ">
+                                    <b>questionSubject</b> : {Data.allQuestions.questionSubject}
+                                  </span>
+                                  <span className="list-group-item mt-2 ">
+                                    <b>questionType</b> :{Data.allQuestions.questionType}
+                                  </span>
+                                  <span className="list-group-item mt-2 ">
+                                    <b>status</b> :{Data.allQuestions.status}
+                                  </span>
+                                  <span className="list-group-item mt-2 ">
+                                    <b>questionPrice</b> :{Data.allQuestions.questionPrice}
+                                  </span>
+                                </>
+                              ) : null}
+                            </td>
+                           
+                            <td className="text-success"><b>{Data.allQuestions.tutorPrice}</b></td>
+                            <td>
+                             
+                            </td>
+                          </tr>
+                        </tbody>
                       );
                     })}
-                  </tbody>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                 </table>
 
-                <div className="table-pagination">
+                <div className="table-pagination mb-2">
                   <Pagination
                     count={1000}
                     page={currentPage}
@@ -334,26 +369,10 @@ const Studentdetails = () => {
                   />
                 </div>
                 {/* Last Button */}
-                <div
-                  className="gap-2 d-md-flex"
-                  style={{ justifyContent: "end" }}>
-                  <button className="btn btn-outline-danger" type="button">
-                    Delete User
-                  </button>
-                  <button className="btn btn-outline-primary" type="button">
-                    Edit User
-                  </button>
-                  <Link to={`/studentlist`}>
-                    <button className="btn btn-primary" type="button">
-                      Back to List
-                    </button>
-                  </Link>
-                </div>
-              </div>
+              </div>   
             </div>
           )}
         </div>
-      </div>
     </div>
   );
 };

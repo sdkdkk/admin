@@ -13,6 +13,7 @@ import { useForm } from "react-hook-form";
 
 const Professionaldetails = () => {
   const { _id } = useParams();
+
   //  for profile-image
   const [myimage, setMyImage] = useState(null);
   const uploadImage = (e) => {
@@ -52,32 +53,39 @@ const Professionaldetails = () => {
     fetchData();
   }, []);
 
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
   const onSubmit = (data) => {
-    const token = localStorage.getItem("token");
     const updatedUser = {
-      ...user,
+      token:token,
+      profilephoto:myimage,
+
       name: data.name,
-      monumber: data.monumber,
+      mobileNo: data.mobileNo,
       country: data.country,
-      email: data.email,
+      gender:data.gender,
       dob: data.dob,
       experience: data.experience,
-      clgname: data.clgname,
-      collegecity: data.collegecity,
+      clg_name: data.clg_name,
+      clg_city: data.clg_city,
       degree: data.degree,
-      dchoice:data.dchoice,
-      dspecialisation:data.dspecialisation,
-      gpa:data.gpa,
-      tutorbankname:data.tutorbankname,
-      ifsccode:data.ifsccode,
-      pancard:data.pancard,
-      accnumber:data.accnumber,
-      acctype:data.acctype,
-      bankname:data.bankname,
+      degree_choice: data.degree_choice,
+      degree_specialisation: data.degree_specialisation,
+      gpa: data.gpa,
+      Tutorbankname: data.Tutorbankname,
+      IFSCCode: data.IFSCCode,
+      panCard: data.panCard,
+      bankcountry:data.bankcountry,
+      accountNumber: data.accountNumber,
+      accountType: data.accountType,
+      bankName: data.bankName,
     };
-    fetch(`https://vaidik-backend.onrender.com/admin/tutorsdetails/${_id}`, {
-      method: "post",
-      token: token,
+    console.log(updatedUser)
+   
+      fetch(`http://vaidik-backend.onrender.com/admin/tutorsdetails/${_id}`, {
+      method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
@@ -85,7 +93,7 @@ const Professionaldetails = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        setUser(data);
+    console.log(data);
       })
       .catch((error) => {
         console.error(error);
@@ -113,8 +121,13 @@ const Professionaldetails = () => {
                             <div className="card-body">
                               <div className="profile-details">
                                 <img
-                                  // src={myimage}
-                                  src={data.personaldetails.profilephoto}
+                                type="file"
+                                name="image"
+                                  src={myimage === null ? data.personaldetails.profilephoto : myimage }
+                                  // src={data.personaldetails.profilephoto}
+                                  defaultValue={
+                                    data.professionaldetails.profilephoto
+                                  }
                                   className="profile-img"
                                   alt=""
                                 />
@@ -163,12 +176,14 @@ const Professionaldetails = () => {
                                     <Form.Label>Mobile No.</Form.Label>
                                     <Form.Control
                                       type="number"
-                                      name="monumber"
+                                      name="mobileNo"
                                       placeholder="Enter Number"
                                       defaultValue={
                                         data.personaldetails.mobileNo
                                       }
-                                      {...register("monumber", { required: true })}
+                                      {...register("mobileNo", {
+                                        required: true,
+                                      })}
                                     />
                                   </Form.Group>
                                   <Form.Group
@@ -178,11 +193,29 @@ const Professionaldetails = () => {
                                     <Form.Control
                                       type="text"
                                       name="country"
-                                      placeholder="Enter Number"
+                                      placeholder="Enter country"
                                       defaultValue={
                                         data.personaldetails.country
                                       }
-                                      {...register("country", { required: true })}
+                                      {...register("country", {
+                                        required: true,
+                                      })}
+                                    />
+                                  </Form.Group>
+                                  <Form.Group
+                                    className="mb-3"
+                                    controlId="formBasicEmail">
+                                    <Form.Label>gender</Form.Label>
+                                    <Form.Control
+                                      type="text"
+                                      name="gender"
+                                      placeholder="Enter Number"
+                                      defaultValue={
+                                        data.personaldetails.gender
+                                      }
+                                      {...register("gender", {
+                                        required: true,
+                                      })}
                                     />
                                   </Form.Group>
                                 </div>
@@ -196,7 +229,7 @@ const Professionaldetails = () => {
                                       name="email"
                                       placeholder="Enter Email"
                                       defaultValue={data.email}
-                                      {...register("email", { required: true })}
+                                      // {...register("email", { required: true })}
                                     />
                                   </Form.Group>
                                   <Form.Group
@@ -222,7 +255,9 @@ const Professionaldetails = () => {
                                       defaultValue={
                                         data.personaldetails.experience
                                       }
-                                      {...register("experience", { required: true })}
+                                      {...register("experience", {
+                                        required: true,
+                                      })}
                                     />
                                   </Form.Group>
                                 </div>
@@ -244,12 +279,14 @@ const Professionaldetails = () => {
                                     <Form.Label> College Name</Form.Label>
                                     <Form.Control
                                       type="text"
-                                      name="clgname"
+                                      name="clg_name"
                                       placeholder="Enter Name"
                                       defaultValue={
                                         data.professionaldetails.clg_name
                                       }
-                                      {...register("clgname", { required: true })}
+                                      {...register("clg_name", {
+                                        required: true,
+                                      })}
                                     />
                                   </Form.Group>
                                   <Form.Group
@@ -258,12 +295,14 @@ const Professionaldetails = () => {
                                     <Form.Label>College City</Form.Label>
                                     <Form.Control
                                       type="text"
-                                      name="collegecity"
+                                      name="clg_city"
                                       placeholder="Enter college city"
                                       defaultValue={
                                         data.professionaldetails.clg_city
                                       }
-                                      {...register("collegecity", { required: true })}
+                                      {...register("clg_city", {
+                                        required: true,
+                                      })}
                                     />
                                   </Form.Group>
                                   <Form.Group
@@ -277,7 +316,9 @@ const Professionaldetails = () => {
                                       defaultValue={
                                         data.professionaldetails.degree
                                       }
-                                      {...register("degree", { required: true })}
+                                      {...register("degree", {
+                                        required: true,
+                                      })}
                                     />
                                   </Form.Group>
                                 </div>
@@ -288,12 +329,14 @@ const Professionaldetails = () => {
                                     <Form.Label>Degree Choice</Form.Label>
                                     <Form.Control
                                       type="text"
-                                      name="dchoice"
+                                      name="degree_choice"
                                       placeholder="Enter degree choice"
                                       defaultValue={
                                         data.professionaldetails.degree_choice
                                       }
-                                      {...register("dchoice", { required: true })}
+                                      {...register("degree_choice", {
+                                        required: true,
+                                      })}
                                     />
                                   </Form.Group>
                                   <Form.Group
@@ -304,13 +347,15 @@ const Professionaldetails = () => {
                                     </Form.Label>
                                     <Form.Control
                                       type="text"
-                                      name="dspecialisation"
+                                      name="degree_specialisation"
                                       placeholder="Enter Name"
                                       defaultValue={
                                         data.professionaldetails
                                           .degree_specialisation
                                       }
-                                      {...register("dspecialisation", { required: true })}
+                                      {...register("degree_specialisation", {
+                                        required: true,
+                                      })}
                                     />
                                   </Form.Group>
                                   <Form.Group
@@ -346,12 +391,14 @@ const Professionaldetails = () => {
                                     <Form.Label>Name</Form.Label>
                                     <Form.Control
                                       type="tutorbankname"
-                                      name="tutorbankname"
+                                      name="Tutorbankname"
                                       placeholder="Enter Name"
                                       defaultValue={
                                         data.bankdetails.Tutorbankname
                                       }
-                                      {...register("tutorbankname", { required: true })}
+                                      {...register("Tutorbankname", {
+                                        required: true,
+                                      })}
                                     />
                                   </Form.Group>
                                   <Form.Group
@@ -360,10 +407,12 @@ const Professionaldetails = () => {
                                     <Form.Label>IFSC Code</Form.Label>
                                     <Form.Control
                                       type="text"
-                                      name="ifsccode"
+                                      name="IFSCCode"
                                       placeholder="Enter IFSC Code"
                                       defaultValue={data.bankdetails.IFSCCode}
-                                      {...register("ifsccode", { required: true })}
+                                      {...register("IFSCCode", {
+                                        required: true,
+                                      })}
                                     />
                                   </Form.Group>
                                   <Form.Group
@@ -372,10 +421,26 @@ const Professionaldetails = () => {
                                     <Form.Label>Pan Card</Form.Label>
                                     <Form.Control
                                       type="text"
-                                      name="pancard"
+                                      name="panCard"
                                       placeholder="Enter Pan Card Number"
                                       defaultValue={data.bankdetails.panCard}
-                                      {...register("pancard", { required: true })}
+                                      {...register("panCard", {
+                                        required: true,
+                                      })}
+                                    />
+                                  </Form.Group>
+                                  <Form.Group
+                                    className="mb-3"
+                                    controlId="formBasicEmail">
+                                    <Form.Label>bankcountry</Form.Label>
+                                    <Form.Control
+                                      type="text"
+                                      name="bankcountry"
+                                      placeholder="Enter Pan Card Number"
+                                      defaultValue={data.bankdetails.bankcountry}
+                                      {...register("bankcountry", {
+                                        required: true,
+                                      })}
                                     />
                                   </Form.Group>
                                 </div>
@@ -386,12 +451,14 @@ const Professionaldetails = () => {
                                     <Form.Label>Account Number</Form.Label>
                                     <Form.Control
                                       type="number"
-                                      name="accnumber"
+                                      name="accountNumber"
                                       placeholder="Enter Account Number"
                                       defaultValue={
                                         data.bankdetails.accountNumber
                                       }
-                                      {...register("accnumber", { required: true })}
+                                      {...register("accountNumber", {
+                                        required: true,
+                                      })}
                                     />
                                   </Form.Group>
                                   <Form.Group
@@ -400,12 +467,14 @@ const Professionaldetails = () => {
                                     <Form.Label>Account Type</Form.Label>
                                     <Form.Control
                                       type="text"
-                                      name="acctype"
+                                      name="accountType"
                                       placeholder="Enter Account Type"
                                       defaultValue={
                                         data.bankdetails.accountType
                                       }
-                                      {...register("acctype", { required: true })}
+                                      {...register("accountType", {
+                                        required: true,
+                                      })}
                                     />
                                   </Form.Group>
                                   <Form.Group
@@ -414,10 +483,12 @@ const Professionaldetails = () => {
                                     <Form.Label>Bank Name</Form.Label>
                                     <Form.Control
                                       type="text"
-                                      name="bankname"
+                                      name="bankName"
                                       placeholder="Enter Bank Name"
                                       defaultValue={data.bankdetails.bankName}
-                                      {...register("bankname", { required: true })}
+                                      {...register("bankName", {
+                                        required: true,
+                                      })}
                                     />
                                   </Form.Group>
                                 </div>
@@ -440,6 +511,7 @@ const Professionaldetails = () => {
       </div>
     </div>
   );
+  
 };
 
 export default Professionaldetails;

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
 import "../Tutors/Tutorlist.css";
+import "../Css/Tutorlist.css";
 // import { FcApproval } from "react-icons/fc";
 // import { AiOutlineClose } from "react-icons/ai";
 // import { Button } from "react-bootstrap";
@@ -17,6 +18,7 @@ import axios from "axios";
 import { Link, useParams } from "react-router-dom";
 import { tutordetail } from "../../Redux/Loginpages/tutordetailSlice";
 import { ColorRing } from "react-loader-spinner";
+import { Button } from "react-bootstrap";
 
 const Tutordetails = () => {
   const tutordetails = useSelector((state) => state.tutordetail);
@@ -28,6 +30,7 @@ const Tutordetails = () => {
     dispatch(tutordetail(_id));
   }, [dispatch, _id]);
 
+  const [clicked, setClicked] = useState(false);
   const [data, setData] = useState([]);
   const [transation, setTransation] = useState([]);
   const [tutorpaydetails, setTutorpaydetails] = useState([]);
@@ -117,6 +120,14 @@ const Tutordetails = () => {
   //     </p>
   //   );
   // };
+
+  const toggle = (index) => {
+    if (clicked === index) {
+      //if clicked question is already active, then close it
+      return setClicked(null);
+    }
+    setClicked(index);
+  };
 
   return (
     <div className="container-scroller">
@@ -306,47 +317,61 @@ const Tutordetails = () => {
                 <h4>Answer Given</h4>
               </div>
               <div className=" table-responsive">
-                <table className="table ">
+                <table className="table  v-top ">
                   <thead>
                     <tr>
-                      <th scope="col">Date</th>
-                      <th scope="col">sort order</th>
+                      <th scope="col">Answer </th>
                       <th scope="col">Tutor Name</th>
+                      <th scope="col">EARNING</th>
                       <th scope="col">Action</th>
                     </tr>
                   </thead>
-                  <tbody>
-                    <>
-                      {displayUsers.map((Data, id) => {
-                        return (
-                          <tr key={id}>
-                            <td>{Data.date}</td>
+                      { displayUsers.map((Data, index) => {
+                      return (
+                        <tbody key={index}>
+                          <tr
+                            onClick={() => toggle(index)}
+                            className={
+                              clicked === index ? "toggle-close" : "bg-white"
+                              
+                            }
+                            style={{cursor:"pointer"}}
+                          >
+                             <td className="text-success"><b>{Data.allQuestions.question}</b></td>
                             <td>
-                              <b>{Data.allQuestions.question}</b>
-
-                              {/* <p>{Data.Answer}</p> */}
+                              {Data.student}
+                              {clicked === index ? (
+                                <>
+                                  <span className="list-group-item mt-2 ">
+                                    <b>question</b>:{Data.allQuestions.question}
+                                  </span>
+                                  <span className="list-group-item mt-2 ">
+                                    <b>answer</b>.{Data.allQuestions.answer}
+                                  </span>
+                                  <span className="list-group-item mt-2 ">
+                                    <b>questionSubject</b> : {Data.allQuestions.questionSubject}
+                                  </span>
+                                  <span className="list-group-item mt-2 ">
+                                    <b>questionType</b> :{Data.allQuestions.questionType}
+                                  </span>
+                                  <span className="list-group-item mt-2 ">
+                                    <b>status</b> :{Data.allQuestions.status}
+                                  </span>
+                                  <span className="list-group-item mt-2 ">
+                                    <b>status</b> :{Data.allQuestions.tutorPrice}
+                                  </span>
+                                </>
+                              ) : null}
                             </td>
+                           
+                            <td className="text-success"><b>{Data.allQuestions.tutorPrice}</b></td>
                             <td>
-                              {Data.student === "Rahul.." ? (
-                                <span className="badge rounded-pill bg-info text-dark">
-                                  {Data.student}
-                                </span>
-                              ) : (
-                                <span className="badge rounded-pill bg-danger text-dark">
-                                  {Data.student}
-                                </span>
-                              )}
-                            </td>
-                            <td
-                              className="cursor-pointer"
-                              style={{ cursor: "pointer" }}>
-                              <BsThreeDotsVertical />
+                             
                             </td>
                           </tr>
-                        );
-                      })}
-                    </>
-                  </tbody>
+                        </tbody>
+                      );
+                    })}
                 </table>
                 <div className="table-pagination">
                   <Pagination
