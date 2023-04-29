@@ -158,14 +158,14 @@ export const signUp = (formData) => async(dispatch) => {
 };
 
 // Addnew
-
+const token = localStorage.getItem('token')
 export const { AddnewqPending, AddnewqSuccess, AddnewqFailure } =
 authSlice.actions;
 export const Addnewq = (formData) => async(dispatch) => {
     try {
         const { data } = await axios.post(
-            "https://632eb541b7314fc02f48d2d2.mockapi.io/crud-utube",
-            formData
+            "https://vaidik-backend.onrender.com/admin/questionpost", { token, formData }
+
         );
         dispatch(AddnewqSuccess(data));
     } catch (error) {

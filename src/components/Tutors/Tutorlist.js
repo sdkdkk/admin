@@ -242,8 +242,8 @@ const Tutorlist = () => {
                                       <tbody key={data._id}>
                                         <tr>
                                           <td>
-                                            <Moment
-                                              format="D MMM YYYY"
+                                          <Moment
+                                              format="DD-MM-YYYY"
                                               withTitle>
                                               {data.updatedAt}
                                             </Moment>

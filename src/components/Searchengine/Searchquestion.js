@@ -39,7 +39,7 @@ const Searchquestion = () => {
                                                     </button>
                                                     </Link>
                                                     <button type="submit" className="btn btn-primary">
-                                                            Post
+                                                            Search
                                                     </button>
                                                     </div>
                                                 </div>

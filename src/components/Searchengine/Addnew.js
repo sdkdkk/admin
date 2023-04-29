@@ -12,12 +12,23 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 
 const Addnew = () => {
+
+
+
+  const [question, setQuestion] = useState('');
+  const [questionType, setQuestionType] = useState('');
+  const[questionSubject,setQuestionsubject]=useState('');
+  const [answer, setAnswer] = useState('');
+  const [images, setImages] = useState([]);
+  const [explanation, setExplanation] = useState('');
+
+
   const [editorHtml, setEditorHtml] = useState("");
   const auth = useSelector((state) => state.auth);
-  const token = useSelector((state) => state.auth.token);
+  // const token = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  console.log(auth);
+  // console.log(auth);
 
   const {
     register,
@@ -45,6 +56,59 @@ const Addnew = () => {
   };
 
 
+  const token = localStorage.getItem('token')
+
+  const HandleSubmit = (event) => {
+    event.preventDefault();
+    const formData = new FormData();
+    formData.append('question', question);
+    formData.append('questionType', questionType);
+    formData.append('questionSubject', questionSubject);
+    formData.append('answer', answer);
+    formData.append('token', token);
+
+    for (let i = 0; i < images.length; i++) {
+      formData.append('questionPhoto', images[i]);
+    }
+    formData.append('explanation', explanation);
+
+
+
+    fetch('http://10.10.10.29:5000/admin/questionpost', {
+      method: 'POST',
+      body: formData,
+      
+    })
+      .then(response => {
+        // handle response
+        console.log(response);
+      })
+      .catch(error => {
+        // handle error
+      });
+  };
+
+
+  const handleImageChange = (event) => {
+    const files = event.target.files;
+    const imagesArray = [];
+    for (let i = 0; i < files.length && i < 4; i++) {
+      imagesArray.push(files[i]);
+    }
+    setImages(imagesArray);
+  };
+
+
+
+  const handleExplanationChange = (value) => {
+    setExplanation(value);
+  };
+
+  const handleAnswerChange=(value)=>{
+    setAnswer(value)
+  }
+
+
   return (
     <div>
       <div className="container-scroller">
@@ -60,7 +124,21 @@ const Addnew = () => {
                 <div className="col-md-12 grid-margin stretch-card questionanstext">
                   <div className="card">
                     <div className="card-body">
-                      <form onSubmit={handleSubmit(onSubmit)}>
+                      <form onSubmit={HandleSubmit}>
+
+                      <div className="mb-3">
+                          <label
+                            htmlFor="exampleInputEmail1"
+                            className="form-label">
+                            Image
+                          </label>
+                          <input
+                          className="form-control"
+                            type="file"
+                             accept="image/*"
+                             multiple onChange={handleImageChange}
+                          />   
+                        </div>
                         <div className="mb-3">
                           <label
                             htmlFor="exampleInputEmail1"
@@ -68,49 +146,60 @@ const Addnew = () => {
                             Questions
                           </label>
                           <input
+                          className="form-control"
                             type="text"
-                            name="question"
-                            {...register("question", {
-                              required: "Please Enter A Valid Question!",
-                            })}
-                            className="form-control"
-                            id="exampleInputEmail1"
-                            aria-describedby="emailHelp"
+                            value={question} 
+                            onChange={(event) => setQuestion(event.target.value)}
                           />
-                          <p className="error-msg">
-                            {errors.question && errors.question.message}
-                          </p>
+                        </div>
+                        <div className="mb-3">
+                          <label
+                            htmlFor="exampleInputEmail1"
+                            className="form-label">
+                            Questions Type
+                          </label>
+                          <input
+                            type="text" 
+                            value={questionType} 
+                            className="form-control"
+                            onChange={(event) => setQuestionType(event.target.value)}
+                          />
+                        </div>
+                        <div className="mb-3">
+                          <label
+                            htmlFor="exampleInputEmail1"
+                            className="form-label">
+                            Questions Subject
+                          </label>
+                          <input
+                             type="text" 
+                             value={questionSubject} 
+                             className="form-control"
+                             onChange={(event) => setQuestionsubject(event.target.value)}
+                          />
                         </div>
                         <Col md={12}>
                           <div>
                             <p className="mx-1">Answer</p>
-                            <Controller
-                              name="Answer"
-                              control={control}
-                              defaultValue={editorHtml}
-                              render={({ field }) => (
                                 <ReactQuill
-                                  theme="snow"
-                                  onChange={handleChange}
-                                  //onChange={(value) => setEditorHtml(value)}
-                                  value={field.value}
-                                  modules={modules}
-                                  formats={formats}
-                                  bounds={"#root"}
-                                  placeholder="type Here...."
-                                  ref={editorRef}
-                                  {...field}
+                                value={answer || ''}
+                                
+                                onChange={handleAnswerChange}
+                               />
+                          </div>
+                        </Col>
+                        <Col md={12}>
+                          <div>
+                            <p className="mx-1">Explanation</p>
+                                <ReactQuill
+                                value={explanation} 
+                                onChange={handleExplanationChange}
                                 />
-                              )}
-                            />
-                            <p className="error-msg" >
-                              {errors.answer && errors.answer.message}
-                            </p>
                           </div>
                         </Col>
                         <div>
-                          <button className="btn btn-primary mx-2">Back</button>
-                          <button type="submit" className="btn btn-primary">
+                          {/* <button className="btn btn-primary mx-2">Back</button> */}
+                          <button type="submit" className="btn btn-primary mt">
                             Add
                           </button>
                         </div>
