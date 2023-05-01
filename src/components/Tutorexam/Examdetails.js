@@ -10,7 +10,7 @@ import { Link } from "react-router-dom";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const Examdetails = () => {
-  let navigate = useNavigate();
+  let history = useNavigate();
   const location = useLocation();
 
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -23,9 +23,15 @@ const Examdetails = () => {
     }
   },[location.state?.data])
 
+  useEffect(() =>{
+    if(Object.keys(examInfo).length === 0  && !location.state?.data){
+      history("/testexam")
+    }
+  },[examInfo, location.state?.data])
+
   
   const handleNext = () => {
-    if (currentIndex === location.state.data.theoryQA.length - 1) {
+    if (currentIndex === examInfo?.theoryQA.length - 1) {
       setCurrentIndex(0);
     } else {
       setCurrentIndex(currentIndex + 1);
@@ -34,7 +40,7 @@ const Examdetails = () => {
 
   const handleBack = () => {
     if (currentIndex === 0) {
-      setCurrentIndex(location.state.data.theoryQA.length - 1);
+      setCurrentIndex(examInfo?.theoryQA.length - 1);
     } else {
       setCurrentIndex(currentIndex - 1);
     }

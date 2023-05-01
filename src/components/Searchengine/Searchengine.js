@@ -12,8 +12,7 @@ import { searchengine } from "../../Redux/Loginpages/searchengineSlice";
 import { set } from "react-hook-form";
 
 const Searchengine = () => {
-  const Searchengine = useSelector((state) => state.searchengine.data.data);
-  console.log(Searchengine);
+  const searchengineState = useSelector((state) => state.searchengine);
   const dispatch = useDispatch();
 
   //Pagination
@@ -21,13 +20,12 @@ const Searchengine = () => {
   const [itemsPerPage] = useState(5);
 
   useEffect(() => {
-
     const skip = (currentPage - 1) * itemsPerPage;
-    console.log("skip = ", skip);
     var limit = itemsPerPage;
     dispatch(searchengine(limit, skip));
-  }, [currentPage, dispatch, itemsPerPage, Searchengine]);
+  }, [currentPage, itemsPerPage]);
 
+  const searchengineData = searchengineState?.user?.data ||  [];
   return (
     <div>
       <div className="container-scroller">
@@ -50,7 +48,8 @@ const Searchengine = () => {
                     <Button
                       className="search-btn mx-2"
                       variant="secondary"
-                      size="lg">
+                      size="lg"
+                    >
                       Search Question
                     </Button>
                   </Link>
@@ -71,7 +70,7 @@ const Searchengine = () => {
                             <th scope="col">ACTION</th>
                           </tr>
                         </thead>
-                        {Searchengine.map((data) => (
+                        {searchengineData.map((data) => (
                           <tbody>
                             <tr>
                               <td>{data.questionSubject}</td>
@@ -101,7 +100,8 @@ const Searchengine = () => {
                       <div className="table-pagination">
                         <button
                           onClick={() => setCurrentPage(currentPage - 1)}
-                          disabled={currentPage === 1}>
+                          disabled={currentPage === 1}
+                        >
                           {" "}
                           prev{" "}
                         </button>
