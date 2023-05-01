@@ -157,22 +157,6 @@ export const signUp = (formData) => async(dispatch) => {
     }
 };
 
-// Addnew
-const token = localStorage.getItem('token')
-export const { AddnewqPending, AddnewqSuccess, AddnewqFailure } =
-authSlice.actions;
-export const Addnewq = (formData) => async(dispatch) => {
-    try {
-        const { data } = await axios.post(
-            "https://vaidik-backend.onrender.com/admin/questionpost", { token, formData }
-
-        );
-        dispatch(AddnewqSuccess(data));
-    } catch (error) {
-        dispatch(AddnewqFailure(error.response.data));
-    }
-};
-
 // Testimonial
 
 export const { TestimonialdPending, TestimonialdSuccess, TestimonialdFailure } =

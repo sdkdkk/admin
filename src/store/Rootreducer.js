@@ -8,6 +8,7 @@ import tutorspaymentReducer from "../Redux/Loginpages/tutorspaymentSlice";
 import tutordetailReducer from "../Redux/Loginpages/tutordetailSlice";
 import studentlistReducer from "../Redux/Loginpages/studentlistSlice";
 import admintutorexamverifyReducer from "../Redux/Loginpages/admintutorexamverifySlice";
+import searchengineReducer from "../Redux/Loginpages/searchengineSlice";
 
 
 
@@ -20,6 +21,7 @@ const reducer = combineReducers({
     tutordetail: tutordetailReducer,
     studentlist: studentlistReducer,
     admintutorexamverify: admintutorexamverifyReducer,
+    searchengine: searchengineReducer,
 
 });
 

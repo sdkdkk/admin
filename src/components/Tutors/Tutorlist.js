@@ -36,7 +36,6 @@ const Tutorlist = () => {
   const [currentData, setCurrentData] = useState([]);
   const [activeButton, setActiveButton] = useState(1);
   const dispatch = useDispatch();
-  console.log(currentData);
   const [Loader, setLoader] = useState(true);
 
   useEffect(() => {
@@ -47,7 +46,6 @@ const Tutorlist = () => {
     });
     setLoader(false);
   }, [users, Suspended, working]);
-  console.log(status);
 
   useEffect(() => {
     dispatch(tutorworking());
@@ -70,6 +68,9 @@ const Tutorlist = () => {
 
   useEffect(() => {
     setCurrentData(status[selectedStatus]);
+    return () => {
+      setValues([])
+    }
   }, [selectedStatus, status]);
 
   //date picker
@@ -78,12 +79,16 @@ const Tutorlist = () => {
     new DateObject().add(4, "days"),
   ]);
 
+//   const firstDate = values.length > 0 ? new DateObject(values[0]).toDate() : null
+// const lastDate = values.length > 0 ? new DateObject(values[values.length - 1]).toDate() : null
+// console.log(firstDate, lastDate)
+
   //Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(8);
   const indexOfLastPage = currentPage * postsPerPage;
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
-  const displayUsers =
+  let displayUsers =
     currentData && currentData.slice(indexOfFirstPage, indexOfLastPage);
 
   const handleChange = (event, value) => {
@@ -93,6 +98,33 @@ const Tutorlist = () => {
   function numberWithCommas(subjects) {
     return subjects && subjects.toLocaleString();
   }
+
+  
+// const filteredData = displayUsers.filter(item => {
+//   const itemDate = new Date(item.updatedAt);
+//   return itemDate >= new Date(firstDate) && itemDate <= new Date(lastDate);
+// });
+// if(filteredData.length > 0){
+//   displayUsers = [...filteredData]
+// }
+
+const searchItem=()=>{
+  console.log(searchTerm)
+  const firstDate = values.length > 0 ? new DateObject(values[0]).toDate() : null
+  const lastDate = values.length > 0 ? new DateObject(values[values.length - 1]).toDate() : null
+  const filteredData = displayUsers.filter(item => {
+    const itemDate = new Date(item.updatedAt);
+    const name = item.name ? item.name.toLowerCase() : null
+    return itemDate >= new Date(firstDate) && itemDate <= new Date(lastDate) && searchTerm == name;
+  });
+  console.log(firstDate, lastDate)
+  console.log(filteredData)
+  setCurrentData(filteredData)
+  // currentData = [...filteredData]
+}
+
+console.log("---> ", currentData)
+
 
   return (
     <div>
@@ -195,7 +227,7 @@ const Tutorlist = () => {
                                   />
                                 </div>
                                 <div className="col-md-2">
-                                  <Button className="algin-right">
+                                  <Button className="algin-right" onClick={()=> searchItem()}>
                                     Search
                                   </Button>
                                 </div>
@@ -222,32 +254,35 @@ const Tutorlist = () => {
                                 </thead>
                                 {displayUsers &&
                                   displayUsers
-                                    .filter((val) => {
-                                      if (!val.name) {
-                                        return true; // or return true, depending on how you want to handle this case
-                                      }
-                                      if (searchTerm === "") {
-                                        return true;
-                                      } else if (
-                                        val.name
-                                          .toLowerCase()
-                                          .includes(searchTerm.toLowerCase())
-                                      ) {
-                                        return true;
-                                      } else {
-                                        return false;
-                                      }
-                                    })
+                                    // .filter((val) => {
+                                    //   if (!val.name) {
+                                    //     return true; // or return true, depending on how you want to handle this case
+                                    //   }
+                                    //   if (searchTerm === "") {
+                                    //     return true;
+                                    //   } else if (
+                                    //     val.name
+                                    //       .toLowerCase()
+                                    //       .includes(searchTerm.toLowerCase())
+                                    //   ) {
+                                    //     return true;
+                                    //   } else {
+                                    //     return false;
+                                    //   }
+                                    // })
                                     .map((data) => (
                                       <tbody key={data._id}>
                                         <tr>
+                                          {data.updatedAt ? (
+
                                           <td>
-                                          <Moment
-                                              format="DD-MM-YYYY"
+                                            <Moment
+                                              format="DD MMM YYYY"
                                               withTitle>
-                                              {data.updatedAt}
+                                              {data.updatedAt || null}
                                             </Moment>
                                           </td>
+                                          ) : <td >-</td>}
                                           <td>{data.name}</td>
                                           <td>{data.email}</td>
                                           <td>{data.mobileNo}</td>

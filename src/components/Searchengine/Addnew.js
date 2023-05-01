@@ -1,34 +1,25 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
 import "../Css/Tutorlist.css";
 import { Col } from "react-bootstrap";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
-import { useDispatch, useSelector } from "react-redux";
-import { Addnewq } from "../../Redux/Loginpages/authSlice";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import axios from "axios";
 
 const Addnew = () => {
-
-
-
-  const [question, setQuestion] = useState('');
-  const [questionType, setQuestionType] = useState('');
-  const[questionSubject,setQuestionsubject]=useState('');
-  const [answer, setAnswer] = useState('');
+  // const [question, setQuestion] = useState('');
+  // const [questionType, setQuestionType] = useState("");
+  // const [questionSubject, setQuestionsubject] = useState('');
+  // const [answer, setAnswer] = useState("");
   const [images, setImages] = useState([]);
-  const [explanation, setExplanation] = useState('');
-
-
+  // const [explanation, setExplanation] = useState("");
+  const [questionTypes, setQuestionTypes] = useState([]);
   const [editorHtml, setEditorHtml] = useState("");
-  const auth = useSelector((state) => state.auth);
-  // const token = useSelector((state) => state.auth.token);
-  const dispatch = useDispatch();
-  const navigate = useNavigate();
-  // console.log(auth);
+  // const [selectedOption, setSelectedOption] = useState("");
 
   const {
     register,
@@ -40,54 +31,63 @@ const Addnew = () => {
     formState: { errors },
   } = useForm({});
 
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `https://vaidik-backend.onrender.com/getquestiontype`,
+          {
+            token: token,
+          }
+        );
+
+        setQuestionTypes(response.data.data);
+        console.log(response.data);
+      } catch (error) {
+        if (error.response) {
+          console.log(error.response.status);
+          console.log(error.response.data);
+          console.log(error.response.headers);
+        } else if (error.request) {
+          console.log(error.request);
+        } else {
+          console.log("Error", error.message);
+        }
+      }
+    };
+
+    fetchData();
+  }, []);
+
+  // const handleChange = (event) => {
+  //   setSelectedOption(event.target.value);
+  //   setQuestionType(event.target.value);
+  // };
+
+  const token = localStorage.getItem("token");
   const onSubmit = (data) => {
-    console.log("data1", data);
-    localStorage.setItem("data", token);
-
-    dispatch(Addnewq(data));
-    setTimeout(() => {
-      navigate(" ");
-    }, 500);
-  };
-
-  const handleChange = (html) => {
-    setEditorHtml(html);
-    console.log(html);
-  };
-
-
-  const token = localStorage.getItem('token')
-
-  const HandleSubmit = (event) => {
-    event.preventDefault();
     const formData = new FormData();
-    formData.append('question', question);
-    formData.append('questionType', questionType);
-    formData.append('questionSubject', questionSubject);
-    formData.append('answer', answer);
-    formData.append('token', token);
-
+    formData.append("question", data.question);
+    formData.append("questionType", data.questionType);
+    formData.append("questionSubject", data.questionSubject);
+    formData.append("answer", data.answer);
+    formData.append("token", token);
     for (let i = 0; i < images.length; i++) {
-      formData.append('questionPhoto', images[i]);
+      formData.append("questionPhoto", data.images[i]);
     }
-    formData.append('explanation', explanation);
+    formData.append("explanation", data.explanation);
 
-
-
-    fetch('http://10.10.10.29:5000/admin/questionpost', {
-      method: 'POST',
+    fetch("https://vaidik-backend.onrender.com/admin/questionpost", {
+      method: "POST",
       body: formData,
-      
     })
-      .then(response => {
-        // handle response
+      .then((response) => {
         console.log(response);
       })
-      .catch(error => {
+      .catch((error) => {
         // handle error
       });
   };
-
 
   const handleImageChange = (event) => {
     const files = event.target.files;
@@ -98,16 +98,13 @@ const Addnew = () => {
     setImages(imagesArray);
   };
 
+  // const handleExplanationChange = (value) => {
+  //   setExplanation(value);
+  // };
 
-
-  const handleExplanationChange = (value) => {
-    setExplanation(value);
-  };
-
-  const handleAnswerChange=(value)=>{
-    setAnswer(value)
-  }
-
+  // const handleAnswerChange = (value) => {
+  //   setAnswer(value);
+  // };
 
   return (
     <div>
@@ -124,20 +121,26 @@ const Addnew = () => {
                 <div className="col-md-12 grid-margin stretch-card questionanstext">
                   <div className="card">
                     <div className="card-body">
-                      <form onSubmit={HandleSubmit}>
-
-                      <div className="mb-3">
+                      <form onSubmit={handleSubmit(onSubmit)}>
+                        <div className="mb-3">
                           <label
                             htmlFor="exampleInputEmail1"
                             className="form-label">
                             Image
                           </label>
                           <input
-                          className="form-control"
+                            className="form-control"
                             type="file"
-                             accept="image/*"
-                             multiple onChange={handleImageChange}
-                          />   
+                            accept="image/*"
+                            multiple
+                            onChange={handleImageChange}
+                            {...register("images", { required: true })}
+                          />
+                          {errors.images && (
+                            <p className="error">
+                              Please upload at least one image
+                            </p>
+                          )}
                         </div>
                         <div className="mb-3">
                           <label
@@ -146,24 +149,38 @@ const Addnew = () => {
                             Questions
                           </label>
                           <input
-                          className="form-control"
+                            className="form-control"
                             type="text"
-                            value={question} 
-                            onChange={(event) => setQuestion(event.target.value)}
+                            name="question"
+                            // value={question}
+                            // onChange={(event) => setQuestion(event.target.value)}
+                            {...register("question", { required: true })}
                           />
+                          {errors.question && (
+                            <p className="error">Please Enter a question</p>
+                          )}
                         </div>
                         <div className="mb-3">
-                          <label
-                            htmlFor="exampleInputEmail1"
-                            className="form-label">
-                            Questions Type
+                          <label htmlFor="questionType" className="form-label">
+                            Question Type
                           </label>
-                          <input
-                            type="text" 
-                            value={questionType} 
+                          <select
+                            id="questionType"
                             className="form-control"
-                            onChange={(event) => setQuestionType(event.target.value)}
-                          />
+                            name="questionType"
+                            // value={selectedOption}
+                            // onChange={handleChange}
+                            {...register("questionType", { required: true })}>
+                            <option value="">Select question type</option>
+                            {questionTypes.map((type) => (
+                              <option key={type.id}>{type}</option>
+                            ))}
+                          </select>
+                          {errors.questionType && (
+                            <p className="error">
+                              Please select a type of question
+                            </p>
+                          )}
                         </div>
                         <div className="mb-3">
                           <label
@@ -172,34 +189,116 @@ const Addnew = () => {
                             Questions Subject
                           </label>
                           <input
-                             type="text" 
-                             value={questionSubject} 
-                             className="form-control"
-                             onChange={(event) => setQuestionsubject(event.target.value)}
+                            type="text"
+                            // value={questionSubject}
+                            className="form-control"
+                            name="questionSubject"
+                            {...register("questionSubject", { required: true })}
+                            // onChange={(event) => setQuestionsubject(event.target.value)}
                           />
+                          {errors.questionSubject && (
+                            <p className="error">Please Enter a Subject</p>
+                          )}
                         </div>
+                        {/* <Col md={12}>
+                          <div>
+                            <p className="mx-1">Answer</p>
+                            <ReactQuill
+                            type="answer"
+                              // value={answer || ''}
+                              name="answer"
+                              {...register("answer", { required: true })}
+                              // onChange={handleAnswerChange}
+                            />
+                           {errors.answer && <p className="error">Please upload at least one image</p>}
+                          </div>
+                        </Col> */}
                         <Col md={12}>
                           <div>
                             <p className="mx-1">Answer</p>
+                            <Controller
+                              name="answer"
+                              control={control}
+                              defaultValue={editorHtml}
+                              render={({ field }) => (
                                 <ReactQuill
-                                value={answer || ''}
-                                
-                                onChange={handleAnswerChange}
-                               />
+                                  theme="snow"
+                                  name="answer"
+                                  {...register("answer", { required: true })}
+                                  //onChange={(value) => setEditorHtml(value)}
+                                  // value={answer || ""}
+                                  modules={modules}
+                                  formats={formats}
+                                  // onChange={handleAnswerChange}
+                                  bounds={"#root"}
+                                  placeholder="type Here...."
+                                  ref={editorRef}
+                                  {...field}
+                                />
+                              )}
+                            />
+                            {errors.answer && (
+                              <p className="error">Please Enter a answer</p>
+                            )}
                           </div>
                         </Col>
+                        {/* <Col md={12}>
+                          <div>
+                            <p className="mx-1">Explanation</p>
+                            <ReactQuill
+                              type="explanation"
+                              name="explanation"
+                              // value={explanation}
+                              
+                              // onChange={handleExplanationChange}
+                              {...register("explanation", { required: true })}
+                              
+                            />
+                           {errors.explanation && <p className="error">Please upload at least one image</p>}
+                       
+                          </div>
+                          
+                        </Col> */}
                         <Col md={12}>
                           <div>
                             <p className="mx-1">Explanation</p>
+                            <Controller
+                              name="explanation"
+                              control={control}
+                              defaultValue={editorHtml}
+                              render={({ field }) => (
                                 <ReactQuill
-                                value={explanation} 
-                                onChange={handleExplanationChange}
+                                  theme="snow"
+                                  name="explanation"
+                                  {...register("explanation", {
+                                    required: true,
+                                  })}
+                                  //onChange={(value) => setEditorHtml(value)}
+                                  // value={answer || ""}
+                                  modules={modules}
+                                  formats={formats}
+                                  // onChange={handleExplanationChange}
+                                  bounds={"#root"}
+                                  placeholder="type Here...."
+                                  ref={editorRef}
+                                  {...field}
                                 />
+                              )}
+                            />
+                            {errors.explanation && (
+                              <p className="error">
+                                Please Enter a explanation
+                              </p>
+                            )}
                           </div>
                         </Col>
-                        <div>
-                          {/* <button className="btn btn-primary mx-2">Back</button> */}
-                          <button type="submit" className="btn btn-primary mt">
+                        <div className="mt-4">
+                          <Link to="/searchengine">
+                            <button className="btn btn-primary mx-2">
+                              Back
+                            </button>
+                          </Link>
+                          <button type="submit" className="btn btn-primary">
                             Add
                           </button>
                         </div>
