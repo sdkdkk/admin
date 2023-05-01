@@ -9,28 +9,24 @@ import { Badge, Button } from "react-bootstrap";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { searchengine } from "../../Redux/Loginpages/searchengineSlice";
-
+import { set } from "react-hook-form";
 
 const Searchengine = () => {
   const Searchengine = useSelector((state) => state.searchengine.data.data);
-  // console.log(Searchengine)
+  console.log(Searchengine);
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    dispatch(searchengine());
-  }, [dispatch]);
 
   //Pagination
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(5);
-  const indexOfLastPage = currentPage * postsPerPage;
-  const indexOfFirstPage = indexOfLastPage - postsPerPage;
-  const displayUsers =
-    Searchengine && Searchengine.slice(indexOfFirstPage, indexOfLastPage);
-  const handleChange = (event, value) => {
-    setCurrentPage(value);
-  };
-  console.log(displayUsers);
+  const [itemsPerPage] = useState(5);
+
+  useEffect(() => {
+
+    const skip = (currentPage - 1) * itemsPerPage;
+    console.log("skip = ", skip);
+    var limit = itemsPerPage;
+    dispatch(searchengine(limit, skip));
+  }, [currentPage, dispatch, itemsPerPage, Searchengine]);
 
   return (
     <div>
@@ -61,76 +57,76 @@ const Searchengine = () => {
                 </div>
               </div>
               <div className="row">
-                <div className="col-md-12 grid-margin stretch-card">
-                  <div className="card">
+                <div className="col-12 grid-margin stretch-card">
+                  <div className="card new-table">
                     <div className="card-body">
-                      <table className="table">
-                        <thead className="text-uppercase">
+                      <table className="table v-top">
+                        <thead>
                           <tr>
-                            <th scope="col">questions</th>
-                            <th scope="col">action</th>
+                            <th scope="col">Question Subject</th>
+                            <th scope="col">Question</th>
+                            <th scope="col">Question Price</th>
+                            <th scope="col">status</th>
+                            <th scope="col">Question Type</th>
+                            <th scope="col">ACTION</th>
                           </tr>
                         </thead>
-                        <tbody className="text-capitalize text-sm-start">
-                          {displayUsers &&
-                            displayUsers.map((data, id) => {
-                              return (
-                                <tr className="" key={id}>
-                                  <td className="d-flex flex-column">
-                                    <small className="text-muted">
-                                      <Badge
-                                        pill
-                                        color="primary"
-                                        className="bg-opacity-25 text-primary">
-                                        {data.questionSubject}
-                                      </Badge>
-                                      {data.createdAt}
-                                    </small>
-                                    <small>
-                                      <p className="question">
-                                        {data.question}
-                                      </p>
-                                    </small>
+                        {Searchengine.map((data) => (
+                          <tbody>
+                            <tr>
+                              <td>{data.questionSubject}</td>
+                              <td>{data.question}</td>
+                              <td>{data.questionPrice}</td>
+                              <td>{data.status}</td>
+                              <td>{data.questionType}</td>
+                              <td>
+                                <Link>
+                                  <button className="btn btn-primary btn-sm">
+                                    click
+                                  </button>
+                                </Link>
+                              </td>
 
-                                    <small>
-                                      answer: {data.answer}
-                                      {/* <ReadMore>{data.answer}</ReadMore> */}
-                                    </small>
-                                    <small>
-                                      explanation: {data.explanation}
-                                      {/* <ReadMore>{data.answer}</ReadMore> */}
-                                    </small>
-                                    <small>
-                                      questionPrice: {data.questionPrice}
-                                      {/* <ReadMore>{data.answer}</ReadMore> */}
-                                    </small>
-                                    <small>
-                                      questionType: {data.questionType}
-                                      {/* <ReadMore>{data.answer}</ReadMore> */}
-                                    </small>
-                                    <small>
-                                      status: {data.status}
-                                      {/* <ReadMore>{data.answer}</ReadMore> */}
-                                    </small>
-                                  </td>
-
-                                  <td className="text-center">
-                                    <BiDotsVerticalRounded />
-                                  </td>
-                                </tr>
-                              );
-                            })}
-                        </tbody>
+                              {/* <td>
+                                    <Link to={`/studentdetails/${data._id}`}>
+                                      <button className="btn btn-primary btn-sm">
+                                        click
+                                      </button>
+                                    </Link>
+                                  </td> */}
+                            </tr>
+                          </tbody>
+                        ))}
                       </table>
-                      <Pagination
-                        count={3}
-                        page={currentPage}
-                        onChange={handleChange}
-                        shape="rounded"
-                        variant="outlined"
-                        //showFirstButton
-                        //showLastButton
-                      />
+                      <div className="table-pagination">
+                        <button
+                          onClick={() => setCurrentPage(currentPage - 1)}
+                          disabled={currentPage === 1}>
+                          {" "}
+                          prev{" "}
+                        </button>
+                        <button>{currentPage}</button>
+                        <button
+                          onClick={() => setCurrentPage(currentPage + 1)}
+                          // disabled={
+                          //   currentPage ===
+                          //   Math.ceil(Searchengine.length / postsPerPage)
+                          // }
+                        >
+                          {" "}
+                          next{" "}
+                        </button>
+
+                        {/* <Pagination
+                          count={4}
+                          page={currentPage}
+                          onChange={handleChange}
+                          shape="rounded"
+                          variant="outlined"
+                          showFirstButton
+                          showLastButton
+                        /> */}
+                      </div>
                     </div>
                   </div>
                 </div>

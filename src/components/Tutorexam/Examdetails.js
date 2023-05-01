@@ -1,3 +1,6 @@
+
+ 
+
 import React, { useState } from "react";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
@@ -29,7 +32,6 @@ const Examdetails = () => {
     }
   };
 
-  console.log(location.state.data);
 
   //radio-btn
   const [selectedValue, setSelectedValue] = useState(null);
@@ -50,19 +52,19 @@ const Examdetails = () => {
                     <div className="card-body">
                       <div className="row">
                         <div className="col-lg-4">
-                          <h6>{location.state.data.name}</h6>
-                          <h6>{location.state.data.mobileNo}</h6>
-                          <h6>{location.state.data.email}</h6>
+                          <h6>{location.state?.data?.name}</h6>
+                          <h6>{location.state?.data?.mobileNo}</h6>
+                          <h6>{location.state?.data?.email}</h6>
                         </div>
                         <div className="col-lg-4 border-left border-right">
                           <h5>Subject</h5>
-                          <h6>{location.state.data.examSubject}</h6>
+                          <h6>{location.state?.data?.examSubject}</h6>
                         </div>
                         <div className="col-lg-4">
                           <h5>MCQ</h5>
                           <h6>
-                            {location.state.data.mcqScore}/
-                            {location.state.data.mcqTotal}
+                            {location.state?.data?.mcqScore}/
+                            {location.state?.data?.mcqTotal}
                           </h6>
                         </div>
                       </div>
@@ -87,7 +89,7 @@ const Examdetails = () => {
                                   <h5 className="exam-que">Question</h5>
                                   <div className="p--20 rbt-border radius-6 bg-primary-opacity">
                                     {
-                                      location.state.data.theoryQA[currentIndex]
+                                      location.state?.data?.theoryQA[currentIndex]
                                         .question
                                     }
                                   </div>
@@ -98,7 +100,7 @@ const Examdetails = () => {
                                     <div className="row">
                                       <div className="col-lg-6">
                                         {
-                                          location.state.data.theoryQA[
+                                          location.state?.data?.theoryQA[
                                             currentIndex
                                           ].tutorAnswer
                                         }
@@ -110,7 +112,7 @@ const Examdetails = () => {
                                   <h5>Admin Answer</h5>
                                   <div className="p--20 rbt-border radius-6 bg-secondary-opacity">
                                     {
-                                      location.state.data.theoryQA[currentIndex]
+                                      location.state?.data?.theoryQA[currentIndex]
                                         .realAnswer
                                     }
                                   </div>

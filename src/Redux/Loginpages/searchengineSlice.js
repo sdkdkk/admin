@@ -1,45 +1,58 @@
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import axios from 'axios';
 import { createSlice } from "@reduxjs/toolkit";
+import axios from "axios";
 
-
-const initialState = {
-    data: [],
-    isLoading: false,
-    isSuccess: false,
-    errorMessage: ''
-}
-
-
-const token = localStorage.getItem('token')
-export const searchengine = createAsyncThunk('user/getUserList', async(page, { rejectWithValue }) => {
-    try {
-        const response = await axios.post(`https://vaidik-backend.onrender.com/admin/adminviewquestion?limit=5&skip=0`, { token });
-        return response.data;
-    } catch (error) {
-        return rejectWithValue(error.message);
-    }
-})
-
-
-export const searchengineSlice = createSlice({
-    name: 'user',
-    initialState,
-    extraReducers: {
-        [searchengine.pending]: (state) => {
-            state.isLoading = true;
+const searchengineSlice = createSlice({
+    name: "searchengine",
+    initialState: {
+        isAuthenticated: false,
+        user: null,
+        error: null,
+        loading: false,
+        status: true,
+    },
+    reducers: {
+        //Set-info
+        searchenginePending: (state) => {
+            state.loading = true;
         },
-        [searchengine.fulfilled]: (state, { payload }) => {
-            state.isLoading = false;
-            state.isSuccess = true;
-            state.data = payload;
+        searchengineSuccess: (state, { payload }) => {
+            state.loading = false;
+            state.isAuthenticated = true;
+            state.user = payload;
+            state.status = 1;
+            state.error = null;
         },
-        [searchengine.rejected]: (state, { payload }) => {
-            state.isLoading = false;
-            state.isSuccess = false;
-            state.errorMessage = payload
+        searchengineFailure: (state, { payload }) => {
+            state.loading = false;
+            state.isAuthenticated = false;
+            state.user = null;
+            state.error = payload;
+            state.status = 0;
+        },
+    },
+});
+
+//Set-info
+export const { searchenginePending, searchengineSuccess, searchengineFailure } =
+searchengineSlice.actions;
+
+const token = localStorage.getItem("token");
+export const searchengine =
+    (limit = 5, skip = 0) =>
+    async(dispatch) => {
+        dispatch(searchenginePending());
+        try {
+            const { data } = await axios.post(
+                `https://vaidik-backend.onrender.com/admin/adminviewquestion?limit=${limit}&skip=${skip}`, { token }
+            );
+            if (data.status === 1) {
+                dispatch(searchengineSuccess(data));
+            } else {
+                dispatch(searchengineFailure(data));
+            }
+        } catch (error) {
+            dispatch(searchengineFailure(error.response.data));
         }
-    }
-})
+    };
 
 export default searchengineSlice.reducer;
