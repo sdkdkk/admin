@@ -1,7 +1,7 @@
 
  
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
@@ -14,8 +14,16 @@ const Examdetails = () => {
   const location = useLocation();
 
   const [currentIndex, setCurrentIndex] = useState(0);
-  console.log(currentIndex);
+  const [examInfo, setExamInfo] = useState({});
+ 
 
+  useEffect(() =>{
+    if(location.state?.data){
+      setExamInfo(location.state?.data)
+    }
+  },[location.state?.data])
+
+  
   const handleNext = () => {
     if (currentIndex === location.state.data.theoryQA.length - 1) {
       setCurrentIndex(0);
@@ -31,7 +39,6 @@ const Examdetails = () => {
       setCurrentIndex(currentIndex - 1);
     }
   };
-
 
   //radio-btn
   const [selectedValue, setSelectedValue] = useState(null);
@@ -50,24 +57,24 @@ const Examdetails = () => {
                 <div className="col-md-12 grid-margin stretch-card">
                   <div className="card">
                     <div className="card-body">
-                      <div className="row">
+                      {Object.keys(examInfo).length !== 0 && <div className="row">
                         <div className="col-lg-4">
-                          <h6>{location.state?.data?.name}</h6>
-                          <h6>{location.state?.data?.mobileNo}</h6>
-                          <h6>{location.state?.data?.email}</h6>
+                          <h6>{examInfo?.name}</h6>
+                          <h6>{examInfo?.mobileNo}</h6>
+                          <h6>{examInfo?.email}</h6>
                         </div>
                         <div className="col-lg-4 border-left border-right">
                           <h5>Subject</h5>
-                          <h6>{location.state?.data?.examSubject}</h6>
+                          <h6>{examInfo?.examSubject}</h6>
                         </div>
                         <div className="col-lg-4">
                           <h5>MCQ</h5>
                           <h6>
-                            {location.state?.data?.mcqScore}/
-                            {location.state?.data?.mcqTotal}
+                            {examInfo?.mcqScore}/
+                            {examInfo?.mcqTotal}
                           </h6>
                         </div>
-                      </div>
+                      </div>}
                     </div>
                   </div>
                 </div>
@@ -85,37 +92,37 @@ const Examdetails = () => {
                           <div className="rbt-dashboard-content bg-color-white rbt-shadow-box rbt-border mb--30 p--20">
                             <div className="content">
                               <div className="row">
-                                <div className="col-md-12 col-lg-12 mb--20">
+                                {Object.keys(examInfo).length !== 0 && <div className="col-md-12 col-lg-12 mb--20">
                                   <h5 className="exam-que">Question</h5>
                                   <div className="p--20 rbt-border radius-6 bg-primary-opacity">
                                     {
-                                      location.state?.data?.theoryQA[currentIndex]
+                                      examInfo?.theoryQA[currentIndex]
                                         .question
                                     }
                                   </div>
-                                </div>
+                                </div>}
                                 <div className="col-md-12 col-lg-12 mb--20">
                                   <h5>Tutor Answer</h5>
                                   <div className="p--20 rbt-border radius-6 bg-primary-opacity">
                                     <div className="row">
-                                      <div className="col-lg-6">
+                                      {Object.keys(examInfo).length !== 0 && <div className="col-lg-6">
                                         {
-                                          location.state?.data?.theoryQA[
+                                          examInfo?.theoryQA[
                                             currentIndex
                                           ].tutorAnswer
                                         }
-                                      </div>
+                                      </div>}
                                     </div>
                                   </div>
                                 </div>
                                 <div className="col-md-12 col-lg-12 mb--20">
                                   <h5>Admin Answer</h5>
-                                  <div className="p--20 rbt-border radius-6 bg-secondary-opacity">
+                                  {Object.keys(examInfo).length !== 0 && <div className="p--20 rbt-border radius-6 bg-secondary-opacity">
                                     {
-                                      location.state?.data?.theoryQA[currentIndex]
+                                      examInfo?.theoryQA[currentIndex]
                                         .realAnswer
                                     }
-                                  </div>
+                                  </div>}
                                 </div>
                               </div>
                             </div>
