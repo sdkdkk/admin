@@ -16,7 +16,6 @@ const Testexam = () => {
   let navigate = useNavigate();
 
   console.log(testexam);
-
   // const data = [
   //     { name: "John Doe", age: 30, gender: "Male" },
   //     { name: "Jane Smith", age: 25, gender: "Female" },
@@ -93,7 +92,7 @@ const Testexam = () => {
                           ))}
                       </Table>
 
-                      {/* <Table>
+                                            {/* <Table>
                                                 <thead>
                                                     <tr>
                                                         <th>Name</th>
