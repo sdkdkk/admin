@@ -4,28 +4,37 @@ import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
 import "../Css/Tutorlist.css";
-import { Pagination } from "@mui/material";
-import { Badge, Button } from "react-bootstrap";
-import { BiDotsVerticalRounded } from "react-icons/bi";
+// import { Pagination } from "@mui/material";
+import { Button } from "react-bootstrap";
+// import { BiDotsVerticalRounded } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { searchengine } from "../../Redux/Loginpages/searchengineSlice";
-import { set } from "react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 const Searchengine = () => {
   const searchengineState = useSelector((state) => state.searchengine);
   const dispatch = useDispatch();
+  let navigate = useNavigate();
+
+  const toComponentB = (data) => {
+    navigate("/Searchenginequedetail", { state: { data } });
+  };
 
   //Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     const skip = (currentPage - 1) * itemsPerPage;
     var limit = itemsPerPage;
-    dispatch(searchengine(limit, skip));
+    // dispatch(searchengine(limit, skip));
+    dispatch(searchengine(limit, skip)).then(() => {
+      setIsLoading(false); // Set isLoading to false when data is fetched
+    });
   }, [currentPage, itemsPerPage]);
 
-  const searchengineData = searchengineState?.user?.data ||  [];
+  const searchengineData = searchengineState?.user?.data || [];
   return (
     <div>
       <div className="container-scroller">
@@ -48,8 +57,7 @@ const Searchengine = () => {
                     <Button
                       className="search-btn mx-2"
                       variant="secondary"
-                      size="lg"
-                    >
+                      size="lg">
                       Search Question
                     </Button>
                   </Link>
@@ -62,22 +70,31 @@ const Searchengine = () => {
                       <table className="table v-top">
                         <thead>
                           <tr>
-                            <th scope="col">Question Subject</th>
                             <th scope="col">Question</th>
+                            <th scope="col">Question Type</th>
+                            <th scope="col">Question Subject</th>
+
                             <th scope="col">Question Price</th>
                             <th scope="col">status</th>
-                            <th scope="col">Question Type</th>
+
                             <th scope="col">ACTION</th>
                           </tr>
                         </thead>
                         {searchengineData.map((data) => (
                           <tbody>
                             <tr>
+                              <td
+                               style={{cursor:"pointer"}}
+                                onClick={() => {
+                                  toComponentB(data);
+                                }}>
+                                {data.question}
+                              </td>
+                              <td>{data.questionType}</td>
                               <td>{data.questionSubject}</td>
-                              <td>{data.question}</td>
                               <td>{data.questionPrice}</td>
                               <td>{data.status}</td>
-                              <td>{data.questionType}</td>
+
                               <td>
                                 <Link>
                                   <button className="btn btn-primary btn-sm">
@@ -85,7 +102,6 @@ const Searchengine = () => {
                                   </button>
                                 </Link>
                               </td>
-
                               {/* <td>
                                     <Link to={`/studentdetails/${data._id}`}>
                                       <button className="btn btn-primary btn-sm">
@@ -99,14 +115,17 @@ const Searchengine = () => {
                       </table>
                       <div className="table-pagination">
                         <button
+                          className="btn btn-primary"
                           onClick={() => setCurrentPage(currentPage - 1)}
-                          disabled={currentPage === 1}
-                        >
+                          disabled={currentPage === 1}>
                           {" "}
                           prev{" "}
                         </button>
-                        <button>{currentPage}</button>
+                        <button className="btn btn-primary mx-2">
+                          {currentPage}
+                        </button>
                         <button
+                          className="btn btn-primary"
                           onClick={() => setCurrentPage(currentPage + 1)}
                           // disabled={
                           //   currentPage ===
@@ -116,7 +135,6 @@ const Searchengine = () => {
                           {" "}
                           next{" "}
                         </button>
-
                         {/* <Pagination
                           count={4}
                           page={currentPage}

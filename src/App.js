@@ -23,6 +23,8 @@ import Tutordetails from './components/Tutors/Tutordetails';
 import Studentdetails from './components/Student/Studentdetails';
 import Testexam from './components/Tutorexam/Testexam';
 import Examdetails from './components/Tutorexam/Examdetails';
+import Searchenginequedetail from './components/Searchengine/Searchenginequedetail';
+
 
 function App() {
   return (
@@ -50,6 +52,7 @@ function App() {
         <Route path="/studentdetails/:_id" element={<Studentdetails/>} />
         <Route path="/testexam" element={<Testexam/>} />
         <Route path="/examdetails" element={<Examdetails/>} />
+        <Route path="/searchenginequedetail" element={<Searchenginequedetail/>} />
       
       </Routes>
       <Scroll/>
