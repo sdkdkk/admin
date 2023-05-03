@@ -3,14 +3,12 @@ import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
 import "./Searchengine.css";
-import { Link } from "react-router-dom";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 const Searchenginequedetail = () => {
   const location = useLocation();
-
-  const  getresponse=location.state.data;
-  console.log(getresponse)
+  const getresponse = location.state.data;
+  console.log(getresponse);
 
   return (
     <>
@@ -32,48 +30,21 @@ const Searchenginequedetail = () => {
                           <div className="rbt-dashboard-content bg-color-white rbt-shadow-box rbt-border mb--30 p--20">
                             <div className="content">
                               <div className="row">
-                              <img
-                                type="file"
-                                name="image"
-                                  src={location.state.data.questionPhoto}
-                                  className="profile-img"
-                                  alt=""
-                                />
-                                <div className="col-md-12 col-lg-12 mb--20">
-                                  <h5>Question Subject</h5>
-                                  <div className="p--20 rbt-border radius-6 bg-primary-opacity">
-                                    {location.state.data.questionSubject}
-                                  </div>
-                                </div>
+                                {location.state.data.questionPhoto.map(
+                                  (photoUrl) => (
+                                    <img
+                                      key={photoUrl}
+                                      src={photoUrl}
+                                      className="profile-img"
+                                      alt=""
+                                    />
+                                  )
+                                )}
                                 <div className="col-md-12 col-lg-12 mb--20">
                                   <h5>Question</h5>
                                   <div className="p--20 rbt-border radius-6 bg-primary-opacity">
                                     <div className="row">
-                                    {location.state.data.question}
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="col-md-12 col-lg-12 mb--20">
-                                  <h5>Question Price</h5>
-                                  <div className="p--20 rbt-border radius-6 bg-primary-opacity">
-                                    <div className="row">
-                                    {location.state.data.questionPrice}
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="col-md-12 col-lg-12 mb--20">
-                                  <h5>Tutor Price</h5>
-                                  <div className="p--20 rbt-border radius-6 bg-primary-opacity">
-                                    <div className="row">
-                                    {location.state.data.tutorPrice}
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="col-md-12 col-lg-12 mb--20">
-                                  <h5>Status</h5>
-                                  <div className="p--20 rbt-border radius-6 bg-primary-opacity">
-                                    <div className="row">
-                                    {location.state.data.status}
+                                      {location.state.data.question}
                                     </div>
                                   </div>
                                 </div>
@@ -81,8 +52,61 @@ const Searchenginequedetail = () => {
                                   <h5>Question Type</h5>
                                   <div className="p--20 rbt-border radius-6 bg-primary-opacity">
                                     <div className="row">
-                                    {location.state.data.questionType}
+                                      {location.state.data.questionType}
                                     </div>
+                                  </div>
+                                </div>
+                                <div className="col-md-12 col-lg-12 mb--20">
+                                  <h5>Question Subject</h5>
+                                  <div className="p--20 rbt-border radius-6 bg-primary-opacity">
+                                    {location.state.data.questionSubject}
+                                  </div>
+                                </div>
+
+                                <div className="col-md-12 col-lg-12 mb--20">
+                                  <h5>Question Price</h5>
+                                  <div className="p--20 rbt-border radius-6 bg-primary-opacity">
+                                    <div className="row">
+                                      {location.state.data.questionPrice}
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col-md-12 col-lg-12 mb--20">
+                                  <h5>Tutor Price</h5>
+                                  <div className="p--20 rbt-border radius-6 bg-primary-opacity">
+                                    <div className="row">
+                                      {location.state.data.tutorPrice}
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col-md-12 col-lg-12 mb--20">
+                                  <h5>Status</h5>
+                                  <div className="p--20 rbt-border radius-6 bg-primary-opacity">
+                                    <div className="row">
+                                      {location.state.data.status}
+                                    </div>
+                                  </div>
+                                </div>
+                                <div className="col-md-12 col-lg-12 mb--20">
+                                  <h5>answer</h5>
+                                  <div className="p--20 rbt-border radius-6 bg-primary-opacity">
+                                    <div
+                                      dangerouslySetInnerHTML={{
+                                        __html: location.state.data.answer,
+                                      }}
+                                    />
+                                    {}
+                                  </div>
+                                </div>
+                                <div className="col-md-12 col-lg-12 mb--20">
+                                  <h5>Explanation</h5>
+                                  <div className="p--20 rbt-border radius-6 bg-primary-opacity">
+                                    <div
+                                      dangerouslySetInnerHTML={{
+                                        __html: location.state.data.explanation,
+                                      }}
+                                    />
+                                    {}
                                   </div>
                                 </div>
                               </div>

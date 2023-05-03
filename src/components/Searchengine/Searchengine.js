@@ -13,9 +13,34 @@ import { useNavigate } from "react-router-dom";
 
 const Searchengine = () => {
   const searchengineState = useSelector((state) => state.searchengine);
-  const dispatch = useDispatch();
+  const searchengineerror = useSelector((state) => state.searchengine.error);
+  console.log(searchengineerror)
   let navigate = useNavigate();
+  const dispatch = useDispatch();
 
+
+
+  
+
+
+useEffect(()=>{  
+  if (searchengineerror && (searchengineerror.error === "Please enter correct Token!" || searchengineerror.error === "Invalid refresh token!")) {
+    try {
+      console.log(searchengineerror)
+      var limit =5, skip = 0, act = 1;
+      dispatch(searchengine(limit, skip, act)).then(() => {
+        navigate('/login');
+      });
+      
+    } catch (error) {
+      console.log("cccfg - ",error);
+    }
+   }
+},[searchengineerror,dispatch,navigate])
+
+  
+
+// console.log(searchengineState)
   const toComponentB = (data) => {
     navigate("/Searchenginequedetail", { state: { data } });
   };
@@ -29,7 +54,7 @@ const Searchengine = () => {
     const skip = (currentPage - 1) * itemsPerPage;
     var limit = itemsPerPage;
     // dispatch(searchengine(limit, skip));
-    dispatch(searchengine(limit, skip)).then(() => {
+    dispatch(searchengine(limit, skip, 0)).then(() => {
       setIsLoading(false); // Set isLoading to false when data is fetched
     });
   }, [currentPage, itemsPerPage]);
@@ -88,7 +113,7 @@ const Searchengine = () => {
                                 onClick={() => {
                                   toComponentB(data);
                                 }}>
-                                {data.question}
+                                {data.question.split(" ").slice(0,3 ).join(" ")}...
                               </td>
                               <td>{data.questionType}</td>
                               <td>{data.questionSubject}</td>

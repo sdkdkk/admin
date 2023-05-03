@@ -110,7 +110,7 @@ const Searchquestion = () => {
                           searchResults.map((data) => (
                             <tbody>
                               <tr>
-                                <td>{data.question}</td>
+                              <td> {data.question.split(" ").slice(0, 5).join(" ")}...</td>
                                 <td>{data.questionType}</td>
                                 <td>{data.questionSubject}</td>
                                 <td>{data.questionPrice}</td>
