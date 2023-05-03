@@ -52,6 +52,8 @@
         "react-scripts": "5.0.1",
         "react-spinners": "^0.13.8",
         "react-super-responsive-table": "^5.2.1",
+        "react-toastify": "^9.1.2",
+        "react-tooltip": "^5.11.1",
         "reactstrap": "^9.1.5",
         "redux-persist": "^6.0.0",
         "styled-components": "^5.3.6",

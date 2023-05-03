@@ -1,30 +1,51 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Testimonialdata } from "../Data/Data1";
 import { Pagination } from "@mui/material";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
 import "../Css/Tutorlist.css";
+import "./Testimonial.css";
 import Form from "react-bootstrap/Form";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { Testimoniald } from "../../Redux/Loginpages/authSlice";
+import { Testimoniald } from "../../Redux/Loginpages/testimonialSlice";
+import { Statuschange } from "../../Redux/Loginpages/testimonialStatusSlice";
+import { testimonialformapi } from "../../Redux/Loginpages/testimonialFormSlice";
+
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const Testimonial = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(4);
 
-  const indexOfLastPage = currentPage * postsPerPage;
-  const indexOfFirstPage = indexOfLastPage - postsPerPage;
-  const displayUsers = Testimonialdata.slice(indexOfFirstPage, indexOfLastPage);
 
   const auth = useSelector((state) => state.auth);
   const token = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
   const navigate = useNavigate();
   console.log(auth);
+
+  const testimonial = useSelector((state) => state.testimonial);
+  const testimonialstatus = useSelector((state) => state.testimonialstatus);
+  const testimonialform = useSelector((state) => state.testimonialform);
+
+  var [isActive, SetisActive] = useState(true);
+
+  const activeForm = () => {
+    if (isActive === true) {
+      SetisActive(false)
+    } else {
+      SetisActive(true)
+    }
+  }
+
+
+  console.log(testimonialstatus);
+  const notify = () => toast(testimonialstatus.user ? testimonialstatus.user.message : "");
+  var tokens = localStorage.getItem("token");
 
   const {
     register,
@@ -33,21 +54,56 @@ const Testimonial = () => {
     formState: { errors },
   } = useForm({});
 
+  useEffect(() => {
+    // var tokens = localStorage.getItem("token");
+    console.log(tokens);
+    dispatch(Testimoniald(tokens));
+  }, [dispatch])
+
   const onSubmit = (data) => {
     console.log("data1", data);
-    localStorage.setItem("data", token);
+    // localStorage.setItem("data", token);
     const formData = new FormData();
-    formData.append("file", data[0]);
-    dispatch(Testimoniald(data));
-    setTimeout(() => {
-      navigate(" ");
-    }, 500);
+    // formData.append("file", data[0]);
+
+    formData.append("sortOrder", data.sortOrder);
+    formData.append("profileimage", data.profileimage[0]);
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+    formData.append("token", tokens);
+    formData.append("status", isActive);
+
+    dispatch(testimonialformapi(formData));
+
+    // setTimeout(() => {
+    //   navigate(" ");
+    // }, 500);
     reset();
   };
+
+  const changestatus = async (value, id, index) => {
+    console.log(value, id, index);
+    var st;
+    console.log(testimonial.user.testimonial[index]);
+    if (testimonial.user.testimonial[index].isactive === true) {
+      st = false
+    } else {
+      st = true
+    }
+    await dispatch(Statuschange(st, id));
+    notify();
+  }
 
   const handleChange = (event, value) => {
     setCurrentPage(value);
   };
+
+  //pagenation
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(4);
+  const indexOfLastPage = currentPage * postsPerPage;
+  const indexOfFirstPage = indexOfLastPage - postsPerPage;
+  const displayUsers = Testimonialdata.slice(indexOfFirstPage, indexOfLastPage);
 
   return (
     <div>
@@ -68,49 +124,55 @@ const Testimonial = () => {
                         <thead>
                           <tr>
                             <th scope="col">Sort Order</th>
-                            <th scope="col">PROFILE IMG</th>
-                            <th scope="col">USER</th>
-                            <th scope="col">ACTION</th>
+                            <th scope="col">Profile Img</th>
+                            <th scope="col">User</th>
+                            <th scope="col">Action</th>
+                            <th scope="col"></th>
                           </tr>
                         </thead>
-                        {displayUsers.map((data, index) => (
+                        {testimonial.user && testimonial.user.testimonial.map((data, index) => (
                           <tbody key={index}>
                             <tr>
-                              <td>{data.sortorder}</td>
+                              <td>{data.sortOrder}</td>
                               <td>
                                 {" "}
                                 <img
-                                  src={data.profileimg}
+                                  src={data.profileimage}
                                   className="cardresto-img-top mx-4"
                                   alt="..."
                                 />
                               </td>
-                              <td>{data.user}</td>
+                              <td>{data.name}</td>
                               <td>
                                 <div className="form-check form-switch">
                                   <input
                                     className="form-check-input"
                                     type="checkbox"
                                     id="flexSwitchCheckChecked"
-                                    defaultChecked
+                                    defaultChecked={data.isactive}
+                                    onChange={(e) => changestatus(e.target.value, data.id, index)}
                                   />
                                 </div>
                               </td>
+                              <td>:</td>
                             </tr>
                           </tbody>
                         ))}
                       </table>
                       <div className="table-pagination">
                         <Pagination
-                          count={4}
+                          count={2}
                           page={currentPage}
                           onChange={handleChange}
                           shape="rounded"
                           variant="outlined"
-                          showFirstButton
-                          showLastButton
+                        // showFirstButton
+                        // showLastButton
                         />
                       </div>
+                    </div>
+                    <div>
+                      <ToastContainer />
                     </div>
                   </div>
                 </div>
@@ -127,15 +189,15 @@ const Testimonial = () => {
                               controlId="formBasicEmail">
                               <Form.Label>SortOrder</Form.Label>
                               <Form.Control
-                                type="text"
-                                name="sort"
-                                {...register("sort", {
+                                type="number"
+                                name="sortOrder"
+                                {...register("sortOrder", {
                                   required: "Please Enter A Valid SortOrder!",
                                 })}
                                 placeholder="Enter SortOrder"
                               />
                               <p className="error-msg">
-                                {errors.sort && errors.sort.message}
+                                {errors.sortOrder && errors.sortOrder.message}
                               </p>
                             </Form.Group>
                             <Form.Group
@@ -144,14 +206,15 @@ const Testimonial = () => {
                               <Form.Label> Profile Image</Form.Label>
                               <Form.Control
                                 type="file"
-                                name="image"
-                                {...register("file", {
+                                name="profileimage"
+                                accept=".png,.jpg,.jpeg,.tif,.tiff,.bmp,.gif,.ico"
+                                {...register("profileimage", {
                                   required: "Please Enter A Valid image!",
                                 })}
                                 placeholder="Enter image"
                               />
                               <p className="error-msg">
-                                {errors.image && errors.image.message}
+                                {errors.profileimage && errors.profileimage.message}
                               </p>
                             </Form.Group>
                             <Form.Group
@@ -160,14 +223,14 @@ const Testimonial = () => {
                               <Form.Label>User Name</Form.Label>
                               <Form.Control
                                 type="text"
-                                name="username"
-                                {...register("username", {
+                                name="name"
+                                {...register("name", {
                                   required: "Please Enter A Valid username!",
                                 })}
                                 placeholder="Enter User Name"
                               />
                               <p className="error-msg">
-                                {errors.username && errors.username.message}
+                                {errors.name && errors.name.message}
                               </p>
                             </Form.Group>
                           </div>
@@ -189,6 +252,24 @@ const Testimonial = () => {
                                   errors.description.message}
                               </p>
                             </FloatingLabel>
+                            <div className="row">
+                              <div className="col-sm-4">
+                                <label htmlFor="flexSwitchCheckChecked" className="form-label">
+                                  Is Active
+                                </label>
+                              </div>
+                              <div className="col-sm-8">
+                                <div className="form-check form-switch">
+                                  <input
+                                    className="form-check-input checkbox"
+                                    type="checkbox"
+                                    id="flexSwitchCheckChecked"
+                                    onChange={() => activeForm()}
+                                    defaultChecked
+                                  />
+                                </div>
+                              </div>
+                            </div>
                             <div className="testmonial-btn mt-4">
                               <button
                                 type="submit"

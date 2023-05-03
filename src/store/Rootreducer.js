@@ -10,7 +10,9 @@ import studentlistReducer from "../Redux/Loginpages/studentlistSlice";
 import admintutorexamverifyReducer from "../Redux/Loginpages/admintutorexamverifySlice";
 import searchengineReducer from "../Redux/Loginpages/searchengineSlice";
 
-
+import testimonialReducer from "../Redux/Loginpages/testimonialSlice";
+import testimonialstatusReducer from "../Redux/Loginpages/testimonialStatusSlice";
+import testimonialformReducer from "../Redux/Loginpages/testimonialFormSlice";
 
 const reducer = combineReducers({
     auth: authReducer,
@@ -22,6 +24,9 @@ const reducer = combineReducers({
     studentlist: studentlistReducer,
     admintutorexamverify: admintutorexamverifyReducer,
     searchengine: searchengineReducer,
+    testimonial : testimonialReducer,
+    testimonialstatus : testimonialstatusReducer,
+    testimonialform : testimonialformReducer,
 
 });
 

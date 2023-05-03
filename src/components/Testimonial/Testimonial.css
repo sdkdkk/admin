@@ -3,3 +3,6 @@ img.cardresto-img-top {
     height: 40px;
     border-radius: 50%;
 }
+.form-check.form-switch {
+    margin: auto;
+}
