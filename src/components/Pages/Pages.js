@@ -42,7 +42,7 @@ const Pages = () => {
 
   const onSubmit = (data) => {
     console.log("data1", data);
-    localStorage.setItem("data", token);
+    // localStorage.setItem("data", token);
 
     dispatch(Pagesd(data));
     setTimeout(() => {

@@ -66,25 +66,7 @@ const authSlice = createSlice({
             state.error = payload;
         },
 
-        //Testimonial
-        TestimonialdPending: (state) => {
-            state.loading = true;
-        },
-        TestimonialdSuccess: (state, { payload }) => {
-            state.loading = false;
-            state.isAuthenticated = true;
-            state.user = payload;
-            state.token = payload.token;
-            state.error = null;
-            localStorage.setItem("token", state.token);
-        },
-        TestimonialdFailure: (state, { payload }) => {
-            state.loading = false;
-            state.isAuthenticated = false;
-            state.user = null;
-            state.error = payload;
-        },
-
+        
         //Pages
         PagesdPending: (state) => {
             state.loading = true;
@@ -154,22 +136,6 @@ export const signUp = (formData) => async(dispatch) => {
         dispatch(signUpSuccess(data));
     } catch (error) {
         dispatch(signUpFailure(error.response.data));
-    }
-};
-
-// Testimonial
-
-export const { TestimonialdPending, TestimonialdSuccess, TestimonialdFailure } =
-authSlice.actions;
-export const Testimoniald = (formData) => async(dispatch) => {
-    try {
-        const { data } = await axios.post(
-            "https://vaidik-backend.onrender.com/admin/testimonial",
-            formData
-        );
-        dispatch(TestimonialdSuccess(data));
-    } catch (error) {
-        dispatch(TestimonialdFailure(error.response.data));
     }
 };
 

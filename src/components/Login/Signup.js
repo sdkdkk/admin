@@ -32,7 +32,7 @@ const Signup = () => {
       delete data.referralCode;
     }
     console.log(" form 1 data updated", data);
-    localStorage.setItem("token", token);
+    // localStorage.setItem("data", token);
     dispatch(signUp(data));
     setTimeout(() => {
       // navigate("/")
