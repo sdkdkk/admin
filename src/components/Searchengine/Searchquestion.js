@@ -3,6 +3,7 @@ import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
 import "../Css/Tutorlist.css";
+
 // import Form from "react-bootstrap/Form";
 import axios from "axios";
 import { ColorRing } from "react-loader-spinner";
@@ -76,27 +77,25 @@ const Searchquestion = () => {
               </div>
               <div className="row">
                 <div className="col-12 grid-margin stretch-card">
-                  <div className="card">
+                  <div className="card new-table">
                     <div className="card-body">
-                      <div>
-                        <input
-                          type="text"
-                          value={searchTerm}
-                          placeholder="Please Search question.."
-                          onChange={(e) => setSearchTerm(e.target.value)}
-                        />
-                        <button
-                          onClick={handleSearch}
-                          className=" btn btn-primary mx-4">
-                          Search
-                        </button>
-                        {/* <ul>
+                      <input
+                        type="text"
+                        value={searchTerm}
+                        placeholder="Please Search question.."
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                      />
+                      <button
+                        onClick={handleSearch}
+                        className=" btn btn-primary mx-4">
+                        Search
+                      </button>
+                      {/* <ul>
                           {searchResults &&
                             searchResults.map((result) => (
                               <li key={result._id}>{result.question}</li>
                             ))}
                         </ul> */}
-                      </div>
                     </div>
                   </div>
                 </div>
@@ -128,16 +127,15 @@ const Searchquestion = () => {
                               <th scope="col">status</th>
                             </tr>
                           </thead>
-                          {searchResults &&
-                            searchResults.map((data) => (
-                              <tbody>
+                          <tbody>
+                            {searchResults &&
+                              searchResults.map((data) => (
                                 <tr>
                                   <td
-                                  style={{ cursor: "pointer" }}
-                                  onClick={() => {
-                                    toComponentB(data);
-                                  }}
-                                  >
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() => {
+                                      toComponentB(data);
+                                    }}>
                                     {" "}
                                     {data.question
                                       .split(" ")
@@ -150,8 +148,8 @@ const Searchquestion = () => {
                                   <td>{data.questionPrice}</td>
                                   <td>{data.status}</td>
                                 </tr>
-                              </tbody>
-                            ))}
+                              ))}{" "}
+                          </tbody>
                         </table>
                       )}
 

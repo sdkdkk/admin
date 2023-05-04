@@ -66,7 +66,6 @@ const Searchengine = () => {
         <Navbar />
         <div className="container-fluid page-body-wrapper">
           <Sidebar />
-
           <div className="main-panel">
             <div className="content-wrapper">
               <div className="oneline">
@@ -112,10 +111,8 @@ const Searchengine = () => {
                               <th scope="col">Question</th>
                               <th scope="col">Question Type</th>
                               <th scope="col">Question Subject</th>
-
                               <th scope="col">Question Price</th>
                               <th scope="col">status</th>
-
                             </tr>
                           </thead>
                           <tbody>
@@ -137,7 +134,6 @@ const Searchengine = () => {
                                 <td>{data.questionPrice}</td>
                                 <td>{data.status}</td>
 
-                                
                                 {/* <td>
                                     <Link to={`/studentdetails/${data._id}`}>
                                       <button className="btn btn-primary btn-sm">

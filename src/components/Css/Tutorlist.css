@@ -6,15 +6,18 @@
     padding: 5px 31px 3px 12px;
     height: 40px;
 }
+
 .oneline {
     /* text-align: start; */
     display: contents;
 }
+
 h3.main-text {
     color: #343a40;
     font-size: 1.125rem;
     margin-bottom: -25px;
 }
+
 .profile-img {
     height: 100px;
     width: 100px;
@@ -25,13 +28,16 @@ h3.main-text {
 .profile-details {
     display: flex;
 }
+
 .wallet-Earnings {
     margin-bottom: -52px;
     margin-top: 4%;
 }
+
 h3.wallet-text {
     font-size: 15px;
 }
+
 span.wallet-rs {
     color: green;
     font-weight: 500;
@@ -45,15 +51,18 @@ span.wallet-rs {
 td.d-flex.flex-column {
     white-space: break-spaces;
 }
+
 .search-box {
     margin-top: 11%;
 }
+
 p.question {
     margin-top: 3px;
     font-weight: 600;
-    font-family:'Roboto';
+    font-family: 'Roboto';
     margin-bottom: 0px;
 }
+
 p.Answer {
     margin-left: 5px;
     font-size: 15px;
@@ -61,6 +70,7 @@ p.Answer {
     font-family: 'Roboto';
     letter-spacing: 0.5px;
 }
+
 @media screen and (max-width: 600px) {
     .oneline {
         top: 0;
@@ -115,7 +125,6 @@ p.Answer {
         position: relative !important;
         overflow: auto;
     }
-
     .rmdp-input {
         border: 1px solid #c0c4d6;
         border-radius: 5px;
@@ -127,6 +136,4 @@ p.Answer {
     .card.new-table {
         overflow: auto;
     }
-    
 }
-
