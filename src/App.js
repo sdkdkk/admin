@@ -25,6 +25,14 @@ import Testexam from './components/Tutorexam/Testexam';
 import Examdetails from './components/Tutorexam/Examdetails';
 import Searchenginequedetail from './components/Searchengine/Searchenginequedetail';
 
+import Questiontiming from './components/Question/Questiontiming';
+import Questionpricing from './components/Question/Questionpricing';
+import Questionreasnwer from './components/Question/Questionreasnwer';
+import Curruncy from './components/Curruncy/Curruncy';
+import Coupon from './components/Offers/Coupon';
+import Tutorsubject from './components/Tutorsub/Tutorsubject';
+import Tutorexamconfig from './components/Tutorconfig/Tutorexamconfig';
+
 
 function App() {
   return (
@@ -53,7 +61,15 @@ function App() {
         <Route path="/testexam" element={<Testexam/>} />
         <Route path="/examdetails" element={<Examdetails/>} />
         <Route path="/searchenginequedetail" element={<Searchenginequedetail/>} />
-      
+
+        <Route path="/questiontiming" element={<Questiontiming />} />
+        <Route path="/questionpricing" element={<Questionpricing />} />
+        <Route path="/questionreanswer" element={<Questionreasnwer />} />
+        <Route path="/curruncy" element={<Curruncy />} />
+        <Route path="/coupon" element={<Coupon />} />
+        <Route path="/tutorsubject" element={<Tutorsubject />} />
+        <Route path="/tutorexamconfig" element={<Tutorexamconfig />} />
+
       </Routes>
       <Scroll/>
     </BrowserRouter>
