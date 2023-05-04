@@ -44,7 +44,7 @@ const Sidebar = () => {
                   <Link className="nav-link" to="/tutorspayment">
                     Tutors Payment
                   </Link>
-                </li>    
+                </li>
                 <li className="nav-item">
                   <Link className="nav-link" to="/professionaldetails">
                     Professional Details
@@ -72,13 +72,13 @@ const Sidebar = () => {
                     Student List
                   </Link>
                 </li>
-             
+
                 <li className="nav-item">
                   <Link className="nav-link" to="/tutordetails">
                     Student details
                   </Link>
                 </li>
-                
+
               </ul>
             </div>
           </li>
@@ -115,14 +115,39 @@ const Sidebar = () => {
             </Link>
           </li>
 
+          {/*Test Exam*/}
+          <li className="nav-item">
+            <Link className="nav-link" to="/testexam">
+              <span className="menu-title">Testexam</span>
+              <i className="icon-screen-desktop menu-icon"></i>
+            </Link>
+          </li>
 
-           {/*Test Exam*/}
+          {/*Tutor Subject*/}
+          <li className="nav-item">
+            <Link className="nav-link" to="/tutorsubject">
+              <span className="menu-title">Tutor Subject</span>
+              <i className="icon-screen-desktop menu-icon"></i>
+            </Link>
+          </li>
+
+           {/*Tutorexamconfig*/}
            <li className="nav-item">
-                  <Link className="nav-link" to="/testexam">
-                     <span className="menu-title">Testexam</span>
-                     <i className="icon-screen-desktop menu-icon"></i>
-                  </Link>
-               </li>
+            <Link className="nav-link" to="/tutorexamconfig">
+              <span className="menu-title">Tutor Exam Configuration</span>
+              <i className="icon-screen-desktop menu-icon"></i>
+            </Link>
+          </li>
+
+          {/*curruncy */}
+          <li className="nav-item">
+            <Link className="nav-link" to="/curruncy ">
+              <span className="menu-title">Curruncy </span>
+              <i className="icon-screen-desktop menu-icon"></i>
+            </Link>
+          </li>
+
+
 
           {/*pages*/}
           <li className="nav-item nav-category">
@@ -157,6 +182,54 @@ const Sidebar = () => {
           <li className="nav-item">
             <Link className="nav-link" to="/">
               <span className="menu-title">Services</span>
+              <i className="icon-screen-desktop menu-icon"></i>
+            </Link>
+          </li>
+
+
+          {/* Question Setting */}
+          <li className="nav-item">
+            <a
+              className="nav-link"
+              data-toggle="collapse"
+              href="#ui-basic"
+              aria-expanded="false"
+              aria-controls="ui-basic">
+              <span className="menu-title">Question Setting</span>
+              <i className="icon-layers menu-icon"></i>
+            </a>
+            <div className="collapse" id="ui-basic">
+              <ul className="nav flex-column sub-menu">
+                <li className="nav-item">
+                  <Link className="nav-link" to="/questiontiming">
+                    Question timing
+                  </Link>
+                </li>
+
+                <li className="nav-item">
+                  <Link className="nav-link" to="/questionpricing">
+                    Question Pricing
+                  </Link>
+                </li>
+
+                <li className="nav-item">
+                  <Link className="nav-link" to="/questionreanswer">
+                    Question Reanswer Choice
+                  </Link>
+                </li>
+
+              </ul>
+            </div>
+          </li>
+
+          {/*Offer*/}
+          <li className="nav-item nav-category">
+            <span className="nav-link">Offer</span>
+          </li>
+          {/*coupon*/}
+          <li className="nav-item">
+            <Link className="nav-link" to="/coupon">
+              <span className="menu-title">Coupon</span>
               <i className="icon-screen-desktop menu-icon"></i>
             </Link>
           </li>
