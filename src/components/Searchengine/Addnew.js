@@ -25,6 +25,9 @@ const Addnew = () => {
   const [editorHtml, setEditorHtml] = useState("");
   // const [selectedOption, setSelectedOption] = useState("");
   const navigate = useNavigate();
+  const [optionsArray, setOptionsArray] = useState([]);
+  const [selectedOption, setSelectedOption] = useState("");
+  const [isExp, setIsExp] = useState(false);
 
   const {
     register,
@@ -35,7 +38,13 @@ const Addnew = () => {
     editorRef,
     reset,
     formState: { errors },
-  } = useForm({});
+  } = useForm({
+    defaultValues: {
+      questionType: "",
+    },
+  });
+
+  console.log(optionsArray);
 
   const modules = {
     toolbar: [
@@ -77,7 +86,6 @@ const Addnew = () => {
     "image",
     "video",
   ];
-
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -89,7 +97,17 @@ const Addnew = () => {
         );
 
         setQuestionTypes(response.data.data);
-        console.log(response.data);
+        let responseArray = [];
+        response.data.data.forEach((element) => {
+          let obj = {
+            label: "",
+            value: "",
+          };
+          obj.label = element;
+          obj.value = element;
+          responseArray.push(obj);
+        });
+        setOptionsArray(responseArray);
       } catch (error) {
         if (error.response) {
           console.log(error.response.status);
@@ -105,6 +123,16 @@ const Addnew = () => {
 
     fetchData();
   }, []);
+
+  const handleChange = (event) => {
+    setSelectedOption(event.target.value);
+    if (event.target.value.endsWith("-exp")) {
+      setIsExp(true);
+    } else {
+      setIsExp(""); // Add this line
+    }
+    // setQuestionType(event.target.value);
+  };
 
   // const handleChange = (event) => {
   //   setSelectedOption(event.target.value);
@@ -226,11 +254,14 @@ const Addnew = () => {
                             className="form-control"
                             name="questionType"
                             // value={selectedOption}
+                            {...register("questionType", { required: true })}
                             // onChange={handleChange}
-                            {...register("questionType", { required: true })}>
+                            onChange={(e) => handleChange(e)}>
                             <option value="">Select question type</option>
-                            {questionTypes.map((type) => (
-                              <option key={type.id}>{type}</option>
+                            {optionsArray.map((type) => (
+                              <option value={type.value} key={type.value}>
+                                {type.label}
+                              </option>
                             ))}
                           </select>
                           {errors.questionType && (
@@ -299,26 +330,44 @@ const Addnew = () => {
                             )}
                           </div>
                         </Col>
-                        {/* <Col md={12}>
-                          <div>
-                            <p className="mx-1">Explanation</p>
-                            <ReactQuill
-                              type="explanation"
-                              name="explanation"
-                              // value={explanation}
-                              
-                              // onChange={handleExplanationChange}
-                              {...register("explanation", { required: true })}
-                              
-                            />
-                           {errors.explanation && <p className="error">Please upload at least one image</p>}
-                       
-                          </div>
-                          
-                        </Col> */}
-                        {console.log(questionTypes[1])}
-                        {questionTypes[1]
-                        ? (
+
+                        {isExp ? (
+                          <Col md={12}>
+                            <div>
+                              <p className="mx-1">Explanation</p>
+                              <Controller
+                                name="explanation"
+                                control={control}
+                                defaultValue={editorHtml}
+                                render={({ field }) => (
+                                  <ReactQuill
+                                    theme="snow"
+                                    name="explanation"
+                                    {...register("explanation", {
+                                      required: true,
+                                    })}
+                                    //onChange={(value) => setEditorHtml(value)}
+                                    // value={answer || ""}
+                                    modules={modules}
+                                    formats={formats}
+                                    // onChange={handleExplanationChange}
+                                    bounds={"#root"}
+                                    placeholder="type Here...."
+                                    ref={editorRef}
+                                    {...field}
+                                  />
+                                )}
+                              />
+                              {errors.explanation && (
+                                <p className="error">
+                                  Please Enter a explanation
+                                </p>
+                              )}
+                            </div>
+                          </Col>
+                        ) : null}
+                        {/* {console.log(questionTypes[1])}
+                        {questionTypes[1] ? (
                           <Col md={12}>
                             <div>
                               <p className="mx-1">Explanation</p>
@@ -354,7 +403,7 @@ const Addnew = () => {
                           </Col>
                         ) : (
                           ""
-                        )}
+                        )} */}
 
                         <div className="mt-4">
                           <Link to="/searchengine">

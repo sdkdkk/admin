@@ -4,11 +4,22 @@ import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
 import "./Searchengine.css";
 import { useLocation } from "react-router-dom";
+import Modal from "react-bootstrap/Modal";
+import { height } from "@mui/system";
+
 
 const Searchenginequedetail = () => {
   const location = useLocation();
   const getresponse = location.state.data;
   console.log(getresponse);
+  const [imageSrc, setImageSrc] = useState("");
+  const [show, setShow] = useState(false);
+
+  const handleImageClick = (url) => {
+    setShow(true);
+    setImageSrc(url);
+  };
+
 
   return (
     <>
@@ -30,16 +41,7 @@ const Searchenginequedetail = () => {
                           <div className="rbt-dashboard-content bg-color-white rbt-shadow-box rbt-border mb--30 p--20">
                             <div className="content">
                               <div className="row">
-                                {location.state.data.questionPhoto.map(
-                                  (photoUrl) => (
-                                    <img
-                                      key={photoUrl}
-                                      src={photoUrl}
-                                      className="profile-img"
-                                      alt=""
-                                    />
-                                  )
-                                )}
+                           
                                 <div className="col-md-12 col-lg-12 mb--20">
                                   <h5>Question</h5>
                                   <div className="p--20 rbt-border radius-6 bg-primary-opacity">
@@ -48,6 +50,24 @@ const Searchenginequedetail = () => {
                                     </div>
                                   </div>
                                 </div>
+                                {location.state.data.questionPhoto.map(
+                                  (photoUrl) => (
+                                    <img
+                                      key={photoUrl}
+                                      src={photoUrl}
+                                      style={{
+                                        width:"200px",
+                                        height:"200px"
+                                      }}
+                                      
+                                      onClick={() =>
+                                        handleImageClick(photoUrl)
+                                      }
+                                      className="profile-img"
+                                      alt=""
+                                    />
+                                  )
+                                )}
                                 <div className="col-md-12 col-lg-12 mb--20">
                                   <h5>Question Type</h5>
                                   <div className="p--20 rbt-border radius-6 bg-primary-opacity">
@@ -89,10 +109,11 @@ const Searchenginequedetail = () => {
                                 </div>
                                 <div className="col-md-12 col-lg-12 mb--20">
                                   <h5>answer</h5>
-                                  <div className="p--20 rbt-border radius-6 bg-primary-opacity">
+                                  <div className="p--20 rbt-border radius-6 bg-primary-opacity">  
                                     <div
                                       dangerouslySetInnerHTML={{
                                         __html: location.state.data.answer,
+                                        
                                       }}
                                     />
                                     {}
@@ -123,6 +144,21 @@ const Searchenginequedetail = () => {
           </div>
         </div>
       </div>
+         {/* image show modal */}
+         <Modal 
+         show={show}
+          onHide={() => setShow(false)}
+          >
+         <Modal.Header closeButton className="border-0"></Modal.Header>
+         <Modal.Body className="text-center">
+          {" "}
+          <img 
+          style={{maxWidth:"100%",maxHeight:"100%"}}
+          src={imageSrc}
+           alt="modal-img"
+           />
+        </Modal.Body>
+        </Modal>
     </>
   );
 };

@@ -10,37 +10,37 @@ import { Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { searchengine } from "../../Redux/Loginpages/searchengineSlice";
 import { useNavigate } from "react-router-dom";
+import { ColorRing } from "react-loader-spinner";
 
 const Searchengine = () => {
   const searchengineState = useSelector((state) => state.searchengine);
   const searchengineerror = useSelector((state) => state.searchengine.error);
-  console.log(searchengineerror)
+  const [isLoading, setIsLoading] = useState(false);
+  console.log(searchengineerror);
   let navigate = useNavigate();
   const dispatch = useDispatch();
 
-
-
-  
-
-
-useEffect(()=>{  
-  if (searchengineerror && (searchengineerror.error === "Please enter correct Token!" || searchengineerror.error === "Invalid refresh token!")) {
-    try {
-      console.log(searchengineerror)
-      var limit =5, skip = 0, act = 1;
-      dispatch(searchengine(limit, skip, act)).then(() => {
-        navigate('/login');
-      });
-      
-    } catch (error) {
-      console.log("cccfg - ",error);
+  useEffect(() => {
+    if (
+      searchengineerror &&
+      (searchengineerror.error === "Please enter correct Token!" ||
+        searchengineerror.error === "Invalid refresh token!")
+    ) {
+      try {
+        console.log(searchengineerror);
+        var limit = 5,
+          skip = 0,
+          act = 1;
+        dispatch(searchengine(limit, skip, act)).then(() => {
+          navigate("/login");
+        });
+      } catch (error) {
+        console.log("cccfg - ", error);
+      }
     }
-   }
-},[searchengineerror,dispatch,navigate])
+  }, [searchengineerror, dispatch, navigate]);
 
-  
-
-// console.log(searchengineState)
+  // console.log(searchengineState)
   const toComponentB = (data) => {
     navigate("/Searchenginequedetail", { state: { data } });
   };
@@ -48,9 +48,9 @@ useEffect(()=>{
   //Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
-  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
+    setIsLoading(true);
     const skip = (currentPage - 1) * itemsPerPage;
     var limit = itemsPerPage;
     // dispatch(searchengine(limit, skip));
@@ -66,6 +66,7 @@ useEffect(()=>{
         <Navbar />
         <div className="container-fluid page-body-wrapper">
           <Sidebar />
+
           <div className="main-panel">
             <div className="content-wrapper">
               <div className="oneline">
@@ -92,52 +93,64 @@ useEffect(()=>{
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table">
                     <div className="card-body">
-                      <table className="table v-top">
-                        <thead>
-                          <tr>
-                            <th scope="col">Question</th>
-                            <th scope="col">Question Type</th>
-                            <th scope="col">Question Subject</th>
-
-                            <th scope="col">Question Price</th>
-                            <th scope="col">status</th>
-
-                            <th scope="col">ACTION</th>
-                          </tr>
-                        </thead>
-                        {searchengineData.map((data) => (
-                          <tbody>
+                      {isLoading ? (
+                        <div style={{ marginLeft: "450px", marginTop: "50px" }}>
+                          <ColorRing
+                            visible={true}
+                            height="80"
+                            width="80"
+                            ariaLabel="blocks-loading"
+                            wrapperStyle={{}}
+                            wrapperClass="blocks-wrapper"
+                            colors={["black"]}
+                          />
+                        </div>
+                      ) : (
+                        <table className="table v-top">
+                          <thead>
                             <tr>
-                              <td
-                               style={{cursor:"pointer"}}
-                                onClick={() => {
-                                  toComponentB(data);
-                                }}>
-                                {data.question.split(" ").slice(0,3 ).join(" ")}...
-                              </td>
-                              <td>{data.questionType}</td>
-                              <td>{data.questionSubject}</td>
-                              <td>{data.questionPrice}</td>
-                              <td>{data.status}</td>
+                              <th scope="col">Question</th>
+                              <th scope="col">Question Type</th>
+                              <th scope="col">Question Subject</th>
 
-                              <td>
-                                <Link>
-                                  <button className="btn btn-primary btn-sm">
-                                    click
-                                  </button>
-                                </Link>
-                              </td>
-                              {/* <td>
+                              <th scope="col">Question Price</th>
+                              <th scope="col">status</th>
+
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {searchengineData.map((data) => (
+                              <tr>
+                                <td
+                                  style={{ cursor: "pointer" }}
+                                  onClick={() => {
+                                    toComponentB(data);
+                                  }}>
+                                  {data.question
+                                    .split(" ")
+                                    .slice(0, 3)
+                                    .join(" ")}
+                                  ...
+                                </td>
+                                <td>{data.questionType}</td>
+                                <td>{data.questionSubject}</td>
+                                <td>{data.questionPrice}</td>
+                                <td>{data.status}</td>
+
+                                
+                                {/* <td>
                                     <Link to={`/studentdetails/${data._id}`}>
                                       <button className="btn btn-primary btn-sm">
                                         click
                                       </button>
                                     </Link>
                                   </td> */}
-                            </tr>
+                              </tr>
+                            ))}{" "}
                           </tbody>
-                        ))}
-                      </table>
+                        </table>
+                      )}
+
                       <div className="table-pagination">
                         <button
                           className="btn btn-primary"
