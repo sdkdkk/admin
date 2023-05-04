@@ -1,5 +1,5 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link} from "react-router-dom";
 import { useForm } from "react-hook-form";
 // import "../../Selectfrom.css"
 import { useDispatch, useSelector } from "react-redux";
@@ -12,7 +12,6 @@ const Signup = () => {
   const token = useSelector((state) => state.auth.token);
   // console.log(token)
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   console.log(auth);
 
   //Signup use form hook

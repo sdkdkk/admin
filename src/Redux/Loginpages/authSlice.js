@@ -66,7 +66,7 @@ const authSlice = createSlice({
             state.error = payload;
         },
 
-        
+
         //Pages
         PagesdPending: (state) => {
             state.loading = true;

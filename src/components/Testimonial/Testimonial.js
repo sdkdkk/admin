@@ -15,8 +15,8 @@ import { Testimoniald } from "../../Redux/Loginpages/testimonialSlice";
 import { Statuschange } from "../../Redux/Loginpages/testimonialStatusSlice";
 import { testimonialformapi } from "../../Redux/Loginpages/testimonialFormSlice";
 
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+// import { ToastContainer, toast } from 'react-toastify';
+// import 'react-toastify/dist/ReactToastify.css';
 
 
 const Testimonial = () => {
@@ -44,7 +44,7 @@ const Testimonial = () => {
 
 
   console.log(testimonialstatus);
-  const notify = () => toast(testimonialstatus.user ? testimonialstatus.user.message : "");
+  // const notify = () => toast(testimonialstatus.user ? testimonialstatus.user.message : "");
   var tokens = localStorage.getItem("token");
 
   const {
@@ -91,7 +91,7 @@ const Testimonial = () => {
       st = true
     }
     await dispatch(Statuschange(st, id));
-    notify();
+    // notify();
   }
 
   const handleChange = (event, value) => {
@@ -104,6 +104,8 @@ const Testimonial = () => {
   const indexOfLastPage = currentPage * postsPerPage;
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
   const displayUsers = Testimonialdata.slice(indexOfFirstPage, indexOfLastPage);
+
+
 
   return (
     <div>
@@ -172,7 +174,7 @@ const Testimonial = () => {
                       </div>
                     </div>
                     <div>
-                      <ToastContainer />
+                      {/* <ToastContainer /> */}
                     </div>
                   </div>
                 </div>

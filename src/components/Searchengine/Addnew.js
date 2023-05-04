@@ -2,13 +2,17 @@ import React, { useState, useEffect } from "react";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
+import ReactQuill, { Quill } from "react-quill";
 import "../Css/Tutorlist.css";
 import { Col } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
-import ReactQuill from "react-quill";
+import ImageResize from "quill-image-resize-module-react";
+
 import "react-quill/dist/quill.snow.css";
 import axios from "axios";
+
+Quill.register("modules/imageResize", ImageResize);
 
 const Addnew = () => {
   // const [question, setQuestion] = useState('');
@@ -20,17 +24,68 @@ const Addnew = () => {
   const [questionTypes, setQuestionTypes] = useState([]);
   const [editorHtml, setEditorHtml] = useState("");
   // const [selectedOption, setSelectedOption] = useState("");
+  const navigate = useNavigate();
+  const [optionsArray, setOptionsArray] = useState([]);
+  const [selectedOption, setSelectedOption] = useState("");
+  const [isExp, setIsExp] = useState(false);
 
   const {
     register,
     handleSubmit,
-    formats,
+    // formats,
     control,
-    modules,
+    // modules,
     editorRef,
+    reset,
     formState: { errors },
-  } = useForm({});
+  } = useForm({
+    defaultValues: {
+      questionType: "",
+    },
+  });
 
+  console.log(optionsArray);
+
+  const modules = {
+    toolbar: [
+      [{ header: "1" }, { header: "2" }, { font: [] }],
+      [{ size: [] }],
+      ["bold", "italic", "underline", "strike", "blockquote"],
+      [
+        { list: "ordered" },
+        { list: "bullet" },
+        { indent: "-1" },
+        { indent: "+1" },
+      ],
+      ["link", "image", "video"],
+      ["clean"],
+    ],
+    clipboard: {
+      // toggle to add extra line breaks when pasting HTML:
+      matchVisual: false,
+    },
+    imageResize: {
+      parchment: Quill.import("parchment"),
+      modules: ["Resize", "DisplaySize"],
+    },
+  };
+
+  const formats = [
+    "header",
+    "font",
+    "size",
+    "bold",
+    "italic",
+    "underline",
+    "strike",
+    "blockquote",
+    "list",
+    "bullet",
+    "indent",
+    "link",
+    "image",
+    "video",
+  ];
   useEffect(() => {
     const fetchData = async () => {
       try {
@@ -42,7 +97,17 @@ const Addnew = () => {
         );
 
         setQuestionTypes(response.data.data);
-        console.log(response.data);
+        let responseArray = [];
+        response.data.data.forEach((element) => {
+          let obj = {
+            label: "",
+            value: "",
+          };
+          obj.label = element;
+          obj.value = element;
+          responseArray.push(obj);
+        });
+        setOptionsArray(responseArray);
       } catch (error) {
         if (error.response) {
           console.log(error.response.status);
@@ -59,6 +124,16 @@ const Addnew = () => {
     fetchData();
   }, []);
 
+  const handleChange = (event) => {
+    setSelectedOption(event.target.value);
+    if (event.target.value.endsWith("-exp")) {
+      setIsExp(true);
+    } else {
+      setIsExp(""); // Add this line
+    }
+    // setQuestionType(event.target.value);
+  };
+
   // const handleChange = (event) => {
   //   setSelectedOption(event.target.value);
   //   setQuestionType(event.target.value);
@@ -67,13 +142,14 @@ const Addnew = () => {
   const token = localStorage.getItem("token");
   const onSubmit = (data) => {
     const formData = new FormData();
+    const files = data.questionPhoto;
     formData.append("question", data.question);
     formData.append("questionType", data.questionType);
     formData.append("questionSubject", data.questionSubject);
     formData.append("answer", data.answer);
     formData.append("token", token);
-    for (let i = 0; i < images.length; i++) {
-      formData.append("questionPhoto", data.images[i]);
+    for (let i = 0; i < files.length; i++) {
+      formData.append(`questionPhoto`, files[i]);
     }
     formData.append("explanation", data.explanation);
 
@@ -83,20 +159,25 @@ const Addnew = () => {
     })
       .then((response) => {
         console.log(response);
+        // Reset the input fields after submitting the form
+        setImages([]);
+        setEditorHtml("");
+        reset();
+        navigate("/searchengine");
       })
       .catch((error) => {
         // handle error
       });
   };
 
-  const handleImageChange = (event) => {
-    const files = event.target.files;
-    const imagesArray = [];
-    for (let i = 0; i < files.length && i < 4; i++) {
-      imagesArray.push(files[i]);
-    }
-    setImages(imagesArray);
-  };
+  // const handleImageChange = (event) => {
+  //   const files = event.target.files;
+  //   const imagesArray = [];
+  //   for (let i = 0; i < files.length && i < 4; i++) {
+  //     imagesArray.push(files[i]);
+  //   }
+  //   setImages(imagesArray);
+  // };
 
   // const handleExplanationChange = (value) => {
   //   setExplanation(value);
@@ -129,14 +210,17 @@ const Addnew = () => {
                             Image
                           </label>
                           <input
-                            className="form-control"
                             type="file"
-                            accept="image/*"
+                            // className="custom-file-input pb--5 pt--5"
+                            className="form-control"
+                            id="inputGroupFile01"
+                            aria-describedby="inputGroupFileAddon01"
+                            name="questionPhoto"
+                            {...register("questionPhoto")}
                             multiple
-                            onChange={handleImageChange}
-                            {...register("images", { required: true })}
+                            accept=".png,.jpg,.jpeg,.tif,.tiff,.bmp,.gif,.ico"
                           />
-                          {errors.images && (
+                          {errors.questionPhoto && (
                             <p className="error">
                               Please upload at least one image
                             </p>
@@ -160,6 +244,7 @@ const Addnew = () => {
                             <p className="error">Please Enter a question</p>
                           )}
                         </div>
+                        <div></div>
                         <div className="mb-3">
                           <label htmlFor="questionType" className="form-label">
                             Question Type
@@ -169,11 +254,14 @@ const Addnew = () => {
                             className="form-control"
                             name="questionType"
                             // value={selectedOption}
+                            {...register("questionType", { required: true })}
                             // onChange={handleChange}
-                            {...register("questionType", { required: true })}>
+                            onChange={(e) => handleChange(e)}>
                             <option value="">Select question type</option>
-                            {questionTypes.map((type) => (
-                              <option key={type.id}>{type}</option>
+                            {optionsArray.map((type) => (
+                              <option value={type.value} key={type.value}>
+                                {type.label}
+                              </option>
                             ))}
                           </select>
                           {errors.questionType && (
@@ -242,56 +330,81 @@ const Addnew = () => {
                             )}
                           </div>
                         </Col>
-                        {/* <Col md={12}>
-                          <div>
-                            <p className="mx-1">Explanation</p>
-                            <ReactQuill
-                              type="explanation"
-                              name="explanation"
-                              // value={explanation}
-                              
-                              // onChange={handleExplanationChange}
-                              {...register("explanation", { required: true })}
-                              
-                            />
-                           {errors.explanation && <p className="error">Please upload at least one image</p>}
-                       
-                          </div>
-                          
-                        </Col> */}
-                        <Col md={12}>
-                          <div>
-                            <p className="mx-1">Explanation</p>
-                            <Controller
-                              name="explanation"
-                              control={control}
-                              defaultValue={editorHtml}
-                              render={({ field }) => (
-                                <ReactQuill
-                                  theme="snow"
-                                  name="explanation"
-                                  {...register("explanation", {
-                                    required: true,
-                                  })}
-                                  //onChange={(value) => setEditorHtml(value)}
-                                  // value={answer || ""}
-                                  modules={modules}
-                                  formats={formats}
-                                  // onChange={handleExplanationChange}
-                                  bounds={"#root"}
-                                  placeholder="type Here...."
-                                  ref={editorRef}
-                                  {...field}
-                                />
+
+                        {isExp ? (
+                          <Col md={12}>
+                            <div>
+                              <p className="mx-1">Explanation</p>
+                              <Controller
+                                name="explanation"
+                                control={control}
+                                defaultValue={editorHtml}
+                                render={({ field }) => (
+                                  <ReactQuill
+                                    theme="snow"
+                                    name="explanation"
+                                    {...register("explanation", {
+                                      required: true,
+                                    })}
+                                    //onChange={(value) => setEditorHtml(value)}
+                                    // value={answer || ""}
+                                    modules={modules}
+                                    formats={formats}
+                                    // onChange={handleExplanationChange}
+                                    bounds={"#root"}
+                                    placeholder="type Here...."
+                                    ref={editorRef}
+                                    {...field}
+                                  />
+                                )}
+                              />
+                              {errors.explanation && (
+                                <p className="error">
+                                  Please Enter a explanation
+                                </p>
                               )}
-                            />
-                            {errors.explanation && (
-                              <p className="error">
-                                Please Enter a explanation
-                              </p>
-                            )}
-                          </div>
-                        </Col>
+                            </div>
+                          </Col>
+                        ) : null}
+                        {/* {console.log(questionTypes[1])}
+                        {questionTypes[1] ? (
+                          <Col md={12}>
+                            <div>
+                              <p className="mx-1">Explanation</p>
+                              <Controller
+                                name="explanation"
+                                control={control}
+                                defaultValue={editorHtml}
+                                render={({ field }) => (
+                                  <ReactQuill
+                                    theme="snow"
+                                    name="explanation"
+                                    {...register("explanation", {
+                                      required: true,
+                                    })}
+                                    //onChange={(value) => setEditorHtml(value)}
+                                    // value={answer || ""}
+                                    modules={modules}
+                                    formats={formats}
+                                    // onChange={handleExplanationChange}
+                                    bounds={"#root"}
+                                    placeholder="type Here...."
+                                    ref={editorRef}
+                                    {...field}
+                                  />
+                                )}
+                              />
+                              {errors.explanation && (
+                                <p className="error">
+                                  Please Enter a explanation
+                                </p>
+                              )}
+                            </div>
+                          </Col>
+                        ) : (
+                          ""
+                        )} */}
+
                         <div className="mt-4">
                           <Link to="/searchengine">
                             <button className="btn btn-primary mx-2">

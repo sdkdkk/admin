@@ -29,29 +29,54 @@ const searchengineSlice = createSlice({
             state.error = payload;
             state.status = 0;
         },
+        reset: (state) => {
+            state.loading = false;
+            state.isAuthenticated = false;
+            state.user = null;
+            state.error = null;
+            state.status = 0;
+        },
     },
 });
 
 //Set-info
-export const { searchenginePending, searchengineSuccess, searchengineFailure } =
-searchengineSlice.actions;
+export const {
+    searchenginePending,
+    searchengineSuccess,
+    searchengineFailure,
+    reset,
+} = searchengineSlice.actions;
 
-const token = localStorage.getItem("token");
+// export const searchenginereset = (a = 5) => {
+
+//     async(dispatch) => {
+//         dispatch(reset());
+//     }
+
+// }
+
 export const searchengine =
-    (limit = 5, skip = 0) =>
+    (limit = 5, skip = 0, act = 0) =>
     async(dispatch) => {
-        dispatch(searchenginePending());
-        try {
-            const { data } = await axios.post(
-                `https://vaidik-backend.onrender.com/admin/adminviewquestion?limit=${limit}&skip=${skip}`, { token }
-            );
-            if (data.status === 1) {
-                dispatch(searchengineSuccess(data));
-            } else {
-                dispatch(searchengineFailure(data));
+        if (act === 1) {
+            console.log("abc");
+            localStorage.removeItem("token");
+            dispatch(reset());
+        } else {
+            dispatch(searchenginePending());
+            try {
+                const token = localStorage.getItem("token");
+                const { data } = await axios.post(
+                    `https://vaidik-backend.onrender.com/admin/adminviewquestion?limit=${limit}&skip=${skip}`, { token }
+                );
+                if (data.status === 1) {
+                    dispatch(searchengineSuccess(data));
+                } else {
+                    dispatch(searchengineFailure(data));
+                }
+            } catch (error) {
+                dispatch(searchengineFailure(error.response.data));
             }
-        } catch (error) {
-            dispatch(searchengineFailure(error.response.data));
         }
     };
 

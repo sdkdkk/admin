@@ -40,7 +40,7 @@ const Login = () => {
 
   const onSubmit1 = (data) => {
     console.log("data1", data);
-    localStorage.setItem("data", token);
+    // localStorage.setItem("token", token);
     dispatch(signIn(data));
     setTimeout(() => {
       if (auth.isAuthenticated) {
