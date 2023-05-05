@@ -24,8 +24,6 @@ const Searchquestion = () => {
 
   const handleSearch = async (limit = 5, skip = 0) => {
     try {
-      console.log(limit);
-      console.log(typeof limit);
       const response = await axios.post(
         `https://vaidik-backend.onrender.com/admin/adminsearchquestion?limit=${limit}&skip=${skip}&search=${searchTerm}`,
         {
@@ -86,7 +84,7 @@ const Searchquestion = () => {
                         onChange={(e) => setSearchTerm(e.target.value)}
                       />
                       <button
-                        onClick={handleSearch}
+                        onClick={() => handleSearch()}
                         className=" btn btn-primary mx-4">
                         Search
                       </button>

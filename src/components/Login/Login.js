@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 // import { Link } from "react-router-dom";
 import "../Css/Tutorlist.css";
 import {
@@ -12,7 +12,7 @@ import Logo from "../Image/vaidik-logo.png";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { signIn } from "../../Redux/Loginpages/authSlice";
+import { signIn, resetAuthAction } from "../../Redux/Loginpages/authSlice";
 import { useNavigate } from "react-router-dom";
 
 const Login = () => {
@@ -38,15 +38,19 @@ const Login = () => {
   //   }, 500);
   // };
 
+  useEffect(() =>{
+    if(auth?.isSuccess){
+      dispatch(resetAuthAction())
+      navigate("/");
+    }
+
+  },[auth?.isSuccess])
+  
   const onSubmit1 = (data) => {
     console.log("data1", data);
     // localStorage.setItem("token", token);
     dispatch(signIn(data));
-    setTimeout(() => {
-      if (auth.isAuthenticated) {
-        navigate("/");
-      }
-    }, 500);
+    
   };
 
   return (
@@ -120,8 +124,9 @@ const Login = () => {
                     <div className="rbt-form-group">
                       <button
                         className="rbt-btn btn-primary btn-sm mr--10 text-center w-100"
+                        disabled={auth.loading}
                         type="submit">
-                        Sign In
+                        {auth.loading ? "Loading..." : "Sign In"}
                       </button>
                     </div>
                   </div>

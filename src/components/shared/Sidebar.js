@@ -264,7 +264,7 @@ const Sidebar = () => {
 
           {/*Sign out*/}
           <li className="nav-item">
-            <Link className="nav-link" to="/login">
+            <Link className="nav-link" to="/logout">
               <span className="menu-title">Sign out</span>
               <i className="icon-screen-desktop menu-icon"></i>
             </Link>

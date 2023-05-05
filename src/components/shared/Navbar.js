@@ -46,7 +46,7 @@ const Navbar = () => {
                 <i className="dropdown-item-icon icon-question text-primary" />
                 FAQ
               </Link>
-              <Link to="/login" className="dropdown-item">
+              <Link to="/logout" className="dropdown-item">
                 <i className="dropdown-item-icon icon-power text-primary" />
                 Sign Out
               </Link>

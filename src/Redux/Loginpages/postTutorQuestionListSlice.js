@@ -11,7 +11,7 @@ const initialState = {
 }
 
 
-export const postTutorQuestionApi = createAsyncThunk('', async(payload, { rejectWithValue }) => {
+export const postTutorQuestionApi = createAsyncThunk('admin/ask/tutorexamquestion', async(payload, { rejectWithValue }) => {
     const token = localStorage.getItem('token')
     try {
         const response = await axios.post(`https://vaidik-backend.onrender.com/admin/ask/tutorexamquestion`, { token, ...payload });
