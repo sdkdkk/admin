@@ -11,9 +11,10 @@ const initialState = {
 }
 
 
-const token = localStorage.getItem('token')
+
 export const admintutorexamverify = createAsyncThunk('user/getUserList', async(page, { rejectWithValue }) => {
     try {
+        const token = localStorage.getItem('token')
         const response = await axios.post(`https://vaidik-backend.onrender.com/admin/admintutorexamverify`, { token });
         return response.data;
     } catch (error) {

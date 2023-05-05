@@ -254,27 +254,10 @@ console.log("---> ", currentData)
                                 </thead>
                                 {displayUsers &&
                                   displayUsers
-                                    // .filter((val) => {
-                                    //   if (!val.name) {
-                                    //     return true; // or return true, depending on how you want to handle this case
-                                    //   }
-                                    //   if (searchTerm === "") {
-                                    //     return true;
-                                    //   } else if (
-                                    //     val.name
-                                    //       .toLowerCase()
-                                    //       .includes(searchTerm.toLowerCase())
-                                    //   ) {
-                                    //     return true;
-                                    //   } else {
-                                    //     return false;
-                                    //   }
-                                    // })
                                     .map((data) => (
                                       <tbody key={data._id}>
                                         <tr>
                                           {data.updatedAt ? (
-
                                           <td>
                                             <Moment
                                               format="DD MMM YYYY"

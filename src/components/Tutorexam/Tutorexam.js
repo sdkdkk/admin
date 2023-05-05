@@ -4,6 +4,7 @@ import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
 import "../Css/Tutorlist.css";
+import "./Exam.css";
 import { Pagination } from "@mui/material";
 import { Studentdata } from "../Data/Data1";
 import { Badge, Button } from "react-bootstrap";
@@ -84,13 +85,21 @@ const Tutorexam = () => {
           <div className="main-panel">
             <div className="content-wrapper">
               <div className="oneline">
-                <h3 className="main-text">Tutor Exam</h3>
+                <h3 className="main-text">Tutor Exam Question</h3>
               </div>
               <div className="page-header mt-4">
                 <div className="mb-2 mt-2">
-                  <Link to="/tutorexam">
+                  <Link to="/addnew">
                     <Button variant="primary" size="lg">
                       Add New
+                    </Button>
+                  </Link>
+                  <Link to="/tutorsearch">
+                    <Button
+                      className="search-btn mx-2"
+                      variant="secondary"
+                      size="lg">
+                      Search Question
                     </Button>
                   </Link>
                 </div>
@@ -102,6 +111,7 @@ const Tutorexam = () => {
                       <div className="row">
                         <div className="col-md-12">
                           <div className="dropdown">
+                            <Form.Label>Select Subject</Form.Label>
                             <Form.Select
                               aria-label="Default select example"
                               name="options"
@@ -140,26 +150,89 @@ const Tutorexam = () => {
                             </Form.Group>
                           </div>
                           <div className="col-md-12">
-                            <Form.Group
-                              className="mb-3"
-                              controlId="formBasicEmail">
-                              <Form.Label>Questions</Form.Label>
-                              <Form.Control
-                                type="text"
-                                name="question"
-                                placeholder="Enter Questions"
-                                {...register("question", {
-                                  required: "Please Enter A Valid Question!",
-                                })}
-                              />
-                              <p className="error-msg">
-                                {errors.question && errors.question.message}
-                              </p>
-                            </Form.Group>
+                            <div className="dropdown">
+                              <Form.Label>Select Question Type</Form.Label>
+                              <Form.Select
+                                aria-label="Default select example"
+                                name="options"
+                                {...register("options")}>
+                                <option>Select Subject</option>
+                                <option value="MCQ">MCQ</option>
+                                <option value="Theory">Theory</option>
+                              </Form.Select>
+                              {errors.options && (
+                                <p className="text-danger">
+                                  Please select a Class
+                                </p>
+                              )}
+                            </div>
+                          </div>
+                          <div className="col-md-12 col-lg-12 mb--20 mt-4">
+                            <h5>MCQ</h5>
+                            <div className="p--20 rbt-border radius-6 bg-primary-opacity">
+                              <div className="row">
+                                <div className="col-lg-6">
+                                  <div className="rbt-form-check p--10">
+                                    <input
+                                      className="form-check-input"
+                                      type="radio"
+                                      name="rbt-radio"
+                                      id="rbt-radio-1"
+                                    />
+                                    <input
+                                      className="form-check-label"
+                                      htmlFor="rbt-radio-1"
+                                    />
+                                  </div>
+                                </div>
+                                <div className="col-lg-6">
+                                  <div className="rbt-form-check p--10">
+                                    <input
+                                      className="form-check-input"
+                                      type="radio"
+                                      name="rbt-radio"
+                                      id="rbt-radio-2"
+                                    />
+                                    <input
+                                      className="form-check-label"
+                                      htmlFor="rbt-radio-1"
+                                    />
+                                  </div>
+                                </div>
+                                <div className="col-lg-6">
+                                  <div className="rbt-form-check p--10">
+                                    <input
+                                      className="form-check-input"
+                                      type="radio"
+                                      name="rbt-radio"
+                                      id="rbt-radio-3"
+                                    />
+                                    <input
+                                      className="form-check-label"
+                                      htmlFor="rbt-radio-1"
+                                    />
+                                  </div>
+                                </div>
+                                <div className="col-lg-6">
+                                  <div className="rbt-form-check p--10">
+                                    <input
+                                      className="form-check-input"
+                                      type="radio"
+                                      name="rbt-radio"
+                                      id="rbt-radio-4"
+                                    />
+                                    <input
+                                      className="form-check-label"
+                                      htmlFor="rbt-radio-1"
+                                    />
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
                           </div>
                           <Col md={12}>
                             <div>
-                              <p className="mx-1">Answer</p>
+                              <p className="mx-1 mt-2">Answer</p>
                               <Controller
                                 name="Answer"
                                 control={control}
@@ -191,7 +264,7 @@ const Tutorexam = () => {
                               </button>
                             </Link>
                             <button type="submit" className="btn btn-primary">
-                              Add
+                              Answer
                             </button>
                           </div>
                         </div>
@@ -200,54 +273,98 @@ const Tutorexam = () => {
                   </div>
                 </div>
               </div>
-              <div className="row">
+
+              <div className="row justify-content-end">
+                <div className="col-lg-4">
+                  <div className="filter-select rbt-modern-select mb--10">
+                    <label>Question Subject :</label>
+                    <div className="dropdown react-bootstrap-select w-100">
+                      <select className="w-100 form-select" id="displayname">
+                        <option value="Maths">Maths</option>
+                        <option value="English">English</option>
+                        <option value="Computer">Computer</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                <div className="col-lg-4">
+                  <div className="filter-select rbt-modern-select mb--10">
+                    <label>Question Type :</label>
+                    <div className="dropdown react-bootstrap-select w-100">
+                      <select className="w-100 form-select" id="displayname">
+                        <option value="MCQ">MCQ</option>
+                        <option value="MCQ-exp">MCQ-exp</option>
+                        <option value="TrueFalse">True / False</option>
+                        <option value="TrueFalse-exp">True / False-exp</option>
+                        <option value="FillInBlanks">Fill In the Blanks</option>
+                        <option value="FillInBlanks-exp">Fill In the Blanks-exp</option>
+                        <option value="ShortAnswer">Short Answer</option>
+                        <option value="MatchTheFollowing-less5">
+                          Match The Following-less5
+                        </option>
+                        <option value="MatchTheFollowing-more5">
+                          Match The Following-more5
+                        </option>
+                        <option value="ProblemSolving">Problem Solving</option>
+                        <option value="LongAnswer">Long Answer</option>
+                        <option value="Writing">Writing</option>
+                        <option value="CaseStudy-more3">CaseStudy-more3</option>
+                        <option value="CaseStudy-less3">CaseStudy-less3</option>
+                      </select>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div className="row mt-4">
                 <div className="col-md-12 grid-margin stretch-card">
                   <div className="card">
                     <div className="card-body">
-                      <table className="table">
-                        <thead className="text-uppercase">
-                          <tr>
-                            <th scope="col">questions</th>
-                            <th scope="col">action</th>
-                          </tr>
-                        </thead>
-                        <tbody className="text-capitalize text-sm-start">
-                          {displayUsers.map((data, id) => {
-                            return (
-                              <tr className="" key={id}>
-                                <td className="d-flex flex-column">
-                                  <small className="text-muted">
-                                    <Badge
-                                      pill
-                                      color="primary"
-                                      className="bg-opacity-25 text-primary">
-                                      Maths
-                                    </Badge>
-                                    {data.time}
-                                  </small>
-                                  <small>
-                                    <p className="question">{data.Question}</p>
-                                  </small>
-                                  <small>
-                                    <ReadMore>{data.Answer}</ReadMore>
-                                  </small>
-                                </td>
-                                <td className="text-center">
-                                  <BiDotsVerticalRounded />
-                                </td>
-                              </tr>
-                            );
-                          })}
-                        </tbody>
-                      </table>
+                      <div class="table-responsive">
+                        <table class="table">
+                          <thead class="text-uppercase">
+                            <tr>
+                              <th scope="col">Question</th>
+                              <th scope="col">Question Type</th>
+                              <th scope="col">Question Subject</th>
+                              {/* <th scope="col">Action</th> */}
+                            </tr>
+                          </thead>
+                          <tbody class="text-capitalize text-sm-start">
+                            {displayUsers.map((data, id) => {
+                              return (
+                                <tr class="" key={id}>
+                                  <td class="d-flex flex-column">
+                                    <small class="text-muted">
+                                      <Badge pill color="primary" class="bg-opacity-25 text-primary">
+                                        {data.QuestionType}
+                                      </Badge>
+                                      {data.QuestionSubject}
+                                    </small>
+                                    <small>
+                                      <p class="question">{data.Question}</p>
+                                    </small>
+                                    <small>
+                                      <ReadMore>{data.Answer}</ReadMore>
+                                    </small>
+                                  </td>
+                                  <td>{data.QuestionType}</td>
+                                  <td>{data.QuestionSubject}</td>
+                                  {/* <td class="text-center"><BiDotsVerticalRounded /></td> */}
+                                </tr>
+                              );
+                            })}
+                          </tbody>
+                        </table>
+                      </div>
                       <Pagination
                         count={3}
                         page={currentPage}
                         onChange={handleChange}
                         shape="rounded"
                         variant="outlined"
-                        //showFirstButton
-                        //showLastButton
+                      //showFirstButton
+                      //showLastButton
                       />
                     </div>
                   </div>

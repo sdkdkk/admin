@@ -27,13 +27,13 @@ const Sidebar = () => {
             <a
               className="nav-link"
               data-toggle="collapse"
-              href="#ui-basic"
+              href="#tutor-menu"
               aria-expanded="false"
-              aria-controls="ui-basic">
+              aria-controls="tutor-menu">
               <span className="menu-title">Tutors</span>
               <i className="icon-layers menu-icon"></i>
             </a>
-            <div className="collapse" id="ui-basic">
+            <div className="collapse" id="tutor-menu">
               <ul className="nav flex-column sub-menu">
                 <li className="nav-item">
                   <Link className="nav-link" to="/tutorlist">
@@ -59,26 +59,19 @@ const Sidebar = () => {
             <a
               className="nav-link"
               data-toggle="collapse"
-              href="#ui-basic"
+              href="#student-menu"
               aria-expanded="false"
-              aria-controls="ui-basic">
+              aria-controls="student-menu">
               <span className="menu-title">Student</span>
               <i className="icon-layers menu-icon"></i>
             </a>
-            <div className="collapse" id="ui-basic">
+            <div className="collapse" id="student-menu">
               <ul className="nav flex-column sub-menu">
                 <li className="nav-item">
                   <Link className="nav-link" to="/studentlist">
                     Student List
                   </Link>
                 </li>
-
-                <li className="nav-item">
-                  <Link className="nav-link" to="/tutordetails">
-                    Student details
-                  </Link>
-                </li>
-
               </ul>
             </div>
           </li>
@@ -99,12 +92,62 @@ const Sidebar = () => {
             </Link>
           </li>
 
-          {/*Offers*/}
+          {/*Tutor Subject*/}
           <li className="nav-item">
-            <Link className="nav-link" to="/">
-              <span className="menu-title">Offers</span>
+            <Link className="nav-link" to="/tutorsubject">
+              <span className="menu-title">Tutor Subject</span>
               <i className="icon-screen-desktop menu-icon"></i>
             </Link>
+          </li>
+
+          {/*Adminquetype*/}
+          <li className="nav-item">
+            <Link className="nav-link" to="/questiontype">
+              <span className="menu-title">Question Type</span>
+              <i className="icon-screen-desktop menu-icon"></i>
+            </Link>
+          </li>
+
+          {/*curruncy */}
+          <li className="nav-item">
+            <Link className="nav-link" to="/curruncy ">
+              <span className="menu-title">Curruncy </span>
+              <i className="icon-screen-desktop menu-icon"></i>
+            </Link>
+          </li>
+
+          {/*Question Setting*/}
+          <li className="nav-item nav-category">
+            <span className="nav-link">Question Setting</span>
+          </li>
+
+          {/*Question timing*/}
+          <li className="nav-item">
+            <Link className="nav-link" to="/questiontiming">
+              <span className="menu-title">Question timing</span>
+              <i className="icon-screen-desktop menu-icon"></i>
+            </Link>
+          </li>
+
+          {/*Question Pricing*/}
+          <li className="nav-item">
+            <Link className="nav-link" to="/questionpricing">
+              <span className="menu-title">Question Pricing</span>
+              <i className="icon-screen-desktop menu-icon"></i>
+            </Link>
+          </li>
+
+          {/*Question Reanswer Choice*/}
+          <li className="nav-item">
+            <Link className="nav-link" to="/questionreanswer">
+              <span className="menu-title">Question Reanswer</span>
+              <i className="icon-screen-desktop menu-icon"></i>
+            </Link>
+          </li>
+
+          {/*Tutor Exam*/}
+          <li className="nav-item nav-category">
+            <span className="nav-link">Tutor Exam</span>
           </li>
 
           {/*Tutor exam*/}
@@ -123,31 +166,13 @@ const Sidebar = () => {
             </Link>
           </li>
 
-          {/*Tutor Subject*/}
+          {/*Tutorexamconfig*/}
           <li className="nav-item">
-            <Link className="nav-link" to="/tutorsubject">
-              <span className="menu-title">Tutor Subject</span>
-              <i className="icon-screen-desktop menu-icon"></i>
-            </Link>
-          </li>
-
-           {/*Tutorexamconfig*/}
-           <li className="nav-item">
             <Link className="nav-link" to="/tutorexamconfig">
               <span className="menu-title">Tutor Exam Configuration</span>
               <i className="icon-screen-desktop menu-icon"></i>
             </Link>
           </li>
-
-          {/*curruncy */}
-          <li className="nav-item">
-            <Link className="nav-link" to="/curruncy ">
-              <span className="menu-title">Curruncy </span>
-              <i className="icon-screen-desktop menu-icon"></i>
-            </Link>
-          </li>
-
-
 
           {/*pages*/}
           <li className="nav-item nav-category">
@@ -186,42 +211,6 @@ const Sidebar = () => {
             </Link>
           </li>
 
-
-          {/* Question Setting */}
-          <li className="nav-item">
-            <a
-              className="nav-link"
-              data-toggle="collapse"
-              href="#ui-basic"
-              aria-expanded="false"
-              aria-controls="ui-basic">
-              <span className="menu-title">Question Setting</span>
-              <i className="icon-layers menu-icon"></i>
-            </a>
-            <div className="collapse" id="ui-basic">
-              <ul className="nav flex-column sub-menu">
-                <li className="nav-item">
-                  <Link className="nav-link" to="/questiontiming">
-                    Question timing
-                  </Link>
-                </li>
-
-                <li className="nav-item">
-                  <Link className="nav-link" to="/questionpricing">
-                    Question Pricing
-                  </Link>
-                </li>
-
-                <li className="nav-item">
-                  <Link className="nav-link" to="/questionreanswer">
-                    Question Reanswer Choice
-                  </Link>
-                </li>
-
-              </ul>
-            </div>
-          </li>
-
           {/*Offer*/}
           <li className="nav-item nav-category">
             <span className="nav-link">Offer</span>
@@ -251,13 +240,13 @@ const Sidebar = () => {
             <a
               className="nav-link"
               data-toggle="collapse"
-              href="#ui-basic"
+              href="#settings-menu"
               aria-expanded="false"
-              aria-controls="ui-basic">
+              aria-controls="settings-menu">
               <span className="menu-title">Settings</span>
               <i className="icon-layers menu-icon"></i>
             </a>
-            <div className="collapse" id="ui-basic">
+            <div className="collapse" id="settings-menu">
               <ul className="nav flex-column sub-menu">
                 <li className="nav-item">
                   <Link className="nav-link" to="/socialmediasetting">

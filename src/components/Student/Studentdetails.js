@@ -240,7 +240,7 @@ const Studentdetails = () => {
             <div>
               <div className="table-responsive">
                 <div className="rable">
-                  <table className="table">
+                  <table className="table v-top">
                     <thead>
                       <tr>
                         <th colSpan="2"> Date </th> <th colSpan="2"> Paid </th>{" "}
@@ -284,7 +284,7 @@ const Studentdetails = () => {
               <h4> Answer Given </h4>{" "}
             </div>{" "}
             <div className=" table-responsive">
-              <table className="table ">
+              <table className="table v-top">
                 <thead>
                   <tr>
                     <th scope="col"> Questions </th>{" "}
@@ -305,7 +305,7 @@ const Studentdetails = () => {
                           {" "}
                           <b> {Data.allQuestions.question} </b>
                         </td>
-                        <td>
+                        <td >
                           {" "}
                           {Data.tutor}{" "}
                           {clicked === index ? (
