@@ -29,7 +29,7 @@ const Tutorexamconfig = () => {
                                                 <div class="col-lg-4 col-md-8 mt-2">
                                                     <div class="mb-3">
                                                         <div class="input-group">
-                                                            <input type="number" class="form-control" id="mcqHoursInput"/>
+                                                            <input type="text" class="form-control" id="mcqHoursInput"/>
                                                                 <span class="input-group-text">Question</span>
                                                         </div>
                                                     </div>
@@ -42,7 +42,7 @@ const Tutorexamconfig = () => {
                                                 <div class="col-lg-4 col-md-8 mt-2">
                                                     <div class="mb-3">
                                                         <div class="input-group">
-                                                            <input type="number" class="form-control" id="theoryHoursInput"/>
+                                                            <input type="text" class="form-control" id="theoryHoursInput"/>
                                                                 <span class="input-group-text">Question</span>
                                                         </div>
                                                     </div>

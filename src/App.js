@@ -32,6 +32,10 @@ import Curruncy from './components/Curruncy/Curruncy';
 import Coupon from './components/Offers/Coupon';
 import Tutorsubject from './components/Tutorsub/Tutorsubject';
 import Tutorexamconfig from './components/Tutorconfig/Tutorexamconfig';
+import Tutorsearch from './components/Tutorexam/Tutorsearch';
+import Questiontype from './components/Question/Questiontype';
+
+
 
 
 function App() {
@@ -56,7 +60,10 @@ function App() {
         <Route path="signup" element={<Signup/>} />
         <Route path="signup" element={<Signup/>} />
         <Route path="/tutordetails/:_id" element={<Tutordetails/>} />
+
         <Route path="/tutorexam" element={<Tutorexam/>} />
+        <Route path="/tutorsearch" element={<Tutorsearch/>} />
+
         <Route path="/studentdetails/:_id" element={<Studentdetails/>} />
         <Route path="/testexam" element={<Testexam/>} />
         <Route path="/examdetails" element={<Examdetails/>} />
@@ -69,6 +76,8 @@ function App() {
         <Route path="/coupon" element={<Coupon />} />
         <Route path="/tutorsubject" element={<Tutorsubject />} />
         <Route path="/tutorexamconfig" element={<Tutorexamconfig />} />
+        <Route path="/questiontype" element={<Questiontype />} />
+        
 
       </Routes>
       <Scroll/>

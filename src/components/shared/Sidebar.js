@@ -131,6 +131,14 @@ const Sidebar = () => {
             </Link>
           </li>
 
+          {/*Adminquetype*/}
+          <li className="nav-item">
+            <Link className="nav-link" to="/questiontype">
+              <span className="menu-title">Question Type</span>
+              <i className="icon-screen-desktop menu-icon"></i>
+            </Link>
+          </li>
+
            {/*Tutorexamconfig*/}
            <li className="nav-item">
             <Link className="nav-link" to="/tutorexamconfig">
