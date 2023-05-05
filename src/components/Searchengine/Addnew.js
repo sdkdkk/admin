@@ -28,6 +28,7 @@ const Addnew = () => {
   const [optionsArray, setOptionsArray] = useState([]);
   const [selectedOption, setSelectedOption] = useState("");
   const [isExp, setIsExp] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const {
     register,
@@ -151,8 +152,8 @@ const Addnew = () => {
     for (let i = 0; i < files.length; i++) {
       formData.append(`questionPhoto`, files[i]);
     }
-    formData.append("explanation", data.explanation);
-
+    formData.append("explanation", data.explanation || "");
+    setIsLoading(true)
     fetch("https://vaidik-backend.onrender.com/admin/questionpost", {
       method: "POST",
       body: formData,
@@ -162,10 +163,12 @@ const Addnew = () => {
         // Reset the input fields after submitting the form
         setImages([]);
         setEditorHtml("");
+        setIsLoading(false)
         reset();
         navigate("/searchengine");
       })
       .catch((error) => {
+        setIsLoading(false)
         // handle error
       });
   };
@@ -407,12 +410,12 @@ const Addnew = () => {
 
                         <div className="mt-4">
                           <Link to="/searchengine">
-                            <button className="btn btn-primary mx-2">
+                            <button disabled={isLoading} className="btn btn-primary mx-2">
                               Back
                             </button>
                           </Link>
-                          <button type="submit" className="btn btn-primary">
-                            Add
+                          <button disabled={isLoading} type="submit" className="btn btn-primary">
+                            {isLoading ? "Posting..." : "Add"}
                           </button>
                         </div>
                       </form>

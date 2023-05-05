@@ -3,7 +3,6 @@ import axios from 'axios';
 import { createSlice } from "@reduxjs/toolkit";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
-
 const initialState = {
     data: [],
     isLoading: false,
@@ -11,11 +10,10 @@ const initialState = {
     errorMessage: ''
 }
 
-
-export const tutorspayment = createAsyncThunk('tutors/Tutorspayment', async(page, { rejectWithValue }) => {
+export const pagesListDelete = createAsyncThunk('', async(id, { rejectWithValue }) => {
     const token = localStorage.getItem('token')
     try {
-        const response = await axios.post(`https://vaidik-backend.onrender.com/admin/tutorspayment`, { token });
+        const response = await axios.post(`https://vaidik-backend.onrender.com/admin/cms/${id}`, { token });
         return response.data;
     } catch (error) {
         logoutIfInvalidToken(error.response)
@@ -23,25 +21,28 @@ export const tutorspayment = createAsyncThunk('tutors/Tutorspayment', async(page
     }
 })
 
-
-export const tutorspaymentSlice = createSlice({
-    name: 'user',
+export const pagesListDeleteSlice = createSlice({
+    name: 'pagesListDelete',
     initialState,
+    reducers: {
+        reset: (state) => initialState
+    },
     extraReducers: {
-        [tutorspayment.pending]: (state) => {
+        [pagesListDelete.pending]: (state) => {
             state.isLoading = true;
         },
-        [tutorspayment.fulfilled]: (state, { payload }) => {
+        [pagesListDelete.fulfilled]: (state, { payload }) => {
             state.isLoading = false;
             state.isSuccess = true;
             state.data = payload;
         },
-        [tutorspayment.rejected]: (state, { payload }) => {
+        [pagesListDelete.rejected]: (state, { payload }) => {
             state.isLoading = false;
             state.isSuccess = false;
-            state.errorMessage = payload
+            state.errorMessage = payload;
         }
     }
 })
 
-export default tutorspaymentSlice.reducer;
+export const { reset } = pagesListDeleteSlice.actions;
+export default pagesListDeleteSlice.reducer;

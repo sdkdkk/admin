@@ -1,4 +1,4 @@
-import React, { useState} from "react";
+import React, { useEffect, useState } from "react";
 import Data from "./Pages.json";
 import { Pagination } from "@mui/material";
 import Footer from "../shared/Footer";
@@ -14,20 +14,40 @@ import { Pagesd } from "../../Redux/Loginpages/authSlice";
 import { Col } from "react-bootstrap";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
+import {
+  postPageDataApi,
+  reset as resetPostPageDataApi,
+} from "../../Redux/Loginpages/postPageDataSlice";
+import {
+  pagesListDelete,
+  reset as resetPagesListDelete,
+} from "../../Redux/Loginpages/pagesListDeleteSlice";
+import { updatePageDataApi } from "../../Redux/Loginpages/updatePageDataSlice";
+import { getPageListApi } from "../../Redux/Loginpages/getPageListSlice";
 
 const Pages = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const auth = useSelector((state) => state.auth);
   const token = useSelector((state) => state.auth.token);
-  console.log(auth);
+  const [isOpen, setIsOpen] = useState("");
+  const postPageDataState = useSelector((state) => state.postPageData);
+  const pagesListDeleteState = useSelector((state) => state.pagesListDelete);
+  const getPageListState = useSelector((state) => state.getPageList);
+  const { document = [] } = getPageListState?.data || {};
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
- 
   const handleChange = (event, value) => {
     setCurrentPage(value);
   };
+
+  useEffect(() => {
+    if (postPageDataState?.isSuccess) {
+      dispatch(getPageListApi());
+      dispatch(resetPostPageDataApi());
+    }
+  }, [postPageDataState?.isSuccess]);
 
   const {
     register,
@@ -40,11 +60,33 @@ const Pages = () => {
     formState: { errors },
   } = useForm({});
 
+  const handleDropdownClick = (id) => {
+    setIsOpen(isOpen === id ? "" : id);
+  };
+
+  useEffect(() => {
+    dispatch(getPageListApi());
+  }, []);
+
+  const changePageStatus = (id, status) => {
+    dispatch(updatePageDataApi({ id, status }));
+  };
+
+  const handleDeleteClick = (id) => {
+    dispatch(pagesListDelete(id));
+  };
+
+  useEffect(() => {
+    if (pagesListDeleteState?.isSuccess) {
+      dispatch(resetPagesListDelete());
+      dispatch(getPageListApi())
+    }
+  }, [pagesListDeleteState?.isSuccess]);
+
   const onSubmit = (data) => {
-    console.log("data1", data);
     // localStorage.setItem("data", token);
 
-    dispatch(Pagesd(data));
+    dispatch(postPageDataApi({ ...data, status: true }));
     setTimeout(() => {
       navigate(" ");
     }, 500);
@@ -74,22 +116,48 @@ const Pages = () => {
                             <th scope="col">ACTION</th>
                           </tr>
                         </thead>
-                        {Data.map((data, index) => (
+                        {[...document].map((data, index) => (
                           <tbody key={index}>
                             <tr>
-                              <td>{data.sortorder}</td>
-                              <td>{data.user}</td>
+                              <td>{data.sortOrder}</td>
+                              <td>{data.pageName}</td>
                               <td>
                                 <div className="form-check form-switch">
                                   <input
                                     className="form-check-input"
                                     type="checkbox"
                                     id="flexSwitchCheckChecked"
-                                    defaultChecked
+                                    onChange={(e) => {
+                                      changePageStatus(data._id, e.target.checked)
+                                    }
+                                    }
+                                    defaultChecked={data?.isactive}
                                   />
                                 </div>
                               </td>
-                              <td>:</td>
+                              <td>
+                                <div className="dropdown">
+                                  <button
+                                    className="dropdown__button"
+                                    onClick={() => handleDropdownClick(data._id)}
+                                  >
+                                    ...
+                                  </button>
+                                  {data._id === isOpen && (
+                                    <div className="dropdown__popup">
+                                      <ul className="dropdown__list">
+                                        <li
+                                          onClick={() =>
+                                            handleDeleteClick(data._id)
+                                          }
+                                        >
+                                          Delete
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  )}
+                                </div>
+                              </td>
                             </tr>
                           </tbody>
                         ))}
@@ -118,36 +186,38 @@ const Pages = () => {
                           <div className="col-md-12">
                             <Form.Group
                               className="mb-3"
-                              controlId="formBasicEmail">
+                              controlId="formBasicEmail"
+                            >
                               <Form.Label>SortOrder</Form.Label>
                               <Form.Control
                                 type="text"
-                                name="sort"
-                                {...register("sort", {
+                                name="sortOrder"
+                                {...register("sortOrder", {
                                   required: "Please Enter A Valid sort!",
                                 })}
                                 placeholder="Enter SortOrder"
                               />
                               <p className="error-msg">
-                                {errors.sort && errors.sort.message}
+                                {errors.sortOrder && errors.sortOrder.message}
                               </p>
                             </Form.Group>
                           </div>
                           <div className="col-md-12">
                             <Form.Group
                               className="mb-3"
-                              controlId="formBasicEmail">
+                              controlId="formBasicEmail"
+                            >
                               <Form.Label>Page Name</Form.Label>
                               <Form.Control
                                 type="text"
-                                name="name"
-                                {...register("name", {
+                                name="pageName"
+                                {...register("pageName", {
                                   required: "Please Enter A Valid name!",
                                 })}
                                 placeholder="Enter Page Name"
                               />
                               <p className="error-msg">
-                                {errors.name && errors.name.message}
+                                {errors.pageName && errors.pageName.message}
                               </p>
                             </Form.Group>
                           </div>
@@ -155,13 +225,13 @@ const Pages = () => {
                             <div>
                               <p className="mx-1">Answer</p>
                               <Controller
-                                name="answer"
+                                name="contentText"
                                 control={control}
                                 // defaultValue={editorHtml}
                                 render={({ field }) => (
                                   <ReactQuill
                                     theme="snow"
-                                    name="answer"
+                                    name="contentText"
                                     onChange={handleChange}
                                     //onChange={(value) => setEditorHtml(value)}
                                     value={field.value}
@@ -175,43 +245,46 @@ const Pages = () => {
                                 )}
                               />
                               <p className="error-msg">
-                                {errors.answer && errors.answer.message}
+                                {errors.contentText &&
+                                  errors.contentText.message}
                               </p>
                             </div>
                           </Col>
                           <div className="col-md-6 mt-4">
                             <Form.Group
                               className="mb-3"
-                              controlId="formBasicEmail">
+                              controlId="formBasicEmail"
+                            >
                               <Form.Label>Meta Title</Form.Label>
                               <Form.Control
                                 type="text"
-                                name="metatitle"
-                                {...register("metatitle", {
-                                  required: "Please Enter A Valid metatitle!",
+                                name="metaTitle"
+                                {...register("metaTitle", {
+                                  required: "Please Enter A Valid metaTitle!",
                                 })}
                               />
                               <p className="error-msg">
-                                {errors.metatitle && errors.metatitle.message}
+                                {errors.metaTitle && errors.metaTitle.message}
                               </p>
                             </Form.Group>
                           </div>
                           <div className="col-md-6 mt-4">
                             <Form.Group
                               className="mb-3"
-                              controlId="formBasicEmail">
+                              controlId="formBasicEmail"
+                            >
                               <Form.Label>Meta Keyword</Form.Label>
                               <Form.Control
                                 type="text"
-                                name="metakeyword"
-                                {...register("metakeyword", {
-                                  required: "Please Enter A Valid metakeyword!",
+                                name="metaKeyword"
+                                {...register("metaKeyword", {
+                                  required: "Please Enter A Valid metaKeyword!",
                                 })}
                                 placeholder="Enter Meta Keyword"
                               />
                               <p className="error-msg">
-                                {errors.metakeyword &&
-                                  errors.metakeyword.message}
+                                {errors.metaKeyword &&
+                                  errors.metaKeyword.message}
                               </p>
                             </Form.Group>
                           </div>
@@ -221,8 +294,8 @@ const Pages = () => {
                               <Form.Control
                                 as="textarea"
                                 type="text"
-                                name="metadescription"
-                                {...register("metadescription", {
+                                name="metaDescription"
+                                {...register("metaDescription", {
                                   required:
                                     "Please Enter A Valid metadescription!",
                                 })}
@@ -230,21 +303,32 @@ const Pages = () => {
                                 style={{ height: "130px" }}
                               />
                               <p className="error-msg">
-                                {errors.metadescription &&
-                                  errors.metadescription.message}
+                                {errors.metaDescription &&
+                                  errors.metaDescription.message}
                               </p>
                             </FloatingLabel>
+                          </div>
+                          <div>
+                            {postPageDataState.errorMessage && (
+                              <span style={{ color: "red" }}>
+                                {postPageDataState.errorMessage}
+                              </span>
+                            )}
                           </div>
                           <div className="pages-btn mt-4">
                             <button
                               type="submit"
-                              className="btn btn-primary mx-2">
+                              className="btn btn-primary mx-2"
+                              disabled={postPageDataState?.isLoading}
+                            >
                               Back
                             </button>
                             <button
                               type="submit"
-                              className="btn btn-primary mx-2">
-                              Submit
+                              className="btn btn-primary mx-2"
+                              disabled={postPageDataState?.isLoading}
+                            >
+                              {postPageDataState?.isLoading ? "Posting..." : "Submit"}
                             </button>
                           </div>
                         </div>

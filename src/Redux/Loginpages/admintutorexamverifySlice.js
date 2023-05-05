@@ -1,6 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios';
 import { createSlice } from "@reduxjs/toolkit";
+import { logoutIfInvalidToken } from "../../helpers/handleError";
 
 
 const initialState = {
@@ -13,11 +14,13 @@ const initialState = {
 
 
 export const admintutorexamverify = createAsyncThunk('user/getUserList', async(page, { rejectWithValue }) => {
+    const token = localStorage.getItem('token')
     try {
         const token = localStorage.getItem('token')
         const response = await axios.post(`https://vaidik-backend.onrender.com/admin/admintutorexamverify`, { token });
         return response.data;
     } catch (error) {
+        logoutIfInvalidToken(error.response)
         return rejectWithValue(error.message);
     }
 })

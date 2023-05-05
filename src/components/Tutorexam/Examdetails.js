@@ -8,14 +8,17 @@ import Sidebar from "../shared/Sidebar";
 import "./Exam.css";
 import { Link } from "react-router-dom";
 import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { admintutorexamresponse, reset } from "../../Redux/Loginpages/admintutorexamresponseSlice";
 
 const Examdetails = () => {
   let history = useNavigate();
+  const dispatch = useDispatch();
   const location = useLocation();
-
+  const admintutorexamresponseState = useSelector((state) => state.admintutorexamresponse);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [examInfo, setExamInfo] = useState({});
- 
+  const [selectedValue, setSelectedValue] = useState([]);
 
   useEffect(() =>{
     if(location.state?.data){
@@ -29,10 +32,25 @@ const Examdetails = () => {
     }
   },[examInfo, location.state?.data])
 
+  useEffect(() =>{
+    if(admintutorexamresponseState?.isSuccess){
+      dispatch(reset())
+      history("/testexam")
+    }
+  },[admintutorexamresponseState?.isSuccess])
   
   const handleNext = () => {
     if (currentIndex === examInfo?.theoryQA.length - 1) {
-      setCurrentIndex(0);
+      const selectedTrueValue = selectedValue.filter((a) => a !== "true").length;
+      dispatch(admintutorexamresponse({
+        "examId": examInfo?._id,
+        "tutorId": examInfo?.tutorId,
+        "veridict": examInfo?.veridict,
+        "finalScore": examInfo?.mcqScore + selectedTrueValue,
+        "mcqScore": examInfo?.mcqScore,
+        "theoryScore": selectedTrueValue,
+        "theoryQA": examInfo?.theoryQA
+    }));
     } else {
       setCurrentIndex(currentIndex + 1);
     }
@@ -47,7 +65,14 @@ const Examdetails = () => {
   };
 
   //radio-btn
-  const [selectedValue, setSelectedValue] = useState(null);
+  
+
+  const setOptionValue = (value) =>{
+    const tempSelectedValue = [...selectedValue];
+    tempSelectedValue[currentIndex] = value;
+    setSelectedValue(tempSelectedValue)
+  }
+  
   return (
     <>
       <div className="container-scroller">
@@ -143,9 +168,9 @@ const Examdetails = () => {
                                     className="radio mx-2"
                                     type="radio"
                                     value="true"
-                                    checked={selectedValue === "true"}
+                                    checked={selectedValue[currentIndex] === "true"}
                                     onChange={(event) =>
-                                      setSelectedValue(event.target.value)
+                                      setOptionValue(event.target.value)
                                     }
                                   />
                                   True
@@ -155,9 +180,9 @@ const Examdetails = () => {
                                     className="radio mx-2"
                                     type="radio"
                                     value="false"
-                                    checked={selectedValue === "false"}
+                                    checked={selectedValue[currentIndex] === "false"}
                                     onChange={(event) =>
-                                      setSelectedValue(event.target.value)
+                                      setOptionValue(event.target.value)
                                     }
                                   />
                                   False
@@ -168,20 +193,17 @@ const Examdetails = () => {
                         </div>
                         <div className="col-lg-12">
                           <div className="radio-btn">
-                            <Link to="#">
-                              <button
+                          <button
                                 className="btn btn-primary mx-2"
+                                disabled={currentIndex === 0}
                                 onClick={handleBack}>
                                 Back
                               </button>
-                            </Link>
-                            <Link to="#">
                               <button
                                 className="btn btn-primary mx-2"
                                 onClick={handleNext}>
-                                Next
+                                {currentIndex === examInfo?.theoryQA?.length - 1 ? "Submit" : "Next"}
                               </button>
-                            </Link>
                           </div>
                         </div>
                       </div>

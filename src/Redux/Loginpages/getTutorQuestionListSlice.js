@@ -3,7 +3,6 @@ import axios from 'axios';
 import { createSlice } from "@reduxjs/toolkit";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
-
 const initialState = {
     data: [],
     isLoading: false,
@@ -12,10 +11,10 @@ const initialState = {
 }
 
 
-export const tutorspayment = createAsyncThunk('tutors/Tutorspayment', async(page, { rejectWithValue }) => {
+export const getTutorQuestionsListApi = createAsyncThunk('', async(id, { rejectWithValue }) => {
     const token = localStorage.getItem('token')
     try {
-        const response = await axios.post(`https://vaidik-backend.onrender.com/admin/tutorspayment`, { token });
+        const response = await axios.post(`https://vaidik-backend.onrender.com/admin/ask/tutorexamquestion`, { token });
         return response.data;
     } catch (error) {
         logoutIfInvalidToken(error.response)
@@ -23,25 +22,28 @@ export const tutorspayment = createAsyncThunk('tutors/Tutorspayment', async(page
     }
 })
 
-
-export const tutorspaymentSlice = createSlice({
-    name: 'user',
+export const getTutorQuestionsListSlice = createSlice({
+    name: 'getTutorQuestionsList',
     initialState,
+    reducers: {
+        reset: (state) => initialState
+    },
     extraReducers: {
-        [tutorspayment.pending]: (state) => {
+        [getTutorQuestionsListApi.pending]: (state) => {
             state.isLoading = true;
         },
-        [tutorspayment.fulfilled]: (state, { payload }) => {
+        [getTutorQuestionsListApi.fulfilled]: (state, { payload }) => {
             state.isLoading = false;
             state.isSuccess = true;
             state.data = payload;
         },
-        [tutorspayment.rejected]: (state, { payload }) => {
+        [getTutorQuestionsListApi.rejected]: (state, { payload }) => {
             state.isLoading = false;
             state.isSuccess = false;
-            state.errorMessage = payload
+            state.errorMessage = payload;
         }
     }
 })
 
-export default tutorspaymentSlice.reducer;
+export const { reset } = getTutorQuestionsListSlice.actions;
+export default getTutorQuestionsListSlice.reducer;

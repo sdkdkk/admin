@@ -12,10 +12,10 @@ const initialState = {
 }
 
 
-export const tutorspayment = createAsyncThunk('tutors/Tutorspayment', async(page, { rejectWithValue }) => {
+export const admintutorexamresponse = createAsyncThunk('user/getUserList', async(payload, { rejectWithValue }) => {
     const token = localStorage.getItem('token')
     try {
-        const response = await axios.post(`https://vaidik-backend.onrender.com/admin/tutorspayment`, { token });
+        const response = await axios.post(`https://vaidik-backend.onrender.com/admin/admintutorexamresponse`, { token, ...payload  });
         return response.data;
     } catch (error) {
         logoutIfInvalidToken(error.response)
@@ -24,19 +24,22 @@ export const tutorspayment = createAsyncThunk('tutors/Tutorspayment', async(page
 })
 
 
-export const tutorspaymentSlice = createSlice({
-    name: 'user',
+export const admintutorexamresponseSlice = createSlice({
+    name: 'admintutorexamresponse',
     initialState,
+    reducers: {
+        reset: (state) => initialState
+    },
     extraReducers: {
-        [tutorspayment.pending]: (state) => {
+        [admintutorexamresponse.pending]: (state) => {
             state.isLoading = true;
         },
-        [tutorspayment.fulfilled]: (state, { payload }) => {
+        [admintutorexamresponse.fulfilled]: (state, { payload }) => {
             state.isLoading = false;
             state.isSuccess = true;
             state.data = payload;
         },
-        [tutorspayment.rejected]: (state, { payload }) => {
+        [admintutorexamresponse.rejected]: (state, { payload }) => {
             state.isLoading = false;
             state.isSuccess = false;
             state.errorMessage = payload
@@ -44,4 +47,5 @@ export const tutorspaymentSlice = createSlice({
     }
 })
 
-export default tutorspaymentSlice.reducer;
+export const { reset } = admintutorexamresponseSlice.actions;
+export default admintutorexamresponseSlice.reducer;

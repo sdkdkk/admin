@@ -6,3 +6,44 @@ img.cardresto-img-top {
 .form-check.form-switch {
     margin: auto;
 }
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .dropdown__button {
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 16px;
+    transform: rotate(90deg);
+  }
+  
+  .dropdown__popup {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    z-index: 1;
+    width: 90px;
+  }
+  
+  .dropdown__list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background: #ecf0f4;
+  }
+  
+  .dropdown__list li {
+    padding: 8px;
+    cursor: pointer;
+  }
+  
+  .dropdown__list li:hover {
+    background-color: #f0f0f0;
+  }
+  

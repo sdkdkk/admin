@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Testimonialdata } from "../Data/Data1";
 import { Pagination } from "@mui/material";
 import Footer from "../shared/Footer";
@@ -15,36 +15,33 @@ import { Testimoniald } from "../../Redux/Loginpages/testimonialSlice";
 import { Statuschange } from "../../Redux/Loginpages/testimonialStatusSlice";
 import { testimonialformapi } from "../../Redux/Loginpages/testimonialFormSlice";
 
-// import { ToastContainer, toast } from 'react-toastify';
-// import 'react-toastify/dist/ReactToastify.css';
-
+// import { ToastContainer, toast } from "react-toastify";
+// import "react-toastify/dist/ReactToastify.css";
+import { testimonialUserDelete, reset as resetTestimonialUserDelete } from "../../Redux/Loginpages/testimonialUserDeleteSlice";
 
 const Testimonial = () => {
-
-
-  const auth = useSelector((state) => state.auth);
-  const token = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  console.log(auth);
-
   const testimonial = useSelector((state) => state.testimonial);
   const testimonialstatus = useSelector((state) => state.testimonialstatus);
-  const testimonialform = useSelector((state) => state.testimonialform);
+  const testimonialUserDeleteState = useSelector((state) => state.testimonialUserDelete);
 
   var [isActive, SetisActive] = useState(true);
 
+  const [isOpen, setIsOpen] = useState("");
+
+  const handleDropdownClick = (id) => {
+    setIsOpen(isOpen === id ? "" : id);
+  };
+
+
   const activeForm = () => {
     if (isActive === true) {
-      SetisActive(false)
+      SetisActive(false);
     } else {
-      SetisActive(true)
+      SetisActive(true);
     }
-  }
+  };
 
-
-  console.log(testimonialstatus);
-  // const notify = () => toast(testimonialstatus.user ? testimonialstatus.user.message : "");
   var tokens = localStorage.getItem("token");
 
   const {
@@ -55,16 +52,19 @@ const Testimonial = () => {
   } = useForm({});
 
   useEffect(() => {
-    // var tokens = localStorage.getItem("token");
-    console.log(tokens);
     dispatch(Testimoniald(tokens));
-  }, [dispatch])
+  }, [dispatch]);
+
+  useEffect(() =>{
+    if(testimonialUserDeleteState?.isSuccess){
+
+      dispatch(Testimoniald(tokens));
+      dispatch(resetTestimonialUserDelete())
+    }
+  },[testimonialUserDeleteState?.isSuccess])
 
   const onSubmit = (data) => {
-    console.log("data1", data);
-    // localStorage.setItem("data", token);
     const formData = new FormData();
-    // formData.append("file", data[0]);
 
     formData.append("sortOrder", data.sortOrder);
     formData.append("profileimage", data.profileimage[0]);
@@ -75,35 +75,30 @@ const Testimonial = () => {
 
     dispatch(testimonialformapi(formData));
 
-    // setTimeout(() => {
-    //   navigate(" ");
-    // }, 500);
     reset();
   };
 
   const changestatus = async (value, id, index) => {
-    console.log(value, id, index);
     var st;
-    console.log(testimonial.user.testimonial[index]);
     if (testimonial.user.testimonial[index].isactive === true) {
-      st = false
+      st = false;
     } else {
-      st = true
+      st = true;
     }
     await dispatch(Statuschange(st, id));
     // notify();
-  }
+  };
 
   const handleChange = (event, value) => {
     setCurrentPage(value);
   };
 
+  const handleDeleteClick = (id) =>{
+    dispatch(testimonialUserDelete(id))
+  }
+
   //pagenation
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(4);
-  const indexOfLastPage = currentPage * postsPerPage;
-  const indexOfFirstPage = indexOfLastPage - postsPerPage;
-  const displayUsers = Testimonialdata.slice(indexOfFirstPage, indexOfLastPage);
 
 
 
@@ -132,34 +127,59 @@ const Testimonial = () => {
                             <th scope="col"></th>
                           </tr>
                         </thead>
-                        {testimonial.user && testimonial.user.testimonial.map((data, index) => (
-                          <tbody key={index}>
-                            <tr>
-                              <td>{data.sortOrder}</td>
-                              <td>
-                                {" "}
-                                <img
-                                  src={data.profileimage}
-                                  className="cardresto-img-top mx-4"
-                                  alt="..."
-                                />
-                              </td>
-                              <td>{data.name}</td>
-                              <td>
-                                <div className="form-check form-switch">
-                                  <input
-                                    className="form-check-input"
-                                    type="checkbox"
-                                    id="flexSwitchCheckChecked"
-                                    defaultChecked={data.isactive}
-                                    onChange={(e) => changestatus(e.target.value, data.id, index)}
+                        {testimonial.user &&
+                          testimonial.user.testimonial.map((data, index) => (
+                            <tbody key={index}>
+                              <tr>
+                                <td>{data.sortOrder}</td>
+                                <td>
+                                  {" "}
+                                  <img
+                                    src={data.profileimage}
+                                    className="cardresto-img-top mx-4"
+                                    alt="..."
                                   />
-                                </div>
-                              </td>
-                              <td>:</td>
-                            </tr>
-                          </tbody>
-                        ))}
+                                </td>
+                                <td>{data.name}</td>
+                                <td>
+                                  <div className="form-check form-switch">
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      id="flexSwitchCheckChecked"
+                                      defaultChecked={data.isactive}
+                                      onChange={(e) =>
+                                        changestatus(
+                                          e.target.value,
+                                          data.id,
+                                          index
+                                        )
+                                      }
+                                    />
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="dropdown">
+                                    <button
+                                      className="dropdown__button"
+                                      onClick={() =>
+                                        handleDropdownClick(data.id)
+                                      }
+                                    >
+                                      ...
+                                    </button>
+                                    {data.id === isOpen && (
+                                      <div className="dropdown__popup">
+                                        <ul className="dropdown__list">
+                                          <li onClick={() => handleDeleteClick(data.id)}>Delete</li>
+                                        </ul>
+                                      </div>
+                                    )}
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          ))}
                       </table>
                       <div className="table-pagination">
                         <Pagination
@@ -168,8 +188,8 @@ const Testimonial = () => {
                           onChange={handleChange}
                           shape="rounded"
                           variant="outlined"
-                        // showFirstButton
-                        // showLastButton
+                          // showFirstButton
+                          // showLastButton
                         />
                       </div>
                     </div>
@@ -188,7 +208,8 @@ const Testimonial = () => {
                           <div className="col-md-6">
                             <Form.Group
                               className="mb-3"
-                              controlId="formBasicEmail">
+                              controlId="formBasicEmail"
+                            >
                               <Form.Label>SortOrder</Form.Label>
                               <Form.Control
                                 type="number"
@@ -204,7 +225,8 @@ const Testimonial = () => {
                             </Form.Group>
                             <Form.Group
                               className="mb-3"
-                              controlId="formBasicEmail">
+                              controlId="formBasicEmail"
+                            >
                               <Form.Label> Profile Image</Form.Label>
                               <Form.Control
                                 type="file"
@@ -216,12 +238,14 @@ const Testimonial = () => {
                                 placeholder="Enter image"
                               />
                               <p className="error-msg">
-                                {errors.profileimage && errors.profileimage.message}
+                                {errors.profileimage &&
+                                  errors.profileimage.message}
                               </p>
                             </Form.Group>
                             <Form.Group
                               className="mb-3"
-                              controlId="formBasicEmail">
+                              controlId="formBasicEmail"
+                            >
                               <Form.Label>User Name</Form.Label>
                               <Form.Control
                                 type="text"
@@ -256,7 +280,10 @@ const Testimonial = () => {
                             </FloatingLabel>
                             <div className="row">
                               <div className="col-sm-4">
-                                <label htmlFor="flexSwitchCheckChecked" className="form-label">
+                                <label
+                                  htmlFor="flexSwitchCheckChecked"
+                                  className="form-label"
+                                >
                                   Is Active
                                 </label>
                               </div>
@@ -275,12 +302,14 @@ const Testimonial = () => {
                             <div className="testmonial-btn mt-4">
                               <button
                                 type="submit"
-                                className="btn btn-primary mx-2">
+                                className="btn btn-primary mx-2"
+                              >
                                 Back
                               </button>
                               <button
                                 type="submit"
-                                className="btn btn-primary mx-2">
+                                className="btn btn-primary mx-2"
+                              >
                                 Submit
                               </button>
                             </div>

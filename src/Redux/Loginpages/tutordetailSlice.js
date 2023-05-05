@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios';
 import { createSlice } from "@reduxjs/toolkit";
 import { useParams } from 'react-router-dom';
+import { logoutIfInvalidToken } from "../../helpers/handleError";
 
 
 const initialState = {
@@ -12,13 +13,14 @@ const initialState = {
 }
 
 
-const token = localStorage.getItem('token')
 export const tutordetail = createAsyncThunk('tutors/Tutorspayment', async(page, { rejectWithValue }) => {
+    const token = localStorage.getItem('token')
     const { _id } = useParams();
     try {
         const response = await axios.post(`https://vaidik-backend.onrender.com/admin/tutorquestionanswer/${_id}`, { token });
         return response.data;
     } catch (error) {
+        logoutIfInvalidToken(error.response)
         return rejectWithValue(error.message);
     }
 })
