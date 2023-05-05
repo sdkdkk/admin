@@ -10,7 +10,8 @@ import reducer from "./Rootreducer";
 const persistConfig = {
     key: "root",
     version: 1,
-    storage
+    storage,
+    blacklist: ['pagesListDelete','postTutorQuestion']
 };
 
 

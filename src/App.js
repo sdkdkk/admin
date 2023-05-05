@@ -24,6 +24,7 @@ import Studentdetails from './components/Student/Studentdetails';
 import Testexam from './components/Tutorexam/Testexam';
 import Examdetails from './components/Tutorexam/Examdetails';
 import Searchenginequedetail from './components/Searchengine/Searchenginequedetail';
+import Logout from './components/Logout/Logout';
 
 import Questiontiming from './components/Question/Questiontiming';
 import Questionpricing from './components/Question/Questionpricing';
@@ -56,6 +57,9 @@ function App() {
         <Route path="professionaldetails/:_id" element={<Professionaldetails/>} />
         <Route path="pages" element={<Pages/>} />
         <Route path="socialmediasetting" element={<Socialmediasetting/>} />
+        {/* <Route path="/postquestion" element={<Postquestion />} />
+        <Route path="/issuepostquestion/: id" element={<Issuepostquestion />} />
+        <Route path="/referralhistory" element={<Referralhistory />} /> */}
         <Route path="login" element={<Login/>} />
         <Route path="signup" element={<Signup/>} />
         <Route path="signup" element={<Signup/>} />
@@ -69,6 +73,7 @@ function App() {
         <Route path="/examdetails" element={<Examdetails/>} />
         <Route path="/searchenginequedetail" element={<Searchenginequedetail/>} />
 
+
         <Route path="/questiontiming" element={<Questiontiming />} />
         <Route path="/questionpricing" element={<Questionpricing />} />
         <Route path="/questionreanswer" element={<Questionreasnwer />} />
@@ -77,7 +82,8 @@ function App() {
         <Route path="/tutorsubject" element={<Tutorsubject />} />
         <Route path="/tutorexamconfig" element={<Tutorexamconfig />} />
         <Route path="/questiontype" element={<Questiontype />} />
-        
+
+        <Route path="/logout" element={<Logout />} />
 
       </Routes>
       <Scroll/>

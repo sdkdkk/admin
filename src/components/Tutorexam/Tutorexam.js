@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
@@ -17,6 +17,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import { TutorExam } from "../../Redux/Loginpages/authSlice";
+import { getTutorQuestionsListApi } from "../../Redux/Loginpages/getTutorQuestionListSlice";
+import { postTutorQuestionApi, reset as resetPostTutorQuestionApi } from "../../Redux/Loginpages/postTutorQuestionListSlice";
+import { deleteTutorQuestion } from "../../Redux/Loginpages/deleteTutorQuestionSlice";
 
 const ReadMore = ({ children }) => {
   const text = children;
@@ -42,9 +45,15 @@ const Tutorexam = () => {
   //Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(8);
+  const [isOpen, setIsOpen] = useState("");
   const indexOfLastPage = currentPage * postsPerPage;
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
   const displayUsers = Studentdata.slice(indexOfFirstPage, indexOfLastPage);
+  const getTutorQuestionsListData = useSelector(state => state.getTutorQuestionsList);
+  const postTutorQuestionData = useSelector(state => state.postTutorQuestion);
+
+
+
   const handleChange = (event, value) => {
     setCurrentPage(value);
   };
@@ -54,6 +63,27 @@ const Tutorexam = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   console.log(auth);
+
+  useEffect(() =>{
+
+    // dispatch(getTutorQuestionsListApi());
+  },[])
+
+  useEffect(() =>{
+    if(postTutorQuestionData?.isSuccess){
+      dispatch(resetPostTutorQuestionApi())
+       // dispatch(getTutorQuestionsListApi());
+    }
+
+  },[postTutorQuestionData?.isSuccess])
+
+  const handleDropdownClick = (id) => {
+    setIsOpen(isOpen === id ? "" : id);
+  };
+
+  const handleDeleteClick = (id) =>{
+    dispatch(deleteTutorQuestion(id))
+  }
 
   const {
     register,
@@ -67,9 +97,7 @@ const Tutorexam = () => {
   } = useForm({});
 
   const onSubmit = (data) => {
-    console.log("data1", data);
-    // localStorage.setItem("data", token);
-    dispatch(TutorExam(data));
+    dispatch(postTutorQuestionApi({...data, questionType :"theory",}));
     setTimeout(() => {
       navigate(" ");
     }, 500);
@@ -114,14 +142,14 @@ const Tutorexam = () => {
                             <Form.Label>Select Subject</Form.Label>
                             <Form.Select
                               aria-label="Default select example"
-                              name="options"
-                              {...register("options")}>
+                              name="questionSubject"
+                              {...register("questionSubject")}>
                               <option>Select Subject</option>
                               <option value="Maths">Maths</option>
                               <option value="Biology">Biology</option>
                               <option value="Physics">Physics </option>
                             </Form.Select>
-                            {errors.options && (
+                            {errors.questionSubject && (
                               <p className="text-danger">
                                 Please select a Class
                               </p>
@@ -234,7 +262,7 @@ const Tutorexam = () => {
                             <div>
                               <p className="mx-1 mt-2">Answer</p>
                               <Controller
-                                name="Answer"
+                                name="answer"
                                 control={control}
                                 // defaultValue={editorHtml}
                                 render={({ field }) => (
@@ -259,12 +287,12 @@ const Tutorexam = () => {
                           </Col>
                           <div className="col-md-12 mt-4">
                             <Link to="#">
-                              <button className="btn btn-primary mx-2">
+                              <button disabled={postTutorQuestionData?.isLoading} className="btn btn-primary mx-2">
                                 Back
                               </button>
                             </Link>
-                            <button type="submit" className="btn btn-primary">
-                              Answer
+                            <button disabled={postTutorQuestionData?.isLoading} type="submit" className="btn btn-primary">
+                              {postTutorQuestionData?.isLoading ? "Posting..." : "Add"}
                             </button>
                           </div>
                         </div>
@@ -350,7 +378,26 @@ const Tutorexam = () => {
                                   </td>
                                   <td>{data.QuestionType}</td>
                                   <td>{data.QuestionSubject}</td>
-                                  {/* <td class="text-center"><BiDotsVerticalRounded /></td> */}
+                                  {/* <td class="text-center"><div className="dropdown">
+                                  <button
+                                    className="dropdown__button"
+                                    onClick={() => handleDropdownClick(data.id)}
+                                  >
+                                    <BiDotsVerticalRounded /></button>
+                                  {data.id === isOpen && (
+                                    <div className="dropdown__popup">
+                                      <ul className="dropdown__list">
+                                        <li
+                                          onClick={() =>
+                                            handleDeleteClick(data.id)
+                                          }
+                                        >
+                                          Delete
+                                        </li>
+                                      </ul>
+                                    </div>
+                                  )}
+                                </div></td> */}
                                 </tr>
                               );
                             })}
