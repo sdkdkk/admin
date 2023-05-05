@@ -1,9 +1,11 @@
-@media only screen and (max-width: 600px) {
+input#usd-input {
+    width: 60px;
+}
 
+@media only screen and (max-width: 600px) {
     label.usd {
         margin-left: 8px;
     }
-
     button#update-btn {
         margin-top: 12px;
     }

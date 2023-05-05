@@ -38,12 +38,12 @@ const Tutorexamconfig = () => {
       );
       if (response.data.status === 1) {
         console.log(response.data.status);
-        notify("updated successfully!");
+        notify(response.data.message);
         e.target.reset();
       }
     } catch (error) {
       console.log(error.response.data.error);
-      notify("Invalid refresh token!");
+      notify(error.response.data.error);
     } finally {
       setLoading(false); // set loading to false when API call is complete
     }
@@ -84,7 +84,7 @@ const Tutorexamconfig = () => {
                                 </span>
                               </div>
                               {errors.MCQ && (
-                                <p className="error text-right">
+                                <p className="error text-right text-danger">
                                   Please Enter a mcq{" "}
                                 </p>
                               )}
@@ -111,7 +111,7 @@ const Tutorexamconfig = () => {
                                 </span>
                               </div>
                               {errors.theory && (
-                                <p className="error text-right">
+                                <p className="error text-right text-danger">
                                   Please Enter a theory question
                                 </p>
                               )}

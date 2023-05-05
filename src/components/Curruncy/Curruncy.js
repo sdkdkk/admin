@@ -83,22 +83,22 @@ const Curruncy = () => {
               </div>
               <div class="row mt-3">
                 {loading ? (
-                   <ColorRing
-                   visible={true}
-                   height="80"
-                   width="80"
-                   ariaLabel="blocks-loading"
-                   wrapperStyle={{}}
-                   wrapperClass="blocks-wrapper"
-                   colors={["black"]}
-                 />
+                  <ColorRing
+                    visible={true}
+                    height="80"
+                    width="80"
+                    ariaLabel="blocks-loading"
+                    wrapperStyle={{}}
+                    wrapperClass="blocks-wrapper"
+                    colors={["black"]}
+                  />
                 ) : (
                   <div class="col-12 grid-margin stretch-card">
                     <div class="card new-table">
                       <div class="card-body">
                         <div class="converter-container">
                           <div class="input-container">
-                            <form onSubmit={handleSubmit(onSubmit)}>
+                            <form onSubmit={handleSubmit(onSubmit)}  >
                               <label className="usd" for="usd-input">
                                 1 USD ={" "}
                               </label>
@@ -115,21 +115,25 @@ const Curruncy = () => {
                                   required: true,
                                 })}
                               />
-                              INR
-                              {/* <button id="update-btn">Update</button> */}
-                              <Button
-                                className="mx-2"
-                                id="update-btn"
-                                variant="primary"
-                                type="submit"
-                                disabled={loadingpost}>
-                                {loadingpost ? "Loading..." : "Update"}
-                              </Button>
-                              {errors.ConversionToInr && (
-                                <p className="error ">
-                                  Please Enter a Curruncy{" "}
-                                </p>
-                              )}
+                              <div style={{ display: "inline" }}>
+                                INR
+                                {/* <button id="update-btn">Update</button> */}
+                                <span>
+                                  <Button
+                                    className="mx-2"
+                                    id="update-btn"
+                                    variant="primary"
+                                    type="submit"
+                                    disabled={loadingpost}>
+                                    {loadingpost ? "Loading..." : "Update"}
+                                  </Button>
+                                  {errors.ConversionToInr && (
+                                    <p className="error text-danger">
+                                      Please Enter a Curruncy{" "}
+                                    </p>
+                                  )}
+                                </span>
+                              </div>
                             </form>
                           </div>
                         </div>
