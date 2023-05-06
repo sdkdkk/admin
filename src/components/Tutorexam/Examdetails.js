@@ -37,7 +37,7 @@ const Examdetails = () => {
   useEffect(() => {
     if (admintutorexamresponseState?.isSuccess) {
       dispatch(reset());
-      history("/testexam");
+      // history("/testexam");
     }
   }, [admintutorexamresponseState?.isSuccess]);
 
