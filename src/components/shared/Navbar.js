@@ -22,7 +22,7 @@ const Navbar = () => {
       </div>
       <div className="navbar-menu-wrapper d-flex align-items-center flex-grow-1">
         <h5 className="mb-0 font-weight-medium d-none d-lg-flex">
-          Welcome Vaidik Dashboard!
+          Welcome DoubtQ Dashboard!
         </h5>
         <ul className="navbar-nav navbar-nav-right ml-auto">
           <li className="nav-item dropdown d-none d-xl-inline-flex user-dropdown">
