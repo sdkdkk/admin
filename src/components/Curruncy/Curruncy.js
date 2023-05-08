@@ -29,11 +29,10 @@ const Curruncy = () => {
             try {
                 setLoading(true);
                 const response = await axios.post(
-                    `https://vaidik-backend.onrender.com/admin/gettutorexamdetail`, {
+                    `https://vaidik-backend.onrender.com/admin/getcurrencyconversion?Currency=USD`, {
                         token: token,
                     }
                 );
-                console.log(response)
                 await setConversionRate(response.data);
                 setLoading(false);
             } catch (error) {
@@ -70,102 +69,100 @@ const Curruncy = () => {
     };
 
     return ( <
-            >
-            <
-            div className = "container-scroller" >
-            <
-            Navbar / >
-            <
-            div className = "container-fluid page-body-wrapper" >
-            <
-            Sidebar / >
-            <
-            div className = "main-panel" >
-            <
-            div className = "content-wrapper" >
-            <
-            div className = "page-header" >
-            <
-            h3 className = "page-title" > Curruncy Conversion Rate < /h3> < /
-            div > <
-            div class = "row mt-3" > {
-                loading ? ( <
-                    ColorRing visible = { true }
-                    height = "80"
-                    width = "80"
-                    ariaLabel = "blocks-loading"
-                    wrapperStyle = {
-                        {}
-                    }
-                    wrapperClass = "blocks-wrapper"
-                    colors = {
-                        ["black"]
-                    }
-                    />
-                ) : ( <
-                        div class = "col-12 grid-margin stretch-card" >
-                        <
-                        div class = "card new-table" >
-                        <
-                        div class = "card-body" >
-                        <
-                        div class = "converter-container" >
-                        <
-                        div class = "input-container" >
-                        <
-                        form onSubmit = { handleSubmit(onSubmit) } >
-                        <
-                        label className = "usd"
-                        for = "usd-input" >
-                        1 USD = { " " } <
-                        /label> <
-                        input className = "mx-2"
-                        type = "number"
-                        id = "usd-input"
-                        min = "0"
-                        step = "0.01"
-                        defaultValue = { conversionRate.rate }
-                        placeholder = { conversionRate.rate }
-                        name = "ConversionToInr" {...register("ConversionToInr", {
-                                required: true,
-                            })
-                        }
-                        /> <
-                        div style = {
-                            { display: "inline" }
-                        } >
-                        INR { /* <button id="update-btn">Update</button> */ } <
-                        span >
-                        <
-                        Button className = "mx-2"
-                        id = "update-btn"
-                        variant = "primary"
-                        type = "submit"
-                        disabled = { loadingpost } > { loadingpost ? "Loading..." : "Update" } <
-                        /Button> {
-                        errors.ConversionToInr && ( <
-                            p className = "error text-danger" >
-                            Please Enter a Curruncy { " " } <
-                            /p>
-                        )
-                    } <
-                    /span> < /
-                div > <
-                /form> < /
-                div > <
-                /div> < /
-                div > <
-                /div> < /
-                div >
+        >
+        <
+        div className = "container-scroller" >
+        <
+        Navbar / >
+        <
+        div className = "container-fluid page-body-wrapper" >
+        <
+        Sidebar / >
+        <
+        div className = "main-panel" >
+        <
+        div className = "content-wrapper" >
+        <
+        div className = "page-header" >
+        <
+        h3 className = "page-title" > Curruncy Conversion Rate < /h3> <
+        /div> <
+        div class = "row mt-3" > {
+            loading ? ( <
+                ColorRing visible = { true }
+                height = "80"
+                width = "80"
+                ariaLabel = "blocks-loading"
+                wrapperStyle = {
+                    {} }
+                wrapperClass = "blocks-wrapper"
+                colors = {
+                    ["black"] }
+                />
+            ) : ( <
+                div class = "col-12 grid-margin stretch-card" >
+                <
+                div class = "card new-table" >
+                <
+                div class = "card-body" >
+                <
+                div class = "converter-container" >
+                <
+                div class = "input-container" >
+                <
+                form onSubmit = { handleSubmit(onSubmit) } >
+                <
+                label className = "usd"
+                for = "usd-input" >
+                1 USD = { " " } <
+                /label> <
+                input className = "mx-2"
+                type = "number"
+                id = "usd-input"
+                min = "0"
+                step = "0.01"
+                defaultValue = { conversionRate.rate }
+                placeholder = { conversionRate.rate }
+                name = "ConversionToInr" {...register("ConversionToInr", {
+                        required: true,
+                    })
+                }
+                /> <
+                div style = {
+                    { display: "inline" } } >
+                INR { /* <button id="update-btn">Update</button> */ } <
+                span >
+                <
+                Button className = "mx-2"
+                id = "update-btn"
+                variant = "primary"
+                type = "submit"
+                disabled = { loadingpost } > { loadingpost ? "Loading..." : "Update" } <
+                /Button> {
+                    errors.ConversionToInr && ( <
+                        p className = "error text-danger" >
+                        Please Enter a Curruncy { " " } <
+                        /p>
+                    )
+                } <
+                /span> <
+                /div> <
+                /form> <
+                /div> <
+                /div> <
+                /div> <
+                /div> <
+                /div>
             )
         } <
-        /div> < /
-    div > <
+        /div> <
+        /div> <
         Footer / >
         <
-        /div> < /
-    div > <
-        /div> < / >
-);
+        /div> <
+        /div> <
+        /div> <
+        />
+    );
 };
 export default Curruncy;
