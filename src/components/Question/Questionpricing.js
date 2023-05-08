@@ -8,13 +8,16 @@ import { questiontypeApi } from "../../Redux/Loginpages/questiontypeSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { questionpricingApi } from "../../Redux/Loginpages/questionPricingSlice";
+import { toast } from "react-toastify";
 
 const Questionpricing = () => {
+  const notify = (data) => toast(data);
   const { register, handleSubmit } = useForm({});
 
   const dispatch = useDispatch();
   const questiontype = useSelector((state) => state.questiontype);
-  console.log(questiontype);
+  const questionpricing = useSelector((state) => state.questionpricing);
+  console.log(questionpricing);
 
   useEffect(() => {
     let token = localStorage.getItem("token");
@@ -33,6 +36,10 @@ const Questionpricing = () => {
     };
 
     dispatch(questionpricingApi(pricingData));
+
+    if (questionpricing.status === 1) {
+      notify(questionpricing.user && questionpricing.user.message);
+    }
   };
 
   return (

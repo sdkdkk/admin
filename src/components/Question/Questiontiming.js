@@ -7,28 +7,26 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { questiontypeApi } from "../../Redux/Loginpages/questiontypeSlice";
 import { questiontimingApi } from "../../Redux/Loginpages/questionTimingSlice";
+import { toast } from "react-toastify";
 
 const Questiontiming = () => {
+  const notify = (data) => toast(data);
   const dispatch = useDispatch();
   const questiontype = useSelector((state) => state.questiontype);
-  console.log(questiontype);
+  const questiontiming = useSelector((state) => state.questiontiming);
+  console.log(questiontiming);
 
   useEffect(() => {
     let token = localStorage.getItem("token");
     dispatch(questiontypeApi(token));
   }, []);
-  const {
-    register,
-    handleSubmit,
-   watch, setValue,
-
-  } = useForm({});
-  const hours = watch('first_time');
+  const { register, handleSubmit, watch, setValue } = useForm({});
+  const hours = watch("first_time");
 
   useEffect(() => {
     if (hours) {
       const minutes = parseInt(hours) * 60 || 0;
-      setValue('minutesOutput', minutes);
+      setValue("minutesOutput", minutes);
     }
   }, [hours, setValue]);
   const onSubmit = (data) => {
@@ -47,6 +45,11 @@ const Questiontiming = () => {
     };
     console.log(timingObjData);
     dispatch(questiontimingApi(timingObjData));
+
+    if (questiontiming.status === 1) {
+      console.log(questiontiming.user);
+       notify(questiontiming.user && questiontiming.user.message);
+    }
   };
 
   return (
@@ -118,9 +121,9 @@ const Questiontiming = () => {
                               <input
                                 type="number"
                                 className="form-control"
-                                                              id="minutesOutput"
-                                                              value={watch('minutesOutput')}
-                                                              readOnly
+                                id="minutesOutput"
+                                value={watch("minutesOutput")}
+                                readOnly
                               />
                             </div>
                           </div>

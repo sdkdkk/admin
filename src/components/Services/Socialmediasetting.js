@@ -9,18 +9,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { socialmediaApi } from "../../Redux/Loginpages/socialMediaSlice";
 import { Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 const Socialmediasetting = () => {
+  const notify = (data) => toast(data);
   const socialmedia = useSelector((state) => state.socialmedia);
   const dispatch = useDispatch();
   console.log(socialmedia);
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({});
+  const { register, handleSubmit } = useForm({});
 
   const onSubmit = (data) => {
     let token = localStorage.getItem("token");
@@ -35,6 +32,11 @@ const Socialmediasetting = () => {
     };
     console.log(mediaObjData);
     dispatch(socialmediaApi(mediaObjData));
+
+    if (socialmedia.status === 1) {
+      
+       notify(socialmedia.user && socialmedia.user.message);
+    }
     // reset();
   };
   return (
