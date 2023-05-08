@@ -17,7 +17,7 @@ const Socialmediasetting = () => {
   const dispatch = useDispatch();
   console.log(socialmedia);
 
-  const { register, handleSubmit } = useForm({});
+  const { register, handleSubmit, reset } = useForm({});
 
   const onSubmit = (data) => {
     let token = localStorage.getItem("token");
