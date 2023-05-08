@@ -261,9 +261,9 @@ const Addnew = () => {
                             // onChange={handleChange}
                             onChange={(e) => handleChange(e)}>
                             <option value="">Select question type</option>
-                            {optionsArray.map((type) => (
+                            {questionTypes.map((type) => (
                               <option value={type.value} key={type.value}>
-                                {type.label}
+                                {type.questionType}
                               </option>
                             ))}
                           </select>
