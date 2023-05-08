@@ -72,8 +72,8 @@ const Tutorexam = () => {
   );
 
 
-  const { tutorexamquestion } = getTutorQuestionsListData.data || [];
-
+  const { tutorexamquestion = [] } = getTutorQuestionsListData.data || [];
+  const tutorexamquestionData = tutorexamquestion || [];
   const handleChange = (event, value) => {
     setCurrentPage(value);
   };
@@ -486,7 +486,7 @@ const Tutorexam = () => {
                             </tr>
                           </thead>
                           <tbody class="text-capitalize text-sm-start">
-                            {[...tutorexamquestion].map((data, id) => {
+                            {[...tutorexamquestionData].map((data, id) => {
                               return (
                                 <tr class="" key={data._id}>
                                   <td class="d-flex flex-column">
