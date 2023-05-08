@@ -23,6 +23,10 @@ import getTutorQuestionsListSliceReducer from "../Redux/Loginpages/getTutorQuest
 import postTutorQuestionListSlice from "../Redux/Loginpages/postTutorQuestionListSlice";
 import updateTutorQuestionListSlice from "../Redux/Loginpages/updateTutorQuestionSlice";
 import deleteTutorQuestionSlice from "../Redux/Loginpages/deleteTutorQuestionSlice";
+import socialMediaReducer from "../Redux/Loginpages/socialMediaSlice";
+import questiontypeReducer from "../Redux/Loginpages/questiontypeSlice";
+import questionTimingReducer from "../Redux/Loginpages/questionTimingSlice";
+import questionPricingReducer from "../Redux/Loginpages/questionPricingSlice";
 
 const reducer = combineReducers({
   auth: authReducer,
@@ -47,6 +51,10 @@ const reducer = combineReducers({
   updateTutorQuestion: updateTutorQuestionListSlice,
   deleteTutorQuestion: deleteTutorQuestionSlice,
   testimonialform: testimonialformReducer,
+  socialmedia: socialMediaReducer,
+  questiontype: questiontypeReducer,
+  questiontiming: questionTimingReducer,
+  questionpricing: questionPricingReducer,
 });
 
 export default reducer;
