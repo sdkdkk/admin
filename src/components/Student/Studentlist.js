@@ -134,8 +134,8 @@ const Studentlist = () => {
                             onChange={handleChange}
                             shape="rounded"
                             variant="outlined"
-                            showFirstButton
-                            showLastButton
+                            // showFirstButton
+                            // showLastButton
                           />
                         </div>
                       </div>

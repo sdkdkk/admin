@@ -4,30 +4,41 @@ import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
 import { Table, Button } from "react-bootstrap";
 import "./coupon.css";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { Pagination } from "@mui/material";
 import axios from "axios";
+import { ColorRing } from "react-loader-spinner";
 
 const Coupon = () => {
   const {
     register,
     handleSubmit,
     reset,
-    formats,
-    control,
-    modules,
-    editorRef,
     formState: { errors },
   } = useForm({});
 
   const [loading, setLoading] = useState(false);
+  const [loading1, setLoading1] = useState(false);
+  const [editCouponId, setEditCouponId] = useState(null);
   const token = localStorage.getItem("token");
   const notify = (data) => toast(data);
   const [conversionRate, setConversionRate] = useState([]);
 
+  //table
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(8);
+  const indexOfLastPage = currentPage * postsPerPage;
+  const indexOfFirstPage = indexOfLastPage - postsPerPage;
+  const displayUsers = conversionRate.slice(indexOfFirstPage, indexOfLastPage);
+
+  const handleChange = (event, value) => {
+    setCurrentPage(value);
+  };
+
   const fetchData = async () => {
     try {
-      // setLoading(true);
+      setLoading1(true);
       const response = await axios.post(
         `https://vaidik-backend.onrender.com/admin/getcoupons`,
         {
@@ -36,11 +47,11 @@ const Coupon = () => {
       );
       console.log(response.data.data);
       setConversionRate(response.data.data);
-      // setLoading(false);
+      setLoading1(false);
     } catch (error) {
       console.log(error.response.data.error);
       // notify("Invalid refresh token!");
-      setLoading(false);
+      setLoading1(false);
     }
   };
 
@@ -48,21 +59,34 @@ const Coupon = () => {
     fetchData();
   }, []);
 
-  const onSubmit = async (data, e) => {
+  const onSubmit = async (data) => {
     try {
       setLoading(true);
       const requestUrl = data._id
-        ? `https://vaidik-backend.onrender.com/admin/couponcode/${data._id}`
+        ? `https://vaidik-backend.onrender.com/admin/couponcode`
         : `https://vaidik-backend.onrender.com/admin/couponcode`;
-      const response = await axios.post(requestUrl, {
-        couponCode: data.couponCode,
-        validityDate: data.validityDate,
-        discount: parseInt(data.discount),
-        token: token,
-      });
+      var response;
+      if (data._id) {
+        response = await axios.post(requestUrl, {
+          couponCode: data.couponCode,
+          id: data._id,
+          validityDate: data.validityDate,
+          discount: parseInt(data.discount),
+          token: token,
+        });
+      } else {
+        response = await axios.post(requestUrl, {
+          couponCode: data.couponCode,
+          validityDate: data.validityDate,
+          discount: parseInt(data.discount),
+          token: token,
+        });
+      }
+
       if (response.data.status === 1) {
         notify(response.data.message);
         reset();
+        fetchData();
         // setEditCouponId(null);
       }
     } catch (error) {
@@ -72,8 +96,18 @@ const Coupon = () => {
     }
   };
 
+  const handleUpdate = (coupon) => {
+    let date = new Date(coupon.validityDate);
+    coupon.validityDate = null;
+    coupon.validityDate = date.toISOString().substring(0, 10);
+    reset(coupon);
+
+    // Scroll to the top of the page
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   function handleDelet(_id) {
-    //   .delete(`https://632eb541b7314fc02f48d2d2.mockapi.io/crud-utube/${id}`)
+    setLoading(true);
     const response = axios
       .post(
         `https://vaidik-backend.onrender.com/admin/deletecouponcode/${_id}`,
@@ -83,10 +117,11 @@ const Coupon = () => {
       )
       .then(() => {
         fetchData();
+        setLoading(false);
       });
     if (response.data.status === 1) {
-      console.log(response.data.status);
-      notify(response.data.message);
+      console.log(response.data.data);
+      notify(response.data.data);
       reset();
     }
   }
@@ -106,7 +141,7 @@ const Coupon = () => {
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table">
                     <div className="card-body">
-                      <form onSubmit={handleSubmit(onSubmit)}>
+                      <form onSubmit={handleSubmit((data) => onSubmit(data))}>
                         <div className="row mt-4">
                           <div className="col-lg-2 col-md-4 mt-2">
                             <h6>Coupon Code</h6>
@@ -196,45 +231,78 @@ const Coupon = () => {
                   <div className="card new-table">
                     <div className="card-body">
                       <div className="table-container">
-                        <Table
-                          striped
-                          bordered
-                          hover
-                          responsive
-                          className="single-color">
-                          <thead>
-                            <tr>
-                              <th>Sr. No</th>
-                              <th>Coupon Code</th>
-                              <th>Discount (Percent) </th>
-                              <th>Valid Date</th>
-                              <th>Action</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {conversionRate.map((data, index) => (
-                              <tr key={data._id}>
-                                <td>{index + 1}</td>
-                                <td>{data.couponCode}</td>
-                                <td>{data.discount}</td>
-                                <td>{data.validityDate}</td>
-                                <td>
-                                  <Button
-                                    variant="success"
-                                    onClick={() => onSubmit(data._id)}>
-                                    Update
-                                  </Button>
-                                  <Button
-                                    className="mx-2"
-                                    variant="danger"
-                                    onClick={() => handleDelet(data._id)}>
-                                    Delete
-                                  </Button>
-                                </td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </Table>
+                        {loading1 ? (
+                          <p style={{ marginLeft: "400px", marginTop: "50px" }}>
+                            <ColorRing
+                              visible={true}
+                              height="80"
+                              width="80"
+                              ariaLabel="blocks-loading"
+                              wrapperStyle={{}}
+                              wrapperClass="blocks-wrapper"
+                              colors={["black"]}
+                            />
+                          </p>
+                        ) : (
+                          <>
+                            <Table
+                              striped
+                              bordered
+                              hover
+                              responsive
+                              className="single-color">
+                              <thead>
+                                <tr>
+                                  <th>Sr. No</th>
+                                  <th>Coupon Code</th>
+                                  <th>Discount (Percent) </th>
+                                  <th>Valid Date</th>
+                                  <th>Action</th>
+                                </tr>
+                              </thead>
+
+                              <tbody>
+                                {displayUsers.map((data, index) => (
+                                  <tr key={data._id}>
+                                    <td>{index + 1}</td>
+                                    <td>{data.couponCode}</td>
+                                    <td>{data.discount}</td>
+                                    <td>
+                                      {data.validityDate
+                                        ? new Date(data.validityDate)
+                                            .toISOString()
+                                            .substring(0, 10)
+                                        : "-"}
+                                    </td>
+                                    <td>
+                                      <Button
+                                        variant="success"
+                                        onClick={() => handleUpdate(data)}>
+                                        Update
+                                      </Button>
+                                      <Button
+                                        className="mx-2"
+                                        variant="danger"
+                                        onClick={() => handleDelet(data._id)}>
+                                        Delete
+                                      </Button>
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </Table>
+                            <div className="table-pagination">
+                              <Pagination
+                                count={4}
+                                page={currentPage}
+                                onChange={handleChange}
+                                shape="rounded"
+                                variant="outlined"
+                                // showFirstButton
+                              />
+                            </div>
+                          </>
+                        )}
                       </div>
                     </div>
                   </div>
