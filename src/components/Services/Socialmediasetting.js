@@ -37,7 +37,7 @@ const Socialmediasetting = () => {
       
        notify(socialmedia.user && socialmedia.user.message);
     }
-    // reset();
+    reset();
   };
   return (
     <div>
