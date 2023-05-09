@@ -241,7 +241,7 @@ const Questiontype = () => {
                                 onChange={handleChange}
                                 shape="rounded"
                                 variant="outlined"
-                                // showFirstButton
+                              // showFirstButton
                               />
                             </div>
                           </>
@@ -251,6 +251,7 @@ const Questiontype = () => {
                   </div>
                 </div>
               </div>
+
             </div>
             <Footer />
           </div>
