@@ -84,18 +84,10 @@ const Sidebar = () => {
             </Link>
           </li>
 
-          {/*Searchengine*/}
-          <li className="nav-item">
-            <Link className="nav-link" to="/searchengine">
-              <span className="menu-title">Searchengine</span>
-              <i className="icon-screen-desktop menu-icon"></i>
-            </Link>
-          </li>
-
           {/*Tutor Subject*/}
           <li className="nav-item">
             <Link className="nav-link" to="/tutorsubject">
-              <span className="menu-title">Tutor Subject</span>
+              <span className="menu-title">Question Subject</span>
               <i className="icon-screen-desktop menu-icon"></i>
             </Link>
           </li>
@@ -112,6 +104,27 @@ const Sidebar = () => {
           <li className="nav-item">
             <Link className="nav-link" to="/curruncy ">
               <span className="menu-title">Curruncy </span>
+              <i className="icon-screen-desktop menu-icon"></i>
+            </Link>
+          </li>
+
+          {/*Question Answer*/}
+          <li className="nav-item nav-category">
+            <span className="nav-link">Question Answer</span>
+          </li>
+
+          {/*Searchengine*/}
+          <li className="nav-item">
+            <Link className="nav-link" to="/searchengine">
+              <span className="menu-title">Searchengine</span>
+              <i className="icon-screen-desktop menu-icon"></i>
+            </Link>
+          </li>
+
+          {/*Questions*/}
+          <li className="nav-item">
+            <Link className="nav-link" to="/questions">
+              <span className="menu-title">Questions</span>
               <i className="icon-screen-desktop menu-icon"></i>
             </Link>
           </li>
