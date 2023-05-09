@@ -223,7 +223,7 @@ const Pages = () => {
                           </div>
                           <Col md={12}>
                             <div>
-                              <p className="mx-1">Answer</p>
+                              <p className="mx-1">Context Text</p>
                               <Controller
                                 name="contentText"
                                 control={control}
