@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios';
 import { createSlice } from "@reduxjs/toolkit";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
+import { toast } from "react-toastify";
 
 const initialState = {
     data: [],
@@ -14,6 +15,7 @@ export const pagesListDelete = createAsyncThunk('', async(id, { rejectWithValue 
     const token = localStorage.getItem('token')
     try {
         const response = await axios.post(`https://vaidik-backend.onrender.com/admin/cms/${id}`, { token });
+        toast.success(response.data.message)
         return response.data;
     } catch (error) {
         logoutIfInvalidToken(error.response)

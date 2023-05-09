@@ -30,9 +30,11 @@ const Pages = () => {
   const auth = useSelector((state) => state.auth);
   const token = useSelector((state) => state.auth.token);
   const [isOpen, setIsOpen] = useState("");
+  const [defaultValue, setDefaultValue] = useState({});
   const postPageDataState = useSelector((state) => state.postPageData);
   const pagesListDeleteState = useSelector((state) => state.pagesListDelete);
   const getPageListState = useSelector((state) => state.getPageList);
+  const updatePageDataState = useSelector((state) => state.updatePageData);
   const { document = [] } = getPageListState?.data || {};
 
   const dispatch = useDispatch();
@@ -42,12 +44,6 @@ const Pages = () => {
     setCurrentPage(value);
   };
 
-  useEffect(() => {
-    if (postPageDataState?.isSuccess) {
-      dispatch(getPageListApi());
-      dispatch(resetPostPageDataApi());
-    }
-  }, [postPageDataState?.isSuccess]);
 
   const {
     register,
@@ -58,7 +54,17 @@ const Pages = () => {
     modules,
     editorRef,
     formState: { errors },
-  } = useForm({});
+  } = useForm({ values: defaultValue });
+
+
+  useEffect(() => {
+    if (postPageDataState?.isSuccess) {
+      dispatch(getPageListApi());
+      dispatch(resetPostPageDataApi());
+      setDefaultValue({})
+      reset()
+    }
+  }, [postPageDataState?.isSuccess]);
 
   const handleDropdownClick = (id) => {
     setIsOpen(isOpen === id ? "" : id);
@@ -76,20 +82,35 @@ const Pages = () => {
     dispatch(pagesListDelete(id));
   };
 
+  const handleEditClick = (data) => {
+    setDefaultValue(data);
+    setIsOpen("")
+  };
+
   useEffect(() => {
     if (pagesListDeleteState?.isSuccess) {
       dispatch(resetPagesListDelete());
-      dispatch(getPageListApi())
+      dispatch(getPageListApi());
     }
   }, [pagesListDeleteState?.isSuccess]);
 
   const onSubmit = (data) => {
     // localStorage.setItem("data", token);
+    if(defaultValue?._id){
+      data.id = defaultValue?._id
+      delete data._id;
+      delete data.isactive;
+      delete data.updatedAt;
+      delete data.createdAt;
+      delete data.__v;
+      // formData.append("id", defaultValues?.id);
+    }
 
     dispatch(postPageDataApi({ ...data, status: true }));
     setTimeout(() => {
-      navigate(" ");
-    }, 500);
+      setDefaultValue({})
+      reset()
+    }, 1000);
     reset();
   };
 
@@ -108,7 +129,14 @@ const Pages = () => {
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table">
                     <div className="card-body">
-                      <table className="table">
+                      <table
+                        className={`table ${
+                          (getPageListState.isLoading ||
+                            updatePageDataState.isLoading ||
+                            postPageDataState?.isLoading) &&
+                          "table-loading"
+                        }`}
+                      >
                         <thead>
                           <tr>
                             <th scope="col">Sort Order</th>
@@ -116,51 +144,64 @@ const Pages = () => {
                             <th scope="col">ACTION</th>
                           </tr>
                         </thead>
-                        {[...document].map((data, index) => (
-                          <tbody key={index}>
-                            <tr>
-                              <td>{data.sortOrder}</td>
-                              <td>{data.pageName}</td>
-                              <td>
-                                <div className="form-check form-switch">
-                                  <input
-                                    className="form-check-input"
-                                    type="checkbox"
-                                    id="flexSwitchCheckChecked"
-                                    onChange={(e) => {
-                                      changePageStatus(data._id, e.target.checked)
-                                    }
-                                    }
-                                    defaultChecked={data?.isactive}
-                                  />
-                                </div>
-                              </td>
-                              <td>
-                                <div className="dropdown">
-                                  <button
-                                    className="dropdown__button"
-                                    onClick={() => handleDropdownClick(data._id)}
-                                  >
-                                    ...
-                                  </button>
-                                  {data._id === isOpen && (
-                                    <div className="dropdown__popup">
-                                      <ul className="dropdown__list">
-                                        <li
-                                          onClick={() =>
-                                            handleDeleteClick(data._id)
-                                          }
-                                        >
-                                          Delete
-                                        </li>
-                                      </ul>
-                                    </div>
-                                  )}
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        ))}
+                        {[...document]
+                          .slice((currentPage - 1) * 5, currentPage * 5)
+                          .map((data, index) => (
+                            <tbody key={index}>
+                              <tr>
+                                <td>{data.sortOrder}</td>
+                                <td>{data.pageName}</td>
+                                <td>
+                                  <div className="form-check form-switch">
+                                    <input
+                                      className="form-check-input"
+                                      type="checkbox"
+                                      id="flexSwitchCheckChecked"
+                                      onChange={(e) => {
+                                        changePageStatus(
+                                          data._id,
+                                          e.target.checked
+                                        );
+                                      }}
+                                      defaultChecked={data?.isactive}
+                                    />
+                                  </div>
+                                </td>
+                                <td>
+                                  <div className="dropdown">
+                                    <button
+                                      className="dropdown__button"
+                                      onClick={() =>
+                                        handleDropdownClick(data._id)
+                                      }
+                                    >
+                                      ...
+                                    </button>
+                                    {data._id === isOpen && (
+                                      <div className="dropdown__popup">
+                                        <ul className="dropdown__list">
+                                          <li
+                                            onClick={() =>
+                                              handleEditClick(data)
+                                            }
+                                          >
+                                            Edit
+                                          </li>
+                                          <li
+                                            onClick={() =>
+                                              handleDeleteClick(data._id)
+                                            }
+                                          >
+                                            Delete
+                                          </li>
+                                        </ul>
+                                      </div>
+                                    )}
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          ))}
                       </table>
                       <div className="table-pagination">
                         <Pagination
@@ -328,7 +369,19 @@ const Pages = () => {
                               className="btn btn-primary mx-2"
                               disabled={postPageDataState?.isLoading}
                             >
-                              {postPageDataState?.isLoading ? "Posting..." : "Submit"}
+                              {Object.keys(defaultValue).length === 0 ? (
+                                <>
+                                  {postPageDataState?.isLoading
+                                    ? "Posting..."
+                                    : "Submit"}
+                                </>
+                              ) : (
+                                <>
+                                  {postPageDataState?.isLoading
+                                    ? "Updating..."
+                                    : "Update"}
+                                </>
+                              )}
                             </button>
                           </div>
                         </div>

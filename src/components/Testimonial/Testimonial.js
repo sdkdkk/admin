@@ -25,12 +25,15 @@ import { ColorRing } from "react-loader-spinner";
 
 const Testimonial = () => {
   const dispatch = useDispatch();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [defaultValues, setDefaultValues] = useState({});
   const testimonial = useSelector((state) => state.testimonial);
+  const testimonialform = useSelector((state) => state.testimonialform);
   const testimonialstatus = useSelector((state) => state.testimonialstatus);
   const testimonialUserDeleteState = useSelector(
     (state) => state.testimonialUserDelete
   );
-  console.log("testimonial", testimonial.loading);
+  
   var [isActive, SetisActive] = useState(true);
 
   const [isOpen, setIsOpen] = useState("");
@@ -52,20 +55,23 @@ const Testimonial = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     reset,
     formState: { errors },
-  } = useForm({});
+  } = useForm({ values: defaultValues });
 
   useEffect(() => {
     dispatch(Testimoniald(tokens));
-  }, [dispatch]);
+  }, []);
 
   useEffect(() => {
-    if (testimonialUserDeleteState?.isSuccess) {
+    if (testimonialUserDeleteState?.isSuccess || testimonialform?.isAuthenticated) {
+      reset();
+      setDefaultValues({})
       dispatch(Testimoniald(tokens));
       dispatch(resetTestimonialUserDelete());
     }
-  }, [testimonialUserDeleteState?.isSuccess]);
+  }, [testimonialUserDeleteState?.isSuccess || testimonialform?.isAuthenticated]);
 
   const onSubmit = (data) => {
     const formData = new FormData();
@@ -76,10 +82,16 @@ const Testimonial = () => {
     formData.append("description", data.description);
     formData.append("token", tokens);
     formData.append("status", isActive);
+    if(defaultValues?.id){
+      formData.append("id", defaultValues?.id);
+    }
 
     dispatch(testimonialformapi(formData));
-
-    reset();
+    setTimeout(() =>{
+      setDefaultValues({})
+      reset({});
+    },[500])
+    
   };
 
   const changestatus = async (value, id, index) => {
@@ -97,13 +109,17 @@ const Testimonial = () => {
     setCurrentPage(value);
   };
 
+  const handleEditClick = (data) =>{
+    setIsOpen(false)
+    setDefaultValues(data)
+  }
+
   const handleDeleteClick = (id) => {
     dispatch(testimonialUserDelete(id));
   };
-
+  
   //pagenation
-  const [currentPage, setCurrentPage] = useState(1);
-
+  
   return (
     <div>
       <div className="container-scroller">
@@ -119,7 +135,7 @@ const Testimonial = () => {
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table">
                     <div className="card-body">
-                      <table className="table">
+                      <table className={`table ${(testimonial.loading || testimonialstatus.loading || testimonialform.loading || testimonialUserDeleteState.isLoading) && "table-loading"}`}>
                         <thead>
                           <tr>
                             <th scope="col">Sort Order</th>
@@ -130,31 +146,9 @@ const Testimonial = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          {testimonial.loading ? (
-                            <tr>
-                              <td colSpan={5}>
-                                <div
-                                  style={{
-                                    margin: "0 auto",
-                                    width: "fit-content",
-                                  }}
-                                >
-                                  <ColorRing
-                                    visible={true}
-                                    height="80"
-                                    width="80"
-                                    ariaLabel="blocks-loading"
-                                    wrapperStyle={{}}
-                                    wrapperClass="blocks-wrapper"
-                                    colors={["black"]}
-                                  />
-                                </div>
-                              </td>
-                            </tr>
-                          ) : (
-                            <>
+                        <>
                               {testimonial.user &&
-                                testimonial.user.testimonial.map(
+                                testimonial.user.testimonial.slice((currentPage - 1) * 5, currentPage * 5).map(
                                   (data, index) => (
                                     <tr key={index}>
                                       <td>{data.sortOrder}</td>
@@ -199,6 +193,13 @@ const Testimonial = () => {
                                               <ul className="dropdown__list">
                                                 <li
                                                   onClick={() =>
+                                                    handleEditClick(data)
+                                                  }
+                                                >
+                                                  Edit
+                                                </li>
+                                                <li
+                                                  onClick={() =>
                                                     handleDeleteClick(data.id)
                                                   }
                                                 >
@@ -213,7 +214,6 @@ const Testimonial = () => {
                                   )
                                 )}
                             </>
-                          )}
                         </tbody>
                       </table>
                       <div className="table-pagination">
@@ -343,7 +343,7 @@ const Testimonial = () => {
                                 type="submit"
                                 className="btn btn-primary mx-2"
                               >
-                                Submit
+                                {Object.keys(defaultValues).length === 0 ? "Submit" : "Update"}
                               </button>
                             </div>
                           </div>
