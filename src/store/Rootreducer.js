@@ -28,6 +28,8 @@ import questiontypeReducer from "../Redux/Loginpages/questiontypeSlice";
 import questionTimingReducer from "../Redux/Loginpages/questionTimingSlice";
 import questionPricingReducer from "../Redux/Loginpages/questionPricingSlice";
 import getQuestiontimeReducer from "../Redux/Loginpages/getQuestiontimeSlice";
+import getAdminQuestionsSlice from "../Redux/Loginpages/getAdminQuestionSlice";
+import postAdminQuestionsSlice from "../Redux/Loginpages/postAdminQuestionSlice";
 
 const reducer = combineReducers({
   auth: authReducer,
@@ -57,6 +59,8 @@ const reducer = combineReducers({
   questiontiming: questionTimingReducer,
   questionpricing: questionPricingReducer,
   gettiming: getQuestiontimeReducer,
+  getAdminQuestions: getAdminQuestionsSlice,
+  postAdminQuestions: postAdminQuestionsSlice,
 });
 
 export default reducer;
