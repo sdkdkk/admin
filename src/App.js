@@ -62,9 +62,6 @@ function App() {
         <Route path="professionaldetails/:_id" element={<Professionaldetails/>} />
         <Route path="pages" element={<Pages/>} />
         <Route path="socialmediasetting" element={<Socialmediasetting/>} />
-        {/* <Route path="/postquestion" element={<Postquestion />} />
-        <Route path="/issuepostquestion/: id" element={<Issuepostquestion />} />
-        <Route path="/referralhistory" element={<Referralhistory />} /> */}
         <Route path="login" element={<Login/>} />
         <Route path="signup" element={<Signup/>} />
         <Route path="signup" element={<Signup/>} />
