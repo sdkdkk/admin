@@ -37,7 +37,7 @@ const Questionpricing = () => {
 
     dispatch(questionpricingApi(pricingData));
 
-    if (questionpricing.status === 1) {
+    if (questionpricing.user && questionpricing.user.message) {
       notify(questionpricing.user && questionpricing.user.message);
     }
   };
