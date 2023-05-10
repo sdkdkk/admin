@@ -25,7 +25,7 @@ const Questiontype = () => {
 
   //table
   const [currentPage, setCurrentPage] = useState(1);
-  const [postsPerPage] = useState(8);
+  const [postsPerPage] = useState(4);
   const indexOfLastPage = currentPage * postsPerPage;
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
   const displayUsers = conversionRate.slice(indexOfFirstPage, indexOfLastPage);
@@ -33,6 +33,7 @@ const Questiontype = () => {
   const handleChange = (event, value) => {
     setCurrentPage(value);
   };
+  const totalPages = Math.ceil(conversionRate.length / postsPerPage);
 
   const fetchData = async () => {
     try {
@@ -59,7 +60,7 @@ const Questiontype = () => {
 
   const onSubmit = async (data) => {
     try {
-      setLoading1(true);
+      setLoading(true);
       const requestUrl = data._id
         ? `https://vaidik-backend.onrender.com/admin/questiontype`
         : `https://vaidik-backend.onrender.com/admin/questiontype`;
@@ -86,7 +87,7 @@ const Questiontype = () => {
     } catch (error) {
       notify(error.response.data.error);
     } finally {
-      setLoading1(false);
+      setLoading(false);
     }
   };
 
@@ -102,14 +103,12 @@ const Questiontype = () => {
   };
 
   function handleDelet(_id) {
-    setLoading(true);
     const response = axios
       .post(`https://vaidik-backend.onrender.com/admin/questiontype/${_id}`, {
         token: token,
       })
       .then(() => {
         fetchData();
-        setLoading(false);
       });
     if (response.data.status === 1) {
       console.log(response.data.data);
@@ -236,7 +235,7 @@ const Questiontype = () => {
                             </Table>
                             <div className="table-pagination">
                               <Pagination
-                                count={4}
+                                count={totalPages}
                                 page={currentPage}
                                 onChange={handleChange}
                                 shape="rounded"
