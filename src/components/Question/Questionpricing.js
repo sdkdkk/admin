@@ -57,8 +57,10 @@ const Questionpricing = () => {
           admin_price: data.admin_price,
         });
       }
-      if (data.message || data.status === 1) {
-        notify(data.message);
+      console.log(response);
+      if (response.data.message) {
+        notify(response.data.message);
+        console.log(data);
         reset();
         fetchData();
       } else {
@@ -70,6 +72,7 @@ const Questionpricing = () => {
     }
 
     fetchData();
+
     setLoading(false);
   };
 
@@ -106,7 +109,6 @@ const Questionpricing = () => {
   const handleUpdateClick = (data) => {
     console.log(data);
     reset(data);
-    fetchData();
   };
 
   function handleDeleteClick(_id) {
@@ -122,8 +124,8 @@ const Questionpricing = () => {
         fetchData();
         setLoading(false);
       });
-    if (response.data.data) {
-      console.log(response.data.data);
+    if (response.data) {
+      console.log(response);
       notify(response.data.data);
       reset();
     }
