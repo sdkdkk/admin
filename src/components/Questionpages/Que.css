@@ -63,7 +63,7 @@ textarea {
     box-shadow: none;
     padding: 0 15px;
     outline: none;
-    border: var(--border-width) solid var(--color-border);
+    /* border: var(--border-width) solid var(--color-border); */
     border-radius: var(--radius);
     color: var(--color-body);
     box-shadow: var(--shadow-10);
@@ -73,9 +73,13 @@ textarea {
     margin-right: 10px !important;
 }
 
-input,
+/* input,
 select,
 textarea {
+    width: 100%;
+    transition: 0.3s;
+} */
+textarea#bio {
     width: 100%;
     transition: 0.3s;
 }

@@ -27,6 +27,7 @@ const Studentlist = () => {
   const displayUsers =
     studentists && studentists.slice(indexOfFirstPage, indexOfLastPage);
   const dispatch = useDispatch();
+  const totalPages = Math.ceil(studentists.length / postsPerPage);
   //date picker
   const [values, setValues] = useState([
     new DateObject().subtract(4, "days"),
@@ -129,7 +130,7 @@ const Studentlist = () => {
                         </table>
                         <div className="table-pagination">
                           <Pagination
-                            count={4}
+                           count={totalPages}
                             page={currentPage}
                             onChange={handleChange}
                             shape="rounded"

@@ -10,6 +10,7 @@ import { Label } from "reactstrap";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useForm } from "react-hook-form";
+import { toast } from "react-toastify";
 
 const Professionaldetails = () => {
   const { _id } = useParams();
@@ -20,12 +21,15 @@ const Professionaldetails = () => {
     setMyImage(URL.createObjectURL(e.target.files[0]));
   };
   const [user, setUser] = useState();
+  const notify = (data) => toast(data);
   console.log(user);
   const {
     register,
     handleSubmit,
+    reset,
     formState: { isSubmitting },
   } = useForm();
+
 
   const token = localStorage.getItem("token");
   useEffect(() => {
@@ -53,51 +57,60 @@ const Professionaldetails = () => {
     fetchData();
   }, []);
 
-  if (!user) {
-    return <div>Loading...</div>;
-  }
+  // if (!user) {
+  //   return <div>Loading...</div>;
+  // }
+
+  
 
   const onSubmit = (data) => {
-    const updatedUser = {
-      token:token,
-      profilephoto:myimage,
+    const formData = new FormData();
+    const files = data.myimage;
 
-      name: data.name,
-      mobileNo: data.mobileNo,
-      country: data.country,
-      gender:data.gender,
-      dob: data.dob,
-      experience: data.experience,
-      clg_name: data.clg_name,
-      clg_city: data.clg_city,
-      degree: data.degree,
-      degree_choice: data.degree_choice,
-      degree_specialisation: data.degree_specialisation,
-      gpa: data.gpa,
-      Tutorbankname: data.Tutorbankname,
-      IFSCCode: data.IFSCCode,
-      panCard: data.panCard,
-      bankcountry:data.bankcountry,
-      accountNumber: data.accountNumber,
-      accountType: data.accountType,
-      bankName: data.bankName,
-    };
-    console.log(updatedUser)
-   
-      fetch(`http://vaidik-backend.onrender.com/admin/tutorsdetails/${_id}`, {
+    formData.append("token", token);
+    // formData.append("myimage", data.myimage);
+    formData.append(`profilephoto`, files);
+    formData.append("name", data.name);
+    formData.append("mobileNo", data.mobileNo);
+    formData.append("country", data.country);
+    formData.append("gender", data.gender);
+    formData.append("dob", data.dob);
+    formData.append("experience", data.experience);
+    formData.append("clg_name", data.clg_name);
+    formData.append("clg_city", data.clg_city);
+    formData.append("degree", data.degree);
+    formData.append("degree_choice", data.degree_choice);
+    formData.append("degree_specialisation", data.degree_specialisation);
+    formData.append("gpa", data.gpa);
+    formData.append("Tutorbankname", data.Tutorbankname);
+    formData.append("IFSCCode", data.IFSCCode);
+    formData.append("panCard", data.panCard);
+    formData.append("bankcountry", data.bankcountry);
+    formData.append("accountNumber", data.accountNumber);
+    formData.append("accountType", data.accountType);
+    formData.append("bankName", data.bankName);
+
+    fetch(`http://vaidik-backend.onrender.com/admin/tutorsdetails/${_id}`, {
       method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(updatedUser),
+      body: formData,
     })
-      .then((response) => response.json())
+      .then((response) => response.json()
+      )
       .then((data) => {
-    console.log(data);
+        console.log(data);
+        if (data.status === 1) {
+          notify(data.message); // Show success notification
+          reset();
+        } else {
+          notify(data.message); // Show error notification
+        }
       })
+      
       .catch((error) => {
         console.error(error);
       });
+      
+      
   };
 
   return (
@@ -121,9 +134,13 @@ const Professionaldetails = () => {
                             <div className="card-body">
                               <div className="profile-details">
                                 <img
-                                type="file"
-                                name="image"
-                                  src={myimage === null ? data.personaldetails.profilephoto : myimage }
+                                  type="file"
+                                  name="image"
+                                  src={
+                                    myimage === null
+                                      ? data.personaldetails.profilephoto
+                                      : myimage
+                                  }
                                   // src={data.personaldetails.profilephoto}
                                   defaultValue={
                                     data.professionaldetails.profilephoto
@@ -210,9 +227,7 @@ const Professionaldetails = () => {
                                       type="text"
                                       name="gender"
                                       placeholder="Enter Number"
-                                      defaultValue={
-                                        data.personaldetails.gender
-                                      }
+                                      defaultValue={data.personaldetails.gender}
                                       {...register("gender", {
                                         required: true,
                                       })}
@@ -437,7 +452,9 @@ const Professionaldetails = () => {
                                       type="text"
                                       name="bankcountry"
                                       placeholder="Enter Pan Card Number"
-                                      defaultValue={data.bankdetails.bankcountry}
+                                      defaultValue={
+                                        data.bankdetails.bankcountry
+                                      }
                                       {...register("bankcountry", {
                                         required: true,
                                       })}
@@ -498,7 +515,10 @@ const Professionaldetails = () => {
                         </div>
                       </div>
 
-                      <button type="submit" disabled={isSubmitting}>
+                      <button
+                        className=" btn-primary"
+                        type="submit"
+                        disabled={isSubmitting}>
                         {isSubmitting ? "Submitting..." : "Save"}
                       </button>
                     </Form>
@@ -511,7 +531,6 @@ const Professionaldetails = () => {
       </div>
     </div>
   );
-  
 };
 
 export default Professionaldetails;

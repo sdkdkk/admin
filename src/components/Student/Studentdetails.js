@@ -75,6 +75,7 @@ const Studentdetails = () => {
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
 
   const displayque = studentque.slice(indexOfFirstPage, indexOfLastPage);
+  const totalPages = Math.ceil(studentque.length / postsPerPage);
   const handleChange = (event, value) => {
     setCurrentPage(value);
   };
@@ -89,6 +90,7 @@ const Studentdetails = () => {
     indexOfFirstPage1,
     indexOfLastPage1
   );
+  const totalPage= Math.ceil(studenttransation.length / postsPerPage);
   const handleChange1 = (event, value) => {
     setCurrentPage1(value);
   };
@@ -268,13 +270,11 @@ const Studentdetails = () => {
                   </table>{" "}
                   <div className="table-pagination">
                     <Pagination
-                      count={1000}
+                      count={totalPage}
                       page={currentPage1}
                       onChange={handleChange1}
                       shape="rounded"
                       variant="outlined"
-                      showFirstButton
-                      showLastButton
                     />
                   </div>{" "}
                 </div>{" "}
@@ -305,7 +305,7 @@ const Studentdetails = () => {
                           {" "}
                           <b> {Data.allQuestions.question} </b>
                         </td>
-                        <td >
+                        <td>
                           {" "}
                           {Data.tutor}{" "}
                           {clicked === index ? (
@@ -350,13 +350,11 @@ const Studentdetails = () => {
               </table>
               <div className="table-pagination mb-2">
                 <Pagination
-                  count={1000}
+                  count={totalPages}
                   page={currentPage}
                   onChange={handleChange}
                   shape="rounded"
                   variant="outlined"
-                  showFirstButton
-                  showLastButton
                 />
               </div>{" "}
               {/* Last Button */}{" "}

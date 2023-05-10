@@ -86,6 +86,7 @@ const Tutordetails = () => {
   const indexOfLastPage = currentPage * postsPerPage;
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
   const displayUsers = data.slice(indexOfFirstPage, indexOfLastPage);
+  const totalPages = Math.ceil(data.length / postsPerPage);
   const handleChange = (event, value) => {
     setCurrentPage(value);
   };
@@ -98,6 +99,7 @@ const Tutordetails = () => {
     indexOfFirstPage1,
     indexOfLastPage1
   );
+  const totalPage= Math.ceil(transation.length / postsPerPage);
   const handleChange1 = (event, value) => {
     setCurrentPage1(value);
   };
@@ -134,7 +136,6 @@ const Tutordetails = () => {
       <Navbar />
       <div className="container-fluid page-body-wrapper">
         <Sidebar />
-
         <div>
           {Loader ? (
             <div className="loader-end text-center" style={{marginLeft:"500px" ,marginTop:"250px"}}>
@@ -301,13 +302,11 @@ const Tutordetails = () => {
                     </table>
                     <div className="table-pagination">
                       <Pagination
-                        count={4}
+                        count={totalPage}
                         page={currentPage1}
                         onChange={handleChange1}
                         shape="rounded"
                         variant="outlined"
-                        showFirstButton
-                        showLastButton
                       />
                     </div>
                   </div>
@@ -375,13 +374,11 @@ const Tutordetails = () => {
                 </table>
                 <div className="table-pagination">
                   <Pagination
-                    count={4}
+                   count={totalPages}
                     page={currentPage}
                     onChange={handleChange}
                     shape="rounded"
                     variant="outlined"
-                    showFirstButton
-                    showLastButton
                   />
                 </div>
                 {/* Last Button */}
