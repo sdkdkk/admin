@@ -20,10 +20,10 @@ const Coupon = () => {
 
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
-  const [editCouponId, setEditCouponId] = useState(null);
   const token = localStorage.getItem("token");
   const notify = (data) => toast(data);
   const [conversionRate, setConversionRate] = useState([]);
+ 
 
   //table
   const [currentPage, setCurrentPage] = useState(1);
@@ -31,6 +31,7 @@ const Coupon = () => {
   const indexOfLastPage = currentPage * postsPerPage;
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
   const displayUsers = conversionRate.slice(indexOfFirstPage, indexOfLastPage);
+  const totalPages = Math.ceil(conversionRate.length / postsPerPage);
 
   const handleChange = (event, value) => {
     setCurrentPage(value);
@@ -107,7 +108,6 @@ const Coupon = () => {
   };
 
   function handleDelet(_id) {
-    setLoading(true);
     const response = axios
       .post(
         `https://vaidik-backend.onrender.com/admin/deletecouponcode/${_id}`,
@@ -117,7 +117,6 @@ const Coupon = () => {
       )
       .then(() => {
         fetchData();
-        setLoading(false);
       });
     if (response.data.status === 1) {
       console.log(response.data.data);
@@ -264,7 +263,11 @@ const Coupon = () => {
                               <tbody>
                                 {displayUsers.map((data, index) => (
                                   <tr key={data._id}>
-                                    <td>{index + 1 + (currentPage - 1) * postsPerPage}</td>
+                                    <td>
+                                      {index +
+                                        1 +
+                                        (currentPage - 1) * postsPerPage}
+                                    </td>
                                     <td>{data.couponCode}</td>
                                     <td>{data.discount}</td>
                                     <td>
@@ -293,7 +296,7 @@ const Coupon = () => {
                             </Table>
                             <div className="table-pagination">
                               <Pagination
-                                count={4}
+                              count={totalPages}
                                 page={currentPage}
                                 onChange={handleChange}
                                 shape="rounded"

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
@@ -15,22 +15,47 @@ const Questionreasnwer = () => {
   } = useForm({});
 
   const [loading, setLoading] = useState(false);
-  const [reanswer, setReanswer] = useState("yes");
+  const [loading1, setLoading1] = useState(false);
+  const [conversionRate, setConversionRate] = useState([]);
+  const [reanswer, setReanswer] = useState(loading1 || conversionRate.choice ? "yes" : "no");
   const notify = (data) => toast(data);
   const token = localStorage.getItem("token");
+  console.log(conversionRate);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setLoading1(true);
+        const response = await axios.post(
+          `https://vaidik-backend.onrender.com/admin/getreanswer`,
+          {
+            token: token,
+          }
+        );
+        // console.log(response.data);
+        await setConversionRate(response.data.data);
+        setLoading1(false);
+      } catch (error) {
+        console.log(error.response.data.error);
+        // notify("Invalid refresh token!");
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
 
   const onSubmit = async (data, e) => {
     try {
       setLoading(true);
       const hours = data.hours ? parseInt(data.hours) : 0;
       const minutes = data.minutes ? parseInt(data.minutes) : 0;
-      const reanswerTime = hours + minutes / 60;
+      const reanswerTime = hours * 60 + minutes;
       //   const { hours, minutes } = data.reanswer_time;
       const response = await axios.post(
         `https://vaidik-backend.onrender.com/admin/setreanswer`,
         {
           choice: reanswer === "yes",
-          reanswer_time: reanswerTime.toFixed(2),
+          reanswer_time: parseInt(reanswerTime),
           token: token,
         }
       );
@@ -74,6 +99,7 @@ const Questionreasnwer = () => {
                               label="Yes"
                               name="yesNoRadio"
                               value="yes"
+                              defaultValue={reanswer}
                               checked={reanswer === "yes"}
                               onChange={() => setReanswer("yes")}
                             />
@@ -83,6 +109,7 @@ const Questionreasnwer = () => {
                               label="No"
                               name="yesNoRadio"
                               value="no"
+                              defaultValue={reanswer}
                               checked={reanswer === "no"}
                               onChange={() => setReanswer("no")}
                             />
@@ -105,6 +132,7 @@ const Questionreasnwer = () => {
                                 className="form-control"
                                 id="hoursInput"
                                 name="hours"
+                                defaultValue={loading1 || conversionRate.length === 0 ? '' : String(Math.floor(conversionRate.reanswer_time / 60))}
                                 {...register("hours")}
                               />
                               {errors.hours && (
@@ -128,6 +156,7 @@ const Questionreasnwer = () => {
                                 id="minutesInput"
                                 name="minutes"
                                 {...register("minutes")}
+                                defaultValue={loading1 || conversionRate.length === 0 ? '' : String(conversionRate.reanswer_time % 60)}
                               />
                             </div>
                           </div>

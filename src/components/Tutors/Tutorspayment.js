@@ -8,6 +8,8 @@ import { Button } from "react-bootstrap";
 import { tutorspayment } from "../../Redux/Loginpages/tutorspaymentSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { ColorRing } from "react-loader-spinner";
+import { FaCopy } from "react-icons/fa";
+
 
 const Tutorspayment = () => {
   const tutorpayment = useSelector(state => state.tutorpayment.data.info)
@@ -36,6 +38,10 @@ const Tutorspayment = () => {
       return setClicked(null);
     }
     setClicked(index);
+  };
+
+  const handleCopy = (name) => {
+    navigator.clipboard.writeText(name);
   };
 
   return (
@@ -101,6 +107,15 @@ const Tutorspayment = () => {
                                   <span className="list-group-item mt-2 ">
                                     <b>Pan Card</b> :{value.bankdetails.panCard}
                                   </span>
+                             
+                                  <Button
+                                  variant="outline-primary"
+                                  size="sm"
+                                  className="ml-2"
+                                  onClick={() => handleCopy(value.name)}
+                                >
+                                  <FaCopy />
+                                </Button>
                                 </>
                               ) : null}
                             </td>

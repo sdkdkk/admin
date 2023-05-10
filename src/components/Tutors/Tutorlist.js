@@ -90,6 +90,7 @@ const Tutorlist = () => {
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
   let displayUsers =
     currentData && currentData.slice(indexOfFirstPage, indexOfLastPage);
+    const totalPages = Math.ceil(currentData.length / postsPerPage);
 
   const handleChange = (event, value) => {
     setCurrentPage(value);
@@ -287,13 +288,11 @@ console.log("---> ", currentData)
                               </table>
                               <div className="table-pagination">
                                 <Pagination
-                                  count={4}
+                                  count={totalPages}
                                   page={currentPage}
                                   onChange={handleChange}
                                   shape="rounded"
                                   variant="outlined"
-                                  showFirstButton
-                                  showLastButton
                                 />
                               </div>
                             </div>

@@ -21,18 +21,20 @@ const Tutorsubject = () => {
   const [loading1, setLoading1] = useState(false);
   const [conversionRate, setConversionRate] = useState([]);
   const token = localStorage.getItem("token");
+
   const notify = (data) => toast(data);
 
-    //table
-    const [currentPage, setCurrentPage] = useState(1);
-    const [postsPerPage] = useState(8);
-    const indexOfLastPage = currentPage * postsPerPage;
-    const indexOfFirstPage = indexOfLastPage - postsPerPage;
-    const displayUsers = conversionRate.slice(indexOfFirstPage, indexOfLastPage);
-  
-    const handleChange = (event, value) => {
-      setCurrentPage(value);
-    };
+  //table
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(8);
+  const indexOfLastPage = currentPage * postsPerPage;
+  const indexOfFirstPage = indexOfLastPage - postsPerPage;
+  const displayUsers = conversionRate.slice(indexOfFirstPage, indexOfLastPage);
+  const totalPages = Math.ceil(conversionRate.length / postsPerPage);
+
+  const handleChange = (event, value) => {
+    setCurrentPage(value);
+  };
 
   const fetchData = async () => {
     try {
@@ -91,13 +93,12 @@ const Tutorsubject = () => {
 
   const handleUpdate = (coupon) => {
     reset(coupon);
-
     // Scroll to the top of the page
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   function handleDelet(_id) {
-    setLoading(true);
+
     const response = axios
       .post(
         `https://vaidik-backend.onrender.com/admin/questionsubject/${_id}`,
@@ -107,7 +108,7 @@ const Tutorsubject = () => {
       )
       .then(() => {
         fetchData();
-        setLoading(false);
+      
       });
     if (response.data.status === 1) {
       console.log(response.data.data);
@@ -149,7 +150,7 @@ const Tutorsubject = () => {
                               />
                               {errors.questionSubject && (
                                 <p className="error text-right text-danger">
-                                  Please Enter a couponCode{" "}
+                                  Please Enter a Question Subject{" "}
                                 </p>
                               )}
                             </div>
@@ -160,8 +161,11 @@ const Tutorsubject = () => {
                             <h6>&nbsp;</h6>
                           </div>
                           <div className="col-lg-4 col-md-8 mb-2 text-md-end">
-                            <Button variant="primary" type="submit">
-                              Add
+                            <Button variant="primary"
+                             type="submit"
+                             disabled={loading}
+                             >
+                              {loading ? "Loading..." : "Add"}
                             </Button>
                           </div>
                         </div>
@@ -190,56 +194,58 @@ const Tutorsubject = () => {
                           </p>
                         ) : (
                           <>
-                          <Table
-                            striped
-                            bordered
-                            hover
-                            responsive
-                            className="single-color">
-                            <thead>
-                              <tr>
-                                <th>Sr. No</th>
-                                <th>Subject Name</th>
-                                <th>Action</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {displayUsers.map((data, index, _id) => (
+                            <Table
+                              striped
+                              bordered
+                              hover
+                              responsive
+                              className="single-color">
+                              <thead>
                                 <tr>
-                                  <td>{index + 1 + (currentPage - 1) * postsPerPage}</td>
-                                  <td>{data.questionSubject}</td>
-                                  <td>
-                                    <Button
-                                      variant="success"
-                                      onClick={() => handleUpdate(data)}>
-                                      Update
-                                    </Button>
-                                    <Button
-                                      className="mx-2"
-                                      variant="danger"
-                                      onClick={() => handleDelet(data._id)}>
-                                      Delete
-                                    </Button>
-                                  </td>
+                                  <th>Sr. No</th>
+                                  <th>Subject Name</th>
+                                  <th>Action</th>
                                 </tr>
-                              ))}
-                            </tbody>
-                          </Table>
-                           <div className="table-pagination">
-                           <Pagination
-                             count={4}
-                             page={currentPage}
-                             onChange={handleChange}
-                             shape="rounded"
-                             variant="outlined"
-                             // showFirstButton
-                           />
-                         </div>
-                         </>
+                              </thead>
+                              <tbody>
+                                {displayUsers.map((data, index, _id) => (
+                                  <tr>
+                                    <td>
+                                      {index +
+                                        1 +
+                                        (currentPage - 1) * postsPerPage}
+                                    </td>
+                                    <td>{data.questionSubject}</td>
+                                    <td>
+                                      <Button
+                                        variant="success"
+                                        onClick={() => handleUpdate(data)}>
+                                        Update
+                                      </Button>
+                                      <Button
+                                        className="mx-2"
+                                        variant="danger"
+                                        onClick={() => handleDelet(data._id)}>
+                                        Delete
+                                      </Button>
+                                    </td>
+                                  </tr>
+                                ))}
+                              </tbody>
+                            </Table>
+                            <div className="table-pagination">
+                              <Pagination
+                               count={totalPages}
+                                page={currentPage}
+                                onChange={handleChange}
+                                shape="rounded"
+                                variant="outlined"
+                                // showFirstButton
+                              />
+                            </div>
+                          </>
                         )}
-                   
                       </div>
-                          
                     </div>
                   </div>
                 </div>
