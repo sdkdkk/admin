@@ -25,13 +25,16 @@ const Questiontiming = () => {
   const [data, setData] = useState([]);
   const [selectedData, setSelectedData] = useState("null");
   useEffect(() => {
+    setLoading1(true);
     let token = localStorage.getItem("token");
     dispatch(questiontypeApi(token));
     fetchData();
+    setLoading1(false);
   }, []);
   const { register, handleSubmit, reset } = useForm({});
 
   const onSubmit = (data) => {
+    setLoading1(true);
     let token = localStorage.getItem("token");
     console.log(data._id);
     // Parse hours and minutes as numbers
@@ -65,7 +68,7 @@ const Questiontiming = () => {
       : 0;
     const unsolved_time = unsolvedhours * 60 + unsolvedminutes;
 
-       let timingObjData = {
+    let timingObjData = {
       token: token,
       Type: data.Type,
       first_time: first_time,
@@ -84,7 +87,10 @@ const Questiontiming = () => {
     if (questiontiming.user && questiontiming.user.message) {
       console.log(questiontiming.user);
       notify(questiontiming.user && questiontiming.user.message);
+      reset();
+      fetchData();
     }
+   
   };
 
   //table
@@ -463,8 +469,12 @@ const Questiontiming = () => {
                             <h6>&nbsp;</h6>
                           </div>
                           <div className="col-lg-6 mb-2 text-end">
-                            <Button variant="primary" type="submit">
-                              {isEditMode ? "Update" : "Submit"}
+                            <Button
+                              variant="primary"
+                              type="submit"
+                              disabled={loading}
+                            >
+                             {data.id ? "Update" : "Submit"}
                             </Button>
                           </div>
                         </div>
