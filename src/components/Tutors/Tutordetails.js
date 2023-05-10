@@ -3,22 +3,15 @@ import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
 import "../Tutors/Tutorlist.css";
 import "../Css/Tutorlist.css";
-// import { FcApproval } from "react-icons/fc";
-// import { AiOutlineClose } from "react-icons/ai";
-// import { Button } from "react-bootstrap";
-// import { tutordetail } from "../../Redux/Loginpages/tutordetailSlice";
-// import { Transaction } from "./TutorData";
-// import { Posts } from "./TutorData";
 import { CgProfile } from "react-icons/cg";
-import { BsThreeDotsVertical } from "react-icons/bs";
 import { Pagination } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import Moment from "react-moment";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import { Link, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { tutordetail } from "../../Redux/Loginpages/tutordetailSlice";
 import { ColorRing } from "react-loader-spinner";
-import { Button } from "react-bootstrap";
 
 const Tutordetails = () => {
   const tutordetails = useSelector((state) => state.tutordetail);
@@ -30,7 +23,7 @@ const Tutordetails = () => {
     dispatch(tutordetail(_id));
   }, [dispatch, _id]);
 
-  const [clicked, setClicked] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
   const [transation, setTransation] = useState([]);
   const [tutorpaydetails, setTutorpaydetails] = useState([]);
@@ -39,8 +32,8 @@ const Tutordetails = () => {
   const token = localStorage.getItem("token");
   console.log(data);
 
-  
   useEffect(() => {
+    setIsLoading(true);
     const fetchData = async () => {
       try {
         const response = await axios.post(
@@ -64,6 +57,7 @@ const Tutordetails = () => {
         setData(response.data.message);
         setTransation(response1.data.transaction);
         setTutorpaydetails(response2.data.document);
+        setIsLoading(false);
         setLoader(false);
       } catch (error) {
         if (error.response) {
@@ -81,16 +75,17 @@ const Tutordetails = () => {
     fetchData();
   }, []);
 
+  let navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(8);
   const indexOfLastPage = currentPage * postsPerPage;
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
-  const displayUsers = data.slice(indexOfFirstPage, indexOfLastPage);
+  const displayUsers = data && data.slice(indexOfFirstPage, indexOfLastPage);
   const totalPages = Math.ceil(data.length / postsPerPage);
   const handleChange = (event, value) => {
     setCurrentPage(value);
   };
-
+  console.log(displayUsers);
   const [currentPage1, setCurrentPage1] = useState(1);
   const [postsPerPage1] = useState(6);
   const indexOfLastPage1 = currentPage1 * postsPerPage1;
@@ -99,36 +94,13 @@ const Tutordetails = () => {
     indexOfFirstPage1,
     indexOfLastPage1
   );
-  const totalPage= Math.ceil(transation.length / postsPerPage);
+  const totalPage = Math.ceil(transation.length / postsPerPage);
   const handleChange1 = (event, value) => {
     setCurrentPage1(value);
   };
 
-  // const ReadMore = ({ children }) => {
-  //   const text = children;
-  //   const [isReadMore, setIsReadMore] = useState(true);
-  //   const toggleReadMore = () => {
-  //     setIsReadMore(!isReadMore);
-  //   };
-  //   return (
-  //     <p className="text" style={{ fontSize: "14px" }}>
-  //       {isReadMore ? text.slice(0, 60) : text}
-  //       <span
-  //         onClick={toggleReadMore}
-  //         className="read-or-hide"
-  //         style={{ color: "blue" }}>
-  //         {isReadMore ? " ...read more" : " show less"}
-  //       </span>
-  //     </p>
-  //   );
-  // };
-
-  const toggle = (index) => {
-    if (clicked === index) {
-      //if clicked question is already active, then close it
-      return setClicked(null);
-    }
-    setClicked(index);
+  const toComponentB = (data) => {
+    navigate("/tutorquestiondetails", { state: { data } });
   };
 
   return (
@@ -138,7 +110,9 @@ const Tutordetails = () => {
         <Sidebar />
         <div>
           {Loader ? (
-            <div className="loader-end text-center" style={{marginLeft:"500px" ,marginTop:"250px"}}>
+            <div
+              className="loader-end text-center"
+              style={{ marginLeft: "500px", marginTop: "250px" }}>
               {Loader ? (
                 <ColorRing
                   visible={true}
@@ -247,23 +221,6 @@ const Tutordetails = () => {
                         </h4>
                       </div>
                     </div>
-                    {/* <hr
-                  className="line"
-                  style={{ height: "2px", marginTop: "30px" }}
-                /> */}
-                    {/* <div   
-                  style={{ backgroundColor: "#c0d7ff" }}>
-                  <div className="  ">
-                    <button className="btn btn-success mx-2" type="button">
-                      <FcApproval/>
-                      Approve
-                    </button>
-                    <button className="btn btn-danger " type="button">
-                      <AiOutlineClose/>
-                    Reject
-                    </button>
-                  </div>
-                </div> */}
                   </div>
                 );
               })}
@@ -315,89 +272,69 @@ const Tutordetails = () => {
               <div className=" text-start heading-main mt-5">
                 <h4>Answer Given</h4>
               </div>
-              <div className=" table-responsive">
-                <table className="table  v-top ">
-                  <thead>
-                    <tr>
-                      <th scope="col">Answer </th>
-                      <th scope="col">Tutor Name</th>
-                      <th scope="col">EARNING</th>
-                      <th scope="col">Action</th>
-                    </tr>
-                  </thead>
-                      { displayUsers.map((Data, index) => {
-                      return (
-                        <tbody key={index}>
-                          <tr
-                            onClick={() => toggle(index)}
-                            className={
-                              clicked === index ? "toggle-close" : "bg-white"
-                              
-                            }
-                            style={{cursor:"pointer"}}
-                          >
-                             <td className="text-success"><b>{Data.allQuestions.question}</b></td>
-                            <td>
-                              {Data.student}
-                              {clicked === index ? (
-                                <>
-                                  <span className="list-group-item mt-2 ">
-                                    <b>question</b>:{Data.allQuestions.question}
-                                  </span>
-                                  <span className="list-group-item mt-2 ">
-                                    <b>answer</b>.{Data.allQuestions.answer}
-                                  </span>
-                                  <span className="list-group-item mt-2 ">
-                                    <b>questionSubject</b> : {Data.allQuestions.questionSubject}
-                                  </span>
-                                  <span className="list-group-item mt-2 ">
-                                    <b>questionType</b> :{Data.allQuestions.questionType}
-                                  </span>
-                                  <span className="list-group-item mt-2 ">
-                                    <b>status</b> :{Data.allQuestions.status}
-                                  </span>
-                                  <span className="list-group-item mt-2 ">
-                                    <b>status</b> :{Data.allQuestions.tutorPrice}
-                                  </span>
-                                </>
-                              ) : null}
-                            </td>
-                           
-                            <td className="text-success"><b>{Data.allQuestions.tutorPrice}</b></td>
-                            <td>
-                             
-                            </td>
-                          </tr>
-                        </tbody>
-                      );
-                    })}
-                </table>
-                <div className="table-pagination">
-                  <Pagination
-                   count={totalPages}
-                    page={currentPage}
-                    onChange={handleChange}
-                    shape="rounded"
-                    variant="outlined"
-                  />
-                </div>
-                {/* Last Button */}
-                <div
-                  className="gap-2 d-md-flex"
-                  style={{ justifyContent: "end" }}>
-                  <button className="btn btn-outline-danger" type="button">
-                    Delete User
-                  </button>
-                  <Link to={`/professionaldetails/${_id}`}>
-                  <button className="btn btn-outline-primary" type="button">
-                    Edit User
-                  </button>
-                  </Link>
-                  <Link to={`/tutorlist`}>
-                    <button className="btn btn-primary" type="button">
-                      Back to List
-                    </button>
-                  </Link>
+              <div className="row">
+                <div className="col-12 grid-margin stretch-card">
+                  <div className="card new-table">
+                    <div className="card-body">
+                      {isLoading ? (
+                        <div style={{ marginLeft: "450px", marginTop: "50px" }}>
+                          <ColorRing
+                            visible={true}
+                            height="80"
+                            width="80"
+                            ariaLabel="blocks-loading"
+                            wrapperStyle={{}}
+                            wrapperClass="blocks-wrapper"
+                            colors={["black"]}
+                          />
+                        </div>
+                      ) : (
+                        <>
+                          <table className="table v-top">
+                            <thead>
+                              <tr>
+                                <th scope="col">Question</th>
+                                <th scope="col">Question Type</th>
+                                <th scope="col">Question Subject</th>
+                                <th scope="col">tutor Price</th>
+                                <th scope="col">status</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {displayUsers.map((data) => (
+                                <tr>
+                                  <td
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() => {
+                                      toComponentB(data);
+                                    }}>
+                                    {data.allQuestions.question
+                                      .split(" ")
+                                      .slice(0, 3)
+                                      .join(" ")}
+                                    ...
+                                  </td>
+                                  <td>{data.allQuestions.questionType}</td>
+                                  <td>{data.allQuestions.questionSubject}</td>
+                                  <td>{data.allQuestions.tutorPrice}</td>
+                                  <td>{data.allQuestions.status}</td>
+                                </tr>
+                              ))}{" "}
+                            </tbody>
+                          </table>
+                          <div className="table-pagination">
+                            <Pagination
+                              count={totalPages}
+                              page={currentPage}
+                              onChange={handleChange}
+                              shape="rounded"
+                              variant="outlined"
+                            />
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>

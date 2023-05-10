@@ -41,6 +41,8 @@ import Truefalseque from './components/Questionpages/Truefalseque';
 import Fillups from './components/Questionpages/Fillups';
 import Questionanswer from './components/Questionpages/Questionanswer';
 import Matchfollow from './components/Questionpages/Matchfollow';
+import Tutorquestiondetails from './components/Tutors/Tutorquestiondetails';
+import Studentquestiondetails from './components/Student/Studentquestiondetails';
 
 
 
@@ -77,6 +79,8 @@ function App() {
         <Route path="/testexam" element={<Testexam/>} />
         <Route path="/examdetails" element={<Examdetails/>} />
         <Route path="/searchenginequedetail" element={<Searchenginequedetail/>} />
+        <Route path="/tutorquestiondetails" element={<Tutorquestiondetails/>} />
+        <Route path="/studentquestiondetails" element={<Studentquestiondetails/>} />
 
 
         <Route path="/questiontiming" element={<Questiontiming />} />

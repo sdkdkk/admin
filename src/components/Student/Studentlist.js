@@ -98,13 +98,13 @@ const Studentlist = () => {
                         <table className="table v-top">
                           <thead>
                             <tr>
-                              <th scope="col">Reg.DATE</th>
-                              <th scope="col">USER NAME</th>
-                              <th scope="col">EMAIL</th>
-                              <th scope="col">MOBILE NO</th>
-                              <th scope="col">QUESTION ASK</th>
-                              <th scope="col">MIN BALANCE</th>
-                              <th scope="col">ACTION</th>
+                              <th scope="col">Reg.Date</th>
+                              <th scope="col">User Name</th>
+                              <th scope="col">Email</th>
+                              <th scope="col">Mobil No</th>
+                              <th scope="col">Question Ask</th>
+                              <th scope="col">Min Balance</th>
+                              <th scope="col">Action</th>
                             </tr>
                           </thead>
                           {displayUsers &&

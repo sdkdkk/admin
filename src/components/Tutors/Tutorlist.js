@@ -244,12 +244,12 @@ console.log("---> ", currentData)
                               <table className="table v-top">
                                 <thead>
                                   <tr>
-                                    <th scope="col">Reg.DATE</th>
-                                    <th scope="col">USER NAME</th>
-                                    <th scope="col">EMAIL</th>
-                                    <th scope="col">MOBILE NO</th>
-                                    <th scope="col">SUBJECTS</th>
-                                    <th scope="col">BALANCE</th>
+                                    <th scope="col">Reg.Date</th>
+                                    <th scope="col">User Name</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Moble No</th>
+                                    <th scope="col">Subject</th>
+                                    <th scope="col">Balance</th>
                                     <th scope="col">Action</th>
                                   </tr>
                                 </thead>
