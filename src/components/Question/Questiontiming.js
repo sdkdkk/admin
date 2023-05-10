@@ -14,6 +14,9 @@ import { Pagination } from "@mui/material";
 
 const Questiontiming = () => {
   const [loading, setLoading] = useState(false);
+
+  const [isEditMode, setIsEditMode] = useState(false);
+
   const [loading1, setLoading1] = useState(false);
   const notify = (data) => toast(data);
   const dispatch = useDispatch();
@@ -35,8 +38,6 @@ const Questiontiming = () => {
     const hours = data.firsthours ? parseInt(data.firsthours) : 0;
     const minutes = data.firstminutes ? parseInt(data.firstminutes) : 0;
     const first_time = hours * 60 + minutes;
-
-    // Combine hours and minutes into a single value
 
     const secondhours = data.secondhours ? parseInt(data.secondhours) : 0;
     const secondminutes = data.secondminutes ? parseInt(data.secondminutes) : 0;
@@ -64,9 +65,7 @@ const Questiontiming = () => {
       : 0;
     const unsolved_time = unsolvedhours * 60 + unsolvedminutes;
 
-    // Combine hours and minutes into a single value
-    // let first_time = hours + ":" + minutes;
-    let timingObjData = {
+       let timingObjData = {
       token: token,
       Type: data.Type,
       first_time: first_time,
@@ -76,18 +75,12 @@ const Questiontiming = () => {
       tutor_time: tutor_time,
       admin_time: admin_time,
       unsolved_time: unsolved_time,
-      // _id: data._id
+      id: data.id,
     };
     console.log(timingObjData);
-    // dispatch(questiontimingApi(timingObjData));
-    if (data._id) {
-      console.log(data._id)
-      dispatch(questiontimingApi(timingObjData));
-    } else {
-      // Handle create logic
-      dispatch(questiontimingApi(timingObjData));
-    }
-    
+
+    dispatch(questiontimingApi(timingObjData));
+
     if (questiontiming.user && questiontiming.user.message) {
       console.log(questiontiming.user);
       notify(questiontiming.user && questiontiming.user.message);
@@ -95,14 +88,14 @@ const Questiontiming = () => {
   };
 
   //table
-  const [totalCount, setTotalCount] = useState(0);
+
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(8);
   const indexOfLastPage = Math.min(currentPage * postsPerPage, data.length);
   const indexOfFirstPage = (currentPage - 1) * postsPerPage;
   const displayUsers = data.slice(indexOfFirstPage, indexOfLastPage);
   const pageCount = Math.ceil(data.length / postsPerPage);
-
+  let token = localStorage.getItem("token");
   const handleChange = (event, value) => {
     setCurrentPage(value);
   };
@@ -127,8 +120,10 @@ const Questiontiming = () => {
     }
   };
   const handleUpdateClick = (data) => {
+    setIsEditMode(true);
     reset({
       ...data,
+      id: data._id,
       firstminutes: data.first_time % 60,
       firsthours: Math.floor(data.first_time / 60), // Extract hours from first_time
       secondminutes: data.second_time % 60, // Extract minutes from second_time
@@ -147,6 +142,23 @@ const Questiontiming = () => {
 
     console.log(data);
   };
+
+  function handleDeleteClick(_id) {
+    setLoading(true);
+    const response = axios
+      .post(`https://vaidik-backend.onrender.com/admin/questiontiming/${_id}`, {
+        token: token,
+      })
+      .then(() => {
+        fetchData();
+        setLoading(false);
+      });
+    if (response.data.data) {
+      console.log(response.data.data);
+      notify(response.data.data);
+      reset();
+    }
+  }
 
   return (
     <>
@@ -452,7 +464,7 @@ const Questiontiming = () => {
                           </div>
                           <div className="col-lg-6 mb-2 text-end">
                             <Button variant="primary" type="submit">
-                              Submit
+                              {isEditMode ? "Update" : "Submit"}
                             </Button>
                           </div>
                         </div>
@@ -480,7 +492,7 @@ const Questiontiming = () => {
                           </p>
                         ) : (
                           <>
-                            <table
+                            <Table
                               striped
                               bordered
                               // hover
@@ -519,12 +531,14 @@ const Questiontiming = () => {
                                         variant="success"
                                         onClick={() => handleUpdateClick(data)}
                                       >
-                                        Update
+                                        Edit
                                       </Button>
                                       <Button
                                         className="mx-2"
                                         variant="danger"
-                                        // onClick={() => handleDelet(data._id)}
+                                        onClick={() =>
+                                          handleDeleteClick(data._id)
+                                        }
                                       >
                                         Delete
                                       </Button>
@@ -532,7 +546,7 @@ const Questiontiming = () => {
                                   </tr>
                                 ))}
                               </tbody>
-                            </table>
+                            </Table>
                             <div className="table-pagination">
                               <Pagination
                                 count={pageCount}
