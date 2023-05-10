@@ -25,6 +25,8 @@ import updateTutorQuestionListSlice from "../Redux/Loginpages/updateTutorQuestio
 import deleteTutorQuestionSlice from "../Redux/Loginpages/deleteTutorQuestionSlice";
 import questiontypeReducer from "../Redux/Loginpages/questiontypeSlice";
 import getQuestiontimeReducer from "../Redux/Loginpages/getQuestiontimeSlice";
+import getAdminQuestionsSlice from "../Redux/Loginpages/getAdminQuestionSlice";
+import postAdminQuestionsSlice from "../Redux/Loginpages/postAdminQuestionSlice";
 
 const reducer = combineReducers({
   auth: authReducer,
@@ -51,6 +53,8 @@ const reducer = combineReducers({
   testimonialform: testimonialformReducer,
   questiontype: questiontypeReducer,
   gettiming: getQuestiontimeReducer,
+  getAdminQuestions: getAdminQuestionsSlice,
+  postAdminQuestions: postAdminQuestionsSlice,
 });
 
 export default reducer;

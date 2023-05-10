@@ -33,6 +33,7 @@ const Questiontiming = () => {
   const { register, handleSubmit, reset } = useForm({});
 
   const onSubmit = async (data) => {
+
     setLoading1(true);
     let token = localStorage.getItem("token");
     console.log(data._id);
