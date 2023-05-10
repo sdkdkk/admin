@@ -20,9 +20,9 @@ const Questiontiming = () => {
   const notify = (data) => toast(data);
   const dispatch = useDispatch();
   const questiontype = useSelector((state) => state.questiontype);
-  const questiontiming = useSelector((state) => state.questiontiming);
+
   const [data, setData] = useState([]);
-  const [selectedData, setSelectedData] = useState("null");
+
   useEffect(() => {
     setLoading1(true);
     let token = localStorage.getItem("token");
@@ -32,7 +32,7 @@ const Questiontiming = () => {
   }, []);
   const { register, handleSubmit, reset } = useForm({});
 
-  const onSubmit = async(data) => {
+  const onSubmit = async (data) => {
     setLoading1(true);
     let token = localStorage.getItem("token");
     console.log(data._id);
@@ -77,7 +77,7 @@ const Questiontiming = () => {
       tutor_time: tutor_time,
       admin_time: admin_time,
       unsolved_time: unsolved_time,
-      id: data.id
+      id: data.id,
     };
     // console.log(timingObjData);
 
@@ -88,19 +88,18 @@ const Questiontiming = () => {
         `https://vaidik-backend.onrender.com/admin/setquestiontiming`,
         timingObjData
       );
-  
+
       if (data.status === 1) {
         notify(data.message);
         reset();
-      fetchData();
+        fetchData();
       } else {
         notify(data.error);
       }
     } catch (error) {
       console.log("error - ", error);
-      notify(error.response.data.error); 
+      notify(error.response.data.error);
     }
-   
   };
 
   //table

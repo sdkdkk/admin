@@ -1,46 +1,133 @@
-import React from "react";
+import React, { useState } from "react";
 import { useEffect } from "react";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
-import { Form, Button } from "react-bootstrap";
+import { Form, Button, Table } from "react-bootstrap";
 import { questiontypeApi } from "../../Redux/Loginpages/questiontypeSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
-import { questionpricingApi } from "../../Redux/Loginpages/questionPricingSlice";
 import { toast } from "react-toastify";
+import axios from "axios";
+import { ColorRing } from "react-loader-spinner";
+import { Pagination } from "@mui/material";
 
 const Questionpricing = () => {
   const notify = (data) => toast(data);
-  const { register, handleSubmit } = useForm({});
+  const { register, handleSubmit, reset } = useForm({});
 
   const dispatch = useDispatch();
   const questiontype = useSelector((state) => state.questiontype);
-  const questionpricing = useSelector((state) => state.questionpricing);
-  console.log(questionpricing);
-
+  const [loading, setLoading] = useState(false);
+  const [isEditMode, setIsEditMode] = useState(false);
+  const [loading1, setLoading1] = useState(false);
+  const [data, setData] = useState([]);
+  let token = localStorage.getItem("token");
   useEffect(() => {
+    setLoading1(true);
     let token = localStorage.getItem("token");
     dispatch(questiontypeApi(token));
+    fetchData();
+    setLoading1(false);
   }, []);
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
     console.log(data);
-    let token = localStorage.getItem("token");
-    const pricingData = {
-      token: token,
-      Type: data.Type,
-      question_price: data.question_price,
-      tutor_price: data.tutor_price,
-      admin_price: data.admin_price,
-    };
 
-    dispatch(questionpricingApi(pricingData));
+    try {
+      setLoading(true);
+      const requestUrl = `https://vaidik-backend.onrender.com/admin/setquestionpricing`;
 
-    if (questionpricing.user && questionpricing.user.message) {
-      notify(questionpricing.user && questionpricing.user.message);
+      var response;
+      if (data._id) {
+        response = await axios.post(requestUrl, {
+          token: token,
+          Type: data.Type,
+          question_price: data.question_price,
+          tutor_price: data.tutor_price,
+          admin_price: data.admin_price,
+          id: data._id,
+        });
+      } else {
+        response = await axios.post(requestUrl, {
+          token: token,
+          Type: data.Type,
+          question_price: data.question_price,
+          tutor_price: data.tutor_price,
+          admin_price: data.admin_price,
+        });
+      }
+      if (data.message || data.status === 1) {
+        notify(data.message);
+        reset();
+        fetchData();
+      } else {
+        notify(data.error);
+      }
+    } catch (error) {
+      console.log("error - ", error);
+      notify(error.response.data.error);
+    }
+
+    fetchData();
+    setLoading(false);
+  };
+
+  const fetchData = async () => {
+    try {
+      setLoading1(true);
+
+      const response = await axios.post(
+        `https://vaidik-backend.onrender.com/admin/getquestionpricing`,
+        {
+          token: token,
+        }
+      );
+      console.log(response.data.data);
+      setData(response.data.data);
+      setLoading1(false);
+    } catch (error) {
+      console.log(error.response.data.error);
+      setLoading1(false);
     }
   };
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(5);
+  const indexOfLastPage = Math.min(currentPage * postsPerPage, data.length);
+  const indexOfFirstPage = (currentPage - 1) * postsPerPage;
+  const displayUsers = data.slice(indexOfFirstPage, indexOfLastPage);
+  const pageCount = Math.ceil(data.length / postsPerPage);
+
+  const handleChange = (event, value) => {
+    setCurrentPage(value);
+  };
+
+  const handleUpdateClick = (data) => {
+    console.log(data);
+    reset(data);
+    fetchData();
+  };
+
+  function handleDeleteClick(_id) {
+    setLoading(true);
+    const response = axios
+      .post(
+        `https://vaidik-backend.onrender.com/admin/questionpricing/${_id}`,
+        {
+          token: token,
+        }
+      )
+      .then(() => {
+        fetchData();
+        setLoading(false);
+      });
+    if (response.data.data) {
+      console.log(response.data.data);
+      notify(response.data.data);
+      reset();
+    }
+  }
 
   return (
     <>
@@ -64,8 +151,9 @@ const Questionpricing = () => {
                           </div>
                           <div className="col-lg-4 col-md-8">
                             <Form.Select
-                              aria-label="Default select example"
+                              placeholder="Default select example"
                               {...register("Type")}
+                              required
                             >
                               <option>Open this select menu</option>
                               {questiontype.user &&
@@ -90,6 +178,7 @@ const Questionpricing = () => {
                                 type="number"
                                 className="form-control me-2"
                                 id="hoursInput"
+                                required
                                 {...register("question_price")}
                               />
                               <span className="input-group-text">INR</span>
@@ -106,6 +195,7 @@ const Questionpricing = () => {
                                 type="number"
                                 className="form-control me-2"
                                 id="hoursInput"
+                                required
                                 {...register("tutor_price")}
                               />
                               <span className="input-group-text">INR</span>
@@ -122,6 +212,7 @@ const Questionpricing = () => {
                                 type="number"
                                 className="form-control me-2"
                                 id="hoursInput"
+                                required
                                 {...register("admin_price")}
                               />
                               <span className="input-group-text">INR</span>
@@ -143,6 +234,77 @@ const Questionpricing = () => {
                   </div>
                 </div>
               </div>
+              {loading1 ? (
+                <p style={{ marginLeft: "400px", marginTop: "50px" }}>
+                  <ColorRing
+                    visible={true}
+                    height="80"
+                    width="80"
+                    ariaLabel="blocks-loading"
+                    wrapperStyle={{}}
+                    wrapperClass="blocks-wrapper"
+                    colors={["black"]}
+                  />
+                </p>
+              ) : (
+                <>
+                  <Table
+                    striped
+                    bordered
+                    // hover
+                    responsive
+                    className="single-color table "
+                  >
+                    <thead>
+                      <tr>
+                        <th>Sr.No</th>
+                        <th>Question Type</th>
+                        <th>Question Pricing</th>
+                        <th>Tutor Pricing</th>
+                        <th>Admin Pricing</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {displayUsers.map((data, index, _id) => (
+                        <tr key={index}>
+                          <td>{index + indexOfFirstPage + 1}</td>
+                          <td>{data.Type}</td>
+                          <td>{data.question_price}</td>
+                          <td>{data.tutor_price}</td>
+                          <td>{data.admin_price}</td>
+                          <td>
+                            <Button
+                              variant="success"
+                              onClick={() => handleUpdateClick(data)}
+                            >
+                              Edit
+                            </Button>
+                            <Button
+                              className="mx-2"
+                              variant="danger"
+                              onClick={() => handleDeleteClick(data._id)}
+                            >
+                              Delete
+                            </Button>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </Table>
+                  <div className="table-pagination">
+                    <Pagination
+                      count={pageCount}
+                      page={currentPage}
+                      onChange={handleChange}
+                      shape="rounded"
+                      variant="outlined"
+                      showFirstButton
+                      showLastButton
+                    />
+                  </div>
+                </>
+              )}
             </div>
             <Footer />
           </div>
