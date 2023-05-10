@@ -200,9 +200,9 @@ const Questiontiming = () => {
                           <div className="col-lg-6">
                             <Form.Select
                               aria-label="Default select example"
-                              {...register("Type")}
+                              {...register("Type", { required: true })}
                             >
-                              <option>Open this select menu</option>
+                              <option value="">Open this select menu</option>
                               {questiontype.user &&
                                 questiontype.user.data.map((item) => (
                                   <option
@@ -231,6 +231,7 @@ const Questiontiming = () => {
                                 type="number"
                                 className="form-control"
                                 id="hoursInput"
+                                required
                                 {...register("firsthours")}
                               />
                             </div>
@@ -247,6 +248,7 @@ const Questiontiming = () => {
                                 type="number"
                                 className="form-control"
                                 id="minutesOutput"
+                                required
                                 {...register("firstminutes")}
                               />
                             </div>
@@ -261,7 +263,6 @@ const Questiontiming = () => {
                               <label
                                 htmlFor="hoursInput"
                                 className="form-label"
-                                {...register("secondhours")}
                               >
                                 Hours:
                               </label>
@@ -269,6 +270,7 @@ const Questiontiming = () => {
                                 type="number"
                                 className="form-control"
                                 id="hoursInput"
+                                required
                                 {...register("secondhours")}
                               />
                             </div>
@@ -285,6 +287,7 @@ const Questiontiming = () => {
                                 type="number"
                                 className="form-control"
                                 id="minutesOutput"
+                                required
                                 {...register("secondminutes")}
                               />
                             </div>
@@ -306,6 +309,7 @@ const Questiontiming = () => {
                                 type="number"
                                 className="form-control"
                                 id="hoursInput"
+                                required
                                 {...register("skiphours")}
                               />
                             </div>
@@ -322,6 +326,7 @@ const Questiontiming = () => {
                                 type="number"
                                 className="form-control"
                                 id="minutesOutput"
+                                required
                                 {...register("skipminutes")}
                               />
                             </div>
@@ -343,6 +348,7 @@ const Questiontiming = () => {
                                 type="number"
                                 className="form-control"
                                 id="hoursInput"
+                                required
                                 {...register("totalhours")}
                               />
                             </div>
@@ -359,6 +365,7 @@ const Questiontiming = () => {
                                 type="number"
                                 className="form-control"
                                 id="minutesOutput"
+                                required
                                 {...register("totalminutes")}
                               />
                             </div>
@@ -380,6 +387,7 @@ const Questiontiming = () => {
                                 type="number"
                                 className="form-control"
                                 id="hoursInput"
+                                required
                                 {...register("tutorhours")}
                               />
                             </div>
@@ -396,6 +404,7 @@ const Questiontiming = () => {
                                 type="number"
                                 className="form-control"
                                 id="minutesOutput"
+                                required
                                 {...register("tutorminutes")}
                               />
                             </div>
@@ -417,6 +426,7 @@ const Questiontiming = () => {
                                 type="number"
                                 className="form-control"
                                 id="hoursInput"
+                                required
                                 {...register("adminhours")}
                               />
                             </div>
@@ -433,6 +443,7 @@ const Questiontiming = () => {
                                 type="number"
                                 className="form-control"
                                 id="minutesOutput"
+                                required
                                 {...register("adminminutes")}
                               />
                             </div>
@@ -447,7 +458,6 @@ const Questiontiming = () => {
                               <label
                                 htmlFor="hoursInput"
                                 className="form-label"
-                                {...register("unsolvedhours")}
                               >
                                 Hours:
                               </label>
@@ -455,6 +465,7 @@ const Questiontiming = () => {
                                 type="number"
                                 className="form-control"
                                 id="hoursInput"
+                                required
                                 {...register("unsolvedhours")}
                               />
                             </div>
@@ -471,6 +482,7 @@ const Questiontiming = () => {
                                 type="number"
                                 className="form-control"
                                 id="minutesOutput"
+                                required
                                 {...register("unsolvedminutes")}
                               />
                             </div>
@@ -484,9 +496,9 @@ const Questiontiming = () => {
                             <Button
                               variant="primary"
                               type="submit"
-                              disabled={loading}
+                             
                             >
-                              {data.id ? "Update" : "Submit"}
+                              {isEditMode ? "Update" : "Submit"}
                             </Button>
                           </div>
                         </div>
