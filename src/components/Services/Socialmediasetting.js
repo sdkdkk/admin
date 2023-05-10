@@ -64,6 +64,7 @@ const Socialmediasetting = () => {
                               <Form.Control
                                 type="link"
                                 placeholder="Enter link"
+                                required
                                 {...register("Facebook")}
                               />
                             </Form.Group>
@@ -75,6 +76,7 @@ const Socialmediasetting = () => {
                               <Form.Control
                                 type="link"
                                 placeholder="Enter link"
+                                required
                                 {...register("LinkedIn")}
                               />
                             </Form.Group>
@@ -86,6 +88,7 @@ const Socialmediasetting = () => {
                               <Form.Control
                                 type="link"
                                 placeholder="Enter link"
+                                required
                                 {...register("Twitter")}
                               />
                             </Form.Group>
@@ -99,6 +102,7 @@ const Socialmediasetting = () => {
                               <Form.Control
                                 type="link"
                                 placeholder="Enter link"
+                                required
                                 {...register("YouTube")}
                               />
                             </Form.Group>
@@ -110,6 +114,7 @@ const Socialmediasetting = () => {
                               <Form.Control
                                 type="link"
                                 placeholder="Enter link"
+                                required
                                 {...register("Instagram")}
                               />
                             </Form.Group>

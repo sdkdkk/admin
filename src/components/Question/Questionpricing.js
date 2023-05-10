@@ -14,8 +14,13 @@ import { Pagination } from "@mui/material";
 
 const Questionpricing = () => {
   const notify = (data) => toast(data);
-  const { register, handleSubmit, reset } = useForm({});
-
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({});
+ 
   const dispatch = useDispatch();
   const questiontype = useSelector((state) => state.questiontype);
   const [loading, setLoading] = useState(false);
@@ -107,6 +112,7 @@ const Questionpricing = () => {
   };
 
   const handleUpdateClick = (data) => {
+    setIsEditMode(true);
     console.log(data);
     reset(data);
   };
@@ -153,11 +159,9 @@ const Questionpricing = () => {
                           </div>
                           <div className="col-lg-4 col-md-8">
                             <Form.Select
-                              placeholder="Default select example"
-                              {...register("Type")}
-                              required
+                              {...register("Type", { required: true })}
                             >
-                              <option>Open this select menu</option>
+                              <option value="">Open this select menu</option>
                               {questiontype.user &&
                                 questiontype.user.data.map((item) => (
                                   <option
@@ -168,6 +172,11 @@ const Questionpricing = () => {
                                   </option>
                                 ))}
                             </Form.Select>
+                            {errors.Type && (
+                              <span className="text-danger">
+                                Please select an option
+                              </span>
+                            )}
                           </div>
                         </div>
                         <div className="row mt-4">
@@ -226,8 +235,8 @@ const Questionpricing = () => {
                             <h6>&nbsp;</h6>
                           </div>
                           <div className="col-lg-4 col-md-8 mb-2 text-md-end">
-                            <Button variant="primary" type="submit">
-                              Submit
+                            <Button variant="primary" type="submit" disabled={loading}>
+                              {isEditMode ? "Update" : "Submit"}
                             </Button>
                           </div>
                         </div>
