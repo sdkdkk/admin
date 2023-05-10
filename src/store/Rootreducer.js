@@ -23,7 +23,6 @@ import getTutorQuestionsListSliceReducer from "../Redux/Loginpages/getTutorQuest
 import postTutorQuestionListSlice from "../Redux/Loginpages/postTutorQuestionListSlice";
 import updateTutorQuestionListSlice from "../Redux/Loginpages/updateTutorQuestionSlice";
 import deleteTutorQuestionSlice from "../Redux/Loginpages/deleteTutorQuestionSlice";
-import socialMediaReducer from "../Redux/Loginpages/socialMediaSlice";
 import questiontypeReducer from "../Redux/Loginpages/questiontypeSlice";
 import getQuestiontimeReducer from "../Redux/Loginpages/getQuestiontimeSlice";
 
@@ -50,9 +49,7 @@ const reducer = combineReducers({
   updateTutorQuestion: updateTutorQuestionListSlice,
   deleteTutorQuestion: deleteTutorQuestionSlice,
   testimonialform: testimonialformReducer,
-  socialmedia: socialMediaReducer,
   questiontype: questiontypeReducer,
-
   gettiming: getQuestiontimeReducer,
 });
 
