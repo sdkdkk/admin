@@ -27,6 +27,7 @@ import {
   reset as resetDeleteTutorQuestion,
 } from "../../Redux/Loginpages/deleteTutorQuestionSlice";
 import { updateTutorQuestionApi } from "../../Redux/Loginpages/updateTutorQuestionSlice";
+import axios from "axios";
 
 const ReadMore = ({ children }) => {
   const text = children;
@@ -57,8 +58,10 @@ const Tutorexam = () => {
   const [questionSubject, setQuestionSubject] = useState("Maths");
   const [questionType, setQuestionType] = useState("MCQ");
   const [mcqoptions, setMcqoptions] = useState([]);
+  const [subjectList, setSubjectList] = useState([]);
   const [editQuestionData, setEditQuestionData] = useState(false);
   const [defaultValues, setDefaultValues] = useState({});
+  const [formValue, setFormValue] = useState({});
   const indexOfLastPage = currentPage * postsPerPage;
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
   const displayUsers = Studentdata.slice(indexOfFirstPage, indexOfLastPage);
@@ -66,11 +69,12 @@ const Tutorexam = () => {
     (state) => state.getTutorQuestionsList
   );
   const postTutorQuestionData = useSelector((state) => state.postTutorQuestion);
-  const updateTutorQuestionData = useSelector((state) => state.updateTutorQuestion);
+  const updateTutorQuestionData = useSelector(
+    (state) => state.updateTutorQuestion
+  );
   const deleteTutorQuestionData = useSelector(
     (state) => state.deleteTutorQuestion
   );
-
 
   const { tutorexamquestion = [] } = getTutorQuestionsListData.data || [];
   const tutorexamquestionData = tutorexamquestion || [];
@@ -85,7 +89,6 @@ const Tutorexam = () => {
   console.log(auth);
 
 
-
   useEffect(() => {
     const payload = {
       questionSubject,
@@ -96,6 +99,25 @@ const Tutorexam = () => {
 
     dispatch(getTutorQuestionsListApi(payload));
   }, [questionSubject, questionType, currentPage]);
+
+  const fetchData = async () => {
+    try {
+      const response = await axios.post(
+        `https://vaidik-backend.onrender.com/getquestionsubject`,
+        {
+          token: token,
+        }
+      );
+      setSubjectList(response?.data?.data);
+    } catch (error) {
+      console.log(error.response.data.error);
+      // notify("Invalid refresh token!");
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
 
   useEffect(() => {
     const payload = {
@@ -131,7 +153,6 @@ const Tutorexam = () => {
     });
     setEditQuestionData(true);
     setIsOpen("");
-  
   };
 
   const {
@@ -141,11 +162,15 @@ const Tutorexam = () => {
     formats,
     control,
     values,
+    getValues,
+    setValue,
     modules,
     editorRef,
     formState: { errors },
   } = useForm({ values: defaultValues });
 
+  const questionTypeValues = getValues("questionType");
+  console.log("formValues", questionTypeValues);
   useEffect(() => {
     const payload = {
       questionSubject,
@@ -153,7 +178,10 @@ const Tutorexam = () => {
       limit: 6,
       skip: (currentPage - 1) * 6,
     };
-    if (postTutorQuestionData?.isSuccess || updateTutorQuestionData?.isSuccess) {
+    if (
+      postTutorQuestionData?.isSuccess ||
+      updateTutorQuestionData?.isSuccess
+    ) {
       reset();
       setMcqoptions([]);
       dispatch(getTutorQuestionsListApi(payload));
@@ -161,9 +189,14 @@ const Tutorexam = () => {
     }
   }, [postTutorQuestionData?.isSuccess || updateTutorQuestionData?.isSuccess]);
 
-
   const onSubmit = (data) => {
     const rest = data.questionType === "MCQ" ? { mcqoptions: mcqoptions } : {};
+    if (data.questionType === "MCQ" && data?.answer) {
+      delete data.answer;
+    }
+    if (data.questionType === "Theory" && data?.mcqoptions) {
+      delete data.mcqoptions;
+    }
     if (editQuestionData) {
       dispatch(
         updateTutorQuestionApi({ ...data, ...rest, id: defaultValues.id })
@@ -219,9 +252,11 @@ const Tutorexam = () => {
                               {...register("questionSubject")}
                             >
                               <option>Select Subject</option>
-                              <option value="Maths">Maths</option>
-                              <option value="Biology">Biology</option>
-                              <option value="Physics">Physics </option>
+                              {subjectList.map((a) => (
+                                <option value={a.questionSubject}>
+                                  {a.questionSubject}
+                                </option>
+                              ))}
                             </Form.Select>
                             {errors.questionSubject && (
                               <p className="text-danger">
@@ -259,8 +294,14 @@ const Tutorexam = () => {
                                 aria-label="Default select example"
                                 name="questionType"
                                 {...register("questionType")}
+                                onChange={(e) => {
+                                  setValue("questionType", e.target.value);
+                                  setFormValue({
+                                    questionType: e.target.value,
+                                  });
+                                }}
                               >
-                                <option>Select Subject</option>
+                                <option>Select Type</option>
                                 <option value="MCQ">MCQ</option>
                                 <option value="Theory">Theory</option>
                               </Form.Select>
@@ -271,136 +312,150 @@ const Tutorexam = () => {
                               )}
                             </div>
                           </div>
-                          <div className="col-md-12 col-lg-12 mb--20 mt-4">
-                            <h5>MCQ</h5>
-                            <div className="p--20 rbt-border radius-6 bg-primary-opacity">
-                              <div className="row">
-                                <div className="col-lg-6">
-                                  <div className="rbt-form-check p--10">
-                                    <input
-                                      className="form-check-input"
-                                      type="radio"
-                                      name="rbt-radio"
-                                      id="rbt-radio-1"
-                                    />
-                                    <input
-                                      className="form-check-label"
-                                      htmlFor="rbt-radio-1"
-                                      onChange={(e) => {
-                                        const tempmcqoptions = mcqoptions;
-                                        tempmcqoptions[0] = e.target.value;
-                                        setMcqoptions(tempmcqoptions);
-                                      }}
-                                      value={mcqoptions[0]}
-                                    />
+                          {questionTypeValues === "MCQ" && (
+                            <div className="col-md-12 col-lg-12 mb--20 mt-4">
+                              <h5>MCQ</h5>
+                              <div className="p--20 rbt-border radius-6 bg-primary-opacity">
+                                <div className="row">
+                                  <div className="col-lg-6">
+                                    <div className="rbt-form-check p--10">
+                                      <input
+                                        className="form-check-input"
+                                        type="radio"
+                                        name="rbt-radio"
+                                        id="rbt-radio-1"
+                                      />
+                                      <input
+                                        className="form-check-label"
+                                        htmlFor="rbt-radio-1"
+                                        onChange={(e) => {
+                                          const tempmcqoptions = mcqoptions;
+                                          tempmcqoptions[0] = e.target.value;
+                                          setMcqoptions(tempmcqoptions);
+                                        }}
+                                        value={mcqoptions[0]}
+                                      />
+                                    </div>
                                   </div>
-                                </div>
-                                <div className="col-lg-6">
-                                  <div className="rbt-form-check p--10">
-                                    <input
-                                      className="form-check-input"
-                                      type="radio"
-                                      name="rbt-radio"
-                                      id="rbt-radio-2"
-                                    />
-                                    <input
-                                      className="form-check-label"
-                                      htmlFor="rbt-radio-1"
-                                      onChange={(e) => {
-                                        const tempmcqoptions = mcqoptions;
-                                        tempmcqoptions[1] = e.target.value;
-                                        setMcqoptions(tempmcqoptions);
-                                      }}
-                                      value={mcqoptions[1]}
-                                    />
+                                  <div className="col-lg-6">
+                                    <div className="rbt-form-check p--10">
+                                      <input
+                                        className="form-check-input"
+                                        type="radio"
+                                        name="rbt-radio"
+                                        id="rbt-radio-2"
+                                      />
+                                      <input
+                                        className="form-check-label"
+                                        htmlFor="rbt-radio-1"
+                                        onChange={(e) => {
+                                          const tempmcqoptions = mcqoptions;
+                                          tempmcqoptions[1] = e.target.value;
+                                          setMcqoptions(tempmcqoptions);
+                                        }}
+                                        value={mcqoptions[1]}
+                                      />
+                                    </div>
                                   </div>
-                                </div>
-                                <div className="col-lg-6">
-                                  <div className="rbt-form-check p--10">
-                                    <input
-                                      className="form-check-input"
-                                      type="radio"
-                                      name="rbt-radio"
-                                      id="rbt-radio-3"
-                                    />
-                                    <input
-                                      className="form-check-label"
-                                      htmlFor="rbt-radio-1"
-                                      onChange={(e) => {
-                                        const tempmcqoptions = mcqoptions;
-                                        tempmcqoptions[2] = e.target.value;
-                                        setMcqoptions(tempmcqoptions);
-                                      }}
-                                      value={mcqoptions[2]}
-                                    />
+                                  <div className="col-lg-6">
+                                    <div className="rbt-form-check p--10">
+                                      <input
+                                        className="form-check-input"
+                                        type="radio"
+                                        name="rbt-radio"
+                                        id="rbt-radio-3"
+                                      />
+                                      <input
+                                        className="form-check-label"
+                                        htmlFor="rbt-radio-1"
+                                        onChange={(e) => {
+                                          const tempmcqoptions = mcqoptions;
+                                          tempmcqoptions[2] = e.target.value;
+                                          setMcqoptions(tempmcqoptions);
+                                        }}
+                                        value={mcqoptions[2]}
+                                      />
+                                    </div>
                                   </div>
-                                </div>
-                                <div className="col-lg-6">
-                                  <div className="rbt-form-check p--10">
-                                    <input
-                                      className="form-check-input"
-                                      type="radio"
-                                      name="rbt-radio"
-                                      id="rbt-radio-4"
-                                    />
-                                    <input
-                                      className="form-check-label"
-                                      htmlFor="rbt-radio-1"
-                                      onChange={(e) => {
-                                        const tempmcqoptions = mcqoptions;
-                                        tempmcqoptions[3] = e.target.value;
-                                        setMcqoptions(tempmcqoptions);
-                                      }}
-                                      value={mcqoptions[3]}
-                                    />
+                                  <div className="col-lg-6">
+                                    <div className="rbt-form-check p--10">
+                                      <input
+                                        className="form-check-input"
+                                        type="radio"
+                                        name="rbt-radio"
+                                        id="rbt-radio-4"
+                                      />
+                                      <input
+                                        className="form-check-label"
+                                        htmlFor="rbt-radio-1"
+                                        onChange={(e) => {
+                                          const tempmcqoptions = mcqoptions;
+                                          tempmcqoptions[3] = e.target.value;
+                                          setMcqoptions(tempmcqoptions);
+                                        }}
+                                        value={mcqoptions[3]}
+                                      />
+                                    </div>
                                   </div>
                                 </div>
                               </div>
                             </div>
-                          </div>
-                          <Col md={12}>
-                            <div>
-                              <p className="mx-1 mt-2">Answer</p>
-                              <Controller
-                                name="answer"
-                                control={control}
-                                // defaultValue={editorHtml}
-                                render={({ field }) => (
-                                  <ReactQuill
-                                    theme="snow"
-                                    onChange={handleChange}
-                                    //onChange={(value) => setEditorHtml(value)}
-                                    value={field.value}
-                                    modules={modules}
-                                    formats={formats}
-                                    bounds={"#root"}
-                                    placeholder="type Here...."
-                                    ref={editorRef}
-                                    {...field}
-                                  />
-                                )}
-                              />
-                              <p className="error-msg">
-                                {errors.answer && errors.answer.message}
-                              </p>
-                            </div>
-                          </Col>
+                          )}
+                          {questionTypeValues === "Theory" && (
+                            <Col md={12}>
+                              <div>
+                                <p className="mx-1 mt-2">Answer</p>
+                                <Controller
+                                  name="answer"
+                                  control={control}
+                                  // defaultValue={editorHtml}
+                                  render={({ field }) => (
+                                    <ReactQuill
+                                      theme="snow"
+                                      onChange={handleChange}
+                                      //onChange={(value) => setEditorHtml(value)}
+                                      value={field.value}
+                                      modules={modules}
+                                      formats={formats}
+                                      bounds={"#root"}
+                                      placeholder="type Here...."
+                                      ref={editorRef}
+                                      {...field}
+                                    />
+                                  )}
+                                />
+                                <p className="error-msg">
+                                  {errors.answer && errors.answer.message}
+                                </p>
+                              </div>
+                            </Col>
+                          )}
                           <div className="col-md-12 mt-4">
                             <Link to="#">
                               <button
-                                disabled={postTutorQuestionData?.isLoading || updateTutorQuestionData?.isLoading}
+                                disabled={
+                                  postTutorQuestionData?.isLoading ||
+                                  updateTutorQuestionData?.isLoading
+                                }
                                 className="btn btn-primary mx-2"
                               >
                                 Back
                               </button>
                             </Link>
                             <button
-                              disabled={postTutorQuestionData?.isLoading || updateTutorQuestionData?.isLoading}
+                              disabled={
+                                postTutorQuestionData?.isLoading ||
+                                updateTutorQuestionData?.isLoading
+                              }
                               type="submit"
                               className="btn btn-primary"
                             >
                               {editQuestionData ? (
-                                <>{updateTutorQuestionData?.isLoading ? "Updating..." : "Update"}</>
+                                <>
+                                  {updateTutorQuestionData?.isLoading
+                                    ? "Updating..."
+                                    : "Update"}
+                                </>
                               ) : (
                                 <>
                                   {postTutorQuestionData?.isLoading
@@ -428,9 +483,11 @@ const Tutorexam = () => {
                         onChange={(e) => setQuestionSubject(e.target.value)}
                         id="displayname"
                       >
-                        <option value="Maths">Maths</option>
-                        <option value="English">English</option>
-                        <option value="Computer">Computer</option>
+                        {subjectList.map((a) => (
+                          <option value={a.questionSubject}>
+                            {a.questionSubject}
+                          </option>
+                        ))}
                       </select>
                     </div>
                   </div>
@@ -446,25 +503,7 @@ const Tutorexam = () => {
                         id="displayname"
                       >
                         <option value="MCQ">MCQ</option>
-                        <option value="MCQ-exp">MCQ-exp</option>
-                        <option value="TrueFalse">True / False</option>
-                        <option value="TrueFalse-exp">True / False-exp</option>
-                        <option value="FillInBlanks">Fill In the Blanks</option>
-                        <option value="FillInBlanks-exp">
-                          Fill In the Blanks-exp
-                        </option>
-                        <option value="ShortAnswer">Short Answer</option>
-                        <option value="MatchTheFollowing-less5">
-                          Match The Following-less5
-                        </option>
-                        <option value="MatchTheFollowing-more5">
-                          Match The Following-more5
-                        </option>
-                        <option value="ProblemSolving">Problem Solving</option>
-                        <option value="LongAnswer">Long Answer</option>
-                        <option value="Writing">Writing</option>
-                        <option value="CaseStudy-more3">CaseStudy-more3</option>
-                        <option value="CaseStudy-less3">CaseStudy-less3</option>
+                        <option value="Theory">Theory</option>
                       </select>
                     </div>
                   </div>

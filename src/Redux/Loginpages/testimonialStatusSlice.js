@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const { createSlice } = require("@reduxjs/toolkit");
 
@@ -56,8 +57,10 @@ console.log(id);
 
         const { data } = await axios.post(`${url}/admin/testimonialstatus/${id}`, { token, status });
 
-        if (data.status === 1)
+        if (data.status === 1){
+            toast.success(data.message);
             dispatch(testimonialStatusSuccess(data));
+        }
         else
             dispatch(testimonialStatusFailure(data));
     } catch (error) {
