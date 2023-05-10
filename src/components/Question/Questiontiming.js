@@ -6,7 +6,6 @@ import { Form, Button, Table } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { questiontypeApi } from "../../Redux/Loginpages/questiontypeSlice";
-import { questiontimingApi } from "../../Redux/Loginpages/questionTimingSlice";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { ColorRing } from "react-loader-spinner";
@@ -33,7 +32,7 @@ const Questiontiming = () => {
   }, []);
   const { register, handleSubmit, reset } = useForm({});
 
-  const onSubmit = (data) => {
+  const onSubmit = async(data) => {
     setLoading1(true);
     let token = localStorage.getItem("token");
     console.log(data._id);
@@ -78,18 +77,30 @@ const Questiontiming = () => {
       tutor_time: tutor_time,
       admin_time: admin_time,
       unsolved_time: unsolved_time,
-      id: data.id,
+      id: data.id
     };
-    console.log(timingObjData);
+    // console.log(timingObjData);
 
-    dispatch(questiontimingApi(timingObjData));
+    // dispatch(questiontimingApi(timingObjData));
 
-    if (questiontiming.user && questiontiming.user.message) {
-      console.log(questiontiming.user);
-      notify(questiontiming.user && questiontiming.user.message);
-      reset();
+    try {
+      const { data } = await axios.post(
+        `https://vaidik-backend.onrender.com/admin/setquestiontiming`,
+        timingObjData
+      );
+  
+      if (data.status === 1) {
+        notify(data.message);
+        reset();
       fetchData();
+      } else {
+        notify(data.error);
+      }
+    } catch (error) {
+      console.log("error - ", error);
+      notify(error.response.data.error); 
     }
+   
   };
 
   //table
@@ -250,6 +261,7 @@ const Questiontiming = () => {
                               <label
                                 htmlFor="hoursInput"
                                 className="form-label"
+                                {...register("secondhours")}
                               >
                                 Hours:
                               </label>
@@ -435,6 +447,7 @@ const Questiontiming = () => {
                               <label
                                 htmlFor="hoursInput"
                                 className="form-label"
+                                {...register("unsolvedhours")}
                               >
                                 Hours:
                               </label>
