@@ -153,7 +153,7 @@ const Addnew = () => {
       formData.append(`questionPhoto`, files[i]);
     }
     formData.append("explanation", data.explanation || "");
-    setIsLoading(true)
+    setIsLoading(true);
     fetch("https://vaidik-backend.onrender.com/admin/questionpost", {
       method: "POST",
       body: formData,
@@ -163,12 +163,12 @@ const Addnew = () => {
         // Reset the input fields after submitting the form
         setImages([]);
         setEditorHtml("");
-        setIsLoading(false)
+        setIsLoading(false);
         reset();
         navigate("/searchengine");
       })
       .catch((error) => {
-        setIsLoading(false)
+        setIsLoading(false);
         // handle error
       });
   };
@@ -410,11 +410,16 @@ const Addnew = () => {
 
                         <div className="mt-4">
                           <Link to="/searchengine">
-                            <button disabled={isLoading} className="btn btn-primary mx-2">
+                            <button
+                              disabled={isLoading}
+                              className="btn btn-primary mx-2">
                               Back
                             </button>
                           </Link>
-                          <button disabled={isLoading} type="submit" className="btn btn-primary">
+                          <button
+                            disabled={isLoading}
+                            type="submit"
+                            className="btn btn-primary">
                             {isLoading ? "Posting..." : "Add"}
                           </button>
                         </div>

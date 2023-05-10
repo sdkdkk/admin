@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const { createSlice } = require("@reduxjs/toolkit");
 
@@ -19,8 +20,9 @@ const testimonialFormSlice = createSlice({
         //Set-info
         testimonialFromPending: (state) => {
             state.loading = true;
+            state.isAuthenticated = false;
         },
-        testimonialFromSuccess: (state, { payload }) => {
+        testimonialFormSuccess: (state, { payload }) => {
             state.loading = false;
             state.isAuthenticated = true;
             state.user = payload;
@@ -50,10 +52,13 @@ export const testimonialformapi = (token) => async (dispatch) => {
 
         const { data } = await axios.post(`${url}/admin/testimonial`, token );
 
-        if (data.status === 1)
+        if (data.status === 1){
+            toast.success(data.message);
             dispatch(testimonialFormSuccess(data));
-        else
+        }
+        else{
             dispatch(testimonialFormFailure(data));
+        }
     } catch (error) {
         dispatch(testimonialFormFailure(error.response.data));
     }

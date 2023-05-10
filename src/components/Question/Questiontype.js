@@ -23,8 +23,6 @@ const Questiontype = () => {
   const token = localStorage.getItem("token");
   const notify = (data) => toast(data);
 
-
-  
   //table
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(8);
@@ -35,7 +33,6 @@ const Questiontype = () => {
   const handleChange = (event, value) => {
     setCurrentPage(value);
   };
-
 
   const fetchData = async () => {
     try {
@@ -83,7 +80,7 @@ const Questiontype = () => {
       if (response.data.status === 1) {
         notify(response.data.message);
         reset();
-        // fetchData();
+        fetchData();
         // setEditCouponId(null);
       }
     } catch (error) {
@@ -214,7 +211,11 @@ const Questiontype = () => {
                               <tbody>
                                 {displayUsers.map((data, index, _id) => (
                                   <tr key={data._id}>
-                                    <td>{index + 1}</td>
+                                    <td>
+                                      {index +
+                                        1 +
+                                        (currentPage - 1) * postsPerPage}
+                                    </td>
                                     <td>{data.questionType}</td>
                                     <td>
                                       <Button
@@ -240,7 +241,7 @@ const Questiontype = () => {
                                 onChange={handleChange}
                                 shape="rounded"
                                 variant="outlined"
-                                // showFirstButton
+                              // showFirstButton
                               />
                             </div>
                           </>
@@ -250,6 +251,7 @@ const Questiontype = () => {
                   </div>
                 </div>
               </div>
+
             </div>
             <Footer />
           </div>

@@ -69,7 +69,7 @@ const Testexam = () => {
             <div className="main-panel">
               <div className="content-wrapper">
                 <div className="Title">
-                  <h3 className="text">Test Exam</h3>
+                  <h3 className="text">Tutor Exam Checking</h3>
                 </div>
                 <div className="row">
                   <div className="col-md-12 grid-margin stretch-card">

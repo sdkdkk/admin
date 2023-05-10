@@ -2,6 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios';
 import { createSlice } from "@reduxjs/toolkit";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
+import { toast } from "react-toastify";
 
 const initialState = {
     data: [],
@@ -16,6 +17,7 @@ export const updatePageDataApi = createAsyncThunk('', async(payload, { rejectWit
     const { id, status } =  payload 
     try {
         const response = await axios.post(`https://vaidik-backend.onrender.com/admin/cmsstatus/${id}`, { token, status});
+        toast.success(response.data.message)
         return response.data;
     } catch (error) {
         logoutIfInvalidToken(error.response)

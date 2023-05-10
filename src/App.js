@@ -35,7 +35,12 @@ import Tutorsubject from './components/Tutorsub/Tutorsubject';
 import Tutorexamconfig from './components/Tutorconfig/Tutorexamconfig';
 import Tutorsearch from './components/Tutorexam/Tutorsearch';
 import Questiontype from './components/Question/Questiontype';
-
+import Questions from './components/Question/Questions';
+import Mcqquestion from './components/Questionpages/Mcqquestion';
+import Truefalseque from './components/Questionpages/Truefalseque';
+import Fillups from './components/Questionpages/Fillups';
+import Questionanswer from './components/Questionpages/Questionanswer';
+import Matchfollow from './components/Questionpages/Matchfollow';
 
 
 
@@ -82,6 +87,13 @@ function App() {
         <Route path="/tutorsubject" element={<Tutorsubject />} />
         <Route path="/tutorexamconfig" element={<Tutorexamconfig />} />
         <Route path="/questiontype" element={<Questiontype />} />
+        <Route path="/questions" element={<Questions />} />
+
+        <Route path="/mcqquestion" element={<Mcqquestion />} />
+        <Route path="/truefalse" element={<Truefalseque />} />
+        <Route path="/fillups" element={<Fillups />} />
+        <Route path="/questionanswer" element={<Questionanswer />} />
+        <Route path="/matchfollow" element={<Matchfollow />} />
 
         <Route path="/logout" element={<Logout />} />
 

@@ -17,14 +17,23 @@ import { testimonialformapi } from "../../Redux/Loginpages/testimonialFormSlice"
 
 // import { ToastContainer, toast } from "react-toastify";
 // import "react-toastify/dist/ReactToastify.css";
-import { testimonialUserDelete, reset as resetTestimonialUserDelete } from "../../Redux/Loginpages/testimonialUserDeleteSlice";
+import {
+  testimonialUserDelete,
+  reset as resetTestimonialUserDelete,
+} from "../../Redux/Loginpages/testimonialUserDeleteSlice";
+import { ColorRing } from "react-loader-spinner";
 
 const Testimonial = () => {
   const dispatch = useDispatch();
+  const [currentPage, setCurrentPage] = useState(1);
+  const [defaultValues, setDefaultValues] = useState({});
   const testimonial = useSelector((state) => state.testimonial);
+  const testimonialform = useSelector((state) => state.testimonialform);
   const testimonialstatus = useSelector((state) => state.testimonialstatus);
-  const testimonialUserDeleteState = useSelector((state) => state.testimonialUserDelete);
-
+  const testimonialUserDeleteState = useSelector(
+    (state) => state.testimonialUserDelete
+  );
+  
   var [isActive, SetisActive] = useState(true);
 
   const [isOpen, setIsOpen] = useState("");
@@ -32,7 +41,6 @@ const Testimonial = () => {
   const handleDropdownClick = (id) => {
     setIsOpen(isOpen === id ? "" : id);
   };
-
 
   const activeForm = () => {
     if (isActive === true) {
@@ -44,38 +52,46 @@ const Testimonial = () => {
 
   var tokens = localStorage.getItem("token");
 
-    const {
-        register,
-        handleSubmit,
-        reset,
-        formState: { errors },
-    } = useForm({});
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    reset,
+    formState: { errors },
+  } = useForm({ values: defaultValues });
 
   useEffect(() => {
     dispatch(Testimoniald(tokens));
-  }, [dispatch]);
+  }, []);
 
-  useEffect(() =>{
-    if(testimonialUserDeleteState?.isSuccess){
-
+  useEffect(() => {
+    if (testimonialUserDeleteState?.isSuccess || testimonialform?.isAuthenticated) {
+      reset();
+      setDefaultValues({})
       dispatch(Testimoniald(tokens));
-      dispatch(resetTestimonialUserDelete())
+      dispatch(resetTestimonialUserDelete());
     }
-  },[testimonialUserDeleteState?.isSuccess])
+  }, [testimonialUserDeleteState?.isSuccess || testimonialform?.isAuthenticated]);
 
   const onSubmit = (data) => {
     const formData = new FormData();
 
-        formData.append("sortOrder", data.sortOrder);
-        formData.append("profileimage", data.profileimage[0]);
-        formData.append("name", data.name);
-        formData.append("description", data.description);
-        formData.append("token", tokens);
-        formData.append("status", isActive);
+    formData.append("sortOrder", data.sortOrder);
+    formData.append("profileimage", data.profileimage[0]);
+    formData.append("name", data.name);
+    formData.append("description", data.description);
+    formData.append("token", tokens);
+    formData.append("status", isActive);
+    if(defaultValues?.id){
+      formData.append("id", defaultValues?.id);
+    }
 
-        dispatch(testimonialformapi(formData));
-
-    reset();
+    dispatch(testimonialformapi(formData));
+    setTimeout(() =>{
+      setDefaultValues({})
+      reset({});
+    },[500])
+    
   };
 
   const changestatus = async (value, id, index) => {
@@ -93,15 +109,17 @@ const Testimonial = () => {
     setCurrentPage(value);
   };
 
-  const handleDeleteClick = (id) =>{
-    dispatch(testimonialUserDelete(id))
+  const handleEditClick = (data) =>{
+    setIsOpen(false)
+    setDefaultValues(data)
   }
 
+  const handleDeleteClick = (id) => {
+    dispatch(testimonialUserDelete(id));
+  };
+  
   //pagenation
-  const [currentPage, setCurrentPage] = useState(1);
-
-
-
+  
   return (
     <div>
       <div className="container-scroller">
@@ -117,7 +135,7 @@ const Testimonial = () => {
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table">
                     <div className="card-body">
-                      <table className="table">
+                      <table className={`table ${(testimonial.loading || testimonialstatus.loading || testimonialform.loading || testimonialUserDeleteState.isLoading) && "table-loading"}`}>
                         <thead>
                           <tr>
                             <th scope="col">Sort Order</th>
@@ -127,59 +145,76 @@ const Testimonial = () => {
                             <th scope="col"></th>
                           </tr>
                         </thead>
-                        {testimonial.user &&
-                          testimonial.user.testimonial.map((data, index) => (
-                            <tbody key={index}>
-                              <tr>
-                                <td>{data.sortOrder}</td>
-                                <td>
-                                  {" "}
-                                  <img
-                                    src={data.profileimage}
-                                    className="cardresto-img-top mx-4"
-                                    alt="..."
-                                  />
-                                </td>
-                                <td>{data.name}</td>
-                                <td>
-                                  <div className="form-check form-switch">
-                                    <input
-                                      className="form-check-input"
-                                      type="checkbox"
-                                      id="flexSwitchCheckChecked"
-                                      defaultChecked={data.isactive}
-                                      onChange={(e) =>
-                                        changestatus(
-                                          e.target.value,
-                                          data.id,
-                                          index
-                                        )
-                                      }
-                                    />
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="dropdown">
-                                    <button
-                                      className="dropdown__button"
-                                      onClick={() =>
-                                        handleDropdownClick(data.id)
-                                      }
-                                    >
-                                      ...
-                                    </button>
-                                    {data.id === isOpen && (
-                                      <div className="dropdown__popup">
-                                        <ul className="dropdown__list">
-                                          <li onClick={() => handleDeleteClick(data.id)}>Delete</li>
-                                        </ul>
-                                      </div>
-                                    )}
-                                  </div>
-                                </td>
-                              </tr>
-                            </tbody>
-                          ))}
+                        <tbody>
+                        <>
+                              {testimonial.user &&
+                                testimonial.user.testimonial.slice((currentPage - 1) * 5, currentPage * 5).map(
+                                  (data, index) => (
+                                    <tr key={index}>
+                                      <td>{data.sortOrder}</td>
+                                      <td>
+                                        {" "}
+                                        <img
+                                          src={data.profileimage}
+                                          className="cardresto-img-top mx-4"
+                                          alt="..."
+                                        />
+                                      </td>
+                                      <td>{data.name}</td>
+                                      <td>
+                                        <div className="form-check form-switch">
+                                          <input
+                                            className="form-check-input"
+                                            type="checkbox"
+                                            id="flexSwitchCheckChecked"
+                                            defaultChecked={data.isactive}
+                                            onChange={(e) =>
+                                              changestatus(
+                                                e.target.value,
+                                                data.id,
+                                                index
+                                              )
+                                            }
+                                          />
+                                        </div>
+                                      </td>
+                                      <td>
+                                        <div className="dropdown">
+                                          <button
+                                            className="dropdown__button"
+                                            onClick={() =>
+                                              handleDropdownClick(data.id)
+                                            }
+                                          >
+                                            ...
+                                          </button>
+                                          {data.id === isOpen && (
+                                            <div className="dropdown__popup">
+                                              <ul className="dropdown__list">
+                                                <li
+                                                  onClick={() =>
+                                                    handleEditClick(data)
+                                                  }
+                                                >
+                                                  Edit
+                                                </li>
+                                                <li
+                                                  onClick={() =>
+                                                    handleDeleteClick(data.id)
+                                                  }
+                                                >
+                                                  Delete
+                                                </li>
+                                              </ul>
+                                            </div>
+                                          )}
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  )
+                                )}
+                            </>
+                        </tbody>
                       </table>
                       <div className="table-pagination">
                         <Pagination
@@ -193,9 +228,7 @@ const Testimonial = () => {
                         />
                       </div>
                     </div>
-                    <div>
-                      {/* <ToastContainer /> */}
-                    </div>
+                    <div>{/* <ToastContainer /> */}</div>
                   </div>
                 </div>
               </div>
@@ -310,7 +343,7 @@ const Testimonial = () => {
                                 type="submit"
                                 className="btn btn-primary mx-2"
                               >
-                                Submit
+                                {Object.keys(defaultValues).length === 0 ? "Submit" : "Update"}
                               </button>
                             </div>
                           </div>

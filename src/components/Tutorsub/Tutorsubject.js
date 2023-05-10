@@ -7,6 +7,7 @@ import { Table, Button } from "react-bootstrap";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { ColorRing } from "react-loader-spinner";
+import { Pagination } from "@mui/material";
 
 const Tutorsubject = () => {
   const {
@@ -21,6 +22,17 @@ const Tutorsubject = () => {
   const [conversionRate, setConversionRate] = useState([]);
   const token = localStorage.getItem("token");
   const notify = (data) => toast(data);
+
+    //table
+    const [currentPage, setCurrentPage] = useState(1);
+    const [postsPerPage] = useState(8);
+    const indexOfLastPage = currentPage * postsPerPage;
+    const indexOfFirstPage = indexOfLastPage - postsPerPage;
+    const displayUsers = conversionRate.slice(indexOfFirstPage, indexOfLastPage);
+  
+    const handleChange = (event, value) => {
+      setCurrentPage(value);
+    };
 
   const fetchData = async () => {
     try {
@@ -177,6 +189,7 @@ const Tutorsubject = () => {
                             />
                           </p>
                         ) : (
+                          <>
                           <Table
                             striped
                             bordered
@@ -191,9 +204,9 @@ const Tutorsubject = () => {
                               </tr>
                             </thead>
                             <tbody>
-                              {conversionRate.map((data, index, _id) => (
+                              {displayUsers.map((data, index, _id) => (
                                 <tr>
-                                  <td>{index + 1}</td>
+                                  <td>{index + 1 + (currentPage - 1) * postsPerPage}</td>
                                   <td>{data.questionSubject}</td>
                                   <td>
                                     <Button
@@ -212,8 +225,21 @@ const Tutorsubject = () => {
                               ))}
                             </tbody>
                           </Table>
+                           <div className="table-pagination">
+                           <Pagination
+                             count={4}
+                             page={currentPage}
+                             onChange={handleChange}
+                             shape="rounded"
+                             variant="outlined"
+                             // showFirstButton
+                           />
+                         </div>
+                         </>
                         )}
+                   
                       </div>
+                          
                     </div>
                   </div>
                 </div>

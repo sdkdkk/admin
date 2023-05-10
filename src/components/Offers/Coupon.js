@@ -264,7 +264,7 @@ const Coupon = () => {
                               <tbody>
                                 {displayUsers.map((data, index) => (
                                   <tr key={data._id}>
-                                    <td>{index + 1}</td>
+                                    <td>{index + 1 + (currentPage - 1) * postsPerPage}</td>
                                     <td>{data.couponCode}</td>
                                     <td>{data.discount}</td>
                                     <td>
