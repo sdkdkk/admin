@@ -59,7 +59,7 @@ const Curruncy = () => {
       );
       if (response.data.status === 1) {
         console.log(response.data.status);
-        fetchData();
+        fetchData()
         notify("Currency Conversion Rate Updated Successfully");
 
         reset();

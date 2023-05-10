@@ -90,7 +90,6 @@ const Questiontiming = () => {
       reset();
       fetchData();
     }
-   
   };
 
   //table
@@ -251,7 +250,6 @@ const Questiontiming = () => {
                               <label
                                 htmlFor="hoursInput"
                                 className="form-label"
-                                {...register("secondhours")}
                               >
                                 Hours:
                               </label>
@@ -259,6 +257,7 @@ const Questiontiming = () => {
                                 type="number"
                                 className="form-control"
                                 id="hoursInput"
+                                {...register("secondhours")}
                               />
                             </div>
                           </div>
@@ -436,7 +435,6 @@ const Questiontiming = () => {
                               <label
                                 htmlFor="hoursInput"
                                 className="form-label"
-                                {...register("unsolvedhours")}
                               >
                                 Hours:
                               </label>
@@ -444,6 +442,7 @@ const Questiontiming = () => {
                                 type="number"
                                 className="form-control"
                                 id="hoursInput"
+                                {...register("unsolvedhours")}
                               />
                             </div>
                           </div>
@@ -474,7 +473,7 @@ const Questiontiming = () => {
                               type="submit"
                               disabled={loading}
                             >
-                             {data.id ? "Update" : "Submit"}
+                              {data.id ? "Update" : "Submit"}
                             </Button>
                           </div>
                         </div>
