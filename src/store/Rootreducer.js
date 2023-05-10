@@ -27,6 +27,7 @@ import socialMediaReducer from "../Redux/Loginpages/socialMediaSlice";
 import questiontypeReducer from "../Redux/Loginpages/questiontypeSlice";
 import questionTimingReducer from "../Redux/Loginpages/questionTimingSlice";
 import questionPricingReducer from "../Redux/Loginpages/questionPricingSlice";
+import getQuestiontimeReducer from "../Redux/Loginpages/getQuestiontimeSlice";
 
 const reducer = combineReducers({
   auth: authReducer,
@@ -55,6 +56,7 @@ const reducer = combineReducers({
   questiontype: questiontypeReducer,
   questiontiming: questionTimingReducer,
   questionpricing: questionPricingReducer,
+  gettiming: getQuestiontimeReducer,
 });
 
 export default reducer;

@@ -217,7 +217,7 @@ const Signup = () => {
             </div>
             <div className="col-lg-12 col-md-12 col-12 text-center mt--50">
               Already have an account?{" "}
-              <Link className="color-primary" to="#">
+              <Link className="color-primary" to="/login">
                 Sign in
               </Link>
             </div>

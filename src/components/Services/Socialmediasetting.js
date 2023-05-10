@@ -17,7 +17,7 @@ const Socialmediasetting = () => {
   const dispatch = useDispatch();
   console.log(socialmedia);
 
-  const { register, handleSubmit } = useForm({});
+  const { register, handleSubmit, reset } = useForm({});
 
   const onSubmit = (data) => {
     let token = localStorage.getItem("token");
@@ -34,8 +34,7 @@ const Socialmediasetting = () => {
     dispatch(socialmediaApi(mediaObjData));
 
     if (socialmedia.status === 1) {
-      
-       notify(socialmedia.user && socialmedia.user.message);
+      notify(socialmedia.user && socialmedia.user.message);
     }
     reset();
   };
