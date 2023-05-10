@@ -24,24 +24,24 @@ const Curruncy = () => {
 
   console.log(conversionRate);
 
+  const fetchData = async () => {
+    try {
+      setLoading(true);
+      const response = await axios.post(
+        `https://vaidik-backend.onrender.com/admin/getcurrencyconversion?Currency=USD`,
+        {
+          token: token,
+        }
+      );
+      await setConversionRate(response.data);
+      setLoading(false);
+    } catch (error) {
+      console.log(error.response.data.error);
+      // notify("Invalid refresh token!");
+      setLoading(false);
+    }
+  };
   useEffect(() => {
-    const fetchData = async () => {
-      try {
-        setLoading(true);
-        const response = await axios.post(
-          `https://vaidik-backend.onrender.com/admin/getcurrencyconversion?Currency=USD`,
-          {
-            token: token,
-          }
-        );
-        await setConversionRate(response.data);
-        setLoading(false);
-      } catch (error) {
-        console.log(error.response.data.error);
-        // notify("Invalid refresh token!");
-        setLoading(false);
-      }
-    };
     fetchData();
   }, []);
 
@@ -59,7 +59,9 @@ const Curruncy = () => {
       );
       if (response.data.status === 1) {
         console.log(response.data.status);
+        fetchData();
         notify("Currency Conversion Rate Updated Successfully");
+
         reset();
       }
     } catch (error) {
@@ -69,6 +71,8 @@ const Curruncy = () => {
       setLoadingpost(false); // set loading to false when API call is complete
     }
   };
+  //   fetchData();
+  // }, []);
 
   return (
     <>
@@ -79,10 +83,9 @@ const Curruncy = () => {
           <div className="main-panel">
             <div className="content-wrapper">
               <div className="page-header">
-                <h3 className="page-title"> Curruncy Conversion Rate </h3>{" "}
-              </div>{" "}
+                <h3 className="page-title"> Curruncy Conversion Rate </h3>
+              </div>
               <div class="row mt-3">
-                {" "}
                 {loading ? (
                   <ColorRing
                     visible={true}
@@ -101,14 +104,13 @@ const Curruncy = () => {
                           <div class="input-container">
                             <form onSubmit={handleSubmit(onSubmit)}>
                               <label className="usd" for="usd-input">
-                                1 USD ={" "}
-                              </label>{" "}
+                                1 USD =
+                              </label>
                               <input
-                                className="mx-2"
+                                className="mx-2 p-0"
                                 type="number"
                                 id="usd-input"
                                 min="0"
-                                
                                 step="0.01"
                                 defaultValue={conversionRate.rate}
                                 placeholder={conversionRate.rate}
@@ -116,40 +118,40 @@ const Curruncy = () => {
                                 {...register("ConversionToInr", {
                                   required: true,
                                 })}
-                              />{" "}
+                              />
                               <div style={{ display: "inline" }}>
-                                INR{" "}
-                                {/* <button id="update-btn">Update</button> */}{" "}
+                                INR
+                                {/* <button id="update-btn">Update</button> */}
                                 <span>
                                   <Button
                                     className="mx-2"
                                     id="update-btn"
                                     variant="primary"
                                     type="submit"
-                                    disabled={loadingpost}>
-                                    {" "}
-                                    {loadingpost ? "Loading..." : "Update"}{" "}
-                                  </Button>{" "}
+                                    disabled={loadingpost}
+                                  >
+                                    {loadingpost ? "Loading..." : "Update"}
+                                  </Button>
                                   {errors.ConversionToInr && (
                                     <p className="error text-danger">
-                                      Please Enter a Curruncy{" "}
+                                      Please Enter a Curruncy
                                     </p>
-                                  )}{" "}
-                                </span>{" "}
-                              </div>{" "}
-                            </form>{" "}
-                          </div>{" "}
-                        </div>{" "}
-                      </div>{" "}
-                    </div>{" "}
+                                  )}
+                                </span>
+                              </div>
+                            </form>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                )}{" "}
-              </div>{" "}
-            </div>{" "}
+                )}
+              </div>
+            </div>
             <Footer />
-          </div>{" "}
-        </div>{" "}
-      </div>{" "}
+          </div>
+        </div>
+      </div>
     </>
   );
 };

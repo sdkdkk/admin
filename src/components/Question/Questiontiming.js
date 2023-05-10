@@ -6,7 +6,6 @@ import { Form, Button, Table } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { questiontypeApi } from "../../Redux/Loginpages/questiontypeSlice";
-import { questiontimingApi } from "../../Redux/Loginpages/questionTimingSlice";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { ColorRing } from "react-loader-spinner";
@@ -21,17 +20,21 @@ const Questiontiming = () => {
   const notify = (data) => toast(data);
   const dispatch = useDispatch();
   const questiontype = useSelector((state) => state.questiontype);
-  const questiontiming = useSelector((state) => state.questiontiming);
+
   const [data, setData] = useState([]);
-  const [selectedData, setSelectedData] = useState("null");
+
   useEffect(() => {
+    setLoading1(true);
     let token = localStorage.getItem("token");
     dispatch(questiontypeApi(token));
     fetchData();
+    setLoading1(false);
   }, []);
   const { register, handleSubmit, reset } = useForm({});
 
-  const onSubmit = (data) => {
+  const onSubmit = async (data) => {
+
+    setLoading1(true);
     let token = localStorage.getItem("token");
     console.log(data._id);
     // Parse hours and minutes as numbers
@@ -65,7 +68,7 @@ const Questiontiming = () => {
       : 0;
     const unsolved_time = unsolvedhours * 60 + unsolvedminutes;
 
-       let timingObjData = {
+    let timingObjData = {
       token: token,
       Type: data.Type,
       first_time: first_time,
@@ -77,13 +80,26 @@ const Questiontiming = () => {
       unsolved_time: unsolved_time,
       id: data.id,
     };
-    console.log(timingObjData);
+    // console.log(timingObjData);
 
-    dispatch(questiontimingApi(timingObjData));
+    // dispatch(questiontimingApi(timingObjData));
 
-    if (questiontiming.user && questiontiming.user.message) {
-      console.log(questiontiming.user);
-      notify(questiontiming.user && questiontiming.user.message);
+    try {
+      const { data } = await axios.post(
+        `https://vaidik-backend.onrender.com/admin/setquestiontiming`,
+        timingObjData
+      );
+
+      if (data.status === 1) {
+        notify(data.message);
+        reset();
+        fetchData();
+      } else {
+        notify(data.error);
+      }
+    } catch (error) {
+      console.log("error - ", error);
+      notify(error.response.data.error);
     }
   };
 
@@ -184,9 +200,9 @@ const Questiontiming = () => {
                           <div className="col-lg-6">
                             <Form.Select
                               aria-label="Default select example"
-                              {...register("Type")}
+                              {...register("Type", { required: true })}
                             >
-                              <option>Open this select menu</option>
+                              <option value="">Open this select menu</option>
                               {questiontype.user &&
                                 questiontype.user.data.map((item) => (
                                   <option
@@ -215,6 +231,7 @@ const Questiontiming = () => {
                                 type="number"
                                 className="form-control"
                                 id="hoursInput"
+                                required
                                 {...register("firsthours")}
                               />
                             </div>
@@ -231,6 +248,7 @@ const Questiontiming = () => {
                                 type="number"
                                 className="form-control"
                                 id="minutesOutput"
+                                required
                                 {...register("firstminutes")}
                               />
                             </div>
@@ -245,7 +263,6 @@ const Questiontiming = () => {
                               <label
                                 htmlFor="hoursInput"
                                 className="form-label"
-                                {...register("secondhours")}
                               >
                                 Hours:
                               </label>
@@ -253,6 +270,8 @@ const Questiontiming = () => {
                                 type="number"
                                 className="form-control"
                                 id="hoursInput"
+                                required
+                                {...register("secondhours")}
                               />
                             </div>
                           </div>
@@ -268,6 +287,7 @@ const Questiontiming = () => {
                                 type="number"
                                 className="form-control"
                                 id="minutesOutput"
+                                required
                                 {...register("secondminutes")}
                               />
                             </div>
@@ -289,6 +309,7 @@ const Questiontiming = () => {
                                 type="number"
                                 className="form-control"
                                 id="hoursInput"
+                                required
                                 {...register("skiphours")}
                               />
                             </div>
@@ -305,6 +326,7 @@ const Questiontiming = () => {
                                 type="number"
                                 className="form-control"
                                 id="minutesOutput"
+                                required
                                 {...register("skipminutes")}
                               />
                             </div>
@@ -326,6 +348,7 @@ const Questiontiming = () => {
                                 type="number"
                                 className="form-control"
                                 id="hoursInput"
+                                required
                                 {...register("totalhours")}
                               />
                             </div>
@@ -342,6 +365,7 @@ const Questiontiming = () => {
                                 type="number"
                                 className="form-control"
                                 id="minutesOutput"
+                                required
                                 {...register("totalminutes")}
                               />
                             </div>
@@ -363,6 +387,7 @@ const Questiontiming = () => {
                                 type="number"
                                 className="form-control"
                                 id="hoursInput"
+                                required
                                 {...register("tutorhours")}
                               />
                             </div>
@@ -379,6 +404,7 @@ const Questiontiming = () => {
                                 type="number"
                                 className="form-control"
                                 id="minutesOutput"
+                                required
                                 {...register("tutorminutes")}
                               />
                             </div>
@@ -400,6 +426,7 @@ const Questiontiming = () => {
                                 type="number"
                                 className="form-control"
                                 id="hoursInput"
+                                required
                                 {...register("adminhours")}
                               />
                             </div>
@@ -416,6 +443,7 @@ const Questiontiming = () => {
                                 type="number"
                                 className="form-control"
                                 id="minutesOutput"
+                                required
                                 {...register("adminminutes")}
                               />
                             </div>
@@ -430,7 +458,6 @@ const Questiontiming = () => {
                               <label
                                 htmlFor="hoursInput"
                                 className="form-label"
-                                {...register("unsolvedhours")}
                               >
                                 Hours:
                               </label>
@@ -438,6 +465,8 @@ const Questiontiming = () => {
                                 type="number"
                                 className="form-control"
                                 id="hoursInput"
+                                required
+                                {...register("unsolvedhours")}
                               />
                             </div>
                           </div>
@@ -453,6 +482,7 @@ const Questiontiming = () => {
                                 type="number"
                                 className="form-control"
                                 id="minutesOutput"
+                                required
                                 {...register("unsolvedminutes")}
                               />
                             </div>

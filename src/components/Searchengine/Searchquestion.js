@@ -7,7 +7,7 @@ import "../Css/Tutorlist.css";
 // import Form from "react-bootstrap/Form";
 import axios from "axios";
 import { ColorRing } from "react-loader-spinner";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const Searchquestion = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -169,6 +169,15 @@ const Searchquestion = () => {
                           next{" "}
                         </button>
                       </div>
+                      <div className="mt-2 text-end">
+                        <Link to="/searchengine">
+                          <button
+                            className="btn btn-primary mx-2">
+                            Back
+                          </button>
+                        </Link>
+                      </div>
+                     
                     </div>
                   </div>
                 </div>

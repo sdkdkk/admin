@@ -73,9 +73,13 @@ textarea {
     margin-right: 10px !important;
 }
 
-input,
+/* input,
 select,
 textarea {
+    width: 100%;
+    transition: 0.3s;
+} */
+textarea#bio {
     width: 100%;
     transition: 0.3s;
 }
