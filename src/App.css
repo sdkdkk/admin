@@ -1,6 +1,7 @@
 button.btn.btn-secondary {
     margin-left: 10px;
 }
+
 /*Sidebar icon*/
 .sidebar .nav .nav-item .nav-link i.menu-icon {
     font-size: 1.125rem;
@@ -12,10 +13,12 @@ button.btn.btn-secondary {
 button.login-btn.mt-2.btn.btn-primary {
     width: 100%;
 }
+
 .card.bg-white.my-5.mx-auto {
     border-radius: 1rem;
     max-width: 350px;
 }
+
 img.logo-img-login {
     max-width: 100px;
 }
@@ -24,19 +27,105 @@ img.logo-img-login {
     background-color: #fff;
     justify-content: center;
 }
-.table thead th,.table tbody td{
+
+.table thead th,
+.table tbody td {
     padding: 15px;
 }
-.dash-ico{
+
+.dash-ico {
     color: #0b5ed7 !important;
-    background: rgba(11,94,215,0.1) !important;
+    background: rgba(11, 94, 215, 0.1) !important;
     border: none !important;
     height: 50px;
     width: 50px;
 }
-.v-top th, .v-top td{
+
+.v-top th,
+.v-top td {
     vertical-align: top !important;
 }
-th.text-right.font-weight-bold, td.text-right.font-weight-bold {
+
+th.text-right.font-weight-bold,
+td.text-right.font-weight-bold {
     color: #e558ef;
+}
+
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    margin: 0 -10px;
+}
+
+.col {
+    flex: 1;
+    padding: 0 10px;
+    margin-bottom: 20px;
+}
+
+@media only screen and (max-width: 600px) {
+    .row {
+        flex-direction: column;
+    }
+}
+
+
+.profile {
+    display: flex;
+    align-items: center;
+}
+
+.profile-img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 20px;
+}
+
+.profile-img img {
+    width: 76%;
+    height: 76%;
+    /* object-fit: cover; */
+    margin-top: 20px;
+    border-radius: 8px;
+    margin-left: 12px;
+}
+
+.profile-info {
+    font-size: 1.2rem;
+}
+
+@media only screen and (max-width: 600px) {
+    .profile-info {
+        margin-left: 10px;
+    }
+
+    .profile {
+        display: flex;
+        align-items: center;
+        border-bottom: 1px solid;
+    }
+
+    .col.bankdetails {
+        border-bottom: 1px solid;
+        padding-bottom: 10px;
+    }
+
+    .col.Subject {
+        border-bottom: 1px solid;
+        padding-bottom: 10px;
+    }
+
+    .profile-img img {
+        margin-top: 20px;
+        width: 80px;
+        height: 80px;
+        border-radius: 7px;
+    }
+
+    .profile-img {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
 }
