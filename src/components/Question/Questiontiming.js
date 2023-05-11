@@ -5,7 +5,7 @@ import Sidebar from "../shared/Sidebar";
 import { Form, Button, Table } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { questiontypeApi } from "../../Redux/Loginpages/questiontypeSlice";
+import { questiontypeApi } from "../../Redux/Loginpages/questiontypeTimeSlice";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { ColorRing } from "react-loader-spinner";
@@ -19,8 +19,8 @@ const Questiontiming = () => {
   const [loading1, setLoading1] = useState(false);
   const notify = (data) => toast(data);
   const dispatch = useDispatch();
-  const questiontype = useSelector((state) => state.questiontype);
-
+  const questiontypeTime = useSelector((state) => state.questiontypetime);
+  console.log(questiontypeTime);
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -33,7 +33,6 @@ const Questiontiming = () => {
   const { register, handleSubmit, reset } = useForm({});
 
   const onSubmit = async (data) => {
-
     setLoading1(true);
     let token = localStorage.getItem("token");
     console.log(data._id);
@@ -203,13 +202,10 @@ const Questiontiming = () => {
                               {...register("Type", { required: true })}
                             >
                               <option value="">Open this select menu</option>
-                              {questiontype.user &&
-                                questiontype.user.data.map((item) => (
-                                  <option
-                                    key={item._id}
-                                    value={item.questionType}
-                                  >
-                                    {item.questionType}
+                              {questiontypeTime.user &&
+                                questiontypeTime.user.data.map((item) => (
+                                  <option key={item} value={item}>
+                                    {item}
                                   </option>
                                 ))}
                             </Form.Select>

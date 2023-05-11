@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-const questiontypeSlice = createSlice({
-  name: "questiontype",
+const questiontypeTimeSlice = createSlice({
+  name: "questiontypetime",
   initialState: {
     isAuthenticated: false,
     user: null,
@@ -37,14 +37,14 @@ const questiontypeSlice = createSlice({
 //Testimonial
 
 export const { questiontypePending, questiontypeSuccess, questiontypeFailure } =
-  questiontypeSlice.actions;
+questiontypeTimeSlice.actions;
 
 export const questiontypeApi = (token) => async (dispatch) => {
   console.log(token);
   dispatch(questiontypePending());
   try {
     const { data } = await axios.get(
-      `https://vaidik-backend.onrender.com/getquestiontype`,
+      `https://vaidik-backend.onrender.com/admin/getquestiontypefortiming`,
       token
     );
 
@@ -58,4 +58,4 @@ export const questiontypeApi = (token) => async (dispatch) => {
   }
 };
 
-export default questiontypeSlice.reducer;
+export default questiontypeTimeSlice.reducer;

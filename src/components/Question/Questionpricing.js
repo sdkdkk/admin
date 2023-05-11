@@ -4,13 +4,14 @@ import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
 import { Form, Button, Table } from "react-bootstrap";
-import { questiontypeApi } from "../../Redux/Loginpages/questiontypeSlice";
+import { questiontypeApi } from "../../Redux/Loginpages/questiontypeTimeSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { ColorRing } from "react-loader-spinner";
 import { Pagination } from "@mui/material";
+import { questiontypePriceApi } from "../../Redux/Loginpages/questiontypePriceSlice";
 
 const Questionpricing = () => {
   const notify = (data) => toast(data);
@@ -20,9 +21,11 @@ const Questionpricing = () => {
     reset,
     formState: { errors },
   } = useForm({});
- 
+
   const dispatch = useDispatch();
-  const questiontype = useSelector((state) => state.questiontype);
+  const questiontypeTime = useSelector((state) => state.questiontypetime);
+  const questiontypePrice = useSelector((state) => state.questiontypeprice);
+  console.log(questiontypePrice);
   const [loading, setLoading] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [loading1, setLoading1] = useState(false);
@@ -32,6 +35,8 @@ const Questionpricing = () => {
     setLoading1(true);
     let token = localStorage.getItem("token");
     dispatch(questiontypeApi(token));
+    dispatch(questiontypePriceApi());
+
     fetchData();
     setLoading1(false);
   }, []);
@@ -161,14 +166,13 @@ const Questionpricing = () => {
                             <Form.Select
                               {...register("Type", { required: true })}
                             >
-                              <option value="">Open this select menu</option>
-                              {questiontype.user &&
-                                questiontype.user.data.map((item) => (
-                                  <option
-                                    key={item._id}
-                                    value={item.questionType}
-                                  >
-                                    {item.questionType}
+                            <option value="" disabled selected>
+                            Please Select Question Type
+                          </option>
+                              {questiontypePrice.user &&
+                                questiontypePrice.user.data.map((item) => (
+                                  <option key={item} value={item}>
+                                    {item}
                                   </option>
                                 ))}
                             </Form.Select>
@@ -235,7 +239,11 @@ const Questionpricing = () => {
                             <h6>&nbsp;</h6>
                           </div>
                           <div className="col-lg-4 col-md-8 mb-2 text-md-end">
-                            <Button variant="primary" type="submit" disabled={loading}>
+                            <Button
+                              variant="primary"
+                              type="submit"
+                              disabled={loading}
+                            >
                               {isEditMode ? "Update" : "Submit"}
                             </Button>
                           </div>
