@@ -131,8 +131,11 @@ const Tutordetails = () => {
                 return (
                   <div className="row" style={{ backgroundColor: "#c0d7ff" }}>
                     <div className="col-md-3">
-                      <div className="text-start mt-3">
+                      <div className="aside text-start mt-3">
+                        <div className="col d-flex align-items-start">
+                          <div className="icon-square text-dark flex-shrink-0 me-3">
                             <CgProfile style={{ fontSize: "40px" }} />
+                          </div>
                           <div>
                             <h6>{data.name}</h6>
                             <h6>{data.mobileNo}</h6>
@@ -141,73 +144,77 @@ const Tutordetails = () => {
                               P: (123) 456-7890
                             </address>
                             <br />
-                            <p>{data.email}</p>
+                            <h5>Professional Details</h5>
+                            <h6>HDFC Bank</h6>
                           </div>
-                        </div>
-                    </div>
-                    <div className="col-md-3 col-sm-6">
-                      <div className="mobiltutordetails">
-                        <div
-                          className="details text-start mt-3">
-                          <h6>Bank Details</h6>
-                          <h6 className="bank-text">
-                            {data.bankdetails.bankName}
-                          </h6>
-                          <h6 className="AC-text">
-                            A/C No.{data.bankdetails.accountNumber}
-                          </h6>
-                          <h6 className="IFSC-text">
-                            IFSC Code:{data.bankdetails.IFSCCode}{" "}
-                          </h6>
-                          <h6 className="Branch-text">
-                            Branch: {data.bankdetails.Tutorbankname}
-                          </h6>
-                          <h6 className="Branch-text">
-                            bank Country: {data.bankdetails.bankcountry}
-                          </h6>
                         </div>
                       </div>
                     </div>
-                    <div className="col-md-3 col-sm-6">
-                      <div className="Subject mt-3">
-                        <div
-                          className="details">
-                          <h6>Subject</h6>
-                          <div className="gap-2 d-md-flex">
-                            <span className="badge rounded-pill bg-warning">
-                              {data.subjects[0]}
-                            </span>
-                            <span className="badge rounded-pill bg-primary">
-                              {data.subjects[1]}{" "}
-                            </span>
-                           
-                          </div>
-                          <h5 className="bottom mt-4 text-secondary">
-                            Total Referral
-                          </h5>
-                          <span className="badge rounded-pill bg-dark">
-                              {data.subjects[2]}
-                            </span>
-                        </div>
+                    <div className="col-md-3 mobiltutordetails">
+                      <div
+                        className="details mt-3 text-start">
+                        <h6>Bank Details</h6>
+                        <h6 className="bank-text">
+                          {data.bankdetails.bankName}
+                        </h6>
+                        <h6 className="AC-text">
+                          A/C No.{data.bankdetails.accountNumber}
+                        </h6>
+                        <h6 className="IFSC-text">
+                          IFSC Code:{data.bankdetails.IFSCCode}{" "}
+                        </h6>
+                        <h6 className="Branch-text">
+                          Branch: {data.bankdetails.Tutorbankname}
+                        </h6>
+                        <h6 className="Branch-text">
+                          bank Country: {data.bankdetails.bankcountry}
+                        </h6>
                       </div>
                     </div>
                     <div className="col-md-3">
-                      <div className="Earnings mt-3">
-                        <div
-                          className="details">
-                          <h6 className="text-secondary">Earnings</h6>
-                          <h6 className="text-dark">
-                            <b>Rs.{data.earning}</b>
-                          </h6>
-                          <h6 className="text-secondary">Paid</h6>
-                          <h6 className="text-danger">
-                            <b>Rs.{data.paid}</b>
-                          </h6>
-                          <h6 className="text-secondary">Balance</h6>
-                          <h4 className="text-success">
-                            <b>Rs.{data.balance}</b>
-                          </h4>
+                      <div
+                        className="Subject mt-3"
+                        style={{
+                          display: "inline-block",
+                          textAlign: "justify",
+                        }}>
+                        <h6>Subject</h6>
+                        <div className="gap-2 d-md-flex ">
+                          <span className="badge rounded-pill bg-warning">
+                            {data.subjects[0]}
+                          </span>
+                          <span className="badge rounded-pill bg-primary">
+                            {data.subjects[1]}{" "}
+                          </span>
+
                         </div>
+                        <h5 className="bottom mt-4 text-secondary">
+                          Total Referral
+                        </h5>
+                        <span className="badge rounded-pill bg-dark">
+                          {data.subjects[2]}
+                        </span>
+                      </div>
+                    </div>
+                    <div className="col-md-3">
+                      <div
+                        className="Earnings mt-3"
+                        style={{
+                          display: "inline-block",
+                          textAlign: "justify",
+                        }}>
+                        <h6 className="text-secondary">Earnings</h6>
+                        <h6 className="text-dark">
+                          <b>Rs.{data.earning}</b>
+                        </h6>
+                        <h6 className="text-secondary">Paid</h6>
+                        <h6 className="text-danger">
+                          <b>Rs.{data.paid}</b>
+                        </h6>
+                        <h6 className="text-secondary">Balance</h6>
+                        <h4 className="text-success">
+                          <b>Rs.{data.balance}</b>
+                        </h4>
                       </div>
                     </div>
                   </div>
