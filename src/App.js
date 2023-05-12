@@ -103,6 +103,7 @@ function App() {
         <Route path="/users" element={<Users />} />
         <Route path="/roles" element={<Roles />} />
         <Route path="/addnewuser" element={<Addnewuser />} />
+        <Route path="/addnewuser/:id" element={<Addnewuser />} />
         <Route path="/addnewrole" element={<Addnewrole />} />
 
 
