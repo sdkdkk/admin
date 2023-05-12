@@ -1,0 +1,77 @@
+.add-user-btn {
+    background-color: #007bff;
+    color: #fff;
+    padding: 8px 18px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+  }
+
+
+  /* Media query for responsive design */
+  @media screen and (max-width: 768px) {
+    .add-user-btn {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+  }
+
+img.webresource {
+    /* margin-top: 5px; */
+    margin-top: -6px;
+}
+
+.scroll-table {
+    height: 300px;
+    width: 100%;
+}
+
+table.table-body-cell {
+    border-width: 0px;
+}
+
+img.table-body-cell {
+    border-width: 0px;
+    margin-bottom: 4px;
+}
+
+.images-box {
+    width: 20px;
+    height: 1px;
+}
+
+.main-scroll {
+    overflow: scroll;
+}
+
+.table-block {
+    display: block;
+}
+
+.img-style {
+    width: 20px;
+    height: 1px;
+}
+
+a.box-text {
+    margin-left: 5px;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

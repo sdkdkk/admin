@@ -45,11 +45,6 @@ const Sidebar = () => {
                     Tutors Payment
                   </Link>
                 </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/professionaldetails">
-                    Professional Details
-                  </Link>
-                </li>
               </ul>
             </div>
           </li>
@@ -228,10 +223,31 @@ const Sidebar = () => {
           <li className="nav-item nav-category">
             <span className="nav-link">Offer</span>
           </li>
+
           {/*coupon*/}
           <li className="nav-item">
             <Link className="nav-link" to="/coupon">
               <span className="menu-title">Coupon</span>
+              <i className="icon-screen-desktop menu-icon"></i>
+            </Link>
+          </li>
+
+          {/*permission*/}
+          <li className="nav-item nav-category">
+            <span className="nav-link">Permission</span>
+          </li>
+
+          {/*User*/}
+          <li className="nav-item">
+            <Link className="nav-link" to="/users">
+              <span className="menu-title">Users</span>
+              <i className="icon-screen-desktop menu-icon"></i>
+            </Link>
+          </li>
+           {/*Role*/}
+           <li className="nav-item">
+            <Link className="nav-link" to="/roles">
+              <span className="menu-title">Roles</span>
               <i className="icon-screen-desktop menu-icon"></i>
             </Link>
           </li>

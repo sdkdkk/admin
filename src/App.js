@@ -50,6 +50,10 @@ import MatchfollowSearchengine from "./components/QuestionpageSearchengine/Match
 import McqquestionSearchengine from "./components/QuestionpageSearchengine/McqquestionSearchengine";
 import QuestionanswerSearchengine from "./components/QuestionpageSearchengine/QuestionanswerSearchengine";
 import TruefalsequeSearchengine from "./components/QuestionpageSearchengine/TruefalsequeSearchengine";
+import Users from './components/permission/Users';
+import Roles from './components/permission/Roles';
+import Addnewuser from './components/permission/Addnewuser';
+import Addnewrole from './components/permission/Addnewrole';
 
 
 
@@ -113,6 +117,12 @@ function App() {
         <Route path="/fillups" element={<Fillups />} />
         <Route path="/questionanswer" element={<Questionanswer />} />
         <Route path="/matchfollow" element={<Matchfollow />} />
+        
+        <Route path="/users" element={<Users />} />
+        <Route path="/roles" element={<Roles />} />
+        <Route path="/addnewuser" element={<Addnewuser />} />
+        <Route path="/addnewrole" element={<Addnewrole />} />
+
 
 
         <Route path="/fillupssearchengine" element={<FillupsSearchengine />} />
