@@ -43,6 +43,10 @@ import Questionanswer from './components/Questionpages/Questionanswer';
 import Matchfollow from './components/Questionpages/Matchfollow';
 import Tutorquestiondetails from './components/Tutors/Tutorquestiondetails';
 import Studentquestiondetails from './components/Student/Studentquestiondetails';
+import Users from './components/permission/Users';
+import Roles from './components/permission/Roles';
+import Addnewuser from './components/permission/Addnewuser';
+import Addnewrole from './components/permission/Addnewrole';
 
 
 
@@ -95,6 +99,12 @@ function App() {
         <Route path="/fillups" element={<Fillups />} />
         <Route path="/questionanswer" element={<Questionanswer />} />
         <Route path="/matchfollow" element={<Matchfollow />} />
+        
+        <Route path="/users" element={<Users />} />
+        <Route path="/roles" element={<Roles />} />
+        <Route path="/addnewuser" element={<Addnewuser />} />
+        <Route path="/addnewrole" element={<Addnewrole />} />
+
 
         <Route path="/logout" element={<Logout />} />
 
