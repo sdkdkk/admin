@@ -1,0 +1,131 @@
+/* Question Answer Page  */
+
+.rbt-btn.btn-sm {
+    padding: 0 22px;
+    font-size: var(--font-size-b3);
+    height: 45px;
+    line-height: 43px;
+}
+
+.rbt-btn.btn-border {
+    background: transparent;
+    border: 2px solid var(--color-border);
+    color: var(--color-heading);
+    line-height: 57px;
+}
+
+.rbt-btn {
+    padding: 0 26px;
+    background: #5956e9;
+    height: 60px;
+    line-height: 60px;
+    color: #ffffff;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    font-weight: 500;
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+    transition: all 0.4s ease-in-out;
+    border-radius: 6px;
+    border: 0 none;
+    outline: none;
+}
+
+
+.radius-6 {
+    border-radius: 6px !important;
+}
+
+.rbt-border {
+    border: 1px solid var(--color-border) !important;
+}
+
+.p--20 {
+    padding: 20px !important;
+}
+
+/* .bg-primary-opacity {
+    background: var(--primary-opacity) !important;
+} */
+input[type=text],
+input[type=password],
+input[type=email],
+input[type=number],
+input[type=tel],
+textarea {
+    font-size: 16px;
+    font-weight: 400;
+    height: 48px;
+    line-height: 28px;
+    background: #fff;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+    padding: 0 15px;
+    outline: none;
+    /* border: var(--border-width) solid var(--color-border); */
+    border-radius: var(--radius);
+    color: var(--color-body);
+    box-shadow: var(--shadow-10);
+}
+
+.mr--10 {
+    margin-right: 10px !important;
+}
+
+/* input,
+select,
+textarea {
+    width: 100%;
+    transition: 0.3s;
+} */
+textarea#bio {
+    width: 100%;
+    transition: 0.3s;
+}
+
+.rbt-btn.btn-border-gradient {
+    background: linear-gradient(90deg, #CFA2E8, #637FEA);
+    border: none;
+    outline: none;
+    cursor: pointer;
+    position: relative;
+    z-index: 10;
+    color: var(--color-heading);
+    box-shadow: 0 10px 13px 0 rgba(209, 211, 237, 0.39);
+    border-radius: 5;
+}
+
+.rbt-btn.btn-sm {
+    padding: 0 22px;
+    font-size: var(--font-size-b3);
+    height: 45px;
+    line-height: 43px;
+}
+
+[class^="feather-"],
+[class*=" feather-"] {
+    font-family: 'feather' !important;
+    speak: none;
+    font-style: normal;
+    font-weight: normal;
+    font-variant: normal;
+    text-transform: none;
+    line-height: 1;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+img {
+    -ms-interpolation-mode: bicubic;
+    border: 0;
+    vertical-align: middle;
+    max-width: 100%;
+    height: auto;
+}
+
+@media only screen and (max-width: 767px) {
+    .rbt-btn.btn-sm {
+        padding: 0 10px;
+    }
+}

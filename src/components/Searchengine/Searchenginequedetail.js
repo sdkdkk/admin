@@ -5,21 +5,16 @@ import Sidebar from "../shared/Sidebar";
 import "./Searchengine.css";
 import { useLocation } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
-
-
+import FillupsSearchengine from "../QuestionpageSearchengine/FillupsSearchengine";
+import MatchfollowSearchengine from "../QuestionpageSearchengine/MatchfollowSearchengine";
+import McqquestionSearchengine from "../QuestionpageSearchengine/McqquestionSearchengine";
+import QuestionanswerSearchengine from "../QuestionpageSearchengine/QuestionanswerSearchengine";
+import TruefalsequeSearchengine from "../QuestionpageSearchengine/TruefalsequeSearchengine";
 
 const Searchenginequedetail = () => {
   const location = useLocation();
   const getresponse = location.state.data;
   console.log(getresponse);
-  const [imageSrc, setImageSrc] = useState("");
-  const [show, setShow] = useState(false);
-
-  const handleImageClick = (url) => {
-    setShow(true);
-    setImageSrc(url);
-  };
-
 
   return (
     <>
@@ -41,94 +36,32 @@ const Searchenginequedetail = () => {
                           <div className="rbt-dashboard-content bg-color-white rbt-shadow-box rbt-border mb--30 p--20">
                             <div className="content">
                               <div className="row">
-                           
-                                <div className="col-md-12 col-lg-12 mb--20">
-                                  <h5>Question</h5>
-                                  <div className="p--20 rbt-border radius-6 bg-primary-opacity">
-                                    <div className="row">
-                                      {location.state.data.question}
-                                    </div>
-                                  </div>
-                                </div>
-                                {location.state.data.questionPhoto.map(
-                                  (photoUrl) => (
-                                    <img
-                                      key={photoUrl}
-                                      src={photoUrl}
-                                      style={{
-                                        width:"200px",
-                                        height:"200px"
-                                      }}
-                                      
-                                      onClick={() =>
-                                        handleImageClick(photoUrl)
-                                      }
-                                      className="profile-img"
-                                      alt=""
-                                    />
-                                  )
-                                )}
-                                <div className="col-md-12 col-lg-12 mb--20">
-                                  <h5>Question Type</h5>
-                                  <div className="p--20 rbt-border radius-6 bg-primary-opacity">
-                                    <div className="row">
-                                      {location.state.data.questionType}
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="col-md-12 col-lg-12 mb--20">
-                                  <h5>Question Subject</h5>
-                                  <div className="p--20 rbt-border radius-6 bg-primary-opacity">
-                                    {location.state.data.questionSubject}
-                                  </div>
-                                </div>
-
-                                <div className="col-md-12 col-lg-12 mb--20">
-                                  <h5>Question Price</h5>
-                                  <div className="p--20 rbt-border radius-6 bg-primary-opacity">
-                                    <div className="row">
-                                      {location.state.data.questionPrice}
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="col-md-12 col-lg-12 mb--20">
-                                  <h5>Tutor Price</h5>
-                                  <div className="p--20 rbt-border radius-6 bg-primary-opacity">
-                                    <div className="row">
-                                      {location.state.data.tutorPrice}
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="col-md-12 col-lg-12 mb--20">
-                                  <h5>Status</h5>
-                                  <div className="p--20 rbt-border radius-6 bg-primary-opacity">
-                                    <div className="row">
-                                      {location.state.data.status}
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="col-md-12 col-lg-12 mb--20">
-                                  <h5>answer</h5>
-                                  <div className="p--20 rbt-border radius-6 bg-primary-opacity">  
-                                    <div
-                                      dangerouslySetInnerHTML={{
-                                        __html: location.state.data.answer,
-                                        
-                                      }}
-                                    />
-                                    {}
-                                  </div>
-                                </div>
-                                <div className="col-md-12 col-lg-12 mb--20">
-                                  <h5>Explanation</h5>
-                                  <div className="p--20 rbt-border radius-6 bg-primary-opacity">
-                                    <div
-                                      dangerouslySetInnerHTML={{
-                                        __html: location.state.data.explanation,
-                                      }}
-                                    />
-                                    {}
-                                  </div>
+                                <div>
+                                  {location.state.data
+                                    .questionType === "TrueFalse-exp" ||
+                                  location.state.data
+                                    .questionType === "TrueFalse" ? (
+                                    <TruefalsequeSearchengine />
+                                  ) : location.state.data
+                                      .questionType === "MCQ-exp" ||
+                                    location.state.data
+                                      .questionType === "MCQ" ? (
+                                    <McqquestionSearchengine />
+                                  ) : location.state.data
+                                      .questionType === "FillInBlanks-exp" ||
+                                    location.state.data
+                                      .questionType === "FillInBlanks" ? (
+                                    <FillupsSearchengine />
+                                  ) : location.state.data
+                                      .questionType ===
+                                      "MatchTheFollowing-less5" ||
+                                    location.state.data
+                                      .questionType ===
+                                      "MatchTheFollowing-more5" ? (
+                                    <MatchfollowSearchengine />
+                                  ) : (
+                                    <QuestionanswerSearchengine />
+                                  )}
                                 </div>
                               </div>
                             </div>
@@ -144,21 +77,6 @@ const Searchenginequedetail = () => {
           </div>
         </div>
       </div>
-         {/* image show modal */}
-         <Modal 
-         show={show}
-          onHide={() => setShow(false)}
-          >
-         <Modal.Header closeButton className="border-0"></Modal.Header>
-         <Modal.Body className="text-center">
-          {" "}
-          <img 
-          style={{maxWidth:"100%",maxHeight:"100%"}}
-          src={imageSrc}
-           alt="modal-img"
-           />
-        </Modal.Body>
-        </Modal>
     </>
   );
 };
