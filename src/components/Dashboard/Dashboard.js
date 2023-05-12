@@ -19,7 +19,7 @@ const Dashboard = () => {
   useEffect(() => {
     fetchData();
   }, []);
-  
+
   const fetchData = async () => {
     let token = localStorage.getItem("token");
     try {
