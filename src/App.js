@@ -1,4 +1,4 @@
-import './App.css';
+import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 import Dashboard from "./components/Dashboard/Dashboard";
@@ -17,32 +17,39 @@ import Pages from "./components/Pages/Pages";
 import Socialmediasetting from "./components/Services/Socialmediasetting";
 import Login from "./components/Login/Login";
 import Scroll from "./components/Scroll/Scroll";
-import Tutorexam from './components/Tutorexam/Tutorexam';
-import Signup from './components/Login/Signup';
-import Tutordetails from './components/Tutors/Tutordetails';
-import Studentdetails from './components/Student/Studentdetails';
-import Testexam from './components/Tutorexam/Testexam';
-import Examdetails from './components/Tutorexam/Examdetails';
-import Searchenginequedetail from './components/Searchengine/Searchenginequedetail';
-import Logout from './components/Logout/Logout';
+import Tutorexam from "./components/Tutorexam/Tutorexam";
+import Signup from "./components/Login/Signup";
+import Tutordetails from "./components/Tutors/Tutordetails";
+import Studentdetails from "./components/Student/Studentdetails";
+import Testexam from "./components/Tutorexam/Testexam";
+import Examdetails from "./components/Tutorexam/Examdetails";
+import Searchenginequedetail from "./components/Searchengine/Searchenginequedetail";
+import Logout from "./components/Logout/Logout";
 
-import Questiontiming from './components/Question/Questiontiming';
-import Questionpricing from './components/Question/Questionpricing';
-import Questionreasnwer from './components/Question/Questionreasnwer';
-import Curruncy from './components/Curruncy/Curruncy';
-import Coupon from './components/Offers/Coupon';
-import Tutorsubject from './components/Tutorsub/Tutorsubject';
-import Tutorexamconfig from './components/Tutorconfig/Tutorexamconfig';
-import Tutorsearch from './components/Tutorexam/Tutorsearch';
-import Questiontype from './components/Question/Questiontype';
-import Questions from './components/Question/Questions';
-import Mcqquestion from './components/Questionpages/Mcqquestion';
-import Truefalseque from './components/Questionpages/Truefalseque';
-import Fillups from './components/Questionpages/Fillups';
-import Questionanswer from './components/Questionpages/Questionanswer';
-import Matchfollow from './components/Questionpages/Matchfollow';
-import Tutorquestiondetails from './components/Tutors/Tutorquestiondetails';
-import Studentquestiondetails from './components/Student/Studentquestiondetails';
+import Questiontiming from "./components/Question/Questiontiming";
+import Questionpricing from "./components/Question/Questionpricing";
+import Questionreasnwer from "./components/Question/Questionreasnwer";
+import Curruncy from "./components/Curruncy/Curruncy";
+import Coupon from "./components/Offers/Coupon";
+import Tutorsubject from "./components/Tutorsub/Tutorsubject";
+import Tutorexamconfig from "./components/Tutorconfig/Tutorexamconfig";
+import Tutorsearch from "./components/Tutorexam/Tutorsearch";
+import Questiontype from "./components/Question/Questiontype";
+import Questions from "./components/Question/Questions";
+import Mcqquestion from "./components/Questionpages/Mcqquestion";
+import Truefalseque from "./components/Questionpages/Truefalseque";
+import Fillups from "./components/Questionpages/Fillups";
+import Questionanswer from "./components/Questionpages/Questionanswer";
+import Matchfollow from "./components/Questionpages/Matchfollow";
+import Tutorquestiondetails from "./components/Tutors/Tutorquestiondetails";
+import Studentquestiondetails from "./components/Student/Studentquestiondetails";
+
+
+import FillupsSearchengine from "./components/QuestionpageSearchengine/FillupsSearchengine";
+import MatchfollowSearchengine from "./components/QuestionpageSearchengine/MatchfollowSearchengine";
+import McqquestionSearchengine from "./components/QuestionpageSearchengine/McqquestionSearchengine";
+import QuestionanswerSearchengine from "./components/QuestionpageSearchengine/QuestionanswerSearchengine";
+import TruefalsequeSearchengine from "./components/QuestionpageSearchengine/TruefalsequeSearchengine";
 
 
 
@@ -61,24 +68,35 @@ function App() {
         <Route path="addnew" element={<Addnew />} />
         <Route path="searchquestion" element={<Searchquestion />} />
         <Route path="testimonial" element={<Testimonial />} />
-        <Route path="professionaldetails/:_id" element={<Professionaldetails/>} />
-        <Route path="pages" element={<Pages/>} />
-        <Route path="socialmediasetting" element={<Socialmediasetting/>} />
-        <Route path="login" element={<Login/>} />
-        <Route path="signup" element={<Signup/>} />
-        <Route path="signup" element={<Signup/>} />
-        <Route path="/tutordetails/:_id" element={<Tutordetails/>} />
+        <Route
+          path="professionaldetails/:_id"
+          element={<Professionaldetails />}
+        />
+        <Route path="pages" element={<Pages />} />
+        <Route path="socialmediasetting" element={<Socialmediasetting />} />
+        <Route path="login" element={<Login />} />
+        <Route path="signup" element={<Signup />} />
+        <Route path="signup" element={<Signup />} />
+        <Route path="/tutordetails/:_id" element={<Tutordetails />} />
 
-        <Route path="/tutorexam" element={<Tutorexam/>} />
-        <Route path="/tutorsearch" element={<Tutorsearch/>} />
+        <Route path="/tutorexam" element={<Tutorexam />} />
+        <Route path="/tutorsearch" element={<Tutorsearch />} />
 
-        <Route path="/studentdetails/:_id" element={<Studentdetails/>} />
-        <Route path="/testexam" element={<Testexam/>} />
-        <Route path="/examdetails" element={<Examdetails/>} />
-        <Route path="/searchenginequedetail" element={<Searchenginequedetail/>} />
-        <Route path="/tutorquestiondetails" element={<Tutorquestiondetails/>} />
-        <Route path="/studentquestiondetails" element={<Studentquestiondetails/>} />
-
+        <Route path="/studentdetails/:_id" element={<Studentdetails />} />
+        <Route path="/testexam" element={<Testexam />} />
+        <Route path="/examdetails" element={<Examdetails />} />
+        <Route
+          path="/searchenginequedetail"
+          element={<Searchenginequedetail />}
+        />
+        <Route
+          path="/tutorquestiondetails"
+          element={<Tutorquestiondetails />}
+        />
+        <Route
+          path="/studentquestiondetails"
+          element={<Studentquestiondetails />}
+        />
 
         <Route path="/questiontiming" element={<Questiontiming />} />
         <Route path="/questionpricing" element={<Questionpricing />} />
@@ -96,10 +114,16 @@ function App() {
         <Route path="/questionanswer" element={<Questionanswer />} />
         <Route path="/matchfollow" element={<Matchfollow />} />
 
-        <Route path="/logout" element={<Logout />} />
 
+        <Route path="/fillupssearchengine" element={<FillupsSearchengine />} />
+        <Route path="/matchfollowsearchengine" element={<MatchfollowSearchengine />} />
+        <Route path="/mcqquestionsearchengine" element={<McqquestionSearchengine />} />
+        <Route path="/questionanswersearchengine" element={<QuestionanswerSearchengine />} />
+        <Route path="/truefalsequesearchengine" element={<TruefalsequeSearchengine />} />
+
+        <Route path="/logout" element={<Logout />} />
       </Routes>
-      <Scroll/>
+      <Scroll />
     </BrowserRouter>
   );
 }

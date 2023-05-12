@@ -5,6 +5,12 @@ import Sidebar from "../shared/Sidebar";
 // import "./Searchengine.css";
 import { useLocation } from "react-router-dom";
 
+import Truefalseque from "../Questionpages/Truefalseque";
+import Mcqquestion from "../Questionpages/Mcqquestion";
+import Matchfollow from "../Questionpages/Matchfollow";
+import Questionanswer from "../Questionpages/Questionanswer";
+import Fillups from "../Questionpages/Fillups";
+
 const Studentquestiondetails = () => {
   const location = useLocation();
   const getresponse = location.state.data.allQuestions;
@@ -30,55 +36,32 @@ const Studentquestiondetails = () => {
                           <div className="rbt-dashboard-content bg-color-white rbt-shadow-box rbt-border mb--30 p--20">
                             <div className="content">
                               <div className="row">
-                                <div className="col-md-12 col-lg-12 mb--20">
-                                  <h5>Question</h5>
-                                  <div className="p--20 rbt-border radius-6 bg-primary-opacity">
-                                    <div className="row">
-                                      {
-                                        location.state.data.allQuestions
-                                          .question
-                                      }
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="col-md-12 col-lg-12 mb--20">
-                                  <h5>Question Type</h5>
-                                  <div className="p--20 rbt-border radius-6 bg-primary-opacity">
-                                    <div className="row">
-                                      {
-                                        location.state.data.allQuestions
-                                          .questionType
-                                      }
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="col-md-12 col-lg-12 mb--20">
-                                  <h5>Question Subject</h5>
-                                  <div className="p--20 rbt-border radius-6 bg-primary-opacity">
-                                    {
-                                      location.state.data.allQuestions
-                                        .questionSubject
-                                    }
-                                  </div>
-                                </div>
-                                <div className="col-md-12 col-lg-12 mb--20">
-                                  <h5>Question Price</h5>
-                                  <div className="p--20 rbt-border radius-6 bg-primary-opacity">
-                                    <div className="row">
-                                      {
-                                        location.state.data.allQuestions
-                                          .questionPrice
-                                      }
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="col-md-12 col-lg-12 mb--20">
-                                  <h5>Status</h5>
-                                  <div className="p--20 rbt-border radius-6 bg-primary-opacity">
-                                    <div className="row">
-                                      {location.state.data.allQuestions.status}
-                                    </div>
-                                  </div>
+                                <div>
+                                  {location.state.data.allQuestions
+                                    .questionType === "TrueFalse-exp" ||
+                                  location.state.data.allQuestions
+                                    .questionType === "TrueFalse" ? (
+                                    <Truefalseque />
+                                  ) : location.state.data.allQuestions
+                                      .questionType === "MCQ-exp" ||
+                                    location.state.data.allQuestions
+                                      .questionType === "MCQ" ? (
+                                    <Mcqquestion />
+                                  ) : location.state.data.allQuestions
+                                      .questionType === "FillInBlanks-exp" ||
+                                    location.state.data.allQuestions
+                                      .questionType === "FillInBlanks" ? (
+                                    <Fillups />
+                                  ) : location.state.data.allQuestions
+                                      .questionType ===
+                                      "MatchTheFollowing-less5" ||
+                                    location.state.data.allQuestions
+                                      .questionType ===
+                                      "MatchTheFollowing-more5" ? (
+                                    <Matchfollow />
+                                  ) : (
+                                    <Questionanswer />
+                                  )}
                                 </div>
                               </div>
                             </div>

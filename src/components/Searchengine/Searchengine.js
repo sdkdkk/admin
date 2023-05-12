@@ -16,7 +16,7 @@ const Searchengine = () => {
   const searchengineState = useSelector((state) => state.searchengine);
   const searchengineerror = useSelector((state) => state.searchengine.error);
   const [isLoading, setIsLoading] = useState(false);
-  console.log(searchengineerror);
+  console.log(searchengineState);
   let navigate = useNavigate();
   const dispatch = useDispatch();
 
