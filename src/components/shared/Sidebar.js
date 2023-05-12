@@ -45,11 +45,6 @@ const Sidebar = () => {
                     Tutors Payment
                   </Link>
                 </li>
-                <li className="nav-item">
-                  <Link className="nav-link" to="/professionaldetails">
-                    Professional Details
-                  </Link>
-                </li>
               </ul>
             </div>
           </li>
