@@ -166,9 +166,9 @@ const Questionpricing = () => {
                             <Form.Select
                               {...register("Type", { required: true })}
                             >
-                            <option value="" disabled selected>
-                            Please Select Question Type
-                          </option>
+                              <option value="">
+                                Please Select Question Type
+                              </option>
                               {questiontypePrice.user &&
                                 questiontypePrice.user.data.map((item) => (
                                   <option key={item} value={item}>

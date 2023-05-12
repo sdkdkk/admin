@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
 import "./Searchengine.css";
 import { useLocation } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
-import { height } from "@mui/system";
+
 
 
 const Searchenginequedetail = () => {
