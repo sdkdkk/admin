@@ -69,8 +69,8 @@ const Tutorlist = () => {
   useEffect(() => {
     setCurrentData(status[selectedStatus]);
     return () => {
-      setValues([])
-    }
+      setValues([]);
+    };
   }, [selectedStatus, status]);
 
   //date picker
@@ -79,9 +79,9 @@ const Tutorlist = () => {
     new DateObject().add(4, "days"),
   ]);
 
-//   const firstDate = values.length > 0 ? new DateObject(values[0]).toDate() : null
-// const lastDate = values.length > 0 ? new DateObject(values[values.length - 1]).toDate() : null
-// console.log(firstDate, lastDate)
+  //   const firstDate = values.length > 0 ? new DateObject(values[0]).toDate() : null
+  // const lastDate = values.length > 0 ? new DateObject(values[values.length - 1]).toDate() : null
+  // console.log(firstDate, lastDate)
 
   //Pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -90,7 +90,7 @@ const Tutorlist = () => {
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
   let displayUsers =
     currentData && currentData.slice(indexOfFirstPage, indexOfLastPage);
-    const totalPages = Math.ceil(currentData.length / postsPerPage);
+  const totalPages = Math.ceil(currentData.length / postsPerPage);
 
   const handleChange = (event, value) => {
     setCurrentPage(value);
@@ -100,32 +100,38 @@ const Tutorlist = () => {
     return subjects && subjects.toLocaleString();
   }
 
-  
-// const filteredData = displayUsers.filter(item => {
-//   const itemDate = new Date(item.updatedAt);
-//   return itemDate >= new Date(firstDate) && itemDate <= new Date(lastDate);
-// });
-// if(filteredData.length > 0){
-//   displayUsers = [...filteredData]
-// }
+  // const filteredData = displayUsers.filter(item => {
+  //   const itemDate = new Date(item.updatedAt);
+  //   return itemDate >= new Date(firstDate) && itemDate <= new Date(lastDate);
+  // });
+  // if(filteredData.length > 0){
+  //   displayUsers = [...filteredData]
+  // }
 
-const searchItem=()=>{
-  console.log(searchTerm)
-  const firstDate = values.length > 0 ? new DateObject(values[0]).toDate() : null
-  const lastDate = values.length > 0 ? new DateObject(values[values.length - 1]).toDate() : null
-  const filteredData = displayUsers.filter(item => {
-    const itemDate = new Date(item.updatedAt);
-    const name = item.name ? item.name.toLowerCase() : null
-    return itemDate >= new Date(firstDate) && itemDate <= new Date(lastDate) && searchTerm == name;
-  });
-  console.log(firstDate, lastDate)
-  console.log(filteredData)
-  setCurrentData(filteredData)
-  // currentData = [...filteredData]
-}
+  const searchItem = () => {
+    console.log(searchTerm);
+    const firstDate =
+      values.length > 0 ? new DateObject(values[0]).toDate() : null;
+    const lastDate =
+      values.length > 0
+        ? new DateObject(values[values.length - 1]).toDate()
+        : null;
+    const filteredData = displayUsers.filter((item) => {
+      const itemDate = new Date(item.updatedAt);
+      const name = item.name ? item.name.toLowerCase() : null;
+      return (
+        itemDate >= new Date(firstDate) &&
+        itemDate <= new Date(lastDate) &&
+        searchTerm == name
+      );
+    });
+    console.log(firstDate, lastDate);
+    console.log(filteredData);
+    setCurrentData(filteredData);
+    // currentData = [...filteredData]
+  };
 
-console.log("---> ", currentData)
-
+  console.log("---> ", currentData);
 
   return (
     <div>
@@ -228,7 +234,9 @@ console.log("---> ", currentData)
                                   />
                                 </div>
                                 <div className="col-md-2">
-                                  <Button className="algin-right" onClick={()=> searchItem()}>
+                                  <Button
+                                    className="algin-right"
+                                    onClick={() => searchItem()}>
                                     Search
                                   </Button>
                                 </div>
@@ -254,11 +262,10 @@ console.log("---> ", currentData)
                                   </tr>
                                 </thead>
                                 {displayUsers &&
-                                  displayUsers
-                                    .map((data) => (
-                                      <tbody key={data._id}>
-                                        <tr>
-                                          {data.updatedAt ? (
+                                  displayUsers.map((data) => (
+                                    <tbody key={data._id}>
+                                      <tr>
+                                        {data.updatedAt ? (
                                           <td>
                                             <Moment
                                               format="DD MMM YYYY"
@@ -266,25 +273,32 @@ console.log("---> ", currentData)
                                               {data.updatedAt || null}
                                             </Moment>
                                           </td>
-                                          ) : <td >-</td>}
-                                          <td>{data.name}</td>
-                                          <td>{data.email}</td>
-                                          <td>{data.mobileNo}</td>
-                                          <td>
-                                            {numberWithCommas(data.subjects)}
-                                          </td>
-                                          <td>{data.balance}</td>
-                                          <td>
-                                            <Link
-                                              to={`/tutordetails/${data._id}`}>
-                                              <button className="btn btn-primary btn-sm">
-                                                click
-                                              </button>
-                                            </Link>
-                                          </td>
-                                        </tr>
-                                      </tbody>
-                                    ))}
+                                        ) : (
+                                          <td>-</td>
+                                        )}
+                                        <td>{data.name || "-"}</td>
+                                        <td>{data.email.substring(0, 20)}</td>
+                                        <td>{data.mobileNo || "-"}</td>
+                                        <td>
+                                          {data.subjects &&
+                                          data.subjects.length > 0
+                                            ? data.subjects
+                                                .slice(0, 2)
+                                                .join(", ")
+                                            : "-"}
+                                        </td>
+                                        <td>{data.balance ? parseFloat(data.balance).toFixed(2) : "-"}</td>
+                                        <td>
+                                          <Link
+                                            to={`/tutordetails/${data._id}`}>
+                                            <button className="btn btn-primary btn-sm">
+                                              click
+                                            </button>
+                                          </Link>
+                                        </td>
+                                      </tr>
+                                    </tbody>
+                                  ))}
                               </table>
                               <div className="table-pagination">
                                 <Pagination

@@ -39,7 +39,7 @@ import Questions from "./components/Question/Questions";
 import Mcqquestion from "./components/Questionpages/Mcqquestion";
 import Truefalseque from "./components/Questionpages/Truefalseque";
 import Fillups from "./components/Questionpages/Fillups";
-import Questionanswer from "./components/Questionpages/Questionanswer";
+
 import Matchfollow from "./components/Questionpages/Matchfollow";
 import Tutorquestiondetails from "./components/Tutors/Tutorquestiondetails";
 import Studentquestiondetails from "./components/Student/Studentquestiondetails";
@@ -115,7 +115,7 @@ function App() {
         <Route path="/mcqquestion" element={<Mcqquestion />} />
         <Route path="/truefalse" element={<Truefalseque />} />
         <Route path="/fillups" element={<Fillups />} />
-        <Route path="/questionanswer" element={<Questionanswer />} />
+   
         <Route path="/matchfollow" element={<Matchfollow />} />
         
         <Route path="/users" element={<Users />} />
