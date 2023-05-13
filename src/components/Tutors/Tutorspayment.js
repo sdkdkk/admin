@@ -49,7 +49,7 @@ const Tutorspayment = () => {
       <div className="container-fluid page-body-wrapper">
         <Sidebar />
         {isLoading ? (
-          <p style={{ marginLeft: "500px" }}>
+          <p style={{ marginLeft: "500px" ,marginTop:"250px" }}>
             <ColorRing
               visible={true}
               height="80"

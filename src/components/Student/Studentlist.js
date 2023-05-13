@@ -18,7 +18,7 @@ const Studentlist = () => {
   const studentists = useSelector((state) => state.studentlist.data.document);
   const isLoading = useSelector((state) => state.studentlist.isLoading);
 
-  console.log(studentists);
+  // console.log(studentists);
   //table
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(8);
@@ -108,7 +108,7 @@ const Studentlist = () => {
                           </thead>
                           {displayUsers &&
                             displayUsers.map((data) => (
-                              <tbody>
+                              <tbody >
                                 <tr>
                                   <td>{data.date || "-"}</td>
                                   <td>{data.name || "-"}</td>

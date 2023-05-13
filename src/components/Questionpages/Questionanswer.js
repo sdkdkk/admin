@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./Que.css";
 import { useLocation } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
+import Moment from "react-moment";
 
 const Questionanswer = () => {
   const location = useLocation();
@@ -31,6 +32,14 @@ const Questionanswer = () => {
                 Question Type:{location.state.data.allQuestions.questionType}
               </p>
               <p>Status:{location.state.data.allQuestions.status}</p>
+              {location.state.data.allQuestions.dateOfPosted && (
+                <p>
+                  Date Of Posted:
+                  <Moment format="DD MMM YYYY" withTitle>
+                    {location.state.data.allQuestions.dateOfPosted}
+                  </Moment>
+                </p>
+              )}
             </div>
             <div className="content mt-3">
               <div className="row">
@@ -55,12 +64,14 @@ const Questionanswer = () => {
                     )
                   )}
                 </div>
-                <div className="col-md-12 col-lg-12 mb--20">
-                  <h5>Answer</h5>
-                  <div className="p--20 rbt-border radius-6 bg-primary-opacity">
-                    {location.state.data.allQuestions.answer}
+                {location.state.data.allQuestions.answer && (
+                  <div className="col-md-12 col-lg-12 mb--20">
+                    <h5>Answer</h5>
+                    <div className="p--20 rbt-border radius-6 bg-primary-opacity">
+                      {location.state.data.allQuestions.answer}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </div>

@@ -125,13 +125,13 @@ const Tutorlist = () => {
         searchTerm == name
       );
     });
-    console.log(firstDate, lastDate);
-    console.log(filteredData);
+    // console.log(firstDate, lastDate);
+    // console.log(filteredData);
     setCurrentData(filteredData);
     // currentData = [...filteredData]
   };
 
-  console.log("---> ", currentData);
+  //   console.log("---> ", currentData);
 
   return (
     <div>
@@ -287,7 +287,13 @@ const Tutorlist = () => {
                                                 .join(", ")
                                             : "-"}
                                         </td>
-                                        <td>{data.balance ? parseFloat(data.balance).toFixed(2) : "-"}</td>
+                                        <td>
+                                          {data.balance
+                                            ? parseFloat(data.balance).toFixed(
+                                                2
+                                              )
+                                            : "-"}
+                                        </td>
                                         <td>
                                           <Link
                                             to={`/tutordetails/${data._id}`}>

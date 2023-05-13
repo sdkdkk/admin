@@ -9,6 +9,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { ColorRing } from "react-loader-spinner";
 import Moment from "react-moment";
+import face3 from "../Image/face3.jpg";
 
 const Studentdetails = () => {
   const { _id } = useParams();
@@ -98,226 +99,188 @@ const Studentdetails = () => {
       <Navbar />
       <div className="container-fluid page-body-wrapper">
         <Sidebar />
-        {Loader ? (
-          <div
-            className="loader-end text-end"
-            style={{ marginLeft: "500px", marginTop: "250px" }}>
-            {" "}
-            {Loader ? (
-              <ColorRing
-                visible={true}
-                height="80"
-                width="80"
-                ariaLabel="blocks-loading"
-                wrapperStyle={{}}
-                wrapperClass="blocks-wrapper"
-                colors={["black"]}
-              />
-            ) : null}{" "}
-          </div>
-        ) : (
-          <div className="second-section text-center mt-4 mx-4">
-            {" "}
-            {studentdetail.map((data) => {
-              return (
-                <div className="row" style={{ backgroundColor: "#c0d7ff" }}>
-                  <div className="col-md-3">
-                    <div className="aside text-start mt-3">
-                      <div className="col d-flex align-items-start">
-                        <div className="icon-square text-dark flex-shrink-0 me-3">
-                          <CgProfile style={{ fontSize: "40px" }} />
-                        </div>
-                        <div>
-                          <h6> {data.name} </h6> <h6> {data.email} </h6>
-                          <h6> +91 98989 74747 </h6>
-                          <address>
-                            1355 Market St, Suite 900 San Francisco, CA 94103 P:
-                            (123) 456 - 7890
-                          </address>
-                          <br />
-                          <h5> Professional Details </h5> <h6> HDFC Bank </h6>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="col-md-3">
-                    <div
-                      className="details mt-3"
-                      style={{
-                        display: "inline-block",
-                        textAlign: "justify",
-                      }}>
-                      <h6> Bank Details </h6>
-                      <h6 className="bank-text"> HDFC bank </h6>
-                      <h6 className="AC-text"> A / C No .4747474747 </h6>
-                      <h6 className="IFSC-text"> IFSC Code: 414141414 </h6>
-                      <h6 className="Branch-text"> Branch: Surat </h6>
-                      <button
-                        type="button"
-                        className="btn btn-primary btn-sm mt-4">
-                        Pay Now
-                      </button>
-                    </div>
-                  </div>
-                  <div className="col-md-3">
-                    <div
-                      className="Subject mt-3"
-                      style={{
-                        display: "inline-block",
-                        textAlign: "justify",
-                      }}>
-                      <h6> Subject </h6>
-                      <div className="gap-2 d-md-flex justify-content-md-end">
-                        <span className="badge rounded-pill bg-warning">
-                          CHEM
-                        </span>
-                        <span className="badge rounded-pill bg-primary">
-                          Maths
-                        </span>
-                        <span className="badge rounded-pill bg-dark">
-                          Maths
-                        </span>
-                      </div>
-                      <h5 className="bottom mt-4 text-secondary">
-                        Total Raferral
-                      </h5>
-                    </div>
-                  </div>
-                  <div className="col-md-3">
-                    <div
-                      className="Earnings mt-3"
-                      style={{
-                        display: "inline-block",
-                        textAlign: "justify",
-                      }}>
-                      <h6 className="text-secondary"> Earnings </h6>{" "}
-                      <h6 className="text-dark">
-                        <b> Rs .500 </b>
-                      </h6>
-                      <h6 className="text-secondary"> Paid </h6>{" "}
-                      <h6 className="text-danger">
-                        <b> Rs .200 </b>
-                      </h6>
-                      <h6 className="text-secondary"> Balance </h6>
-                      <h4 className="text-success">
-                        <b> Rs. {data.balance} </b>
-                      </h4>
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-            <div className="heading-main mt-5 text-start">
-              <h4> Transaction History </h4>
+        <div className="main-details" style={{ width: "inherit" }}>
+          {Loader ? (
+            <div
+              className="loader-end text-center"
+              style={{ marginTop: "250px" }}>
+              {Loader ? (
+                <ColorRing
+                  visible={true}
+                  height="80"
+                  width="80"
+                  ariaLabel="blocks-loading"
+                  wrapperStyle={{}}
+                  wrapperClass="blocks-wrapper"
+                  colors={["black"]}
+                />
+              ) : null}
             </div>
-            <div>
-              <div className="table-responsive">
-                <div className="rable">
-                  <table className="table v-top">
-                    <thead>
-                      <tr>
-                        <th colSpan="2"> Date </th> <th colSpan="2"> Paid </th>
-                        <th colSpan="2"> Balance </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {displaytransation.map((Data, id) => {
-                        return (
-                          <tr key={id}>
-                            <td colSpan="2">
-                              <Moment format="D MMM YYYY" withTitle>
-                                {Data.date}
-                              </Moment>
-                            </td>
-                            <td colSpan="2"> Rs. {Data.amount} </td>
-                            <td colSpan="2"> Rs. {Data.balance} </td>
-                          </tr>
-                        );
-                      })}
-                    </tbody>
-                  </table>
-                  <div className="table-pagination">
-                    <Pagination
-                      count={totalPage}
-                      page={currentPage1}
-                      onChange={handleChange1}
-                      shape="rounded"
-                      variant="outlined"
-                    />
+          ) : (
+            <div className="second-section text-start mt-4 mx-4">
+              {studentdetail.map((data) => {
+                return (
+                  <>
+                    <div className="row" style={{ backgroundColor: "#c0d7ff" }}>
+                      <div className="col">
+                        <div className="profile">
+                          <div className="profile-img mt-2">
+                            <img src={face3} alt="" />
+                          </div>
+                          <div className="profile-info">
+                            <h5 className="mt-2">{data.name || ""}</h5>
+                            <h6> +91 98989 74747 </h6>
+                            <p>{data.email}</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <div className="col Subject text-center">
+                        <div className="mt-3">
+                          <h5>Total Referral </h5>
+                          <div className="badge rounded-pill bg-dark">
+                            {data.refferal || ""}
+                          </div>
+                        </div>
+                      </div>
+                      <div className="col Earnings text-center">
+                        <div className="mt-2">
+                          <strong>Earnings</strong>
+                        </div>
+                        <b>{data.deposit}</b>
+                        <div>
+                          <strong>Paid</strong>
+                        </div>
+                        <h4 className="text-danger">
+                          <b> {data.paid}</b>
+                        </h4>
+                        <div>
+                          <strong>Balance</strong>
+                        </div>
+                        <h4 className="text-success">
+                          <b> Rs. {data.balance} </b>
+                        </h4>
+                      </div>
+                    </div>
+                  </>
+                );
+              })}
+
+              <div className="heading-main mt-5 text-start">
+                <h4>Transaction History</h4>
+              </div>
+              <div>
+                <div className="table-responsive">
+                  <div className="rable">
+                    <table className="table">
+                      <thead>
+                        <tr>
+                          <th colSpan="2">Date</th>
+                          <th colSpan="2">Paid</th>
+                          <th colSpan="2">Balance</th>
+                        </tr>
+                      </thead>
+                      <tbody>
+                        <>
+                          {displaytransation.map((Data, id) => {
+                            return (
+                              <tr key={id}>
+                                <td colSpan="2">
+                                  <Moment format="D MMM YYYY" withTitle>
+                                    {Data.date}
+                                  </Moment>
+                                </td>
+                                <td colSpan="2">Rs.{Data.amount} </td>
+                                <td colSpan="2">Rs.{Data.balance}</td>
+                              </tr>
+                            );
+                          })}
+                        </>
+                      </tbody>
+                    </table>
+                    <div className="table-pagination">
+                      <Pagination
+                        count={totalPage}
+                        page={currentPage1}
+                        onChange={handleChange1}
+                        shape="rounded"
+                        variant="outlined"
+                      />
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-            <div className=" text-start heading-main mt-5">
-              <h4> Answer Given </h4>
-            </div>
-            <div className="row">
-              <div className="col-12 grid-margin stretch-card">
-                <div className="card new-table">
-                  <div className="card-body">
-                    {isLoading ? (
-                      <div style={{ marginLeft: "450px", marginTop: "50px" }}>
-                        <ColorRing
-                          visible={true}
-                          height="80"
-                          width="80"
-                          ariaLabel="blocks-loading"
-                          wrapperStyle={{}}
-                          wrapperClass="blocks-wrapper"
-                          colors={["black"]}
-                        />
-                      </div>
-                    ) : (
-                      <>
-                        <table className="table v-top">
-                          <thead>
-                            <tr>
-                              <th scope="col">Question</th>
-                              <th scope="col">Question Type</th>
-                              <th scope="col">Question Subject</th>
-                              <th scope="col">Question Price</th>
-                              <th scope="col">status</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            {displayque.map((data) => (
-                              <tr>
-                                <td
-                                  style={{ cursor: "pointer" }}
-                                  onClick={() => {
-                                    toComponentB(data);
-                                  }}>
-                                  {data.allQuestions.question
-                                    .split(" ")
-                                    .slice(0, 3)
-                                    .join(" ")}
-                                  ...
-                                </td>
-                                <td>{data.allQuestions.questionType}</td>
-                                <td>{data.allQuestions.questionSubject}</td>
-                                <td>{data.allQuestions.questionPrice}</td>
-                                <td>{data.allQuestions.status}</td>
-                              </tr>
-                            ))}
-                          </tbody>
-                        </table>
-                        <div className="table-pagination">
-                          <Pagination
-                            count={totalPages}
-                            page={currentPage}
-                            onChange={handleChange}
-                            shape="rounded"
-                            variant="outlined"
+              <div className=" text-start heading-main mt-5">
+                <h4>Answer Given</h4>
+              </div>
+              <div className="row">
+                <div className="col-12 grid-margin stretch-card">
+                  <div className="card new-table">
+                    <div className="card-body">
+                      {isLoading ? (
+                        <div>
+                          <ColorRing
+                            visible={true}
+                            height="80"
+                            width="80"
+                            ariaLabel="blocks-loading"
+                            wrapperStyle={{}}
+                            wrapperClass="blocks-wrapper"
+                            colors={["black"]}
                           />
                         </div>
-                      </>
-                    )}
+                      ) : (
+                        <>
+                          <table className="table v-top">
+                            <thead>
+                              <tr>
+                                <th scope="col">Question</th>
+                                <th scope="col">Question Type</th>
+                                <th scope="col">Question Subject</th>
+                                <th scope="col">tutor Price</th>
+                                <th scope="col">status</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {displayque.map((data) => (
+                                <tr>
+                                  <td
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() => {
+                                      toComponentB(data);
+                                    }}>
+                                    {data.allQuestions.question
+                                      .split(" ")
+                                      .slice(0, 3)
+                                      .join(" ")}
+                                    ...
+                                  </td>
+                                  <td>{data.allQuestions.questionType}</td>
+                                  <td>{data.allQuestions.questionSubject}</td>
+                                  <td>{data.allQuestions.tutorPrice}</td>
+                                  <td>{data.allQuestions.status}</td>
+                                </tr>
+                              ))}{" "}
+                            </tbody>
+                          </table>
+                          <div className="table-pagination">
+                            <Pagination
+                              count={totalPages}
+                              page={currentPage}
+                              onChange={handleChange}
+                              shape="rounded"
+                              variant="outlined"
+                            />
+                          </div>
+                        </>
+                      )}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
-          </div>
-        )}
+          )}
+        </div>
       </div>
     </div>
   );
