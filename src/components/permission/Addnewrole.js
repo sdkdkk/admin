@@ -101,7 +101,7 @@ const Addnewrole = () => {
                                                                             </tr>
                                                                         </tbody>
                                                                     </table>
-                                                                   
+
                                                                 </div>
                                                                 <table className="table-body-cell">
                                                                     <tbody>
@@ -492,7 +492,13 @@ const Addnewrole = () => {
                                                     </div>
                                                 </div>
                                             </form>
-
+                                            <div className="text-title mt-4">
+                                                <h5>Current User Identity Verification</h5>
+                                                <div class="form-group">
+                                                    <label for="Your-password">Your Password</label>
+                                                    <input type="password" className="form-control" id="Your-password" placeholder="Confirm password" />
+                                                </div>
+                                            </div>
                                             <div className="form-group d-flex justify-content-end">
                                                 <button type="submit" className="btn btn-primary">Submit</button>
                                             </div>
