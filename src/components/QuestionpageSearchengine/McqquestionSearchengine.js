@@ -1,11 +1,20 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Que.css";
 import { useLocation } from "react-router-dom";
+import Modal from "react-bootstrap/Modal";
 
-const Mcqquestion = () => {
+const McqquestionSearchengine = () => {
   const location = useLocation();
-  console.log(location.state.data.allQuestions.answer);
-  const answer = location.state.data.allQuestions.answer; // Get the answer from location
+  console.log(location.state.data);
+  const answer = location.state.data.answer; // Get the answer from location
+
+  const [imageSrc, setImageSrc] = useState("");
+  const [show, setShow] = useState(false);
+
+  const handleImageClick = (url) => {
+    setShow(true);
+    setImageSrc(url);
+  };
 
   return (
     <>
@@ -15,20 +24,39 @@ const Mcqquestion = () => {
             <div className="mx-2 text-start">
               <p>
                 <span className="text-dark">Question Subject:</span>
-                {location.state.data.allQuestions.questionSubject}
+                {location.state.data.questionSubject}
               </p>
               <p>
-                Question Type:{location.state.data.allQuestions.questionType}
+                Question Type:{location.state.questionType}
               </p>
-              <p>Status:{location.state.data.allQuestions.status}</p>
+              <p>Status:{location.state.data.status}</p>
             </div>
             <div className="content mt-2">
               <div className="row">
                 <div className="col-md-12 col-lg-12 mb--20 ">
                   <h5>Question</h5>
                   <div className="p--20 rbt-border radius-6 bg-primary-opacity">
-                    Q 01. {location.state.data.allQuestions.question}?
+                    Q 01.{" "}
+                    <span
+                      dangerouslySetInnerHTML={{
+                        __html: location.state.data.question,
+                      }}
+                    />
+                    ?
                   </div>
+                  {location.state.data.questionPhoto.map((photoUrl) => (
+                    <img
+                      key={photoUrl}
+                      src={photoUrl}
+                      style={{
+                        width: "100px",
+                        height: "100px",
+                      }}
+                      onClick={() => handleImageClick(photoUrl)}
+                      className="profile-img mt-2"
+                      alt=""
+                    />
+                  ))}
                 </div>
                 <div className="col-md-12 col-lg-12 mb--20">
                   <h5>Answer</h5>
@@ -114,8 +142,20 @@ const Mcqquestion = () => {
           </div>
         </div>
       </div>
+      {/* image show modal */}
+      <Modal show={show} onHide={() => setShow(false)}>
+        <Modal.Header closeButton className="border-0"></Modal.Header>
+        <Modal.Body className="text-center">
+          {" "}
+          <img
+            style={{ maxWidth: "100%", maxHeight: "100%" }}
+            src={imageSrc}
+            alt="modal-img"
+          />
+        </Modal.Body>
+      </Modal>
     </>
   );
 };
 
-export default Mcqquestion;
+export default McqquestionSearchengine;

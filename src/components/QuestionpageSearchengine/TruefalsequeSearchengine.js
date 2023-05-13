@@ -2,10 +2,10 @@ import React from "react";
 import "./Que.css";
 import { useLocation } from "react-router-dom";
 
-const Truefalseque = () => {
+const TruefalsequeSearchengine = () => {
   const location = useLocation();
-  const answer = location.state.data.allQuestions.answer;
-  const getresponse = location.state.data.allQuestions;
+  const answer = location.state.data.answer;
+  const getresponse = location.state.data;
   console.log(getresponse);
 
   return (
@@ -15,24 +15,25 @@ const Truefalseque = () => {
           <div className="container-fluid">
             <div className="mx-2 text-start">
               <p>
-                <span className="text-dark">Question Subject:</span>
-                {location.state.data.allQuestions.questionSubject}
+                <span className="text-dark">Question Subject : </span>
+                {location.state.data.questionSubject}
               </p>
-              <p>
-                Question Type:{location.state.data.allQuestions.questionType}
-              </p>
-              <p>Status:{location.state.data.allQuestions.status}</p>
+              <p>Question Type : {location.state.data.questionType}</p>
+              <p>Status : {location.state.data.status}</p>
             </div>
             <div className="row">
               <div className="col-md-12 col-lg-12 mb--20">
                 <h5>Question</h5>
                 <div className="p--20 rbt-border radius-6 bg-primary-opacity">
-                  Q 01. {location.state.data.allQuestions.question}?
-                  <br />
-                  <br />
+                  Q 01.{" "}
+                  <span
+                    dangerouslySetInnerHTML={{
+                      __html: location.state.data.question,
+                    }}
+                  />
+                  ?
                 </div>
               </div>
-
               <div className="col-md-12 col-lg-12 mb--20">
                 <h5>Answer</h5>
                 <div className="p--20 rbt-border radius-6 bg-primary-opacity">
@@ -80,4 +81,4 @@ const Truefalseque = () => {
   );
 };
 
-export default Truefalseque;
+export default TruefalsequeSearchengine;
