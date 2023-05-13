@@ -1,6 +1,7 @@
 import React from "react";
 import "./Que.css";
 import { useLocation } from "react-router-dom";
+import Moment from "react-moment";
 
 const Mcqquestion = () => {
   const location = useLocation();
@@ -21,6 +22,14 @@ const Mcqquestion = () => {
                 Question Type:{location.state.data.allQuestions.questionType}
               </p>
               <p>Status:{location.state.data.allQuestions.status}</p>
+              {location.state.data.allQuestions.dateOfPosted && (
+                <p>
+                  Date Of Posted:
+                  <Moment format="DD MMM YYYY" withTitle>
+                    {location.state.data.allQuestions.dateOfPosted}
+                  </Moment>
+                </p>
+              )}
             </div>
             <div className="content mt-2">
               <div className="row">
@@ -30,85 +39,87 @@ const Mcqquestion = () => {
                     Q 01. {location.state.data.allQuestions.question}?
                   </div>
                 </div>
-                <div className="col-md-12 col-lg-12 mb--20">
-                  <h5>Answer</h5>
-                  <div className="p--20 rbt-border radius-6 bg-primary-opacity">
-                    <div className="row">
-                      <div className="col-lg-6">
-                        <div className="rbt-form-check p--10">
-                          <input
-                            className="form-check-input "
-                            type="radio"
-                            name="rbt-radio"
-                            id="rbt-radio-1"
-                            value="a"
-                            checked={answer === "a"} // Set the checked state based on the answer
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor="rbt-radio-1">
-                            {" "}
-                            A)
-                          </label>
+                {answer && (
+                  <div className="col-md-12 col-lg-12 mb--20">
+                    <h5>Answer</h5>
+                    <div className="p--20 rbt-border radius-6 bg-primary-opacity">
+                      <div className="row">
+                        <div className="col-lg-6">
+                          <div className="rbt-form-check p--10">
+                            <input
+                              className="form-check-input "
+                              type="radio"
+                              name="rbt-radio"
+                              id="rbt-radio-1"
+                              value="a"
+                              checked={answer === "a"} // Set the checked state based on the answer
+                            />
+                            <label
+                              className="form-check-label"
+                              htmlFor="rbt-radio-1">
+                              {" "}
+                              A)
+                            </label>
+                          </div>
                         </div>
-                      </div>
-                      <div className="col-lg-6">
-                        <div className="rbt-form-check p--10">
-                          <input
-                            className="form-check-input"
-                            type="radio"
-                            name="rbt-radio"
-                            id="rbt-radio-2"
-                            value="b"
-                            checked={answer === "b"} // Set the checked state based on the answer
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor="rbt-radio-2">
-                            {" "}
-                            B)
-                          </label>
+                        <div className="col-lg-6">
+                          <div className="rbt-form-check p--10">
+                            <input
+                              className="form-check-input"
+                              type="radio"
+                              name="rbt-radio"
+                              id="rbt-radio-2"
+                              value="b"
+                              checked={answer === "b"} // Set the checked state based on the answer
+                            />
+                            <label
+                              className="form-check-label"
+                              htmlFor="rbt-radio-2">
+                              {" "}
+                              B)
+                            </label>
+                          </div>
                         </div>
-                      </div>
-                      <div className="col-lg-6">
-                        <div className="rbt-form-check p--10">
-                          <input
-                            className="form-check-input"
-                            type="radio"
-                            name="rbt-radio"
-                            id="rbt-radio-3"
-                            value="c"
-                            checked={answer === "c"} // Set the checked state based on the answer
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor="rbt-radio-3">
-                            {" "}
-                            C)
-                          </label>
+                        <div className="col-lg-6">
+                          <div className="rbt-form-check p--10">
+                            <input
+                              className="form-check-input"
+                              type="radio"
+                              name="rbt-radio"
+                              id="rbt-radio-3"
+                              value="c"
+                              checked={answer === "c"} // Set the checked state based on the answer
+                            />
+                            <label
+                              className="form-check-label"
+                              htmlFor="rbt-radio-3">
+                              {" "}
+                              C)
+                            </label>
+                          </div>
                         </div>
-                      </div>
-                      <div className="col-lg-6">
-                        <div className="rbt-form-check p--10">
-                          <input
-                            className="form-check-input"
-                            type="radio"
-                            name="rbt-radio"
-                            id="rbt-radio-4"
-                            value="d"
-                            checked={answer === "d"} // Set the checked state based on the answer
-                          />
-                          <label
-                            className="form-check-label"
-                            htmlFor="rbt-radio-4">
-                            {" "}
-                            D)
-                          </label>
+                        <div className="col-lg-6">
+                          <div className="rbt-form-check p--10">
+                            <input
+                              className="form-check-input"
+                              type="radio"
+                              name="rbt-radio"
+                              id="rbt-radio-4"
+                              value="d"
+                              checked={answer === "d"} // Set the checked state based on the answer
+                            />
+                            <label
+                              className="form-check-label"
+                              htmlFor="rbt-radio-4">
+                              {" "}
+                              D)
+                            </label>
+                          </div>
                         </div>
                       </div>
                     </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </div>

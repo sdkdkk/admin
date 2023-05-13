@@ -18,7 +18,7 @@ const Studentlist = () => {
   const studentists = useSelector((state) => state.studentlist.data.document);
   const isLoading = useSelector((state) => state.studentlist.isLoading);
 
-  console.log(studentists);
+  // console.log(studentists);
   //table
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(8);
@@ -42,7 +42,6 @@ const Studentlist = () => {
     dispatch(studentlistd());
   }, [dispatch]);
 
-  
   return (
     <div>
       <div className="container-scroller">
@@ -50,16 +49,16 @@ const Studentlist = () => {
         <div className="container-fluid page-body-wrapper">
           <Sidebar />
           {isLoading ? (
-            <p style={{marginLeft:"500px",marginTop:"250px"}}>
+            <p style={{ marginLeft: "500px", marginTop: "250px" }}>
               <ColorRing
-                  visible={true}
-                  height="80"
-                  width="80"
-                  ariaLabel="blocks-loading"
-                  wrapperStyle={{}}
-                  wrapperClass="blocks-wrapper"
-                  colors={["black"]}
-                />
+                visible={true}
+                height="80"
+                width="80"
+                ariaLabel="blocks-loading"
+                wrapperStyle={{}}
+                wrapperClass="blocks-wrapper"
+                colors={["black"]}
+              />
             </p>
           ) : (
             <div className="main-panel">
@@ -109,14 +108,18 @@ const Studentlist = () => {
                           </thead>
                           {displayUsers &&
                             displayUsers.map((data) => (
-                              <tbody>
+                              <tbody >
                                 <tr>
-                                  <td>{data.date}</td>
-                                  <td>{data.name}</td>
-                                  <td>{data.email}</td>
-                                  <td>{data.mobileNo}</td>
+                                  <td>{data.date || "-"}</td>
+                                  <td>{data.name || "-"}</td>
+                                  <td>{data.email.substring(0, 25)}</td>
+                                  <td>{data.mobileNo || "-"}</td>
                                   <td>{data.questions}</td>
-                                  <td>{data.balance}</td>
+                                  <td>
+                                    {data.balance
+                                      ? parseFloat(data.balance).toFixed(4)
+                                      : "-"}
+                                  </td>
                                   <td>
                                     <Link to={`/studentdetails/${data._id}`}>
                                       <button className="btn btn-primary btn-sm">
@@ -130,7 +133,7 @@ const Studentlist = () => {
                         </table>
                         <div className="table-pagination">
                           <Pagination
-                           count={totalPages}
+                            count={totalPages}
                             page={currentPage}
                             onChange={handleChange}
                             shape="rounded"

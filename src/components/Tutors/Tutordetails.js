@@ -12,7 +12,7 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { tutordetail } from "../../Redux/Loginpages/tutordetailSlice";
 import { ColorRing } from "react-loader-spinner";
-import face3 from "../Image/face3.jpg"
+import face3 from "../Image/face3.jpg";
 
 const Tutordetails = () => {
   const tutordetails = useSelector((state) => state.tutordetail);
@@ -113,7 +113,7 @@ const Tutordetails = () => {
           {Loader ? (
             <div
               className="loader-end text-center"
-              style={{ marginLeft: "500px", marginTop: "250px" }}>
+              style={{ marginTop: "250px" }}>
               {Loader ? (
                 <ColorRing
                   visible={true}
@@ -130,13 +130,12 @@ const Tutordetails = () => {
             <div className="second-section text-start mt-4 mx-4">
               {tutorpaydetails.map((data) => {
                 return (
-
                   <>
                     <div className="row" style={{ backgroundColor: "#c0d7ff" }}>
                       <div className="col">
                         <div className="profile">
                           <div className="profile-img mt-2">
-                            <img src={face3} alt="Profile photo" />
+                            <img src={face3} alt=" " />
                           </div>
                           <div className="profile-info">
                             <h5 className="mt-2">{data.name}</h5>
@@ -147,28 +146,59 @@ const Tutordetails = () => {
                       </div>
                       <div className="col bankdetails">
                         <h5 className="mt-2">Bank Details</h5>
-                        <div><strong>Bank Name:</strong>{data.bankdetails.bankName}</div>
-                        <div><strong>Account Number:</strong>{data.bankdetails.accountNumber}</div>
-                        <div><strong>IFSC Code:</strong>{data.bankdetails.IFSCCode}</div>
-                        <div><strong>Branch:</strong>{data.bankdetails.Tutorbankname}</div>
-                        <div><strong>Bank Country:</strong>{data.bankdetails.bankcountry}</div>
+                        <div>
+                          <strong>Bank Name:</strong>
+                          {data.bankdetails.bankName}
+                        </div>
+                        <div>
+                          <strong>Account Number:</strong>
+                          {data.bankdetails.accountNumber}
+                        </div>
+                        <div>
+                          <strong>IFSC Code:</strong>
+                          {data.bankdetails.IFSCCode}
+                        </div>
+                        <div>
+                          <strong>Branch:</strong>
+                          {data.bankdetails.Tutorbankname}
+                        </div>
+                        <div>
+                          <strong>Bank Country:</strong>
+                          {data.bankdetails.bankcountry}
+                        </div>
                       </div>
                       <div className="col Subject">
                         <h5 className="mt-2">Subject </h5>
-                        <div className="badge rounded-pill bg-warning">{data.subjects[0]}</div>
-                        <div className="badge rounded-pill bg-primary mx-2">{data.subjects[1]}</div>
+                        <div className="badge rounded-pill bg-warning">
+                          {data.subjects[0]}
+                        </div>
+                        <div className="badge rounded-pill bg-primary mx-2">
+                          {data.subjects[1]}
+                        </div>
                         <div className="mt-3">
                           <h5>Total Referral </h5>
-                          <div className="badge rounded-pill bg-dark">{data.subjects[2]}</div>
+                          <div className="badge rounded-pill bg-dark">
+                            {data.subjects[2]}
+                          </div>
                         </div>
                       </div>
                       <div className="col Earnings">
-                        <div className="mt-2"><strong>Earnings</strong></div>
+                        <div className="mt-2">
+                          <strong>Earnings</strong>
+                        </div>
                         <div>Rs.{data.earning}</div>
-                        <div><strong>Paid</strong></div>
-                        <h4 className="text-danger"><strong>Rs.{data.paid}</strong></h4>
-                        <div><strong>Balance</strong></div>
-                        <h4 className="text-success"><strong>Rs.{data.balance}</strong></h4>
+                        <div>
+                          <strong>Paid</strong>
+                        </div>
+                        <h4 className="text-danger">
+                          <strong>Rs.{data.paid}</strong>
+                        </h4>
+                        <div>
+                          <strong>Balance</strong>
+                        </div>
+                        <h4 className="text-success">
+                          <strong>Rs.{data.balance}</strong>
+                        </h4>
                       </div>
                     </div>
                   </>
@@ -227,7 +257,7 @@ const Tutordetails = () => {
                   <div className="card new-table">
                     <div className="card-body">
                       {isLoading ? (
-                        <div style={{ marginLeft: "450px", marginTop: "50px" }}>
+                        <div>
                           <ColorRing
                             visible={true}
                             height="80"

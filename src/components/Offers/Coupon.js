@@ -23,7 +23,6 @@ const Coupon = () => {
   const token = localStorage.getItem("token");
   const notify = (data) => toast(data);
   const [conversionRate, setConversionRate] = useState([]);
- 
 
   //table
   const [currentPage, setCurrentPage] = useState(1);
@@ -108,21 +107,20 @@ const Coupon = () => {
   };
 
   function handleDelet(_id) {
-    const response = axios
+    axios
       .post(
         `https://vaidik-backend.onrender.com/admin/deletecouponcode/${_id}`,
         {
           token: token,
         }
       )
-      .then(() => {
+      .then((response) => {
         fetchData();
+        toast.success(response.data.message);
+      })
+      .catch((error) => {
+        toast.error(error.data.message);
       });
-    if (response.data.status === 1) {
-      console.log(response.data.data);
-      notify(response.data.data);
-      reset();
-    }
   }
 
   return (
@@ -296,7 +294,7 @@ const Coupon = () => {
                             </Table>
                             <div className="table-pagination">
                               <Pagination
-                              count={totalPages}
+                                count={totalPages}
                                 page={currentPage}
                                 onChange={handleChange}
                                 shape="rounded"
