@@ -25,24 +25,36 @@ const Addnewuser = () => {
   let token = localStorage.getItem("token");
 
   const onSubmit = async (data) => {
-    console.log(data);
+    console.log(data._id);
     try {
       setLoading(true);
       const requestUrl = `https://vaidik-backend.onrender.com/admin/newuser`;
 
       var response;
-        if (data._id) {
-          console.log();
-        response = await axios.post(requestUrl, {
-          token: token,
-          username: data.username,
-          email: data.email,
-          password: data.password,
-          //   cpassword: data.cpassword,
-          role: data.role,
-          isactive: data.active,
-          mainpassword: data.mainpassword,
-        });
+      if (data._id) {
+        if (data.password) {
+          response = await axios.post(requestUrl, {
+            token: token,
+            username: data.username,
+            email: data.email,
+            password: data.password,
+            role: data.role,
+            isactive: data.active,
+            mainpassword: data.mainpassword,
+            id: data._id,
+          });
+        } else {
+          response = await axios.post(requestUrl, {
+            token: token,
+            username: data.username,
+            email: data.email,
+            role: data.role,
+            isactive: data.active,
+            mainpassword: data.mainpassword,
+            id: data._id,
+          });
+        }
+        console.log();
       } else {
         response = await axios.post(requestUrl, {
           token: token,
@@ -63,7 +75,8 @@ const Addnewuser = () => {
         setTimeout(() => {
           navigate("/users");
         }, 1000);
-        // fetchData();
+        fetchData();
+        adminrolename();
       } else {
         notify(data.error);
       }
@@ -121,11 +134,12 @@ const Addnewuser = () => {
   const filtrData = data.filter((item) => item._id === id);
   console.log(filtrData);
   const tableEditData = filtrData && filtrData?.map((item) => item);
-  console.log(tableEditData?.[0]?.isactive);
-
+  // console.log(tableEditData?.[0].role.rolename);
+  const roleValue = tableEditData?.[0]?.role?.rolename || "";
+  console.log(roleValue);
   useEffect(() => {
     reset(tableEditData?.[0]);
-  }, [reset, data]);
+  }, [reset, data, roleValue]);
   return (
     <>
       <div className="container-scroller">
@@ -189,7 +203,6 @@ const Addnewuser = () => {
                             id="password"
                             placeholder="Enter password"
                             {...register("password", {
-                              required: "You must specify a password",
                               minLength: {
                                 value: 6,
                                 message:
@@ -197,9 +210,13 @@ const Addnewuser = () => {
                               },
                             })}
                           />
-                          <p className="text-danger">
-                            {errors.password && errors.password.message}
-                          </p>
+                          {data ? (
+                            <p className="text-danger">
+                              {errors.password && errors.password.message}
+                            </p>
+                          ) : (
+                            ""
+                          )}
                         </div>
                         <div className="form-group">
                           <label htmlFor="confirm-password">
@@ -211,15 +228,18 @@ const Addnewuser = () => {
                             id="confirm-password"
                             placeholder="Confirm password"
                             {...register("cpassword", {
-                              required: "Confirm password is required",
                               validate: (value) =>
                                 value === password ||
                                 "The password does not match",
                             })}
                           />{" "}
-                          <p className="text-danger">
-                            {errors.cpassword && errors.cpassword.message}
-                          </p>
+                          {data ? (
+                            <p className="text-danger">
+                              {errors.cpassword && errors.cpassword.message}
+                            </p>
+                          ) : (
+                            ""
+                          )}
                         </div>
                         <div className="form-group">
                           <label htmlFor="user-role">User Role</label>
@@ -228,10 +248,16 @@ const Addnewuser = () => {
                             id="user-role"
                             {...register("role", { required: true })}
                             placeholder="Please select your Role"
+                            value={roleValue}
                           >
-                            { roleData && roleData.map((value) => {
-                              return <option value={value._id}>{value.rolename}</option>;
-                            })}
+                            {roleData &&
+                              roleData.map((value) => {
+                                return (
+                                  <option value={value._id}>
+                                    {value.rolename}
+                                  </option>
+                                );
+                              })}
                           </select>
                           {errors.role && (
                             <p className="text-danger">Please select a Role</p>
@@ -253,7 +279,7 @@ const Addnewuser = () => {
                               {...register("active", {
                                 required: "Please select an account status",
                               })}
-                            //   checked={tableEditData?.[0]?.isactive === 1}
+                              //   checked={tableEditData?.[0]?.isactive === 1}
                             />
                             <label
                               className="form-check-label"
@@ -274,7 +300,7 @@ const Addnewuser = () => {
                               {...register("active", {
                                 required: "Please select an account status",
                               })}
-                            //   checked={tableEditData?.[0]?.isactive === 0}
+                              //   checked={tableEditData?.[0]?.isactive === 0}
                             />
                             <label
                               className="form-check-label"
@@ -306,7 +332,7 @@ const Addnewuser = () => {
                         </div>
                         <div className="form-group d-flex justify-content-end">
                           <button type="submit" className="btn btn-primary">
-                            Submit
+                            {data._id ? "Update" : "Submit"}
                           </button>
                         </div>
                       </form>
