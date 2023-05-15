@@ -133,16 +133,19 @@ const Addnewuser = () => {
 
   const filtrData = data.filter((item) => item._id === id);
   console.log(filtrData);
-  const tableEditData = filtrData && filtrData?.map((item) => item);
-  // console.log(tableEditData?.[0].role.rolename);
-  const roleValue = tableEditData?.[0]?.role?.rolename || "";
+//   const tableEditData = filtrData && filtrData?.map((item) => item);
+// console.log(tableEditData);
+  const roleValue = filtrData?.[0]?.role?.rolename || "";
   console.log(roleValue);
+   const roleId = roleData.map((item) => item.rolename === roleValue ? item._id : "")
+  console.log(roleId);
+  
   useEffect(() => {
-    reset(tableEditData?.[0]);
+    reset(filtrData?.[0]);
   }, [reset, data, roleValue]);
   return (
     <>
-      <div className="container-scroller">
+      <div className="container-scrolsler">
         <Navbar />
         <div className="container-fluid page-body-wrapper">
           <Sidebar />
@@ -246,14 +249,18 @@ const Addnewuser = () => {
                           <select
                             className="form-control"
                             id="user-role"
-                            {...register("role", { required: true })}
-                            placeholder="Please select your Role"
-                            value={roleValue}
+                             {...register("role", { required: true })}
+                            //  placeholder="Please select your Role"
+                          value={roleId}
                           >
                             {roleData &&
                               roleData.map((value) => {
                                 return (
-                                  <option value={value._id}>
+                                  <option
+                                    value={value._id}
+                                    key={value._id}
+                                    selected={value._id === roleValue}
+                                  >
                                     {value.rolename}
                                   </option>
                                 );
