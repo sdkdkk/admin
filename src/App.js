@@ -54,6 +54,7 @@ import Users from './components/permission/Users';
 import Roles from './components/permission/Roles';
 import Addnewuser from './components/permission/Addnewuser';
 import Addnewrole from './components/permission/Addnewrole';
+import TransactionDetails from './components/Wallet/TransactionDetails';
 
 
 
@@ -68,6 +69,7 @@ function App() {
         <Route path="studentlist" element={<Studentlist />} />
         <Route path="studentpayment" element={<Studentpayment />} />
         <Route path="wallet" element={<Wallet />} />
+        <Route path="transactionDetails" element={<TransactionDetails />} />
         <Route path="Searchengine" element={<Searchengine />} />
         <Route path="addnew" element={<Addnew />} />
         <Route path="searchquestion" element={<Searchquestion />} />
