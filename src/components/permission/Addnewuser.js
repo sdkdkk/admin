@@ -133,13 +133,15 @@ const Addnewuser = () => {
 
   const filtrData = data.filter((item) => item._id === id);
   console.log(filtrData);
-//   const tableEditData = filtrData && filtrData?.map((item) => item);
-// console.log(tableEditData);
-  const roleValue = filtrData?.[0]?.role?.rolename || "";
+  //   const tableEditData = filtrData && filtrData?.map((item) => item);
+  // console.log(tableEditData);
+  const roleValue = filtrData?.[0]?.role?.rolename ;
   console.log(roleValue);
-   const roleId = roleData.map((item) => item.rolename === roleValue ? item._id : "")
+  const roleId = roleData.map((item) =>
+    item.rolename === roleValue ? item._id : ""
+  );
   console.log(roleId);
-  
+  console.log(roleId ? roleId : "");
   useEffect(() => {
     reset(filtrData?.[0]);
   }, [reset, data, roleValue]);
@@ -249,9 +251,9 @@ const Addnewuser = () => {
                           <select
                             className="form-control"
                             id="user-role"
-                             {...register("role", { required: true })}
+                            {...register("role", { required: true })}
                             //  placeholder="Please select your Role"
-                          value={roleId}
+                          //  value={roleId === roleValue}
                           >
                             {roleData &&
                               roleData.map((value) => {
@@ -259,7 +261,7 @@ const Addnewuser = () => {
                                   <option
                                     value={value._id}
                                     key={value._id}
-                                    selected={value._id === roleValue}
+                                    selected={roleValue}
                                   >
                                     {value.rolename}
                                   </option>

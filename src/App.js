@@ -54,6 +54,7 @@ import Users from './components/permission/Users';
 import Roles from './components/permission/Roles';
 import Addnewuser from './components/permission/Addnewuser';
 import Addnewrole from './components/permission/Addnewrole';
+import StudentClass from "./components/studentClass/StudentClass";
 
 
 
@@ -111,6 +112,8 @@ function App() {
         <Route path="/tutorexamconfig" element={<Tutorexamconfig />} />
         <Route path="/questiontype" element={<Questiontype />} />
         <Route path="/questions" element={<Questions />} />
+        <Route path="/studentclass" element={<StudentClass />} />
+        
 
         <Route path="/mcqquestion" element={<Mcqquestion />} />
         <Route path="/truefalse" element={<Truefalseque />} />
