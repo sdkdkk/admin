@@ -11,15 +11,17 @@ import { Pagination } from "@mui/material";
 import { getWalletData } from "../../Redux/Loginpages/getWalletDataSlice";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
-import { useNavigate } from "react-router-dom";
+import { getTransactionHistory } from "../../Redux/Loginpages/getTransactionHistorySlice";
+import { useLocation } from "react-router-dom";
 
 
 
-const Wallet = () => {
+const TransactionDetails = () => {
     const dispatch = useDispatch();
-    const history = useNavigate();
-    const getWalletDataState = useSelector(state => state.getWalletData)
-    const walletTransactions = getWalletDataState?.data?.transactions
+    const location = useLocation()
+    const getTransactionHistoryState = useSelector(state => state.getTransactionHistory)
+    const walletTransactions = getTransactionHistoryState?.data?.transactions
+    
     //date picker
     // const [values, setValues] = useState([
     //     new DateObject().subtract(4, "days"),
@@ -38,13 +40,8 @@ const Wallet = () => {
     };
 
     const getWalletDataApi = (category = "Student") =>{
-        const params = `?category=${category}&limit=10&skip=${(currentPage - 1) * 10}`;
-        dispatch(getWalletData(params))
-    }
-
-    const handleDetailsClick = (data) =>{
-        const { category, walletId, type } = data 
-        history(`/transactionDetails?category=${category}&walletId=${walletId}&type=${type}`)   
+        const params = location.search;
+        dispatch(getTransactionHistory(params))
     }
 
     useEffect(() =>{
@@ -64,16 +61,12 @@ const Wallet = () => {
                             </div>
                             <div className="oneline">
                                 <div className="wallet-Earnings">
-                                    <h3 className="wallet-text">Earnings Total</h3>
-                                    <span className="wallet-rs">Rs</span><span className="wallet-rs mx-2">8,000</span>
                                 </div>
                             </div>
                             <div className="page-headers">
                                 <div className="col-md-12">
                                     <div class="d-grid gap-2 d-md-flex justify-content-md-end">
-                                        <button onClick={() => getWalletDataApi("Student")} class="btn btn-primary me-md-2" type="button">Student</button>
-                                        <button onClick={() => getWalletDataApi("Tutor")} class="btn btn-primary" type="button">Tutor</button>
-                                        {/* <button class="btn btn-primary" type="button">Unverified</button> */}
+                                        
                                     </div>
                                 </div>
                             </div>
@@ -81,7 +74,7 @@ const Wallet = () => {
                                 <div className="col-12 grid-margin stretch-card">
                                     <div className="card new-table">
                                         <div className="card-body">
-                                            <table className={getWalletDataState.isLoading ? `table table-loading` : "table"}>
+                                            <table className={getTransactionHistoryState.isLoading ? `table table-loading` : "table"}>
                                                 <thead>
                                                     <tr>
                                                         <th scope="col">Sr.No.</th>
@@ -105,7 +98,7 @@ const Wallet = () => {
                                                                 <td>Rs.{value.amount}</td>
                                                                 <td>{value.category}</td>
                                                                 <td>{value.status}</td>
-                                                                <td><button onClick={() => handleDetailsClick(value)}>Details</button></td>
+                                                                <td><button>Details</button> </td>
                                                             </tr>
                                                         )
                                                     })}
@@ -133,4 +126,4 @@ const Wallet = () => {
     );
 };
 
-export default Wallet;
+export default TransactionDetails;

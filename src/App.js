@@ -54,6 +54,8 @@ import Users from './components/permission/Users';
 import Roles from './components/permission/Roles';
 import Addnewuser from './components/permission/Addnewuser';
 import Addnewrole from './components/permission/Addnewrole';
+import TransactionDetails from './components/Wallet/TransactionDetails';
+import StudentClass from "./components/studentClass/StudentClass";
 
 
 
@@ -68,6 +70,7 @@ function App() {
         <Route path="studentlist" element={<Studentlist />} />
         <Route path="studentpayment" element={<Studentpayment />} />
         <Route path="wallet" element={<Wallet />} />
+        <Route path="transactionDetails" element={<TransactionDetails />} />
         <Route path="Searchengine" element={<Searchengine />} />
         <Route path="addnew" element={<Addnew />} />
         <Route path="searchquestion" element={<Searchquestion />} />
@@ -111,6 +114,8 @@ function App() {
         <Route path="/tutorexamconfig" element={<Tutorexamconfig />} />
         <Route path="/questiontype" element={<Questiontype />} />
         <Route path="/questions" element={<Questions />} />
+        <Route path="/studentclass" element={<StudentClass />} />
+        
 
         <Route path="/mcqquestion" element={<Mcqquestion />} />
         <Route path="/truefalse" element={<Truefalseque />} />

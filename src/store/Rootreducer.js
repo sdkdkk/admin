@@ -6,7 +6,6 @@ import tutorwarningReducer from "../Redux/Loginpages/tutorwarningSlice";
 import tutorworkingReducer from "../Redux/Loginpages/tutorworkingSlice";
 import tutortrialReducer from "../Redux/Loginpages/tutortrialSlice";
 
-
 import tutorspaymentReducer from "../Redux/Loginpages/tutorspaymentSlice";
 import tutordetailReducer from "../Redux/Loginpages/tutordetailSlice";
 import studentlistReducer from "../Redux/Loginpages/studentlistSlice";
@@ -31,6 +30,8 @@ import getQuestiontimeReducer from "../Redux/Loginpages/getQuestiontimeSlice";
 import getAdminQuestionsSlice from "../Redux/Loginpages/getAdminQuestionSlice";
 import postAdminQuestionsSlice from "../Redux/Loginpages/postAdminQuestionSlice";
 import questiontypePriceReducer from "../Redux/Loginpages/questiontypePriceSlice";
+import getWalletDataSlice from "../Redux/Loginpages/getWalletDataSlice";
+import getTransactionHistorySlice from "../Redux/Loginpages/getTransactionHistorySlice";
 
 const reducer = combineReducers({
     auth: authReducer,
@@ -61,6 +62,8 @@ const reducer = combineReducers({
     getAdminQuestions: getAdminQuestionsSlice,
     postAdminQuestions: postAdminQuestionsSlice,
     questiontypeprice: questiontypePriceReducer,
+    getWalletData: getWalletDataSlice,
+    getTransactionHistory: getTransactionHistorySlice,
 });
 
 export default reducer;
