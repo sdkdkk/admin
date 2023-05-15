@@ -489,12 +489,14 @@ const Questiontiming = () => {
                             <h6>&nbsp;</h6>
                           </div>
                           <div className="col-lg-6 mb-2 text-end">
-                            <Button
-                              variant="primary"
-                              type="submit"
-                             
-                            >
-                              {isEditMode ? "Update" : "Submit"}
+                            <Button variant="primary" type="submit">
+                              {isEditMode
+                                ? loading
+                                  ? "Loading..."
+                                  : "Update"
+                                : loading
+                                ? "Loading..."
+                                : "Add"}
                             </Button>
                           </div>
                         </div>

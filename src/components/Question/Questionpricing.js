@@ -244,7 +244,13 @@ const Questionpricing = () => {
                               type="submit"
                               disabled={loading}
                             >
-                              {isEditMode ? "Update" : "Submit"}
+                            {isEditMode
+                              ? loading
+                                ? "Loading..."
+                                : "Update"
+                              : loading
+                              ? "Loading..."
+                              : "Add"}
                             </Button>
                           </div>
                         </div>

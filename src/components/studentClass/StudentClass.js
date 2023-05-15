@@ -16,10 +16,10 @@ const StudentClass = () => {
     reset,
     formState: { errors },
   } = useForm({});
-
+  const [isEditMode, setIsEditMode] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
-  const [conversionRate, setConversionRate] = useState([]);
+  const [studentClass, setStudentClass] = useState([]);
   const token = localStorage.getItem("token");
 
   const notify = (data) => toast(data);
@@ -29,8 +29,8 @@ const StudentClass = () => {
   const [postsPerPage] = useState(8);
   const indexOfLastPage = currentPage * postsPerPage;
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
-  const displayUsers = conversionRate.slice(indexOfFirstPage, indexOfLastPage);
-  const totalPages = Math.ceil(conversionRate.length / postsPerPage);
+  const displayUsers = studentClass.slice(indexOfFirstPage, indexOfLastPage);
+  const totalPages = Math.ceil(studentClass.length / postsPerPage);
 
   const handleChange = (event, value) => {
     setCurrentPage(value);
@@ -40,13 +40,14 @@ const StudentClass = () => {
     try {
       setLoading1(true);
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/getquestionsubject`,
+        `https://vaidik-backend.onrender.com/admin/getclass`,
         {
           token: token,
         }
       );
       console.log(response.data.data);
-      setConversionRate(response.data.data);
+      setStudentClass(response.data.data);
+      console.log(studentClass);
       setLoading1(false);
     } catch (error) {
       console.log(error.response.data.error);
@@ -63,18 +64,18 @@ const StudentClass = () => {
     try {
       setLoading(true);
       const requestUrl = data._id
-        ? `https://vaidik-backend.onrender.com/admin/questionsubject`
-        : `https://vaidik-backend.onrender.com/admin/questionsubject`;
+        ? `https://vaidik-backend.onrender.com/admin/setclass`
+        : `https://vaidik-backend.onrender.com/admin/setclass`;
       var response;
       if (data._id) {
         response = await axios.post(requestUrl, {
-          questionSubject: data.questionSubject,
+          studentClass: data.studentClass,
           id: data._id,
           token: token,
         });
       } else {
         response = await axios.post(requestUrl, {
-          questionSubject: data.questionSubject,
+          studentClass: data.studentClass,
           token: token,
         });
       }
@@ -92,20 +93,17 @@ const StudentClass = () => {
   };
 
   const handleUpdate = (coupon) => {
+    setIsEditMode(true);
     reset(coupon);
     // Scroll to the top of the page
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-
   function handleDelet(_id) {
     axios
-      .post(
-        `https://vaidik-backend.onrender.com/admin/questionsubject/${_id}`,
-        {
-          token: token,
-        }
-      )
+      .post(`https://vaidik-backend.onrender.com/admin/deleteclass/${_id}`, {
+        token: token,
+      })
       .then((response) => {
         fetchData();
         toast.success(response.data.message);
@@ -141,14 +139,14 @@ const StudentClass = () => {
                                 type="text"
                                 className="form-control me-2"
                                 id="hoursInput"
-                                name="questionSubject"
-                                {...register("questionSubject", {
+                                name="studentClass"
+                                {...register("studentClass", {
                                   required: true,
                                 })}
                               />
-                              {errors.questionSubject && (
+                              {errors.studentClass && (
                                 <p className="error text-right text-danger">
-                                  Please Enter a Question Subject{" "}
+                                  Please Enter a Student Class{" "}
                                 </p>
                               )}
                             </div>
@@ -159,11 +157,18 @@ const StudentClass = () => {
                             <h6>&nbsp;</h6>
                           </div>
                           <div className="col-lg-4 col-md-8 mb-2 text-md-end">
-                            <Button variant="primary"
-                             type="submit"
-                             disabled={loading}
-                             >
-                              {loading ? "Loading..." : "Add"}
+                            <Button
+                              variant="primary"
+                              type="submit"
+                              disabled={loading}
+                            >
+                              {isEditMode
+                                ? loading
+                                  ? "Loading..."
+                                  : "Update"
+                                : loading
+                                ? "Loading..."
+                                : "Add"}
                             </Button>
                           </div>
                         </div>
@@ -197,7 +202,8 @@ const StudentClass = () => {
                               bordered
                               hover
                               responsive
-                              className="single-color">
+                              className="single-color"
+                            >
                               <thead>
                                 <tr>
                                   <th>Sr. No</th>
@@ -213,17 +219,19 @@ const StudentClass = () => {
                                         1 +
                                         (currentPage - 1) * postsPerPage}
                                     </td>
-                                    <td>{data.questionSubject}</td>
+                                    <td>{data.studentClass}</td>
                                     <td>
                                       <Button
                                         variant="success"
-                                        onClick={() => handleUpdate(data)}>
+                                        onClick={() => handleUpdate(data)}
+                                      >
                                         Update
                                       </Button>
                                       <Button
                                         className="mx-2"
                                         variant="danger"
-                                        onClick={() => handleDelet(data._id)}>
+                                        onClick={() => handleDelet(data._id)}
+                                      >
                                         Delete
                                       </Button>
                                     </td>
@@ -233,7 +241,7 @@ const StudentClass = () => {
                             </Table>
                             <div className="table-pagination">
                               <Pagination
-                               count={totalPages}
+                                count={totalPages}
                                 page={currentPage}
                                 onChange={handleChange}
                                 shape="rounded"
