@@ -49,7 +49,7 @@ const Tutorspayment = () => {
       <div className="container-fluid page-body-wrapper">
         <Sidebar />
         {isLoading ? (
-          <p style={{ marginLeft: "500px" ,marginTop:"250px" }}>
+          <p style={{ marginLeft: "500px", marginTop: "250px" }}>
             <ColorRing
               visible={true}
               height="80"
@@ -97,7 +97,7 @@ const Tutorspayment = () => {
                                       <>
                                         <span className="list-group-item mt-2 ">
                                           <b>Bank Name</b>:
-                                          {value.bankdetails.bankName}
+                                          {value.bankdetails?.bankName || ""}
                                           <Button
                                             style={{ border: "none" }}
                                             variant="outline-primary"
@@ -105,7 +105,7 @@ const Tutorspayment = () => {
                                             className="ml-2"
                                             onClick={() =>
                                               handleCopy(
-                                                value.bankdetails.bankName
+                                                value.bankdetails.bankName || ""
                                               )
                                             }>
                                             <FaCopy />
@@ -113,7 +113,8 @@ const Tutorspayment = () => {
                                         </span>
                                         <span className="list-group-item mt-2 ">
                                           <b>A/c No</b>.
-                                          {value.bankdetails.accountNumber}
+                                          {value.bankdetails?.accountNumber ||
+                                            ""}
                                           <Button
                                             style={{ border: "none" }}
                                             variant="outline-primary"
@@ -121,7 +122,8 @@ const Tutorspayment = () => {
                                             className="ml-2"
                                             onClick={() =>
                                               handleCopy(
-                                                value.bankdetails.accountNumber
+                                                value.bankdetails
+                                                  .accountNumber || ""
                                               )
                                             }>
                                             <FaCopy />
@@ -129,7 +131,7 @@ const Tutorspayment = () => {
                                         </span>
                                         <span className="list-group-item mt-2 ">
                                           <b>IFSC Code</b> :{" "}
-                                          {value.bankdetails.IFSCCode}
+                                          {value.bankdetails?.IFSCCode || ""}
                                           <Button
                                             style={{ border: "none" }}
                                             variant="outline-primary"
@@ -137,7 +139,7 @@ const Tutorspayment = () => {
                                             className="ml-2"
                                             onClick={() =>
                                               handleCopy(
-                                                value.bankdetails.IFSCCode
+                                                value.bankdetails.IFSCCode || ""
                                               )
                                             }>
                                             <FaCopy />
@@ -145,7 +147,7 @@ const Tutorspayment = () => {
                                         </span>
                                         <span className="list-group-item mt-2 ">
                                           <b>Account Type</b> :
-                                          {value.bankdetails.accountType}
+                                          {value.bankdetails?.accountType || ""}
                                           <Button
                                             style={{ border: "none" }}
                                             variant="outline-primary"
@@ -153,7 +155,8 @@ const Tutorspayment = () => {
                                             className="ml-2"
                                             onClick={() =>
                                               handleCopy(
-                                                value.bankdetails.accountType
+                                                value.bankdetails.accountType ||
+                                                  ""
                                               )
                                             }>
                                             <FaCopy />
@@ -161,7 +164,7 @@ const Tutorspayment = () => {
                                         </span>
                                         <span className="list-group-item mt-2 ">
                                           <b>Pan Card</b> :
-                                          {value.bankdetails.panCard}
+                                          {value.bankdetails?.panCard || ""}
                                           <Button
                                             style={{ border: "none" }}
                                             variant="outline-primary"
@@ -169,7 +172,7 @@ const Tutorspayment = () => {
                                             className="ml-2"
                                             onClick={() =>
                                               handleCopy(
-                                                value.bankdetails.panCard
+                                                value.bankdetails.panCard || ""
                                               )
                                             }>
                                             <FaCopy />
@@ -179,7 +182,7 @@ const Tutorspayment = () => {
                                     ) : null}
                                   </td>
                                   <td className="text-success">
-                                    {value.balance}
+                                    {value.balance || ""}
                                   </td>
                                   <td>
                                     <Button className="bg-white bg-opacity-25 text-primary border border-primary btn-sm">

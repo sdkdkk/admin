@@ -147,18 +147,18 @@ const Studentdetails = () => {
                         <div className="mt-2">
                           <strong>Earnings</strong>
                         </div>
-                        <b>{data.deposit}</b>
+                        <b>{data.deposit || "_"}</b>
                         <div>
                           <strong>Paid</strong>
                         </div>
                         <h4 className="text-danger">
-                          <b> {data.paid}</b>
+                          <b> {data.paid || "-"}</b>
                         </h4>
                         <div>
                           <strong>Balance</strong>
                         </div>
                         <h4 className="text-success">
-                          <b> Rs. {data.balance} </b>
+                          <b> Rs. {data.balance || "-"} </b>
                         </h4>
                       </div>
                     </div>

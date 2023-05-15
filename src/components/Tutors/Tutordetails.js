@@ -7,7 +7,7 @@ import { CgProfile } from "react-icons/cg";
 import { Pagination } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import Moment from "react-moment";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { tutordetail } from "../../Redux/Loginpages/tutordetailSlice";
@@ -104,6 +104,8 @@ const Tutordetails = () => {
     navigate("/tutorquestiondetails", { state: { data } });
   };
 
+  console.log(displaytransation);
+
   return (
     <div className="container-scroller">
       <Navbar />
@@ -148,23 +150,24 @@ const Tutordetails = () => {
                         <h5 className="mt-2">Bank Details</h5>
                         <div>
                           <strong>Bank Name:</strong>
-                          {data.bankdetails.bankName}
+
+                          {data.bankdetails?.bankName || ""}
                         </div>
                         <div>
                           <strong>Account Number:</strong>
-                          {data.bankdetails.accountNumber}
+                          {data.bankdetails?.accountNumber || ""}
                         </div>
                         <div>
                           <strong>IFSC Code:</strong>
-                          {data.bankdetails.IFSCCode}
+                          {data.bankdetails?.IFSCCode || ""}
                         </div>
                         <div>
                           <strong>Branch:</strong>
-                          {data.bankdetails.Tutorbankname}
+                          {data.bankdetails?.Tutorbankname || ""}
                         </div>
                         <div>
                           <strong>Bank Country:</strong>
-                          {data.bankdetails.bankcountry}
+                          {data.bankdetails?.bankcountry || ""}
                         </div>
                       </div>
                       <div className="col Subject">
@@ -316,6 +319,20 @@ const Tutordetails = () => {
                     </div>
                   </div>
                 </div>
+              </div>
+              <div
+                className="gap-2 d-md-flex"
+                style={{ justifyContent: "end" }}>
+                <Link to={`/professionaldetails/${_id}`}>
+                  <button className="btn btn-outline-primary" type="button">
+                    Edit User
+                  </button>
+                </Link>
+                <Link to={`/tutorlist`}>
+                  <button className="btn btn-primary" type="button">
+                    Back to List
+                  </button>
+                </Link>
               </div>
             </div>
           )}

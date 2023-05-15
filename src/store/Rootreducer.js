@@ -2,8 +2,11 @@ import { combineReducers } from "redux";
 import authReducer from "../Redux/Loginpages/authSlice";
 // import authReducer from "../Redux/Loginpages/authSlice"
 import tutorunverifiedReducer from "../Redux/Loginpages/tutorunverifiedSlice";
-import tutorsuspendedReducer from "../Redux/Loginpages/tutorsuspendedSlice";
+import tutorwarningReducer from "../Redux/Loginpages/tutorwarningSlice";
 import tutorworkingReducer from "../Redux/Loginpages/tutorworkingSlice";
+import tutortrialReducer from "../Redux/Loginpages/tutortrialSlice";
+
+
 import tutorspaymentReducer from "../Redux/Loginpages/tutorspaymentSlice";
 import tutordetailReducer from "../Redux/Loginpages/tutordetailSlice";
 import studentlistReducer from "../Redux/Loginpages/studentlistSlice";
@@ -30,33 +33,34 @@ import postAdminQuestionsSlice from "../Redux/Loginpages/postAdminQuestionSlice"
 import questiontypePriceReducer from "../Redux/Loginpages/questiontypePriceSlice";
 
 const reducer = combineReducers({
-  auth: authReducer,
-  user: tutorunverifiedReducer,
-  suspended: tutorsuspendedReducer,
-  working: tutorworkingReducer,
-  tutorpayment: tutorspaymentReducer,
-  tutordetail: tutordetailReducer,
-  studentlist: studentlistReducer,
-  admintutorexamverify: admintutorexamverifyReducer,
-  searchengine: searchengineReducer,
-  testimonial: testimonialReducer,
-  testimonialstatus: testimonialstatusReducer,
-  testimonialUserDelete: testimonialUserDeleteReducer,
-  admintutorexamresponse: admintutorexamresponseReducer,
-  getPageList: getPageListSliceReducer,
-  postPageData: postPageDataSliceReducer,
-  updatePageData: updatePageDataSliceReducer,
-  pagesListDelete: pagesListDeleteSliceReducer,
-  getTutorQuestionsList: getTutorQuestionsListSliceReducer,
-  postTutorQuestion: postTutorQuestionListSlice,
-  updateTutorQuestion: updateTutorQuestionListSlice,
-  deleteTutorQuestion: deleteTutorQuestionSlice,
-  testimonialform: testimonialformReducer,
-  questiontypetime: questiontypetimeReducer,
-  gettiming: getQuestiontimeReducer,
-  getAdminQuestions: getAdminQuestionsSlice,
-  postAdminQuestions: postAdminQuestionsSlice,
-  questiontypeprice: questiontypePriceReducer,
+    auth: authReducer,
+    user: tutorunverifiedReducer,
+    warning: tutorwarningReducer,
+    working: tutorworkingReducer,
+    trial: tutortrialReducer,
+    tutorpayment: tutorspaymentReducer,
+    tutordetail: tutordetailReducer,
+    studentlist: studentlistReducer,
+    admintutorexamverify: admintutorexamverifyReducer,
+    searchengine: searchengineReducer,
+    testimonial: testimonialReducer,
+    testimonialstatus: testimonialstatusReducer,
+    testimonialUserDelete: testimonialUserDeleteReducer,
+    admintutorexamresponse: admintutorexamresponseReducer,
+    getPageList: getPageListSliceReducer,
+    postPageData: postPageDataSliceReducer,
+    updatePageData: updatePageDataSliceReducer,
+    pagesListDelete: pagesListDeleteSliceReducer,
+    getTutorQuestionsList: getTutorQuestionsListSliceReducer,
+    postTutorQuestion: postTutorQuestionListSlice,
+    updateTutorQuestion: updateTutorQuestionListSlice,
+    deleteTutorQuestion: deleteTutorQuestionSlice,
+    testimonialform: testimonialformReducer,
+    questiontypetime: questiontypetimeReducer,
+    gettiming: getQuestiontimeReducer,
+    getAdminQuestions: getAdminQuestionsSlice,
+    postAdminQuestions: postAdminQuestionsSlice,
+    questiontypeprice: questiontypePriceReducer,
 });
 
 export default reducer;
