@@ -13,7 +13,7 @@ import { Pagination } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { tutorunverified } from "../../Redux/Loginpages/tutorunverifiedSlice";
 import { Tutorswarning } from "../../Redux/Loginpages/tutorwarningSlice";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { tutorworking } from "../../Redux/Loginpages/tutorworkingSlice";
 import { ColorRing } from "react-loader-spinner";
 import Moment from "react-moment";
@@ -136,7 +136,6 @@ const Tutorlist = () => {
         (searchTerm === "" || (name && name.includes(searchTerm.toLowerCase())))
       );
     });
-
     setCurrentData(filteredData);
     setCurrentPage(1);
   };

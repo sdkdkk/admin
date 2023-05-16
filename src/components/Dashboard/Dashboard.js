@@ -36,6 +36,8 @@ const Dashboard = () => {
     }
   };
 
+  console.log(data);
+
   return (
     <>
       <div className="container-scroller">
@@ -123,7 +125,7 @@ const Dashboard = () => {
                               </td>
                             </tr>
                             <tr>
-                              <td className="pl-0">Suspended Tutor</td>
+                              <td className="pl-0">Trial Tutor</td>
                               <td className="text-right font-weight-bold">
                                 {data.tutorRegistrations &&
                                   data.tutorRegistrations.trialTutors}

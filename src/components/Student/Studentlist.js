@@ -15,10 +15,10 @@ import { Link } from "react-router-dom";
 import { ColorRing } from "react-loader-spinner";
 import Moment from "react-moment";
 
+
 const Studentlist = () => {
   const studentists = useSelector((state) => state.studentlist.data.document);
   const isLoading = useSelector((state) => state.studentlist.isLoading);
-
   // console.log(studentists);
   //table
   const [searchTerm, setSearchTerm] = useState("");
