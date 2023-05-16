@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 
 const Users = () => {
   const [loading, setLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const notify = (data) => toast(data);
   const [loading1, setLoading1] = useState(false);
   const [data, setData] = useState([]);
@@ -45,6 +46,7 @@ const Users = () => {
   };
 
   async function handleDeleteClick(_id) {
+    setDeleteLoading(true)
     try {
       setLoading(true);
 
@@ -54,6 +56,8 @@ const Users = () => {
           token: token,
         }
       );
+      const tempData = [...data].filter((a) => a._id !== _id);
+      setData(tempData)
       console.log(response.data.message);
 
       notify(response.data.message);
@@ -64,6 +68,8 @@ const Users = () => {
       notify(error.response.data.error);
 
       setLoading1(false);
+    }finally{
+      setDeleteLoading(false)
     }
   }
 
@@ -144,6 +150,7 @@ const Users = () => {
                                           <Button
                                             className="mx-2"
                                             variant="danger"
+                                            disabled={deleteLoading}
                                             onClick={() =>
                                               handleDeleteClick(value._id)
                                             }

@@ -340,8 +340,8 @@ const Addnewuser = () => {
                           </div>
                         </div>
                         <div className="form-group d-flex justify-content-end">
-                          <button type="submit" className="btn btn-primary">
-                            {data._id ? "Update" : "Submit"}
+                          <button disabled={loading} type="submit" className="btn btn-primary">
+                            {!loading ? <>{data._id ? "Update" : "Submit"}</> : "Loading..."}
                           </button>
                         </div>
                       </form>
