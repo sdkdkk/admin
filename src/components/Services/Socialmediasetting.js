@@ -24,7 +24,7 @@ const Socialmediasetting = () => {
   const { register, handleSubmit, reset } = useForm({});
 
   const onSubmit = async (data) => {
-    setLoading(true)
+    setLoading(true);
     let token = localStorage.getItem("token");
     console.log(data);
     let mediaObjData = {
@@ -42,7 +42,6 @@ const Socialmediasetting = () => {
         `https://vaidik-backend.onrender.com/admin/socialmedia`,
         mediaObjData
       );
-
       if (data.status === 1) {
         notify(data.message);
         fetchData();
@@ -53,7 +52,7 @@ const Socialmediasetting = () => {
       console.log("error - ", error);
       notify(error.response.data.error);
     }
-    setLoading(false)
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -116,8 +115,7 @@ const Socialmediasetting = () => {
                               <div className="col-md-6">
                                 <Form.Group
                                   className="mb-3"
-                                  controlId="facebookLink"
-                                >
+                                  controlId="facebookLink">
                                   <Form.Label>FaceBook Link</Form.Label>
                                   <Form.Control
                                     type="link"
@@ -128,8 +126,7 @@ const Socialmediasetting = () => {
                                 </Form.Group>
                                 <Form.Group
                                   className="mb-3"
-                                  controlId="linkedinLink"
-                                >
+                                  controlId="linkedinLink">
                                   <Form.Label>Linkedin Link</Form.Label>
                                   <Form.Control
                                     type="link"
@@ -140,8 +137,7 @@ const Socialmediasetting = () => {
                                 </Form.Group>
                                 <Form.Group
                                   className="mb-3"
-                                  controlId="twitterLink"
-                                >
+                                  controlId="twitterLink">
                                   <Form.Label>Twitter Link</Form.Label>
                                   <Form.Control
                                     type="link"
@@ -154,8 +150,7 @@ const Socialmediasetting = () => {
                               <div className="col-md-6">
                                 <Form.Group
                                   className="mb-3"
-                                  controlId="youtubeLink"
-                                >
+                                  controlId="youtubeLink">
                                   <Form.Label>YouTube Link</Form.Label>
                                   <Form.Control
                                     type="link"
@@ -166,8 +161,7 @@ const Socialmediasetting = () => {
                                 </Form.Group>
                                 <Form.Group
                                   className="mb-3"
-                                  controlId="instagramLink1"
-                                >
+                                  controlId="instagramLink1">
                                   <Form.Label>Instagram Link</Form.Label>
                                   <Form.Control
                                     type="link"
@@ -188,8 +182,7 @@ const Socialmediasetting = () => {
                             <Button
                               variant="primary"
                               type="submit"
-                              disabled={loading}
-                            >
+                              disabled={loading}>
                               {loading ? "Loading..." : "Update"}
                             </Button>{" "}
                           </div>

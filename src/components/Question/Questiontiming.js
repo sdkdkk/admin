@@ -159,20 +159,20 @@ const Questiontiming = () => {
   };
 
   function handleDeleteClick(_id) {
-    setLoading(true);
-    const response = axios
-      .post(`https://vaidik-backend.onrender.com/admin/questiontiming/${_id}`, {
-        token: token,
-      })
-      .then(() => {
+    axios
+      .post(
+        `https://vaidik-backend.onrender.com/admin/questiontiming/${_id}`,
+        {
+          token: token,
+        }
+      )
+      .then((response) => {
         fetchData();
-        setLoading(false);
+        toast.success(response.data.message);
+      })
+      .catch((error) => {
+        toast.error(error.data.message);
       });
-    if (response.data.data) {
-      console.log(response.data.data);
-      notify(response.data.data);
-      reset();
-    }
   }
 
   return (

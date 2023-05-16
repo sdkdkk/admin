@@ -43,11 +43,9 @@ const Questionpricing = () => {
 
   const onSubmit = async (data) => {
     console.log(data);
-
     try {
       setLoading(true);
       const requestUrl = `https://vaidik-backend.onrender.com/admin/setquestionpricing`;
-
       var response;
       if (data._id) {
         response = await axios.post(requestUrl, {
@@ -123,23 +121,20 @@ const Questionpricing = () => {
   };
 
   function handleDeleteClick(_id) {
-    setLoading(true);
-    const response = axios
+    axios
       .post(
         `https://vaidik-backend.onrender.com/admin/questionpricing/${_id}`,
         {
           token: token,
         }
       )
-      .then(() => {
+      .then((response) => {
         fetchData();
-        setLoading(false);
+        toast.success(response.data.message);
+      })
+      .catch((error) => {
+        toast.error(error.data.message);
       });
-    if (response.data) {
-      console.log(response);
-      notify(response.data.data);
-      reset();
-    }
   }
 
   return (
@@ -164,8 +159,7 @@ const Questionpricing = () => {
                           </div>
                           <div className="col-lg-4 col-md-8">
                             <Form.Select
-                              {...register("Type", { required: true })}
-                            >
+                              {...register("Type", { required: true })}>
                               <option value="">
                                 Please Select Question Type
                               </option>
@@ -242,15 +236,14 @@ const Questionpricing = () => {
                             <Button
                               variant="primary"
                               type="submit"
-                              disabled={loading}
-                            >
-                            {isEditMode
-                              ? loading
+                              disabled={loading}>
+                              {isEditMode
+                                ? loading
+                                  ? "Loading..."
+                                  : "Update"
+                                : loading
                                 ? "Loading..."
-                                : "Update"
-                              : loading
-                              ? "Loading..."
-                              : "Add"}
+                                : "Add"}
                             </Button>
                           </div>
                         </div>
@@ -278,8 +271,7 @@ const Questionpricing = () => {
                     bordered
                     // hover
                     responsive
-                    className="single-color table "
-                  >
+                    className="single-color table ">
                     <thead>
                       <tr>
                         <th>Sr.No</th>
@@ -301,15 +293,13 @@ const Questionpricing = () => {
                           <td>
                             <Button
                               variant="success"
-                              onClick={() => handleUpdateClick(data)}
-                            >
+                              onClick={() => handleUpdateClick(data)}>
                               Edit
                             </Button>
                             <Button
                               className="mx-2"
                               variant="danger"
-                              onClick={() => handleDeleteClick(data._id)}
-                            >
+                              onClick={() => handleDeleteClick(data._id)}>
                               Delete
                             </Button>
                           </td>
@@ -324,8 +314,6 @@ const Questionpricing = () => {
                       onChange={handleChange}
                       shape="rounded"
                       variant="outlined"
-                      showFirstButton
-                      showLastButton
                     />
                   </div>
                 </>

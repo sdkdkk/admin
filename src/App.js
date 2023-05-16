@@ -44,20 +44,17 @@ import Matchfollow from "./components/Questionpages/Matchfollow";
 import Tutorquestiondetails from "./components/Tutors/Tutorquestiondetails";
 import Studentquestiondetails from "./components/Student/Studentquestiondetails";
 
-
 import FillupsSearchengine from "./components/QuestionpageSearchengine/FillupsSearchengine";
 import MatchfollowSearchengine from "./components/QuestionpageSearchengine/MatchfollowSearchengine";
 import McqquestionSearchengine from "./components/QuestionpageSearchengine/McqquestionSearchengine";
 import QuestionanswerSearchengine from "./components/QuestionpageSearchengine/QuestionanswerSearchengine";
 import TruefalsequeSearchengine from "./components/QuestionpageSearchengine/TruefalsequeSearchengine";
-import Users from './components/permission/Users';
-import Roles from './components/permission/Roles';
-import Addnewuser from './components/permission/Addnewuser';
-import Addnewrole from './components/permission/Addnewrole';
-import TransactionDetails from './components/Wallet/TransactionDetails';
+import Users from "./components/permission/Users";
+import Roles from "./components/permission/Roles";
+import Addnewuser from "./components/permission/Addnewuser";
+import Addnewrole from "./components/permission/Addnewrole";
+import TransactionDetails from "./components/Wallet/TransactionDetails";
 import StudentClass from "./components/studentClass/StudentClass";
-
-
 
 function App() {
   return (
@@ -115,27 +112,36 @@ function App() {
         <Route path="/questiontype" element={<Questiontype />} />
         <Route path="/questions" element={<Questions />} />
         <Route path="/studentclass" element={<StudentClass />} />
-        
 
         <Route path="/mcqquestion" element={<Mcqquestion />} />
         <Route path="/truefalse" element={<Truefalseque />} />
         <Route path="/fillups" element={<Fillups />} />
-   
+
         <Route path="/matchfollow" element={<Matchfollow />} />
-        
+
         <Route path="/users" element={<Users />} />
         <Route path="/roles" element={<Roles />} />
         <Route path="/addnewuser" element={<Addnewuser />} />
         <Route path="/addnewuser/:id" element={<Addnewuser />} />
         <Route path="/addnewrole" element={<Addnewrole />} />
 
-
-
         <Route path="/fillupssearchengine" element={<FillupsSearchengine />} />
-        <Route path="/matchfollowsearchengine" element={<MatchfollowSearchengine />} />
-        <Route path="/mcqquestionsearchengine" element={<McqquestionSearchengine />} />
-        <Route path="/questionanswersearchengine" element={<QuestionanswerSearchengine />} />
-        <Route path="/truefalsequesearchengine" element={<TruefalsequeSearchengine />} />
+        <Route
+          path="/matchfollowsearchengine"
+          element={<MatchfollowSearchengine />}
+        />
+        <Route
+          path="/mcqquestionsearchengine"
+          element={<McqquestionSearchengine />}
+        />
+        <Route
+          path="/questionanswersearchengine"
+          element={<QuestionanswerSearchengine />}
+        />
+        <Route
+          path="/truefalsequesearchengine"
+          element={<TruefalsequeSearchengine />}
+        />
 
         <Route path="/logout" element={<Logout />} />
       </Routes>
