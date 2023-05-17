@@ -2,35 +2,35 @@ import React, { useEffect, useState } from "react";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
-import { Table, Button } from "react-bootstrap";
-import "./coupon.css";
 import { useForm } from "react-hook-form";
+import { Table, Button } from "react-bootstrap";
 import { toast } from "react-toastify";
-import { Pagination } from "@mui/material";
 import axios from "axios";
 import { ColorRing } from "react-loader-spinner";
+import { Pagination } from "@mui/material";
 
-const Coupon = () => {
+const StudentClass = () => {
   const {
     register,
     handleSubmit,
     reset,
     formState: { errors },
   } = useForm({});
-
+  const [isEditMode, setIsEditMode] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
+  const [studentClass, setStudentClass] = useState([]);
   const token = localStorage.getItem("token");
+
   const notify = (data) => toast(data);
-  const [conversionRate, setConversionRate] = useState([]);
 
   //table
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(8);
   const indexOfLastPage = currentPage * postsPerPage;
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
-  const displayUsers = conversionRate.slice(indexOfFirstPage, indexOfLastPage);
-  const totalPages = Math.ceil(conversionRate.length / postsPerPage);
+  const displayUsers = studentClass.slice(indexOfFirstPage, indexOfLastPage);
+  const totalPages = Math.ceil(studentClass.length / postsPerPage);
 
   const handleChange = (event, value) => {
     setCurrentPage(value);
@@ -40,13 +40,14 @@ const Coupon = () => {
     try {
       setLoading1(true);
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/getcoupons`,
+        `https://vaidik-backend.onrender.com/admin/getclass`,
         {
           token: token,
         }
       );
       console.log(response.data.data);
-      setConversionRate(response.data.data);
+      setStudentClass(response.data.data);
+      console.log(studentClass);
       setLoading1(false);
     } catch (error) {
       console.log(error.response.data.error);
@@ -63,26 +64,21 @@ const Coupon = () => {
     try {
       setLoading(true);
       const requestUrl = data._id
-        ? `https://vaidik-backend.onrender.com/admin/couponcode`
-        : `https://vaidik-backend.onrender.com/admin/couponcode`;
+        ? `https://vaidik-backend.onrender.com/admin/setclass`
+        : `https://vaidik-backend.onrender.com/admin/setclass`;
       var response;
       if (data._id) {
         response = await axios.post(requestUrl, {
-          couponCode: data.couponCode,
+          studentClass: data.studentClass,
           id: data._id,
-          validityDate: data.validityDate,
-          discount: parseInt(data.discount),
           token: token,
         });
       } else {
         response = await axios.post(requestUrl, {
-          couponCode: data.couponCode,
-          validityDate: data.validityDate,
-          discount: parseInt(data.discount),
+          studentClass: data.studentClass,
           token: token,
         });
       }
-
       if (response.data.status === 1) {
         notify(response.data.message);
         reset();
@@ -97,23 +93,17 @@ const Coupon = () => {
   };
 
   const handleUpdate = (coupon) => {
-    let date = new Date(coupon.validityDate);
-    coupon.validityDate = null;
-    coupon.validityDate = date.toISOString().substring(0, 10);
+    setIsEditMode(true);
     reset(coupon);
-
     // Scroll to the top of the page
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   function handleDelet(_id) {
     axios
-      .post(
-        `https://vaidik-backend.onrender.com/admin/deletecouponcode/${_id}`,
-        {
-          token: token,
-        }
-      )
+      .post(`https://vaidik-backend.onrender.com/admin/deleteclass/${_id}`, {
+        token: token,
+      })
       .then((response) => {
         fetchData();
         toast.success(response.data.message);
@@ -132,7 +122,7 @@ const Coupon = () => {
           <div className="main-panel">
             <div className="content-wrapper">
               <div className="page-header">
-                <h3 className="page-title">Coupon Code</h3>
+                <h3 className="page-title">Student Class</h3>
               </div>
               <div className="row mt-3">
                 <div className="col-12 grid-margin stretch-card">
@@ -141,7 +131,7 @@ const Coupon = () => {
                       <form onSubmit={handleSubmit((data) => onSubmit(data))}>
                         <div className="row mt-4">
                           <div className="col-lg-2 col-md-4 mt-2">
-                            <h6>Coupon Code</h6>
+                            <h6> Student Class</h6>
                           </div>
                           <div className="col-lg-4 col-md-8">
                             <div className="mb-3">
@@ -149,56 +139,14 @@ const Coupon = () => {
                                 type="text"
                                 className="form-control me-2"
                                 id="hoursInput"
-                                name="couponCode"
-                                {...register("couponCode", { required: true })}
-                              />
-                              {errors.couponCode && (
-                                <p className="error text-right text-danger">
-                                  Please Enter a couponCode{" "}
-                                </p>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                        <div className="row mt-4">
-                          <div className="col-lg-2 col-md-4 mt-2">
-                            <h6>Discount (Percent) </h6>
-                          </div>
-                          <div className="col-lg-4 col-md-8">
-                            <div className="mb-3">
-                              <input
-                                type="number"
-                                className="form-control me-2"
-                                id="hoursInput"
-                                name="discount"
-                                {...register("discount", { required: true })}
-                              />
-                              {errors.discount && (
-                                <p className="error text-right text-danger">
-                                  Please Enter a discount{" "}
-                                </p>
-                              )}
-                            </div>
-                          </div>
-                        </div>
-                        <div className="row mt-4">
-                          <div className="col-lg-2 col-md-4 mt-2">
-                            <h6>Validity Date</h6>
-                          </div>
-                          <div className="col-lg-4 col-md-8">
-                            <div className="mb-3">
-                              <input
-                                type="date"
-                                className="form-control me-2"
-                                id="hoursInput"
-                                name="validityDate"
-                                {...register("validityDate", {
+                                name="studentClass"
+                                {...register("studentClass", {
                                   required: true,
                                 })}
                               />
-                              {errors.validityDate && (
+                              {errors.studentClass && (
                                 <p className="error text-right text-danger">
-                                  Please Enter a Validity Date{" "}
+                                  Please Enter a Student Class{" "}
                                 </p>
                               )}
                             </div>
@@ -212,8 +160,15 @@ const Coupon = () => {
                             <Button
                               variant="primary"
                               type="submit"
-                              disabled={loading}>
-                              {loading ? "Loading..." : "Add"}
+                              disabled={loading}
+                            >
+                              {isEditMode
+                                ? loading
+                                  ? "Loading..."
+                                  : "Update"
+                                : loading
+                                ? "Loading..."
+                                : "Add"}
                             </Button>
                           </div>
                         </div>
@@ -247,44 +202,36 @@ const Coupon = () => {
                               bordered
                               hover
                               responsive
-                              className="single-color">
+                              className="single-color"
+                            >
                               <thead>
                                 <tr>
                                   <th>Sr. No</th>
-                                  <th>Coupon Code</th>
-                                  <th>Discount (Percent) </th>
-                                  <th>Valid Date</th>
+                                  <th>Student Class</th>
                                   <th>Action</th>
                                 </tr>
                               </thead>
-
                               <tbody>
-                                {displayUsers.map((data, index) => (
-                                  <tr key={data._id}>
+                                {displayUsers.map((data, index, _id) => (
+                                  <tr>
                                     <td>
                                       {index +
                                         1 +
                                         (currentPage - 1) * postsPerPage}
                                     </td>
-                                    <td>{data.couponCode}</td>
-                                    <td>{data.discount}</td>
-                                    <td>
-                                      {data.validityDate
-                                        ? new Date(data.validityDate)
-                                            .toISOString()
-                                            .substring(0, 10)
-                                        : "-"}
-                                    </td>
+                                    <td>{data.studentClass}</td>
                                     <td>
                                       <Button
                                         variant="success"
-                                        onClick={() => handleUpdate(data)}>
+                                        onClick={() => handleUpdate(data)}
+                                      >
                                         Update
                                       </Button>
                                       <Button
                                         className="mx-2"
                                         variant="danger"
-                                        onClick={() => handleDelet(data._id)}>
+                                        onClick={() => handleDelet(data._id)}
+                                      >
                                         Delete
                                       </Button>
                                     </td>
@@ -317,4 +264,5 @@ const Coupon = () => {
     </>
   );
 };
-export default Coupon;
+
+export default StudentClass;

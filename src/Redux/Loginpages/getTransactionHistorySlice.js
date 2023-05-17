@@ -11,10 +11,11 @@ const initialState = {
     errorMessage: ''
 }
 
-export const tutorworking = createAsyncThunk('user/getUserList', async(page, { rejectWithValue }) => {
+
+export const getTransactionHistory = createAsyncThunk('/admin/fetchTransactionHistory', async(params, { rejectWithValue }) => {
     const token = localStorage.getItem('token')
     try {
-        const response = await axios.post(`https://vaidik-backend.onrender.com/admin/verifiedtutor`, { token });
+        const response = await axios.post(`https://vaidik-backend.onrender.com/admin/fetchTransactionHistory${params}`, { token });
         return response.data;
     } catch (error) {
         logoutIfInvalidToken(error.response)
@@ -22,19 +23,23 @@ export const tutorworking = createAsyncThunk('user/getUserList', async(page, { r
     }
 })
 
-export const tutorworkingSlice = createSlice({
-    name: 'user',
+
+export const getTransactionHistorySlice = createSlice({
+    name: 'getTransactionHistory',
     initialState,
+    reducers: {
+        reset: (state) => initialState
+    },
     extraReducers: {
-        [tutorworking.pending]: (state) => {
+        [getTransactionHistory.pending]: (state) => {
             state.isLoading = true;
         },
-        [tutorworking.fulfilled]: (state, { payload }) => {
+        [getTransactionHistory.fulfilled]: (state, { payload }) => {
             state.isLoading = false;
             state.isSuccess = true;
             state.data = payload;
         },
-        [tutorworking.rejected]: (state, { payload }) => {
+        [getTransactionHistory.rejected]: (state, { payload }) => {
             state.isLoading = false;
             state.isSuccess = false;
             state.errorMessage = payload
@@ -42,4 +47,5 @@ export const tutorworkingSlice = createSlice({
     }
 })
 
-export default tutorworkingSlice.reducer;
+export const { reset } = getTransactionHistorySlice.actions;
+export default getTransactionHistorySlice.reducer;

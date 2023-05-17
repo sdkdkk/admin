@@ -11,6 +11,7 @@ import { toast } from "react-toastify";
 
 const Users = () => {
   const [loading, setLoading] = useState(false);
+  const [deleteLoading, setDeleteLoading] = useState(false);
   const notify = (data) => toast(data);
   const [loading1, setLoading1] = useState(false);
   const [data, setData] = useState([]);
@@ -31,28 +32,44 @@ const Users = () => {
           token: token,
         }
       );
-      console.log(response.data.document);
+      console.log(response.data);
       setData(response.data.document);
+
       setLoading1(false);
     } catch (error) {
-      console.log(error.response.data.error);
+      console.log(data);
+      console.log(error);
+      notify(data.error);
+
       setLoading1(false);
     }
   };
 
-  function handleDeleteClick(_id) {
-    setLoading(true);
-    const response = axios
-      .post(`https://vaidik-backend.onrender.com/admin/deleteadmin/${_id}`, {
-        token: token,
-      })
-      .then(() => {
-        fetchData();
-        setLoading(false);
-      });
-    if (response.data) {
-      console.log(response);
-      notify(response.data.data);
+  async function handleDeleteClick(_id) {
+    setDeleteLoading(true)
+    try {
+      setLoading(true);
+
+      const response = await axios.post(
+        `https://vaidik-backend.onrender.com/admin/deleteadmin/${_id}`,
+        {
+          token: token,
+        }
+      );
+      const tempData = [...data].filter((a) => a._id !== _id);
+      setData(tempData)
+      console.log(response.data.message);
+
+      notify(response.data.message);
+      setLoading(false);
+    } catch (error) {
+      console.log(data);
+      console.log(error.response.data.error);
+      notify(error.response.data.error);
+
+      setLoading1(false);
+    }finally{
+      setDeleteLoading(false)
     }
   }
 
@@ -111,7 +128,7 @@ const Users = () => {
                                   </tr>
                                 </thead>
                                 {data.map((value, index) => {
-                                  console.log(value.role );
+                                  console.log(value.role);
                                   return (
                                     <tbody key={index}>
                                       <tr>
@@ -133,6 +150,7 @@ const Users = () => {
                                           <Button
                                             className="mx-2"
                                             variant="danger"
+                                            disabled={deleteLoading}
                                             onClick={() =>
                                               handleDeleteClick(value._id)
                                             }

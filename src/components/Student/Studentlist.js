@@ -13,21 +13,26 @@ import { studentlistd } from "../../Redux/Loginpages/studentlistSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { ColorRing } from "react-loader-spinner";
+import Moment from "react-moment";
+
 
 const Studentlist = () => {
   const studentists = useSelector((state) => state.studentlist.data.document);
   const isLoading = useSelector((state) => state.studentlist.isLoading);
-
-  console.log(studentists);
+  // console.log(studentists);
   //table
+  const [searchTerm, setSearchTerm] = useState("");
+  const [currentData, setCurrentData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(8);
   const indexOfLastPage = currentPage * postsPerPage;
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
   const displayUsers =
-    studentists && studentists.slice(indexOfFirstPage, indexOfLastPage);
+    currentData && currentData.slice(indexOfFirstPage, indexOfLastPage);
   const dispatch = useDispatch();
-  const totalPages = Math.ceil(studentists.length / postsPerPage);
+  const totalPages = Math.ceil(currentData.length / postsPerPage);
+
+  console.log(displayUsers);
   //date picker
   const [values, setValues] = useState([
     new DateObject().subtract(4, "days"),
@@ -41,6 +46,31 @@ const Studentlist = () => {
   useEffect(() => {
     dispatch(studentlistd());
   }, [dispatch]);
+
+  useEffect(() => {
+    setCurrentData(studentists);
+    return () => {
+      setValues([]);
+    };
+  }, [studentists]);
+
+  useEffect(() => {
+    searchItem();
+  }, [searchTerm]);
+
+  const searchItem = () => {
+    const filteredData = studentists.filter((item) => {
+      const itemDate = new Date(item.createdAt);
+      const name = item.name ? item.name.toLowerCase() : null;
+
+      return (
+        (!values[0] || itemDate >= values[0].toDate()) &&
+        (!values[1] || itemDate <= values[1].toDate()) &&
+        (!searchTerm || name === searchTerm.toLowerCase())
+      );
+    });
+    setCurrentData(filteredData);
+  };
 
   return (
     <div>
@@ -71,6 +101,18 @@ const Studentlist = () => {
                     <div className="card">
                       <div className="card-body">
                         <div className="row">
+                          <div className="col-md-6">
+                            <input
+                              type="text"
+                              id="fname"
+                              placeholder="search name"
+                              name="fname"
+                              value={searchTerm}
+                              onChange={(e) => {
+                                setSearchTerm(e.target.value);
+                              }}
+                            />
+                          </div>
                           <div className="col-md-4">
                             <DatePicker
                               rangeHover
@@ -83,7 +125,11 @@ const Studentlist = () => {
                             />
                           </div>
                           <div className="col-md-2">
-                            <Button className="algin-right">Search</Button>
+                            <Button
+                              className="algin-right"
+                              onClick={searchItem}>
+                              Search
+                            </Button>
                           </div>
                         </div>
                       </div>
@@ -110,7 +156,15 @@ const Studentlist = () => {
                             displayUsers.map((data) => (
                               <tbody>
                                 <tr>
-                                  <td>{data.date || "-"}</td>
+                                  <td>
+                                    {data.createdAt ? (
+                                      <Moment format="DD MMM YYYY" withTitle>
+                                        {data.createdAt}
+                                      </Moment>
+                                    ) : (
+                                      "-"
+                                    )}
+                                  </td>
                                   <td>{data.name || "-"}</td>
                                   <td>{data.email.substring(0, 25)}</td>
                                   <td>{data.mobileNo || "-"}</td>

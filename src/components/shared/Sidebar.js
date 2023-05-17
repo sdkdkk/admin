@@ -87,6 +87,14 @@ const Sidebar = () => {
             </Link>
           </li>
 
+          {/*Student Class */}
+          <li className="nav-item">
+            <Link className="nav-link" to="/studentclass">
+              <span className="menu-title">Student Class</span>
+              <i className="icon-screen-desktop menu-icon"></i>
+            </Link>
+          </li>
+
           {/*Adminquetype*/}
           <li className="nav-item">
             <Link className="nav-link" to="/questiontype">

@@ -22,21 +22,23 @@ const MatchfollowSearchengine = () => {
                 </div>
               </div>
 
-              <div className="col-md-12 col-lg-12 mb--20">
-                <h5>Answer</h5>
-                <div className="p--20 rbt-border radius-6 bg-primary-opacity">
-                  {console.log(answerData)}
-                  {Array.isArray(answerData)
-                    ? answerData.map((data) => (
-                        <div key={data.id}>
-                          <span className="mx-3">{data.id} </span>
-                          <span>=</span>
-                          <span className="mx-3">{data.value}</span>
-                        </div>
-                      ))
-                    : ""}
+              {answerData && (
+                <div className="col-md-12 col-lg-12 mb--20">
+                  <h5>Answer</h5>
+                  <div className="p--20 rbt-border radius-6 bg-primary-opacity">
+                    {console.log(answerData)}
+                    {Array.isArray(answerData)
+                      ? answerData.map((data) => (
+                          <div key={data.id}>
+                            <span className="mx-3">{data.id} </span>
+                            <span>=</span>
+                            <span className="mx-3">{data.value}</span>
+                          </div>
+                        ))
+                      : ""}
+                  </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>

@@ -1,7 +1,8 @@
-import React ,{useState}from "react";
+import React, { useState } from "react";
 import "./Que.css";
 import { useLocation } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
+import Moment from "react-moment";
 
 const Fillups = () => {
   const location = useLocation();
@@ -9,7 +10,6 @@ const Fillups = () => {
     ? JSON.parse(location.state.data.allQuestions.answer)
     : [];
   console.log(location.state.data.allQuestions.answer);
-
 
   const [imageSrc, setImageSrc] = useState("");
   const [show, setShow] = useState(false);
@@ -33,6 +33,14 @@ const Fillups = () => {
                 Question Type:{location.state.data.allQuestions.questionType}
               </p>
               <p>Status:{location.state.data.allQuestions.status}</p>
+              {location.state.data.allQuestions.dateOfPosted && (
+                <p>
+                  Date Of Posted:
+                  <Moment format="DD MMM YYYY" withTitle>
+                    {location.state.data.allQuestions.dateOfPosted}
+                  </Moment>
+                </p>
+              )}
             </div>
             <div className="content mt-2">
               <div className="row">
@@ -43,39 +51,41 @@ const Fillups = () => {
                     <br />
                   </div>
                 </div>
-                {location.state.data.allQuestions.questionPhoto.map((photoUrl) => (
-                  <img
-                    key={photoUrl}
-                    src={photoUrl}
-                    style={{
-                      width: "200px",
-                      height: "200px",
-                    }}
-                    onClick={() => handleImageClick(photoUrl)}
-                    className="profile-img"
-                    alt=""
-                  />
-                ))}
-                <div className="col-md-12 col-lg-12 mb--20">
-                  <h5>Answer</h5>
-                  <div className="p--20 rbt-border radius-6 bg-primary-opacity">
-                    {Array.isArray(answerData)
-                      ? answerData.map((data, id) => (
-                          <p>
-                            <span className="mx-3 fw-bolder">{id + 1}) </span>
-                            {data}
-                          </p>
-                        ))
-                      : ""}
+                {location.state.data.allQuestions.questionPhoto.map(
+                  (photoUrl) => (
+                    <img
+                      key={photoUrl}
+                      src={photoUrl}
+                      style={{
+                        width: "200px",
+                        height: "200px",
+                      }}
+                      onClick={() => handleImageClick(photoUrl)}
+                      className="profile-img"
+                      alt=""
+                    />
+                  )
+                )}
+                {answerData.length > 0 && (
+                  <div className="col-md-12 col-lg-12 mb--20">
+                    <h5>Answer</h5>
+                    <div className="p--20 rbt-border radius-6 bg-primary-opacity">
+                      {answerData.map((data, id) => (
+                        <p key={id}>
+                          <span className="mx-3 fw-bolder">{id + 1})</span>{" "}
+                          {data}
+                        </p>
+                      ))}
+                    </div>
                   </div>
-                </div>
+                )}
               </div>
             </div>
           </div>
         </div>
       </div>
-            {/* image show modal */}
-            <Modal show={show} onHide={() => setShow(false)}>
+      {/* image show modal */}
+      <Modal show={show} onHide={() => setShow(false)}>
         <Modal.Header closeButton className="border-0"></Modal.Header>
         <Modal.Body className="text-center">
           {" "}

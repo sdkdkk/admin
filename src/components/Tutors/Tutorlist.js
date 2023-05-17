@@ -12,24 +12,29 @@ import { Pagination } from "@mui/material";
 // import { TutorList } from "../Data/Data1";
 import { useDispatch, useSelector } from "react-redux";
 import { tutorunverified } from "../../Redux/Loginpages/tutorunverifiedSlice";
-import { Tutorsuspended } from "../../Redux/Loginpages/tutorsuspendedSlice";
-import { Link, useNavigate } from "react-router-dom";
+import { Tutorswarning } from "../../Redux/Loginpages/tutorwarningSlice";
+import { Link } from "react-router-dom";
 import { tutorworking } from "../../Redux/Loginpages/tutorworkingSlice";
 import { ColorRing } from "react-loader-spinner";
 import Moment from "react-moment";
+import { Tutortrial } from "../../Redux/Loginpages/tutortrialSlice";
 
 const Tutorlist = () => {
   //table
   const users = useSelector((state) => state.user.data.document);
-  const Suspended = useSelector((state) => state.suspended.data.document);
+  const warning = useSelector((state) => state.warning.data.document);
   const working = useSelector((state) => state.working.data.document);
+  const trial = useSelector((state) => state.trial.data.document);
   const isLoadinguser = useSelector((state) => state.user.isLoading);
+
+  console.log(trial);
 
   const [selectedStatus, setSelectedStatus] = useState("working");
   const [status, setStatus] = useState({
     users: [],
-    Suspended: [],
+    warning: [],
     working: [],
+    trial: [],
   });
 
   const [searchTerm, setSearchTerm] = useState("");
@@ -41,11 +46,12 @@ const Tutorlist = () => {
   useEffect(() => {
     setStatus({
       users: users,
-      Suspended: Suspended,
+      warning: warning,
       working: working,
+      trial: trial,
     });
     setLoader(false);
-  }, [users, Suspended, working]);
+  }, [users, warning, working, trial]);
 
   useEffect(() => {
     dispatch(tutorworking());
@@ -58,12 +64,17 @@ const Tutorlist = () => {
 
   const fetchData2 = async () => {
     setActiveButton(2);
-    dispatch(Tutorsuspended());
+    dispatch(Tutorswarning());
   };
 
   const fetchData3 = async () => {
     setActiveButton(1);
     dispatch(tutorworking());
+  };
+
+  const fetchData4 = async () => {
+    setActiveButton(4);
+    dispatch(Tutortrial());
   };
 
   useEffect(() => {
@@ -109,29 +120,27 @@ const Tutorlist = () => {
   // }
 
   const searchItem = () => {
-    console.log(searchTerm);
     const firstDate =
       values.length > 0 ? new DateObject(values[0]).toDate() : null;
     const lastDate =
       values.length > 0
         ? new DateObject(values[values.length - 1]).toDate()
         : null;
-    const filteredData = displayUsers.filter((item) => {
+
+    const filteredData = currentData.filter((item) => {
       const itemDate = new Date(item.updatedAt);
       const name = item.name ? item.name.toLowerCase() : null;
       return (
-        itemDate >= new Date(firstDate) &&
-        itemDate <= new Date(lastDate) &&
-        searchTerm == name
+        (firstDate === null || itemDate >= firstDate) &&
+        (lastDate === null || itemDate <= lastDate) &&
+        (searchTerm === "" || (name && name.includes(searchTerm.toLowerCase())))
       );
     });
-    console.log(firstDate, lastDate);
-    console.log(filteredData);
     setCurrentData(filteredData);
-    // currentData = [...filteredData]
+    setCurrentPage(1);
   };
 
-  console.log("---> ", currentData);
+  //   console.log("---> ", currentData);
 
   return (
     <div>
@@ -175,7 +184,7 @@ const Tutorlist = () => {
                         // className="btn btn-primary"
                         type="button"
                         style={{ borderRadius: "4px" }}>
-                        Suspended
+                        Warning
                       </button>
                       <button
                         onClick={fetchData1}
@@ -184,6 +193,14 @@ const Tutorlist = () => {
                         type="button"
                         style={{ borderRadius: "4px" }}>
                         Unverified
+                      </button>
+                      <button
+                        onClick={fetchData4}
+                        className={activeButton === 4 ? "activeb" : ""}
+                        // className="btn btn-primary"
+                        type="button"
+                        style={{ borderRadius: "4px" }}>
+                        Trial
                       </button>
                     </div>
                   </div>
@@ -236,7 +253,7 @@ const Tutorlist = () => {
                                 <div className="col-md-2">
                                   <Button
                                     className="algin-right"
-                                    onClick={() => searchItem()}>
+                                    onClick={searchItem}>
                                     Search
                                   </Button>
                                 </div>
@@ -287,7 +304,13 @@ const Tutorlist = () => {
                                                 .join(", ")
                                             : "-"}
                                         </td>
-                                        <td>{data.balance ? parseFloat(data.balance).toFixed(2) : "-"}</td>
+                                        <td>
+                                          {data.balance
+                                            ? parseFloat(data.balance).toFixed(
+                                                2
+                                              )
+                                            : "-"}
+                                        </td>
                                         <td>
                                           <Link
                                             to={`/tutordetails/${data._id}`}>

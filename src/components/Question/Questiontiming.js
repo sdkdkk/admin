@@ -159,20 +159,20 @@ const Questiontiming = () => {
   };
 
   function handleDeleteClick(_id) {
-    setLoading(true);
-    const response = axios
-      .post(`https://vaidik-backend.onrender.com/admin/questiontiming/${_id}`, {
-        token: token,
-      })
-      .then(() => {
+    axios
+      .post(
+        `https://vaidik-backend.onrender.com/admin/questiontiming/${_id}`,
+        {
+          token: token,
+        }
+      )
+      .then((response) => {
         fetchData();
-        setLoading(false);
+        toast.success(response.data.message);
+      })
+      .catch((error) => {
+        toast.error(error.data.message);
       });
-    if (response.data.data) {
-      console.log(response.data.data);
-      notify(response.data.data);
-      reset();
-    }
   }
 
   return (
@@ -489,12 +489,14 @@ const Questiontiming = () => {
                             <h6>&nbsp;</h6>
                           </div>
                           <div className="col-lg-6 mb-2 text-end">
-                            <Button
-                              variant="primary"
-                              type="submit"
-                             
-                            >
-                              {isEditMode ? "Update" : "Submit"}
+                            <Button variant="primary" type="submit">
+                              {isEditMode
+                                ? loading
+                                  ? "Loading..."
+                                  : "Update"
+                                : loading
+                                ? "Loading..."
+                                : "Add"}
                             </Button>
                           </div>
                         </div>

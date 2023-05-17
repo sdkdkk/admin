@@ -41,7 +41,7 @@ const Tutorlist = () => {
       // notify("Invalid refresh token!");
     }
   };
-  
+
   const getQuestionList = () => {
     const payload = {
       questionType,
@@ -54,7 +54,12 @@ const Tutorlist = () => {
   };
 
   const handleAnswerClick = (data) => {
-    if (data.questionType.includes("exp") && !["MCQ-exp","TrueFalse-exp", "FillInBlanks-exp"].includes(data.questionType)) {
+    if (
+      data.questionType.includes("exp") &&
+      !["MCQ-exp", "TrueFalse-exp", "FillInBlanks-exp"].includes(
+        data.questionType
+      )
+    ) {
       history(`/questionanswer?id=${data._id}`);
     } else {
       switch (data.questionType) {
@@ -115,32 +120,28 @@ const Tutorlist = () => {
                       // className="btn btn-primary me-md-2 active"
                       type="button"
                       onClick={() => setWhomtoAsk("tutor")}
-                      style={{ borderRadius: "4px" }}
-                    >
+                      style={{ borderRadius: "4px" }}>
                       Tutor
                     </button>
                     <button
                       // className="btn btn-primary"
                       type="button"
                       onClick={() => setWhomtoAsk("admin")}
-                      style={{ borderRadius: "4px" }}
-                    >
+                      style={{ borderRadius: "4px" }}>
                       Admin
                     </button>
                     <button
                       // className="btn btn-primary"
                       type="button"
                       onClick={() => setWhomtoAsk("reanswer")}
-                      style={{ borderRadius: "4px" }}
-                    >
+                      style={{ borderRadius: "4px" }}>
                       Reanswer
                     </button>
                     <button
                       // className="btn btn-primary"
                       type="button"
                       onClick={() => setWhomtoAsk("unsolved")}
-                      style={{ borderRadius: "4px" }}
-                    >
+                      style={{ borderRadius: "4px" }}>
                       Unsolved
                     </button>
                   </div>
@@ -155,8 +156,7 @@ const Tutorlist = () => {
                       <select
                         onChange={(e) => setQuestionSubject(e.target.value)}
                         className="w-100 form-select"
-                        id="displayname"
-                      >
+                        id="displayname">
                         {subjectList.map((a) => {
                           return (
                             <option value={a.questionSubject}>
@@ -175,8 +175,7 @@ const Tutorlist = () => {
                       <select
                         className="w-100 form-select"
                         onChange={(e) => setQuestionType(e.target.value)}
-                        id="displayname"
-                      >
+                        id="displayname">
                         <option value="MCQ">MCQ</option>
                         <option value="MCQ-exp">MCQ-exp</option>
                         <option value="TrueFalse">True / False</option>
@@ -211,8 +210,7 @@ const Tutorlist = () => {
                         <table
                           class={`table ${
                             getAdminQuestionsState?.isLoading && "table-loading"
-                          }`}
-                        >
+                          }`}>
                           <thead>
                             <tr>
                               <th scope="col">Sr.No</th>
@@ -235,16 +233,18 @@ const Tutorlist = () => {
                                   <div className="dropdown">
                                     <button
                                       className="dropdown__button"
-                                      onClick={() => handleDropdownClick(a._id)}
-                                    >
+                                      onClick={() =>
+                                        handleDropdownClick(a._id)
+                                      }>
                                       ...
                                     </button>
                                     {a._id === isOpen && (
                                       <div className="dropdown__popup">
                                         <ul className="dropdown__list">
                                           <li
-                                            onClick={() => handleAnswerClick(a)}
-                                          >
+                                            onClick={() =>
+                                              handleAnswerClick(a)
+                                            }>
                                             Answer
                                           </li>
                                         </ul>

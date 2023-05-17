@@ -1,6 +1,7 @@
 import React from "react";
 import "./Que.css";
 import { useLocation } from "react-router-dom";
+import Moment from "react-moment";
 
 const TruefalsequeSearchengine = () => {
   const location = useLocation();
@@ -20,6 +21,14 @@ const TruefalsequeSearchengine = () => {
               </p>
               <p>Question Type : {location.state.data.questionType}</p>
               <p>Status : {location.state.data.status}</p>
+              {location.state.data.createdAt && (
+                <p>
+                  Date Of Posted:
+                  <Moment format="DD MMM YYYY" withTitle>
+                    {location.state.data.createdAt}
+                  </Moment>
+                </p>
+              )}
             </div>
             <div className="row">
               <div className="col-md-12 col-lg-12 mb--20">
@@ -34,45 +43,47 @@ const TruefalsequeSearchengine = () => {
                   ?
                 </div>
               </div>
-              <div className="col-md-12 col-lg-12 mb--20">
-                <h5>Answer</h5>
-                <div className="p--20 rbt-border radius-6 bg-primary-opacity">
-                  <div className="row">
-                    <div className="col-lg-6">
-                      <div className="rbt-form-check p--10">
-                        <input
-                          type="radio"
-                          name="answer"
-                          id="true"
-                          value="true"
-                          checked={answer === "true"}
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="rbt-radio-1">
-                          True
-                        </label>
+              {answer && (
+                <div className="col-md-12 col-lg-12 mb--20">
+                  <h5>Answer</h5>
+                  <div className="p--20 rbt-border radius-6 bg-primary-opacity">
+                    <div className="row">
+                      <div className="col-lg-6">
+                        <div className="rbt-form-check p--10">
+                          <input
+                            type="radio"
+                            name="answer"
+                            id="true"
+                            value="true"
+                            checked={answer === "true"}
+                          />
+                          <label
+                            className="form-check-label"
+                            htmlFor="rbt-radio-1">
+                            True
+                          </label>
+                        </div>
                       </div>
-                    </div>
-                    <div className="col-lg-6">
-                      <div className="rbt-form-check p--10">
-                        <input
-                          type="radio"
-                          name="answer"
-                          id="false"
-                          value="false"
-                          checked={answer === "false"}
-                        />
-                        <label
-                          className="form-check-label"
-                          htmlFor="rbt-radio-2">
-                          False
-                        </label>
+                      <div className="col-lg-6">
+                        <div className="rbt-form-check p--10">
+                          <input
+                            type="radio"
+                            name="answer"
+                            id="false"
+                            value="false"
+                            checked={answer === "false"}
+                          />
+                          <label
+                            className="form-check-label"
+                            htmlFor="rbt-radio-2">
+                            False
+                          </label>
+                        </div>
                       </div>
                     </div>
                   </div>
                 </div>
-              </div>
+              )}
             </div>
           </div>
         </div>

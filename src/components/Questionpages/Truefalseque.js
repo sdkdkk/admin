@@ -1,6 +1,7 @@
 import React from "react";
 import "./Que.css";
 import { useLocation } from "react-router-dom";
+import Moment from "react-moment";
 
 const Truefalseque = () => {
   const location = useLocation();
@@ -22,6 +23,14 @@ const Truefalseque = () => {
                 Question Type:{location.state.data.allQuestions.questionType}
               </p>
               <p>Status:{location.state.data.allQuestions.status}</p>
+              {location.state.data.allQuestions.dateOfPosted && (
+                <p>
+                  Date Of Posted:
+                  <Moment format="DD MMM YYYY" withTitle>
+                    {location.state.data.allQuestions.dateOfPosted}
+                  </Moment>
+                </p>
+              )}
             </div>
             <div className="row">
               <div className="col-md-12 col-lg-12 mb--20">

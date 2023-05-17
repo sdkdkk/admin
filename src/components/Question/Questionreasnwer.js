@@ -17,7 +17,7 @@ const Questionreasnwer = () => {
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [conversionRate, setConversionRate] = useState([]);
-  const [reanswer, setReanswer] = useState(loading1 || conversionRate.choice ? "yes" : "no");
+  const [reanswer, setReanswer] = useState("");
   const notify = (data) => toast(data);
   const token = localStorage.getItem("token");
   console.log(conversionRate);
@@ -33,7 +33,7 @@ const Questionreasnwer = () => {
           }
         );
         // console.log(response.data);
-        await setConversionRate(response.data.data);
+        setConversionRate(response.data.data);
         setLoading1(false);
       } catch (error) {
         console.log(error.response.data.error);
@@ -42,7 +42,13 @@ const Questionreasnwer = () => {
       }
     };
     fetchData();
-  }, []);
+  }, [token]);
+
+  useEffect(() => {
+    if (conversionRate.choice !== undefined) {
+      setReanswer(conversionRate.choice ? "yes" : "no");
+    }
+  }, [conversionRate.choice]);
 
   const onSubmit = async (data, e) => {
     try {
@@ -93,23 +99,21 @@ const Questionreasnwer = () => {
                             <h6> Reanswer </h6>{" "}
                           </div>{" "}
                           <div className="col-md-4">
-                            <Form.Check
+                          <Form.Check
                               type="radio"
                               id="yesRadio"
                               label="Yes"
                               name="yesNoRadio"
                               value="yes"
-                              defaultValue={reanswer}
                               checked={reanswer === "yes"}
                               onChange={() => setReanswer("yes")}
                             />
                             <Form.Check
                               type="radio"
                               id="noRadio"
-                              label="No"
-                              name="yesNoRadio"
+                              label="no"
+                              name="noNoRadio"
                               value="no"
-                              defaultValue={reanswer}
                               checked={reanswer === "no"}
                               onChange={() => setReanswer("no")}
                             />
@@ -132,7 +136,15 @@ const Questionreasnwer = () => {
                                 className="form-control"
                                 id="hoursInput"
                                 name="hours"
-                                defaultValue={loading1 || conversionRate.length === 0 ? '' : String(Math.floor(conversionRate.reanswer_time / 60))}
+                                defaultValue={
+                                  loading1 || conversionRate.length === 0
+                                    ? ""
+                                    : String(
+                                        Math.floor(
+                                          conversionRate.reanswer_time / 60
+                                        )
+                                      )
+                                }
                                 {...register("hours")}
                               />
                               {errors.hours && (
@@ -156,7 +168,11 @@ const Questionreasnwer = () => {
                                 id="minutesInput"
                                 name="minutes"
                                 {...register("minutes")}
-                                defaultValue={loading1 || conversionRate.length === 0 ? '' : String(conversionRate.reanswer_time % 60)}
+                                defaultValue={
+                                  loading1 || conversionRate.length === 0
+                                    ? ""
+                                    : String(conversionRate.reanswer_time % 60)
+                                }
                               />
                             </div>
                           </div>
