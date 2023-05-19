@@ -157,7 +157,7 @@ const Studentdetails = () => {
                           <strong>Balance</strong>
                         </div>
                         <h4 className="text-success">
-                          <b> Rs. {data.balance || "-"} </b>
+                          <b> $. {data.balance || "-"} </b>
                         </h4>
                       </div>
                     </div>
@@ -189,8 +189,8 @@ const Studentdetails = () => {
                                     {Data.date}
                                   </Moment>
                                 </td>
-                                <td colSpan="2">Rs.{Data.amount} </td>
-                                <td colSpan="2">Rs.{Data.balance}</td>
+                                <td colSpan="2">$.{Data.amount} </td>
+                                <td colSpan="2">$.{Data.balance}</td>
                               </tr>
                             );
                           })}
@@ -209,7 +209,7 @@ const Studentdetails = () => {
                   </div>
                 </div>
               </div>
-              <div className=" text-start heading-main mt-5">
+              {/* <div className=" text-start heading-main mt-5">
                 <h4>Answer Given</h4>
               </div>
               <div className="row">
@@ -276,7 +276,7 @@ const Studentdetails = () => {
                     </div>
                   </div>
                 </div>
-              </div>
+              </div> */}
             </div>
           )}
         </div>
