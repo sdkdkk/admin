@@ -2,7 +2,6 @@ import React, { useState, useEffect } from "react";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
 import "../Tutors/Tutorlist.css";
-import { CgProfile } from "react-icons/cg";
 import { Pagination } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";

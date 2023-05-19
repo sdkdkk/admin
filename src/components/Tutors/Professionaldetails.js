@@ -5,17 +5,18 @@ import Sidebar from "../shared/Sidebar";
 import "../Css/Tutorlist.css";
 import Form from "react-bootstrap/Form";
 import Button from "@mui/material/Button";
-import FloatingLabel from "react-bootstrap/FloatingLabel";
-import { Label } from "reactstrap";
 import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
+import { ColorRing } from "react-loader-spinner";
 
 const Professionaldetails = () => {
   const { _id } = useParams();
 
   //  for profile-image
+  const [isLoading, setIsLoading] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [myimage, setMyImage] = useState(null);
   const uploadImage = (e) => {
     setMyImage(URL.createObjectURL(e.target.files[0]));
@@ -30,10 +31,10 @@ const Professionaldetails = () => {
     formState: { isSubmitting },
   } = useForm();
 
-
   const token = localStorage.getItem("token");
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       try {
         const response = await axios.post(
           `https://vaidik-backend.onrender.com/admin/tutorsinfo/${_id}`,
@@ -42,6 +43,7 @@ const Professionaldetails = () => {
           }
         );
         setUser(response.data.document);
+        setLoading(false);
       } catch (error) {
         if (error.response) {
           console.log(error.response.status);
@@ -61,9 +63,8 @@ const Professionaldetails = () => {
   //   return <div>Loading...</div>;
   // }
 
-  
-
   const onSubmit = (data) => {
+    setIsLoading(true);
     const formData = new FormData();
     const files = data.myimage;
 
@@ -94,8 +95,7 @@ const Professionaldetails = () => {
       method: "POST",
       body: formData,
     })
-      .then((response) => response.json()
-      )
+      .then((response) => response.json())
       .then((data) => {
         console.log(data);
         if (data.status === 1) {
@@ -104,13 +104,12 @@ const Professionaldetails = () => {
         } else {
           notify(data.message); // Show error notification
         }
+        setIsLoading(false);
       })
-      
+
       .catch((error) => {
         console.error(error);
       });
-      
-      
   };
 
   return (
@@ -119,414 +118,458 @@ const Professionaldetails = () => {
         <Navbar />
         <div className="container-fluid page-body-wrapper">
           <Sidebar />
-          <div className="main-panel">
-            <div className="content-wrapper">
-              <div className="page-header">
-                <h3 className="page-title">Personal Details:</h3>
-              </div>
-              {user &&
-                user.map((data) => {
-                  return (
-                    <Form onSubmit={handleSubmit(onSubmit)}>
-                      <div className="row">
-                        <div className="col-12 grid-margin stretch-card">
-                          <div className="card">
-                            <div className="card-body">
-                              <div className="profile-details">
-                                <img
-                                  type="file"
-                                  name="image"
-                                  src={
-                                    myimage === null
-                                      ? data.personaldetails.profilephoto
-                                      : myimage
-                                  }
-                                  // src={data.personaldetails.profilephoto}
-                                  defaultValue={
-                                    data.professionaldetails.profilephoto
-                                  }
-                                  className="profile-img"
-                                  alt=""
-                                />
-                                <div className="">
-                                  <Button
-                                    variant="contained"
-                                    component="label"
-                                    className="mx-3 text-white"
-                                    size="small">
-                                    Upload
-                                    <input
-                                      hidden
-                                      accept="image/*"
+          {loading ? (
+            <p style={{ marginLeft: "550px", marginTop: "250px" }}>
+              <ColorRing
+                visible={true}
+                height="80"
+                width="80"
+                ariaLabel="blocks-loading"
+                wrapperStyle={{}}
+                wrapperClass="blocks-wrapper"
+                colors={["black"]}
+              />
+            </p>
+          ) : (
+            <>
+              <div className="main-panel">
+                <div className="content-wrapper">
+                  <div className="page-header">
+                    <h3 className="page-title">Personal Details:</h3>
+                  </div>
+                  {user &&
+                    user.map((data) => {
+                      return (
+                        <Form onSubmit={handleSubmit(onSubmit)}>
+                          <div className="row">
+                            <div className="col-12 grid-margin stretch-card">
+                              <div className="card">
+                                <div className="card-body">
+                                  <div className="profile-details">
+                                    <img
                                       type="file"
-                                      onChange={uploadImage}
+                                      name="image"
+                                      src={
+                                        myimage === null
+                                          ? data.personaldetails.profilephoto
+                                          : myimage
+                                      }
+                                      // src={data.personaldetails.profilephoto}
+                                      defaultValue={
+                                        data.professionaldetails.profilephoto
+                                      }
+                                      className="profile-img"
+                                      alt=""
                                     />
-                                  </Button>
-                                  <Button variant="contained" size="small">
-                                    Reset
-                                  </Button>
-                                  <div>
-                                    <small className="text-muted d-flex flex-column my-3 mx-3">
-                                      Allowed JPG,GIf or PNG. Max size of 800K
-                                    </small>
+                                    <div className="">
+                                      <Button
+                                        variant="contained"
+                                        component="label"
+                                        className="mx-3 text-white"
+                                        size="small">
+                                        Upload
+                                        <input
+                                          hidden
+                                          accept="image/*"
+                                          type="file"
+                                          onChange={uploadImage}
+                                        />
+                                      </Button>
+                                      <Button variant="contained" size="small">
+                                        Reset
+                                      </Button>
+                                      <div>
+                                        <small className="text-muted d-flex flex-column my-3 mx-3">
+                                          Allowed JPG,GIf or PNG. Max size of
+                                          800K
+                                        </small>
+                                      </div>
+                                    </div>
+                                  </div>
+
+                                  <div className="row">
+                                    <div className="col-md-6">
+                                      <Form.Group
+                                        className="mb-3"
+                                        controlId="formBasicEmail">
+                                        <Form.Label>Name</Form.Label>
+                                        <Form.Control
+                                          type="text"
+                                          placeholder="Enter Name"
+                                          name="name"
+                                          defaultValue={
+                                            data.personaldetails.name
+                                          }
+                                          {...register("name", {
+                                            required: true,
+                                          })}
+                                        />
+                                      </Form.Group>
+                                      <Form.Group
+                                        className="mb-3"
+                                        controlId="formBasicEmail">
+                                        <Form.Label>Mobile No.</Form.Label>
+                                        <Form.Control
+                                          type="number"
+                                          name="mobileNo"
+                                          placeholder="Enter Number"
+                                          defaultValue={
+                                            data.personaldetails.mobileNo
+                                          }
+                                          {...register("mobileNo", {
+                                            required: true,
+                                          })}
+                                        />
+                                      </Form.Group>
+                                      <Form.Group
+                                        className="mb-3"
+                                        controlId="formBasicEmail">
+                                        <Form.Label>Country</Form.Label>
+                                        <Form.Control
+                                          type="text"
+                                          name="country"
+                                          placeholder="Enter country"
+                                          defaultValue={
+                                            data.personaldetails.country
+                                          }
+                                          {...register("country", {
+                                            required: true,
+                                          })}
+                                        />
+                                      </Form.Group>
+                                      <Form.Group
+                                        className="mb-3"
+                                        controlId="formBasicEmail">
+                                        <Form.Label>gender</Form.Label>
+                                        <Form.Control
+                                          type="text"
+                                          name="gender"
+                                          placeholder="Enter Number"
+                                          defaultValue={
+                                            data.personaldetails.gender
+                                          }
+                                          {...register("gender", {
+                                            required: true,
+                                          })}
+                                        />
+                                      </Form.Group>
+                                    </div>
+                                    <div className="col-md-6">
+                                      <Form.Group
+                                        className="mb-3"
+                                        controlId="formBasicEmail">
+                                        <Form.Label>Email Id</Form.Label>
+                                        <Form.Control
+                                          type="email"
+                                          name="email"
+                                          placeholder="Enter Email"
+                                          defaultValue={data.email}
+                                          // {...register("email", { required: true })}
+                                        />
+                                      </Form.Group>
+                                      <Form.Group
+                                        className="mb-3"
+                                        controlId="formBasicEmail">
+                                        <Form.Label>Date of Birth</Form.Label>
+                                        <Form.Control
+                                          type="text"
+                                          name="dob"
+                                          placeholder="Enter Name"
+                                          defaultValue={
+                                            data.personaldetails.dob
+                                          }
+                                          {...register("dob", {
+                                            required: true,
+                                          })}
+                                        />
+                                      </Form.Group>
+                                      <Form.Group
+                                        className="mb-3"
+                                        controlId="formBasicEmail">
+                                        <Form.Label>Experience</Form.Label>
+                                        <Form.Control
+                                          type="number"
+                                          name="experience"
+                                          placeholder="Enter Name"
+                                          defaultValue={
+                                            data.personaldetails.experience
+                                          }
+                                          {...register("experience", {
+                                            required: true,
+                                          })}
+                                        />
+                                      </Form.Group>
+                                    </div>
                                   </div>
                                 </div>
                               </div>
-
-                              <div className="row">
-                                <div className="col-md-6">
-                                  <Form.Group
-                                    className="mb-3"
-                                    controlId="formBasicEmail">
-                                    <Form.Label>Name</Form.Label>
-                                    <Form.Control
-                                      type="text"
-                                      placeholder="Enter Name"
-                                      name="name"
-                                      defaultValue={data.personaldetails.name}
-                                      {...register("name", { required: true })}
-                                    />
-                                  </Form.Group>
-                                  <Form.Group
-                                    className="mb-3"
-                                    controlId="formBasicEmail">
-                                    <Form.Label>Mobile No.</Form.Label>
-                                    <Form.Control
-                                      type="number"
-                                      name="mobileNo"
-                                      placeholder="Enter Number"
-                                      defaultValue={
-                                        data.personaldetails.mobileNo
-                                      }
-                                      {...register("mobileNo", {
-                                        required: true,
-                                      })}
-                                    />
-                                  </Form.Group>
-                                  <Form.Group
-                                    className="mb-3"
-                                    controlId="formBasicEmail">
-                                    <Form.Label>Country</Form.Label>
-                                    <Form.Control
-                                      type="text"
-                                      name="country"
-                                      placeholder="Enter country"
-                                      defaultValue={
-                                        data.personaldetails.country
-                                      }
-                                      {...register("country", {
-                                        required: true,
-                                      })}
-                                    />
-                                  </Form.Group>
-                                  <Form.Group
-                                    className="mb-3"
-                                    controlId="formBasicEmail">
-                                    <Form.Label>gender</Form.Label>
-                                    <Form.Control
-                                      type="text"
-                                      name="gender"
-                                      placeholder="Enter Number"
-                                      defaultValue={data.personaldetails.gender}
-                                      {...register("gender", {
-                                        required: true,
-                                      })}
-                                    />
-                                  </Form.Group>
+                            </div>
+                            <div className="page-header">
+                              <h3 className="page-title">
+                                Professional Details:
+                              </h3>
+                            </div>
+                            <div className="col-12 grid-margin stretch-card">
+                              <div className="card">
+                                <div className="card-body">
+                                  <div className="row">
+                                    <div className="col-md-6">
+                                      <Form.Group
+                                        className="mb-3"
+                                        controlId="formBasicEmail">
+                                        <Form.Label> College Name</Form.Label>
+                                        <Form.Control
+                                          type="text"
+                                          name="clg_name"
+                                          placeholder="Enter Name"
+                                          defaultValue={
+                                            data.professionaldetails.clg_name
+                                          }
+                                          {...register("clg_name", {
+                                            required: true,
+                                          })}
+                                        />
+                                      </Form.Group>
+                                      <Form.Group
+                                        className="mb-3"
+                                        controlId="formBasicEmail">
+                                        <Form.Label>College City</Form.Label>
+                                        <Form.Control
+                                          type="text"
+                                          name="clg_city"
+                                          placeholder="Enter college city"
+                                          defaultValue={
+                                            data.professionaldetails.clg_city
+                                          }
+                                          {...register("clg_city", {
+                                            required: true,
+                                          })}
+                                        />
+                                      </Form.Group>
+                                      <Form.Group
+                                        className="mb-3"
+                                        controlId="formBasicEmail">
+                                        <Form.Label>Degree</Form.Label>
+                                        <Form.Control
+                                          type="text"
+                                          name="degree"
+                                          placeholder="Enter Number"
+                                          defaultValue={
+                                            data.professionaldetails.degree
+                                          }
+                                          {...register("degree", {
+                                            required: true,
+                                          })}
+                                        />
+                                      </Form.Group>
+                                    </div>
+                                    <div className="col-md-6">
+                                      <Form.Group
+                                        className="mb-3"
+                                        controlId="formBasicEmail">
+                                        <Form.Label>Degree Choice</Form.Label>
+                                        <Form.Control
+                                          type="text"
+                                          name="degree_choice"
+                                          placeholder="Enter degree choice"
+                                          defaultValue={
+                                            data.professionaldetails
+                                              .degree_choice
+                                          }
+                                          {...register("degree_choice", {
+                                            required: true,
+                                          })}
+                                        />
+                                      </Form.Group>
+                                      <Form.Group
+                                        className="mb-3"
+                                        controlId="formBasicEmail">
+                                        <Form.Label>
+                                          Degree Specialisation
+                                        </Form.Label>
+                                        <Form.Control
+                                          type="text"
+                                          name="degree_specialisation"
+                                          placeholder="Enter Name"
+                                          defaultValue={
+                                            data.professionaldetails
+                                              .degree_specialisation
+                                          }
+                                          {...register(
+                                            "degree_specialisation",
+                                            {
+                                              required: true,
+                                            }
+                                          )}
+                                        />
+                                      </Form.Group>
+                                      <Form.Group
+                                        className="mb-3"
+                                        controlId="formBasicEmail">
+                                        <Form.Label>gpa</Form.Label>
+                                        <Form.Control
+                                          type="text"
+                                          name="gpa"
+                                          placeholder="Enter Name"
+                                          defaultValue={
+                                            data.professionaldetails.gpa
+                                          }
+                                          {...register("gpa", {
+                                            required: true,
+                                          })}
+                                        />
+                                      </Form.Group>
+                                    </div>
+                                  </div>
                                 </div>
-                                <div className="col-md-6">
-                                  <Form.Group
-                                    className="mb-3"
-                                    controlId="formBasicEmail">
-                                    <Form.Label>Email Id</Form.Label>
-                                    <Form.Control
-                                      type="email"
-                                      name="email"
-                                      placeholder="Enter Email"
-                                      defaultValue={data.email}
-                                      // {...register("email", { required: true })}
-                                    />
-                                  </Form.Group>
-                                  <Form.Group
-                                    className="mb-3"
-                                    controlId="formBasicEmail">
-                                    <Form.Label>Date of Birth</Form.Label>
-                                    <Form.Control
-                                      type="text"
-                                      name="dob"
-                                      placeholder="Enter Name"
-                                      defaultValue={data.personaldetails.dob}
-                                      {...register("dob", { required: true })}
-                                    />
-                                  </Form.Group>
-                                  <Form.Group
-                                    className="mb-3"
-                                    controlId="formBasicEmail">
-                                    <Form.Label>Experience</Form.Label>
-                                    <Form.Control
-                                      type="number"
-                                      name="experience"
-                                      placeholder="Enter Name"
-                                      defaultValue={
-                                        data.personaldetails.experience
-                                      }
-                                      {...register("experience", {
-                                        required: true,
-                                      })}
-                                    />
-                                  </Form.Group>
+                              </div>
+                            </div>
+                            <div className="page-header">
+                              <h3 className="page-title">Bank Details:</h3>
+                            </div>
+                            <div className="col-12 grid-margin stretch-card">
+                              <div className="card">
+                                <div className="card-body">
+                                  <div className="row">
+                                    <div className="col-md-6">
+                                      <Form.Group
+                                        className="mb-3"
+                                        controlId="formBasicEmail">
+                                        <Form.Label>Name</Form.Label>
+                                        <Form.Control
+                                          type="tutorbankname"
+                                          name="Tutorbankname"
+                                          placeholder="Enter Name"
+                                          defaultValue={
+                                            data.bankdetails.Tutorbankname
+                                          }
+                                          {...register("Tutorbankname", {
+                                            required: true,
+                                          })}
+                                        />
+                                      </Form.Group>
+                                      <Form.Group
+                                        className="mb-3"
+                                        controlId="formBasicEmail">
+                                        <Form.Label>IFSC Code</Form.Label>
+                                        <Form.Control
+                                          type="text"
+                                          name="IFSCCode"
+                                          placeholder="Enter IFSC Code"
+                                          defaultValue={
+                                            data.bankdetails.IFSCCode
+                                          }
+                                          {...register("IFSCCode", {
+                                            required: true,
+                                          })}
+                                        />
+                                      </Form.Group>
+                                      <Form.Group
+                                        className="mb-3"
+                                        controlId="formBasicEmail">
+                                        <Form.Label>Pan Card</Form.Label>
+                                        <Form.Control
+                                          type="text"
+                                          name="panCard"
+                                          placeholder="Enter Pan Card Number"
+                                          defaultValue={
+                                            data.bankdetails.panCard
+                                          }
+                                          {...register("panCard", {
+                                            required: true,
+                                          })}
+                                        />
+                                      </Form.Group>
+                                      <Form.Group
+                                        className="mb-3"
+                                        controlId="formBasicEmail">
+                                        <Form.Label>bankcountry</Form.Label>
+                                        <Form.Control
+                                          type="text"
+                                          name="bankcountry"
+                                          placeholder="Enter Pan Card Number"
+                                          defaultValue={
+                                            data.bankdetails.bankcountry
+                                          }
+                                          {...register("bankcountry", {
+                                            required: true,
+                                          })}
+                                        />
+                                      </Form.Group>
+                                    </div>
+                                    <div className="col-md-6">
+                                      <Form.Group
+                                        className="mb-3"
+                                        controlId="formBasicEmail">
+                                        <Form.Label>Account Number</Form.Label>
+                                        <Form.Control
+                                          type="number"
+                                          name="accountNumber"
+                                          placeholder="Enter Account Number"
+                                          defaultValue={
+                                            data.bankdetails.accountNumber
+                                          }
+                                          {...register("accountNumber", {
+                                            required: true,
+                                          })}
+                                        />
+                                      </Form.Group>
+                                      <Form.Group
+                                        className="mb-3"
+                                        controlId="formBasicEmail">
+                                        <Form.Label>Account Type</Form.Label>
+                                        <Form.Control
+                                          type="text"
+                                          name="accountType"
+                                          placeholder="Enter Account Type"
+                                          defaultValue={
+                                            data.bankdetails.accountType
+                                          }
+                                          {...register("accountType", {
+                                            required: true,
+                                          })}
+                                        />
+                                      </Form.Group>
+                                      <Form.Group
+                                        className="mb-3"
+                                        controlId="formBasicEmail">
+                                        <Form.Label>Bank Name</Form.Label>
+                                        <Form.Control
+                                          type="text"
+                                          name="bankName"
+                                          placeholder="Enter Bank Name"
+                                          defaultValue={
+                                            data.bankdetails.bankName
+                                          }
+                                          {...register("bankName", {
+                                            required: true,
+                                          })}
+                                        />
+                                      </Form.Group>
+                                    </div>
+                                  </div>
                                 </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                        <div className="page-header">
-                          <h3 className="page-title">Professional Details:</h3>
-                        </div>
-                        <div className="col-12 grid-margin stretch-card">
-                          <div className="card">
-                            <div className="card-body">
-                              <div className="row">
-                                <div className="col-md-6">
-                                  <Form.Group
-                                    className="mb-3"
-                                    controlId="formBasicEmail">
-                                    <Form.Label> College Name</Form.Label>
-                                    <Form.Control
-                                      type="text"
-                                      name="clg_name"
-                                      placeholder="Enter Name"
-                                      defaultValue={
-                                        data.professionaldetails.clg_name
-                                      }
-                                      {...register("clg_name", {
-                                        required: true,
-                                      })}
-                                    />
-                                  </Form.Group>
-                                  <Form.Group
-                                    className="mb-3"
-                                    controlId="formBasicEmail">
-                                    <Form.Label>College City</Form.Label>
-                                    <Form.Control
-                                      type="text"
-                                      name="clg_city"
-                                      placeholder="Enter college city"
-                                      defaultValue={
-                                        data.professionaldetails.clg_city
-                                      }
-                                      {...register("clg_city", {
-                                        required: true,
-                                      })}
-                                    />
-                                  </Form.Group>
-                                  <Form.Group
-                                    className="mb-3"
-                                    controlId="formBasicEmail">
-                                    <Form.Label>Degree</Form.Label>
-                                    <Form.Control
-                                      type="text"
-                                      name="degree"
-                                      placeholder="Enter Number"
-                                      defaultValue={
-                                        data.professionaldetails.degree
-                                      }
-                                      {...register("degree", {
-                                        required: true,
-                                      })}
-                                    />
-                                  </Form.Group>
-                                </div>
-                                <div className="col-md-6">
-                                  <Form.Group
-                                    className="mb-3"
-                                    controlId="formBasicEmail">
-                                    <Form.Label>Degree Choice</Form.Label>
-                                    <Form.Control
-                                      type="text"
-                                      name="degree_choice"
-                                      placeholder="Enter degree choice"
-                                      defaultValue={
-                                        data.professionaldetails.degree_choice
-                                      }
-                                      {...register("degree_choice", {
-                                        required: true,
-                                      })}
-                                    />
-                                  </Form.Group>
-                                  <Form.Group
-                                    className="mb-3"
-                                    controlId="formBasicEmail">
-                                    <Form.Label>
-                                      Degree Specialisation
-                                    </Form.Label>
-                                    <Form.Control
-                                      type="text"
-                                      name="degree_specialisation"
-                                      placeholder="Enter Name"
-                                      defaultValue={
-                                        data.professionaldetails
-                                          .degree_specialisation
-                                      }
-                                      {...register("degree_specialisation", {
-                                        required: true,
-                                      })}
-                                    />
-                                  </Form.Group>
-                                  <Form.Group
-                                    className="mb-3"
-                                    controlId="formBasicEmail">
-                                    <Form.Label>gpa</Form.Label>
-                                    <Form.Control
-                                      type="text"
-                                      name="gpa"
-                                      placeholder="Enter Name"
-                                      defaultValue={
-                                        data.professionaldetails.gpa
-                                      }
-                                      {...register("gpa", { required: true })}
-                                    />
-                                  </Form.Group>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="page-header">
-                          <h3 className="page-title">Bank Details:</h3>
-                        </div>
-                        <div className="col-12 grid-margin stretch-card">
-                          <div className="card">
-                            <div className="card-body">
-                              <div className="row">
-                                <div className="col-md-6">
-                                  <Form.Group
-                                    className="mb-3"
-                                    controlId="formBasicEmail">
-                                    <Form.Label>Name</Form.Label>
-                                    <Form.Control
-                                      type="tutorbankname"
-                                      name="Tutorbankname"
-                                      placeholder="Enter Name"
-                                      defaultValue={
-                                        data.bankdetails.Tutorbankname
-                                      }
-                                      {...register("Tutorbankname", {
-                                        required: true,
-                                      })}
-                                    />
-                                  </Form.Group>
-                                  <Form.Group
-                                    className="mb-3"
-                                    controlId="formBasicEmail">
-                                    <Form.Label>IFSC Code</Form.Label>
-                                    <Form.Control
-                                      type="text"
-                                      name="IFSCCode"
-                                      placeholder="Enter IFSC Code"
-                                      defaultValue={data.bankdetails.IFSCCode}
-                                      {...register("IFSCCode", {
-                                        required: true,
-                                      })}
-                                    />
-                                  </Form.Group>
-                                  <Form.Group
-                                    className="mb-3"
-                                    controlId="formBasicEmail">
-                                    <Form.Label>Pan Card</Form.Label>
-                                    <Form.Control
-                                      type="text"
-                                      name="panCard"
-                                      placeholder="Enter Pan Card Number"
-                                      defaultValue={data.bankdetails.panCard}
-                                      {...register("panCard", {
-                                        required: true,
-                                      })}
-                                    />
-                                  </Form.Group>
-                                  <Form.Group
-                                    className="mb-3"
-                                    controlId="formBasicEmail">
-                                    <Form.Label>bankcountry</Form.Label>
-                                    <Form.Control
-                                      type="text"
-                                      name="bankcountry"
-                                      placeholder="Enter Pan Card Number"
-                                      defaultValue={
-                                        data.bankdetails.bankcountry
-                                      }
-                                      {...register("bankcountry", {
-                                        required: true,
-                                      })}
-                                    />
-                                  </Form.Group>
-                                </div>
-                                <div className="col-md-6">
-                                  <Form.Group
-                                    className="mb-3"
-                                    controlId="formBasicEmail">
-                                    <Form.Label>Account Number</Form.Label>
-                                    <Form.Control
-                                      type="number"
-                                      name="accountNumber"
-                                      placeholder="Enter Account Number"
-                                      defaultValue={
-                                        data.bankdetails.accountNumber
-                                      }
-                                      {...register("accountNumber", {
-                                        required: true,
-                                      })}
-                                    />
-                                  </Form.Group>
-                                  <Form.Group
-                                    className="mb-3"
-                                    controlId="formBasicEmail">
-                                    <Form.Label>Account Type</Form.Label>
-                                    <Form.Control
-                                      type="text"
-                                      name="accountType"
-                                      placeholder="Enter Account Type"
-                                      defaultValue={
-                                        data.bankdetails.accountType
-                                      }
-                                      {...register("accountType", {
-                                        required: true,
-                                      })}
-                                    />
-                                  </Form.Group>
-                                  <Form.Group
-                                    className="mb-3"
-                                    controlId="formBasicEmail">
-                                    <Form.Label>Bank Name</Form.Label>
-                                    <Form.Control
-                                      type="text"
-                                      name="bankName"
-                                      placeholder="Enter Bank Name"
-                                      defaultValue={data.bankdetails.bankName}
-                                      {...register("bankName", {
-                                        required: true,
-                                      })}
-                                    />
-                                  </Form.Group>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
-
-                      <button
-                        className=" btn-primary"
-                        type="submit"
-                        disabled={isSubmitting}>
-                        {isSubmitting ? "Submitting..." : "Save"}
-                      </button>
-                    </Form>
-                  );
-                })}
-            </div>
-            <Footer />
-          </div>
+                          <Button
+                            variant="contained"
+                            type="submit"
+                          >
+                            {isLoading ? (
+                              "Loading..."
+                            ) : (
+                              "Save"
+                            )}
+                          </Button>
+                        </Form>
+                      );
+                    })}
+                </div>
+                <Footer />
+              </div>
+            </>
+          )}
         </div>
       </div>
     </div>
