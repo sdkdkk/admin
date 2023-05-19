@@ -8,6 +8,7 @@ import "./permission.css";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { resourcesList } from "../../helpers/helper";
 const Addnewrole = () => {
   const {
     register,
@@ -105,11 +106,22 @@ const Addnewrole = () => {
   const roleValue = filtrData?.[0]?.role?.rolename || "";
 
   const handleResourceChange = (index) => {
+    const allSubmunus = resourcesList.map((a) => a.id).filter((a) => Math.floor(a) === index)
     if (resourceData?.includes(index)) {
-        const tempData = resourceData.filter((a) => a !== index)
+      if(allSubmunus.length){
+        const tempData = resourceData.filter((a) => !allSubmunus.includes(a))
       setResourceData(tempData);
+      }else{
+        const tempData = resourceData.filter((a) => a !== index)
+        setResourceData(tempData);
+      }
+       
     } else {
-      setResourceData((prev) => [...prev, index]);
+      if(allSubmunus.length){
+        setResourceData((prev) => [...prev, ...allSubmunus]);
+      }else{
+        setResourceData((prev) => [...prev, index]);
+      }
     }
   };
 

@@ -1,4 +1,4 @@
-const resourcesList = [
+export const resourcesList = [
     { id: 1, value: "Dashboard" },
     { id: 2, value: "Tutor" },
     { id: 2.1, value: "Tutor List" },
