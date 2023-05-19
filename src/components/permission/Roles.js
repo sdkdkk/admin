@@ -120,7 +120,7 @@ const Roles = () => {
                                 <tr>
                                   <th>Sr.No</th>
                                   <th>Role</th>
-                                  <th>Allowed Scope</th>
+                                  {/* <th>Allowed Scope</th> */}
                                   <th>Action</th>
                                 </tr>
                               </thead>
@@ -129,7 +129,7 @@ const Roles = () => {
                                   <tr key={rowData?._id}>
                                     <td>{index + 1}</td>
                                     <td>{rowData.rolename}</td>
-                                    <td>{getResourceValue(rowData.action)}</td>
+                                    {/* <td>{getResourceValue(rowData.action)}</td> */}
                                     <td>
                                           <Link to={`/addnewrole?id=${rowData._id}`}>
                                             <Button variant="success">

@@ -206,6 +206,7 @@ const Addnewuser = () => {
                             type="password"
                             className="form-control"
                             id="password"
+                            autocomplete="new-password"
                             placeholder="Enter password"
                             {...register("password", {
                               minLength: {
