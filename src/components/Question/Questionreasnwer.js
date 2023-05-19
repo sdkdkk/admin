@@ -99,7 +99,7 @@ const Questionreasnwer = () => {
                             <h6> Reanswer </h6>{" "}
                           </div>{" "}
                           <div className="col-md-4">
-                          <Form.Check
+                            <Form.Check
                               type="radio"
                               id="yesRadio"
                               label="Yes"
