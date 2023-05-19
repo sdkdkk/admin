@@ -274,8 +274,8 @@ const Coupon = () => {
                                     <td>
                                       {data.validityDate
                                         ? new Date(data.validityDate)
-                                            .toISOString()
-                                            .substring(0, 10)
+                                          .toISOString()
+                                          .substring(0, 10)
                                         : "-"}
                                     </td>
                                     <td>
@@ -302,7 +302,7 @@ const Coupon = () => {
                                 onChange={handleChange}
                                 shape="rounded"
                                 variant="outlined"
-                                // showFirstButton
+                              // showFirstButton
                               />
                             </div>
                           </>
