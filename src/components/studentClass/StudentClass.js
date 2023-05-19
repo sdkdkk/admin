@@ -81,7 +81,9 @@ const StudentClass = () => {
       }
       if (response.data.status === 1) {
         notify(response.data.message);
-        reset();
+        reset({
+          studentClass: "",
+        });
         fetchData();
         // setEditCouponId(null);
       }

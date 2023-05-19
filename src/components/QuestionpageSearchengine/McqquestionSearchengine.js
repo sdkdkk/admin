@@ -27,7 +27,7 @@ const McqquestionSearchengine = () => {
                 <span className="text-dark">Question Subject:</span>
                 {location.state.data.questionSubject}
               </p>
-              <p>Question Type:{location.state.questionType}</p>
+              <p>Question Type:{location.state.data.questionType}</p>
               <p>Status:{location.state.data.status}</p>
               {location.state.data.createdAt && (
                 <p>

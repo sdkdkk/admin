@@ -20,6 +20,7 @@ const Tutorexamconfig = () => {
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [conversionRate, setConversionRate] = useState([]);
+  const [updatedConversionRate, setUpdatedConversionRate] = useState({});
   console.log(conversionRate);
   const notify = (data) => toast(data);
 
@@ -59,7 +60,10 @@ const Tutorexamconfig = () => {
       if (response.data.status === 1) {
         console.log(response.data.status);
         notify(response.data.message);
-        e.target.reset();
+        setUpdatedConversionRate({
+          MCQ: parseInt(data.MCQ),
+          theory: parseInt(data.theory),
+        });
       }
     } catch (error) {
       console.log(error.response.data.error);
@@ -111,8 +115,14 @@ const Tutorexamconfig = () => {
                                       className="form-control"
                                       id="mcqHoursInput"
                                       name="MCQ"
-                                      defaultValue={conversionRate.MCQ}
-                                      placeholder={conversionRate.MCQ}
+                                      defaultValue={
+                                        updatedConversionRate.MCQ ||
+                                        conversionRate.MCQ
+                                      }
+                                      placeholder={
+                                        updatedConversionRate.MCQ ||
+                                        conversionRate.MCQ
+                                      }
                                       {...register("MCQ", { required: true })}
                                     />
                                     <span className="input-group-text">
@@ -140,8 +150,14 @@ const Tutorexamconfig = () => {
                                       className="form-control"
                                       id="theoryHoursInput"
                                       name="theory"
-                                      defaultValue={conversionRate.theory}
-                                      placeholder={conversionRate.theory}
+                                      defaultValue={
+                                        updatedConversionRate.theory ||
+                                        conversionRate.theory
+                                      }
+                                      placeholder={
+                                        updatedConversionRate.theory ||
+                                        conversionRate.theory
+                                      }
                                       {...register("theory", {
                                         required: true,
                                       })}

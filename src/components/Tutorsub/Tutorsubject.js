@@ -80,7 +80,9 @@ const Tutorsubject = () => {
       }
       if (response.data.status === 1) {
         notify(response.data.message);
-        reset();
+        reset({
+          questionSubject: "",
+        });
         fetchData();
         // setEditCouponId(null);
       }

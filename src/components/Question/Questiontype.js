@@ -77,10 +77,12 @@ const Questiontype = () => {
           token: token,
         });
       }
-reset()
+      reset();
       if (response.data.status === 1) {
         notify(response.data.message);
-        reset();
+        reset({
+          questionType: "",
+        });
         fetchData();
         // setEditCouponId(null);
       }
@@ -102,16 +104,11 @@ reset()
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-
-
   function handleDelet(_id) {
     axios
-      .post(
-        `https://vaidik-backend.onrender.com/admin/questiontype/${_id}`,
-        {
-          token: token,
-        }
-      )
+      .post(`https://vaidik-backend.onrender.com/admin/questiontype/${_id}`, {
+        token: token,
+      })
       .then((response) => {
         fetchData();
         toast.success(response.data.message);
@@ -244,7 +241,7 @@ reset()
                                 onChange={handleChange}
                                 shape="rounded"
                                 variant="outlined"
-                              // showFirstButton
+                                // showFirstButton
                               />
                             </div>
                           </>
@@ -254,7 +251,6 @@ reset()
                   </div>
                 </div>
               </div>
-
             </div>
             <Footer />
           </div>

@@ -82,12 +82,15 @@ const Coupon = () => {
           token: token,
         });
       }
-
+  
       if (response.data.status === 1) {
         notify(response.data.message);
-        reset();
-        fetchData();
-        // setEditCouponId(null);
+        reset({
+          couponCode: '', // Clear couponCode field
+          discount: '', // Clear discount field
+          validityDate: '', // Clear validityDate field
+        });
+        fetchData(); // Fetch updated data
       }
     } catch (error) {
       notify(error.response.data.error);
