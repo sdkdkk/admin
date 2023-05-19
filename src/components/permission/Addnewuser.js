@@ -6,26 +6,30 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
+import { ColorRing } from "react-loader-spinner";
 const Addnewuser = () => {
+  const [defaultValues, setDefaultValues] = useState({});
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
     reset,
-  } = useForm({});
+    getValues,
+    setValue
+  } = useForm({ });
   const password = watch("password");
   const navigate = useNavigate();
   const notify = (data) => toast(data);
   const [loading, setLoading] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
+
   const [loading1, setLoading1] = useState(false);
   const [data, setData] = useState([]);
   const [roleData, setRoleData] = useState([]);
   let token = localStorage.getItem("token");
 
   const onSubmit = async (data) => {
-    console.log(data._id);
     try {
       setLoading(true);
       const requestUrl = `https://vaidik-backend.onrender.com/admin/newuser`;
@@ -39,7 +43,7 @@ const Addnewuser = () => {
             email: data.email,
             password: data.password,
             role: data.role,
-            isactive: data.active,
+            isactive: data.isactive,
             mainpassword: data.mainpassword,
             id: data._id,
           });
@@ -49,7 +53,7 @@ const Addnewuser = () => {
             username: data.username,
             email: data.email,
             role: data.role,
-            isactive: data.active,
+            isactive: data.isactive,
             mainpassword: data.mainpassword,
             id: data._id,
           });
@@ -63,11 +67,10 @@ const Addnewuser = () => {
           password: data.password,
           //   cpassword: data.cpassword,
           role: data.role,
-          isactive: data.active,
+          isactive: data.isactive,
           mainpassword: data.mainpassword,
         });
       }
-      console.log(response);
       if (response.data.message) {
         notify(response.data.message);
         console.log(data);
@@ -132,19 +135,25 @@ const Addnewuser = () => {
   const { id } = useParams();
 
   const filtrData = data.filter((item) => item._id === id);
-  console.log(filtrData);
+
   //   const tableEditData = filtrData && filtrData?.map((item) => item);
   // console.log(tableEditData);
-  const roleValue = filtrData?.[0]?.role?.rolename ;
-  console.log(roleValue);
-  const roleId = roleData.map((item) =>
+  const roleValue = filtrData?.[0]?.role?.rolename;
+
+  const roleId = roleData.find((item) =>
     item.rolename === roleValue ? item._id : ""
   );
-  console.log(roleId);
-  console.log(roleId ? roleId : "");
+
+  const defaultRoleId = roleData?.find((a) => a.rolename === roleValue)?._id;
+
   useEffect(() => {
-    reset(filtrData?.[0]);
-  }, [reset, data, roleValue]);
+    if(!filtrData?.[0] || !defaultRoleId) return
+    const defaultData = { ...filtrData?.[0], role: defaultRoleId };
+    // setDefaultValues({ isactive: defaultData?.isactive });
+    // delete defaultData.isactive;
+    reset(defaultData);
+    setValue("isactive", filtrData?.[0]?.isactive.toString())
+  }, [data, defaultRoleId]);
   return (
     <>
       <div className="container-scrolsler">
@@ -161,191 +170,229 @@ const Addnewuser = () => {
                 <div className="col-md-8 col-lg-6 grid-margin stretch-card">
                   <div className="card new-table">
                     <div className="card-body">
-                      <form
-                        className="user-form"
-                        onSubmit={handleSubmit(onSubmit)}
-                      >
-                        <div className="form-group">
-                          <label htmlFor="username">User Name</label>
-                          <input
-                            type="text"
-                            className="form-control"
-                            id="username"
-                            placeholder="Enter user name"
-                            {...register("username", {
-                              required: "Please Enter your name!",
-                            })}
-                            value={data.username}
+                      {loading1 ? (
+                        <p
+                          style={{
+                            marginLeft: "400px",
+                            marginTop: "50px",
+                          }}
+                        >
+                          <ColorRing
+                            visible={true}
+                            height="80"
+                            width="80"
+                            ariaLabel="blocks-loading"
+                            wrapperStyle={{}}
+                            wrapperClass="blocks-wrapper"
+                            colors={["black"]}
                           />
-                          <p className="text-danger">
-                            {errors.username && errors.username.message}
-                          </p>
-                        </div>
-                        <div className="form-group">
-                          <label htmlFor="email">Email</label>
-                          <input
-                            type="email"
-                            className="form-control"
-                            id="email"
-                            placeholder="Enter email"
-                            {...register("email", {
-                              required: "Please Enter A Valid Email!",
-                              pattern: {
-                                value:
-                                  /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                              },
-                            })}
-                          />
-                          <p className="text-danger">
-                            {errors.email && errors.email.message}
-                          </p>
-                        </div>
-                        <div className="form-group">
-                          <label htmlFor="password">Password</label>
-                          <input
-                            type="password"
-                            className="form-control"
-                            id="password"
-                            autocomplete="new-password"
-                            placeholder="Enter password"
-                            {...register("password", {
-                              minLength: {
-                                value: 6,
-                                message:
-                                  "Password must have at least 6 characters",
-                              },
-                            })}
-                          />
-                          {data ? (
-                            <p className="text-danger">
-                              {errors.password && errors.password.message}
-                            </p>
-                          ) : (
-                            ""
-                          )}
-                        </div>
-                        <div className="form-group">
-                          <label htmlFor="confirm-password">
-                            Confirm Password
-                          </label>
-                          <input
-                            type="password"
-                            className="form-control"
-                            id="confirm-password"
-                            placeholder="Confirm password"
-                            {...register("cpassword", {
-                              validate: (value) =>
-                                value === password ||
-                                "The password does not match",
-                            })}
-                          />{" "}
-                          {data ? (
-                            <p className="text-danger">
-                              {errors.cpassword && errors.cpassword.message}
-                            </p>
-                          ) : (
-                            ""
-                          )}
-                        </div>
-                        <div className="form-group">
-                          <label htmlFor="user-role">User Role</label>
-                          <select
-                            className="form-control"
-                            id="user-role"
-                            {...register("role", { required: true })}
-                            //  placeholder="Please select your Role"
-                          //  value={roleId === roleValue}
-                          >
-                            {roleData &&
-                              roleData.map((value) => {
-                                return (
-                                  <option
-                                    value={value._id}
-                                    key={value._id}
-                                    selected={roleValue}
-                                  >
-                                    {value.rolename}
-                                  </option>
-                                );
-                              })}
-                          </select>
-                          {errors.role && (
-                            <p className="text-danger">Please select a Role</p>
-                          )}
-                        </div>
-                        <div className="form-group">
-                          <label htmlFor="account-status">
-                            This Account Is
-                          </label>
-                          <div className="form-check">
-                            <input
-                              className={`form-check-input ${
-                                errors.accountStatus ? "is-invalid" : ""
-                              }`}
-                              type="radio"
-                              name="account-status"
-                              id="active"
-                              value="1"
-                              {...register("active", {
-                                required: "Please select an account status",
-                              })}
-                              //   checked={tableEditData?.[0]?.isactive === 1}
-                            />
-                            <label
-                              className="form-check-label"
-                              htmlFor="active"
-                            >
-                              Active
-                            </label>
-                          </div>
-                          <div className="form-check">
-                            <input
-                              className={`form-check-input ${
-                                errors.accountStatus ? "is-invalid" : ""
-                              }`}
-                              type="radio"
-                              name="account-status"
-                              id="disabled"
-                              value="0"
-                              {...register("active", {
-                                required: "Please select an account status",
-                              })}
-                              //   checked={tableEditData?.[0]?.isactive === 0}
-                            />
-                            <label
-                              className="form-check-label"
-                              htmlFor="disabled"
-                            >
-                              Disabled
-                            </label>
-                          </div>
-                          {errors.active && (
-                            <div className="invalid-feedback">
-                              {errors.active.message}
-                            </div>
-                          )}
-                        </div>
-
-                        <div className="text-title mt-4">
-                          <h5>Current User Identity Verification</h5>
+                        </p>
+                      ) : (
+                        <form
+                          className="user-form"
+                          onSubmit={handleSubmit(onSubmit)}
+                        >
                           <div className="form-group">
-                            <label htmlFor="Your-password">Your Password</label>
+                            <label htmlFor="username">User Name</label>
                             <input
-                              type="mainpassword"
+                              type="text"
                               className="form-control"
-                              id="Your-password"
-                              placeholder="Admin password"
-                              required
-                              {...register("mainpassword")}
+                              id="username"
+                              placeholder="Enter user name"
+                              {...register("username", {
+                                required: "Please Enter your name!",
+                              })}
+                              value={data.username}
                             />
+                            <p className="text-danger">
+                              {errors.username && errors.username.message}
+                            </p>
                           </div>
-                        </div>
-                        <div className="form-group d-flex justify-content-end">
-                          <button disabled={loading} type="submit" className="btn btn-primary">
-                            {!loading ? <>{data._id ? "Update" : "Submit"}</> : "Loading..."}
-                          </button>
-                        </div>
-                      </form>
+                          <div className="form-group">
+                            <label htmlFor="email">Email</label>
+                            <input
+                              type="email"
+                              className="form-control"
+                              id="email"
+                              placeholder="Enter email"
+                              {...register("email", {
+                                required: "Please Enter A Valid Email!",
+                                pattern: {
+                                  value:
+                                    /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
+                                },
+                              })}
+                            />
+                            <p className="text-danger">
+                              {errors.email && errors.email.message}
+                            </p>
+                          </div>
+                          <div className="form-group">
+                            <label htmlFor="password">Password</label>
+                            <input
+                              type="password"
+                              className="form-control"
+                              id="password"
+                              autocomplete="new-password"
+                              placeholder="Enter password"
+                              {...register("password", {
+                                minLength: {
+                                  value: 6,
+                                  message:
+                                    "Password must have at least 6 characters",
+                                },
+                              })}
+                            />
+                            {data ? (
+                              <p className="text-danger">
+                                {errors.password && errors.password.message}
+                              </p>
+                            ) : (
+                              ""
+                            )}
+                          </div>
+                          <div className="form-group">
+                            <label htmlFor="confirm-password">
+                              Confirm Password
+                            </label>
+                            <input
+                              type="password"
+                              className="form-control"
+                              id="confirm-password"
+                              placeholder="Confirm password"
+                              {...register("cpassword", {
+                                validate: (value) =>
+                                  value === password ||
+                                  "The password does not match",
+                              })}
+                            />{" "}
+                            {data ? (
+                              <p className="text-danger">
+                                {errors.cpassword && errors.cpassword.message}
+                              </p>
+                            ) : (
+                              ""
+                            )}
+                          </div>
+                          <div className="form-group">
+                            <label htmlFor="user-role">User Role</label>
+                            <select
+                              className="form-control"
+                              id="user-role"
+                              defaultValue={defaultRoleId}
+                              {...register("role", { required: true })}
+                              //  placeholder="Please select your Role"
+                              //  value={roleId === roleValue}
+                            >
+                              {roleData &&
+                                roleData.map((value) => {
+                                  return (
+                                    <option
+                                      value={value._id}
+                                      key={value._id}
+                                      selected={roleValue}
+                                    >
+                                      {value.rolename}
+                                    </option>
+                                  );
+                                })}
+                            </select>
+                            {errors.role && (
+                              <p className="text-danger">
+                                Please select a Role
+                              </p>
+                            )}
+                          </div>
+                          <div className="form-group">
+                            <label htmlFor="account-status">
+                              This Account Is
+                            </label>
+                            <div className="form-check">
+                              <input
+                                className={`form-check-input ${
+                                  errors.accountStatus ? "is-invalid" : ""
+                                }`}
+                                type="radio"
+                                name="account-status"
+                                id="isactive"
+                                value="1"
+                                {...register("isactive", {
+                                  required: "Please select an account status",
+                                })}
+                                // checked={
+                                //   formIsActive == 1 ? true : false
+                                // }
+                                //   checked={tableEditData?.[0]?.isactive === 1}
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor="isactive"
+                              >
+                                Active
+                              </label>
+                            </div>
+                            <div className="form-check">
+                              <input
+                                className={`form-check-input ${
+                                  errors.accountStatus ? "is-invalid" : ""
+                                }`}
+                                type="radio"
+                                name="account-status"
+                                id="disabled"
+                                value="0"
+                                {...register("isactive", {
+                                  required: "Please select an account status",
+                                })}
+                                // checked={
+                                //   formIsActive == 0 ? true : false
+                                // }
+                                //   checked={tableEditData?.[0]?.isactive === 0}
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor="disabled"
+                              >
+                                Disabled
+                              </label>
+                            </div>
+                            {errors.isactive && (
+                              <div className="invalid-feedback">
+                                {errors.isactive.message}
+                              </div>
+                            )}
+                          </div>
+
+                          <div className="text-title mt-4">
+                            <h5>Current User Identity Verification</h5>
+                            <div className="form-group">
+                              <label htmlFor="Your-password">
+                                Your Password
+                              </label>
+                              <input
+                                type="mainpassword"
+                                className="form-control"
+                                id="Your-password"
+                                placeholder="Admin password"
+                                required
+                                {...register("mainpassword")}
+                              />
+                            </div>
+                          </div>
+                          <div className="form-group d-flex justify-content-end">
+                            <button
+                              disabled={loading}
+                              type="submit"
+                              className="btn btn-primary"
+                            >
+                              {!loading ? (
+                                <>{data._id ? "Update" : "Submit"}</>
+                              ) : (
+                                "Loading..."
+                              )}
+                            </button>
+                          </div>
+                        </form>
+                      )}
                     </div>
                   </div>
                 </div>
