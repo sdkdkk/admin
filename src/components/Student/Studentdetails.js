@@ -209,8 +209,8 @@ const Studentdetails = () => {
                   </div>
                 </div>
               </div>
-              {/* <div className=" text-start heading-main mt-5">
-                <h4>Answer Given</h4>
+              <div className=" text-start heading-main mt-5">
+                <h4>Question Asked</h4>
               </div>
               <div className="row">
                 <div className="col-12 grid-margin stretch-card">
@@ -276,7 +276,7 @@ const Studentdetails = () => {
                     </div>
                   </div>
                 </div>
-              </div> */}
+              </div>
             </div>
           )}
         </div>

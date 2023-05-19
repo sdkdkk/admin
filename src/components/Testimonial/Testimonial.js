@@ -30,9 +30,7 @@ const Testimonial = () => {
   const testimonial = useSelector((state) => state.testimonial);
   const testimonialform = useSelector((state) => state.testimonialform);
   const testimonialstatus = useSelector((state) => state.testimonialstatus);
-  const testimonialUserDeleteState = useSelector(
-    (state) => state.testimonialUserDelete
-  );
+  const testimonialUserDeleteState = useSelector((state) => state.testimonialUserDelete);
   
   var [isActive, SetisActive] = useState(true);
 
@@ -75,7 +73,7 @@ const Testimonial = () => {
 
   const onSubmit = (data) => {
     const formData = new FormData();
-
+   
     formData.append("sortOrder", data.sortOrder);
     formData.append("profileimage", data.profileimage[0]);
     formData.append("name", data.name);
@@ -265,8 +263,8 @@ const Testimonial = () => {
                                 type="file"
                                 name="profileimage"
                                 accept=".png,.jpg,.jpeg,.tif,.tiff,.bmp,.gif,.ico"
-                                {...register("profileimage", {
-                                  required: "Please Enter A Valid image!",
+                                {...register("profileimage", { 
+                                  required: (defaultValues.id? '' : "Please Enter A Valid image!"),
                                 })}
                                 placeholder="Enter image"
                               />
