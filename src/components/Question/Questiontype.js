@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
 import { ColorRing } from "react-loader-spinner";
 import { Pagination } from "@mui/material";
+import { logoutIfInvalidToken } from "../../helpers/handleError";
 
 const Questiontype = () => {
   const {
@@ -48,6 +49,7 @@ const Questiontype = () => {
       setConversionRate(response.data.data);
       setLoading1(false);
     } catch (error) {
+      logoutIfInvalidToken(error.response)
       console.log(error.response.data.error);
       // notify("Invalid refresh token!");
       setLoading1(false);
@@ -87,6 +89,7 @@ const Questiontype = () => {
         // setEditCouponId(null);
       }
     } catch (error) {
+      logoutIfInvalidToken(error.response)
       notify(error.response.data.error);
     } finally {
       setLoading(false);

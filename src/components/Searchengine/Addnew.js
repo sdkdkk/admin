@@ -11,6 +11,7 @@ import ImageResize from "quill-image-resize-module-react";
 
 import "react-quill/dist/quill.snow.css";
 import axios from "axios";
+import { logoutIfInvalidToken } from "../../helpers/handleError";
 
 Quill.register("modules/imageResize", ImageResize);
 
@@ -110,6 +111,7 @@ const Addnew = () => {
         });
         setOptionsArray(responseArray);
       } catch (error) {
+        logoutIfInvalidToken(error.response)
         if (error.response) {
           console.log(error.response.status);
           console.log(error.response.data);

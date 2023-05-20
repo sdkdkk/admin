@@ -8,6 +8,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { ColorRing } from "react-loader-spinner";
 import { Pagination } from "@mui/material";
+import { logoutIfInvalidToken } from "../../helpers/handleError";
 
 const Tutorsubject = () => {
   const {
@@ -49,6 +50,7 @@ const Tutorsubject = () => {
       setConversionRate(response.data.data);
       setLoading1(false);
     } catch (error) {
+      logoutIfInvalidToken(error.response)
       console.log(error.response.data.error);
       // notify("Invalid refresh token!");
       setLoading1(false);
@@ -87,6 +89,7 @@ const Tutorsubject = () => {
         // setEditCouponId(null);
       }
     } catch (error) {
+      logoutIfInvalidToken(error.response)
       notify(error.response.data.error);
     } finally {
       setLoading(false);

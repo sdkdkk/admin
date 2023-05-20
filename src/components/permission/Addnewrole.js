@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import axios from "axios";
 import { resourcesList } from "../../helpers/helper";
+import { logoutIfInvalidToken } from "../../helpers/handleError";
 const Addnewrole = () => {
   const {
     register,
@@ -65,6 +66,7 @@ const Addnewrole = () => {
         notify(data.error);
       }
     } catch (error) {
+      logoutIfInvalidToken(error.response)
       console.log("error - ", error);
       notify(error.response.data.error);
     }
@@ -91,6 +93,7 @@ const Addnewrole = () => {
       setData(response.data.document);
       setLoading1(false);
     } catch (error) {
+      logoutIfInvalidToken(error.response)
       console.log(error.response.data.error);
       setLoading1(false);
     }

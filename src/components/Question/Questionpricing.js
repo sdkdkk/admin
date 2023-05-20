@@ -12,6 +12,7 @@ import axios from "axios";
 import { ColorRing } from "react-loader-spinner";
 import { Pagination } from "@mui/material";
 import { questiontypePriceApi } from "../../Redux/Loginpages/questiontypePriceSlice";
+import { logoutIfInvalidToken } from "../../helpers/handleError";
 
 const Questionpricing = () => {
   const notify = (data) => toast(data);
@@ -75,6 +76,7 @@ const Questionpricing = () => {
         notify(data.error);
       }
     } catch (error) {
+      logoutIfInvalidToken(error.response)
       console.log("error - ", error);
       notify(error.response.data.error);
     }
@@ -98,6 +100,7 @@ const Questionpricing = () => {
       setData(response.data.data);
       setLoading1(false);
     } catch (error) {
+      logoutIfInvalidToken(error.response)
       console.log(error.response.data.error);
       setLoading1(false);
     }

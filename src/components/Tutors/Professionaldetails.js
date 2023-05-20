@@ -10,6 +10,7 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { ColorRing } from "react-loader-spinner";
+import { logoutIfInvalidToken } from "../../helpers/handleError";
 
 const Professionaldetails = () => {
   const { _id } = useParams();
@@ -45,6 +46,7 @@ const Professionaldetails = () => {
         setUser(response.data.document);
         setLoading(false);
       } catch (error) {
+        logoutIfInvalidToken(error.response)
         if (error.response) {
           console.log(error.response.status);
           console.log(error.response.data);

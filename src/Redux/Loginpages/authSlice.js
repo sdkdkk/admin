@@ -1,4 +1,5 @@
 import axios from "axios";
+import { logoutIfInvalidToken } from "../../helpers/handleError";
 const { createSlice } = require("@reduxjs/toolkit");
 
 const authSlice = createSlice({
@@ -164,6 +165,7 @@ export const Pagesd = (formData) => async(dispatch) => {
         );
         dispatch(PagesdSuccess(data));
     } catch (error) {
+        logoutIfInvalidToken(error.response)
         dispatch(PagesdFailure(error.response.data));
     }
 };
@@ -180,6 +182,7 @@ export const TutorExam = (formData) => async(dispatch) => {
         );
         dispatch(TutorExamSuccess(data));
     } catch (error) {
+        logoutIfInvalidToken(error.response)
         dispatch(TutorExamFailure(error.response.data));
     }
 };

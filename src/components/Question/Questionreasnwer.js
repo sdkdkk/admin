@@ -6,6 +6,7 @@ import { Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { logoutIfInvalidToken } from "../../helpers/handleError";
 
 const Questionreasnwer = () => {
   const {
@@ -36,6 +37,7 @@ const Questionreasnwer = () => {
         setConversionRate(response.data.data);
         setLoading1(false);
       } catch (error) {
+        logoutIfInvalidToken(error.response)
         console.log(error.response.data.error);
         // notify("Invalid refresh token!");
         setLoading(false);
@@ -71,6 +73,7 @@ const Questionreasnwer = () => {
         e.target.reset();
       }
     } catch (error) {
+      logoutIfInvalidToken(error.response)
       console.log(error.response.data.error);
       notify(error.response.data.error);
     } finally {
