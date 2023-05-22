@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Pagesd } from "../../Redux/Loginpages/authSlice";
-import { Col } from "react-bootstrap";
+import { Button, Col } from "react-bootstrap";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import {
@@ -44,7 +44,6 @@ const Pages = () => {
     setCurrentPage(value);
   };
 
-
   const {
     register,
     reset,
@@ -56,13 +55,12 @@ const Pages = () => {
     formState: { errors },
   } = useForm({ values: defaultValue });
 
-
   useEffect(() => {
     if (postPageDataState?.isSuccess) {
       dispatch(getPageListApi());
       dispatch(resetPostPageDataApi());
-      setDefaultValue({})
-      reset()
+      setDefaultValue({});
+      reset();
     }
   }, [postPageDataState?.isSuccess]);
 
@@ -84,7 +82,7 @@ const Pages = () => {
 
   const handleEditClick = (data) => {
     setDefaultValue(data);
-    setIsOpen("")
+    setIsOpen("");
   };
 
   useEffect(() => {
@@ -96,8 +94,8 @@ const Pages = () => {
 
   const onSubmit = (data) => {
     // localStorage.setItem("data", token);
-    if(defaultValue?._id){
-      data.id = defaultValue?._id
+    if (defaultValue?._id) {
+      data.id = defaultValue?._id;
       delete data._id;
       delete data.isactive;
       delete data.updatedAt;
@@ -108,8 +106,8 @@ const Pages = () => {
 
     dispatch(postPageDataApi({ ...data, status: true }));
     setTimeout(() => {
-      setDefaultValue({})
-      reset()
+      setDefaultValue({});
+      reset();
     }, 1000);
     reset();
   };
@@ -357,13 +355,12 @@ const Pages = () => {
                             )}
                           </div>
                           <div className="pages-btn mt-4">
-                            <button
-                              type="submit"
+                            <Button
                               className="btn btn-primary mx-2"
-                              disabled={postPageDataState?.isLoading}
+                              onClick={() => (window.location.href = "/pages")}
                             >
                               Back
-                            </button>
+                            </Button>
                             <button
                               type="submit"
                               className="btn btn-primary mx-2"

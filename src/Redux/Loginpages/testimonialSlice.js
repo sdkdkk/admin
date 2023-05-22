@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { logoutIfInvalidToken } from '../../helpers/handleError';
 
 const { createSlice } = require("@reduxjs/toolkit");
 
@@ -55,6 +56,7 @@ console.log(token);
         else
             dispatch(testimonialFailure(data));
     } catch (error) {
+        logoutIfInvalidToken(error.response)
         dispatch(testimonialFailure(error.response.data));
     }
 };

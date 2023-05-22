@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { getAdminQuestions } from "../../Redux/Loginpages/getAdminQuestionSlice";
 import { useNavigate } from "react-router-dom";
+import { logoutIfInvalidToken } from "../../helpers/handleError";
 
 const Question = () => {
   
@@ -38,6 +39,7 @@ const Question = () => {
       );
       setSubjectList(response?.data?.data);
     } catch (error) {
+      logoutIfInvalidToken(error.response)
       console.log(error.response.data.error);
       // notify("Invalid refresh token!");
     }
@@ -61,7 +63,7 @@ const Question = () => {
         data.questionType
       )
     ) {
-      history(`/questionanswer?id=${data._id}`);
+      history(`/fillups?id=${data._id}`);
     } else {
       switch (data.questionType) {
         case "MCQ":
@@ -81,7 +83,7 @@ const Question = () => {
           history(`/matchfollow?id=${data._id}`);
           return;
         default:
-          history(`/questionanswer?id=${data._id}`);
+          history(`/fillups?id=${data._id}`);
           return;
       }
     }
@@ -103,6 +105,7 @@ const Question = () => {
     fetchSubjectData();
   }, []);
 
+  console.log('currentPage', currentPage)
   return (
     <div>
       <div className="container-scroller">
@@ -225,7 +228,7 @@ const Question = () => {
                           <tbody>
                             {transactions.map((a, index) => (
                               <tr>
-                                <td>{a._id}</td>
+                                <td>{(currentPage - 1) * 5 + (index + 1)}</td>
                                 <td>{a.question}</td>
                                 <td>{a.questionType}</td>
                                 <td>{a.questionSubject}</td>

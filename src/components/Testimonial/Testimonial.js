@@ -35,19 +35,22 @@ const Testimonial = () => {
   var [isActive, SetisActive] = useState(true);
 
   const [isOpen, setIsOpen] = useState("");
-
+  console.log(testimonial);
   const handleDropdownClick = (id) => {
     setIsOpen(isOpen === id ? "" : id);
   };
 
-  const activeForm = () => {
-    if (isActive === true) {
-      SetisActive(false);
-    } else {
-      SetisActive(true);
-    }
-  };
+  // const activeForm = () => {
+  //   if (isActive === true) {
+  //     SetisActive(false);
+  //   } else {
+  //     SetisActive(true);
+  //   }
+  // };
 
+  const activeForm = () => {
+    SetisActive((prevIsActive) => !prevIsActive); // Toggle the value of isActive
+  };
   var tokens = localStorage.getItem("token");
 
   const {
@@ -63,14 +66,23 @@ const Testimonial = () => {
   }, []);
 
   useEffect(() => {
-    if (testimonialUserDeleteState?.isSuccess || testimonialform?.isAuthenticated) {
+    if (
+      testimonialUserDeleteState?.isSuccess ||
+      testimonialform?.isAuthenticated
+    ) {
       reset();
-      setDefaultValues({})
+      setDefaultValues({});
       dispatch(Testimoniald(tokens));
       dispatch(resetTestimonialUserDelete());
     }
-  }, [testimonialUserDeleteState?.isSuccess || testimonialform?.isAuthenticated]);
+  }, [
+    testimonialUserDeleteState?.isSuccess || testimonialform?.isAuthenticated,
+  ]);
 
+  useEffect(() => {
+    reset(defaultValues);
+  }, [defaultValues]);
+  
   const onSubmit = (data) => {
     const formData = new FormData();
    
@@ -80,16 +92,15 @@ const Testimonial = () => {
     formData.append("description", data.description);
     formData.append("token", tokens);
     formData.append("status", isActive);
-    if(defaultValues?.id){
+    if (defaultValues?.id) {
       formData.append("id", defaultValues?.id);
     }
 
     dispatch(testimonialformapi(formData));
-    setTimeout(() =>{
-      setDefaultValues({})
+    setTimeout(() => {
+      setDefaultValues({});
       reset({});
-    },[500])
-    
+    }, [500]);
   };
 
   const changestatus = async (value, id, index) => {
@@ -107,17 +118,18 @@ const Testimonial = () => {
     setCurrentPage(value);
   };
 
-  const handleEditClick = (data) =>{
-    setIsOpen(false)
-    setDefaultValues(data)
-  }
+  const handleEditClick = (data) => {
+    setIsOpen(false);
+    setDefaultValues(data);
+    SetisActive(data.isactive);
+  };
 
   const handleDeleteClick = (id) => {
     dispatch(testimonialUserDelete(id));
   };
-  
+
   //pagenation
-  
+
   return (
     <div>
       <div className="container-scroller">
@@ -133,7 +145,15 @@ const Testimonial = () => {
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table">
                     <div className="card-body">
-                      <table className={`table ${(testimonial.loading || testimonialstatus.loading || testimonialform.loading || testimonialUserDeleteState.isLoading) && "table-loading"}`}>
+                      <table
+                        className={`table ${
+                          (testimonial.loading ||
+                            testimonialstatus.loading ||
+                            testimonialform.loading ||
+                            testimonialUserDeleteState.isLoading) &&
+                          "table-loading"
+                        }`}
+                      >
                         <thead>
                           <tr>
                             <th scope="col">Sort Order</th>
@@ -144,74 +164,74 @@ const Testimonial = () => {
                           </tr>
                         </thead>
                         <tbody>
-                        <>
-                              {testimonial.user &&
-                                testimonial.user.testimonial.slice((currentPage - 1) * 5, currentPage * 5).map(
-                                  (data, index) => (
-                                    <tr key={index}>
-                                      <td>{data.sortOrder}</td>
-                                      <td>
-                                        {" "}
-                                        <img
-                                          src={data.profileimage}
-                                          className="cardresto-img-top mx-4"
-                                          alt="..."
+                          <>
+                            {testimonial.user &&
+                              testimonial.user.testimonial
+                                .slice((currentPage - 1) * 5, currentPage * 5)
+                                .map((data, index) => (
+                                  <tr key={index}>
+                                    <td>{data.sortOrder}</td>
+                                    <td>
+                                      {" "}
+                                      <img
+                                        src={data.profileimage}
+                                        className="cardresto-img-top mx-4"
+                                        alt="..."
+                                      />
+                                    </td>
+                                    <td>{data.name}</td>
+                                    <td>
+                                      <div className="form-check form-switch">
+                                        <input
+                                          className="form-check-input"
+                                          type="checkbox"
+                                          id="flexSwitchCheckChecked"
+                                          defaultChecked={data.isactive}
+                                          onChange={(e) =>
+                                            changestatus(
+                                              e.target.value,
+                                              data.id,
+                                              index
+                                            )
+                                          }
                                         />
-                                      </td>
-                                      <td>{data.name}</td>
-                                      <td>
-                                        <div className="form-check form-switch">
-                                          <input
-                                            className="form-check-input"
-                                            type="checkbox"
-                                            id="flexSwitchCheckChecked"
-                                            defaultChecked={data.isactive}
-                                            onChange={(e) =>
-                                              changestatus(
-                                                e.target.value,
-                                                data.id,
-                                                index
-                                              )
-                                            }
-                                          />
-                                        </div>
-                                      </td>
-                                      <td>
-                                        <div className="dropdown">
-                                          <button
-                                            className="dropdown__button"
-                                            onClick={() =>
-                                              handleDropdownClick(data.id)
-                                            }
-                                          >
-                                            ...
-                                          </button>
-                                          {data.id === isOpen && (
-                                            <div className="dropdown__popup">
-                                              <ul className="dropdown__list">
-                                                <li
-                                                  onClick={() =>
-                                                    handleEditClick(data)
-                                                  }
-                                                >
-                                                  Edit
-                                                </li>
-                                                <li
-                                                  onClick={() =>
-                                                    handleDeleteClick(data.id)
-                                                  }
-                                                >
-                                                  Delete
-                                                </li>
-                                              </ul>
-                                            </div>
-                                          )}
-                                        </div>
-                                      </td>
-                                    </tr>
-                                  )
-                                )}
-                            </>
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <div className="dropdown">
+                                        <button
+                                          className="dropdown__button"
+                                          onClick={() =>
+                                            handleDropdownClick(data.id)
+                                          }
+                                        >
+                                          ...
+                                        </button>
+                                        {data.id === isOpen && (
+                                          <div className="dropdown__popup">
+                                            <ul className="dropdown__list">
+                                              <li
+                                                onClick={() =>
+                                                  handleEditClick(data)
+                                                }
+                                              >
+                                                Edit
+                                              </li>
+                                              <li
+                                                onClick={() =>
+                                                  handleDeleteClick(data.id)
+                                                }
+                                              >
+                                                Delete
+                                              </li>
+                                            </ul>
+                                          </div>
+                                        )}
+                                      </div>
+                                    </td>
+                                  </tr>
+                                ))}
+                          </>
                         </tbody>
                       </table>
                       <div className="table-pagination">
@@ -325,7 +345,10 @@ const Testimonial = () => {
                                     type="checkbox"
                                     id="flexSwitchCheckChecked"
                                     onChange={() => activeForm()}
-                                    defaultChecked
+                                    checked={isActive} // Use the isActive value as the checked state of the checkbox
+                                    // disabled={
+                                    //   Object.keys(defaultValues).length !== 0
+                                    // } // Disable the checkbox during edit
                                   />
                                 </div>
                               </div>
@@ -341,7 +364,9 @@ const Testimonial = () => {
                                 type="submit"
                                 className="btn btn-primary mx-2"
                               >
-                                {Object.keys(defaultValues).length === 0 ? "Submit" : "Update"}
+                                {Object.keys(defaultValues).length === 0
+                                  ? "Submit"
+                                  : "Update"}
                               </button>
                             </div>
                           </div>

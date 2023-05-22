@@ -1,5 +1,5 @@
 import "./App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.css";
 import Dashboard from "./components/Dashboard/Dashboard";
 import Navbar from "./components/shared/Navbar";
@@ -61,106 +61,106 @@ import Addnewuser from "./components/permission/Addnewuser";
 import Addnewrole from "./components/permission/Addnewrole";
 import TransactionDetails from "./components/Wallet/TransactionDetails";
 import StudentClass from "./components/studentClass/StudentClass";
-import Contactus from "./components/Contactus/Contactus";
+import { isLoggedIn } from "./helpers/utility";
 
+function RequireAuth({ children }) {
+  let auth = isLoggedIn();
+
+  if (!auth) {
+    return <Navigate to="/login" />;
+  }
+
+  return children;
+}
 
 function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Dashboard />} />
-        <Route path="navbar" element={<Navbar />} />
-        <Route path="tutorlist" element={<Tutorlist />} />
-        <Route path="tutorspayment" element={<Tutorspayment />} />
-        <Route path="studentlist" element={<Studentlist />} />
-        <Route path="studentpayment" element={<Studentpayment />} />
-        <Route path="wallet" element={<Wallet />} />
-        <Route path="transactionDetails" element={<TransactionDetails />} />
-        <Route path="Searchengine" element={<Searchengine />} />
-        <Route path="addnew" element={<Addnew />} />
-        <Route path="searchquestion" element={<Searchquestion />} />
-        <Route path="testimonial" element={<Testimonial />} />
+        <Route path="/" element={<RequireAuth><Dashboard /></RequireAuth>} />
+        <Route path="navbar" element={<RequireAuth><Navbar /></RequireAuth>} />
+        <Route path="tutorlist" element={<RequireAuth><Tutorlist /></RequireAuth>} />
+        <Route path="tutorspayment" element={<RequireAuth><Tutorspayment /></RequireAuth>} />
+        <Route path="studentlist" element={<RequireAuth><Studentlist /></RequireAuth>} />
+        <Route path="studentpayment" element={<RequireAuth><Studentpayment /></RequireAuth>} />
+        <Route path="wallet" element={<RequireAuth><Wallet /></RequireAuth>} />
+        <Route path="transactionDetails" element={<RequireAuth><TransactionDetails /></RequireAuth>} />
+        <Route path="Searchengine" element={<RequireAuth><Searchengine /></RequireAuth>} />
+        <Route path="addnew" element={<RequireAuth><Addnew /></RequireAuth>} />
+        <Route path="searchquestion" element={<RequireAuth><Searchquestion /></RequireAuth>} />
+        <Route path="testimonial" element={<RequireAuth><Testimonial /></RequireAuth>} />
         <Route
           path="professionaldetails/:_id"
-          element={<Professionaldetails />}
+          element={<RequireAuth><Professionaldetails /></RequireAuth>}
         />
-        <Route path="pages" element={<Pages />} />
-        <Route path="socialmediasetting" element={<Socialmediasetting />} />
+        <Route path="pages" element={<RequireAuth><Pages /></RequireAuth>} />
+        <Route path="socialmediasetting" element={<RequireAuth><Socialmediasetting /></RequireAuth>} />
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<Signup />} />
         <Route path="signup" element={<Signup />} />
-        <Route path="/tutordetails/:_id" element={<Tutordetails />} />
+        <Route path="/tutordetails/:id" element={<RequireAuth><Tutordetails /></RequireAuth>} />
 
-        <Route path="/tutorexam" element={<Tutorexam />} />
-        <Route path="/tutorsearch" element={<Tutorsearch />} />
+        <Route path="/tutorexam" element={<RequireAuth><Tutorexam /></RequireAuth>} />
+        <Route path="/tutorsearch" element={<RequireAuth><Tutorsearch /></RequireAuth>} />
 
-        <Route path="/studentdetails/:_id" element={<Studentdetails />} />
-        <Route path="/testexam" element={<Testexam />} />
-        <Route path="/examdetails" element={<Examdetails />} />
+        <Route path="/studentdetails/:_id" element={<RequireAuth><Studentdetails /></RequireAuth>} />
+        <Route path="/testexam" element={<RequireAuth><Testexam /></RequireAuth>} />
+        <Route path="/examdetails" element={<RequireAuth><Examdetails /></RequireAuth>} />
         <Route
           path="/searchenginequedetail"
-          element={<Searchenginequedetail />}
+          element={<RequireAuth><Searchenginequedetail /></RequireAuth>}
         />
         <Route
           path="/tutorquestiondetails"
-          element={<Tutorquestiondetails />}
+          element={<RequireAuth><Tutorquestiondetails /></RequireAuth>}
         />
         <Route
           path="/studentquestiondetails"
-          element={<Studentquestiondetails />}
+          element={<RequireAuth><Studentquestiondetails /></RequireAuth>}
         />
 
-        <Route path="/questiontiming" element={<Questiontiming />} />
-        <Route path="/questionpricing" element={<Questionpricing />} />
-        <Route path="/questionreanswer" element={<Questionreasnwer />} />
-        <Route path="/curruncy" element={<Curruncy />} />
-        <Route path="/coupon" element={<Coupon />} />
-        <Route path="/tutorsubject" element={<Tutorsubject />} />
-        <Route path="/tutorexamconfig" element={<Tutorexamconfig />} />
-        <Route path="/questiontype" element={<Questiontype />} />
-        <Route path="/questions" element={<Questions />} />
+        <Route path="/questiontiming" element={<RequireAuth><Questiontiming /></RequireAuth>} />
+        <Route path="/questionpricing" element={<RequireAuth><Questionpricing /></RequireAuth>} />
+        <Route path="/questionreanswer" element={<RequireAuth><Questionreasnwer /></RequireAuth>} />
+        <Route path="/curruncy" element={<RequireAuth><Curruncy /></RequireAuth>} />
+        <Route path="/coupon" element={<RequireAuth><Coupon /></RequireAuth>} />
+        <Route path="/tutorsubject" element={<RequireAuth><Tutorsubject /></RequireAuth>} />
+        <Route path="/tutorexamconfig" element={<RequireAuth><Tutorexamconfig /></RequireAuth>} />
+        <Route path="/questiontype" element={<RequireAuth><Questiontype /></RequireAuth>} />
+        <Route path="/questions" element={<RequireAuth><Questions /></RequireAuth>} />
+        <Route path="/studentclass" element={<RequireAuth><StudentClass /></RequireAuth>} />
 
-        <Route path="/tutorque" element={<Tutorque />} />
-        <Route path="/adminque" element={<Adminque />} />
-        <Route path="/reanswerque" element={<Reanswerque />} />
-        <Route path="/unsolvedque" element={<Unsolvedque />} />
+        <Route path="/mcqquestion" element={<RequireAuth><Mcqquestion /></RequireAuth>} />
+        <Route path="/truefalse" element={<RequireAuth><Truefalseque /></RequireAuth>} />
+        <Route path="/fillups" element={<RequireAuth><Fillups /></RequireAuth>} />
 
+        <Route path="/matchfollow" element={<RequireAuth><Matchfollow /></RequireAuth>} />
 
-        <Route path="/studentclass" element={<StudentClass />} />
+        <Route path="/users" element={<RequireAuth><Users /></RequireAuth>} />
+        <Route path="/roles" element={<RequireAuth><Roles /></RequireAuth>} />
+        <Route path="/addnewuser" element={<RequireAuth><Addnewuser /></RequireAuth>} />
+        <Route path="/addnewuser/:id" element={<RequireAuth><Addnewuser /></RequireAuth>} />
+        <Route path="/addnewrole" element={<RequireAuth><Addnewrole /></RequireAuth>} />
 
-        <Route path="/mcqquestion" element={<Mcqquestion />} />
-        <Route path="/truefalse" element={<Truefalseque />} />
-        <Route path="/fillups" element={<Fillups />} />
-
-        <Route path="/matchfollow" element={<Matchfollow />} />
-
-        <Route path="/users" element={<Users />} />
-        <Route path="/roles" element={<Roles />} />
-        <Route path="/addnewuser" element={<Addnewuser />} />
-        <Route path="/addnewuser/:id" element={<Addnewuser />} />
-        <Route path="/addnewrole" element={<Addnewrole />} />
-
-        <Route path="/fillupssearchengine" element={<FillupsSearchengine />} />
+        <Route path="/fillupssearchengine" element={<RequireAuth><FillupsSearchengine /></RequireAuth>} />
         <Route
           path="/matchfollowsearchengine"
-          element={<MatchfollowSearchengine />}
+          element={<RequireAuth><MatchfollowSearchengine /></RequireAuth>}
         />
         <Route
           path="/mcqquestionsearchengine"
-          element={<McqquestionSearchengine />}
+          element={<RequireAuth><McqquestionSearchengine /></RequireAuth>}
         />
         <Route
           path="/questionanswersearchengine"
-          element={<QuestionanswerSearchengine />}
+          element={<RequireAuth><QuestionanswerSearchengine /></RequireAuth>}
         />
         <Route
           path="/truefalsequesearchengine"
-          element={<TruefalsequeSearchengine />}
+          element={<RequireAuth><TruefalsequeSearchengine /></RequireAuth>}
         />
 
-        <Route path="/contactus" element={<Contactus />} />
-
-        <Route path="/logout" element={<Logout />} />
+        <Route path="/logout" element={<RequireAuth><Logout /></RequireAuth>} />
       </Routes>
       <Scroll />
     </BrowserRouter>

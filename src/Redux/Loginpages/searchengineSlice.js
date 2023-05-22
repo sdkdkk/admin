@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { logoutIfInvalidToken } from "../../helpers/handleError";
 
 const searchengineSlice = createSlice({
     name: "searchengine",
@@ -74,6 +75,7 @@ export const searchengine =
                     dispatch(searchengineFailure(data));
                 }
             } catch (error) {
+                logoutIfInvalidToken(error.response)
                 dispatch(searchengineFailure(error.response.data));
             }
         }

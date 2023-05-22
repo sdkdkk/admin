@@ -7,6 +7,7 @@ import "./coupon.css";
 import { useForm, Controller } from "react-hook-form";
 import { toast } from "react-toastify";
 import axios from "axios";
+import { logoutIfInvalidToken } from "../../helpers/handleError";
 
 const Coupon = () => {
   const {
@@ -35,6 +36,7 @@ const Coupon = () => {
       setConversionRate(response.data.data);
       // setLoading(false);
     } catch (error) {
+      logoutIfInvalidToken(error.response)
       console.log(error.response.data.error);
       // notify("Invalid refresh token!");
       setLoading(false);
@@ -63,6 +65,7 @@ const Coupon = () => {
         // setEditCouponId(null);
       }
     } catch (error) {
+      logoutIfInvalidToken(error.response)
       notify(error.response.data.error);
     } finally {
       setLoading(false);

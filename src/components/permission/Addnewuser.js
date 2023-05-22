@@ -7,6 +7,7 @@ import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import { ColorRing } from "react-loader-spinner";
+import { logoutIfInvalidToken } from "../../helpers/handleError";
 const Addnewuser = () => {
   const [defaultValues, setDefaultValues] = useState({});
   const {
@@ -84,6 +85,7 @@ const Addnewuser = () => {
         notify(data.error);
       }
     } catch (error) {
+      logoutIfInvalidToken(error.response)
       console.log("error - ", error);
       notify(error.response.data.error);
     }
@@ -108,6 +110,7 @@ const Addnewuser = () => {
       setRoleData(response.data.data);
       setLoading1(false);
     } catch (error) {
+      logoutIfInvalidToken(error.response)
       console.log(error.response.data.error);
       setLoading1(false);
     }
@@ -128,6 +131,7 @@ const Addnewuser = () => {
       setData(response.data.document);
       setLoading1(false);
     } catch (error) {
+      logoutIfInvalidToken(error.response)
       console.log(error.response.data.error);
       setLoading1(false);
     }

@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { Pagination } from "@mui/material";
 import axios from "axios";
 import { ColorRing } from "react-loader-spinner";
+import { logoutIfInvalidToken } from "../../helpers/handleError";
 
 const Coupon = () => {
   const {
@@ -49,6 +50,7 @@ const Coupon = () => {
       setConversionRate(response.data.data);
       setLoading1(false);
     } catch (error) {
+      logoutIfInvalidToken(error.response)
       console.log(error.response.data.error);
       // notify("Invalid refresh token!");
       setLoading1(false);
@@ -93,6 +95,7 @@ const Coupon = () => {
         fetchData(); // Fetch updated data
       }
     } catch (error) {
+      logoutIfInvalidToken(error.response)
       notify(error.response.data.error);
     } finally {
       setLoading(false);

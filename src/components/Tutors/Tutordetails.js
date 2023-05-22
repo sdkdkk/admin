@@ -13,6 +13,7 @@ import { useParams } from "react-router-dom";
 import { tutordetail } from "../../Redux/Loginpages/tutordetailSlice";
 import { ColorRing } from "react-loader-spinner";
 import face3 from "../Image/face3.jpg";
+import { logoutIfInvalidToken } from "../../helpers/handleError";
 
 const Tutordetails = () => {
   const tutordetails = useSelector((state) => state.tutordetail);
@@ -61,6 +62,7 @@ const Tutordetails = () => {
         setIsLoading(false);
         setLoader(false);
       } catch (error) {
+        logoutIfInvalidToken(error.response)
         if (error.response) {
           console.log(error.response.status);
           console.log(error.response.data);

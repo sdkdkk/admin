@@ -8,6 +8,7 @@ import "../Css/Tutorlist.css";
 import axios from "axios";
 import { ColorRing } from "react-loader-spinner";
 import { Link, useNavigate } from "react-router-dom";
+import { logoutIfInvalidToken } from "../../helpers/handleError";
 
 const Searchquestion = () => {
   const [searchTerm, setSearchTerm] = useState("");
@@ -36,6 +37,7 @@ const Searchquestion = () => {
 
       setIsLoading(false);
     } catch (error) {
+      logoutIfInvalidToken(error.response)
       if (error.response) {
         console.log(error.response.status);
         console.log(error.response.data);
