@@ -25,6 +25,7 @@ import Testexam from "./components/Tutorexam/Testexam";
 import Examdetails from "./components/Tutorexam/Examdetails";
 import Searchenginequedetail from "./components/Searchengine/Searchenginequedetail";
 import Logout from "./components/Logout/Logout";
+import Contactus from "./components/Contactus/Contactus";
 
 import Questiontiming from "./components/Question/Questiontiming";
 import Questionpricing from "./components/Question/Questionpricing";
@@ -128,6 +129,12 @@ function App() {
         <Route path="/tutorexamconfig" element={<RequireAuth><Tutorexamconfig /></RequireAuth>} />
         <Route path="/questiontype" element={<RequireAuth><Questiontype /></RequireAuth>} />
         <Route path="/questions" element={<RequireAuth><Questions /></RequireAuth>} />
+
+        <Route path="/tutorque" element={<Tutorque />} />
+        <Route path="/adminque" element={<Adminque />} />
+        <Route path="/reanswerque" element={<Reanswerque />} />
+        <Route path="/unsolvedque" element={<Unsolvedque />} />
+
         <Route path="/studentclass" element={<RequireAuth><StudentClass /></RequireAuth>} />
 
         <Route path="/mcqquestion" element={<RequireAuth><Mcqquestion /></RequireAuth>} />
@@ -159,6 +166,8 @@ function App() {
           path="/truefalsequesearchengine"
           element={<RequireAuth><TruefalsequeSearchengine /></RequireAuth>}
         />
+
+        <Route path="/contactus" element={<Contactus />} />
 
         <Route path="/logout" element={<RequireAuth><Logout /></RequireAuth>} />
       </Routes>
