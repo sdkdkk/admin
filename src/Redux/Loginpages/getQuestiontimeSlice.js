@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { logoutIfInvalidToken } from "../../helpers/handleError";
 
 const getQuestiontimeSlice = createSlice({
   name: "gettiming",
@@ -54,6 +55,7 @@ export const gettimingApi = (token) => async (dispatch) => {
       dispatch(gettimingFailure(data));
     }
   } catch (error) {
+    logoutIfInvalidToken(error.response)
     dispatch(gettimingFailure(error.response.data));
   }
 };

@@ -7,6 +7,7 @@ import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { ColorRing } from "react-loader-spinner";
+import { logoutIfInvalidToken } from "../../helpers/handleError";
 
 const Tutorexamconfig = () => {
   const {
@@ -38,6 +39,7 @@ const Tutorexamconfig = () => {
         await setConversionRate(response.data.data);
         setLoading1(false);
       } catch (error) {
+        logoutIfInvalidToken(error.response)
         console.log(error.response.data.error);
         // notify("Invalid refresh token!");
         setLoading(false);
@@ -66,6 +68,7 @@ const Tutorexamconfig = () => {
         });
       }
     } catch (error) {
+      logoutIfInvalidToken(error.response)
       console.log(error.response.data.error);
       notify(error.response.data.error);
     } finally {

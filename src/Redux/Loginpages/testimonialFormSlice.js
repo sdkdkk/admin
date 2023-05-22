@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import { logoutIfInvalidToken } from '../../helpers/handleError';
 
 const { createSlice } = require("@reduxjs/toolkit");
 
@@ -60,6 +61,7 @@ export const testimonialformapi = (token) => async (dispatch) => {
             dispatch(testimonialFormFailure(data));
         }
     } catch (error) {
+        logoutIfInvalidToken(error.response)
         dispatch(testimonialFormFailure(error.response.data));
     }
 };
