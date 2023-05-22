@@ -101,7 +101,7 @@ const Tutorlist = () => {
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
   let displayUsers =
     currentData && currentData.slice(indexOfFirstPage, indexOfLastPage);
-  const totalPages = Math.ceil(currentData.length / postsPerPage);
+  const totalPages = Math.ceil(currentData?.length / postsPerPage);
 
   const handleChange = (event, value) => {
     setCurrentPage(value);
@@ -121,10 +121,10 @@ const Tutorlist = () => {
 
   const searchItem = () => {
     const firstDate =
-      values.length > 0 ? new DateObject(values[0]).toDate() : null;
+      values?.length > 0 ? new DateObject(values[0]).toDate() : null;
     const lastDate =
       values.length > 0
-        ? new DateObject(values[values.length - 1]).toDate()
+        ? new DateObject(values[values?.length - 1]).toDate()
         : null;
 
     const filteredData = currentData.filter((item) => {
@@ -298,7 +298,7 @@ const Tutorlist = () => {
                                         <td>{data.mobileNo || "-"}</td>
                                         <td>
                                           {data.subjects &&
-                                          data.subjects.length > 0
+                                          data.subjects?.length > 0
                                             ? data.subjects
                                                 .slice(0, 2)
                                                 .join(", ")

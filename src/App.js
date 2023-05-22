@@ -99,7 +99,7 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<Signup />} />
         <Route path="signup" element={<Signup />} />
-        <Route path="/tutordetails/:id" element={<RequireAuth><Tutordetails /></RequireAuth>} />
+        <Route path="/tutordetails/:_id" element={<RequireAuth><Tutordetails /></RequireAuth>} />
 
         <Route path="/tutorexam" element={<RequireAuth><Tutorexam /></RequireAuth>} />
         <Route path="/tutorsearch" element={<RequireAuth><Tutorsearch /></RequireAuth>} />
