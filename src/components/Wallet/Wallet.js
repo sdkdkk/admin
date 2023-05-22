@@ -95,7 +95,7 @@ const Wallet = () => {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {[...walletTransactions].map((value,pos) => {
+                                                    {walletTransactions && [...walletTransactions].map((value,pos) => {
                                                         return (
                                                             <tr key={value._id}>
                                                                 <td>{pos+1}</td>

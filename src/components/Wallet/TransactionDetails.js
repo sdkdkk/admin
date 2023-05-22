@@ -67,9 +67,9 @@ const TransactionDetails = () => {
                   <div class="d-grid gap-2 d-md-flex justify-content-md-end"></div>
                 </div>
               </div>
-              <div className="row mt-4">
+              <div className="row mt-5">
                 <div className="col-12 grid-margin stretch-card">
-                  <div className="card new-table">
+                  <div className="card new-table mt-4">
                     <div className="card-body">
                       <table
                         className={
@@ -90,7 +90,7 @@ const TransactionDetails = () => {
                           </tr>
                         </thead>
                         <tbody>
-                          {[...walletTransactions].map((value, pos) => {
+                          {walletTransactions && [...walletTransactions].map((value, pos) => {
                             return (
                               <tr key={value._id}>
                                 <td>{pos + 1}</td>

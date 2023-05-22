@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import { ColorRing } from "react-loader-spinner";
+import { logoutIfInvalidToken } from "../../helpers/handleError";
 
 const Curruncy = () => {
   const {
@@ -36,6 +37,7 @@ const Curruncy = () => {
       await setConversionRate(response.data);
       setLoading(false);
     } catch (error) {
+      logoutIfInvalidToken(error.response)
       console.log(error.response.data.error);
       // notify("Invalid refresh token!");
       setLoading(false);
@@ -65,6 +67,7 @@ const Curruncy = () => {
         reset();
       }
     } catch (error) {
+      logoutIfInvalidToken(error.response)
       console.log(error.response.data.error);
       // notify("Invalid refresh token!");
     } finally {

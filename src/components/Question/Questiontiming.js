@@ -10,6 +10,7 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { ColorRing } from "react-loader-spinner";
 import { Pagination } from "@mui/material";
+import { logoutIfInvalidToken } from "../../helpers/handleError";
 
 const Questiontiming = () => {
   const [loading, setLoading] = useState(false);
@@ -97,6 +98,7 @@ const Questiontiming = () => {
         notify(data.error);
       }
     } catch (error) {
+      logoutIfInvalidToken(error.response)
       console.log("error - ", error);
       notify(error.response.data.error);
     }
@@ -130,6 +132,7 @@ const Questiontiming = () => {
 
       setLoading1(false);
     } catch (error) {
+      logoutIfInvalidToken(error.response)
       console.log(error.response.data.error);
       setLoading1(false);
     }

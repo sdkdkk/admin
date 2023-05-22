@@ -19,6 +19,7 @@ export const getTransactionHistory = createAsyncThunk('/admin/fetchTransactionHi
         return response.data;
     } catch (error) {
         logoutIfInvalidToken(error.response)
+        logoutIfInvalidToken(error.response)
         return rejectWithValue(error.message);
     }
 })

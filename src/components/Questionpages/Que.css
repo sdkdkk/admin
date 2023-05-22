@@ -32,7 +32,13 @@
     outline: none;
 }
 
+.feather-arrow-icon::before{
+    content: "\e912";
+}
 
+.mb--10{
+    margin-bottom: 10px;
+}
 .radius-6 {
     border-radius: 6px !important;
 }

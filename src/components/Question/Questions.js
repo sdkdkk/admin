@@ -10,8 +10,10 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { getAdminQuestions } from "../../Redux/Loginpages/getAdminQuestionSlice";
 import { useNavigate } from "react-router-dom";
+import { logoutIfInvalidToken } from "../../helpers/handleError";
 
-const Tutorlist = () => {
+const Question = () => {
+  
   const history = useNavigate();
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
@@ -37,6 +39,7 @@ const Tutorlist = () => {
       );
       setSubjectList(response?.data?.data);
     } catch (error) {
+      logoutIfInvalidToken(error.response)
       console.log(error.response.data.error);
       // notify("Invalid refresh token!");
     }
@@ -60,7 +63,7 @@ const Tutorlist = () => {
         data.questionType
       )
     ) {
-      history(`/questionanswer?id=${data._id}`);
+      history(`/fillups?id=${data._id}`);
     } else {
       switch (data.questionType) {
         case "MCQ":
@@ -80,7 +83,7 @@ const Tutorlist = () => {
           history(`/matchfollow?id=${data._id}`);
           return;
         default:
-          history(`/questionanswer?id=${data._id}`);
+          history(`/fillups?id=${data._id}`);
           return;
       }
     }
@@ -102,6 +105,7 @@ const Tutorlist = () => {
     fetchSubjectData();
   }, []);
 
+  console.log('currentPage', currentPage)
   return (
     <div>
       <div className="container-scroller">
@@ -224,7 +228,7 @@ const Tutorlist = () => {
                           <tbody>
                             {transactions.map((a, index) => (
                               <tr>
-                                <td>{a._id}</td>
+                                <td>{(currentPage - 1) * 5 + (index + 1)}</td>
                                 <td>{a.question}</td>
                                 <td>{a.questionType}</td>
                                 <td>{a.questionSubject}</td>
@@ -279,4 +283,4 @@ const Tutorlist = () => {
   );
 };
 
-export default Tutorlist;
+export default Question;

@@ -9,6 +9,7 @@ import { useParams } from "react-router-dom";
 import { ColorRing } from "react-loader-spinner";
 import Moment from "react-moment";
 import face3 from "../Image/face3.jpg";
+import { logoutIfInvalidToken } from "../../helpers/handleError";
 
 const Studentdetails = () => {
   const { _id } = useParams();
@@ -46,6 +47,7 @@ const Studentdetails = () => {
       setStudentdetail(response2.data.document);
       setLoader(false);
     } catch (error) {
+      logoutIfInvalidToken(error.response)
       if (error.response) {
         console.log(error.response.status);
         console.log(error.response.data);
@@ -209,8 +211,8 @@ const Studentdetails = () => {
                   </div>
                 </div>
               </div>
-              {/* <div className=" text-start heading-main mt-5">
-                <h4>Answer Given</h4>
+              <div className=" text-start heading-main mt-5">
+                <h4>Question Asked</h4>
               </div>
               <div className="row">
                 <div className="col-12 grid-margin stretch-card">
@@ -276,7 +278,7 @@ const Studentdetails = () => {
                     </div>
                   </div>
                 </div>
-              </div> */}
+              </div>
             </div>
           )}
         </div>

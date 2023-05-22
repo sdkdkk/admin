@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { logoutIfInvalidToken } from "../../helpers/handleError";
 
 const questiontypePriceSlice = createSlice({
   name: "questiontypeprice",
@@ -55,6 +56,7 @@ export const questiontypePriceApi = () => async (dispatch) => {
       dispatch(questiontypepriceFailure(data));
     }
   } catch (error) {
+    logoutIfInvalidToken(error.response)
     dispatch(questiontypepriceFailure(error.response.data));
   }
 };

@@ -28,6 +28,7 @@ import {
 } from "../../Redux/Loginpages/deleteTutorQuestionSlice";
 import { updateTutorQuestionApi } from "../../Redux/Loginpages/updateTutorQuestionSlice";
 import axios from "axios";
+import { logoutIfInvalidToken } from "../../helpers/handleError";
 
 const ReadMore = ({ children }) => {
   const text = children;
@@ -110,6 +111,7 @@ const Tutorexam = () => {
       );
       setSubjectList(response?.data?.data);
     } catch (error) {
+      logoutIfInvalidToken(error.response)
       console.log(error.response.data.error);
       // notify("Invalid refresh token!");
     }

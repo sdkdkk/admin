@@ -8,6 +8,7 @@ import axios from "axios";
 import { ColorRing } from "react-loader-spinner";
 import { Button } from "react-bootstrap";
 import { toast } from "react-toastify";
+import { logoutIfInvalidToken } from "../../helpers/handleError";
 
 const Users = () => {
   const [loading, setLoading] = useState(false);
@@ -37,6 +38,7 @@ const Users = () => {
 
       setLoading1(false);
     } catch (error) {
+      logoutIfInvalidToken(error.response)
       console.log(data);
       console.log(error);
       notify(data.error);
@@ -63,6 +65,7 @@ const Users = () => {
       notify(response.data.message);
       setLoading(false);
     } catch (error) {
+      logoutIfInvalidToken(error.response)
       console.log(data);
       console.log(error.response.data.error);
       notify(error.response.data.error);

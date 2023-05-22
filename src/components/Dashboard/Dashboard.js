@@ -10,6 +10,7 @@ import StickyNote2OutlinedIcon from "@mui/icons-material/StickyNote2Outlined";
 import { Button } from "react-bootstrap";
 import axios from "axios";
 import { ColorRing } from "react-loader-spinner";
+import { logoutIfInvalidToken } from "../../helpers/handleError";
 
 const Dashboard = () => {
   const [loading1, setLoading1] = useState(false);
@@ -32,6 +33,7 @@ const Dashboard = () => {
       setData(response.data.dashboardStats);
       setLoading1(false);
     } catch (error) {
+      logoutIfInvalidToken(error.response)
       setLoading1(false);
     }
   };
