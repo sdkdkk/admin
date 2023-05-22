@@ -11,7 +11,8 @@ import axios from "axios";
 import { getAdminQuestions } from "../../Redux/Loginpages/getAdminQuestionSlice";
 import { useNavigate } from "react-router-dom";
 
-const Tutorlist = () => {
+const Question = () => {
+  
   const history = useNavigate();
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
@@ -279,4 +280,4 @@ const Tutorlist = () => {
   );
 };
 
-export default Tutorlist;
+export default Question;

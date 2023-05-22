@@ -36,6 +36,12 @@ import Tutorexamconfig from "./components/Tutorconfig/Tutorexamconfig";
 import Tutorsearch from "./components/Tutorexam/Tutorsearch";
 import Questiontype from "./components/Question/Questiontype";
 import Questions from "./components/Question/Questions";
+
+import Tutorque from "./components/Question/Tutorque";
+import Adminque from "./components/Question/Adminque";
+import Reanswerque from "./components/Question/Reanswerque";
+import Unsolvedque from "./components/Question/Unsolvedque";
+
 import Mcqquestion from "./components/Questionpages/Mcqquestion";
 import Truefalseque from "./components/Questionpages/Truefalseque";
 import Fillups from "./components/Questionpages/Fillups";
@@ -55,6 +61,8 @@ import Addnewuser from "./components/permission/Addnewuser";
 import Addnewrole from "./components/permission/Addnewrole";
 import TransactionDetails from "./components/Wallet/TransactionDetails";
 import StudentClass from "./components/studentClass/StudentClass";
+import Contactus from "./components/Contactus/Contactus";
+
 
 function App() {
   return (
@@ -111,6 +119,13 @@ function App() {
         <Route path="/tutorexamconfig" element={<Tutorexamconfig />} />
         <Route path="/questiontype" element={<Questiontype />} />
         <Route path="/questions" element={<Questions />} />
+
+        <Route path="/tutorque" element={<Tutorque />} />
+        <Route path="/adminque" element={<Adminque />} />
+        <Route path="/reanswerque" element={<Reanswerque />} />
+        <Route path="/unsolvedque" element={<Unsolvedque />} />
+
+
         <Route path="/studentclass" element={<StudentClass />} />
 
         <Route path="/mcqquestion" element={<Mcqquestion />} />
@@ -142,6 +157,8 @@ function App() {
           path="/truefalsequesearchengine"
           element={<TruefalsequeSearchengine />}
         />
+
+        <Route path="/contactus" element={<Contactus />} />
 
         <Route path="/logout" element={<Logout />} />
       </Routes>
