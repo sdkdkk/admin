@@ -12,7 +12,8 @@ import { getAdminQuestions } from "../../Redux/Loginpages/getAdminQuestionSlice"
 import { useNavigate } from "react-router-dom";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
-const Tutorlist = () => {
+const Question = () => {
+  
   const history = useNavigate();
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
@@ -282,4 +283,4 @@ const Tutorlist = () => {
   );
 };
 
-export default Tutorlist;
+export default Question;

@@ -36,6 +36,12 @@ import Tutorexamconfig from "./components/Tutorconfig/Tutorexamconfig";
 import Tutorsearch from "./components/Tutorexam/Tutorsearch";
 import Questiontype from "./components/Question/Questiontype";
 import Questions from "./components/Question/Questions";
+
+import Tutorque from "./components/Question/Tutorque";
+import Adminque from "./components/Question/Adminque";
+import Reanswerque from "./components/Question/Reanswerque";
+import Unsolvedque from "./components/Question/Unsolvedque";
+
 import Mcqquestion from "./components/Questionpages/Mcqquestion";
 import Truefalseque from "./components/Questionpages/Truefalseque";
 import Fillups from "./components/Questionpages/Fillups";
