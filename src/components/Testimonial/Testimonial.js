@@ -80,8 +80,9 @@ const Testimonial = () => {
   ]);
 
   useEffect(() => {
-    // dispatch(testimonialformapi(tokens));
-  }, []);
+    reset(defaultValues);
+  }, [defaultValues]);
+  
   const onSubmit = (data) => {
     const formData = new FormData();
    
