@@ -92,11 +92,7 @@ function App() {
         <Route path="login" element={<Login />} />
         <Route path="signup" element={<Signup />} />
         <Route path="signup" element={<Signup />} />
-<<<<<<< Updated upstream
-        <Route path="/tutordetails/:_id" element={<Tutordetails />} />
-=======
         <Route path="/tutordetails/:id" element={<RequireAuth><Tutordetails /></RequireAuth>} />
->>>>>>> Stashed changes
 
         <Route path="/tutorexam" element={<RequireAuth><Tutorexam /></RequireAuth>} />
         <Route path="/tutorsearch" element={<RequireAuth><Tutorsearch /></RequireAuth>} />
