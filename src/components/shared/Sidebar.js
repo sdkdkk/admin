@@ -139,7 +139,7 @@ const Sidebar = () => {
               <ul className="nav flex-column sub-menu">
                 <li className="nav-item">
                   <Link className="nav-link" to="/tutorque">
-                    Tutors
+                    Tutor
                   </Link>
                 </li>
                 <li className="nav-item">
@@ -154,7 +154,7 @@ const Sidebar = () => {
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" to="/unsolvedque">
-                    Unsolved
+                  UnSloved
                   </Link>
                 </li>
               </ul>
