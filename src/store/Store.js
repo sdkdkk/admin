@@ -11,7 +11,7 @@ const persistConfig = {
     key: "root",
     version: 1,
     storage,
-    blacklist: ['pagesListDelete','postTutorQuestion','testimonialform','testimonialUserDelete']
+    blacklist: ['pagesListDelete','postTutorQuestion','testimonialform', 'testimonial', 'testimonialUserDelete']
 };
 
 
