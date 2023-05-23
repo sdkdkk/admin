@@ -16,51 +16,49 @@ const Mcqquestion = () => {
   const [searchParams] = useSearchParams();
   const id = searchParams.get("id");
   const notify = (data) => toast(data);
-  const [answer, setAnswer] = useState("")
-  const [loading, setLoading] = useState("")
+  const [answer, setAnswer] = useState("");
+  const [loading, setLoading] = useState("");
   const token = useSelector((state) => state.auth.token);
   const getAdminQuestionsState = useSelector(
     (state) => state.getAdminQuestions
   );
   const { transactions = [] } = getAdminQuestionsState?.data || {};
   const questionDetails = transactions?.find((a) => a._id === id) || {};
-  
+
   const { questionSubject, questionType, status, createdAt, question } =
     questionDetails || {};
 
-    const postAnswer = async () => {
-      setLoading(true)
-      try {
-        const response = await axios.post(
-          `https://vaidik-backend.onrender.com/admin/sendanswer`,
-          {
-            token: token,
-            questionId: id,
-            answer: answer,
-            explanation: ""
-          }
-        );
-        if(response){
-          console.log('response', response)
-          notify(response.data.message)
-          history(`/questions`);
+  const postAnswer = async () => {
+    setLoading(true);
+    try {
+      const response = await axios.post(
+        `https://vaidik-backend.onrender.com/admin/sendanswer`,
+        {
+          token: token,
+          questionId: id,
+          answer: answer,
+          explanation: "",
         }
-      } catch (error) {
-        logoutIfInvalidToken(error.response)
-        console.log(error.response.data.error);
-        // notify("Invalid refresh token!");
-      }finally{
-        setLoading(false)
+      );
+      console.log(response)
+      if (response) {
+        console.log("response", response);
+        notify(response.data.message);
+        history(`/questions`);
       }
-    };
-
-
+    } catch (error) {
+      logoutIfInvalidToken(error.response);
+      console.log(error.response.data.error);
+      // notify("Invalid refresh token!");
+    } finally {
+      setLoading(false);
+    }
+  };
+ 
   return (
     <>
       <div className="container-scroller">
-        <Navbar />
         <div className="container-fluid page-body-wrapper">
-          <Sidebar />
           <div className="main-panel">
             <div className="content-wrapper">
               <div className="mx-2 text-start">
@@ -84,8 +82,10 @@ const Mcqquestion = () => {
                   <div className="col-md-12 col-lg-12 mb--20 ">
                     <h5>Question</h5>
                     <div className="p--20 rbt-border radius-6 bg-primary-opacity">
-                      Q 01. {question}?
+                      Q 01. {question}
                     </div>
+
+                   
                   </div>
                   {true && (
                     <div className="col-md-12 col-lg-12 mb--20">
@@ -190,7 +190,6 @@ const Mcqquestion = () => {
                     </div>
                   )}
                 </div>
-                <Footer />
               </div>
             </div>
           </div>

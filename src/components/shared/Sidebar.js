@@ -8,7 +8,8 @@ const Sidebar = () => {
       <nav
         className="sidebar sidebar-offcanvas"
         style={{ marginLeft: "-12px" }}
-        id="sidebar">
+        id="sidebar"
+      >
         <ul className="nav">
           {/* Dashboard */}
           <li className="nav-item nav-category">
@@ -29,7 +30,8 @@ const Sidebar = () => {
               data-toggle="collapse"
               href="#tutor-menu"
               aria-expanded="false"
-              aria-controls="tutor-menu">
+              aria-controls="tutor-menu"
+            >
               <span className="menu-title">Tutors</span>
               <i className="icon-layers menu-icon"></i>
             </a>
@@ -56,7 +58,8 @@ const Sidebar = () => {
               data-toggle="collapse"
               href="#student-menu"
               aria-expanded="false"
-              aria-controls="student-menu">
+              aria-controls="student-menu"
+            >
               <span className="menu-title">Student</span>
               <i className="icon-layers menu-icon"></i>
             </a>
@@ -124,6 +127,7 @@ const Sidebar = () => {
             </Link>
           </li>
 
+
           {/*Questions*/}
           <li className="nav-item">
             <a
@@ -131,7 +135,8 @@ const Sidebar = () => {
               data-toggle="collapse"
               href="#question-menu"
               aria-expanded="false"
-              aria-controls="question-menu">
+              aria-controls="question-menu"
+            >
               <span className="menu-title">Questions</span>
               <i className="icon-layers menu-icon"></i>
             </a>
@@ -315,7 +320,8 @@ const Sidebar = () => {
               data-toggle="collapse"
               href="#settings-menu"
               aria-expanded="false"
-              aria-controls="settings-menu">
+              aria-controls="settings-menu"
+            >
               <span className="menu-title">Settings</span>
               <i className="icon-layers menu-icon"></i>
             </a>
@@ -333,6 +339,15 @@ const Sidebar = () => {
                 </li>
               </ul>
             </div>
+          </li>
+
+          
+          {/*mobileNo*/}
+          <li className="nav-item">
+            <Link className="nav-link" to="/addmobile">
+              <span className="menu-title"> Add Mobile No</span>
+              <i className="icon-screen-desktop menu-icon"></i>
+            </Link>
           </li>
 
           {/*contact us*/}

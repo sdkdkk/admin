@@ -38,6 +38,7 @@ const Fillups = () => {
   } = questionDetails || {};
 
   const postAnswer = async () => {
+     
     setLoading(true);
     try {
       const response = await axios.post(
@@ -67,7 +68,11 @@ const Fillups = () => {
     setShow(true);
     setImageSrc(url);
   };
+  const [updatedQuestion, setUpdatedQuestion] = useState(question);
 
+  const handleQuestionChange = (e) => {
+    setUpdatedQuestion(e.target.value);
+  };
   return (
     <>
       <div className="container-scroller">

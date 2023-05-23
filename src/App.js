@@ -64,6 +64,7 @@ import TransactionDetails from "./components/Wallet/TransactionDetails";
 import StudentClass from "./components/studentClass/StudentClass";
 import { isLoggedIn } from "./helpers/utility";
 import ForgotpassWord from "./components/ForgotPassWord/ForgotpassWord";
+import AddMobile from "./components/addmobile/AddMobile";
 
 function RequireAuth({ children }) {
   let auth = isLoggedIn();
@@ -490,6 +491,8 @@ function App() {
             </RequireAuth>
           }
         />
+        <Route path="/addmobile" element={<AddMobile /> } />
+
       </Routes>
       <Scroll />
     </BrowserRouter>

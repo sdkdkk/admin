@@ -14,13 +14,15 @@ import { tutordetail } from "../../Redux/Loginpages/tutordetailSlice";
 import { ColorRing } from "react-loader-spinner";
 import face3 from "../Image/face3.jpg";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
-
+import { Button, ToastContainer } from "react-bootstrap";
+import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
+import { toast } from "react-toastify";
 const Tutordetails = () => {
   const tutordetails = useSelector((state) => state.tutordetail);
   console.log(tutordetails);
   const dispatch = useDispatch();
   const { _id } = useParams();
-
+  console.log(_id);
   useEffect(() => {
     dispatch(tutordetail(_id));
   }, [dispatch, _id]);
@@ -62,7 +64,7 @@ const Tutordetails = () => {
         setIsLoading(false);
         setLoader(false);
       } catch (error) {
-        logoutIfInvalidToken(error.response)
+        logoutIfInvalidToken(error.response);
         if (error.response) {
           console.log(error.response.status);
           console.log(error.response.data);
@@ -78,6 +80,49 @@ const Tutordetails = () => {
     fetchData();
   }, []);
 
+  const approveTutors = async () => {
+    const tutorsObjData = {
+      token: token,
+      status: 3,
+    };
+    try {
+      const { data } = await axios.post(
+        `https://vaidik-backend.onrender.com/admin/tutorstatus/${_id}`,
+        tutorsObjData
+      );
+      console.log(data);
+      if (data.message) {
+        toast.success(data.message);
+      } else {
+        toast.error(data.error);
+      }
+    } catch (error) {
+      console.log("error - ", error);
+      toast.error(error.response.data.error);
+    }
+  };
+
+  const rejectTutors = async () => {
+    const tutorsObjData = {
+      token: token,
+      status: 2,
+    };
+    try {
+      const { data } = await axios.post(
+        `https://vaidik-backend.onrender.com/admin/tutorstatus/${_id}`,
+        tutorsObjData
+      );
+      console.log(data);
+      if (data.message) {
+        toast.success(data.message);
+      } else {
+        toast.error(data.error);
+      }
+    } catch (error) {
+      console.log("error - ", error);
+      toast.error(error.response.data.error);
+    }
+  };
   let navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(8);
@@ -109,238 +154,264 @@ const Tutordetails = () => {
   console.log(displaytransation);
 
   return (
-    <div className="container-scroller">
-      <Navbar />
-      <div className="container-fluid page-body-wrapper">
-        <Sidebar />
-        <div className="main-details" style={{ width: "inherit" }}>
-          {Loader ? (
-            <div
-              className="loader-end text-center"
-              style={{ marginTop: "250px" }}>
-              {Loader ? (
-                <ColorRing
-                  visible={true}
-                  height="80"
-                  width="80"
-                  ariaLabel="blocks-loading"
-                  wrapperStyle={{}}
-                  wrapperClass="blocks-wrapper"
-                  colors={["black"]}
-                />
-              ) : null}
-            </div>
-          ) : (
-            <div className="second-section text-start mt-4 mx-4">
-              {tutorpaydetails.map((data) => {
-                return (
-                  <div key={data._id}>
-                    <div className="row" style={{ backgroundColor: "#c0d7ff" }}>
-                      <div className="col">
-                        <div className="profile">
-                          <div className="profile-img mt-2">
-                            <img src={face3} alt=" " />
-                          </div>
-                          <div className="profile-info">
-                            <h5 className="mt-2">{data.name}</h5>
-                            <p>{data.mobileNo}</p>
-                            <p>{data.email}</p>
+    <>
+      <div className="container-scroller">
+        <Navbar />
+        <div className="container-fluid page-body-wrapper">
+          <Sidebar />
+          <div className="main-details" style={{ width: "inherit" }}>
+            {Loader ? (
+              <div
+                className="loader-end text-center"
+                style={{ marginTop: "250px" }}
+              >
+                {Loader ? (
+                  <ColorRing
+                    visible={true}
+                    height="80"
+                    width="80"
+                    ariaLabel="blocks-loading"
+                    wrapperStyle={{}}
+                    wrapperClass="blocks-wrapper"
+                    colors={["black"]}
+                  />
+                ) : null}
+              </div>
+            ) : (
+              <div className="second-section text-start mt-4 mx-4">
+                {tutorpaydetails.map((data) => {
+                  return (
+                    <div key={data._id} style={{ backgroundColor: "#c0d7ff" }}>
+                      <div
+                        className="row"
+                        style={{ backgroundColor: "#c0d7ff" }}
+                      >
+                        <div className="col">
+                          <div className="profile">
+                            <div className="profile-img mt-2">
+                              <img src={face3} alt=" " />
+                            </div>
+                            <div className="profile-info">
+                              <h5 className="mt-2">{data.name}</h5>
+                              <p>{data.mobileNo}</p>
+                              <p>{data.email}</p>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <div className="col bankdetails">
-                        <h5 className="mt-2">Bank Details</h5>
-                        <div>
-                          <strong>Bank Name:</strong>
+                        <div className="col bankdetails">
+                          <h5 className="mt-2">Bank Details</h5>
 
-                          {data.bankdetails?.bankName || ""}
-                        </div>
-                        <div>
-                          <strong>Account Number:</strong>
-                          {data.bankdetails?.accountNumber || ""}
-                        </div>
-                        <div>
-                          <strong>IFSC Code:</strong>
-                          {data.bankdetails?.IFSCCode || ""}
-                        </div>
-                        <div>
-                          <strong>Branch:</strong>
-                          {data.bankdetails?.Tutorbankname || ""}
-                        </div>
-                        <div>
-                          <strong>Bank Country:</strong>
-                          {data.bankdetails?.bankcountry || ""}
-                        </div>
-                      </div>
-                      <div className="col Subject">
-                        <h5 className="mt-2">Subject </h5>
-                        <div className="badge rounded-pill bg-warning">
-                          {data.subjects?.[0]}
-                        </div>
-                        <div className="badge rounded-pill bg-primary mx-2">
-                          {data.subjects?.[1]}
-                        </div>
-                        <div className="mt-3">
-                          <h5>Total Referral </h5>
-                          <div className="badge rounded-pill bg-dark">
-                            {data.subjects?.[2]}
+                          <div>
+                            <strong>Bank Name:</strong>
+
+                            {data.bankdetails?.bankName || ""}
+                          </div>
+                          <div>
+                            <strong>Account Number:</strong>
+                            {data.bankdetails?.accountNumber || ""}
+                          </div>
+                          <div>
+                            <strong>IFSC Code:</strong>
+                            {data.bankdetails?.IFSCCode || ""}
+                          </div>
+                          <div>
+                            <strong>Branch:</strong>
+                            {data.bankdetails?.Tutorbankname || ""}
+                          </div>
+                          <div>
+                            <strong>Bank Country:</strong>
+                            {data.bankdetails?.bankcountry || ""}
                           </div>
                         </div>
-                      </div>
-                      <div className="col Earnings">
-                        <div className="mt-2">
-                          <strong>Earnings</strong>
+                        <div className="col Subject">
+                          <h5 className="mt-2">Subject </h5>
+                          <div className="badge rounded-pill bg-warning">
+                            {data.subjects?.[0]}
+                          </div>
+                          <div className="badge rounded-pill bg-primary mx-2">
+                            {data.subjects?.[1]}
+                          </div>
+                          <div className="mt-3">
+                            <h5>Total Referral </h5>
+                            <div className="badge rounded-pill bg-dark">
+                              {data.subjects?.[2]}
+                            </div>
+                          </div>
                         </div>
-                        <div>Rs.{data.earning}</div>
-                        <div>
-                          <strong>Paid</strong>
+                        <div className="col Earnings">
+                          <div className="mt-2">
+                            <strong>Earnings</strong>
+                          </div>
+                          <div>Rs.{data.earning}</div>
+                          <div>
+                            <strong>Paid</strong>
+                          </div>
+                          <h4 className="text-danger">
+                            <strong>Rs.{data.paid}</strong>
+                          </h4>
+                          <div>
+                            <strong>Balance</strong>
+                          </div>
+                          <h4 className="text-success">
+                            <strong>Rs.{data.balance}</strong>
+                          </h4>
                         </div>
-                        <h4 className="text-danger">
-                          <strong>Rs.{data.paid}</strong>
-                        </h4>
-                        <div>
-                          <strong>Balance</strong>
+
+                        <div className=" text-center">
+                          <hr />
+                          <Button
+                            className="btn-success my-4 mx-3"
+                            onClick={() => approveTutors()}
+                          >
+                            <AiOutlineCheck /> Approve
+                          </Button>
+                          <Button
+                            className="btn-danger"
+                            onClick={() => rejectTutors()}
+                          >
+                            <AiOutlineClose /> Rejected
+                          </Button>
                         </div>
-                        <h4 className="text-success">
-                          <strong>Rs.{data.balance}</strong>
-                        </h4>
                       </div>
                     </div>
-                  </div>
-                );
-              })}
+                  );
+                })}
 
-              <div className="heading-main mt-5 text-start">
-                <h4>Transaction History</h4>
-              </div>
-              <div>
-                <div className="table-responsive">
-                  <div className="rable">
-                    <table className="table">
-                      <thead>
-                        <tr>
-                          <th colSpan="2">Date</th>
-                          <th colSpan="2">Paid</th>
-                          <th colSpan="2">Balance</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-                        <>
-                          {displaytransation.map((Data, id) => {
-                            return (
-                              <tr key={id}>
-                                <td colSpan="2">
-                                  <Moment format="D MMM YYYY" withTitle>
-                                    {Data.date}
-                                  </Moment>
-                                </td>
-                                <td colSpan="2">Rs.{Data.amount} </td>
-                                <td colSpan="2">Rs.{Data.balance}</td>
-                              </tr>
-                            );
-                          })}
-                        </>
-                      </tbody>
-                    </table>
-                    <div className="table-pagination">
-                      <Pagination
-                        count={totalPage}
-                        page={currentPage1}
-                        onChange={handleChange1}
-                        shape="rounded"
-                        variant="outlined"
-                      />
+                <div className="heading-main mt-5 text-start">
+                  <h4>Transaction History</h4>
+                </div>
+                <div>
+                  <div className="table-responsive">
+                    <div className="rable">
+                      <table className="table">
+                        <thead>
+                          <tr>
+                            <th colSpan="2">Date</th>
+                            <th colSpan="2">Paid</th>
+                            <th colSpan="2">Balance</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <>
+                            {displaytransation.map((Data, id) => {
+                              return (
+                                <tr key={id}>
+                                  <td colSpan="2">
+                                    <Moment format="D MMM YYYY" withTitle>
+                                      {Data.date}
+                                    </Moment>
+                                  </td>
+                                  <td colSpan="2">Rs.{Data.amount} </td>
+                                  <td colSpan="2">Rs.{Data.balance}</td>
+                                </tr>
+                              );
+                            })}
+                          </>
+                        </tbody>
+                      </table>
+                      <div className="table-pagination">
+                        <Pagination
+                          count={totalPage}
+                          page={currentPage1}
+                          onChange={handleChange1}
+                          shape="rounded"
+                          variant="outlined"
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
-              </div>
-              <div className=" text-start heading-main mt-5">
-                <h4>Answer Given</h4>
-              </div>
-              <div className="row">
-                <div className="col-12 grid-margin stretch-card">
-                  <div className="card new-table">
-                    <div className="card-body">
-                      {isLoading ? (
-                        <div>
-                          <ColorRing
-                            visible={true}
-                            height="80"
-                            width="80"
-                            ariaLabel="blocks-loading"
-                            wrapperStyle={{}}
-                            wrapperClass="blocks-wrapper"
-                            colors={["black"]}
-                          />
-                        </div>
-                      ) : (
-                        <>
-                          <table className="table v-top">
-                            <thead>
-                              <tr>
-                                <th scope="col">Question</th>
-                                <th scope="col">Question Type</th>
-                                <th scope="col">Question Subject</th>
-                                <th scope="col">tutor Price</th>
-                                <th scope="col">status</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              {displayUsers.map((data) => (
-                                <tr key={data._id}>
-                                  <td
-                                    style={{ cursor: "pointer" }}
-                                    onClick={() => {
-                                      toComponentB(data);
-                                    }}>
-                                    {data.allQuestions.question
-                                      .split(" ")
-                                      .slice(0, 3)
-                                      .join(" ")}
-                                    ...
-                                  </td>
-                                  <td>{data.allQuestions.questionType}</td>
-                                  <td>{data.allQuestions.questionSubject}</td>
-                                  <td>{data.allQuestions.tutorPrice}</td>
-                                  <td>{data.allQuestions.status}</td>
-                                </tr>
-                              ))}{" "}
-                            </tbody>
-                          </table>
-                          <div className="table-pagination">
-                            <Pagination
-                              count={totalPages}
-                              page={currentPage}
-                              onChange={handleChange}
-                              shape="rounded"
-                              variant="outlined"
+                <div className=" text-start heading-main mt-5">
+                  <h4>Answer Given</h4>
+                </div>
+                <div className="row">
+                  <div className="col-12 grid-margin stretch-card">
+                    <div className="card new-table">
+                      <div className="card-body">
+                        {isLoading ? (
+                          <div>
+                            <ColorRing
+                              visible={true}
+                              height="80"
+                              width="80"
+                              ariaLabel="blocks-loading"
+                              wrapperStyle={{}}
+                              wrapperClass="blocks-wrapper"
+                              colors={["black"]}
                             />
                           </div>
-                        </>
-                      )}
+                        ) : (
+                          <>
+                            <table className="table v-top">
+                              <thead>
+                                <tr>
+                                  <th scope="col">Question</th>
+                                  <th scope="col">Question Type</th>
+                                  <th scope="col">Question Subject</th>
+                                  <th scope="col">tutor Price</th>
+                                  <th scope="col">status</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                                {displayUsers.map((data) => (
+                                  <tr key={data._id}>
+                                    <td
+                                      style={{ cursor: "pointer" }}
+                                      onClick={() => {
+                                        toComponentB(data);
+                                      }}
+                                    >
+                                      {data.allQuestions.question
+                                        .split(" ")
+                                        .slice(0, 3)
+                                        .join(" ")}
+                                      ...
+                                    </td>
+                                    <td>{data.allQuestions.questionType}</td>
+                                    <td>{data.allQuestions.questionSubject}</td>
+                                    <td>{data.allQuestions.tutorPrice}</td>
+                                    <td>{data.allQuestions.status}</td>
+                                  </tr>
+                                ))}{" "}
+                              </tbody>
+                            </table>
+                            <div className="table-pagination">
+                              <Pagination
+                                count={totalPages}
+                                page={currentPage}
+                                onChange={handleChange}
+                                shape="rounded"
+                                variant="outlined"
+                              />
+                            </div>
+                          </>
+                        )}
+                      </div>
                     </div>
                   </div>
                 </div>
+                <div
+                  className="gap-2 d-md-flex"
+                  style={{ justifyContent: "end" }}
+                >
+                  <Link to={`/professionaldetails/${_id}`}>
+                    <button className="btn btn-outline-primary" type="button">
+                      Edit User
+                    </button>
+                  </Link>
+                  <Link to={`/tutorlist`}>
+                    <button className="btn btn-primary" type="button">
+                      Back to List
+                    </button>
+                  </Link>
+                </div>
               </div>
-              <div
-                className="gap-2 d-md-flex"
-                style={{ justifyContent: "end" }}>
-                <Link to={`/professionaldetails/${_id}`}>
-                  <button className="btn btn-outline-primary" type="button">
-                    Edit User
-                  </button>
-                </Link>
-                <Link to={`/tutorlist`}>
-                  <button className="btn btn-primary" type="button">
-                    Back to List
-                  </button>
-                </Link>
-              </div>
-            </div>
-          )}
+            )}
+          </div>
         </div>
       </div>
-    </div>
+      <ToastContainer />
+    </>
   );
 };
 
