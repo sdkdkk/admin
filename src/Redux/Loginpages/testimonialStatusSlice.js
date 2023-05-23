@@ -1,73 +1,73 @@
-import axios from 'axios';
-import { toast } from 'react-toastify';
-import { logoutIfInvalidToken } from '../../helpers/handleError';
+import axios from "axios";
+import { toast } from "react-toastify";
+import { logoutIfInvalidToken } from "../../helpers/handleError";
 
 const { createSlice } = require("@reduxjs/toolkit");
 
 const url = "https://vaidik-backend.onrender.com";
 
 const testimonialStatusSlice = createSlice({
-
-    name: "testimonialstatus",
-    initialState: {
-        isAuthenticated: false,
-        user: null,
-        error: null,
-        loading: false,
-        status: true,
+  name: "testimonialstatus",
+  initialState: {
+    isAuthenticated: false,
+    user: null,
+    error: null,
+    loading: false,
+    status: true,
+  },
+  reducers: {
+    //Set-info
+    testimonialStatusPending: (state) => {
+      state.loading = true;
     },
-    reducers: {
-
-        //Set-info
-        testimonialStatusPending: (state) => {
-            state.loading = true;
-        },
-        testimonialStatusSuccess: (state, { payload }) => {
-            state.loading = false;
-            state.isAuthenticated = true;
-            state.user = payload;
-            state.token = payload.token;
-            state.error = null;
-            // localStorage.setItem("token", state.token);
-        },
-        testimonialStatusFailure: (state, { payload }) => {
-            state.loading = false;
-            state.isAuthenticated = false;
-            state.user = null;
-            state.error = payload;
-        },
+    testimonialStatusSuccess: (state, { payload }) => {
+      state.loading = false;
+      state.isAuthenticated = true;
+      state.user = payload;
+      state.token = payload.token;
+      state.error = null;
+      // localStorage.setItem("token", state.token);
     },
-
-})
-
+    testimonialStatusFailure: (state, { payload }) => {
+      state.loading = false;
+      state.isAuthenticated = false;
+      state.user = null;
+      state.error = payload;
+    },
+  },
+});
 
 //Testimonial
 
-export const { testimonialStatusPending, testimonialStatusSuccess, testimonialStatusFailure } = testimonialStatusSlice.actions;
+export const {
+  testimonialStatusPending,
+  testimonialStatusSuccess,
+  testimonialStatusFailure,
+} = testimonialStatusSlice.actions;
 
 export const Statuschange = (status, id) => async (dispatch) => {
-console.log(id);
-    const token = localStorage.getItem('token');
-    // var data = {
-    //     token,
-    //     value
-    // }
-    // console.log(data);
-    dispatch(testimonialStatusPending());
-    try {
+  console.log(status, id);
 
-        const { data } = await axios.post(`${url}/admin/testimonialstatus/${id}`, { token, status });
+  const token = localStorage.getItem("token");
+  // var data = {
+  //     token,
+  //     value
+  // }
 
-        if (data.status === 1){
-            toast.success(data.message);
-            dispatch(testimonialStatusSuccess(data));
-        }
-        else
-            dispatch(testimonialStatusFailure(data));
-    } catch (error) {
-        logoutIfInvalidToken(error.response)
-        dispatch(testimonialStatusFailure(error));
-    }
+  dispatch(testimonialStatusPending());
+  try {
+    const { data } = await axios.post(`${url}/admin/testimonialstatus/${id}`, {
+      token,status
+    });
+
+    if (data.status === 1) {
+      toast.success(data.message);
+      dispatch(testimonialStatusSuccess(data));
+    } else dispatch(testimonialStatusFailure(data));
+  } catch (error) {
+    logoutIfInvalidToken(error.response);
+    dispatch(testimonialStatusFailure(error));
+  }
 };
 
 export default testimonialStatusSlice.reducer;

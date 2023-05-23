@@ -1,0 +1,22 @@
+.logo a img {
+  max-height: 50px;
+  object-fit: cover;
+  margin-top: 3rem;
+  margin-bottom: 3rem;
+}
+
+img {
+  /* -ms-interpolation-mode: bicubic; */
+  border: 0;
+  vertical-align: middle;
+  max-width: 100%;
+  height: auto;
+}
+
+/* @media only screen and (max-width: 767px) {
+  body {
+    font-size: 16px;
+    line-height: 1.5;
+  }
+} */
+

@@ -219,7 +219,7 @@ const Contactus = () => {
                                                 required: "Provide your Name!",
                                               })}
                                             />
-                                            <p className="text-danger">
+                                            <p className="error-msg">
                                               {errors.fullname &&
                                                 errors.fullname.message}
                                             </p>
@@ -245,7 +245,7 @@ const Contactus = () => {
                                                 },
                                               })}
                                             />{" "}
-                                            <p className="text-danger">
+                                            <p className="error-msg">
                                               {errors.email &&
                                                 errors.email.message}
                                             </p>
@@ -306,7 +306,7 @@ const Contactus = () => {
                                                 required: "Enter message!",
                                               })}
                                             />
-                                            <p className="text-danger">
+                                            <p className="error-msg">
                                               {errors.Message &&
                                                 errors.Message.message}
                                             </p>

@@ -62,7 +62,7 @@ h6,
 .h5,
 .h6 {
   word-break: break-word;
-  font-family: var(--font-secondary);
+  /* font-family: var(--font-secondary); */
   line-height: 1.4074;
   color: #192335;
 }
@@ -246,4 +246,12 @@ textarea {
 .mobile-input input.form-control {
   height: 48px;
   width: 100%;
+}
+
+
+/* contact us page */
+.error-msg{
+  position: relative;
+  top: -13px;
+  color:red
 }

@@ -134,7 +134,7 @@ const Tutordetails = () => {
             <div className="second-section text-start mt-4 mx-4">
               {tutorpaydetails.map((data) => {
                 return (
-                  <>
+                  <div key={data._id}>
                     <div className="row" style={{ backgroundColor: "#c0d7ff" }}>
                       <div className="col">
                         <div className="profile">
@@ -175,15 +175,15 @@ const Tutordetails = () => {
                       <div className="col Subject">
                         <h5 className="mt-2">Subject </h5>
                         <div className="badge rounded-pill bg-warning">
-                          {data.subjects[0]}
+                          {data.subjects?.[0]}
                         </div>
                         <div className="badge rounded-pill bg-primary mx-2">
-                          {data.subjects[1]}
+                          {data.subjects?.[1]}
                         </div>
                         <div className="mt-3">
                           <h5>Total Referral </h5>
                           <div className="badge rounded-pill bg-dark">
-                            {data.subjects[2]}
+                            {data.subjects?.[2]}
                           </div>
                         </div>
                       </div>
@@ -206,7 +206,7 @@ const Tutordetails = () => {
                         </h4>
                       </div>
                     </div>
-                  </>
+                  </div>
                 );
               })}
 
@@ -287,7 +287,7 @@ const Tutordetails = () => {
                             </thead>
                             <tbody>
                               {displayUsers.map((data) => (
-                                <tr>
+                                <tr key={data._id}>
                                   <td
                                     style={{ cursor: "pointer" }}
                                     onClick={() => {
