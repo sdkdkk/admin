@@ -30,7 +30,7 @@ const AddMobile = () => {
   const [loading1, setLoading1] = useState(false);
   const [data, setData] = useState([]);
   const token = localStorage.getItem("token");
-  //   const notify = (data) => toast(data);
+    const notify = (data) => toast(data);
 
   //table
   const [currentPage, setCurrentPage] = useState(1);
@@ -90,10 +90,11 @@ const AddMobile = () => {
       }
       reset();
       console.log(response.data);
-      if (response.data.message) {
-        setData(response.data);
-        toast.success(response.data.message);
-        fetchData();
+      if (response.data.status === 1) {
+        // setData(response.data);
+     notify(response.data.message);
+          fetchData();
+        
         // setEditCouponId(null);
       }
     } catch (error) {
@@ -103,7 +104,7 @@ const AddMobile = () => {
       setLoading(false);
     }
   };
-
+  console.log(data)
   //   const handleUpdate = (questionType) => {
   //     setEditQuestionType(questionType); // Set the question type being edited
   //     reset({ questionType: questionType }); // Set the form values to the selected question type
