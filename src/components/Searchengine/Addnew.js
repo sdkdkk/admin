@@ -309,6 +309,7 @@ const Addnew = () => {
                         <Col md={12}>
                           <div>
                             <p className="mx-1">Answer</p>
+                            
                             <Controller
                               name="answer"
                               control={control}
