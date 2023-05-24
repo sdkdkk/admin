@@ -46,14 +46,18 @@ const Truefalseque = () => {
         history(`/questions`);
       }
     } catch (error) {
-      console.log('error', error)
+      console.log("error", error);
       logoutIfInvalidToken(error.response);
       errorToast(error.response.data.error);
     } finally {
       setLoading(false);
     }
   };
+  const [updatedQuestion, setUpdatedQuestion] = useState(question);
 
+  const handleQuestionChange = (e) => {
+    setUpdatedQuestion(e.target.value);
+  };
   return (
     <>
       <div className="container-scroller">
@@ -98,8 +102,10 @@ const Truefalseque = () => {
                             type="radio"
                             name="answer"
                             id="true"
-                            value="true"
-                            onChange={() => setAnswer(true)}
+                            // value="true"
+                            // onChange={() => setAnswer(true)}
+                            value={updatedQuestion}
+                            onChange={handleQuestionChange}
                           />
                           <label
                             className="form-check-label"

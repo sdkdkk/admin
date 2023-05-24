@@ -31,7 +31,7 @@ const Testimonial = () => {
   const testimonialform = useSelector((state) => state.testimonialform);
   const testimonialstatus = useSelector((state) => state.testimonialstatus);
   const testimonialUserDeleteState = useSelector((state) => state.testimonialUserDelete);
-  
+  console.log('testimonial.user', testimonial.user?.testimonial)
   var [isActive, SetisActive] = useState(true);
 
   const [isOpen, setIsOpen] = useState("");
@@ -105,7 +105,7 @@ const Testimonial = () => {
 
   const changestatus = async (value, id, index) => {
     var st;
-    if (testimonial.user.testimonial[index].isactive === true) {
+    if (testimonial.user?.testimonial[index].isactive === true) {
       st = false;
     } else {
       st = true;
@@ -166,10 +166,10 @@ const Testimonial = () => {
                         <tbody>
                           <>
                             {testimonial.user &&
-                              testimonial.user.testimonial
+                              testimonial.user?.testimonial
                                 .slice((currentPage - 1) * 5, currentPage * 5)
                                 .map((data, index) => (
-                                  <tr key={index}>
+                                  <tr key={data.id}>
                                     <td>{data.sortOrder}</td>
                                     <td>
                                       {" "}

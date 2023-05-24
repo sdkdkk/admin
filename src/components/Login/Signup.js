@@ -45,7 +45,7 @@ const Signup = () => {
   return (
     <>
       <div
-        class="card mt-3"
+         className="card mt-3"
         style={{
           width: "60%",
           margin: "auto",
@@ -53,7 +53,7 @@ const Signup = () => {
           alignItems: "center",
         }}>
         <img src={Logo} alt="img" className="logo-img-login" />
-        <div class="card-body">
+        <div  className="card-body">
           <h4 className="title text-center mb--10">Sign Up</h4>
           <form
             onSubmit={handleSubmit(onSubmit)}
@@ -61,13 +61,13 @@ const Signup = () => {
             className="rbt-profile-row rbt-default-form row row--15">
             <div className="col-lg-12 col-md-12 col-12">
               <div className="rbt-form-group">
-                <label for="exampleInputEmail1" class="form-label">
+                <label htmlFor="exampleInputEmail1"  className="form-label">
                   Email{" "}
                 </label>
                 <input
                   placeholder="Enter Your Email ID"
                   type="email"
-                  class="form-control"
+                   className="form-control"
                   {...register("email", {
                     required: "Please Enter A Valid Email!",
                     pattern: {
@@ -82,13 +82,13 @@ const Signup = () => {
             </div>
             <div className="col-lg-6 col-md-6 col-12">
               <div className="rbt-form-group">
-                <label for="exampleInputEmail1" class="form-label">
+                <label htmlFor="exampleInputEmail1"  className="form-label">
                   Password{" "}
                 </label>
                 <input
                   placeholder="Enter your password"
                   type="password"
-                  class="form-control"
+                   className="form-control"
                   {...register("password", {
                     required: "You must specify a password",
                     minLength: {
@@ -104,13 +104,13 @@ const Signup = () => {
             </div>
             <div className="col-lg-6 col-md-6 col-12">
               <div className="rbt-form-group">
-                <label for="exampleInputEmail1" class="form-label">
+                <label htmlFor="exampleInputEmail1"  className="form-label">
                   Confirm Password{" "}
                 </label>
                 <input
                   placeholder="Re-enter your password"
                   type="password"
-                  class="form-control"
+                   className="form-control"
                   {...register("cpassword", {
                     required: "Confirm password is required",
                     validate: (value) =>
@@ -124,13 +124,13 @@ const Signup = () => {
             </div>
             <div className="col-lg-6 col-md-6 col-12">
               <div className="rbt-form-group">
-                <label for="exampleInputEmail1" class="form-label">
+                <label htmlFor="exampleInputEmail1"  className="form-label">
                   Mobile Number{" "}
                 </label>
                 <input
                   placeholder="+91 (55555-55555)"
                   type="tel"
-                  class="form-control"
+                   className="form-control"
                   {...register("mobile", {
                     required: "Enter Mobile number!",
                   })}
@@ -142,13 +142,13 @@ const Signup = () => {
             </div>
             <div className="col-lg-6 col-md-6 col-12">
               <div className="rbt-form-group">
-                <label for="exampleInputEmail1" class="form-label">
+                <label htmlFor="exampleInputEmail1"  className="form-label">
                   OTP{" "}
                 </label>
                 <input
                   placeholder="Type your OTP here"
                   type="tel"
-                  class="form-control"
+                   className="form-control"
                   {...register("OTP", {
                     required: "You must OTP",
                     minLength: {
@@ -164,12 +164,12 @@ const Signup = () => {
             </div>
             <div className="col-lg-6 col-md-6 col-12">
               <div className="filter-select rbt-modern-select mb--15">
-                <label for="exampleInputEmail1" class="form-label">
+                <label htmlFor="exampleInputEmail1"  className="form-label">
                   Class{" "}
                 </label>
                 <div className="dropdown react-bootstrap-select w-100">
                   <select
-                    class="form-select"
+                     className="form-select"
                     aria-label="Default select example"
                     {...register("class", { required: true })}>
                     <option value="">Select your Class</option>
@@ -186,13 +186,13 @@ const Signup = () => {
             </div>
             <div className="col-lg-6 col-md-6 col-12">
               <div className="rbt-form-group">
-                <label for="exampleInputEmail1" class="form-label">
+                <label htmlFor="exampleInputEmail1"  className="form-label">
                   Referral Code{" "}
                 </label>
                 <input
                   placeholder="Enter your referral code"
                   type="text"
-                  class="form-control"
+                   className="form-control"
                   {...register("referralCode", {
                     minLength: {
                       value: 12,

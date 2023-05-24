@@ -277,11 +277,31 @@ const Tutorexam = () => {
                             >
                               <Form.Label>Questions</Form.Label>
                               <Form.Control
-                                type="text"
+                                as="textarea" rows={3}
                                 name="question"
                                 placeholder="Enter Questions"
                                 {...register("question", {
                                   required: "Please Enter A Valid Question!",
+                                })}
+                              />
+                              
+                              <p className="error-msg">
+                                {errors.question && errors.question.message}
+                              </p>
+                            </Form.Group>
+                          </div>
+                          <div className="col-md-12">
+                            <Form.Group
+                              className="mb-3"
+                              controlId="formBasicEmail"
+                            >
+                              <Form.Label>Image</Form.Label>
+                              <Form.Control
+                                type="file"
+                                name="image"
+                                placeholder="Enter Questions"
+                                {...register("image", {
+                                  required: "Please Upload image",
                                 })}
                               />
                               <p className="error-msg">

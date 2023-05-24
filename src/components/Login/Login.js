@@ -73,13 +73,13 @@ const Login = () => {
                   className="rbt-profile-row rbt-default-form row row--15">
                   <div className="col-lg-12 col-md-12 col-12">
                     <div className="rbt-form-group">
-                      <label for="exampleInputEmail1" class="form-label">
+                      <label htmlFor="exampleInputEmail1"  className="form-label">
                         Email address
                       </label>
                       <input
                         placeholder="Enter Your Email ID"
                         type="email"
-                        class="form-control"
+                         className="form-control"
                         {...register1("email", {
                           required: "Please Enter A Valid Email!",
                           // pattern: {
@@ -99,7 +99,7 @@ const Login = () => {
                       <input
                         placeholder="Enter your password"
                         type="password"
-                        class="form-control"
+                         className="form-control"
                         {...register1("password", {
                           required: "Enter Your Password",
                           minLength: {
@@ -116,7 +116,7 @@ const Login = () => {
                     </div>
                   </div>
                   <div className="mt--5 text-end">
-                    <Link className="color-primary pt--10" to="#">
+                    <Link className="color-primary pt--10" to="/forgotpassword">
                       Forgot password?
                     </Link>
                   </div>
@@ -131,8 +131,8 @@ const Login = () => {
                     </div>
                   </div>
                 </form>
-                <span className="text-danger-signin">
-                  {auth.error ? JSON.stringify(auth.error.error) : ""}
+                <span className="text-danger">
+                  {auth.error && auth.error.error }
                 </span>
               </MDBCardBody>
             </MDBCard>
