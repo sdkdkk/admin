@@ -82,13 +82,13 @@ const Coupon = () => {
           token: token,
         });
       }
-  
+
       if (response.data.status === 1) {
         notify(response.data.message);
         reset({
-          couponCode: '', // Clear couponCode field
-          discount: '', // Clear discount field
-          validityDate: '', // Clear validityDate field
+          couponCode: "", // Clear couponCode field
+          discount: "", // Clear discount field
+          validityDate: "", // Clear validityDate field
         });
         fetchData(); // Fetch updated data
       }

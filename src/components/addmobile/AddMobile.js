@@ -92,15 +92,13 @@ const AddMobile = () => {
         });
       }
 
-
       if (response.data.status === 1) {
         // setData(response.data);
-     notify(response.data.message);
-          fetchData();
-        
+        notify(response.data.message);
+        fetchData();
+
         // setEditCouponId(null);
       }
-
     } catch (error) {
       logoutIfInvalidToken(error.response);
       toast.error(error.response.data.error);
@@ -285,7 +283,7 @@ const AddMobile = () => {
                                 onChange={handleChange}
                                 shape="rounded"
                                 variant="outlined"
-                              // showFirstButton
+                                // showFirstButton
                               />
                             </div>
                           </>

@@ -80,6 +80,7 @@ const Tutordetails = () => {
     fetchData();
   }, []);
 
+  console.log(data);
   const approveTutors = async () => {
     const tutorsObjData = {
       token: token,
@@ -197,6 +198,7 @@ const Tutordetails = () => {
   };
 
   const toComponentB = (data) => {
+    console.log(data)
     navigate("/tutorquestiondetails", { state: { data } });
   };
 
@@ -227,9 +229,9 @@ const Tutordetails = () => {
               </div>
             ) : (
               <div className="second-section text-start mt-4 mx-4">
-                {tutorpaydetails.map((data) => {
+                {tutorpaydetails.map((data, index) => {
                   return (
-                    <div key={data._id} style={{ backgroundColor: "#c0d7ff" }}>
+                    <div key={index} style={{ backgroundColor: "#c0d7ff" }}>
                       <div
                         className="row"
                         style={{ backgroundColor: "#c0d7ff" }}
@@ -404,7 +406,7 @@ const Tutordetails = () => {
                               </thead>
                               <tbody>
                                 {displayUsers.map((data) => (
-                                  <tr key={data._id}>
+                                  <tr key={data.id}>
                                     <td
                                       style={{ cursor: "pointer" }}
                                       onClick={() => {
