@@ -55,6 +55,7 @@ const Tutorexam = () => {
   //Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(8);
+  const [editorHtml, setEditorHtml] = useState("");
   const [isOpen, setIsOpen] = useState("");
   const [questionSubject, setQuestionSubject] = useState("Maths");
   const [questionType, setQuestionType] = useState("MCQ");
@@ -276,34 +277,37 @@ const Tutorexam = () => {
                               controlId="formBasicEmail"
                             >
                               <Form.Label>Questions</Form.Label>
-                              <Form.Control
+                              {/* <Form.Control
                                 as="textarea" rows={3}
                                 name="question"
                                 placeholder="Enter Questions"
                                 {...register("question", {
                                   required: "Please Enter A Valid Question!",
                                 })}
-                              />
-                              
-                              <p className="error-msg">
-                                {errors.question && errors.question.message}
-                              </p>
-                            </Form.Group>
-                          </div>
-                          <div className="col-md-12">
-                            <Form.Group
-                              className="mb-3"
-                              controlId="formBasicEmail"
-                            >
-                              <Form.Label>Image</Form.Label>
-                              <Form.Control
-                                type="file"
-                                name="image"
-                                placeholder="Enter Questions"
-                                {...register("image", {
-                                  required: "Please Upload image",
-                                })}
-                              />
+                              /> */}
+                              <Controller
+                              name="question"
+                              control={control}
+                              defaultValue={editorHtml}
+                              render={({ field }) => (
+                                <ReactQuill
+                                  theme="snow"
+                                  name="question"
+                                  {...register("question", {
+                                    required: "Please Enter A Valid Question!",
+                                  })}
+                                  onChange={(value) => setEditorHtml(value)}
+                                  // value={answer || ""}
+                                  modules={modules}
+                                  formats={formats}
+                                  // onChange={handleAnswerChange}
+                                  bounds={"#root"}
+                                  placeholder="type Here...."
+                                  ref={editorRef}
+                                  {...field}
+                                />
+                              )}
+                            />
                               <p className="error-msg">
                                 {errors.question && errors.question.message}
                               </p>
@@ -437,6 +441,10 @@ const Tutorexam = () => {
                                       onChange={handleChange}
                                       //onChange={(value) => setEditorHtml(value)}
                                       value={field.value}
+                                      name="answer"
+                                      {...register("answer", {
+                                        required: "Please Enter A Valid Question!",
+                                      })}
                                       modules={modules}
                                       formats={formats}
                                       bounds={"#root"}

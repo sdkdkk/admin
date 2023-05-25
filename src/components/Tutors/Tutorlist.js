@@ -30,12 +30,7 @@ const Tutorlist = () => {
   console.log(trial);
 
   const [selectedStatus, setSelectedStatus] = useState("working");
-  const [status, setStatus] = useState({
-    users: [],
-    warning: [],
-    working: [],
-    trial: [],
-  });
+  const [status, setStatus] = useState({users: [], warning: [], working: [], trial: []});
 
   const [searchTerm, setSearchTerm] = useState("");
   const [currentData, setCurrentData] = useState([]);

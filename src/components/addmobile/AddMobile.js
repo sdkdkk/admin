@@ -33,7 +33,7 @@ const AddMobile = () => {
   const [loading1, setLoading1] = useState(false);
   const [data, setData] = useState([]);
   const token = localStorage.getItem("token");
-    const notify = (data) => toast(data);
+  const notify = (data) => toast(data);
 
   //table
   const [currentPage, setCurrentPage] = useState(1);
@@ -91,14 +91,16 @@ const AddMobile = () => {
           token: token,
         });
       }
+
+
       if (response.data.status === 1) {
-        toast.success(response.data.message);
-        reset({
-          mobileNo: "", // Clear couponCode field
-        // Clear validityDate field
-        });
-        fetchData(); // Fetch updated data
+        // setData(response.data);
+     notify(response.data.message);
+          fetchData();
+        
+        // setEditCouponId(null);
       }
+
     } catch (error) {
       logoutIfInvalidToken(error.response);
       toast.error(error.response.data.error);
@@ -107,11 +109,7 @@ const AddMobile = () => {
     }
   };
   console.log(data)
-  //   const handleUpdate = (questionType) => {
-  //     setEditQuestionType(questionType); // Set the question type being edited
-  //     reset({ questionType: questionType }); // Set the form values to the selected question type
-  //     window.scrollTo({ top: 0, behavior: "smooth" });
-  //   };
+
 
   const handleUpdate = (coupon) => {
     reset(coupon);
@@ -288,7 +286,7 @@ const AddMobile = () => {
                                 onChange={handleChange}
                                 shape="rounded"
                                 variant="outlined"
-                                // showFirstButton
+                              // showFirstButton
                               />
                             </div>
                           </>
