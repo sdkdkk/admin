@@ -24,7 +24,6 @@ const Professionaldetails = () => {
   };
   const [user, setUser] = useState();
   const notify = (data) => toast(data);
-  console.log(user);
   const {
     register,
     handleSubmit,
@@ -38,7 +37,7 @@ const Professionaldetails = () => {
       setLoading(true);
       try {
         const response = await axios.post(
-          `https://vaidik-backend.onrender.com/admin/tutorsinfo/${_id}`,
+          `https://vaidik-backend.onrender.com/api/v1/admin/tutorsinfo/${_id}`,
           {
             token: token,
           }
@@ -48,13 +47,11 @@ const Professionaldetails = () => {
       } catch (error) {
         logoutIfInvalidToken(error.response)
         if (error.response) {
-          console.log(error.response.status);
-          console.log(error.response.data);
-          console.log(error.response.headers);
+         
         } else if (error.request) {
-          console.log(error.request);
+         
         } else {
-          console.log("Error", error.message);
+         
         }
       }
     };
@@ -99,7 +96,6 @@ const Professionaldetails = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
         if (data.status === 1) {
           notify(data.message); // Show success notification
           reset();

@@ -16,7 +16,7 @@ export const updatePageDataApi = createAsyncThunk('', async(payload, { rejectWit
     const token = localStorage.getItem('token')
     const { id, status } =  payload 
     try {
-        const response = await axios.post(`https://vaidik-backend.onrender.com/admin/cmsstatus/${id}`, { token, status});
+        const response = await axios.post(`https://vaidik-backend.onrender.com/api/v1/admin/cmsstatus/${id}`, { token, status});
         toast.success(response.data.message)
         return response.data;
     } catch (error) {

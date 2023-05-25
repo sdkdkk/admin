@@ -17,7 +17,7 @@ export const postAdminQuestions = createAsyncThunk('admin/sendanswer', async(pay
     
     const token = localStorage.getItem('token')
     try {
-        const response = await axios.post(`https://vaidik-backend.onrender.com/admin/sendanswer`, { token, ...payload });
+        const response = await axios.post(`https://vaidik-backend.onrender.com/api/v1/admin/sendanswer`, { token, ...payload });
         toast.success(response.data.message)
         return response.data;
     } catch (error) {

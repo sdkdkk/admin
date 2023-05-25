@@ -18,7 +18,6 @@ const Tutorquestiondetails = () => {
   });
   const location = useLocation();
   const getresponse = location.state.data.allQuestions;
-  console.log(getresponse);
   const handleEdit = () => {
     setEditing(true);
     setEditData(location.state.data.allQuestions); // Set editData with current data

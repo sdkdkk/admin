@@ -16,7 +16,7 @@ export const getAdminQuestions = createAsyncThunk('admin/adminquestion?questionT
     const { questionType, questionSubject, whomto_ask, limit, skip } = payload
     const token = localStorage.getItem('token')
     try {
-        const response = await axios.post(`https://vaidik-backend.onrender.com/admin/adminquestion?questionType=${questionType}&questionSubject=${questionSubject}&whomto_ask=${whomto_ask}&limit=${limit}&skip=${skip} `, { token });
+        const response = await axios.post(`https://vaidik-backend.onrender.com/api/v1/admin/adminquestion?questionType=${questionType}&questionSubject=${questionSubject}&whomto_ask=${whomto_ask}&limit=${limit}&skip=${skip} `, { token });
         return response.data;
     } catch (error) {
         logoutIfInvalidToken(error.response)

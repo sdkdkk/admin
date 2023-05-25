@@ -32,7 +32,7 @@ const Mcqquestion = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/sendanswer`,
+        `https://vaidik-backend.onrender.com/api/v1/admin/sendanswer`,
         {
           token: token,
           questionId: id,
@@ -40,15 +40,12 @@ const Mcqquestion = () => {
           explanation: "",
         }
       );
-      console.log(response)
       if (response) {
-        console.log("response", response);
         notify(response.data.message);
         history(`/questions`);
       }
     } catch (error) {
       logoutIfInvalidToken(error.response);
-      console.log(error.response.data.error);
       // notify("Invalid refresh token!");
     } finally {
       setLoading(false);

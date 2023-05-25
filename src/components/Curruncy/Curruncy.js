@@ -23,13 +23,12 @@ const Curruncy = () => {
   const notify = (data) => toast(data);
   const [conversionRate, setConversionRate] = useState([]);
 
-  console.log(conversionRate);
 
   const fetchData = async () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/getcurrencyconversion?Currency=USD`,
+        `https://vaidik-backend.onrender.com/api/v1/admin/getcurrencyconversion?Currency=USD`,
         {
           token: token,
         }
@@ -38,7 +37,6 @@ const Curruncy = () => {
       setLoading(false);
     } catch (error) {
       logoutIfInvalidToken(error.response)
-      console.log(error.response.data.error);
       // notify("Invalid refresh token!");
       setLoading(false);
     }
@@ -52,7 +50,7 @@ const Curruncy = () => {
     try {
       setLoadingpost(true);
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/setcurrencyconversion`,
+        `https://vaidik-backend.onrender.com/api/v1/admin/setcurrencyconversion`,
         {
           ConversionToInr: parseFloat(data.ConversionToInr),
           Currency: "USD",
@@ -60,7 +58,6 @@ const Curruncy = () => {
         }
       );
       if (response.data.status === 1) {
-        console.log(response.data.status);
         fetchData();
         notify("Currency Conversion Rate Updated Successfully");
 
@@ -68,7 +65,6 @@ const Curruncy = () => {
       }
     } catch (error) {
       logoutIfInvalidToken(error.response)
-      console.log(error.response.data.error);
       // notify("Invalid refresh token!");
     } finally {
       setLoadingpost(false); // set loading to false when API call is complete

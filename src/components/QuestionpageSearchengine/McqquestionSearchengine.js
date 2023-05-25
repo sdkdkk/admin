@@ -6,7 +6,6 @@ import Moment from "react-moment";
 
 const McqquestionSearchengine = () => {
   const location = useLocation();
-  console.log(location.state.data);
   const answer = location.state.data.answer; // Get the answer from location
 
   const [imageSrc, setImageSrc] = useState("");

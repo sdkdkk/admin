@@ -1,3 +1,4 @@
+
 import React, { useEffect, useState } from "react";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
@@ -11,6 +12,9 @@ import { Pagination } from "@mui/material";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 import "react-phone-input-2/lib/style.css";
 import PhoneInput from "react-phone-input-2";
+import "react-toastify/dist/ReactToastify.css";
+
+import "react-phone-number-input/style.css";
 
 const AddMobile = () => {
   const {
@@ -48,17 +52,16 @@ const AddMobile = () => {
     try {
       setLoading1(true);
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/getmobileno`,
+        `https://vaidik-backend.onrender.com/api/v1/admin/getmobileno`,
         {
           token: token,
         }
       );
-      console.log(response.data.document);
+
       setData(response.data.document);
       setLoading1(false);
     } catch (error) {
       logoutIfInvalidToken(error.response);
-      console.log(error.response.data.error);
       // notify("Invalid refresh token!");
       setLoading1(false);
     }
@@ -69,12 +72,12 @@ const AddMobile = () => {
   }, []);
 
   const onSubmit = async (data) => {
-    console.log(data);
+    https://vaidik-backend.onrender.com(data);
     try {
       setLoading(true);
       const requestUrl = data._id
-        ? `https://vaidik-backend.onrender.com/admin/mobileno`
-        : `https://vaidik-backend.onrender.com/admin/mobileno`;
+        ? `https://vaidik-backend.onrender.com/api/v1/admin/mobileno`
+        : `https://vaidik-backend.onrender.com/api/v1/admin/mobileno`;
       var response;
       if (data._id) {
         response = await axios.post(requestUrl, {
@@ -91,10 +94,11 @@ const AddMobile = () => {
 
 
       if (response.data.status === 1) {
-        toast.success(response.data.message);
-        reset({
-          mobileNo: "",  });
-        fetchData(); // Fetch updated data
+        // setData(response.data);
+     notify(response.data.message);
+          fetchData();
+        
+        // setEditCouponId(null);
       }
 
     } catch (error) {
@@ -104,7 +108,6 @@ const AddMobile = () => {
       setLoading(false);
     }
   };
-  console.log(data)
 
 
   const handleUpdate = (coupon) => {
@@ -114,7 +117,7 @@ const AddMobile = () => {
 
   function handleDelet(_id) {
     axios
-      .post(`https://vaidik-backend.onrender.com/admin/mobileno/${_id}`, {
+      .post(`https://vaidik-backend.onrender.com/api/v1/admin/mobileno/${_id}`, {
         token: token,
       })
       .then((response) => {
@@ -125,6 +128,14 @@ const AddMobile = () => {
         toast.error(error.data.message);
       });
   }
+
+  const formatPhoneNumber = (phoneNumber) => {
+    // Assuming phoneNumber is a string in the format "918888888888"
+    const countryCode = phoneNumber.slice(0, 2);
+    const firstPart = phoneNumber.slice(2, 7);
+    const secondPart = phoneNumber.slice(7, 12);
+    return `${countryCode} ${firstPart}-${secondPart}`;
+  };
 
   return (
     <>
@@ -171,13 +182,13 @@ const AddMobile = () => {
                                         },
                                       }) => (
                                         <PhoneInput
-                                          className="mb-4"
-                                          country={"in"}
-                                          value={value}
-                                          onChange={onChange}
-                                          onBlur={onBlur}
-                                          inputRef={ref}
-                                        />
+                                        className="mb-4"
+                                        international
+                                        defaultCountry="US"
+                                        value={value}
+                                        onChange={onChange}
+                                        onBlur={onBlur}
+                                      />
                                       )}
                                     />
                                     {errors.mobileNo && (
@@ -247,7 +258,7 @@ const AddMobile = () => {
                                         1 +
                                         (currentPage - 1) * postsPerPage}
                                     </td>
-                                    <td>{data.mobileNo}</td>
+                                    <td>{formatPhoneNumber(data.mobileNo)}</td>
                                     <td>
                                       <Button
                                         variant="success"

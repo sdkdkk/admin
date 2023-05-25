@@ -27,7 +27,7 @@ const Dashboard = () => {
       setLoading1(true);
 
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/dashboardstats`,
+        `https://vaidik-backend.onrender.com/api/v1/admin/dashboardstats`,
         { token: token }
       );
       setData(response.data.dashboardStats);
@@ -38,7 +38,6 @@ const Dashboard = () => {
     }
   };
 
-  console.log(data);
 
   return (
     <>

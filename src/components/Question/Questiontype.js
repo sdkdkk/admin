@@ -45,12 +45,10 @@ const Questiontype = () => {
           token: token,
         }
       );
-      console.log(response.data.data);
       setConversionRate(response.data.data);
       setLoading1(false);
     } catch (error) {
       logoutIfInvalidToken(error.response)
-      console.log(error.response.data.error);
       // notify("Invalid refresh token!");
       setLoading1(false);
     }
@@ -64,8 +62,8 @@ const Questiontype = () => {
     try {
       setLoading(true);
       const requestUrl = data._id
-        ? `https://vaidik-backend.onrender.com/admin/questiontype`
-        : `https://vaidik-backend.onrender.com/admin/questiontype`;
+        ? `https://vaidik-backend.onrender.com/api/v1/admin/questiontype`
+        : `https://vaidik-backend.onrender.com/api/v1/admin/questiontype`;
       var response;
       if (data._id) {
         response = await axios.post(requestUrl, {
@@ -109,7 +107,7 @@ const Questiontype = () => {
 
   function handleDelet(_id) {
     axios
-      .post(`https://vaidik-backend.onrender.com/admin/questiontype/${_id}`, {
+      .post(`https://vaidik-backend.onrender.com/api/v1/admin/questiontype/${_id}`, {
         token: token,
       })
       .then((response) => {

@@ -15,6 +15,7 @@ import { tutorunverified } from "../../Redux/Loginpages/tutorunverifiedSlice";
 import { Tutorswarning } from "../../Redux/Loginpages/tutorwarningSlice";
 import { Link } from "react-router-dom";
 import { tutorworking } from "../../Redux/Loginpages/tutorworkingSlice";
+import { TutorsSuspend } from "../../Redux/Loginpages/tutorSuspendSlice";
 import { ColorRing } from "react-loader-spinner";
 import Moment from "react-moment";
 import { Tutortrial } from "../../Redux/Loginpages/tutortrialSlice";
@@ -24,13 +25,13 @@ const Tutorlist = () => {
   const users = useSelector((state) => state.user.data.document);
   const warning = useSelector((state) => state.warning.data.document);
   const working = useSelector((state) => state.working.data.document);
+  const suspend = useSelector((state) => state.suspend.data.document);
+
   const trial = useSelector((state) => state.trial.data.document);
   const isLoadinguser = useSelector((state) => state.user.isLoading);
 
-  console.log(trial);
-
   const [selectedStatus, setSelectedStatus] = useState("working");
-  const [status, setStatus] = useState({users: [], warning: [], working: [], trial: []});
+  const [status, setStatus] = useState({ users: [], warning: [], working: [], trial: [] });
 
   const [searchTerm, setSearchTerm] = useState("");
   const [currentData, setCurrentData] = useState([]);
@@ -43,10 +44,11 @@ const Tutorlist = () => {
       users: users,
       warning: warning,
       working: working,
+      suspend: suspend,
       trial: trial,
     });
     setLoader(false);
-  }, [users, warning, working, trial]);
+  }, [users, warning, working, suspend, trial]);
 
   useEffect(() => {
     dispatch(tutorworking());
@@ -67,6 +69,11 @@ const Tutorlist = () => {
     dispatch(tutorworking());
   };
 
+  const fetchData5 = async () => {
+    setActiveButton(5);
+    dispatch(TutorsSuspend());
+  };
+
   const fetchData4 = async () => {
     setActiveButton(4);
     dispatch(Tutortrial());
@@ -85,9 +92,6 @@ const Tutorlist = () => {
     new DateObject().add(4, "days"),
   ]);
 
-  //   const firstDate = values.length > 0 ? new DateObject(values[0]).toDate() : null
-  // const lastDate = values.length > 0 ? new DateObject(values[values.length - 1]).toDate() : null
-  // console.log(firstDate, lastDate)
 
   //Pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -134,8 +138,6 @@ const Tutorlist = () => {
     setCurrentData(filteredData);
     setCurrentPage(1);
   };
-
-  //   console.log("---> ", currentData);
 
   return (
     <div>
@@ -189,6 +191,16 @@ const Tutorlist = () => {
                         style={{ borderRadius: "4px" }}>
                         Unverified
                       </button>
+
+                      <button
+                        onClick={fetchData5}
+                        className={activeButton === 5 ? "activeb" : ""}
+                        // className="btn btn-primary"
+                        type="button"
+                        style={{ borderRadius: "4px" }}>
+                        Suspend
+                      </button>
+
                       <button
                         onClick={fetchData4}
                         className={activeButton === 4 ? "activeb" : ""}
@@ -270,6 +282,7 @@ const Tutorlist = () => {
                                     <th scope="col">Moble No</th>
                                     <th scope="col">Subject</th>
                                     <th scope="col">Balance</th>
+                                    {activeButton === 2 && <th scope="col">No. of worning Que</th>}
                                     <th scope="col">Action</th>
                                   </tr>
                                 </thead>
@@ -293,22 +306,23 @@ const Tutorlist = () => {
                                         <td>{data.mobileNo || "-"}</td>
                                         <td>
                                           {data.subjects &&
-                                          data.subjects?.length > 0
+                                            data.subjects?.length > 0
                                             ? data.subjects
-                                                .slice(0, 2)
-                                                .join(", ")
+                                              .slice(0, 2)
+                                              .join(", ")
                                             : "-"}
                                         </td>
                                         <td>
                                           {data.balance
                                             ? parseFloat(data.balance).toFixed(
-                                                2
-                                              )
+                                              2
+                                            )
                                             : "-"}
                                         </td>
+                                        {activeButton === 2 && <td className="text-center">{data.warningQuestions}</td>}
                                         <td>
                                           <Link
-                                            to={`/tutordetails/${data._id}`}>
+                                            to={`/tutordetails/${data._id}/${activeButton}`}>
                                             <button className="btn btn-primary btn-sm">
                                               click
                                             </button>

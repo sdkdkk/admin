@@ -41,11 +41,10 @@ export const { questiontypePending, questiontypeSuccess, questiontypeFailure } =
 questiontypeTimeSlice.actions;
 
 export const questiontypeApi = (token) => async (dispatch) => {
-  console.log(token);
   dispatch(questiontypePending());
   try {
     const { data } = await axios.get(
-      `https://vaidik-backend.onrender.com/admin/getquestiontypefortiming`,
+      `https://vaidik-backend.onrender.com/api/v1/admin/getquestiontypefortiming`,
       token
     );
 

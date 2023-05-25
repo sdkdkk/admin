@@ -204,7 +204,7 @@ function App() {
         <Route path="signup" element={<Signup />} />
         <Route path="signup" element={<Signup />} />
         <Route
-          path="/tutordetails/:_id"
+          path="/tutordetails/:_id/:active"
           element={
             <RequireAuth>
               <Tutordetails />

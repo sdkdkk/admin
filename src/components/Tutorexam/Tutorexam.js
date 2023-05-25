@@ -88,8 +88,6 @@ const Tutorexam = () => {
   const token = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  console.log(auth);
-
 
   useEffect(() => {
     const payload = {
@@ -113,7 +111,6 @@ const Tutorexam = () => {
       setSubjectList(response?.data?.data);
     } catch (error) {
       logoutIfInvalidToken(error.response)
-      console.log(error.response.data.error);
       // notify("Invalid refresh token!");
     }
   };
@@ -173,7 +170,6 @@ const Tutorexam = () => {
   } = useForm({ values: defaultValues });
 
   const questionTypeValues = getValues("questionType");
-  console.log("formValues", questionTypeValues);
   useEffect(() => {
     const payload = {
       questionSubject,

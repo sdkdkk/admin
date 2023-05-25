@@ -47,7 +47,7 @@ export const questiontypePriceApi = () => async (dispatch) => {
   dispatch(questiontypepricePending());
   try {
     const { data } = await axios.get(
-      `https://vaidik-backend.onrender.com/admin/getquestiontypeforpricing`
+      `https://vaidik-backend.onrender.com/api/v1/admin/getquestiontypeforpricing`
     );
 
     if (data.status === 1) {

@@ -26,7 +26,7 @@ const Questionpricing = () => {
   const dispatch = useDispatch();
   const questiontypeTime = useSelector((state) => state.questiontypetime);
   const questiontypePrice = useSelector((state) => state.questiontypeprice);
-  console.log(questiontypePrice);
+
   const [loading, setLoading] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const [loading1, setLoading1] = useState(false);
@@ -43,10 +43,9 @@ const Questionpricing = () => {
   }, []);
 
   const onSubmit = async (data) => {
-    console.log(data);
     try {
       setLoading(true);
-      const requestUrl = `https://vaidik-backend.onrender.com/admin/setquestionpricing`;
+      const requestUrl = `https://vaidik-backend.onrender.com/api/v1/admin/setquestionpricing`;
       var response;
       if (data._id) {
         response = await axios.post(requestUrl, {
@@ -66,10 +65,8 @@ const Questionpricing = () => {
           admin_price: data.admin_price,
         });
       }
-      console.log(response);
       if (response.data.message) {
         notify(response.data.message);
-        console.log(data);
         reset();
         fetchData();
       } else {
@@ -77,7 +74,6 @@ const Questionpricing = () => {
       }
     } catch (error) {
       logoutIfInvalidToken(error.response)
-      console.log("error - ", error);
       notify(error.response.data.error);
     }
 
@@ -91,17 +87,15 @@ const Questionpricing = () => {
       setLoading1(true);
 
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/getquestionpricing`,
+        `https://vaidik-backend.onrender.com/api/v1/admin/getquestionpricing`,
         {
           token: token,
         }
       );
-      console.log(response.data.data);
       setData(response.data.data);
       setLoading1(false);
     } catch (error) {
       logoutIfInvalidToken(error.response)
-      console.log(error.response.data.error);
       setLoading1(false);
     }
   };
@@ -119,14 +113,13 @@ const Questionpricing = () => {
 
   const handleUpdateClick = (data) => {
     setIsEditMode(true);
-    console.log(data);
     reset(data);
   };
 
   function handleDeleteClick(_id) {
     axios
       .post(
-        `https://vaidik-backend.onrender.com/admin/questionpricing/${_id}`,
+        `https://vaidik-backend.onrender.com/api/v1/admin/questionpricing/${_id}`,
         {
           token: token,
         }

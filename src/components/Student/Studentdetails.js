@@ -17,7 +17,6 @@ const Studentdetails = () => {
   const [studentque, setStudentque] = useState([]);
   const [studenttransation, setStudenttransation] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  console.log(studentdetail);
   const token = localStorage.getItem("token");
   const [Loader, setLoader] = useState(true);
   let navigate = useNavigate();
@@ -25,19 +24,19 @@ const Studentdetails = () => {
   const fetchData = async () => {
     try {
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/studentquestionanswer/${_id}`,
+        `https://vaidik-backend.onrender.com/api/v1/admin/studentquestionanswer/${_id}`,
         {
           token: token,
         }
       );
       const response1 = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/studenttransactiondetails/${_id}`,
+        `https://vaidik-backend.onrender.com/api/v1/admin/studenttransactiondetails/${_id}`,
         {
           token: token,
         }
       );
       const response2 = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/studentdetails/${_id}`,
+        `https://vaidik-backend.onrender.com/api/v1/admin/studentdetails/${_id}`,
         {
           token: token,
         }
@@ -49,13 +48,11 @@ const Studentdetails = () => {
     } catch (error) {
       logoutIfInvalidToken(error.response)
       if (error.response) {
-        console.log(error.response.status);
-        console.log(error.response.data);
-        console.log(error.response.headers);
+       
       } else if (error.request) {
-        console.log(error.request);
+        
       } else {
-        console.log("Error", error.message);
+        
       }
     }
   };
@@ -74,7 +71,6 @@ const Studentdetails = () => {
   const handleChange = (event, value) => {
     setCurrentPage(value);
   };
-  console.log(displayque);
 
   const [clicked, setClicked] = useState(false);
   const [currentPage1, setCurrentPage1] = useState(1);

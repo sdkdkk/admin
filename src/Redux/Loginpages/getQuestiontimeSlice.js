@@ -41,11 +41,10 @@ export const { gettimingPending, gettimingFailure, gettimingSuccess } =
   getQuestiontimeSlice.actions;
 
 export const gettimingApi = (token) => async (dispatch) => {
-  console.log(token);
   dispatch(gettimingPending());
   try {
     const { data } = await axios.get(
-      `https://vaidik-backend.onrender.com/admin/setquestiontiming`,
+      `https://vaidik-backend.onrender.com/api/v1/admin/setquestiontiming`,
       token
     );
 

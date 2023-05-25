@@ -16,7 +16,6 @@ const Roles = () => {
   const notify = (data) => toast(data);
   const [loading1, setLoading1] = useState(false);
   const [data, setData] = useState([]);
-  console.log("data", data);
   let token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -28,19 +27,16 @@ const Roles = () => {
       setLoading1(true);
 
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/getadminrole`,
+        `https://vaidik-backend.onrender.com/api/v1/admin/getadminrole`,
         {
           token: token,
         }
       );
-      console.log(response.data);
       setData(response.data.document);
 
       setLoading1(false);
     } catch (error) {
       logoutIfInvalidToken(error.response)
-      console.log(data);
-      console.log(error);
       notify(data.error);
 
       setLoading1(false);
@@ -53,21 +49,18 @@ const Roles = () => {
       setLoading(true);
 
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/deleteadminrole/${_id}`,
+        `https://vaidik-backend.onrender.com/api/v1/admin/deleteadminrole/${_id}`,
         {
           token: token,
         }
       );
       const tempData = [...data].filter((a) => a._id !== _id);
       setData(tempData);
-      console.log(response.data.message);
 
       notify(response.data.message);
       setLoading(false);
     } catch (error) {
       logoutIfInvalidToken(error.response)
-      console.log(data);
-      console.log(error.response.data.error);
       notify(error.response.data.error);
 
       setLoading1(false);

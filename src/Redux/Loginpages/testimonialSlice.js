@@ -3,7 +3,7 @@ import { logoutIfInvalidToken } from '../../helpers/handleError';
 
 const { createSlice } = require("@reduxjs/toolkit");
 
-const url = "https://vaidik-backend.onrender.com";
+const url = "https://vaidik-backend.onrender.com/api/v1";
 
 const testimonialSlice = createSlice({
 
@@ -45,7 +45,7 @@ const testimonialSlice = createSlice({
 export const { testimonialPending, testimonialSuccess, testimonialFailure } = testimonialSlice.actions;
 
 export const Testimoniald = (token) => async (dispatch) => {
-console.log(token);
+
     dispatch(testimonialPending());
     try {
 

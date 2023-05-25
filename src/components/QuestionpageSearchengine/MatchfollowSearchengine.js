@@ -5,7 +5,7 @@ import { useLocation } from "react-router-dom";
 const MatchfollowSearchengine = () => {
   const location = useLocation();
   const answerData = JSON.parse(location.state.data.answer);
-  console.log(location.state.data);
+
   return (
     <div className="container-scroller">
       <div className="container-fluid page-body-wrapper">
@@ -26,7 +26,6 @@ const MatchfollowSearchengine = () => {
                 <div className="col-md-12 col-lg-12 mb--20">
                   <h5>Answer</h5>
                   <div className="p--20 rbt-border radius-6 bg-primary-opacity">
-                    {console.log(answerData)}
                     {Array.isArray(answerData)
                       ? answerData.map((data) => (
                           <div key={data.id}>

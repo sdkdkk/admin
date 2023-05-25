@@ -16,31 +16,10 @@ const Searchengine = () => {
   const searchengineState = useSelector((state) => state.searchengine);
   const searchengineerror = useSelector((state) => state.searchengine.error);
   const [isLoading, setIsLoading] = useState(false);
-  console.log(searchengineState);
   let navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   if (
-  //     searchengineerror &&
-  //     (searchengineerror.error === "Please enter correct Token!" ||
-  //       searchengineerror.error === "Invalid refresh token!")
-  //   ) {
-  //     try {
-  //       console.log(searchengineerror);
-  //       var limit = 5,
-  //         skip = 0,
-  //         act = 1;
-  //       dispatch(searchengine(limit, skip, act)).then(() => {
-  //         navigate("/login");
-  //       });
-  //     } catch (error) {
-  //       console.log("cccfg - ", error);
-  //     }
-  //   }
-  // }, [searchengineerror, dispatch, navigate]);
 
-  // console.log(searchengineState)
   const toComponentB = (data) => {
     navigate("/Searchenginequedetail", { state: { data } });
   };

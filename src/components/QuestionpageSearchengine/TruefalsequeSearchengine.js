@@ -7,7 +7,6 @@ const TruefalsequeSearchengine = () => {
   const location = useLocation();
   const answer = location.state.data.answer;
   const getresponse = location.state.data;
-  console.log(getresponse);
 
   return (
     <>

@@ -31,11 +31,11 @@ const Testimonial = () => {
   const testimonialform = useSelector((state) => state.testimonialform);
   const testimonialstatus = useSelector((state) => state.testimonialstatus);
   const testimonialUserDeleteState = useSelector((state) => state.testimonialUserDelete);
-  console.log('testimonial.user', testimonial.user?.testimonial)
+
   var [isActive, SetisActive] = useState(true);
 
   const [isOpen, setIsOpen] = useState("");
-  console.log(testimonial);
+
   const handleDropdownClick = (id) => {
     setIsOpen(isOpen === id ? "" : id);
   };

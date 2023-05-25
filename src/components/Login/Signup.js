@@ -10,9 +10,9 @@ import Logo from "../Image/vaidik-logo.png";
 const Signup = () => {
   const auth = useSelector((state) => state.auth);
   const token = useSelector((state) => state.auth.token);
-  // console.log(token)
+
   const dispatch = useDispatch();
-  console.log(auth);
+
 
   //Signup use form hook
   const {
@@ -24,14 +24,12 @@ const Signup = () => {
   } = useForm({});
 
   const onSubmit = (data) => {
-    console.log(" form 1 data", data);
     delete data.cpassword;
     delete data.mobile;
     delete data.OTP;
     if (data.referralCode === "") {
       delete data.referralCode;
     }
-    console.log(" form 1 data updated", data);
     // localStorage.setItem("data", token);
     dispatch(signUp(data));
     setTimeout(() => {

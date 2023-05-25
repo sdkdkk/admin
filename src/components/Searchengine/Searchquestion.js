@@ -17,7 +17,6 @@ const Searchquestion = () => {
   const [isLoading, setIsLoading] = useState(false);
   let navigate = useNavigate();
 
-  console.log(searchResults);
 
   //Pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -26,26 +25,23 @@ const Searchquestion = () => {
   const handleSearch = async (limit = 5, skip = 0) => {
     try {
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/adminsearchquestion?limit=${limit}&skip=${skip}&search=${searchTerm}`,
+        `https://vaidik-backend.onrender.com/api/v1/admin/adminsearchquestion?limit=${limit}&skip=${skip}&search=${searchTerm}`,
         {
           token: token,
         }
       );
       setIsLoading(true);
-      console.log(response.data);
       setSearchResults(response.data.data);
 
       setIsLoading(false);
     } catch (error) {
       logoutIfInvalidToken(error.response)
       if (error.response) {
-        console.log(error.response.status);
-        console.log(error.response.data);
-        console.log(error.response.headers);
+       
       } else if (error.request) {
-        console.log(error.request);
+        
       } else {
-        console.log("Error", error.message);
+       
       }
     }
   };
@@ -58,7 +54,6 @@ const Searchquestion = () => {
     setIsLoading(true);
     const skip = (currentPage - 1) * itemsPerPage;
     var limit = itemsPerPage;
-    console.log(limit, skip);
     handleSearch(limit, skip).then(() => {
       setIsLoading(false); // Set isLoading to false when data is fetched
     });

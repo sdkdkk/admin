@@ -17,7 +17,7 @@ export const admintutorexamverify = createAsyncThunk('user/getUserList', async(p
     const token = localStorage.getItem('token')
     try {
         const token = localStorage.getItem('token')
-        const response = await axios.post(`https://vaidik-backend.onrender.com/admin/admintutorexamverify`, { token });
+        const response = await axios.post(`https://vaidik-backend.onrender.com/api/v1/admin/admintutorexamverify`, { token });
         return response.data;
     } catch (error) {
         logoutIfInvalidToken(error.response)

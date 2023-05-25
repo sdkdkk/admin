@@ -38,7 +38,6 @@ const Reanswerque = () => {
             );
             setSubjectList(response?.data?.data);
         } catch (error) {
-            console.log(error.response.data.error);
             // notify("Invalid refresh token!");
         }
     };

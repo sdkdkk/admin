@@ -21,24 +21,21 @@ const Questionreasnwer = () => {
   const [reanswer, setReanswer] = useState("");
   const notify = (data) => toast(data);
   const token = localStorage.getItem("token");
-  console.log(conversionRate);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading1(true);
         const response = await axios.post(
-          `https://vaidik-backend.onrender.com/admin/getreanswer`,
+          `https://vaidik-backend.onrender.com/api/v1/admin/getreanswer`,
           {
             token: token,
           }
         );
-        // console.log(response.data);
         setConversionRate(response.data.data);
         setLoading1(false);
       } catch (error) {
         logoutIfInvalidToken(error.response)
-        console.log(error.response.data.error);
         // notify("Invalid refresh token!");
         setLoading(false);
       }
@@ -60,7 +57,7 @@ const Questionreasnwer = () => {
       const reanswerTime = hours * 60 + minutes;
       //   const { hours, minutes } = data.reanswer_time;
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/setreanswer`,
+        `https://vaidik-backend.onrender.com/api/v1/admin/setreanswer`,
         {
           choice: reanswer === "yes",
           reanswer_time: parseInt(reanswerTime),
@@ -68,13 +65,11 @@ const Questionreasnwer = () => {
         }
       );
       if (response.data.status === 1) {
-        console.log(response.data.status);
         notify(response.data.message);
         e.target.reset();
       }
     } catch (error) {
       logoutIfInvalidToken(error.response)
-      console.log(error.response.data.error);
       notify(error.response.data.error);
     } finally {
       setLoading(false); // set loading to false when API call is complete

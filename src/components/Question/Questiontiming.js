@@ -21,7 +21,6 @@ const Questiontiming = () => {
   const notify = (data) => toast(data);
   const dispatch = useDispatch();
   const questiontypeTime = useSelector((state) => state.questiontypetime);
-  console.log(questiontypeTime);
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -36,7 +35,6 @@ const Questiontiming = () => {
   const onSubmit = async (data) => {
     setLoading1(true);
     let token = localStorage.getItem("token");
-    console.log(data._id);
     // Parse hours and minutes as numbers
     const hours = data.firsthours ? parseInt(data.firsthours) : 0;
     const minutes = data.firstminutes ? parseInt(data.firstminutes) : 0;
@@ -80,13 +78,11 @@ const Questiontiming = () => {
       unsolved_time: unsolved_time,
       id: data.id,
     };
-    // console.log(timingObjData);
 
-    // dispatch(questiontimingApi(timingObjData));
 
     try {
       const { data } = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/setquestiontiming`,
+        `https://vaidik-backend.onrender.com/api/v1/admin/setquestiontiming`,
         timingObjData
       );
 
@@ -99,7 +95,6 @@ const Questiontiming = () => {
       }
     } catch (error) {
       logoutIfInvalidToken(error.response)
-      console.log("error - ", error);
       notify(error.response.data.error);
     }
   };
@@ -122,18 +117,16 @@ const Questiontiming = () => {
       setLoading1(true);
 
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/getquestiontiming`,
+        `https://vaidik-backend.onrender.com/api/v1/admin/getquestiontiming`,
         {
           token: token,
         }
       );
-      console.log(response.data.data);
       setData(response.data.data);
 
       setLoading1(false);
     } catch (error) {
       logoutIfInvalidToken(error.response)
-      console.log(error.response.data.error);
       setLoading1(false);
     }
   };
@@ -158,13 +151,12 @@ const Questiontiming = () => {
       unsolvedminutes: Math.floor(data.unsolved_time % 60),
     });
 
-    console.log(data);
   };
 
   function handleDeleteClick(_id) {
     axios
       .post(
-        `https://vaidik-backend.onrender.com/admin/questiontiming/${_id}`,
+        `https://vaidik-backend.onrender.com/api/v1/admin/questiontiming/${_id}`,
         {
           token: token,
         }

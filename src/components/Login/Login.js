@@ -20,7 +20,7 @@ const Login = () => {
   const token = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  console.log(auth);
+
 
   // sign in form validation
   const {
@@ -28,15 +28,6 @@ const Login = () => {
     handleSubmit: handleSubmit1,
     formState: { errors: errors1 },
   } = useForm({});
-
-  // const onSubmit1 = (data) => {
-  //   console.log("data1", data);
-  //   localStorage.setItem("data", token);
-  //   dispatch(signIn(data));
-  //   setTimeout(() => {
-  //     navigate("/");
-  //   }, 500);
-  // };
 
   useEffect(() =>{
     if(auth?.isSuccess){
@@ -47,7 +38,6 @@ const Login = () => {
   },[auth?.isSuccess])
   
   const onSubmit1 = (data) => {
-    console.log("data1", data);
     // localStorage.setItem("token", token);
     dispatch(signIn(data));
     

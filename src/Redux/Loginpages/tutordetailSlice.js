@@ -17,7 +17,7 @@ export const tutordetail = createAsyncThunk('tutors/Tutorspayment', async(page, 
     const token = localStorage.getItem('token')
     const { _id } = useParams();
     try {
-        const response = await axios.post(`https://vaidik-backend.onrender.com/admin/tutorquestionanswer/${_id}`, { token });
+        const response = await axios.post(`https://vaidik-backend.onrender.com/api/v1/admin/tutorquestionanswer/${_id}`, { token });
         return response.data;
     } catch (error) {
         logoutIfInvalidToken(error.response)

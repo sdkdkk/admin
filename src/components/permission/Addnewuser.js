@@ -33,7 +33,7 @@ const Addnewuser = () => {
   const onSubmit = async (data) => {
     try {
       setLoading(true);
-      const requestUrl = `https://vaidik-backend.onrender.com/admin/newuser`;
+      const requestUrl = `https://vaidik-backend.onrender.com/api/v1/admin/newuser`;
 
       var response;
       if (data._id) {
@@ -59,7 +59,6 @@ const Addnewuser = () => {
             id: data._id,
           });
         }
-        console.log();
       } else {
         response = await axios.post(requestUrl, {
           token: token,
@@ -74,7 +73,6 @@ const Addnewuser = () => {
       }
       if (response.data.message) {
         notify(response.data.message);
-        console.log(data);
         reset();
         setTimeout(() => {
           navigate("/users");
@@ -86,7 +84,6 @@ const Addnewuser = () => {
       }
     } catch (error) {
       logoutIfInvalidToken(error.response)
-      console.log("error - ", error);
       notify(error.response.data.error);
     }
 
@@ -101,38 +98,33 @@ const Addnewuser = () => {
   const adminrolename = async () => {
     try {
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/role`,
+        `https://vaidik-backend.onrender.com/api/v1/admin/role`,
         {
           token: token,
         }
       );
-      console.log(response.data.data);
       setRoleData(response.data.data);
       setLoading1(false);
     } catch (error) {
       logoutIfInvalidToken(error.response)
-      console.log(error.response.data.error);
       setLoading1(false);
     }
   };
-  console.log(roleData);
 
   const fetchData = async () => {
     try {
       setLoading1(true);
 
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/getadmin`,
+        `https://vaidik-backend.onrender.com/api/v1/admin/getadmin`,
         {
           token: token,
         }
       );
-      console.log(response.data.document);
       setData(response.data.document);
       setLoading1(false);
     } catch (error) {
       logoutIfInvalidToken(error.response)
-      console.log(error.response.data.error);
       setLoading1(false);
     }
   };
@@ -140,8 +132,6 @@ const Addnewuser = () => {
 
   const filtrData = data.filter((item) => item._id === id);
 
-  //   const tableEditData = filtrData && filtrData?.map((item) => item);
-  // console.log(tableEditData);
   const roleValue = filtrData?.[0]?.role?.rolename;
 
   const roleId = roleData.find((item) =>

@@ -41,17 +41,15 @@ const Coupon = () => {
     try {
       setLoading1(true);
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/getcoupons`,
+        `https://vaidik-backend.onrender.com/api/v1/admin/getcoupons`,
         {
           token: token,
         }
       );
-      console.log(response.data.data);
       setConversionRate(response.data.data);
       setLoading1(false);
     } catch (error) {
       logoutIfInvalidToken(error.response)
-      console.log(error.response.data.error);
       // notify("Invalid refresh token!");
       setLoading1(false);
     }
@@ -65,8 +63,8 @@ const Coupon = () => {
     try {
       setLoading(true);
       const requestUrl = data._id
-        ? `https://vaidik-backend.onrender.com/admin/couponcode`
-        : `https://vaidik-backend.onrender.com/admin/couponcode`;
+        ? `https://vaidik-backend.onrender.com/api/v1/admin/couponcode`
+        : `https://vaidik-backend.onrender.com/api/v1/admin/couponcode`;
       var response;
       if (data._id) {
         response = await axios.post(requestUrl, {
@@ -115,7 +113,7 @@ const Coupon = () => {
   function handleDelet(_id) {
     axios
       .post(
-        `https://vaidik-backend.onrender.com/admin/deletecouponcode/${_id}`,
+        `https://vaidik-backend.onrender.com/api/v1/admin/deletecouponcode/${_id}`,
         {
           token: token,
         }

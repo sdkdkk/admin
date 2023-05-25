@@ -14,7 +14,6 @@ const Tutorspayment = () => {
   const tutorpayment = useSelector((state) => state.tutorpayment.data.info);
   const isLoading = useSelector((state) => state.tutorpayment.isLoading);
   const dispatch = useDispatch();
-  console.log(tutorpayment);
   //table
   const [clicked, setClicked] = useState(false);
   const [teamData, setTeamData] = useState([]);

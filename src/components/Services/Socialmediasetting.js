@@ -20,14 +20,13 @@ const Socialmediasetting = () => {
   const notify = (data) => toast(data);
   const socialmedia = useSelector((state) => state.socialmedia);
   const dispatch = useDispatch();
-  console.log(socialmedia);
+
 
   const { register, handleSubmit, reset } = useForm({});
 
   const onSubmit = async (data) => {
     setLoading(true);
     let token = localStorage.getItem("token");
-    console.log(data);
     let mediaObjData = {
       token: token,
       Facebook: data.Facebook,
@@ -36,11 +35,10 @@ const Socialmediasetting = () => {
       YouTube: data.YouTube,
       Instagram: data.Instagram,
     };
-    console.log(mediaObjData);
 
     try {
       const { data } = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/socialmedia`,
+        `https://vaidik-backend.onrender.com/api/v1/admin/socialmedia`,
         mediaObjData
       );
       if (data.status === 1) {
@@ -51,7 +49,6 @@ const Socialmediasetting = () => {
       }
     } catch (error) {
       logoutIfInvalidToken(error.response)
-      console.log("error - ", error);
       notify(error.response.data.error);
     }
     setLoading(false);
@@ -67,18 +64,16 @@ const Socialmediasetting = () => {
       setLoading1(true);
 
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/getsocialmedia`,
+        `https://vaidik-backend.onrender.com/api/v1/admin/getsocialmedia`,
         {
           token: token,
         }
       );
-      console.log(response.data.data);
       setData(response.data.data);
       reset(response.data.data);
       setLoading1(false);
     } catch (error) {
       logoutIfInvalidToken(error.response)
-      console.log(error.response.data.error);
       setLoading1(false);
     }
   };

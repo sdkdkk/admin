@@ -127,7 +127,7 @@ export const signIn = (formData) => async(dispatch) => {
     dispatch(signInPending());
     try {
         const { data } = await axios.post(
-            "https://vaidik-backend.onrender.com/admin/login",
+            "https://vaidik-backend.onrender.com/api/v1/admin/login",
             formData
         );
         dispatch(signInSuccess(data));

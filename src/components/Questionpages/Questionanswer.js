@@ -6,7 +6,6 @@ import Moment from "react-moment";
 
 const Questionanswer = () => {
   const location = useLocation();
-  console.log(location.state.data.allQuestions);
 
   const [imageSrc, setImageSrc] = useState("");
   const [show, setShow] = useState(false);

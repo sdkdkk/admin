@@ -42,7 +42,7 @@ const Fillups = () => {
     setLoading(true);
     try {
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/sendanswer`,
+        `https://vaidik-backend.onrender.com/api/v1/admin/sendanswer`,
         {
           token: token,
           questionId: id,
@@ -51,12 +51,10 @@ const Fillups = () => {
         }
       );
       if (response) {
-        console.log("response", response);
         notify(response.data.message);
         history(`/questions`);
       }
     } catch (error) {
-      console.log("error", error);
       logoutIfInvalidToken(error.response);
       errorToast(error.response.data.error);
     } finally {

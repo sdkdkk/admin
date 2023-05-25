@@ -15,7 +15,7 @@ export const getTutorQuestionsListApi = createAsyncThunk('admin/gettutorexamques
     const token = localStorage.getItem('token')
     const { questionSubject, questionType, limit, skip, searchParams = "" } = payload
     try {
-        const response = await axios.post(`https://vaidik-backend.onrender.com/admin/gettutorexamquestion?questionSubject=${questionSubject}&questionType=${questionType}&limit=${limit}&skip=${skip}${searchParams}`, { token });
+        const response = await axios.post(`https://vaidik-backend.onrender.com/api/v1/admin/gettutorexamquestion?questionSubject=${questionSubject}&questionType=${questionType}&limit=${limit}&skip=${skip}${searchParams}`, { token });
         return response.data;
     } catch (error) {
         logoutIfInvalidToken(error.response)

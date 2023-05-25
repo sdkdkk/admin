@@ -3,6 +3,7 @@ import axios from 'axios';
 import { createSlice } from "@reduxjs/toolkit";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
+
 const initialState = {
     data: [],
     isLoading: false,
@@ -11,39 +12,37 @@ const initialState = {
 }
 
 
-export const getPageListApi = createAsyncThunk('/admin/getcms', async(id, { rejectWithValue }) => {
+export const TutorsSuspend = async (id) => {
     const token = localStorage.getItem('token')
+
     try {
-        const response = await axios.post(`https://vaidik-backend.onrender.com/api/v1/admin/getcms`, { token });
+        const response = await axios.post(`https://vaidik-backend.onrender.com/api/v1/admin//${id}`, { token });
         return response.data;
     } catch (error) {
         logoutIfInvalidToken(error.response)
-        return rejectWithValue(error.message);
+        // return rejectWithValue(error.message);
     }
-})
+}
 
-export const getPageListSlice = createSlice({
-    name: 'getPageList',
+
+export const tutorSuspendSlice = createSlice({
+    name: 'user',
     initialState,
-    reducers: {
-        reset: (state) => initialState
-    },
     extraReducers: {
-        [getPageListApi.pending]: (state) => {
+        [TutorsSuspend.pending]: (state) => {
             state.isLoading = true;
         },
-        [getPageListApi.fulfilled]: (state, { payload }) => {
+        [TutorsSuspend.fulfilled]: (state, { payload }) => {
             state.isLoading = false;
             state.isSuccess = true;
             state.data = payload;
         },
-        [getPageListApi.rejected]: (state, { payload }) => {
+        [TutorsSuspend.rejected]: (state, { payload }) => {
             state.isLoading = false;
             state.isSuccess = false;
-            state.errorMessage = payload;
+            state.errorMessage = payload
         }
     }
 })
 
-export const { reset } = getPageListSlice.actions;
-export default getPageListSlice.reducer;
+export default tutorSuspendSlice.reducer;

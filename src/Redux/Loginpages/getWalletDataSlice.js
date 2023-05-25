@@ -15,7 +15,7 @@ const initialState = {
 export const getWalletData = createAsyncThunk('admin/adminwallet', async(params, { rejectWithValue }) => {
     const token = localStorage.getItem('token')
     try {
-        const response = await axios.post(`https://vaidik-backend.onrender.com/admin/adminwallet${params}`, { token });
+        const response = await axios.post(`https://vaidik-backend.onrender.com/api/v1/admin/adminwallet${params}`, { token });
         return response.data;
     } catch (error) {
         logoutIfInvalidToken(error.response)

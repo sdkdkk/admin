@@ -19,7 +19,7 @@ import Moment from "react-moment";
 const Studentlist = () => {
   const studentists = useSelector((state) => state.studentlist.data.document);
   const isLoading = useSelector((state) => state.studentlist.isLoading);
-  // console.log(studentists);
+
   //table
   const [searchTerm, setSearchTerm] = useState("");
   const [currentData, setCurrentData] = useState([]);
@@ -32,7 +32,6 @@ const Studentlist = () => {
   const dispatch = useDispatch();
   const totalPages = Math.ceil(currentData.length / postsPerPage);
 
-  console.log(displayUsers);
   //date picker
   const [values, setValues] = useState([
     new DateObject().subtract(4, "days"),

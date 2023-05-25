@@ -12,15 +12,13 @@ const ForgotpassWord = () => {
   const { register, handleSubmit, reset } = useForm({});
 
   const onSubmit = async (data) => {
-      console.log(data);
       
     try {
       const { response } = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/forgotpassword`,
+        `https://vaidik-backend.onrender.com/api/v1/admin/forgotpassword`,
         data
       );
 
-      console.log(response);
       if (data.status === 1) {
         notify(data.message);
         reset();
@@ -28,7 +26,6 @@ const ForgotpassWord = () => {
         notify(data.error);
       }
     } catch (error) {
-      console.log("error - ", error);
       notify(error.response.data.error);
     }
   };

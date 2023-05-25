@@ -15,7 +15,7 @@ const initialState = {
 export const getTransactionHistory = createAsyncThunk('/admin/fetchTransactionHistory', async(params, { rejectWithValue }) => {
     const token = localStorage.getItem('token')
     try {
-        const response = await axios.post(`https://vaidik-backend.onrender.com/admin/fetchTransactionHistory${params}`, { token });
+        const response = await axios.post(`https://vaidik-backend.onrender.com/api/v1/admin/fetchTransactionHistory${params}`, { token });
         return response.data;
     } catch (error) {
         logoutIfInvalidToken(error.response)

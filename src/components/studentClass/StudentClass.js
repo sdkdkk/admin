@@ -41,18 +41,16 @@ const StudentClass = () => {
     try {
       setLoading1(true);
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/getclass`,
+        `https://vaidik-backend.onrender.com/api/v1/admin/getclass`,
         {
           token: token,
         }
       );
-      console.log(response.data.data);
+    
       setStudentClass(response.data.data);
-      console.log(studentClass);
       setLoading1(false);
     } catch (error) {
       logoutIfInvalidToken(error.response)
-      console.log(error.response.data.error);
       // notify("Invalid refresh token!");
       setLoading1(false);
     }
@@ -66,8 +64,8 @@ const StudentClass = () => {
     try {
       setLoading(true);
       const requestUrl = data._id
-        ? `https://vaidik-backend.onrender.com/admin/setclass`
-        : `https://vaidik-backend.onrender.com/admin/setclass`;
+        ? `https://vaidik-backend.onrender.com/api/v1/admin/setclass`
+        : `https://vaidik-backend.onrender.com/api/v1/admin/setclass`;
       var response;
       if (data._id) {
         response = await axios.post(requestUrl, {
@@ -106,7 +104,7 @@ const StudentClass = () => {
 
   function handleDelet(_id) {
     axios
-      .post(`https://vaidik-backend.onrender.com/admin/deleteclass/${_id}`, {
+      .post(`https://vaidik-backend.onrender.com/api/v1/admin/deleteclass/${_id}`, {
         token: token,
       })
       .then((response) => {

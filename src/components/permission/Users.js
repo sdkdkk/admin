@@ -28,19 +28,16 @@ const Users = () => {
       setLoading1(true);
 
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/getadmin`,
+        `https://vaidik-backend.onrender.com/api/v1/admin/getadmin`,
         {
           token: token,
         }
       );
-      console.log(response.data);
       setData(response.data.document);
 
       setLoading1(false);
     } catch (error) {
       logoutIfInvalidToken(error.response)
-      console.log(data);
-      console.log(error);
       notify(data.error);
 
       setLoading1(false);
@@ -53,21 +50,18 @@ const Users = () => {
       setLoading(true);
 
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/deleteadmin/${_id}`,
+        `https://vaidik-backend.onrender.com/api/v1/admin/deleteadmin/${_id}`,
         {
           token: token,
         }
       );
       const tempData = [...data].filter((a) => a._id !== _id);
       setData(tempData)
-      console.log(response.data.message);
 
       notify(response.data.message);
       setLoading(false);
     } catch (error) {
       logoutIfInvalidToken(error.response)
-      console.log(data);
-      console.log(error.response.data.error);
       notify(error.response.data.error);
 
       setLoading1(false);
@@ -131,7 +125,6 @@ const Users = () => {
                                   </tr>
                                 </thead>
                                 {data.map((value, index) => {
-                                  console.log(value.role);
                                   return (
                                     <tbody key={index}>
                                       <tr>

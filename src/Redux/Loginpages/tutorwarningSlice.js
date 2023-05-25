@@ -15,7 +15,7 @@ const initialState = {
 export const Tutorswarning = createAsyncThunk('user/getUserList', async(page, { rejectWithValue }) => {
     const token = localStorage.getItem('token')
     try {
-        const response = await axios.post(`https://vaidik-backend.onrender.com/admin/warningtutor`, { token });
+        const response = await axios.post(`https://vaidik-backend.onrender.com/api/v1/admin/warningtutor`, { token });
         return response.data;
     } catch (error) {
         logoutIfInvalidToken(error.response)

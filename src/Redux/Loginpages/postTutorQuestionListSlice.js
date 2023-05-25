@@ -14,7 +14,7 @@ const initialState = {
 export const postTutorQuestionApi = createAsyncThunk('admin/ask/tutorexamquestion', async(payload, { rejectWithValue }) => {
     const token = localStorage.getItem('token')
     try {
-        const response = await axios.post(`https://vaidik-backend.onrender.com/admin/ask/tutorexamquestion`, { token, ...payload });
+        const response = await axios.post(`https://vaidik-backend.onrender.com/api/v1/admin/ask/tutorexamquestion`, { token, ...payload });
         return response.data;
     } catch (error) {
         logoutIfInvalidToken(error.response)

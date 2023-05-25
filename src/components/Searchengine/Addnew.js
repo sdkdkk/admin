@@ -46,8 +46,6 @@ const Addnew = () => {
     },
   });
 
-  console.log(optionsArray);
-
   const modules = {
     toolbar: [
       [{ header: "1" }, { header: "2" }, { font: [] }],
@@ -113,13 +111,10 @@ const Addnew = () => {
       } catch (error) {
         logoutIfInvalidToken(error.response)
         if (error.response) {
-          console.log(error.response.status);
-          console.log(error.response.data);
-          console.log(error.response.headers);
         } else if (error.request) {
-          console.log(error.request);
+
         } else {
-          console.log("Error", error.message);
+
         }
       }
     };
@@ -156,12 +151,11 @@ const Addnew = () => {
     }
     formData.append("explanation", data.explanation || "");
     setIsLoading(true);
-    fetch("https://vaidik-backend.onrender.com/admin/questionpost", {
+    fetch("https://vaidik-backend.onrender.com/api/v1/admin/questionpost", {
       method: "POST",
       body: formData,
     })
       .then((response) => {
-        console.log(response);
         // Reset the input fields after submitting the form
         setImages([]);
         setEditorHtml("");
@@ -293,19 +287,7 @@ const Addnew = () => {
                             <p className="error">Please Enter a Subject</p>
                           )}
                         </div>
-                        {/* <Col md={12}>
-                          <div>
-                            <p className="mx-1">Answer</p>
-                            <ReactQuill
-                            type="answer"
-                              // value={answer || ''}
-                              name="answer"
-                              {...register("answer", { required: true })}
-                              // onChange={handleAnswerChange}
-                            />
-                           {errors.answer && <p className="error">Please upload at least one image</p>}
-                          </div>
-                        </Col> */}
+                       
                         <Col md={12}>
                           <div>
                             <p className="mx-1">Answer</p>
@@ -372,44 +354,6 @@ const Addnew = () => {
                             </div>
                           </Col>
                         ) : null}
-                        {/* {console.log(questionTypes[1])}
-                        {questionTypes[1] ? (
-                          <Col md={12}>
-                            <div>
-                              <p className="mx-1">Explanation</p>
-                              <Controller
-                                name="explanation"
-                                control={control}
-                                defaultValue={editorHtml}
-                                render={({ field }) => (
-                                  <ReactQuill
-                                    theme="snow"
-                                    name="explanation"
-                                    {...register("explanation", {
-                                      required: true,
-                                    })}
-                                    //onChange={(value) => setEditorHtml(value)}
-                                    // value={answer || ""}
-                                    modules={modules}
-                                    formats={formats}
-                                    // onChange={handleExplanationChange}
-                                    bounds={"#root"}
-                                    placeholder="type Here...."
-                                    ref={editorRef}
-                                    {...field}
-                                  />
-                                )}
-                              />
-                              {errors.explanation && (
-                                <p className="error">
-                                  Please Enter a explanation
-                                </p>
-                              )}
-                            </div>
-                          </Col>
-                        ) : (
-                          ""
-                        )} */}
 
                         <div className="mt-4">
                           <Link to="/searchengine">

@@ -17,24 +17,6 @@ const Testexam = () => {
   let navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(false);
 
-  console.log(testexam);
-  // const data = [
-  //     { name: "John Doe", age: 30, gender: "Male" },
-  //     { name: "Jane Smith", age: 25, gender: "Female" },
-  //     { name: "Bob Johnson", age: 40, gender: "Male" },
-  //     { name: "Mary Williams", age: 35, gender: "Female" },
-  //     { name: "Tom Brown", age: 28, gender: "Male" },
-  //     { name: "Alice Davis", age: 32, gender: "Female" },
-  // ];
-
-  // const PER_PAGE = 3;
-  // const [currentPage, setCurrentPage] = useState(0);
-  // const handlePageChange = ({ selected }) => {
-  //     setCurrentPage(selected);
-  // };
-  // const offset = currentPage * PER_PAGE;
-  // const pageCount = Math.ceil(data.length / PER_PAGE);
-  // const currentPageData = data.slice(offset, offset + PER_PAGE);
 
   useEffect(() => {
     setIsLoading(true);

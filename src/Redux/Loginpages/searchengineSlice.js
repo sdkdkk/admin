@@ -59,7 +59,7 @@ export const searchengine =
     (limit = 5, skip = 0, act = 0) =>
     async(dispatch) => {
         if (act === 1) {
-            console.log("abc");
+
             localStorage.removeItem("token");
             dispatch(reset());
         } else {
@@ -67,7 +67,7 @@ export const searchengine =
             try {
                 const token = localStorage.getItem("token");
                 const { data } = await axios.post(
-                    `https://vaidik-backend.onrender.com/admin/adminviewquestion?limit=${limit}&skip=${skip}`, { token }
+                    `https://vaidik-backend.onrender.com/api/v1/admin/adminviewquestion?limit=${limit}&skip=${skip}`, { token }
                 );
                 if (data.status === 1) {
                     dispatch(searchengineSuccess(data));
