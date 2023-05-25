@@ -19,7 +19,9 @@ const Truefalseque = () => {
                 <span className="text-dark">Question Subject : </span>
                 {location.state.data.allQuestions.questionSubject}
               </p>
-              <p>Question Type : {location.state.data.allQuestions.questionType}</p>
+              <p>
+                Question Type : {location.state.data.allQuestions.questionType}
+              </p>
               <p>Status : {location.state.data.allQuestions.status}</p>
               {location.state.data.allQuestions.createdAt && (
                 <p>
@@ -33,15 +35,16 @@ const Truefalseque = () => {
             <div className="row">
               <div className="col-md-12 col-lg-12 mb--20">
                 <h5>Question</h5>
-                <div className="p--20 rbt-border radius-6 bg-primary-opacity">
-                  Q 01.{" "}
-                  <span
+                <input
+                  className="p--20 rbt-border radius-6 w-100 bg-primary-opacity"
+                  value={location.state.data.allQuestions.question}
+                />
+
+                {/*<span
                     dangerouslySetInnerHTML={{
                       __html: location.state.data.allQuestions.question,
                     }}
-                  />
-                  ?
-                </div>
+                  />*/}
               </div>
               {answer && (
                 <div className="col-md-12 col-lg-12 mb--20">
@@ -59,7 +62,8 @@ const Truefalseque = () => {
                           />
                           <label
                             className="form-check-label"
-                            htmlFor="rbt-radio-1">
+                            htmlFor="rbt-radio-1"
+                          >
                             True
                           </label>
                         </div>
@@ -75,7 +79,8 @@ const Truefalseque = () => {
                           />
                           <label
                             className="form-check-label"
-                            htmlFor="rbt-radio-2">
+                            htmlFor="rbt-radio-2"
+                          >
                             False
                           </label>
                         </div>

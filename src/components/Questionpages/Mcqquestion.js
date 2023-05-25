@@ -3,18 +3,53 @@ import "./Que.css";
 import { useLocation } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import Moment from "react-moment";
+import axios from "axios";
+import { Controller, useForm } from "react-hook-form";
+import { Button } from "react-bootstrap";
+import { toast } from "react-toastify";
 
 const Mcqquestion = () => {
   const location = useLocation();
-  console.log(location.state.data);
-  const answer = location.state.data.allQuestions.answer; // Get the answer from location
-
+  console.log(location.state.data.allQuestions.questionId);
+  const answer = location.state.data.allQuestions.answer;
+  const explation = location.state.data.allQuestions.explanation;
+  // Get the answer from location
+  console.log(answer);
   const [imageSrc, setImageSrc] = useState("");
   const [show, setShow] = useState(false);
-
+  const [data, setData] = useState([]);
+  const { register, handleSubmit, control } = useForm({});
   const handleImageClick = (url) => {
     setShow(true);
     setImageSrc(url);
+  };
+
+  const onSubmit = async (data) => {
+    console.log(data);
+    const token = localStorage.getItem("token");
+    try {
+      // setLoading1(true);
+      const response = await axios.post(
+        `https://vaidik-backend.onrender.com/admin/updatetutorquestionanswer`,
+        {
+          token: token,
+          questionId: location.state.data.allQuestions.questionId,
+          question: data.question,
+          answer: data.answer,
+          explanation: data.explanation,
+        }
+      );
+      console.log(response.data);
+      setData(response.data);
+      toast.success(response.data.message);
+      // setLoading1(false);
+    } catch (error) {
+      // logoutIfInvalidToken(error.response);
+      console.log(error.response.data.error);
+      toast.error(error.response.data.error);
+      // notify("Invalid refresh token!");
+      // setLoading1(false);
+    }
   };
 
   return (
@@ -40,103 +75,150 @@ const Mcqquestion = () => {
                 </p>
               )}
             </div>
-            <div className="content mt-2">
-              <div className="row">
-                <div className="col-md-12 col-lg-12 mb--20 ">
-                  <h5>Question</h5>
-                  <div className="p--20 rbt-border radius-6 bg-primary-opacity">
-                    Q 01.{" "}
-                    <span
-                      dangerouslySetInnerHTML={{
-                        __html: location.state.data.allQuestions.question,
-                      }}
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="content mt-2">
+                <div className="row">
+                  <div className="col-md-12 col-lg-12 mb--20 ">
+                    <input
+                      className="p--20 rbt-border radius-6 w-100 bg-primary-opacity"
+                      defaultValue={location.state.data.allQuestions.question}
+                      {...register("question")}
                     />
-                    ?
+
+                    {/*<span
+                    dangerouslySetInnerHTML={{
+                      __html: location.state.data.allQuestions.question,
+                    }}
+                  />*/}
+
+                    <h5>Question</h5>
                   </div>
-                </div>
-                {answer && (
-                  <div className="col-md-12 col-lg-12 mb--20">
-                    <h5>Answer</h5>
-                    <div className="p--20 rbt-border radius-6 bg-primary-opacity">
-                      <div className="row">
-                        <div className="col-lg-6">
-                          <div className="rbt-form-check p--10">
-                            <input
-                              className="form-check-input "
-                              type="radio"
-                              name="rbt-radio"
-                              id="rbt-radio-1"
-                              value="a"
-                              checked={answer === "a"} // Set the checked state based on the answer
-                            />
-                            <label
-                              className="form-check-label"
-                              htmlFor="rbt-radio-1">
-                              {" "}
-                              A)
-                            </label>
+                  {answer && (
+                    <div className="col-md-12 col-lg-12 mb--20">
+                      <h5>Answer</h5>
+                      <div className="p--20 rbt-border radius-6 bg-primary-opacity">
+                        <div className="row">
+                          <div className="col-lg-6">
+                            <div className="rbt-form-check p--10">
+                              <Controller
+                                control={control}
+                                name="answer"
+                                render={({ field }) => (
+                                  <input
+                                    {...field}
+                                    className="form-check-input"
+                                    type="radio"
+                                    id="rbt-radio-1"
+                                    defaultChecked={answer === "a"}
+                                    value="a"
+                                  />
+                                )}
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor="rbt-radio-1"
+                              >
+                                A)
+                              </label>
+                            </div>
                           </div>
-                        </div>
-                        <div className="col-lg-6">
-                          <div className="rbt-form-check p--10">
-                            <input
-                              className="form-check-input"
-                              type="radio"
-                              name="rbt-radio"
-                              id="rbt-radio-2"
-                              value="b"
-                              checked={answer === "b"} // Set the checked state based on the answer
-                            />
-                            <label
-                              className="form-check-label"
-                              htmlFor="rbt-radio-2">
-                              {" "}
-                              B)
-                            </label>
+                          <div className="col-lg-6">
+                            <div className="rbt-form-check p--10">
+                              <Controller
+                                control={control}
+                                name="answer"
+                                render={({ field }) => (
+                                  <input
+                                    {...field}
+                                    className="form-check-input"
+                                    type="radio"
+                                    id="rbt-radio-2"
+                                    defaultChecked={answer === "b"}
+                                    value="b"
+                                  />
+                                )}
+                              />
+                              <label
+                                className="form-check-label"
+                                // htmlFor="rbt-radio-2"
+                              >
+                                B)
+                              </label>
+                            </div>
                           </div>
-                        </div>
-                        <div className="col-lg-6">
-                          <div className="rbt-form-check p--10">
-                            <input
-                              className="form-check-input"
-                              type="radio"
-                              name="rbt-radio"
-                              id="rbt-radio-3"
-                              value="c"
-                              checked={answer === "c"} // Set the checked state based on the answer
-                            />
-                            <label
-                              className="form-check-label"
-                              htmlFor="rbt-radio-3">
-                              {" "}
-                              C)
-                            </label>
+                          <div className="col-lg-6">
+                            <div className="rbt-form-check p--10">
+                              <Controller
+                                control={control}
+                                name="answer"
+                                render={({ field }) => (
+                                  <input
+                                    {...field}
+                                    className="form-check-input"
+                                    type="radio"
+                                    id="rbt-radio-3"
+                                    defaultChecked={answer === "c"}
+                                    value="c"
+                                  />
+                                )}
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor="rbt-radio-1"
+                              >
+                                C)
+                              </label>
+                            </div>
                           </div>
-                        </div>
-                        <div className="col-lg-6">
-                          <div className="rbt-form-check p--10">
-                            <input
-                              className="form-check-input"
-                              type="radio"
-                              name="rbt-radio"
-                              id="rbt-radio-4"
-                              value="d"
-                              checked={answer === "d"} // Set the checked state based on the answer
-                            />
-                            <label
-                              className="form-check-label"
-                              htmlFor="rbt-radio-4">
-                              {" "}
-                              D)
-                            </label>
+                          <div className="col-lg-6">
+                            <div className="rbt-form-check p--10">
+                              <Controller
+                                control={control}
+                                name="answer"
+                                render={({ field }) => (
+                                  <input
+                                    {...field}
+                                    className="form-check-input"
+                                    type="radio"
+                                    id="rbt-radio-4"
+                                    defaultChecked={answer === "d"}
+                                    value="d"
+                                  />
+                                )}
+                              />
+                              <label
+                                className="form-check-label"
+                                htmlFor="rbt-radio-1"
+                              >
+                                D)
+                              </label>
+                            </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                )}
+                  )}
+                </div>
+
+                <div className="col-md-12 col-lg-12 mb--20">
+                  <h5>Explanation</h5>
+                  <input
+                    className="p--20 rbt-border radius-6 w-100 bg-primary-opacity"
+                    defaultValue={location.state.data.allQuestions.explanation}
+                    {...register("explanation")}
+                  />
+                </div>
+
+                <div className="">
+                  {/* Render the edit/update/delete buttons based on the editing state */}
+
+                  <Button className="btn-warning mx-4" type="submit">
+                    Update
+                  </Button>
+                  <Button className="btn-danger">Delete</Button>
+                </div>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>

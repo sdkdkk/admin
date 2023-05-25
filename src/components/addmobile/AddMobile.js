@@ -9,11 +9,9 @@ import { Controller, useForm } from "react-hook-form";
 import { ColorRing } from "react-loader-spinner";
 import { Pagination } from "@mui/material";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
-import "react-phone-input-2/lib/style.css";
-import PhoneInput from "react-phone-input-2";
 import "react-toastify/dist/ReactToastify.css";
-
 import "react-phone-number-input/style.css";
+import PhoneInput from "react-phone-number-input";
 
 const AddMobile = () => {
   const {
@@ -92,15 +90,13 @@ const AddMobile = () => {
         });
       }
 
-
       if (response.data.status === 1) {
         // setData(response.data);
-     notify(response.data.message);
-          fetchData();
-        
+        notify(response.data.message);
+        fetchData();
+
         // setEditCouponId(null);
       }
-
     } catch (error) {
       logoutIfInvalidToken(error.response);
       toast.error(error.response.data.error);
@@ -108,8 +104,7 @@ const AddMobile = () => {
       setLoading(false);
     }
   };
-  console.log(data)
-
+  console.log(data);
 
   const handleUpdate = (coupon) => {
     reset(coupon);
@@ -183,13 +178,13 @@ const AddMobile = () => {
                                         },
                                       }) => (
                                         <PhoneInput
-                                        className="mb-4"
-                                        international
-                                        defaultCountry="US"
-                                        value={value}
-                                        onChange={onChange}
-                                        onBlur={onBlur}
-                                      />
+                                          className="mb-4"
+                                          international
+                                          defaultCountry="US"
+                                          value={value}
+                                          onChange={onChange}
+                                          onBlur={onBlur}
+                                        />
                                       )}
                                     />
                                     {errors.mobileNo && (
@@ -286,7 +281,7 @@ const AddMobile = () => {
                                 onChange={handleChange}
                                 shape="rounded"
                                 variant="outlined"
-                              // showFirstButton
+                                // showFirstButton
                               />
                             </div>
                           </>

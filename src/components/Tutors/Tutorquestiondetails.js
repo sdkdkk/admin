@@ -72,31 +72,7 @@ const Tutorquestiondetails = () => {
                                     <Questionanswer />
                                   )}
                                 </div>
-                                <div className="">
-                                  {/* Render the edit/update/delete buttons based on the editing state */}
-                                  {editing ? (
-                                    <>
-                                      <Button className="btn-warning mx-4">
-                                        Update
-                                      </Button>
-                                      <Button onClick={() => setEditing(false)}>
-                                        Cancel
-                                      </Button>
-                                    </>
-                                  ) : (
-                                    <>
-                                      <Button
-                                        className="btn-info  mx-4"
-                                        onClick={handleEdit}
-                                      >
-                                        Edit
-                                      </Button>
-                                      <Button className="btn-danger">
-                                        Delete
-                                      </Button>
-                                    </>
-                                  )}
-                                </div>
+                               
                               </div>
                             </div>
                           </div>
