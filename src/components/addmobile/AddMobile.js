@@ -11,6 +11,9 @@ import { Pagination } from "@mui/material";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 import "react-phone-input-2/lib/style.css";
 import PhoneInput from "react-phone-input-2";
+import "react-toastify/dist/ReactToastify.css";
+
+import "react-phone-number-input/style.css";
 
 const AddMobile = () => {
   const {
@@ -88,14 +91,13 @@ const AddMobile = () => {
           token: token,
         });
       }
-      reset();
-      console.log(response.data);
       if (response.data.status === 1) {
-        // setData(response.data);
-     notify(response.data.message);
-          fetchData();
-        
-        // setEditCouponId(null);
+        toast.success(response.data.message);
+        reset({
+          mobileNo: "", // Clear couponCode field
+        // Clear validityDate field
+        });
+        fetchData(); // Fetch updated data
       }
     } catch (error) {
       logoutIfInvalidToken(error.response);
@@ -129,6 +131,14 @@ const AddMobile = () => {
         toast.error(error.data.message);
       });
   }
+
+  const formatPhoneNumber = (phoneNumber) => {
+    // Assuming phoneNumber is a string in the format "1234567890"
+    const areaCode = phoneNumber.slice(0, 3);
+    const firstPart = phoneNumber.slice(3, 6);
+    const secondPart = phoneNumber.slice(6, 10);
+    return `(${areaCode}) ${firstPart}-${secondPart}`;
+  };
 
   return (
     <>
@@ -175,13 +185,13 @@ const AddMobile = () => {
                                         },
                                       }) => (
                                         <PhoneInput
-                                          className="mb-4"
-                                          country={"in"}
-                                          value={value}
-                                          onChange={onChange}
-                                          onBlur={onBlur}
-                                          inputRef={ref}
-                                        />
+                                        className="mb-4"
+                                        international
+                                        defaultCountry="US"
+                                        value={value}
+                                        onChange={onChange}
+                                        onBlur={onBlur}
+                                      />
                                       )}
                                     />
                                     {errors.mobileNo && (
@@ -251,7 +261,7 @@ const AddMobile = () => {
                                         1 +
                                         (currentPage - 1) * postsPerPage}
                                     </td>
-                                    <td>{data.mobileNo}</td>
+                                    <td>{formatPhoneNumber(data.mobileNo)}</td>
                                     <td>
                                       <Button
                                         variant="success"
