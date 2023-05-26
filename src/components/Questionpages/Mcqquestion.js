@@ -1,36 +1,34 @@
 import React, { useState } from "react";
 import "./Que.css";
-import "../Css/Tutorlist.css";
-import { useLocation, useNavigate, useSearchParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
+import Modal from "react-bootstrap/Modal";
 import Moment from "react-moment";
-import { useSelector } from "react-redux";
-import Navbar from "../shared/Navbar";
-import Sidebar from "../shared/Sidebar";
-import Footer from "../shared/Footer";
 import axios from "axios";
-import { logoutIfInvalidToken } from "../../helpers/handleError";
+import { Controller, useForm } from "react-hook-form";
+import { Button } from "react-bootstrap";
 import { toast } from "react-toastify";
 
 const Mcqquestion = () => {
-  const history = useNavigate();
-  const [searchParams] = useSearchParams();
-  const id = searchParams.get("id");
-  const notify = (data) => toast(data);
-  const [answer, setAnswer] = useState("");
-  const [loading, setLoading] = useState("");
-  const token = useSelector((state) => state.auth.token);
-  const getAdminQuestionsState = useSelector(
-    (state) => state.getAdminQuestions
-  );
-  const { transactions = [] } = getAdminQuestionsState?.data || {};
-  const questionDetails = transactions?.find((a) => a._id === id) || {};
-
-  const { questionSubject, questionType, status, createdAt, question } =
-    questionDetails || {};
-
-  const postAnswer = async () => {
-    setLoading(true);
+  const location = useLocation();
+  console.log(location.state.data.allQuestions.questionId);
+  const answer = location.state.data.allQuestions.answer;
+  const explation = location.state.data.allQuestions.explanation;
+  // Get the answer from location
+  console.log(answer);
+  const [imageSrc, setImageSrc] = useState("");
+  const [show, setShow] = useState(false);
+  const [data, setData] = useState([]);
+  const { register, handleSubmit, control } = useForm({});
+  const handleImageClick = (url) => {
+    setShow(true);
+    setImageSrc(url);
+  };
+  const [isEditing, setEditing] = useState(false);
+  const onSubmit = async (data) => {
+    console.log(data);
+    const token = localStorage.getItem("token");
     try {
+      // setLoading1(true);
       const response = await axios.post(
         `https://vaidik-backend.onrender.com/admin/updatetutorquestionanswer`,
         {
@@ -50,151 +48,204 @@ const Mcqquestion = () => {
       console.log(error.response.data.error);
       toast.error(error.response.data.error);
       // notify("Invalid refresh token!");
-    } finally {
-      setLoading(false);
+      // setLoading1(false);
     }
   };
- 
+
   return (
     <>
       <div className="container-scroller">
         <div className="container-fluid page-body-wrapper">
-          <div className="main-panel">
-            <div className="content-wrapper">
-              <div className="mx-2 text-start">
+          <div className="container-fluid">
+            <div className="mx-2 text-start">
+              <p>
+                <span className="text-dark">Question Subject:</span>
+                {location.state.data.allQuestions.questionSubject}
+              </p>
+              <p>
+                Question Type:{location.state.data.allQuestions.questionType}
+              </p>
+              <p>Status:{location.state.data.allQuestions.status}</p>
+              {location.state.data.allQuestions.createdAt && (
                 <p>
-                  <span className="text-dark">Question Subject:</span>
-                  {questionSubject}
+                  Date Of Posted:
+                  <Moment format="DD MMM YYYY" withTitle>
+                    {location.state.data.createdAt}
+                  </Moment>
                 </p>
-                <p>Question Type:{questionType}</p>
-                <p>Status:{status}</p>
-                {createdAt && (
-                  <p>
-                    Date Of Posted:
-                    <Moment format="DD MMM YYYY" withTitle>
-                      {createdAt}
-                    </Moment>
-                  </p>
-                )}
-              </div>
+              )}
+            </div>
+            <form onSubmit={handleSubmit(onSubmit)}>
               <div className="content mt-2">
                 <div className="row">
                   <div className="col-md-12 col-lg-12 mb--20 ">
-                    <h5>Question</h5>
-                    <div className="p--20 rbt-border radius-6 bg-primary-opacity">
-                      Q 01. {question}
-                    </div>
+                    <input
+                      className="p--20 rbt-border radius-6 w-100 bg-primary-opacity"
+                      defaultValue={location.state.data.allQuestions.question}
+                      {...register("question")}
+                      disabled={!isEditing}
+                    />
 
-                   
+                    {/*<span
+                    dangerouslySetInnerHTML={{
+                      __html: location.state.data.allQuestions.question,
+                    }}
+                  />*/}
+
+                    <h5>Question</h5>
                   </div>
-                  {true && (
+                  {answer && (
                     <div className="col-md-12 col-lg-12 mb--20">
                       <h5>Answer</h5>
                       <div className="p--20 rbt-border radius-6 bg-primary-opacity">
                         <div className="row">
                           <div className="col-lg-6">
                             <div className="rbt-form-check p--10">
-                              <input
-                                className="form-check-input "
-                                type="radio"
-                                name="rbt-radio"
-                                id="rbt-radio-1"
-                                value="a"
-                                onChange={() => setAnswer("a")}
+                              <Controller
+                                control={control}
+                                name="answer"
+                                render={({ field }) => (
+                                  <input
+                                    {...field}
+                                    className="form-check-input"
+                                    type="radio"
+                                    id="rbt-radio-1"
+                                    defaultChecked={answer === "a"}
+                                    value="a"
+                                    disabled={!isEditing}
+                                  />
+                                )}
                               />
                               <label
                                 className="form-check-label"
                                 htmlFor="rbt-radio-1"
                               >
-                                {" "}
                                 A)
                               </label>
                             </div>
                           </div>
                           <div className="col-lg-6">
                             <div className="rbt-form-check p--10">
-                              <input
-                                className="form-check-input"
-                                type="radio"
-                                name="rbt-radio"
-                                id="rbt-radio-2"
-                                value="b"
-                                onChange={() => setAnswer("b")}
+                              <Controller
+                                control={control}
+                                name="answer"
+                                render={({ field }) => (
+                                  <input
+                                    {...field}
+                                    className="form-check-input"
+                                    type="radio"
+                                    id="rbt-radio-2"
+                                    defaultChecked={answer === "b"}
+                                    value="b"
+                                    disabled={!isEditing}
+                                  />
+                                )}
                               />
                               <label
                                 className="form-check-label"
-                                htmlFor="rbt-radio-2"
+                              // htmlFor="rbt-radio-2"
                               >
-                                {" "}
                                 B)
                               </label>
                             </div>
                           </div>
                           <div className="col-lg-6">
                             <div className="rbt-form-check p--10">
-                              <input
-                                className="form-check-input"
-                                type="radio"
-                                name="rbt-radio"
-                                id="rbt-radio-3"
-                                value="c"
-                                onChange={() => setAnswer("c")}
+                              <Controller
+                                control={control}
+                                name="answer"
+                                render={({ field }) => (
+                                  <input
+                                    {...field}
+                                    className="form-check-input"
+                                    type="radio"
+                                    id="rbt-radio-3"
+                                    defaultChecked={answer === "c"}
+                                    value="c"
+                                    disabled={!isEditing}
+                                  />
+                                )}
                               />
                               <label
                                 className="form-check-label"
-                                htmlFor="rbt-radio-3"
+                                htmlFor="rbt-radio-1"
                               >
-                                {" "}
                                 C)
                               </label>
                             </div>
                           </div>
                           <div className="col-lg-6">
                             <div className="rbt-form-check p--10">
-                              <input
-                                className="form-check-input"
-                                type="radio"
-                                name="rbt-radio"
-                                id="rbt-radio-4"
-                                value="d"
-                                onChange={() => setAnswer("d")}
+                              <Controller
+                                control={control}
+                                name="answer"
+                                render={({ field }) => (
+                                  <input
+                                    {...field}
+                                    className="form-check-input"
+                                    type="radio"
+                                    id="rbt-radio-4"
+                                    defaultChecked={answer === "d"}
+                                    value="d"
+                                    disabled={!isEditing}
+                                  />
+                                )}
                               />
                               <label
                                 className="form-check-label"
-                                htmlFor="rbt-radio-4"
+                                htmlFor="rbt-radio-1"
                               >
-                                {" "}
                                 D)
                               </label>
                             </div>
                           </div>
                         </div>
                       </div>
-                      <div
-                        style={{
-                          display: "flex",
-                          justifyContent: "space-between",
-                        }}
-                        className="mt-4"
-                      >
-                        <span></span>
-                        <button
-                          disabled={loading}
-                          type="submit"
-                          className="btn btn-primary"
-                          onClick={postAnswer}
-                        >
-                          {loading ? "Posting..." : "Answer"}
-                        </button>
-                      </div>
                     </div>
                   )}
                 </div>
+
+                <div className="col-md-12 col-lg-12 mb--20">
+                  <h5>Explanation</h5>
+                  <input
+                    className="p--20 rbt-border radius-6 w-100 bg-primary-opacity"
+                    defaultValue={location.state.data.allQuestions.explanation}
+                    {...register("explanation")}
+                    disabled={!isEditing}
+                  />
+                </div>
+
+                <div className="Personal-Settings-button col-lg-6">
+                  {/* Render the edit/update/delete buttons based on the editing state */}
+                  <Button
+                    className="border-edit-btn"
+                    size="lg"
+                    onClick={() => setEditing(!isEditing)}
+                  >
+                    {!isEditing && <i className="fa fa-pen" />}
+                    {!isEditing ? "Edit" : "Cancel"}
+                  </Button>{" "}
+                  <Button className="btn-success mx-4" type="submit">
+                    Update
+                  </Button>
+                  <Button className="btn-danger">Delete</Button>
+                </div>
               </div>
-            </div>
+            </form>
           </div>
         </div>
       </div>
+      {/* image show modal */}
+      <Modal show={show} onHide={() => setShow(false)}>
+        <Modal.Header closeButton className="border-0"></Modal.Header>
+        <Modal.Body className="text-center">
+          <img
+            style={{ maxWidth: "100%", maxHeight: "100%" }}
+            src={imageSrc}
+            alt="modal-img"
+          />
+        </Modal.Body>
+      </Modal>
     </>
   );
 };
