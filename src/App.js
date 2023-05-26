@@ -18,7 +18,7 @@ import Socialmediasetting from "./components/Services/Socialmediasetting";
 import Login from "./components/Login/Login";
 import Scroll from "./components/Scroll/Scroll";
 import Tutorexam from "./components/Tutorexam/Tutorexam";
-import Signup from "./components/Login/Signup";
+
 import Tutordetails from "./components/Tutors/Tutordetails";
 import Studentdetails from "./components/Student/Studentdetails";
 import Testexam from "./components/Tutorexam/Testexam";
@@ -201,8 +201,6 @@ function App() {
           }
         />
         <Route path="login" element={<Login />} />
-        <Route path="signup" element={<Signup />} />
-        <Route path="signup" element={<Signup />} />
         <Route
           path="/tutordetails/:_id/:active"
           element={

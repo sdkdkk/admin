@@ -15,10 +15,12 @@ import { tutorunverified } from "../../Redux/Loginpages/tutorunverifiedSlice";
 import { Tutorswarning } from "../../Redux/Loginpages/tutorwarningSlice";
 import { Link } from "react-router-dom";
 import { tutorworking } from "../../Redux/Loginpages/tutorworkingSlice";
-import { TutorsSuspend } from "../../Redux/Loginpages/tutorSuspendSlice";
+import { Tutorsuspend } from "../../Redux/Loginpages/tutorsuspendSlice";
 import { ColorRing } from "react-loader-spinner";
 import Moment from "react-moment";
 import { Tutortrial } from "../../Redux/Loginpages/tutortrialSlice";
+
+
 
 const Tutorlist = () => {
   //table
@@ -31,7 +33,7 @@ const Tutorlist = () => {
   const isLoadinguser = useSelector((state) => state.user.isLoading);
 
   const [selectedStatus, setSelectedStatus] = useState("working");
-  const [status, setStatus] = useState({ users: [], warning: [], working: [], trial: [] });
+  const [status, setStatus] = useState({ users: [], warning: [], working: [], suspend: [], trial: [] });
 
   const [searchTerm, setSearchTerm] = useState("");
   const [currentData, setCurrentData] = useState([]);
@@ -69,14 +71,14 @@ const Tutorlist = () => {
     dispatch(tutorworking());
   };
 
-  const fetchData5 = async () => {
-    setActiveButton(5);
-    dispatch(TutorsSuspend());
-  };
-
   const fetchData4 = async () => {
     setActiveButton(4);
     dispatch(Tutortrial());
+  };
+
+  const fetchData5 = async () => {
+    setActiveButton(5);
+    dispatch(Tutorsuspend());
   };
 
   useEffect(() => {
@@ -110,13 +112,7 @@ const Tutorlist = () => {
     return subjects && subjects.toLocaleString();
   }
 
-  // const filteredData = displayUsers.filter(item => {
-  //   const itemDate = new Date(item.updatedAt);
-  //   return itemDate >= new Date(firstDate) && itemDate <= new Date(lastDate);
-  // });
-  // if(filteredData.length > 0){
-  //   displayUsers = [...filteredData]
-  // }
+
 
   const searchItem = () => {
     const firstDate =
@@ -191,16 +187,6 @@ const Tutorlist = () => {
                         style={{ borderRadius: "4px" }}>
                         Unverified
                       </button>
-
-                      <button
-                        onClick={fetchData5}
-                        className={activeButton === 5 ? "activeb" : ""}
-                        // className="btn btn-primary"
-                        type="button"
-                        style={{ borderRadius: "4px" }}>
-                        Suspend
-                      </button>
-
                       <button
                         onClick={fetchData4}
                         className={activeButton === 4 ? "activeb" : ""}
@@ -208,6 +194,14 @@ const Tutorlist = () => {
                         type="button"
                         style={{ borderRadius: "4px" }}>
                         Trial
+                      </button>
+                      <button
+                        onClick={fetchData5}
+                        className={activeButton === 5 ? "activeb" : ""}
+                        // className="btn btn-primary"
+                        type="button"
+                        style={{ borderRadius: "4px" }}>
+                        Suspend
                       </button>
                     </div>
                   </div>

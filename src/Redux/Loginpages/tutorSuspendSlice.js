@@ -12,32 +12,31 @@ const initialState = {
 }
 
 
-export const TutorsSuspend = async (id) => {
+export const Tutorsuspend = createAsyncThunk('user/getUserList', async (page, { rejectWithValue }) => {
     const token = localStorage.getItem('token')
-
     try {
-        const response = await axios.post(`https://vaidik-backend.onrender.com/api/v1/admin//${id}`, { token });
+        const response = await axios.post(`https://vaidik-backend.onrender.com/api/v1/admin/suspendtutor`, { token });
         return response.data;
     } catch (error) {
         logoutIfInvalidToken(error.response)
-        // return rejectWithValue(error.message);
+        return rejectWithValue(error.message);
     }
-}
+})
 
 
-export const tutorSuspendSlice = createSlice({
-    name: 'user',
+export const tutorsuspendSlice = createSlice({
+    name: 'suspend',
     initialState,
     extraReducers: {
-        [TutorsSuspend.pending]: (state) => {
+        [Tutorsuspend.pending]: (state) => {
             state.isLoading = true;
         },
-        [TutorsSuspend.fulfilled]: (state, { payload }) => {
+        [Tutorsuspend.fulfilled]: (state, { payload }) => {
             state.isLoading = false;
             state.isSuccess = true;
             state.data = payload;
         },
-        [TutorsSuspend.rejected]: (state, { payload }) => {
+        [Tutorsuspend.rejected]: (state, { payload }) => {
             state.isLoading = false;
             state.isSuccess = false;
             state.errorMessage = payload
@@ -45,4 +44,4 @@ export const tutorSuspendSlice = createSlice({
     }
 })
 
-export default tutorSuspendSlice.reducer;
+export default tutorsuspendSlice.reducer; 
