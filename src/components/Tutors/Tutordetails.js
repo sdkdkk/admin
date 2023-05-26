@@ -173,6 +173,27 @@ const Tutordetails = () => {
   };
 
 
+    //Reactive Api
+    const Reactive = async () => {
+
+      try {
+        const { data } = await axios.post(
+          `https://vaidik-backend.onrender.com/api/v1/admin/reactivetutor/${_id}`,
+          {token : token}
+        );
+     
+        if (data.message) {
+          toast.success(data.message);
+        } else {
+          toast.error(data.error);
+        }
+      } catch (error) {
+  
+        toast.error(error.response.data.error);
+      }
+    };
+
+
   let navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(8);
@@ -521,6 +542,13 @@ const Tutordetails = () => {
                   className="gap-2 d-md-flex"
                   style={{ justifyContent: "end" }}
                 >
+                  {active === "5" ? (
+                    <Link to="#">
+                      <button className="btn btn-outline-primary" type="button" onClick={Reactive}>
+                        Reactive
+                      </button>
+                    </Link>
+                  ) : ""}
                   {active === "2" ? (
                     <Link to="#">
                       <button className="btn btn-outline-primary" type="button" onClick={Suspend}>

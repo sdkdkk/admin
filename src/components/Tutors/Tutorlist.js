@@ -277,6 +277,7 @@ const Tutorlist = () => {
                                     <th scope="col">Subject</th>
                                     <th scope="col">Balance</th>
                                     {activeButton === 2 && <th scope="col">No. of worning Que</th>}
+                                    {activeButton === 5 &&  <th scope="col">No. of reaming day</th>}
                                     <th scope="col">Action</th>
                                   </tr>
                                 </thead>
@@ -314,6 +315,7 @@ const Tutorlist = () => {
                                             : "-"}
                                         </td>
                                         {activeButton === 2 && <td className="text-center">{data.warningQuestions}</td>}
+                                        {activeButton === 5 && <td className="text-center">{data.daysRemaining}</td>}
                                         <td>
                                           <Link
                                             to={`/tutordetails/${data._id}/${activeButton}`}>
