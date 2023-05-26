@@ -72,7 +72,7 @@ const AddMobile = () => {
   }, []);
 
   const onSubmit = async (data) => {
-    https://vaidik-backend.onrender.com(data);
+  
     try {
       setLoading(true);
       const requestUrl = data._id

@@ -12,7 +12,7 @@ const initialState = {
 }
 
 
-export const Tutorsuspend = createAsyncThunk('user/getUserList', async (page, { rejectWithValue }) => {
+export const Tutorsuspend = createAsyncThunk('user/getUserList', async(page, { rejectWithValue }) => {
     const token = localStorage.getItem('token')
     try {
         const response = await axios.post(`https://vaidik-backend.onrender.com/api/v1/admin/suspendtutor`, { token });
@@ -44,4 +44,4 @@ export const tutorsuspendSlice = createSlice({
     }
 })
 
-export default tutorsuspendSlice.reducer; 
+export default tutorsuspendSlice.reducer;
