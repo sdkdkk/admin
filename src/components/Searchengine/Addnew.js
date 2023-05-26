@@ -90,7 +90,7 @@ const Addnew = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://vaidik-backend.onrender.com/getquestiontype`,
+          `https://vaidik-backend.onrender.com/api/v1/getquestiontype`,
           {
             token: token,
           }

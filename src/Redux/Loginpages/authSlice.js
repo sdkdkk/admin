@@ -144,7 +144,7 @@ export const signUp = (formData) => async(dispatch) => {
     dispatch(signUpPending());
     try {
         const { data } = await axios.post(
-            "https://vaidik-backend.onrender.com/student/register/email",
+            "https://vaidik-backend.onrender.com/api/v1/student/register/email",
             formData
         );
         dispatch(signUpSuccess(data));

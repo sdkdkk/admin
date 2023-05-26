@@ -30,7 +30,7 @@ const Mcqquestion = () => {
     try {
       // setLoading1(true);
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/updatetutorquestionanswer`,
+        `https://vaidik-backend.onrender.com/api/v1/admin/updatetutorquestionanswer`,
         {
           token: token,
           questionId: location.state.data.allQuestions.questionId,

@@ -30,7 +30,7 @@ const Question = () => {
   const fetchSubjectData = async () => {
     try {
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/getquestionsubject`,
+        `https://vaidik-backend.onrender.com/api/v1/getquestionsubject`,
         {
           token: token,
         }

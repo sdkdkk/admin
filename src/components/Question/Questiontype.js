@@ -40,7 +40,7 @@ const Questiontype = () => {
     try {
       setLoading1(true);
       const response = await axios.get(
-        `https://vaidik-backend.onrender.com/getquestiontype`,
+        `https://vaidik-backend.onrender.com/api/v1/getquestiontype`,
         {
           token: token,
         }
