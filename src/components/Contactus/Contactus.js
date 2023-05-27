@@ -12,9 +12,12 @@ import { Link } from "react-router-dom";
 import { ColorRing } from "react-loader-spinner";
 import { getstudentcontact } from "../../Redux/Loginpages/getstudentcontactSlice";
 import { gettutorcontact } from "../../Redux/Loginpages/gettutorcontactSlice";
+import { useNavigate } from "react-router-dom";
 
 const Contactus = () => {
-  const studentcontact = useSelector((state) => state.studentcontact.data.document);
+  const studentcontact = useSelector(
+    (state) => state.studentcontact.data.document
+  );
   const tutorcontact = useSelector((state) => state.tutorcontact.data.document);
   const isLoadinguser = useSelector((state) => state.user.isLoading);
 
@@ -84,6 +87,7 @@ const Contactus = () => {
 
   console.log(displayUsers);
 
+  let navigate = useNavigate();
   const searchItem = () => {
     const firstDate =
       values?.length > 0 ? new DateObject(values[0]).toDate() : null;
@@ -104,6 +108,11 @@ const Contactus = () => {
     });
     setCurrentData(filteredData);
     setCurrentPage(1);
+  };
+
+  const toComponentB = (data) => {
+    console.log(data);
+    navigate("/contactdetails", { state: { data } });
   };
 
   return (
@@ -240,13 +249,15 @@ const Contactus = () => {
                                         <td>{data.Message || "-"}</td>
 
                                         <td>
-                                          <Link
-                                          // to={`/tutordetails/${data._id}/${activeButton}`}
-                                          >
-                                            <button className="btn btn-primary btn-sm">
+                                       
+                                            <button
+                                              className="btn btn-primary btn-sm"
+                                              onClick={() => {
+                                                toComponentB(data);
+                                              }}>
                                               click
                                             </button>
-                                          </Link>
+                                      
                                         </td>
                                       </tr>
                                     </tbody>
