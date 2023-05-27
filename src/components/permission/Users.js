@@ -10,6 +10,8 @@ import { Button } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
+const url = process.env.REACT_APP_API_BASE_URL;
+
 const Users = () => {
   const [loading, setLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);

@@ -3,6 +3,7 @@ import axios from 'axios';
 import { createSlice } from "@reduxjs/toolkit";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 import { toast } from "react-toastify";
+const url = process.env.REACT_APP_API_BASE_URL;
 
 const initialState = {
     data: [],
@@ -14,7 +15,7 @@ const initialState = {
 export const testimonialUserDelete = createAsyncThunk('user/getUserList', async(id, { rejectWithValue }) => {
     const token = localStorage.getItem('token')
     try {
-        const response = await axios.post(`https://vaidik-backend.onrender.com/api/v1/admin/testimonial/${id}`, { token });
+        const response = await axios.post(`${url}/admin/testimonial/${id}`, { token });
         toast.success(response.data.message);
         return response.data;
     } catch (error) {

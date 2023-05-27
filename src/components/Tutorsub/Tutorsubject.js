@@ -10,6 +10,8 @@ import { ColorRing } from "react-loader-spinner";
 import { Pagination } from "@mui/material";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
+const url = process.env.REACT_APP_API_BASE_URL;
+
 const Tutorsubject = () => {
   const {
     register,
@@ -41,7 +43,7 @@ const Tutorsubject = () => {
     try {
       setLoading1(true);
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/api/v1/getquestionsubject`,
+        `${url}/getquestionsubject`,
         {
           token: token,
         }
@@ -63,8 +65,8 @@ const Tutorsubject = () => {
     try {
       setLoading(true);
       const requestUrl = data._id
-        ? `https://vaidik-backend.onrender.com/api/v1/admin/questionsubject`
-        : `https://vaidik-backend.onrender.com/api/v1/admin/questionsubject`;
+        ? `${url}/admin/questionsubject`
+        : `${url}/admin/questionsubject`;
       var response;
       if (data._id) {
         response = await axios.post(requestUrl, {
@@ -104,7 +106,7 @@ const Tutorsubject = () => {
   function handleDelet(_id) {
     axios
       .post(
-        `https://vaidik-backend.onrender.com/api/v1/admin/questionsubject/${_id}`,
+        `${url}/admin/questionsubject/${_id}`,
         {
           token: token,
         }

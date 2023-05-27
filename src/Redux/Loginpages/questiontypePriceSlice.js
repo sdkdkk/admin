@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
-
+const url = process.env.REACT_APP_API_BASE_URL;
 const questiontypePriceSlice = createSlice({
   name: "questiontypeprice",
   initialState: {
@@ -47,7 +47,7 @@ export const questiontypePriceApi = () => async (dispatch) => {
   dispatch(questiontypepricePending());
   try {
     const { data } = await axios.get(
-      `https://vaidik-backend.onrender.com/api/v1/admin/getquestiontypeforpricing`
+      `${url}/admin/getquestiontypeforpricing`
     );
 
     if (data.status === 1) {

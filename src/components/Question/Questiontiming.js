@@ -12,6 +12,8 @@ import { ColorRing } from "react-loader-spinner";
 import { Pagination } from "@mui/material";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
+const url = process.env.REACT_APP_API_BASE_URL;
+
 const Questiontiming = () => {
   const [loading, setLoading] = useState(false);
 
@@ -82,7 +84,7 @@ const Questiontiming = () => {
 
     try {
       const { data } = await axios.post(
-        `https://vaidik-backend.onrender.com/api/v1/admin/setquestiontiming`,
+        `${url}/admin/setquestiontiming`,
         timingObjData
       );
 
@@ -117,7 +119,7 @@ const Questiontiming = () => {
       setLoading1(true);
 
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/api/v1/admin/getquestiontiming`,
+        `${url}/admin/getquestiontiming`,
         {
           token: token,
         }
@@ -156,7 +158,7 @@ const Questiontiming = () => {
   function handleDeleteClick(_id) {
     axios
       .post(
-        `https://vaidik-backend.onrender.com/api/v1/admin/questiontiming/${_id}`,
+        `${url}/admin/questiontiming/${_id}`,
         {
           token: token,
         }

@@ -1,7 +1,7 @@
 import axios from "axios";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 const { createSlice } = require("@reduxjs/toolkit");
-
+const url = process.env.REACT_APP_API_BASE_URL;
 const authSlice = createSlice({
     name: "auth",
     initialState: {
@@ -50,7 +50,7 @@ export const signIn = (formData) => async(dispatch) => {
     dispatch(signInPending());
     try {
         const { data } = await axios.post(
-            "https://vaidik-backend.onrender.com/api/v1/admin/login",
+           ` ${url}/admin/login`,
             formData
         );
         dispatch(signInSuccess(data));

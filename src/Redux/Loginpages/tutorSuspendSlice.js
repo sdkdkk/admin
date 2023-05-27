@@ -3,7 +3,7 @@ import axios from 'axios';
 import { createSlice } from "@reduxjs/toolkit";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
-
+const url = process.env.REACT_APP_API_BASE_URL;
 const initialState = {
     data: [],
     isLoading: false,
@@ -15,7 +15,7 @@ const initialState = {
 export const Tutorsuspend = createAsyncThunk('user/getUserList', async(page, { rejectWithValue }) => {
     const token = localStorage.getItem('token')
     try {
-        const response = await axios.post(`https://vaidik-backend.onrender.com/api/v1/admin/suspendtutor`, { token });
+        const response = await axios.post(`${url}/admin/suspendtutor`, { token });
         return response.data;
     } catch (error) {
         logoutIfInvalidToken(error.response)

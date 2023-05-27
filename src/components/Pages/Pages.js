@@ -25,6 +25,8 @@ import {
 import { updatePageDataApi } from "../../Redux/Loginpages/updatePageDataSlice";
 import { getPageListApi } from "../../Redux/Loginpages/getPageListSlice";
 
+
+
 const Pages = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const auth = useSelector((state) => state.auth);

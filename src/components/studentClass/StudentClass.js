@@ -10,6 +10,8 @@ import { ColorRing } from "react-loader-spinner";
 import { Pagination } from "@mui/material";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
+const url = process.env.REACT_APP_API_BASE_URL;
+
 const StudentClass = () => {
   const {
     register,
@@ -41,7 +43,7 @@ const StudentClass = () => {
     try {
       setLoading1(true);
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/api/v1/admin/getclass`,
+        `${url}/admin/getclass`,
         {
           token: token,
         }
@@ -64,8 +66,8 @@ const StudentClass = () => {
     try {
       setLoading(true);
       const requestUrl = data._id
-        ? `https://vaidik-backend.onrender.com/api/v1/admin/setclass`
-        : `https://vaidik-backend.onrender.com/api/v1/admin/setclass`;
+        ? `${url}/admin/setclass`
+        : `${url}/admin/setclass`;
       var response;
       if (data._id) {
         response = await axios.post(requestUrl, {
@@ -104,7 +106,7 @@ const StudentClass = () => {
 
   function handleDelet(_id) {
     axios
-      .post(`https://vaidik-backend.onrender.com/api/v1/admin/deleteclass/${_id}`, {
+      .post(`${url}/admin/deleteclass/${_id}`, {
         token: token,
       })
       .then((response) => {

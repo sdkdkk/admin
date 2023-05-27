@@ -10,6 +10,9 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { resourcesList } from "../../helpers/helper";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
+
+const url = process.env.REACT_APP_API_BASE_URL;
+
 const Addnewrole = () => {
   const {
     register,
@@ -31,7 +34,7 @@ const Addnewrole = () => {
   const onSubmit = async (data) => {
     try {
       setLoading(true);
-      const requestUrl = `https://vaidik-backend.onrender.com/api/v1/admin/adminrole`;
+      const requestUrl = `${url}/admin/adminrole`;
 
       var response;
       if (data._id) {
@@ -79,7 +82,7 @@ const Addnewrole = () => {
       setLoading1(true);
 
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/api/v1/admin/getadminrole`,
+        `${url}/admin/getadminrole`,
         {
           token: token,
         }

@@ -14,6 +14,8 @@ import { Pagination } from "@mui/material";
 import { questiontypePriceApi } from "../../Redux/Loginpages/questiontypePriceSlice";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
+const url = process.env.REACT_APP_API_BASE_URL;
+
 const Questionpricing = () => {
   const notify = (data) => toast(data);
   const {
@@ -45,7 +47,7 @@ const Questionpricing = () => {
   const onSubmit = async (data) => {
     try {
       setLoading(true);
-      const requestUrl = `https://vaidik-backend.onrender.com/api/v1/admin/setquestionpricing`;
+      const requestUrl = `${url}/admin/setquestionpricing`;
       var response;
       if (data._id) {
         response = await axios.post(requestUrl, {
@@ -87,7 +89,7 @@ const Questionpricing = () => {
       setLoading1(true);
 
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/api/v1/admin/getquestionpricing`,
+        `${url}/admin/getquestionpricing`,
         {
           token: token,
         }
@@ -119,7 +121,7 @@ const Questionpricing = () => {
   function handleDeleteClick(_id) {
     axios
       .post(
-        `https://vaidik-backend.onrender.com/api/v1/admin/questionpricing/${_id}`,
+        `${url}/admin/questionpricing/${_id}`,
         {
           token: token,
         }

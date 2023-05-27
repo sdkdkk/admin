@@ -30,6 +30,8 @@ import { updateTutorQuestionApi } from "../../Redux/Loginpages/updateTutorQuesti
 import axios from "axios";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
+const url = process.env.REACT_APP_API_BASE_URL;
+
 const ReadMore = ({ children }) => {
   const text = children;
   const [isReadMore, setIsReadMore] = useState(true);
@@ -103,7 +105,7 @@ const Tutorexam = () => {
   const fetchData = async () => {
     try {
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/api/v1/getquestionsubject`,
+        `${url}/getquestionsubject`,
         {
           token: token,
         }

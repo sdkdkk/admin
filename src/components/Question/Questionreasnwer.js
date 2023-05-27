@@ -8,6 +8,8 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
+const url = process.env.REACT_APP_API_BASE_URL;
+
 const Questionreasnwer = () => {
   const {
     register,
@@ -27,7 +29,7 @@ const Questionreasnwer = () => {
       try {
         setLoading1(true);
         const response = await axios.post(
-          `https://vaidik-backend.onrender.com/api/v1/admin/getreanswer`,
+          `${url}/admin/getreanswer`,
           {
             token: token,
           }
@@ -57,7 +59,7 @@ const Questionreasnwer = () => {
       const reanswerTime = hours * 60 + minutes;
       //   const { hours, minutes } = data.reanswer_time;
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/api/v1/admin/setreanswer`,
+        `${url}/admin/setreanswer`,
         {
           choice: reanswer === "yes",
           reanswer_time: parseInt(reanswerTime),

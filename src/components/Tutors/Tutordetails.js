@@ -18,6 +18,7 @@ import { Button, ToastContainer } from "react-bootstrap";
 import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
 import { toast } from "react-toastify";
 
+const url = process.env.REACT_APP_API_BASE_URL;
 
 const Tutordetails = () => {
   const tutordetails = useSelector((state) => state.tutordetail);
@@ -43,19 +44,19 @@ const Tutordetails = () => {
     const fetchData = async () => {
       try {
         const response = await axios.post(
-          `https://vaidik-backend.onrender.com/api/v1/admin/tutorquestionanswer/${_id}`,
+          `${url}/admin/tutorquestionanswer/${_id}`,
           {
             token: token,
           }
         );
         const response1 = await axios.post(
-          `https://vaidik-backend.onrender.com/api/v1/admin/transactiondetails/${_id}`,
+          `${url}/admin/transactiondetails/${_id}`,
           {
             token: token,
           }
         );
         const response2 = await axios.post(
-          `https://vaidik-backend.onrender.com/api/v1/admin/tutordetails/${_id}`,
+          `${url}/admin/tutordetails/${_id}`,
           {
             token: token,
           }
@@ -88,7 +89,7 @@ const Tutordetails = () => {
     };
     try {
       const { data } = await axios.post(
-        `https://vaidik-backend.onrender.com/api/v1/admin/tutorstatus/${_id}`,
+        `${url}/admin/tutorstatus/${_id}`,
         tutorsObjData
       );
     
@@ -110,7 +111,7 @@ const Tutordetails = () => {
     };
     try {
       const { data } = await axios.post(
-        `https://vaidik-backend.onrender.com/api/v1/admin/tutorstatus/${_id}`,
+        `${url}/admin/tutorstatus/${_id}`,
         tutorsObjData
       );
     
@@ -134,7 +135,7 @@ const Tutordetails = () => {
     };
     try {
       const { data } = await axios.post(
-        `https://vaidik-backend.onrender.com/api/v1/admin/gettutorwarningquestion/${_id}?skip=0&limit=5`,
+        `${url}/admin/gettutorwarningquestion/${_id}?skip=0&limit=5`,
         tutorsObjData
       );
     
@@ -157,7 +158,7 @@ const Tutordetails = () => {
 
     try {
       const { data } = await axios.post(
-        `https://vaidik-backend.onrender.com/api/v1/admin/suspendtutor/${_id}`,
+        `${url}/admin/suspendtutor/${_id}`,
         {token : token}
       );
    
@@ -178,7 +179,7 @@ const Tutordetails = () => {
 
       try {
         const { data } = await axios.post(
-          `https://vaidik-backend.onrender.com/api/v1/admin/reactivetutor/${_id}`,
+          `${url}/admin/reactivetutor/${_id}`,
           {token : token}
         );
      

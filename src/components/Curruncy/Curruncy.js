@@ -11,6 +11,8 @@ import axios from "axios";
 import { ColorRing } from "react-loader-spinner";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
+const url = process.env.REACT_APP_API_BASE_URL;
+
 const Curruncy = () => {
   const {
     register,
@@ -28,7 +30,7 @@ const Curruncy = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/api/v1/admin/getcurrencyconversion?Currency=USD`,
+        `${url}/admin/getcurrencyconversion?Currency=USD`,
         {
           token: token,
         }
@@ -50,7 +52,7 @@ const Curruncy = () => {
     try {
       setLoadingpost(true);
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/api/v1/admin/setcurrencyconversion`,
+        `${url}/admin/setcurrencyconversion`,
         {
           ConversionToInr: parseFloat(data.ConversionToInr),
           Currency: "USD",

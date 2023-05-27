@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios';
 import { createSlice } from "@reduxjs/toolkit";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
-
+const url = process.env.REACT_APP_API_BASE_URL;
 
 const initialState = {
     data: [],
@@ -18,7 +18,7 @@ export const getstudentcontact = createAsyncThunk(
         const issolved = status === "solved" ? 1 : 0;
         try {
             const response = await axios.post(
-                `https://vaidik-backend.onrender.com/api/v1/admin/getstudentcontact?limit=5&skip=0&issolved=${issolved}`, { token }
+                `${url}/admin/getstudentcontact?limit=5&skip=0&issolved=${issolved}`, { token }
             );
             return response.data;
         } catch (error) {

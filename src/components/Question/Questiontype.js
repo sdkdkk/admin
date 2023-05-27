@@ -10,6 +10,8 @@ import { ColorRing } from "react-loader-spinner";
 import { Pagination } from "@mui/material";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
+const url = process.env.REACT_APP_API_BASE_URL;
+
 const Questiontype = () => {
   const {
     register,
@@ -40,7 +42,7 @@ const Questiontype = () => {
     try {
       setLoading1(true);
       const response = await axios.get(
-        `https://vaidik-backend.onrender.com/api/v1/getquestiontype`,
+        `${url}/getquestiontype`,
         {
           token: token,
         }
@@ -62,8 +64,8 @@ const Questiontype = () => {
     try {
       setLoading(true);
       const requestUrl = data._id
-        ? `https://vaidik-backend.onrender.com/api/v1/admin/questiontype`
-        : `https://vaidik-backend.onrender.com/api/v1/admin/questiontype`;
+        ? `${url}/admin/questiontype`
+        : `${url}/admin/questiontype`;
       var response;
       if (data._id) {
         response = await axios.post(requestUrl, {
@@ -107,7 +109,7 @@ const Questiontype = () => {
 
   function handleDelet(_id) {
     axios
-      .post(`https://vaidik-backend.onrender.com/api/v1/admin/questiontype/${_id}`, {
+      .post(`${url}/admin/questiontype/${_id}`, {
         token: token,
       })
       .then((response) => {

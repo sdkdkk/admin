@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
-
+const url = process.env.REACT_APP_API_BASE_URL;
 const questiontypeTimeSlice = createSlice({
   name: "questiontypetime",
   initialState: {
@@ -44,7 +44,7 @@ export const questiontypeApi = (token) => async (dispatch) => {
   dispatch(questiontypePending());
   try {
     const { data } = await axios.get(
-      `https://vaidik-backend.onrender.com/api/v1/admin/getquestiontypefortiming`,
+      `${url}/admin/getquestiontypefortiming`,
       token
     );
 

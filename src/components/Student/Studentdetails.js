@@ -11,6 +11,8 @@ import Moment from "react-moment";
 import face3 from "../Image/face3.jpg";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
+const url = process.env.REACT_APP_API_BASE_URL;
+
 const Studentdetails = () => {
   const { _id } = useParams();
   const [studentdetail, setStudentdetail] = useState([]);
@@ -24,19 +26,19 @@ const Studentdetails = () => {
   const fetchData = async () => {
     try {
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/api/v1/admin/studentquestionanswer/${_id}`,
+        `${url}/admin/studentquestionanswer/${_id}`,
         {
           token: token,
         }
       );
       const response1 = await axios.post(
-        `https://vaidik-backend.onrender.com/api/v1/admin/studenttransactiondetails/${_id}`,
+        `${url}/admin/studenttransactiondetails/${_id}`,
         {
           token: token,
         }
       );
       const response2 = await axios.post(
-        `https://vaidik-backend.onrender.com/api/v1/admin/studentdetails/${_id}`,
+        `${url}/admin/studentdetails/${_id}`,
         {
           token: token,
         }

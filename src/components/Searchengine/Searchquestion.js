@@ -10,6 +10,8 @@ import { ColorRing } from "react-loader-spinner";
 import { Link, useNavigate } from "react-router-dom";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
+const url = process.env.REACT_APP_API_BASE_URL;
+
 const Searchquestion = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
@@ -25,7 +27,7 @@ const Searchquestion = () => {
   const handleSearch = async (limit = 5, skip = 0) => {
     try {
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/api/v1/admin/adminsearchquestion?limit=${limit}&skip=${skip}&search=${searchTerm}`,
+        `${url}/admin/adminsearchquestion?limit=${limit}&skip=${skip}&search=${searchTerm}`,
         {
           token: token,
         }

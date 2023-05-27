@@ -4,7 +4,7 @@ import { logoutIfInvalidToken } from "../../helpers/handleError";
 
 const { createSlice } = require("@reduxjs/toolkit");
 
-const url = "https://vaidik-backend.onrender.com/api/v1";
+const url = process.env.REACT_APP_API_BASE_URL;
 
 const testimonialStatusSlice = createSlice({
   name: "testimonialstatus",

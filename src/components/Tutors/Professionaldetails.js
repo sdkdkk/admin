@@ -12,6 +12,8 @@ import { toast } from "react-toastify";
 import { ColorRing } from "react-loader-spinner";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
+const url = process.env.REACT_APP_API_BASE_URL;
+
 const Professionaldetails = () => {
   const { _id } = useParams();
 
@@ -37,7 +39,7 @@ const Professionaldetails = () => {
       setLoading(true);
       try {
         const response = await axios.post(
-          `https://vaidik-backend.onrender.com/api/v1/admin/tutorsinfo/${_id}`,
+          `${url}/admin/tutorsinfo/${_id}`,
           {
             token: token,
           }

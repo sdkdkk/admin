@@ -16,6 +16,8 @@ import "react-toastify/dist/ReactToastify.css";
 
 import "react-phone-number-input/style.css";
 
+const url = process.env.REACT_APP_API_BASE_URL;
+
 const AddMobile = () => {
   const {
     register,
@@ -52,7 +54,7 @@ const AddMobile = () => {
     try {
       setLoading1(true);
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/api/v1/admin/getmobileno`,
+        `${url}/admin/getmobileno`,
         {
           token: token,
         }
@@ -76,8 +78,8 @@ const AddMobile = () => {
     try {
       setLoading(true);
       const requestUrl = data._id
-        ? `https://vaidik-backend.onrender.com/api/v1/admin/mobileno`
-        : `https://vaidik-backend.onrender.com/api/v1/admin/mobileno`;
+        ? `${url}/admin/mobileno`
+        : `${url}/admin/mobileno`;
       var response;
       // if (data._id) {
       //   response = await axios.post(requestUrl, {
@@ -117,7 +119,7 @@ const AddMobile = () => {
 
   function handleDelet() {
     axios
-      .post(`https://vaidik-backend.onrender.com/api/v1/admin/mobileno`, {
+      .post(`${url}/admin/mobileno`, {
         token: token,
       })
       .then((response) => {

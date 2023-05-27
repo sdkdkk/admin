@@ -9,6 +9,8 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
+const url = process.env.REACT_APP_API_BASE_URL;
+
 const Coupon = () => {
   const {
     register,
@@ -27,7 +29,7 @@ const Coupon = () => {
     try {
       // setLoading(true);
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/api/v1/admin/getcoupons`,
+        `${url}/admin/getcoupons`,
         {
           token: token,
         }
@@ -49,8 +51,8 @@ const Coupon = () => {
     try {
       setLoading(true);
       const requestUrl = data._id
-        ? `https://vaidik-backend.onrender.com/api/v1/admin/couponcode`
-        : `https://vaidik-backend.onrender.com/api/v1/admin/couponcode`;
+        ? `${url}/admin/couponcode`
+        : `${url}/admin/couponcode`;
       const response = await axios.post(requestUrl, {
         couponCode: data.couponCode,
         validityDate: data.validityDate,
@@ -80,7 +82,7 @@ const Coupon = () => {
   function handleDelet(_id) {
     const response = axios
       .post(
-        `https://vaidik-backend.onrender.com/api/v1/admin/deletecouponcode/${_id}`,
+        `${url}/admin/deletecouponcode/${_id}`,
         {
           token: token,
         }

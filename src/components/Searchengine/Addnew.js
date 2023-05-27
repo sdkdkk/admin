@@ -13,6 +13,8 @@ import "react-quill/dist/quill.snow.css";
 import axios from "axios";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
+const url = process.env.REACT_APP_API_BASE_URL;
+
 Quill.register("modules/imageResize", ImageResize);
 
 const Addnew = () => {
@@ -90,7 +92,7 @@ const Addnew = () => {
     const fetchData = async () => {
       try {
         const response = await axios.get(
-          `https://vaidik-backend.onrender.com/api/v1/getquestiontype`,
+          `${url}/getquestiontype`,
           {
             token: token,
           }
@@ -151,7 +153,7 @@ const Addnew = () => {
     }
     formData.append("explanation", data.explanation || "");
     setIsLoading(true);
-    fetch("https://vaidik-backend.onrender.com/api/v1/admin/questionpost", {
+    fetch("${url}/admin/questionpost", {
       method: "POST",
       body: formData,
     })

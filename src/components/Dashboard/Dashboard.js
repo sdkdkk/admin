@@ -12,6 +12,9 @@ import axios from "axios";
 import { ColorRing } from "react-loader-spinner";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
+
+const url = process.env.REACT_APP_API_BASE_URL;
+
 const Dashboard = () => {
   const [loading1, setLoading1] = useState(false);
   const [data, setData] = useState([]);
@@ -27,7 +30,7 @@ const Dashboard = () => {
       setLoading1(true);
 
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/api/v1/admin/dashboardstats`,
+        `${url}/admin/dashboardstats`,
         { token: token }
       );
       setData(response.data.dashboardStats);

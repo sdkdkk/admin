@@ -6,6 +6,8 @@ import Logo from "../Image/doubt-q.png";
 import { ToastContainer, toast } from "react-toastify";
 import "./forgotpw.css";
 
+const url = process.env.REACT_APP_API_BASE_URL;
+
 const ForgotpassWord = () => {
   const notify = (data) => toast(data);
 
@@ -15,7 +17,7 @@ const ForgotpassWord = () => {
       
     try {
       const { response } = await axios.post(
-        `https://vaidik-backend.onrender.com/api/v1/admin/forgotpassword`,
+        `${url}/admin/forgotpassword`,
         data
       );
 

@@ -9,6 +9,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { ColorRing } from "react-loader-spinner";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
+const url = process.env.REACT_APP_API_BASE_URL;
+
 const Tutorexamconfig = () => {
   const {
     register,
@@ -30,7 +32,7 @@ const Tutorexamconfig = () => {
       try {
         setLoading1(true);
         const response = await axios.post(
-          `https://vaidik-backend.onrender.com/api/v1/admin/gettutorexamdetail`,
+          `${url}/admin/gettutorexamdetail`,
           {
             token: token,
           }
@@ -50,7 +52,7 @@ const Tutorexamconfig = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/api/v1/admin/tutorexamdetail`,
+        `${url}/admin/tutorexamdetail`,
         {
           MCQ: parseInt(data.MCQ),
           theory: parseInt(data.theory),

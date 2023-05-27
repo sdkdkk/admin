@@ -10,6 +10,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { ColorRing } from "react-loader-spinner";
 import { FaCopy } from "react-icons/fa";
 
+const url = process.env.REACT_APP_API_BASE_URL;
+
 const Tutorspayment = () => {
   const tutorpayment = useSelector((state) => state.tutorpayment.data.info);
   const isLoading = useSelector((state) => state.tutorpayment.isLoading);

@@ -11,6 +11,8 @@ import axios from "axios";
 import { getAdminQuestions } from "../../Redux/Loginpages/getAdminQuestionSlice";
 import { useNavigate } from "react-router-dom";
 
+const url = process.env.REACT_APP_API_BASE_URL;
+
 const Reanswerque = () => {
 
     const history = useNavigate();
@@ -31,7 +33,7 @@ const Reanswerque = () => {
     const fetchSubjectData = async () => {
         try {
             const response = await axios.post(
-                `https://vaidik-backend.onrender.com/api/v1/getquestionsubject`,
+                `${url}/getquestionsubject`,
                 {
                     token: token,
                 }

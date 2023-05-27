@@ -11,6 +11,8 @@ import axios from "axios";
 import { ColorRing } from "react-loader-spinner";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
+const url = process.env.REACT_APP_API_BASE_URL;
+
 const Socialmediasetting = () => {
   const [loading, setLoading] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
@@ -38,7 +40,7 @@ const Socialmediasetting = () => {
 
     try {
       const { data } = await axios.post(
-        `https://vaidik-backend.onrender.com/api/v1/admin/socialmedia`,
+        `${url}/admin/socialmedia`,
         mediaObjData
       );
       if (data.status === 1) {
@@ -64,7 +66,7 @@ const Socialmediasetting = () => {
       setLoading1(true);
 
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/api/v1/admin/getsocialmedia`,
+        `${url}/admin/getsocialmedia`,
         {
           token: token,
         }

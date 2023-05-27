@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios';
 import { createSlice } from "@reduxjs/toolkit";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
-
+const url = process.env.REACT_APP_API_BASE_URL;
 
 const initialState = {
     data: [],
@@ -15,7 +15,7 @@ const initialState = {
 export const studentlistd = createAsyncThunk('user/getUserList', async(page, { rejectWithValue }) => {
     const token = localStorage.getItem('token')
     try {
-        const response = await axios.post(`https://vaidik-backend.onrender.com/api/v1/admin/studentlist`, { token });
+        const response = await axios.post(`${url}/admin/studentlist`, { token });
         return response.data;
     } catch (error) {
         logoutIfInvalidToken(error.response)

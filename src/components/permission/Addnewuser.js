@@ -8,6 +8,9 @@ import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import { ColorRing } from "react-loader-spinner";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
+
+const url = process.env.REACT_APP_API_BASE_URL;
+
 const Addnewuser = () => {
   const [defaultValues, setDefaultValues] = useState({});
   const {
@@ -33,7 +36,7 @@ const Addnewuser = () => {
   const onSubmit = async (data) => {
     try {
       setLoading(true);
-      const requestUrl = `https://vaidik-backend.onrender.com/api/v1/admin/newuser`;
+      const requestUrl = `${url}/admin/newuser`;
 
       var response;
       if (data._id) {
@@ -98,7 +101,7 @@ const Addnewuser = () => {
   const adminrolename = async () => {
     try {
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/api/v1/admin/role`,
+        `${url}/admin/role`,
         {
           token: token,
         }
@@ -116,7 +119,7 @@ const Addnewuser = () => {
       setLoading1(true);
 
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/api/v1/admin/getadmin`,
+        `${url}/admin/getadmin`,
         {
           token: token,
         }

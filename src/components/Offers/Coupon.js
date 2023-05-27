@@ -11,6 +11,9 @@ import axios from "axios";
 import { ColorRing } from "react-loader-spinner";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
+
+const url = process.env.REACT_APP_API_BASE_URL;
+
 const Coupon = () => {
   const {
     register,
@@ -41,7 +44,7 @@ const Coupon = () => {
     try {
       setLoading1(true);
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/api/v1/admin/getcoupons`,
+        `${url}/admin/getcoupons`,
         {
           token: token,
         }
@@ -63,8 +66,8 @@ const Coupon = () => {
     try {
       setLoading(true);
       const requestUrl = data._id
-        ? `https://vaidik-backend.onrender.com/api/v1/admin/couponcode`
-        : `https://vaidik-backend.onrender.com/api/v1/admin/couponcode`;
+        ? `${url}/admin/couponcode`
+        : `${url}/admin/couponcode`;
       var response;
       if (data._id) {
         response = await axios.post(requestUrl, {
@@ -113,7 +116,7 @@ const Coupon = () => {
   function handleDelet(_id) {
     axios
       .post(
-        `https://vaidik-backend.onrender.com/api/v1/admin/deletecouponcode/${_id}`,
+        `${url}/admin/deletecouponcode/${_id}`,
         {
           token: token,
         }

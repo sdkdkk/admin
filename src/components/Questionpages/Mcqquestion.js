@@ -8,6 +8,8 @@ import { Controller, useForm } from "react-hook-form";
 import { Button } from "react-bootstrap";
 import { toast } from "react-toastify";
 
+const url = process.env.REACT_APP_API_BASE_URL;
+
 const Mcqquestion = () => {
   const location = useLocation();
   console.log(location.state.data.allQuestions.questionId);
@@ -30,7 +32,7 @@ const Mcqquestion = () => {
     try {
       // setLoading1(true);
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/api/v1/admin/updatetutorquestionanswer`,
+        `${url}/admin/updatetutorquestionanswer`,
         {
           token: token,
           questionId: location.state.data.allQuestions.questionId,
