@@ -90,7 +90,7 @@ const Professionaldetails = () => {
     formData.append("accountType", data.accountType);
     formData.append("bankName", data.bankName);
 
-    fetch(`http://vaidik-backend.onrender.com/admin/tutorsdetails/${_id}`, {
+    fetch(`http://vaidik-backend.onrender.com/api/v1/admin/tutorsdetails/${_id}`, {
       method: "POST",
       body: formData,
     })

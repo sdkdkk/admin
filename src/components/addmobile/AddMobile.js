@@ -79,18 +79,20 @@ const AddMobile = () => {
         ? `https://vaidik-backend.onrender.com/api/v1/admin/mobileno`
         : `https://vaidik-backend.onrender.com/api/v1/admin/mobileno`;
       var response;
-      if (data._id) {
+      // if (data._id) {
+      //   response = await axios.post(requestUrl, {
+      //     mobileNo: data.mobileNo,
+      //     id: data._id,
+      //     token: token,
+      //   });
+      // } else
+      
+      // {
         response = await axios.post(requestUrl, {
           mobileNo: data.mobileNo,
-          id: data._id,
           token: token,
         });
-      } else {
-        response = await axios.post(requestUrl, {
-          mobileNo: data.mobileNo,
-          token: token,
-        });
-      }
+      // }
 
       if (response.data.status === 1) {
         // setData(response.data);
@@ -113,9 +115,9 @@ const AddMobile = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  function handleDelet(_id) {
+  function handleDelet() {
     axios
-      .post(`https://vaidik-backend.onrender.com/api/v1/admin/mobileno/${_id}`, {
+      .post(`https://vaidik-backend.onrender.com/api/v1/admin/mobileno`, {
         token: token,
       })
       .then((response) => {
