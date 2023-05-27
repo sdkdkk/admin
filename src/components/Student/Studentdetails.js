@@ -155,7 +155,7 @@ const Studentdetails = () => {
                           <strong>Balance</strong>
                         </div>
                         <h4 className="text-success">
-                          <b> $. {data.balance || "-"} </b>
+                          <b> $ {data.balance || "-"} </b>
                         </h4>
                       </div>
                     </div>
@@ -187,8 +187,8 @@ const Studentdetails = () => {
                                     {Data.date}
                                   </Moment>
                                 </td>
-                                <td colSpan="2">$.{Data.amount} </td>
-                                <td colSpan="2">$.{Data.balance}</td>
+                                <td colSpan="2">$ {Data.amount} </td>
+                                <td colSpan="2">$ {Data.balance}</td>
                               </tr>
                             );
                           })}
