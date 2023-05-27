@@ -33,6 +33,8 @@ import questiontypePriceReducer from "../Redux/Loginpages/questiontypePriceSlice
 import getWalletDataSlice from "../Redux/Loginpages/getWalletDataSlice";
 import getTransactionHistorySlice from "../Redux/Loginpages/getTransactionHistorySlice";
 import tutorsuspendReducer from "../Redux/Loginpages/tutorsuspendSlice";
+import getstudentcontactReducer from "../Redux/Loginpages/getstudentcontactSlice";
+import gettutorcontactReducer from "../Redux/Loginpages/gettutorcontactSlice";
 
 const reducer = combineReducers({
     auth: authReducer,
@@ -40,7 +42,7 @@ const reducer = combineReducers({
     warning: tutorwarningReducer,
     working: tutorworkingReducer,
     trial: tutortrialReducer,
-    suspend : tutorsuspendReducer,
+    suspend: tutorsuspendReducer,
     tutorpayment: tutorspaymentReducer,
     tutordetail: tutordetailReducer,
     studentlist: studentlistReducer,
@@ -66,6 +68,8 @@ const reducer = combineReducers({
     questiontypeprice: questiontypePriceReducer,
     getWalletData: getWalletDataSlice,
     getTransactionHistory: getTransactionHistorySlice,
+    studentcontact: getstudentcontactReducer,
+    tutorcontact: gettutorcontactReducer
 });
 
 export default reducer;
