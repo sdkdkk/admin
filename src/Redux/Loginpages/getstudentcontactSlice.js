@@ -12,9 +12,9 @@ const initialState = {
 }
 
 export const getstudentcontact = createAsyncThunk(
-    'user/getUserList',
+    "user/getUserList",
     async(status, { rejectWithValue }) => {
-        const token = localStorage.getItem('token');
+        const token = localStorage.getItem("token");
         const issolved = status === "solved" ? 1 : 0;
         try {
             const response = await axios.post(

@@ -65,6 +65,8 @@ import StudentClass from "./components/studentClass/StudentClass";
 import { isLoggedIn } from "./helpers/utility";
 import ForgotpassWord from "./components/ForgotPassWord/ForgotpassWord";
 import AddMobile from "./components/addmobile/AddMobile";
+import Contactdetails from "./components/Contactus/Contactdetails";
+
 
 function RequireAuth({ children }) {
   let auth = isLoggedIn();
@@ -490,7 +492,7 @@ function App() {
           }
         />
         <Route path="/addmobile" element={<AddMobile /> } />
-
+        <Route path="/contactdetails" element={<Contactdetails /> } />
       </Routes>
       <Scroll />
     </BrowserRouter>
