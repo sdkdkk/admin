@@ -66,7 +66,8 @@ import { isLoggedIn } from "./helpers/utility";
 import ForgotpassWord from "./components/ForgotPassWord/ForgotpassWord";
 import AddMobile from "./components/addmobile/AddMobile";
 import Contactdetails from "./components/Contactus/Contactdetails";
-
+import IssueQuestion from "./components/Question/IssueQuestion";
+import IssueInfo from "./components/Question/IssueInfo";
 
 function RequireAuth({ children }) {
   let auth = isLoggedIn();
@@ -350,7 +351,22 @@ function App() {
             </RequireAuth>
           }
         />
-
+        <Route
+          path="/issuequestion"
+          element={
+            <RequireAuth>
+              <IssueQuestion />
+            </RequireAuth>
+          }
+        />
+        <Route
+        path="/issueinfo/:id"
+        element={
+          <RequireAuth>
+            <IssueInfo />
+          </RequireAuth>
+        }
+      />
         <Route path="/tutorque" element={<Tutorque />} />
         <Route path="/adminque" element={<Adminque />} />
         <Route path="/reanswerque" element={<Reanswerque />} />
@@ -491,8 +507,8 @@ function App() {
             </RequireAuth>
           }
         />
-        <Route path="/addmobile" element={<AddMobile /> } />
-        <Route path="/contactdetails" element={<Contactdetails /> } />
+        <Route path="/addmobile" element={<AddMobile />} />
+        <Route path="/contactdetails" element={<Contactdetails />} />
       </Routes>
       <Scroll />
     </BrowserRouter>

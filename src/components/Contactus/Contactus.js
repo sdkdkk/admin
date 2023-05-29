@@ -48,7 +48,8 @@ const Contactus = () => {
 
   const fetchData1 = async () => {
     setActiveButton(1);
-    setStatus({ ...status, selectedStatus: 1 });
+    setStatus({ ...status, selectedStatus: 1 ? 1 : 0 });
+
     dispatch(getstudentcontact());
   };
 
@@ -65,7 +66,6 @@ const Contactus = () => {
     };
   }, [selectedStatus, status]);
 
-  
   //date picker
   const [values, setValues] = useState([
     new DateObject().subtract(4, "days"),
@@ -147,14 +147,16 @@ const Contactus = () => {
                         onClick={fetchData1}
                         className={activeButton === 1 ? "activeb" : ""}
                         type="button"
-                        style={{ borderRadius: "4px" }}>
+                        style={{ borderRadius: "4px" }}
+                      >
                         Student contact
                       </button>
                       <button
                         onClick={fetchData2}
                         className={activeButton === 2 ? "activeb" : ""}
                         type="button"
-                        style={{ borderRadius: "4px" }}>
+                        style={{ borderRadius: "4px" }}
+                      >
                         Tutor Contact
                       </button>
                     </div>
@@ -197,7 +199,8 @@ const Contactus = () => {
                                 <div className="col-md-2">
                                   <Button
                                     className="algin-right"
-                                    onClick={searchItem}>
+                                    onClick={searchItem}
+                                  >
                                     Search
                                   </Button>
                                 </div>
@@ -213,7 +216,8 @@ const Contactus = () => {
                                             selectedStatus: e.target.value,
                                           })
                                         }
-                                        id="displayname">
+                                        id="displayname"
+                                      >
                                         <option value="1">Solved</option>
                                         <option value="0">Unsolved</option>
                                       </select>
@@ -249,15 +253,14 @@ const Contactus = () => {
                                         <td>{data.Message || "-"}</td>
 
                                         <td>
-                                       
-                                            <button
-                                              className="btn btn-primary btn-sm"
-                                              onClick={() => {
-                                                toComponentB(data);
-                                              }}>
-                                              click
-                                            </button>
-                                      
+                                          <button
+                                            className="btn btn-primary btn-sm"
+                                            onClick={() => {
+                                              toComponentB(data);
+                                            }}
+                                          >
+                                            click
+                                          </button>
                                         </td>
                                       </tr>
                                     </tbody>

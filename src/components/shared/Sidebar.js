@@ -126,7 +126,28 @@ const Sidebar = () => {
               <i className="icon-screen-desktop menu-icon"></i>
             </Link>
           </li>
-
+          {/* Student */}
+          <li className="nav-item">
+            <a
+              className="nav-link"
+              data-toggle="collapse"
+              href="#student-menu"
+              aria-expanded="false"
+              aria-controls="student-menu"
+            >
+              <span className="menu-title">Issue Question</span>
+              <i className="icon-layers menu-icon"></i>
+            </a>
+            <div className="collapse" id="student-menu">
+              <ul className="nav flex-column sub-menu">
+                <li className="nav-item">
+                  <Link className="nav-link" to="/issuequestion">
+                    Issue Question
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </li>
 
           {/*Questions*/}
           <li className="nav-item">
@@ -159,7 +180,7 @@ const Sidebar = () => {
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" to="/unsolvedque">
-                  UnSloved
+                    UnSloved
                   </Link>
                 </li>
               </ul>
@@ -341,7 +362,6 @@ const Sidebar = () => {
             </div>
           </li>
 
-          
           {/*mobileNo*/}
           <li className="nav-item">
             <Link className="nav-link" to="/addmobile">

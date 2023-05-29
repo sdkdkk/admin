@@ -15,10 +15,11 @@ import { tutorunverified } from "../../Redux/Loginpages/tutorunverifiedSlice";
 import { Tutorswarning } from "../../Redux/Loginpages/tutorwarningSlice";
 import { Link } from "react-router-dom";
 import { tutorworking } from "../../Redux/Loginpages/tutorworkingSlice";
-import { Tutorsuspend } from "../../Redux/Loginpages/tutorsuspendSlice";
+
 import { ColorRing } from "react-loader-spinner";
 import Moment from "react-moment";
 import { Tutortrial } from "../../Redux/Loginpages/tutortrialSlice";
+import { Tutorsuspend } from "../../Redux/Loginpages/tutorSuspendSlice";
 
 
 
