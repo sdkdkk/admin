@@ -544,14 +544,14 @@ const Tutordetails = () => {
                   style={{ justifyContent: "end" }}
                 >
                   {active === "5" ? (
-                    <Link to="#">
+                    <Link to="/tutorlist">
                       <button className="btn btn-outline-primary" type="button" onClick={Reactive}>
                         Reactive
                       </button>
                     </Link>
                   ) : ""}
                   {active === "2" ? (
-                    <Link to="#">
+                    <Link to="/tutorlist">
                       <button className="btn btn-outline-primary" type="button" onClick={Suspend}>
                         Suspend
                       </button>

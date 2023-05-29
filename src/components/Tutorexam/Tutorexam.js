@@ -223,11 +223,11 @@ const Tutorexam = () => {
               </div>
               <div className="page-header mt-4">
                 <div className="mb-2 mt-2">
-                  <Link to="/addnew">
+                  {/* <Link to="/addnew">
                     <Button variant="primary" size="lg">
                       Add New
                     </Button>
-                  </Link>
+  </Link>*/}
                   <Link to="/tutorsearch">
                     <Button
                       className="search-btn mx-2"

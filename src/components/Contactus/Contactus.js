@@ -66,6 +66,7 @@ const Contactus = () => {
     };
   }, [selectedStatus, status]);
 
+
   //date picker
   const [values, setValues] = useState([
     new DateObject().subtract(4, "days"),
@@ -182,14 +183,16 @@ const Contactus = () => {
                         onClick={fetchData1}
                         className={activeButton === 1 ? "activeb" : ""}
                         type="button"
-                        style={{ borderRadius: "4px" }}>
+                        style={{ borderRadius: "4px" }}
+                      >
                         Student contact
                       </button>
                       <button
                         onClick={fetchData2}
                         className={activeButton === 2 ? "activeb" : ""}
                         type="button"
-                        style={{ borderRadius: "4px" }}>
+                        style={{ borderRadius: "4px" }}
+                      >
                         Tutor Contact
                       </button>
                     </div>
@@ -232,7 +235,8 @@ const Contactus = () => {
                                 <div className="col-md-2">
                                   <Button
                                     className="algin-right"
-                                    onClick={searchItem}>
+                                    onClick={searchItem}
+                                  >
                                     Search
                                   </Button>
                                 </div>
