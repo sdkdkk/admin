@@ -8,7 +8,6 @@ import "../Tutors/Tutorlist.css";
 import { DateObject } from "react-multi-date-picker";
 import { Pagination } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
 import { ColorRing } from "react-loader-spinner";
 import { getstudentcontact } from "../../Redux/Loginpages/getstudentcontactSlice";
 import { gettutorcontact } from "../../Redux/Loginpages/gettutorcontactSlice";
@@ -27,6 +26,8 @@ const Contactus = () => {
     tutorcontact: [],
     selectedStatus: 1, // Default value for solved (you can change it as per your requirement)
   });
+
+  console.log(status.selectedStatus);
 
   const [searchTerm, setSearchTerm] = useState("");
   const [currentData, setCurrentData] = useState([]);
@@ -48,14 +49,14 @@ const Contactus = () => {
 
   const fetchData1 = async () => {
     setActiveButton(1);
-    setStatus({ ...status, selectedStatus: 1 });
-    dispatch(getstudentcontact());
+    setStatus({ ...status, selectedStatus: "all" });
+    dispatch(getstudentcontact("all"));
   };
 
   const fetchData2 = async () => {
     setActiveButton(2);
-    setStatus({ ...status, selectedStatus: 0 });
-    dispatch(gettutorcontact());
+    setStatus({ ...status, selectedStatus: "all" });
+    dispatch(gettutorcontact("all"));
   };
 
   useEffect(() => {
@@ -65,7 +66,6 @@ const Contactus = () => {
     };
   }, [selectedStatus, status]);
 
-  
   //date picker
   const [values, setValues] = useState([
     new DateObject().subtract(4, "days"),
@@ -95,26 +95,61 @@ const Contactus = () => {
       values.length > 0
         ? new DateObject(values[values?.length - 1]).toDate()
         : null;
+
     const filteredData = currentData.filter((item) => {
       const itemDate = new Date(item.updatedAt);
       const fullname = item.fullname ? item.fullname.toLowerCase() : null;
+
       return (
         (firstDate === null || itemDate >= firstDate) &&
         (lastDate === null || itemDate <= lastDate) &&
         (searchTerm === "" ||
           (fullname && fullname.includes(searchTerm.toLowerCase()))) &&
-        item.issolved === status.selectedStatus // Filter based on selected status
+        (status.selectedStatus === 1
+          ? item.issolved === 1
+          : item.issolved === 0)
       );
     });
     setCurrentData(filteredData);
     setCurrentPage(1);
   };
-
-  const toComponentB = (data) => {
+  const toComponentB = (data, _id) => {
     console.log(data);
-    navigate("/contactdetails", { state: { data } });
+    navigate("/contactdetails", { state: { data, _id } });
+  };
+  const handleStatusChange = (e) => {
+    const selectedStatus = e.target.value;
+    setStatus({ ...status, selectedStatus });
+
+    if (selectedStatus === "all") {
+      const allData = [...status.studentcontact, ...status.tutorcontact];
+      setCurrentData(allData);
+      setCurrentPage(1);
+    } 
+    else {
+      filterData(currentData, selectedStatus, searchTerm);
+    }
   };
 
+  const filterData = async (data, selectedStatus, searchTerm) => {
+    let filteredData = data;
+
+    if (selectedStatus !== "all") {
+      filteredData = await data.filter((item) => {
+        const fullname = item.fullname ? item.fullname.toLowerCase() : null;
+        const isSolved = selectedStatus === "1";
+
+        return (
+          (searchTerm === "" ||
+            (fullname && fullname.includes(searchTerm.toLowerCase()))) &&
+          (isSolved ? item.issolved === 1 : item.issolved === 0)
+        );
+      });
+    }
+
+    setCurrentData(filteredData);
+    setCurrentPage(1);
+  };
   return (
     <div>
       <div className="container-scroller">
@@ -207,15 +242,11 @@ const Contactus = () => {
                                       <select
                                         className="w-100 form-select"
                                         value={status.selectedStatus}
-                                        onChange={(e) =>
-                                          setStatus({
-                                            ...status,
-                                            selectedStatus: e.target.value,
-                                          })
-                                        }
+                                        onChange={handleStatusChange}
                                         id="displayname">
-                                        <option value="1">Solved</option>
-                                        <option value="0">Unsolved</option>
+                                        <option value="all">All</option>
+                                        <option value={1}>Solved</option>
+                                        <option value={0}>Unsolved</option>
                                       </select>
                                     </div>
                                   </div>
@@ -249,15 +280,13 @@ const Contactus = () => {
                                         <td>{data.Message || "-"}</td>
 
                                         <td>
-                                       
-                                            <button
-                                              className="btn btn-primary btn-sm"
-                                              onClick={() => {
-                                                toComponentB(data);
-                                              }}>
-                                              click
-                                            </button>
-                                      
+                                          <button
+                                            className="btn btn-primary btn-sm"
+                                            onClick={() => {
+                                              toComponentB(data);
+                                            }}>
+                                            click
+                                          </button>
                                         </td>
                                       </tr>
                                     </tbody>

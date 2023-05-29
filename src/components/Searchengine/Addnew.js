@@ -25,6 +25,7 @@ const Addnew = () => {
   const [images, setImages] = useState([]);
   // const [explanation, setExplanation] = useState("");
   const [questionTypes, setQuestionTypes] = useState([]);
+  const [questionSubject, setQuestionSubject] = useState([]);
   const [editorHtml, setEditorHtml] = useState("");
   // const [selectedOption, setSelectedOption] = useState("");
   const navigate = useNavigate();
@@ -88,15 +89,13 @@ const Addnew = () => {
     "image",
     "video",
   ];
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `${url}/getquestiontype`,
-          {
-            token: token,
-          }
-        );
+        const response = await axios.get(`${url}/getquestiontype`, {
+          token: token,
+        });
 
         setQuestionTypes(response.data.data);
         let responseArray = [];
@@ -111,17 +110,46 @@ const Addnew = () => {
         });
         setOptionsArray(responseArray);
       } catch (error) {
-        logoutIfInvalidToken(error.response)
+        logoutIfInvalidToken(error.response);
         if (error.response) {
         } else if (error.request) {
-
         } else {
-
         }
       }
     };
 
     fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchData1 = async () => {
+      try {
+        const response1 = await axios.post(`${url}/getquestionsubject`, {
+          token: token,
+        });
+
+        setQuestionSubject(response1.data.data);
+        let responseArray1 = [];
+        response1.data.data.forEach((element) => {
+          let obj = {
+            label: "",
+            value: "",
+          };
+          obj.label = element;
+          obj.value = element;
+          responseArray1.push(obj);
+        });
+        setOptionsArray(responseArray1);
+      } catch (error) {
+        logoutIfInvalidToken(error.response1);
+        if (error.response1) {
+        } else if (error.request1) {
+        } else {
+        }
+      }
+    };
+
+    fetchData1();
   }, []);
 
   const handleChange = (event) => {
@@ -153,7 +181,7 @@ const Addnew = () => {
     }
     formData.append("explanation", data.explanation || "");
     setIsLoading(true);
-    fetch("${url}/admin/questionpost", {
+    fetch(`${url}/admin/questionpost`, {
       method: "POST",
       body: formData,
     })
@@ -273,6 +301,33 @@ const Addnew = () => {
                         </div>
                         <div className="mb-3">
                           <label
+                            htmlFor="questionSubject"
+                            className="form-label">
+                            Question Subject
+                          </label>
+                          <select
+                            id="questionSubject"
+                            className="form-control"
+                            name="questionSubject"
+                            // value={selectedOption}
+                            {...register("questionSubject", { required: true })}
+                            // onChange={handleChange}
+                            onChange={(e) => handleChange(e)}>
+                            <option value="">Select question Subject</option>
+                            {questionSubject.map((type) => (
+                              <option value={type.value} key={type.value}>
+                                {type.questionSubject}
+                              </option>
+                            ))}
+                          </select>
+                          {errors.questionType && (
+                            <p className="error">
+                              Please select a type of subject
+                            </p>
+                          )}
+                        </div>
+                        {/* <div className="mb-3">
+                          <label
                             htmlFor="exampleInputEmail1"
                             className="form-label">
                             Questions Subject
@@ -288,12 +343,12 @@ const Addnew = () => {
                           {errors.questionSubject && (
                             <p className="error">Please Enter a Subject</p>
                           )}
-                        </div>
-                       
+                        </div> */}
+
                         <Col md={12}>
                           <div>
                             <p className="mx-1">Answer</p>
-                            
+
                             <Controller
                               name="answer"
                               control={control}

@@ -19,7 +19,7 @@ export const gettutorcontact = createAsyncThunk(
 
         try {
             const response = await axios.post(
-                `${url}/admin/gettutorcontact?limit=5&skip=0&issolved=${issolved}`, { token }
+                `${url}/admin/gettutorcontact?limit=5&skip=0`, { token }
             );
             return response.data;
         } catch (error) {
