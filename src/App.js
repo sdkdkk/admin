@@ -68,6 +68,10 @@ import AddMobile from "./components/addmobile/AddMobile";
 import Contactdetails from "./components/Contactus/Contactdetails";
 import IssueQuestion from "./components/Question/IssueQuestion";
 import IssueInfo from "./components/Question/IssueInfo";
+import Studentpostingstreak from "./components/Bonussection/Studentpostingstreak";
+import Tutorpostingstreak from "./components/Bonussection/Tutorpostingstreak ";
+import Studentreferral from "./components/Bonussection/Studentreferral";
+
 
 function RequireAuth({ children }) {
   let auth = isLoggedIn();
@@ -360,13 +364,13 @@ function App() {
           }
         />
         <Route
-        path="/issueinfo/:id"
-        element={
-          <RequireAuth>
-            <IssueInfo />
-          </RequireAuth>
-        }
-      />
+          path="/issueinfo/:id"
+          element={
+            <RequireAuth>
+              <IssueInfo />
+            </RequireAuth>
+          }
+        />
         <Route path="/tutorque" element={<Tutorque />} />
         <Route path="/adminque" element={<Adminque />} />
         <Route path="/reanswerque" element={<Reanswerque />} />
@@ -493,6 +497,30 @@ function App() {
           element={
             <RequireAuth>
               <TruefalsequeSearchengine />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/studentpostingstreak"
+          element={
+            <RequireAuth>
+              <Studentpostingstreak />
+            </RequireAuth>
+          }
+        />
+         <Route
+          path="/tutorpostingstreak"
+          element={
+            <RequireAuth>
+              <Tutorpostingstreak />
+            </RequireAuth>
+          }
+        />
+             <Route
+          path="/studentreferral"
+          element={
+            <RequireAuth>
+              <Studentreferral />
             </RequireAuth>
           }
         />

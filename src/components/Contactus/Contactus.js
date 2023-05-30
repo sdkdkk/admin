@@ -112,48 +112,13 @@ const Contactus = () => {
       setCurrentData(data);
     }
   };
-
-  const handleSearch = (e) => {
-    const selectedStatus = e.target.value;
-    setStatus({ ...status, selectedStatus });
-    if (selectedStatus === "all") {
-      const allData = [...status.studentcontact];
-      const filteredData = allData.filter((item) =>
-        item.fullname.toLowerCase().includes(searchName.toLowerCase())
-      );
-      setCurrentData(filteredData);
-      setCurrentPage(1);
-    } else if (selectedStatus === "1") {
-      const allData = [...status.studentcontact];
-      let data = [];
-      allData.forEach((element) => {
-        if (element.issolved === 1) {
-          data.push(element);
-        }
-      });
-      const filteredData = data.filter((item) =>
-        item.fullname.toLowerCase().includes(searchName.toLowerCase())
-      );
-      setCurrentData(filteredData);
-    } else {
-      const allData = [...status.studentcontact];
-      let data = [];
-      allData.forEach((element) => {
-        if (element.issolved === 0) {
-          data.push(element);
-        }
-      });
-      const filteredData = data.filter((item) =>
+  const handleSearch = () => {
+    const allData = [...status.studentcontact];
+    const filteredData = allData.filter((item) =>
       item.fullname.toLowerCase().includes(searchName.toLowerCase())
     );
-      setCurrentData(filteredData);
-    }
-    // const allData = [...status.studentcontact];
-    // const filteredData = allData.filter((item) =>
-    //   item.fullname.toLowerCase().includes(searchName.toLowerCase())
-    // );
-    // setCurrentData(filteredData);
-    // setCurrentPage(1);
+    setCurrentData(filteredData);
+    setCurrentPage(1);
   };
 
   return (

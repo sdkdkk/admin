@@ -252,6 +252,49 @@ const Sidebar = () => {
             </Link>
           </li>
 
+             {/*Bonus Section*/}
+             <li className="nav-item nav-category">
+            <span className="nav-link">Bonus Section</span>
+          </li>
+
+          
+          {/*Bonus Section*/}
+          <li className="nav-item">
+            <Link className="nav-link" to="/studentreferral">
+              <span className="menu-title">Student Referral</span>
+              <i className="icon-screen-desktop menu-icon"></i>
+            </Link>
+          </li>
+
+          {/*Bonus Section*/}
+          <li className="nav-item">
+            <Link className="nav-link" to="/studentpostingstreak">
+              <span className="menu-title">Student Posting Streak</span>
+              <i className="icon-screen-desktop menu-icon"></i>
+            </Link>
+          </li>
+
+          {/*Bonus Section*/}
+          <li className="nav-item">
+            <Link className="nav-link" to="#">
+              <span className="menu-title">Tutor Referral</span>
+              <i className="icon-screen-desktop menu-icon"></i>
+            </Link>
+          </li>
+
+              {/*Tutorexamconfig*/}
+              <li className="nav-item">
+            <Link className="nav-link" to="/tutorpostingstreak">
+              <span className="menu-title">Tutor Posting Streak</span>
+              <i className="icon-screen-desktop menu-icon"></i>
+            </Link>
+          </li>
+
+
+
+
+
+
           {/*pages*/}
           <li className="nav-item nav-category">
             <span className="nav-link">Pages</span>
