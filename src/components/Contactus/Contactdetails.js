@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Sidebar from "../shared/Sidebar";
 import Navbar from "../shared/Navbar";
 import axios from "axios";
@@ -9,7 +9,7 @@ const url = process.env.REACT_APP_API_BASE_URL;
 
 const Contactdetails = () => {
   const location = useLocation();
-  console.log(location.state.data._id);
+  console.log(location.state.data.issolved);
   console.log(location.state._id);
   const getcontactdetails = location.state.data;
   const token = localStorage.getItem("token");
@@ -72,12 +72,16 @@ const Contactdetails = () => {
                   </div>
                 </div>
               </div>
-              <button
-                className="btn btn-outline-primary"
-                type="button"
-                onClick={Solved}>
-                Solved
-              </button>
+              {location.state.data.issolved === 1 ? (
+                <button
+                  className="btn btn-outline-primary"
+                  type="button"
+                  onClick={Solved}>
+                  Solved
+                </button>
+              ) : (
+                ""
+              )}
             </div>
           </div>
         </div>

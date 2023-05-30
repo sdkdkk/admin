@@ -1,11 +1,10 @@
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 // import axios from "axios";
 import { Button } from "react-bootstrap";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
 import "../Tutors/Tutorlist.css";
-import { DateObject } from "react-multi-date-picker";
 import { Pagination } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { ColorRing } from "react-loader-spinner";
@@ -21,16 +20,14 @@ const Contactus = () => {
   const isLoadinguser = useSelector((state) => state.user.isLoading);
 
   const [selectedStatus, setSelectedStatus] = useState("studentcontact");
+  const [searchName, setSearchName] = useState("");
   const [status, setStatus] = useState({
     studentcontact: [],
     tutorcontact: [],
     selectedStatus: 1, // Default value for solved (you can change it as per your requirement)
   });
 
-  console.log(status.selectedStatus);
-
-  const [searchTerm, setSearchTerm] = useState("");
-  const [currentData, setCurrentData] = useState([]);
+  const [currentData, setCurrentData] = useState(status[selectedStatus]);
   const [activeButton, setActiveButton] = useState(1);
   const dispatch = useDispatch();
   const [Loader, setLoader] = useState(true);
@@ -47,10 +44,16 @@ const Contactus = () => {
     dispatch(getstudentcontact());
   }, []);
 
+  // const fetchData1 = async () => {
+  //   setActiveButton(1);
+  //   setStatus({ ...status, selectedStatus: "all" });
+  //   dispatch(getstudentcontact("all"));
+  // };
   const fetchData1 = async () => {
     setActiveButton(1);
     setStatus({ ...status, selectedStatus: "all" });
     dispatch(getstudentcontact("all"));
+    setSearchName("");
   };
 
   const fetchData2 = async () => {
@@ -61,17 +64,7 @@ const Contactus = () => {
 
   useEffect(() => {
     setCurrentData(status[selectedStatus]);
-    return () => {
-      setValues([]);
-    };
-  }, [selectedStatus, status]);
-
-
-  //date picker
-  const [values, setValues] = useState([
-    new DateObject().subtract(4, "days"),
-    new DateObject().add(4, "days"),
-  ]);
+  }, [selectedStatus, status[selectedStatus]]);
 
   //Pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -85,72 +78,84 @@ const Contactus = () => {
   const handleChange = (event, value) => {
     setCurrentPage(value);
   };
-
+  let navigate = useNavigate();
   console.log(displayUsers);
 
-  let navigate = useNavigate();
-  const searchItem = () => {
-    const firstDate =
-      values?.length > 0 ? new DateObject(values[0]).toDate() : null;
-    const lastDate =
-      values.length > 0
-        ? new DateObject(values[values?.length - 1]).toDate()
-        : null;
-
-    const filteredData = currentData.filter((item) => {
-      const itemDate = new Date(item.updatedAt);
-      const fullname = item.fullname ? item.fullname.toLowerCase() : null;
-
-      return (
-        (firstDate === null || itemDate >= firstDate) &&
-        (lastDate === null || itemDate <= lastDate) &&
-        (searchTerm === "" ||
-          (fullname && fullname.includes(searchTerm.toLowerCase()))) &&
-        (status.selectedStatus === 1
-          ? item.issolved === 1
-          : item.issolved === 0)
-      );
-    });
-    setCurrentData(filteredData);
-    setCurrentPage(1);
-  };
   const toComponentB = (data, _id) => {
-    console.log(data);
     navigate("/contactdetails", { state: { data, _id } });
   };
+
   const handleStatusChange = (e) => {
     const selectedStatus = e.target.value;
     setStatus({ ...status, selectedStatus });
-
     if (selectedStatus === "all") {
-      const allData = [...status.studentcontact, ...status.tutorcontact];
+      const allData = [...status.studentcontact];
       setCurrentData(allData);
       setCurrentPage(1);
-    } 
-    else {
-      filterData(currentData, selectedStatus, searchTerm);
-    }
-  };
-
-  const filterData = async (data, selectedStatus, searchTerm) => {
-    let filteredData = data;
-
-    if (selectedStatus !== "all") {
-      filteredData = await data.filter((item) => {
-        const fullname = item.fullname ? item.fullname.toLowerCase() : null;
-        const isSolved = selectedStatus === "1";
-
-        return (
-          (searchTerm === "" ||
-            (fullname && fullname.includes(searchTerm.toLowerCase()))) &&
-          (isSolved ? item.issolved === 1 : item.issolved === 0)
-        );
+    } else if (selectedStatus === "1") {
+      const allData = [...status.studentcontact];
+      let data = [];
+      allData.forEach((element) => {
+        if (element.issolved === 1) {
+          data.push(element);
+        }
       });
+      setCurrentData(data);
+    } else {
+      const allData = [...status.studentcontact];
+      let data = [];
+      allData.forEach((element) => {
+        if (element.issolved === 0) {
+          data.push(element);
+        }
+      });
+      setCurrentData(data);
     }
-
-    setCurrentData(filteredData);
-    setCurrentPage(1);
   };
+
+  const handleSearch = (e) => {
+    const selectedStatus = e.target.value;
+    setStatus({ ...status, selectedStatus });
+    if (selectedStatus === "all") {
+      const allData = [...status.studentcontact];
+      const filteredData = allData.filter((item) =>
+        item.fullname.toLowerCase().includes(searchName.toLowerCase())
+      );
+      setCurrentData(filteredData);
+      setCurrentPage(1);
+    } else if (selectedStatus === "1") {
+      const allData = [...status.studentcontact];
+      let data = [];
+      allData.forEach((element) => {
+        if (element.issolved === 1) {
+          data.push(element);
+        }
+      });
+      const filteredData = data.filter((item) =>
+        item.fullname.toLowerCase().includes(searchName.toLowerCase())
+      );
+      setCurrentData(filteredData);
+    } else {
+      const allData = [...status.studentcontact];
+      let data = [];
+      allData.forEach((element) => {
+        if (element.issolved === 0) {
+          data.push(element);
+        }
+      });
+      const filteredData = data.filter((item) =>
+      item.fullname.toLowerCase().includes(searchName.toLowerCase())
+    );
+      setCurrentData(filteredData);
+    }
+    // const allData = [...status.studentcontact];
+    // const filteredData = allData.filter((item) =>
+    //   item.fullname.toLowerCase().includes(searchName.toLowerCase())
+    // );
+    // setCurrentData(filteredData);
+    // setCurrentPage(1);
+  };
+
   return (
     <div>
       <div className="container-scroller">
@@ -174,7 +179,7 @@ const Contactus = () => {
             <div className="main-panel">
               <div className="content-wrapper">
                 <div className="oneline">
-                  <h3 className="main-text">Tutors List</h3>
+                  <h3 className="main-text">Contact List</h3>
                 </div>
                 <div className="page-header">
                   <div className="col-md-12">
@@ -183,16 +188,14 @@ const Contactus = () => {
                         onClick={fetchData1}
                         className={activeButton === 1 ? "activeb" : ""}
                         type="button"
-                        style={{ borderRadius: "4px" }}
-                      >
+                        style={{ borderRadius: "4px" }}>
                         Student contact
                       </button>
                       <button
                         onClick={fetchData2}
                         className={activeButton === 2 ? "activeb" : ""}
                         type="button"
-                        style={{ borderRadius: "4px" }}
-                      >
+                        style={{ borderRadius: "4px" }}>
                         Tutor Contact
                       </button>
                     </div>
@@ -227,16 +230,16 @@ const Contactus = () => {
                                     id="fname"
                                     placeholder="search name"
                                     name="fname"
-                                    onChange={(e) => {
-                                      setSearchTerm(e.target.value);
-                                    }}
+                                    value={searchName}
+                                    onChange={(e) =>
+                                      setSearchName(e.target.value)
+                                    }
                                   />
                                 </div>
                                 <div className="col-md-2">
                                   <Button
                                     className="algin-right"
-                                    onClick={searchItem}
-                                  >
+                                    onClick={handleSearch}>
                                     Search
                                   </Button>
                                 </div>
