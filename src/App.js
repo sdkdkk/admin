@@ -71,6 +71,8 @@ import IssueInfo from "./components/Question/IssueInfo";
 import Studentpostingstreak from "./components/Bonussection/Studentpostingstreak";
 import Tutorpostingstreak from "./components/Bonussection/Tutorpostingstreak ";
 import Studentreferral from "./components/Bonussection/Studentreferral";
+import Tutorreferral from "./components/Bonussection/Tutorreferral";
+
 
 
 function RequireAuth({ children }) {
@@ -521,6 +523,14 @@ function App() {
           element={
             <RequireAuth>
               <Studentreferral />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/tutorreferral"
+          element={
+            <RequireAuth>
+              <Tutorreferral />
             </RequireAuth>
           }
         />

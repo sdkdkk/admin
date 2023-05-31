@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useLocation } from "react-router-dom";
 import Sidebar from "../shared/Sidebar";
 import Navbar from "../shared/Navbar";
@@ -21,7 +21,7 @@ const Contactdetails = () => {
       const { data } = await axios.post(`${url}/admin/admincontact/${id}`, {
         token: token,
       });
-
+      console.log(data.message);
       if (data.message) {
         toast.success(data.message);
       } else {
@@ -32,6 +32,7 @@ const Contactdetails = () => {
     }
   };
 
+  
   return (
     <>
       <div className="container-scroller">
@@ -50,7 +51,7 @@ const Contactdetails = () => {
               </div>
               <div className="row">
                 <div className="col-md-12 col-lg-12 mb--20">
-                  <h5>mobileNo</h5>
+                  <h5>Mobile No</h5>
                   <div className="p--20 rbt-border radius-6 bg-primary-opacity">
                     {getcontactdetails.mobileNo}
                   </div>
@@ -58,7 +59,7 @@ const Contactdetails = () => {
               </div>
               <div className="row">
                 <div className="col-md-12 col-lg-12 mb--20">
-                  <h5>email</h5>
+                  <h5>Email</h5>
                   <div className="p--20 rbt-border radius-6 bg-primary-opacity">
                     {getcontactdetails.email}
                   </div>

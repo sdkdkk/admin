@@ -12,7 +12,7 @@ import { logoutIfInvalidToken } from "../../helpers/handleError";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
-const Studentreferral = () => {
+const Tutorreferral = () => {
   const {
     register,
     handleSubmit,
@@ -41,7 +41,7 @@ const Studentreferral = () => {
   const fetchData = async () => {
     try {
       setLoading1(true);
-      const response = await axios.post(`${url}/admin/getstudentreferral`, {
+      const response = await axios.post(`${url}/admin/gettutorreferral`, {
         token: token,
       });
       setExtrasum(response.data.document);
@@ -62,8 +62,8 @@ const Studentreferral = () => {
     try {
       setLoading(true);
       const requestUrl = data
-        ? `${url}/admin/studentreferral`
-        : `${url}/admin/studentreferral`;
+        ? `${url}/admin/tutorreferral`
+        : `${url}/admin/tutorreferral`;
       var response;
       response = await axios.post(requestUrl, {
         referralpersonalreward: data.referralpersonalreward,
@@ -103,7 +103,7 @@ const Studentreferral = () => {
           <div className="main-panel">
             <div className="content-wrapper">
               <div className="page-header">
-                <h3 className="page-title">Student Referral</h3>
+                <h3 className="page-title">Tutor Referral</h3>
               </div>
               <div className="row mt-3">
                 <div className="col-12 grid-margin stretch-card">
@@ -156,29 +156,7 @@ const Studentreferral = () => {
                             </div>
                           </div>
                         </div>
-                        <div className="row mt-4">
-                          <div className="col-lg-3 col-md-4 mt-2">
-                            <h6>Payment Condition</h6>
-                          </div>
-                          <div className="col-lg-4 col-md-8">
-                            <div className="mb-3">
-                              <input
-                                type="text"
-                                className="form-control me-2"
-                                id="hoursInput"
-                                name="paymentcondition"
-                                {...register("paymentcondition", {
-                                  required: true,
-                                })}
-                              />
-                              {errors.paymentcondition && (
-                                <p className="error text-right text-danger">
-                                  Please Enter a paymentcondition{" "}
-                                </p>
-                              )}
-                            </div>
-                          </div>
-                        </div>
+
                         <div className="row mt-2">
                           <div className="col-lg-3 col-md-4">
                             <h6>&nbsp;</h6>
@@ -227,7 +205,6 @@ const Studentreferral = () => {
                                   <th>Sr. No</th>
                                   <th>Personal Reward</th>
                                   <th>Other Reward</th>
-                                  <th>Payment Condition</th>
                                   <th>Action</th>
                                 </tr>
                               </thead>
@@ -241,7 +218,6 @@ const Studentreferral = () => {
                                     </td>
                                     <td>{data.referralpersonalreward}</td>
                                     <td>{data.referralotherreward}</td>
-                                    <td>{data.paymentcondition}</td>
                                     <td>
                                       <Button
                                         variant="success"
@@ -279,4 +255,4 @@ const Studentreferral = () => {
   );
 };
 
-export default Studentreferral;
+export default Tutorreferral;

@@ -49,6 +49,7 @@ const Contactus = () => {
   //   setStatus({ ...status, selectedStatus: "all" });
   //   dispatch(getstudentcontact("all"));
   // };
+
   const fetchData1 = async () => {
     setActiveButton(1);
     setStatus({ ...status, selectedStatus: "all" });
@@ -79,7 +80,6 @@ const Contactus = () => {
     setCurrentPage(value);
   };
   let navigate = useNavigate();
-  console.log(displayUsers);
 
   const toComponentB = (data, _id) => {
     navigate("/contactdetails", { state: { data, _id } });
@@ -112,9 +112,10 @@ const Contactus = () => {
       setCurrentData(data);
     }
   };
+
   const handleSearch = () => {
-    const allData = [...status.studentcontact];
-    const filteredData = allData.filter((item) =>
+    // const allData = [...status.studentcontact];
+    const filteredData = displayUsers.filter((item) =>
       item.fullname.toLowerCase().includes(searchName.toLowerCase())
     );
     setCurrentData(filteredData);
@@ -127,7 +128,6 @@ const Contactus = () => {
         <Navbar />
         <div className="container-fluid page-body-wrapper">
           <Sidebar />
-
           {isLoadinguser ? (
             <p style={{ marginLeft: "500px", marginTop: "250px" }}>
               <ColorRing
@@ -154,7 +154,7 @@ const Contactus = () => {
                         className={activeButton === 1 ? "activeb" : ""}
                         type="button"
                         style={{ borderRadius: "4px" }}>
-                        Student contact
+                        Student Contact
                       </button>
                       <button
                         onClick={fetchData2}
@@ -235,9 +235,9 @@ const Contactus = () => {
                               <table className="table v-top">
                                 <thead>
                                   <tr>
-                                    <th scope="col">fullname</th>
-                                    <th scope="col">email</th>
-                                    <th scope="col">mobileNo</th>
+                                    <th scope="col">Full Name</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Mobile No</th>
                                     <th scope="col">Message</th>
                                     <th scope="col">Action</th>
                                   </tr>
@@ -250,7 +250,6 @@ const Contactus = () => {
                                         <td>{data.email.substring(0, 20)}</td>
                                         <td>{data.mobileNo || "-"}</td>
                                         <td>{data.Message || "-"}</td>
-
                                         <td>
                                           <button
                                             className="btn btn-primary btn-sm"
