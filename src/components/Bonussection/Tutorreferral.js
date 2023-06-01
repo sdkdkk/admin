@@ -26,7 +26,6 @@ const Tutorreferral = () => {
   const token = localStorage.getItem("token");
   const notify = (data) => toast(data);
 
-  //table
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(4);
   const indexOfLastPage = currentPage * postsPerPage;
@@ -49,7 +48,6 @@ const Tutorreferral = () => {
       setLoading1(false);
     } catch (error) {
       logoutIfInvalidToken(error.response);
-      // notify("Invalid refresh token!");
       setLoading1(false);
     }
   };
@@ -181,7 +179,7 @@ const Tutorreferral = () => {
                     <div className="card-body">
                       <div className="table-container">
                         {loading1 ? (
-                          <p style={{ marginLeft: "400px", marginTop: "50px" }}>
+                          <p className="loader-container">
                             <ColorRing
                               visible={true}
                               height="80"
@@ -236,7 +234,6 @@ const Tutorreferral = () => {
                                 onChange={handleChange}
                                 shape="rounded"
                                 variant="outlined"
-                                // showFirstButton
                               />
                             </div>
                           </>

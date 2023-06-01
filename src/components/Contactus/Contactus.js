@@ -17,7 +17,6 @@ const Contactus = () => {
     (state) => state.studentcontact.data.document
   );
   const tutorcontact = useSelector((state) => state.tutorcontact.data.document);
-  const isLoadinguser = useSelector((state) => state.user.isLoading);
 
   const [selectedStatus, setSelectedStatus] = useState("studentcontact");
   const [searchName, setSearchName] = useState("");
@@ -41,7 +40,7 @@ const Contactus = () => {
   }, [studentcontact, tutorcontact]);
 
   useEffect(() => {
-    dispatch(getstudentcontact());
+    dispatch(getstudentcontact()).then(() => setLoader(false));
   }, []);
 
   // const fetchData1 = async () => {
@@ -53,14 +52,16 @@ const Contactus = () => {
   const fetchData1 = async () => {
     setActiveButton(1);
     setStatus({ ...status, selectedStatus: "all" });
-    dispatch(getstudentcontact("all"));
+    setLoader(true); // Show the loader
+    dispatch(getstudentcontact("all")).then(() => setLoader(false)); // Hide the loader
     setSearchName("");
   };
 
   const fetchData2 = async () => {
     setActiveButton(2);
     setStatus({ ...status, selectedStatus: "all" });
-    dispatch(gettutorcontact("all"));
+    setLoader(true); // Show the loader
+    dispatch(gettutorcontact("all")).then(() => setLoader(false)); // Hide the loader
   };
 
   useEffect(() => {
@@ -128,161 +129,142 @@ const Contactus = () => {
         <Navbar />
         <div className="container-fluid page-body-wrapper">
           <Sidebar />
-          {isLoadinguser ? (
-            <p style={{ marginLeft: "500px", marginTop: "250px" }}>
-              <ColorRing
-                visible={true}
-                height="80"
-                width="80"
-                ariaLabel="blocks-loading"
-                wrapperStyle={{}}
-                wrapperClass="blocks-wrapper"
-                colors={["black"]}
-              />
-            </p>
-          ) : (
-            <div className="main-panel">
-              <div className="content-wrapper">
-                <div className="oneline">
-                  <h3 className="main-text">Contact List</h3>
+
+          <div className="main-panel">
+            <div className="content-wrapper">
+              <div className="oneline">
+                <h3 className="main-text">Contact List</h3>
+              </div>
+              <div className="page-header">
+                <div className="col-md-12">
+                  <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button
+                      onClick={fetchData1}
+                      className={activeButton === 1 ? "activeb" : ""}
+                      type="button"
+                      style={{ borderRadius: "4px" }}>
+                      Student Contact
+                    </button>
+                    <button
+                      onClick={fetchData2}
+                      className={activeButton === 2 ? "activeb" : ""}
+                      type="button"
+                      style={{ borderRadius: "4px" }}>
+                      Tutor Contact
+                    </button>
+                  </div>
                 </div>
-                <div className="page-header">
-                  <div className="col-md-12">
-                    <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-                      <button
-                        onClick={fetchData1}
-                        className={activeButton === 1 ? "activeb" : ""}
-                        type="button"
-                        style={{ borderRadius: "4px" }}>
-                        Student Contact
-                      </button>
-                      <button
-                        onClick={fetchData2}
-                        className={activeButton === 2 ? "activeb" : ""}
-                        type="button"
-                        style={{ borderRadius: "4px" }}>
-                        Tutor Contact
-                      </button>
+              </div>
+
+              <div>
+                <div className="row">
+                  <div className="col-12 grid-margin stretch-card">
+                    <div className="card">
+                      <div className="card-body">
+                        <div className="row">
+                          <div className="col-md-6">
+                            <input
+                              type="text"
+                              id="fname"
+                              placeholder="search name"
+                              name="fname"
+                              value={searchName}
+                              onChange={(e) => setSearchName(e.target.value)}
+                            />
+                          </div>
+                          <div className="col-md-2">
+                            <Button
+                              className="algin-right"
+                              onClick={handleSearch}>
+                              Search
+                            </Button>
+                          </div>
+                          <div className="col-lg-4">
+                            <div className="filter-select rbt-modern-select ">
+                              <div className="dropdown react-bootstrap-select w-100">
+                                <select
+                                  className="w-100 form-select"
+                                  value={status.selectedStatus}
+                                  onChange={handleStatusChange}
+                                  id="displayname">
+                                  <option value="all">All</option>
+                                  <option value={1}>Solved</option>
+                                  <option value={0}>Unsolved</option>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
-
-                <div>
-                  {Loader ? (
-                    <div className="loader-end text-end">
+                <div className="row">
+                  <div className="col-12 grid-margin stretch-card">
+                    <div className="card new-table">
                       {Loader ? (
-                        <ColorRing
-                          visible={true}
-                          height="80"
-                          width="80"
-                          ariaLabel="blocks-loading"
-                          wrapperStyle={{}}
-                          wrapperClass="blocks-wrapper"
-                          colors={["black"]}
-                        />
-                      ) : null}
-                    </div>
-                  ) : (
-                    <>
-                      <div className="row">
-                        <div className="col-12 grid-margin stretch-card">
-                          <div className="card">
-                            <div className="card-body">
-                              <div className="row">
-                                <div className="col-md-6">
-                                  <input
-                                    type="text"
-                                    id="fname"
-                                    placeholder="search name"
-                                    name="fname"
-                                    value={searchName}
-                                    onChange={(e) =>
-                                      setSearchName(e.target.value)
-                                    }
-                                  />
-                                </div>
-                                <div className="col-md-2">
-                                  <Button
-                                    className="algin-right"
-                                    onClick={handleSearch}>
-                                    Search
-                                  </Button>
-                                </div>
-                                <div className="col-lg-4">
-                                  <div className="filter-select rbt-modern-select ">
-                                    <div className="dropdown react-bootstrap-select w-100">
-                                      <select
-                                        className="w-100 form-select"
-                                        value={status.selectedStatus}
-                                        onChange={handleStatusChange}
-                                        id="displayname">
-                                        <option value="all">All</option>
-                                        <option value={1}>Solved</option>
-                                        <option value={0}>Unsolved</option>
-                                      </select>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
+                        <div className="loader-container">
+                          <ColorRing
+                            visible={true}
+                            height="80"
+                            width="80"
+                            ariaLabel="blocks-loading"
+                            wrapperStyle={{}}
+                            wrapperClass="blocks-wrapper"
+                            colors={["black"]}
+                          />
                         </div>
-                      </div>
-                      <div className="row">
-                        <div className="col-12 grid-margin stretch-card">
-                          <div className="card new-table">
-                            <div className="card-body">
-                              <table className="table v-top">
-                                <thead>
+                      ) : (
+                        <div className="card-body">
+                          <table className="table v-top">
+                            <thead>
+                              <tr>
+                                <th scope="col">Full Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Mobile No</th>
+                                <th scope="col">Message</th>
+                                <th scope="col">Action</th>
+                              </tr>
+                            </thead>
+                            {displayUsers &&
+                              displayUsers.map((data) => (
+                                <tbody key={data._id}>
                                   <tr>
-                                    <th scope="col">Full Name</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Mobile No</th>
-                                    <th scope="col">Message</th>
-                                    <th scope="col">Action</th>
+                                    <td>{data.fullname || "-"}</td>
+                                    <td>{data.email.substring(0, 20)}</td>
+                                    <td>{data.mobileNo || "-"}</td>
+                                    <td>{data.Message || "-"}</td>
+                                    <td>
+                                      <button
+                                        className="btn btn-primary btn-sm"
+                                        onClick={() => {
+                                          toComponentB(data);
+                                        }}>
+                                        click
+                                      </button>
+                                    </td>
                                   </tr>
-                                </thead>
-                                {displayUsers &&
-                                  displayUsers.map((data) => (
-                                    <tbody key={data._id}>
-                                      <tr>
-                                        <td>{data.fullname || "-"}</td>
-                                        <td>{data.email.substring(0, 20)}</td>
-                                        <td>{data.mobileNo || "-"}</td>
-                                        <td>{data.Message || "-"}</td>
-                                        <td>
-                                          <button
-                                            className="btn btn-primary btn-sm"
-                                            onClick={() => {
-                                              toComponentB(data);
-                                            }}>
-                                            click
-                                          </button>
-                                        </td>
-                                      </tr>
-                                    </tbody>
-                                  ))}
-                              </table>
-                              <div className="table-pagination">
-                                <Pagination
-                                  count={totalPages}
-                                  page={currentPage}
-                                  onChange={handleChange}
-                                  shape="rounded"
-                                  variant="outlined"
-                                />
-                              </div>
-                            </div>
+                                </tbody>
+                              ))}
+                          </table>
+                          <div className="table-pagination">
+                            <Pagination
+                              count={totalPages}
+                              page={currentPage}
+                              onChange={handleChange}
+                              shape="rounded"
+                              variant="outlined"
+                            />
                           </div>
                         </div>
-                      </div>
-                    </>
-                  )}
+                      )}
+                    </div>
+                  </div>
                 </div>
               </div>
-              <Footer />
             </div>
-          )}
+            <Footer />
+          </div>
         </div>
       </div>
     </div>

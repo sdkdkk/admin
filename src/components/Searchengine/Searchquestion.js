@@ -3,8 +3,6 @@ import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
 import "../Css/Tutorlist.css";
-
-// import Form from "react-bootstrap/Form";
 import axios from "axios";
 import { ColorRing } from "react-loader-spinner";
 import { Link, useNavigate } from "react-router-dom";
@@ -20,7 +18,6 @@ const Searchquestion = () => {
   let navigate = useNavigate();
 
 
-  //Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
 
@@ -34,16 +31,10 @@ const Searchquestion = () => {
       );
       setIsLoading(true);
       setSearchResults(response.data.data);
-
       setIsLoading(false);
     } catch (error) {
-      logoutIfInvalidToken(error.response)
+      logoutIfInvalidToken(error.response);
       if (error.response) {
-       
-      } else if (error.request) {
-        
-      } else {
-       
       }
     }
   };
@@ -76,33 +67,31 @@ const Searchquestion = () => {
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table">
                     <div className="card-body">
+                      <div className="d-flex">
                       <input
                         type="text"
                         value={searchTerm}
                         placeholder="Please Search question.."
                         onChange={(e) => setSearchTerm(e.target.value)}
+                        className="form-control mr-2"
                       />
                       <button
                         onClick={() => handleSearch()}
-                        className=" btn btn-primary mx-4">
+                        className="btn btn-primary"
+                      >
                         Search
                       </button>
-                      {/* <ul>
-                          {searchResults &&
-                            searchResults.map((result) => (
-                              <li key={result._id}>{result.question}</li>
-                            ))}
-                        </ul> */}
+                    </div>
                     </div>
                   </div>
                 </div>
               </div>
               <div className="row">
                 <div className="col-12 grid-margin stretch-card">
-                  <div className="card">
+                  <div className="card new-table">
                     <div className="card-body">
                       {isLoading ? (
-                        <div style={{ marginLeft: "450px", marginTop: "50px" }}>
+                        <div className="loader-container">
                           <ColorRing
                             visible={true}
                             height="80"
@@ -155,7 +144,6 @@ const Searchquestion = () => {
                           className="btn btn-primary"
                           onClick={() => setCurrentPage(currentPage - 1)}
                           disabled={currentPage === 1}>
-                          {" "}
                           prev{" "}
                         </button>
                         <button className="btn btn-primary mx-2">
@@ -164,19 +152,14 @@ const Searchquestion = () => {
                         <button
                           className="btn btn-primary"
                           onClick={() => setCurrentPage(currentPage + 1)}>
-                          {" "}
                           next{" "}
                         </button>
                       </div>
                       <div className="mt-2 text-end">
                         <Link to="/searchengine">
-                          <button
-                            className="btn btn-primary mx-2">
-                            Back
-                          </button>
+                          <button className="btn btn-primary mx-2">Back</button>
                         </Link>
                       </div>
-                     
                     </div>
                   </div>
                 </div>

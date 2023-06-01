@@ -8,19 +8,16 @@ import { DateObject } from "react-multi-date-picker";
 import DatePicker from "react-multi-date-picker";
 import InputIcon from "react-multi-date-picker/components/input_icon";
 import { Pagination } from "@mui/material";
-// import { StudentList } from "../Data/Data1";
 import { studentlistd } from "../../Redux/Loginpages/studentlistSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { ColorRing } from "react-loader-spinner";
 import Moment from "react-moment";
 
-
 const Studentlist = () => {
   const studentists = useSelector((state) => state.studentlist.data.document);
   const isLoading = useSelector((state) => state.studentlist.isLoading);
 
-  //table
   const [searchTerm, setSearchTerm] = useState("");
   const [currentData, setCurrentData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -78,14 +75,26 @@ const Studentlist = () => {
         <div className="container-fluid page-body-wrapper">
           <Sidebar />
           {isLoading ? (
-            <p style={{ marginLeft: "500px", marginTop: "250px" }}>
+            <p
+              style={{
+                marginLeft: "auto",
+                marginRight: "auto",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100vh",
+              }}>
               <ColorRing
                 visible={true}
                 height="80"
                 width="80"
                 ariaLabel="blocks-loading"
-                wrapperStyle={{}}
-                wrapperClass="blocks-wrapper"
+                wrapperStyle={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "100vh",
+                }}
                 colors={["black"]}
               />
             </p>
@@ -191,8 +200,6 @@ const Studentlist = () => {
                             onChange={handleChange}
                             shape="rounded"
                             variant="outlined"
-                            // showFirstButton
-                            // showLastButton
                           />
                         </div>
                       </div>

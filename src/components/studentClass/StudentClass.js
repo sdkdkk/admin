@@ -9,6 +9,7 @@ import axios from "axios";
 import { ColorRing } from "react-loader-spinner";
 import { Pagination } from "@mui/material";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
+import "../Tutors/Tutorlist.css";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
@@ -27,7 +28,6 @@ const StudentClass = () => {
 
   const notify = (data) => toast(data);
 
-  //table
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(8);
   const indexOfLastPage = currentPage * postsPerPage;
@@ -42,18 +42,13 @@ const StudentClass = () => {
   const fetchData = async () => {
     try {
       setLoading1(true);
-      const response = await axios.post(
-        `${url}/admin/getclass`,
-        {
-          token: token,
-        }
-      );
-    
+      const response = await axios.post(`${url}/admin/getclass`, {
+        token: token,
+      });
       setStudentClass(response.data.data);
       setLoading1(false);
     } catch (error) {
-      logoutIfInvalidToken(error.response)
-      // notify("Invalid refresh token!");
+      logoutIfInvalidToken(error.response);
       setLoading1(false);
     }
   };
@@ -87,10 +82,9 @@ const StudentClass = () => {
           studentClass: "",
         });
         fetchData();
-        // setEditCouponId(null);
       }
     } catch (error) {
-      logoutIfInvalidToken(error.response)
+      logoutIfInvalidToken(error.response);
       notify(error.response.data.error);
     } finally {
       setLoading(false);
@@ -100,7 +94,6 @@ const StudentClass = () => {
   const handleUpdate = (coupon) => {
     setIsEditMode(true);
     reset(coupon);
-    // Scroll to the top of the page
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
@@ -165,8 +158,7 @@ const StudentClass = () => {
                             <Button
                               variant="primary"
                               type="submit"
-                              disabled={loading}
-                            >
+                              disabled={loading}>
                               {isEditMode
                                 ? loading
                                   ? "Loading..."
@@ -189,7 +181,7 @@ const StudentClass = () => {
                     <div className="card-body">
                       <div className="table-container">
                         {loading1 ? (
-                          <p style={{ marginLeft: "400px", marginTop: "50px" }}>
+                          <p className="loader-container">
                             <ColorRing
                               visible={true}
                               height="80"
@@ -207,8 +199,7 @@ const StudentClass = () => {
                               bordered
                               hover
                               responsive
-                              className="single-color"
-                            >
+                              className="single-color">
                               <thead>
                                 <tr>
                                   <th>Sr. No</th>
@@ -228,15 +219,13 @@ const StudentClass = () => {
                                     <td>
                                       <Button
                                         variant="success"
-                                        onClick={() => handleUpdate(data)}
-                                      >
+                                        onClick={() => handleUpdate(data)}>
                                         Update
                                       </Button>
                                       <Button
                                         className="mx-2"
                                         variant="danger"
-                                        onClick={() => handleDelet(data._id)}
-                                      >
+                                        onClick={() => handleDelet(data._id)}>
                                         Delete
                                       </Button>
                                     </td>
@@ -251,7 +240,6 @@ const StudentClass = () => {
                                 onChange={handleChange}
                                 shape="rounded"
                                 variant="outlined"
-                                // showFirstButton
                               />
                             </div>
                           </>

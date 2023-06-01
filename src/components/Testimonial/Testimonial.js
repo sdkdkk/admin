@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Testimonialdata } from "../Data/Data1";
 import { Pagination } from "@mui/material";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";

@@ -49,7 +49,6 @@ const Tutorpostingstreak = () => {
       setLoading1(false);
     } catch (error) {
       logoutIfInvalidToken(error.response);
-      // notify("Invalid refresh token!");
       setLoading1(false);
     }
   };
@@ -178,7 +177,7 @@ const Tutorpostingstreak = () => {
                     <div className="card-body">
                       <div className="table-container">
                         {loading1 ? (
-                          <p style={{ marginLeft: "400px", marginTop: "50px" }}>
+                          <p className="loader-container">
                             <ColorRing
                               visible={true}
                               height="80"
@@ -233,7 +232,6 @@ const Tutorpostingstreak = () => {
                                 onChange={handleChange}
                                 shape="rounded"
                                 variant="outlined"
-                                // showFirstButton
                               />
                             </div>
                           </>

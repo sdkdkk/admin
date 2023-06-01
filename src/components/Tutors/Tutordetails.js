@@ -3,9 +3,8 @@ import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
 import "../Tutors/Tutorlist.css";
 import "../Css/Tutorlist.css";
-import { CgProfile } from "react-icons/cg";
 import { Pagination } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Moment from "react-moment";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -21,8 +20,6 @@ import { toast } from "react-toastify";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Tutordetails = () => {
-  const tutordetails = useSelector((state) => state.tutordetail);
-
   const dispatch = useDispatch();
   const { _id, active } = useParams();
 
@@ -37,7 +34,6 @@ const Tutordetails = () => {
   const [Loader, setLoader] = useState(true);
 
   const token = localStorage.getItem("token");
- 
 
   useEffect(() => {
     setIsLoading(true);
@@ -55,12 +51,9 @@ const Tutordetails = () => {
             token: token,
           }
         );
-        const response2 = await axios.post(
-          `${url}/admin/tutordetails/${_id}`,
-          {
-            token: token,
-          }
-        );
+        const response2 = await axios.post(`${url}/admin/tutordetails/${_id}`, {
+          token: token,
+        });
         setData(response.data.message);
         setTransation(response1.data.transaction);
         setTutorpaydetails(response2.data.document);
@@ -69,11 +62,8 @@ const Tutordetails = () => {
       } catch (error) {
         logoutIfInvalidToken(error.response);
         if (error.response) {
-        
         } else if (error.request) {
-          
         } else {
-         
         }
       }
     };
@@ -92,14 +82,13 @@ const Tutordetails = () => {
         `${url}/admin/tutorstatus/${_id}`,
         tutorsObjData
       );
-    
+
       if (data.message) {
         toast.success(data.message);
       } else {
         toast.error(data.error);
       }
     } catch (error) {
-     
       toast.error(error.response.data.error);
     }
   };
@@ -114,86 +103,73 @@ const Tutordetails = () => {
         `${url}/admin/tutorstatus/${_id}`,
         tutorsObjData
       );
-    
+
       if (data.message) {
         toast.success(data.message);
       } else {
         toast.error(data.error);
       }
     } catch (error) {
-     
       toast.error(error.response.data.error);
     }
   };
-
 
   //warningQuestions Api
   const warningQuestions = async () => {
     const tutorsObjData = {
       token: token,
-      // status: 2,
     };
     try {
       const { data } = await axios.post(
         `${url}/admin/gettutorwarningquestion/${_id}?skip=0&limit=5`,
         tutorsObjData
       );
-    
+
       if (data.message) {
         toast.success(data.message);
       } else {
         toast.error(data.error);
       }
     } catch (error) {
-      
       toast.error(error.response.data.error);
     }
   };
   useEffect(() => {
     warningQuestions();
-  }, [])
+  }, []);
 
   //Suspend Api
   const Suspend = async () => {
-
     try {
-      const { data } = await axios.post(
-        `${url}/admin/suspendtutor/${_id}`,
-        {token : token}
-      );
-   
+      const { data } = await axios.post(`${url}/admin/suspendtutor/${_id}`, {
+        token: token,
+      });
+
       if (data.message) {
         toast.success(data.message);
       } else {
         toast.error(data.error);
       }
     } catch (error) {
-
       toast.error(error.response.data.error);
     }
   };
+  //Reactive Api
+  const Reactive = async () => {
+    try {
+      const { data } = await axios.post(`${url}/admin/reactivetutor/${_id}`, {
+        token: token,
+      });
 
-
-    //Reactive Api
-    const Reactive = async () => {
-
-      try {
-        const { data } = await axios.post(
-          `${url}/admin/reactivetutor/${_id}`,
-          {token : token}
-        );
-     
-        if (data.message) {
-          toast.success(data.message);
-        } else {
-          toast.error(data.error);
-        }
-      } catch (error) {
-  
-        toast.error(error.response.data.error);
+      if (data.message) {
+        toast.success(data.message);
+      } else {
+        toast.error(data.error);
       }
-    };
-
+    } catch (error) {
+      toast.error(error.response.data.error);
+    }
+  };
 
   let navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
@@ -220,10 +196,9 @@ const Tutordetails = () => {
   };
 
   const toComponentB = (data) => {
-    console.log(data)
+    console.log(data);
     navigate("/tutorquestiondetails", { state: { data } });
   };
-
 
   return (
     <>
@@ -233,20 +208,31 @@ const Tutordetails = () => {
           <Sidebar />
           <div className="main-details" style={{ width: "inherit" }}>
             {Loader ? (
-              <div
-                className="loader-end text-center"
-                style={{ marginTop: "250px" }}
-              >
+              <div className="loader-end text-center">
                 {Loader ? (
-                  <ColorRing
-                    visible={true}
-                    height="80"
-                    width="80"
-                    ariaLabel="blocks-loading"
-                    wrapperStyle={{}}
-                    wrapperClass="blocks-wrapper"
-                    colors={["black"]}
-                  />
+                  <p
+                    style={{
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: "100vh",
+                    }}>
+                    <ColorRing
+                      visible={true}
+                      height="80"
+                      width="80"
+                      ariaLabel="blocks-loading"
+                      wrapperStyle={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        height: "100vh",
+                      }}
+                      colors={["black"]}
+                    />
+                  </p>
                 ) : null}
               </div>
             ) : (
@@ -256,8 +242,7 @@ const Tutordetails = () => {
                     <div key={index} style={{ backgroundColor: "#c0d7ff" }}>
                       <div
                         className="row"
-                        style={{ backgroundColor: "#c0d7ff" }}
-                      >
+                        style={{ backgroundColor: "#c0d7ff" }}>
                         <div className="col">
                           <div className="profile">
                             <div className="profile-img mt-2">
@@ -329,23 +314,23 @@ const Tutordetails = () => {
                           </h4>
                         </div>
 
-                        {active === "3" ? (<div className=" text-center">
-                          <hr />
-                          <Button
-                            className="btn-success my-4 mx-3"
-                            onClick={() => approveTutors()}
-                          >
-                            <AiOutlineCheck /> Approve
-                          </Button>
-                          <Button
-                            className="btn-danger"
-                            onClick={() => rejectTutors()}
-                          >
-                            <AiOutlineClose /> Rejected
-                          </Button>
-                        </div>) : ""
-
-                        }
+                        {active === "3" ? (
+                          <div className=" text-center">
+                            <hr />
+                            <Button
+                              className="btn-success my-4 mx-3"
+                              onClick={() => approveTutors()}>
+                              <AiOutlineCheck /> Approve
+                            </Button>
+                            <Button
+                              className="btn-danger"
+                              onClick={() => rejectTutors()}>
+                              <AiOutlineClose /> Rejected
+                            </Button>
+                          </div>
+                        ) : (
+                          ""
+                        )}
                       </div>
                     </div>
                   );
@@ -404,15 +389,29 @@ const Tutordetails = () => {
                       <div className="card-body">
                         {isLoading ? (
                           <div>
-                            <ColorRing
-                              visible={true}
-                              height="80"
-                              width="80"
-                              ariaLabel="blocks-loading"
-                              wrapperStyle={{}}
-                              wrapperClass="blocks-wrapper"
-                              colors={["black"]}
-                            />
+                            <p
+                              style={{
+                                marginLeft: "auto",
+                                marginRight: "auto",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                height: "100vh",
+                              }}>
+                              <ColorRing
+                                visible={true}
+                                height="80"
+                                width="80"
+                                ariaLabel="blocks-loading"
+                                wrapperStyle={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                  height: "100vh",
+                                }}
+                                colors={["black"]}
+                              />
+                            </p>
                           </div>
                         ) : (
                           <>
@@ -433,8 +432,7 @@ const Tutordetails = () => {
                                       style={{ cursor: "pointer" }}
                                       onClick={() => {
                                         toComponentB(data);
-                                      }}
-                                    >
+                                      }}>
                                       {data.allQuestions.question
                                         .split(" ")
                                         .slice(0, 3)
@@ -476,15 +474,29 @@ const Tutordetails = () => {
                           <div className="card-body">
                             {isLoading ? (
                               <div>
-                                <ColorRing
-                                  visible={true}
-                                  height="80"
-                                  width="80"
-                                  ariaLabel="blocks-loading"
-                                  wrapperStyle={{}}
-                                  wrapperClass="blocks-wrapper"
-                                  colors={["black"]}
-                                />
+                                <p
+                                  style={{
+                                    marginLeft: "auto",
+                                    marginRight: "auto",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    height: "100vh",
+                                  }}>
+                                  <ColorRing
+                                    visible={true}
+                                    height="80"
+                                    width="80"
+                                    ariaLabel="blocks-loading"
+                                    wrapperStyle={{
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      alignItems: "center",
+                                      height: "100vh",
+                                    }}
+                                    colors={["black"]}
+                                  />
+                                </p>
                               </div>
                             ) : (
                               <>
@@ -505,16 +517,19 @@ const Tutordetails = () => {
                                           style={{ cursor: "pointer" }}
                                           onClick={() => {
                                             toComponentB(data);
-                                          }}
-                                        >
+                                          }}>
                                           {data.allQuestions.question
                                             .split(" ")
                                             .slice(0, 3)
                                             .join(" ")}
                                           ...
                                         </td>
-                                        <td>{data.allQuestions.questionType}</td>
-                                        <td>{data.allQuestions.questionSubject}</td>
+                                        <td>
+                                          {data.allQuestions.questionType}
+                                        </td>
+                                        <td>
+                                          {data.allQuestions.questionSubject}
+                                        </td>
                                         <td>{data.allQuestions.tutorPrice}</td>
                                         <td>{data.allQuestions.status}</td>
                                       </tr>
@@ -537,26 +552,37 @@ const Tutordetails = () => {
                       </div>
                     </div>
                   </>
-                ) : ""}
+                ) : (
+                  ""
+                )}
 
                 <div
                   className="gap-2 d-md-flex"
-                  style={{ justifyContent: "end" }}
-                >
+                  style={{ justifyContent: "end" }}>
                   {active === "5" ? (
                     <Link to="/tutorlist">
-                      <button className="btn btn-outline-primary" type="button" onClick={Reactive}>
+                      <button
+                        className="btn btn-outline-primary"
+                        type="button"
+                        onClick={Reactive}>
                         Reactive
                       </button>
                     </Link>
-                  ) : ""}
+                  ) : (
+                    ""
+                  )}
                   {active === "2" ? (
                     <Link to="/tutorlist">
-                      <button className="btn btn-outline-primary" type="button" onClick={Suspend}>
+                      <button
+                        className="btn btn-outline-primary"
+                        type="button"
+                        onClick={Suspend}>
                         Suspend
                       </button>
                     </Link>
-                  ) : ""}
+                  ) : (
+                    ""
+                  )}
                   <Link to={`/professionaldetails/${_id}`}>
                     <button className="btn btn-outline-primary" type="button">
                       Edit User

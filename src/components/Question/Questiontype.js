@@ -9,6 +9,7 @@ import { useForm } from "react-hook-form";
 import { ColorRing } from "react-loader-spinner";
 import { Pagination } from "@mui/material";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
+import "../Tutors/Tutorlist.css";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
@@ -26,7 +27,6 @@ const Questiontype = () => {
   const token = localStorage.getItem("token");
   const notify = (data) => toast(data);
 
-  //table
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(4);
   const indexOfLastPage = currentPage * postsPerPage;
@@ -41,17 +41,13 @@ const Questiontype = () => {
   const fetchData = async () => {
     try {
       setLoading1(true);
-      const response = await axios.get(
-        `${url}/getquestiontype`,
-        {
-          token: token,
-        }
-      );
+      const response = await axios.get(`${url}/getquestiontype`, {
+        token: token,
+      });
       setConversionRate(response.data.data);
       setLoading1(false);
     } catch (error) {
-      logoutIfInvalidToken(error.response)
-      // notify("Invalid refresh token!");
+      logoutIfInvalidToken(error.response);
       setLoading1(false);
     }
   };
@@ -86,22 +82,14 @@ const Questiontype = () => {
           questionType: "",
         });
         fetchData();
-        // setEditCouponId(null);
       }
     } catch (error) {
-      logoutIfInvalidToken(error.response)
+      logoutIfInvalidToken(error.response);
       notify(error.response.data.error);
     } finally {
       setLoading(false);
     }
   };
-
-  //   const handleUpdate = (questionType) => {
-  //     setEditQuestionType(questionType); // Set the question type being edited
-  //     reset({ questionType: questionType }); // Set the form values to the selected question type
-  //     window.scrollTo({ top: 0, behavior: "smooth" });
-  //   };
-
   const handleUpdate = (coupon) => {
     reset(coupon);
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -185,17 +173,17 @@ const Questiontype = () => {
                     <div className="card-body">
                       <div className="table-container">
                         {loading1 ? (
-                          <p style={{ marginLeft: "400px", marginTop: "50px" }}>
-                            <ColorRing
-                              visible={true}
-                              height="80"
-                              width="80"
-                              ariaLabel="blocks-loading"
-                              wrapperStyle={{}}
-                              wrapperClass="blocks-wrapper"
-                              colors={["black"]}
-                            />
-                          </p>
+                          <p className="loader-container">
+                          <ColorRing
+                            visible={true}
+                            height="80"
+                            width="80"
+                            ariaLabel="blocks-loading"
+                            wrapperStyle={{}}
+                            wrapperClass="blocks-wrapper"
+                            colors={["black"]}
+                          />
+                        </p>
                         ) : (
                           <>
                             <Table
@@ -244,7 +232,6 @@ const Questiontype = () => {
                                 onChange={handleChange}
                                 shape="rounded"
                                 variant="outlined"
-                                // showFirstButton
                               />
                             </div>
                           </>

@@ -26,43 +26,28 @@ const Professionaldetails = () => {
   };
   const [user, setUser] = useState();
   const notify = (data) => toast(data);
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { isSubmitting },
-  } = useForm();
+  const { register, handleSubmit, reset } = useForm();
 
   const token = localStorage.getItem("token");
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const response = await axios.post(
-          `${url}/admin/tutorsinfo/${_id}`,
-          {
-            token: token,
-          }
-        );
+        const response = await axios.post(`${url}/admin/tutorsinfo/${_id}`, {
+          token: token,
+        });
         setUser(response.data.document);
         setLoading(false);
       } catch (error) {
-        logoutIfInvalidToken(error.response)
+        logoutIfInvalidToken(error.response);
         if (error.response) {
-         
         } else if (error.request) {
-         
         } else {
-         
         }
       }
     };
     fetchData();
   }, []);
-
-  // if (!user) {
-  //   return <div>Loading...</div>;
-  // }
 
   const onSubmit = (data) => {
     setIsLoading(true);
@@ -70,7 +55,6 @@ const Professionaldetails = () => {
     const files = data.myimage;
 
     formData.append("token", token);
-    // formData.append("myimage", data.myimage);
     formData.append(`profilephoto`, files);
     formData.append("name", data.name);
     formData.append("mobileNo", data.mobileNo);
@@ -92,17 +76,20 @@ const Professionaldetails = () => {
     formData.append("accountType", data.accountType);
     formData.append("bankName", data.bankName);
 
-    fetch(`http://vaidik-backend.onrender.com/api/v1/admin/tutorsdetails/${_id}`, {
-      method: "POST",
-      body: formData,
-    })
+    fetch(
+      `http://vaidik-backend.onrender.com/api/v1/admin/tutorsdetails/${_id}`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    )
       .then((response) => response.json())
       .then((data) => {
         if (data.status === 1) {
-          notify(data.message); // Show success notification
+          notify(data.message);
           reset();
         } else {
-          notify(data.message); // Show error notification
+          notify(data.message);
         }
         setIsLoading(false);
       })
@@ -119,14 +106,26 @@ const Professionaldetails = () => {
         <div className="container-fluid page-body-wrapper">
           <Sidebar />
           {loading ? (
-            <p style={{ marginLeft: "550px", marginTop: "250px" }}>
+            <p
+              style={{
+                marginLeft: "auto",
+                marginRight: "auto",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100vh",
+              }}>
               <ColorRing
                 visible={true}
                 height="80"
                 width="80"
                 ariaLabel="blocks-loading"
-                wrapperStyle={{}}
-                wrapperClass="blocks-wrapper"
+                wrapperStyle={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "100vh",
+                }}
                 colors={["black"]}
               />
             </p>
@@ -154,7 +153,6 @@ const Professionaldetails = () => {
                                           ? data.personaldetails.profilephoto
                                           : myimage
                                       }
-                                      // src={data.personaldetails.profilephoto}
                                       defaultValue={
                                         data.professionaldetails.profilephoto
                                       }
@@ -264,7 +262,6 @@ const Professionaldetails = () => {
                                           name="email"
                                           placeholder="Enter Email"
                                           defaultValue={data.email}
-                                          // {...register("email", { required: true })}
                                         />
                                       </Form.Group>
                                       <Form.Group
@@ -552,15 +549,8 @@ const Professionaldetails = () => {
                               </div>
                             </div>
                           </div>
-                          <Button
-                            variant="contained"
-                            type="submit"
-                          >
-                            {isLoading ? (
-                              "Loading..."
-                            ) : (
-                              "Save"
-                            )}
+                          <Button variant="contained" type="submit">
+                            {isLoading ? "Loading..." : "Save"}
                           </Button>
                         </Form>
                       );

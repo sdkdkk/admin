@@ -27,7 +27,6 @@ const Tutorsubject = () => {
 
   const notify = (data) => toast(data);
 
-  //table
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(8);
   const indexOfLastPage = currentPage * postsPerPage;
@@ -42,17 +41,13 @@ const Tutorsubject = () => {
   const fetchData = async () => {
     try {
       setLoading1(true);
-      const response = await axios.post(
-        `${url}/getquestionsubject`,
-        {
-          token: token,
-        }
-      );
+      const response = await axios.post(`${url}/getquestionsubject`, {
+        token: token,
+      });
       setConversionRate(response.data.data);
       setLoading1(false);
     } catch (error) {
-      logoutIfInvalidToken(error.response)
-      // notify("Invalid refresh token!");
+      logoutIfInvalidToken(error.response);
       setLoading1(false);
     }
   };
@@ -86,10 +81,9 @@ const Tutorsubject = () => {
           questionSubject: "",
         });
         fetchData();
-        // setEditCouponId(null);
       }
     } catch (error) {
-      logoutIfInvalidToken(error.response)
+      logoutIfInvalidToken(error.response);
       notify(error.response.data.error);
     } finally {
       setLoading(false);
@@ -98,19 +92,14 @@ const Tutorsubject = () => {
 
   const handleUpdate = (coupon) => {
     reset(coupon);
-    // Scroll to the top of the page
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-
   function handleDelet(_id) {
     axios
-      .post(
-        `${url}/admin/questionsubject/${_id}`,
-        {
-          token: token,
-        }
-      )
+      .post(`${url}/admin/questionsubject/${_id}`, {
+        token: token,
+      })
       .then((response) => {
         fetchData();
         toast.success(response.data.message);
@@ -164,10 +153,10 @@ const Tutorsubject = () => {
                             <h6>&nbsp;</h6>
                           </div>
                           <div className="col-lg-4 col-md-8 mb-2 text-md-end">
-                            <Button variant="primary"
-                             type="submit"
-                             disabled={loading}
-                             >
+                            <Button
+                              variant="primary"
+                              type="submit"
+                              disabled={loading}>
                               {loading ? "Loading..." : "Add"}
                             </Button>
                           </div>
@@ -184,17 +173,17 @@ const Tutorsubject = () => {
                     <div className="card-body">
                       <div className="table-container">
                         {loading1 ? (
-                          <p style={{ marginLeft: "400px", marginTop: "50px" }}>
-                            <ColorRing
-                              visible={true}
-                              height="80"
-                              width="80"
-                              ariaLabel="blocks-loading"
-                              wrapperStyle={{}}
-                              wrapperClass="blocks-wrapper"
-                              colors={["black"]}
-                            />
-                          </p>
+                           <p className="loader-container">
+                           <ColorRing
+                             visible={true}
+                             height="80"
+                             width="80"
+                             ariaLabel="blocks-loading"
+                             wrapperStyle={{}}
+                             wrapperClass="blocks-wrapper"
+                             colors={["black"]}
+                           />
+                         </p>
                         ) : (
                           <>
                             <Table
@@ -238,12 +227,11 @@ const Tutorsubject = () => {
                             </Table>
                             <div className="table-pagination">
                               <Pagination
-                               count={totalPages}
+                                count={totalPages}
                                 page={currentPage}
                                 onChange={handleChange}
                                 shape="rounded"
                                 variant="outlined"
-                                // showFirstButton
                               />
                             </div>
                           </>

@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
@@ -13,8 +12,8 @@ import { logoutIfInvalidToken } from "../../helpers/handleError";
 import "react-phone-input-2/lib/style.css";
 import PhoneInput from "react-phone-input-2";
 import "react-toastify/dist/ReactToastify.css";
-
 import "react-phone-number-input/style.css";
+import "../Css/Tutorlist.css";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
@@ -26,11 +25,6 @@ const AddMobile = () => {
     control,
     formState: { errors },
   } = useForm({});
-  //   const [phoneNumber, setPhoneNumber] = useState("");
-
-  //   const handlePhoneNumberChange = (value) => {
-  //     setPhoneNumber(value);
-  //   };
 
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
@@ -53,18 +47,14 @@ const AddMobile = () => {
   const fetchData = async () => {
     try {
       setLoading1(true);
-      const response = await axios.post(
-        `${url}/admin/getmobileno`,
-        {
-          token: token,
-        }
-      );
+      const response = await axios.post(`${url}/admin/getmobileno`, {
+        token: token,
+      });
 
       setData(response.data.document);
       setLoading1(false);
     } catch (error) {
       logoutIfInvalidToken(error.response);
-      // notify("Invalid refresh token!");
       setLoading1(false);
     }
   };
@@ -74,34 +64,19 @@ const AddMobile = () => {
   }, []);
 
   const onSubmit = async (data) => {
-  
     try {
       setLoading(true);
       const requestUrl = data._id
         ? `${url}/admin/mobileno`
         : `${url}/admin/mobileno`;
       var response;
-      // if (data._id) {
-      //   response = await axios.post(requestUrl, {
-      //     mobileNo: data.mobileNo,
-      //     id: data._id,
-      //     token: token,
-      //   });
-      // } else
-      
-      // {
-        response = await axios.post(requestUrl, {
-          mobileNo: data.mobileNo,
-          token: token,
-        });
-      // }
-
+      response = await axios.post(requestUrl, {
+        mobileNo: data.mobileNo,
+        token: token,
+      });
       if (response.data.status === 1) {
-        // setData(response.data);
         notify(response.data.message);
         fetchData();
-
-        // setEditCouponId(null);
       }
     } catch (error) {
       logoutIfInvalidToken(error.response);
@@ -110,7 +85,6 @@ const AddMobile = () => {
       setLoading(false);
     }
   };
-
 
   const handleUpdate = (coupon) => {
     reset(coupon);
@@ -184,17 +158,17 @@ const AddMobile = () => {
                                         },
                                       }) => (
                                         <PhoneInput
-                                        className="mb-4"
-                                        international
-                                        defaultCountry="US"
-                                        value={value}
-                                        onChange={onChange}
-                                        onBlur={onBlur}
-                                      />
+                                          className="mb-4"
+                                          international
+                                          defaultCountry="US"
+                                          value={value}
+                                          onChange={onChange}
+                                          onBlur={onBlur}
+                                        />
                                       )}
                                     />
                                     {errors.mobileNo && (
-                                      <p className="error-msg">
+                                      <p className="error-msg text-danger">
                                         {errors.mobileNo.message}
                                       </p>
                                     )}
@@ -207,8 +181,7 @@ const AddMobile = () => {
                             <Button
                               variant="primary"
                               type="submit"
-                              disabled={loading}
-                            >
+                              disabled={loading}>
                               {loading ? "Loading..." : "Add"}
                             </Button>
                           </div>
@@ -225,7 +198,7 @@ const AddMobile = () => {
                     <div className="card-body">
                       <div className="table-container">
                         {loading1 ? (
-                          <p style={{ marginLeft: "400px", marginTop: "50px" }}>
+                          <p className="loader-container">
                             <ColorRing
                               visible={true}
                               height="80"
@@ -243,8 +216,7 @@ const AddMobile = () => {
                               bordered
                               hover
                               responsive
-                              className="single-color"
-                            >
+                              className="single-color">
                               <thead>
                                 <tr>
                                   <th>Sr. No</th>
@@ -264,15 +236,13 @@ const AddMobile = () => {
                                     <td>
                                       <Button
                                         variant="success"
-                                        onClick={() => handleUpdate(data)}
-                                      >
+                                        onClick={() => handleUpdate(data)}>
                                         Update
                                       </Button>
                                       <Button
                                         className="mx-2"
                                         variant="danger"
-                                        onClick={() => handleDelet(data._id)}
-                                      >
+                                        onClick={() => handleDelet(data._id)}>
                                         Delete
                                       </Button>
                                     </td>
@@ -287,7 +257,6 @@ const AddMobile = () => {
                                 onChange={handleChange}
                                 shape="rounded"
                                 variant="outlined"
-                                // showFirstButton
                               />
                             </div>
                           </>

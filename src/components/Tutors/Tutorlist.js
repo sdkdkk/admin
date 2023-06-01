@@ -144,17 +144,29 @@ const Tutorlist = () => {
           <Sidebar />
 
           {isLoadinguser ? (
-            <p style={{ marginLeft: "500px", marginTop: "250px" }}>
-              <ColorRing
-                visible={true}
-                height="80"
-                width="80"
-                ariaLabel="blocks-loading"
-                wrapperStyle={{}}
-                wrapperClass="blocks-wrapper"
-                colors={["black"]}
-              />
-            </p>
+            <p
+            style={{
+              marginLeft: "auto",
+              marginRight: "auto",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100vh",
+            }}>
+            <ColorRing
+              visible={true}
+              height="80"
+              width="80"
+              ariaLabel="blocks-loading"
+              wrapperStyle={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100vh",
+              }}
+              colors={["black"]}
+            />
+          </p>
           ) : (
             <div className="main-panel">
               <div className="content-wrapper">
@@ -166,7 +178,7 @@ const Tutorlist = () => {
                     <div className="d-grid gap-2 d-md-flex justify-content-md-end">
                       <button
                         onClick={fetchData3}
-                        className={activeButton === 1 ? "activeb" : ""}
+                        className={activeButton === 1 ? "btn btn-primary" : "btn btn-light"}
                         // className="btn btn-primary me-md-2 active"
                         type="button"
                         style={{ borderRadius: "4px" }}>
@@ -174,7 +186,7 @@ const Tutorlist = () => {
                       </button>
                       <button
                         onClick={fetchData2}
-                        className={activeButton === 2 ? "activeb" : ""}
+                        className={activeButton === 2 ? "btn btn-primary" : "btn btn-light"}
                         // className="btn btn-primary"
                         type="button"
                         style={{ borderRadius: "4px" }}>
@@ -182,7 +194,7 @@ const Tutorlist = () => {
                       </button>
                       <button
                         onClick={fetchData1}
-                        className={activeButton === 3 ? "activeb" : ""}
+                        className={activeButton === 3 ?"btn btn-primary" : "btn btn-light"}
                         // className="btn btn-primary"
                         type="button"
                         style={{ borderRadius: "4px" }}>
@@ -190,7 +202,7 @@ const Tutorlist = () => {
                       </button>
                       <button
                         onClick={fetchData4}
-                        className={activeButton === 4 ? "activeb" : ""}
+                        className={activeButton === 4 ? "btn btn-primary" : "btn btn-light"}
                         // className="btn btn-primary"
                         type="button"
                         style={{ borderRadius: "4px" }}>
@@ -198,7 +210,7 @@ const Tutorlist = () => {
                       </button>
                       <button
                         onClick={fetchData5}
-                        className={activeButton === 5 ? "activeb" : ""}
+                        className={activeButton === 5 ? "btn btn-primary" : "btn btn-light"}
                         // className="btn btn-primary"
                         type="button"
                         style={{ borderRadius: "4px" }}>

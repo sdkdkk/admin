@@ -25,7 +25,6 @@ const Curruncy = () => {
   const notify = (data) => toast(data);
   const [conversionRate, setConversionRate] = useState([]);
 
-
   const fetchData = async () => {
     try {
       setLoading(true);
@@ -38,8 +37,7 @@ const Curruncy = () => {
       await setConversionRate(response.data);
       setLoading(false);
     } catch (error) {
-      logoutIfInvalidToken(error.response)
-      // notify("Invalid refresh token!");
+      logoutIfInvalidToken(error.response);
       setLoading(false);
     }
   };
@@ -51,14 +49,11 @@ const Curruncy = () => {
   const onSubmit = async (data, e) => {
     try {
       setLoadingpost(true);
-      const response = await axios.post(
-        `${url}/admin/setcurrencyconversion`,
-        {
-          ConversionToInr: parseFloat(data.ConversionToInr),
-          Currency: "USD",
-          token: token,
-        }
-      );
+      const response = await axios.post(`${url}/admin/setcurrencyconversion`, {
+        ConversionToInr: parseFloat(data.ConversionToInr),
+        Currency: "USD",
+        token: token,
+      });
       if (response.data.status === 1) {
         fetchData();
         notify("Currency Conversion Rate Updated Successfully");
@@ -66,14 +61,11 @@ const Curruncy = () => {
         reset();
       }
     } catch (error) {
-      logoutIfInvalidToken(error.response)
-      // notify("Invalid refresh token!");
+      logoutIfInvalidToken(error.response);
     } finally {
-      setLoadingpost(false); // set loading to false when API call is complete
+      setLoadingpost(false);
     }
   };
-  //   fetchData();
-  // }, []);
 
   return (
     <>
@@ -87,22 +79,24 @@ const Curruncy = () => {
                 <h3 className="page-title"> Curruncy Conversion Rate </h3>
               </div>
               <div class="row mt-3">
-                {loading ? (
-                  <ColorRing
-                    visible={true}
-                    height="80"
-                    width="80"
-                    ariaLabel="blocks-loading"
-                    wrapperStyle={{}}
-                    wrapperClass="blocks-wrapper"
-                    colors={["black"]}
-                  />
-                ) : (
-                  <div class="col-12 grid-margin stretch-card">
-                    <div class="card new-table">
-                      <div class="card-body">
-                        <div class="converter-container">
-                          <div class="input-container">
+                <div class="col-12 grid-margin stretch-card">
+                  <div class="card new-table">
+                    <div class="card-body">
+                      <div class="converter-container">
+                        <div class="input-container">
+                          {loading ? (
+                             <p className="loader-container">
+                             <ColorRing
+                               visible={true}
+                               height="80"
+                               width="80"
+                               ariaLabel="blocks-loading"
+                               wrapperStyle={{}}
+                               wrapperClass="blocks-wrapper"
+                               colors={["black"]}
+                             />
+                           </p>
+                          ) : (
                             <form onSubmit={handleSubmit(onSubmit)}>
                               <label className="usd" for="usd-input">
                                 1 USD =
@@ -122,15 +116,13 @@ const Curruncy = () => {
                               />
                               <div style={{ display: "inline" }}>
                                 INR
-                                {/* <button id="update-btn">Update</button> */}
                                 <span>
                                   <Button
                                     className="mx-2"
                                     id="update-btn"
                                     variant="primary"
                                     type="submit"
-                                    disabled={loadingpost}
-                                  >
+                                    disabled={loadingpost}>
                                     {loadingpost ? "Loading..." : "Update"}
                                   </Button>
                                   {errors.ConversionToInr && (
@@ -141,12 +133,12 @@ const Curruncy = () => {
                                 </span>
                               </div>
                             </form>
-                          </div>
+                          )}
                         </div>
                       </div>
                     </div>
                   </div>
-                )}
+                </div>
               </div>
             </div>
             <Footer />

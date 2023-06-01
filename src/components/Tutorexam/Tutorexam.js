@@ -6,7 +6,6 @@ import Sidebar from "../shared/Sidebar";
 import "../Css/Tutorlist.css";
 import "./Exam.css";
 import { Pagination } from "@mui/material";
-import { Studentdata } from "../Data/Data1";
 import { Badge, Button } from "react-bootstrap";
 import { BiDotsVerticalRounded } from "react-icons/bi";
 import Form from "react-bootstrap/Form";
@@ -45,8 +44,7 @@ const ReadMore = ({ children }) => {
       <span
         onClick={toggleReadMore}
         className="read-or-hide"
-        style={{ color: "blue" }}
-      >
+        style={{ color: "blue" }}>
         {isReadMore ? "...read more" : " show less"}
       </span>
     </p>
@@ -68,7 +66,7 @@ const Tutorexam = () => {
   const [formValue, setFormValue] = useState({});
   const indexOfLastPage = currentPage * postsPerPage;
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
-  const displayUsers = Studentdata.slice(indexOfFirstPage, indexOfLastPage);
+
   const getTutorQuestionsListData = useSelector(
     (state) => state.getTutorQuestionsList
   );
@@ -104,15 +102,12 @@ const Tutorexam = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.post(
-        `${url}/getquestionsubject`,
-        {
-          token: token,
-        }
-      );
+      const response = await axios.post(`${url}/getquestionsubject`, {
+        token: token,
+      });
       setSubjectList(response?.data?.data);
     } catch (error) {
-      logoutIfInvalidToken(error.response)
+      logoutIfInvalidToken(error.response);
       // notify("Invalid refresh token!");
     }
   };
@@ -227,13 +222,12 @@ const Tutorexam = () => {
                     <Button variant="primary" size="lg">
                       Add New
                     </Button>
-  </Link>*/}
+                   </Link>*/}
                   <Link to="/tutorsearch">
                     <Button
                       className="search-btn mx-2"
                       variant="secondary"
-                      size="lg"
-                    >
+                      size="lg">
                       Search Question
                     </Button>
                   </Link>
@@ -250,8 +244,7 @@ const Tutorexam = () => {
                             <Form.Select
                               aria-label="Default select example"
                               name="questionSubject"
-                              {...register("questionSubject")}
-                            >
+                              {...register("questionSubject")}>
                               <option>Select Subject</option>
                               {subjectList.map((a) => (
                                 <option value={a.questionSubject}>
@@ -272,8 +265,7 @@ const Tutorexam = () => {
                           <div className="col-md-12">
                             <Form.Group
                               className="mb-3"
-                              controlId="formBasicEmail"
-                            >
+                              controlId="formBasicEmail">
                               <Form.Label>Questions</Form.Label>
                               {/* <Form.Control
                                 as="textarea" rows={3}
@@ -284,28 +276,29 @@ const Tutorexam = () => {
                                 })}
                               /> */}
                               <Controller
-                              name="question"
-                              control={control}
-                              defaultValue={editorHtml}
-                              render={({ field }) => (
-                                <ReactQuill
-                                  theme="snow"
-                                  name="question"
-                                  {...register("question", {
-                                    required: "Please Enter A Valid Question!",
-                                  })}
-                                  onChange={(value) => setEditorHtml(value)}
-                                  // value={answer || ""}
-                                  modules={modules}
-                                  formats={formats}
-                                  // onChange={handleAnswerChange}
-                                  bounds={"#root"}
-                                  placeholder="type Here...."
-                                  ref={editorRef}
-                                  {...field}
-                                />
-                              )}
-                            />
+                                name="question"
+                                control={control}
+                                defaultValue={editorHtml}
+                                render={({ field }) => (
+                                  <ReactQuill
+                                    theme="snow"
+                                    name="question"
+                                    {...register("question", {
+                                      required:
+                                        "Please Enter A Valid Question!",
+                                    })}
+                                    onChange={(value) => setEditorHtml(value)}
+                                    // value={answer || ""}
+                                    modules={modules}
+                                    formats={formats}
+                                    // onChange={handleAnswerChange}
+                                    bounds={"#root"}
+                                    placeholder="type Here...."
+                                    ref={editorRef}
+                                    {...field}
+                                  />
+                                )}
+                              />
                               <p className="error-msg">
                                 {errors.question && errors.question.message}
                               </p>
@@ -323,8 +316,7 @@ const Tutorexam = () => {
                                   setFormValue({
                                     questionType: e.target.value,
                                   });
-                                }}
-                              >
+                                }}>
                                 <option>Select Type</option>
                                 <option value="MCQ">MCQ</option>
                                 <option value="Theory">Theory</option>
@@ -441,7 +433,8 @@ const Tutorexam = () => {
                                       value={field.value}
                                       name="answer"
                                       {...register("answer", {
-                                        required: "Please Enter A Valid Question!",
+                                        required:
+                                          "Please Enter A Valid Question!",
                                       })}
                                       modules={modules}
                                       formats={formats}
@@ -465,8 +458,7 @@ const Tutorexam = () => {
                                   postTutorQuestionData?.isLoading ||
                                   updateTutorQuestionData?.isLoading
                                 }
-                                className="btn btn-primary mx-2"
-                              >
+                                className="btn btn-primary mx-2">
                                 Back
                               </button>
                             </Link>
@@ -476,8 +468,7 @@ const Tutorexam = () => {
                                 updateTutorQuestionData?.isLoading
                               }
                               type="submit"
-                              className="btn btn-primary"
-                            >
+                              className="btn btn-primary">
                               {editQuestionData ? (
                                 <>
                                   {updateTutorQuestionData?.isLoading
@@ -509,8 +500,7 @@ const Tutorexam = () => {
                         className="w-100 form-select"
                         value={questionSubject}
                         onChange={(e) => setQuestionSubject(e.target.value)}
-                        id="displayname"
-                      >
+                        id="displayname">
                         {subjectList.map((a) => (
                           <option value={a.questionSubject}>
                             {a.questionSubject}
@@ -528,8 +518,7 @@ const Tutorexam = () => {
                         className="w-100 form-select"
                         value={questionType}
                         onChange={(e) => setQuestionType(e.target.value)}
-                        id="displayname"
-                      >
+                        id="displayname">
                         <option value="MCQ">MCQ</option>
                         <option value="Theory">Theory</option>
                       </select>
@@ -561,8 +550,7 @@ const Tutorexam = () => {
                                       <Badge
                                         pill
                                         color="primary"
-                                        class="bg-opacity-25 text-primary"
-                                      >
+                                        class="bg-opacity-25 text-primary">
                                         {data.questionType}
                                       </Badge>
                                       {data.questionSubject}
@@ -582,28 +570,24 @@ const Tutorexam = () => {
                                         className="dropdown__button"
                                         onClick={() =>
                                           handleDropdownClick(data._id)
-                                        }
-                                      >
+                                        }>
                                         <BiDotsVerticalRounded />
                                       </button>
                                       {data._id === isOpen && (
                                         <div
                                           style={{ left: "-44px" }}
-                                          className="dropdown__popup"
-                                        >
+                                          className="dropdown__popup">
                                           <ul className="dropdown__list">
                                             <li
                                               onClick={() =>
                                                 handleUpdateClick(data)
-                                              }
-                                            >
+                                              }>
                                               Edit
                                             </li>
                                             <li
                                               onClick={() =>
                                                 handleDeleteClick(data._id)
-                                              }
-                                            >
+                                              }>
                                               Delete
                                             </li>
                                           </ul>
@@ -623,8 +607,6 @@ const Tutorexam = () => {
                         onChange={handleChange}
                         shape="rounded"
                         variant="outlined"
-                        //showFirstButton
-                        //showLastButton
                       />
                     </div>
                   </div>

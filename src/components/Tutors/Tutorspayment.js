@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
@@ -10,31 +9,18 @@ import { useDispatch, useSelector } from "react-redux";
 import { ColorRing } from "react-loader-spinner";
 import { FaCopy } from "react-icons/fa";
 
-const url = process.env.REACT_APP_API_BASE_URL;
-
 const Tutorspayment = () => {
   const tutorpayment = useSelector((state) => state.tutorpayment.data.info);
   const isLoading = useSelector((state) => state.tutorpayment.isLoading);
   const dispatch = useDispatch();
-  //table
   const [clicked, setClicked] = useState(false);
-  const [teamData, setTeamData] = useState([]);
-  const nbaData = async () => {
-    const response = await axios.get(
-      "https://jsonplaceholder.typicode.com/users"
-    );
-
-    setTeamData(response.data);
-  };
 
   useEffect(() => {
-    nbaData();
     dispatch(tutorspayment());
   }, []);
 
   const toggle = (index) => {
     if (clicked === index) {
-      //if clicked question is already active, then close it
       return setClicked(null);
     }
     setClicked(index);
@@ -50,14 +36,26 @@ const Tutorspayment = () => {
       <div className="container-fluid page-body-wrapper">
         <Sidebar />
         {isLoading ? (
-          <p style={{ marginLeft: "500px", marginTop: "250px" }}>
+          <p
+            style={{
+              marginLeft: "auto",
+              marginRight: "auto",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100vh",
+            }}>
             <ColorRing
               visible={true}
               height="80"
               width="80"
               ariaLabel="blocks-loading"
-              wrapperStyle={{}}
-              wrapperClass="blocks-wrapper"
+              wrapperStyle={{
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100vh",
+              }}
               colors={["black"]}
             />
           </p>

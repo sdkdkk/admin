@@ -12,22 +12,18 @@ import { logoutIfInvalidToken } from "../../helpers/handleError";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Addnewuser = () => {
-  const [defaultValues, setDefaultValues] = useState({});
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
     reset,
-    getValues,
-    setValue
+      setValue
   } = useForm({ });
   const password = watch("password");
   const navigate = useNavigate();
   const notify = (data) => toast(data);
   const [loading, setLoading] = useState(false);
-  const [isEditMode, setIsEditMode] = useState(false);
-
   const [loading1, setLoading1] = useState(false);
   const [data, setData] = useState([]);
   const [roleData, setRoleData] = useState([]);
@@ -68,7 +64,6 @@ const Addnewuser = () => {
           username: data.username,
           email: data.email,
           password: data.password,
-          //   cpassword: data.cpassword,
           role: data.role,
           isactive: data.isactive,
           mainpassword: data.mainpassword,
@@ -136,18 +131,11 @@ const Addnewuser = () => {
   const filtrData = data.filter((item) => item._id === id);
 
   const roleValue = filtrData?.[0]?.role?.rolename;
-
-  const roleId = roleData.find((item) =>
-    item.rolename === roleValue ? item._id : ""
-  );
-
   const defaultRoleId = roleData?.find((a) => a.rolename === roleValue)?._id;
 
   useEffect(() => {
     if(!filtrData?.[0] || !defaultRoleId) return
     const defaultData = { ...filtrData?.[0], role: defaultRoleId };
-    // setDefaultValues({ isactive: defaultData?.isactive });
-    // delete defaultData.isactive;
     reset(defaultData);
     setValue("isactive", filtrData?.[0]?.isactive.toString())
   }, [data, defaultRoleId]);
@@ -168,12 +156,7 @@ const Addnewuser = () => {
                   <div className="card new-table">
                     <div className="card-body">
                       {loading1 ? (
-                        <p
-                          style={{
-                            marginLeft: "400px",
-                            marginTop: "50px",
-                          }}
-                        >
+                        <p className="loader-container">
                           <ColorRing
                             visible={true}
                             height="80"
@@ -278,8 +261,6 @@ const Addnewuser = () => {
                               id="user-role"
                               defaultValue={defaultRoleId}
                               {...register("role", { required: true })}
-                              //  placeholder="Please select your Role"
-                              //  value={roleId === roleValue}
                             >
                               {roleData &&
                                 roleData.map((value) => {
@@ -316,10 +297,6 @@ const Addnewuser = () => {
                                 {...register("isactive", {
                                   required: "Please select an account status",
                                 })}
-                                // checked={
-                                //   formIsActive == 1 ? true : false
-                                // }
-                                //   checked={tableEditData?.[0]?.isactive === 1}
                               />
                               <label
                                 className="form-check-label"
@@ -340,10 +317,6 @@ const Addnewuser = () => {
                                 {...register("isactive", {
                                   required: "Please select an account status",
                                 })}
-                                // checked={
-                                //   formIsActive == 0 ? true : false
-                                // }
-                                //   checked={tableEditData?.[0]?.isactive === 0}
                               />
                               <label
                                 className="form-check-label"

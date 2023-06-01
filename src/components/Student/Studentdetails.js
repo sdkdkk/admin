@@ -37,24 +37,16 @@ const Studentdetails = () => {
           token: token,
         }
       );
-      const response2 = await axios.post(
-        `${url}/admin/studentdetails/${_id}`,
-        {
-          token: token,
-        }
-      );
+      const response2 = await axios.post(`${url}/admin/studentdetails/${_id}`, {
+        token: token,
+      });
       setStudentque(response.data.message);
       setStudenttransation(response1.data.transaction);
       setStudentdetail(response2.data.document);
       setLoader(false);
     } catch (error) {
-      logoutIfInvalidToken(error.response)
+      logoutIfInvalidToken(error.response);
       if (error.response) {
-       
-      } else if (error.request) {
-        
-      } else {
-        
       }
     }
   };
@@ -74,7 +66,6 @@ const Studentdetails = () => {
     setCurrentPage(value);
   };
 
-  const [clicked, setClicked] = useState(false);
   const [currentPage1, setCurrentPage1] = useState(1);
   const [postsPerPage1] = useState(6);
   const indexOfLastPage1 = currentPage1 * postsPerPage1;
@@ -100,19 +91,31 @@ const Studentdetails = () => {
         <Sidebar />
         <div className="main-details" style={{ width: "inherit" }}>
           {Loader ? (
-            <div
-              className="loader-end text-center"
-              style={{ marginTop: "250px" }}>
+            <div className="loader-end text-center">
               {Loader ? (
-                <ColorRing
-                  visible={true}
-                  height="80"
-                  width="80"
-                  ariaLabel="blocks-loading"
-                  wrapperStyle={{}}
-                  wrapperClass="blocks-wrapper"
-                  colors={["black"]}
-                />
+                <p
+                  style={{
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100vh",
+                  }}>
+                  <ColorRing
+                    visible={true}
+                    height="80"
+                    width="80"
+                    ariaLabel="blocks-loading"
+                    wrapperStyle={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: "100vh",
+                    }}
+                    colors={["black"]}
+                  />
+                </p>
               ) : null}
             </div>
           ) : (

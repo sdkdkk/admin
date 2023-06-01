@@ -7,11 +7,11 @@ import { ColorRing } from "react-loader-spinner";
 import { Button, Table } from "react-bootstrap";
 import { Pagination } from "@mui/material";
 import { Link } from "react-router-dom";
+import "../Css/Tutorlist.css";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const IssueQuestion = () => {
-  const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [data, setData] = useState([]);
 
@@ -31,13 +31,10 @@ const IssueQuestion = () => {
       setData(response.data.message);
       setLoading1(false);
     } catch (error) {
-      // notify("Invalid refresh token!");
       setLoading1(false);
     }
   };
-  //table pagination
 
-  //   console.log(data[0].allQuestions);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(8);
   const indexOfLastPage = currentPage * postsPerPage;
@@ -55,7 +52,6 @@ const IssueQuestion = () => {
           <Navbar />
           <div className="container-fluid page-body-wrapper">
             <Sidebar />
-
             <div className="main-panel">
               <div className="content-wrapper">
                 <div className="row mt-3">
@@ -66,8 +62,7 @@ const IssueQuestion = () => {
                         <div className="table-container my-4">
                           {loading1 ? (
                             <p
-                              style={{ marginLeft: "400px", marginTop: "50px" }}
-                            >
+                            className="loader-container">
                               <ColorRing
                                 visible={true}
                                 height="80"
@@ -85,17 +80,15 @@ const IssueQuestion = () => {
                                 bordered
                                 hover
                                 responsive
-                                className="single-color"
-                              >
+                                className="single-color">
                                 <thead>
                                   <tr>
                                     <th scope="col">No.</th>
                                     <th scope="col">Questions</th>
                                     <th scope="col">Subject</th>
                                     <th scope="col">Type </th>
-                                                                          <th scope="col">Status</th>
-                                                                          <th scope="col">newreason</th>
-                                                                          
+                                    <th scope="col">Status</th>
+                                    <th scope="col">newreason</th>
                                     <th scope="col">Action</th>
                                   </tr>
                                 </thead>
@@ -123,8 +116,7 @@ const IssueQuestion = () => {
                                       <td>
                                         <Link
                                           to={`/issueinfo/${id}`}
-                                          state={{ issueData: item }}
-                                        >
+                                          state={{ issueData: item }}>
                                           <Button className="btn-info">
                                             View
                                           </Button>
