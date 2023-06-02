@@ -78,12 +78,12 @@ const Curruncy = () => {
               <div className="page-header">
                 <h3 className="page-title"> Curruncy Conversion Rate </h3>
               </div>
-              <div class="row mt-3">
-                <div class="col-12 grid-margin stretch-card">
-                  <div class="card new-table">
-                    <div class="card-body">
-                      <div class="converter-container">
-                        <div class="input-container">
+              <div className="row mt-3">
+                <div className="col-12 grid-margin stretch-card">
+                  <div className="card new-table">
+                    <div className="card-body">
+                      <div className="converter-container">
+                        <div className="input-container">
                           {loading ? (
                              <p className="loader-container">
                              <ColorRing
@@ -98,7 +98,7 @@ const Curruncy = () => {
                            </p>
                           ) : (
                             <form onSubmit={handleSubmit(onSubmit)}>
-                              <label className="usd" for="usd-input">
+                              <label className="usd" htmlFor="usd-input">
                                 1 USD =
                               </label>
                               <input

@@ -209,7 +209,7 @@ const StudentClass = () => {
                               </thead>
                               <tbody>
                                 {displayUsers.map((data, index, _id) => (
-                                  <tr>
+                                  <tr key={data._id}>
                                     <td>
                                       {index +
                                         1 +

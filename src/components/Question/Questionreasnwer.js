@@ -28,16 +28,13 @@ const Questionreasnwer = () => {
     const fetchData = async () => {
       try {
         setLoading1(true);
-        const response = await axios.post(
-          `${url}/admin/getreanswer`,
-          {
-            token: token,
-          }
-        );
+        const response = await axios.post(`${url}/admin/getreanswer`, {
+          token: token,
+        });
         setConversionRate(response.data.data);
         setLoading1(false);
       } catch (error) {
-        logoutIfInvalidToken(error.response)
+        logoutIfInvalidToken(error.response);
         // notify("Invalid refresh token!");
         setLoading(false);
       }
@@ -58,20 +55,17 @@ const Questionreasnwer = () => {
       const minutes = data.minutes ? parseInt(data.minutes) : 0;
       const reanswerTime = hours * 60 + minutes;
       //   const { hours, minutes } = data.reanswer_time;
-      const response = await axios.post(
-        `${url}/admin/setreanswer`,
-        {
-          choice: reanswer === "yes",
-          reanswer_time: parseInt(reanswerTime),
-          token: token,
-        }
-      );
+      const response = await axios.post(`${url}/admin/setreanswer`, {
+        choice: reanswer === "yes",
+        reanswer_time: parseInt(reanswerTime),
+        token: token,
+      });
       if (response.data.status === 1) {
         notify(response.data.message);
         e.target.reset();
       }
     } catch (error) {
-      logoutIfInvalidToken(error.response)
+      logoutIfInvalidToken(error.response);
       notify(error.response.data.error);
     } finally {
       setLoading(false); // set loading to false when API call is complete

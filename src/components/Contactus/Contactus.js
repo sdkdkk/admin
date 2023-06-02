@@ -129,7 +129,6 @@ const Contactus = () => {
         <Navbar />
         <div className="container-fluid page-body-wrapper">
           <Sidebar />
-
           <div className="main-panel">
             <div className="content-wrapper">
               <div className="oneline">
@@ -140,14 +139,16 @@ const Contactus = () => {
                   <div className="d-grid gap-2 d-md-flex justify-content-md-end">
                     <button
                       onClick={fetchData1}
-                      className={activeButton === 1 ? "activeb" : ""}
+                      className={activeButton === 1 ?  "btn btn-primary"
+                      : "btn btn-light"}
                       type="button"
                       style={{ borderRadius: "4px" }}>
                       Student Contact
                     </button>
                     <button
                       onClick={fetchData2}
-                      className={activeButton === 2 ? "activeb" : ""}
+                      className={activeButton === 2  ? "btn btn-primary"
+                      : "btn btn-light"}
                       type="button"
                       style={{ borderRadius: "4px" }}>
                       Tutor Contact
@@ -162,7 +163,7 @@ const Contactus = () => {
                     <div className="card">
                       <div className="card-body">
                         <div className="row">
-                          <div className="col-md-6">
+                          <div className="col-12 col-md-6">
                             <input
                               type="text"
                               id="fname"
@@ -172,14 +173,14 @@ const Contactus = () => {
                               onChange={(e) => setSearchName(e.target.value)}
                             />
                           </div>
-                          <div className="col-md-2">
+                          <div className="col-12 col-md-2 mt-3 mt-md-0">
                             <Button
                               className="algin-right"
                               onClick={handleSearch}>
                               Search
                             </Button>
                           </div>
-                          <div className="col-lg-4">
+                          <div className="col-12 col-md-4 mt-3 mt-md-0">
                             <div className="filter-select rbt-modern-select ">
                               <div className="dropdown react-bootstrap-select w-100">
                                 <select
@@ -226,7 +227,7 @@ const Contactus = () => {
                                 <th scope="col">Action</th>
                               </tr>
                             </thead>
-                            {displayUsers &&
+                            {displayUsers && displayUsers.length > 0 ? (
                               displayUsers.map((data) => (
                                 <tbody key={data._id}>
                                   <tr>
@@ -245,7 +246,16 @@ const Contactus = () => {
                                     </td>
                                   </tr>
                                 </tbody>
-                              ))}
+                              ))
+                            ) : (
+                              <tbody>
+                                <tr>
+                                  <td colSpan="8">
+                                    <h4>No contact Found ...</h4>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            )}
                           </table>
                           <div className="table-pagination">
                             <Pagination

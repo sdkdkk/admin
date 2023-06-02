@@ -173,17 +173,17 @@ const Tutorsubject = () => {
                     <div className="card-body">
                       <div className="table-container">
                         {loading1 ? (
-                           <p className="loader-container">
-                           <ColorRing
-                             visible={true}
-                             height="80"
-                             width="80"
-                             ariaLabel="blocks-loading"
-                             wrapperStyle={{}}
-                             wrapperClass="blocks-wrapper"
-                             colors={["black"]}
-                           />
-                         </p>
+                          <p className="loader-container">
+                            <ColorRing
+                              visible={true}
+                              height="80"
+                              width="80"
+                              ariaLabel="blocks-loading"
+                              wrapperStyle={{}}
+                              wrapperClass="blocks-wrapper"
+                              colors={["black"]}
+                            />
+                          </p>
                         ) : (
                           <>
                             <Table
@@ -201,7 +201,7 @@ const Tutorsubject = () => {
                               </thead>
                               <tbody>
                                 {displayUsers.map((data, index, _id) => (
-                                  <tr>
+                                  <tr key={data._id}>
                                     <td>
                                       {index +
                                         1 +

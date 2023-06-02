@@ -137,9 +137,9 @@ const Professionaldetails = () => {
                     <h3 className="page-title">Personal Details:</h3>
                   </div>
                   {user &&
-                    user.map((data) => {
+                    user.map((data , index) => {
                       return (
-                        <Form onSubmit={handleSubmit(onSubmit)}>
+                        <Form  key={index} onSubmit={handleSubmit(onSubmit)}>
                           <div className="row">
                             <div className="col-12 grid-margin stretch-card">
                               <div className="card">

@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-// import axios from "axios";
 import { Button } from "react-bootstrap";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
@@ -9,19 +8,15 @@ import { DateObject } from "react-multi-date-picker";
 import DatePicker from "react-multi-date-picker";
 import InputIcon from "react-multi-date-picker/components/input_icon";
 import { Pagination } from "@mui/material";
-// import { TutorList } from "../Data/Data1";
 import { useDispatch, useSelector } from "react-redux";
 import { tutorunverified } from "../../Redux/Loginpages/tutorunverifiedSlice";
 import { Tutorswarning } from "../../Redux/Loginpages/tutorwarningSlice";
 import { Link } from "react-router-dom";
 import { tutorworking } from "../../Redux/Loginpages/tutorworkingSlice";
-
 import { ColorRing } from "react-loader-spinner";
 import Moment from "react-moment";
 import { Tutortrial } from "../../Redux/Loginpages/tutortrialSlice";
 import { Tutorsuspend } from "../../Redux/Loginpages/tutorSuspendSlice";
-
-
 
 const Tutorlist = () => {
   //table
@@ -29,12 +24,17 @@ const Tutorlist = () => {
   const warning = useSelector((state) => state.warning.data.document);
   const working = useSelector((state) => state.working.data.document);
   const suspend = useSelector((state) => state.suspend.data.document);
-
   const trial = useSelector((state) => state.trial.data.document);
   const isLoadinguser = useSelector((state) => state.user.isLoading);
 
   const [selectedStatus, setSelectedStatus] = useState("working");
-  const [status, setStatus] = useState({ users: [], warning: [], working: [], suspend: [], trial: [] });
+  const [status, setStatus] = useState({
+    users: [],
+    warning: [],
+    working: [],
+    suspend: [],
+    trial: [],
+  });
 
   const [searchTerm, setSearchTerm] = useState("");
   const [currentData, setCurrentData] = useState([]);
@@ -95,7 +95,6 @@ const Tutorlist = () => {
     new DateObject().add(4, "days"),
   ]);
 
-
   //Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(8);
@@ -103,17 +102,11 @@ const Tutorlist = () => {
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
   let displayUsers =
     currentData && currentData.slice(indexOfFirstPage, indexOfLastPage);
-  const totalPages = Math.ceil(currentData?.length / postsPerPage);
+  const totalPages = Math.ceil((currentData?.length || 0) / postsPerPage);
 
   const handleChange = (event, value) => {
     setCurrentPage(value);
   };
-
-  function numberWithCommas(subjects) {
-    return subjects && subjects.toLocaleString();
-  }
-
-
 
   const searchItem = () => {
     const firstDate =
@@ -142,31 +135,30 @@ const Tutorlist = () => {
         <Navbar />
         <div className="container-fluid page-body-wrapper">
           <Sidebar />
-
           {isLoadinguser ? (
             <p
-            style={{
-              marginLeft: "auto",
-              marginRight: "auto",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "100vh",
-            }}>
-            <ColorRing
-              visible={true}
-              height="80"
-              width="80"
-              ariaLabel="blocks-loading"
-              wrapperStyle={{
+              style={{
+                marginLeft: "auto",
+                marginRight: "auto",
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
                 height: "100vh",
-              }}
-              colors={["black"]}
-            />
-          </p>
+              }}>
+              <ColorRing
+                visible={true}
+                height="80"
+                width="80"
+                ariaLabel="blocks-loading"
+                wrapperStyle={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "100vh",
+                }}
+                colors={["black"]}
+              />
+            </p>
           ) : (
             <div className="main-panel">
               <div className="content-wrapper">
@@ -178,7 +170,11 @@ const Tutorlist = () => {
                     <div className="d-grid gap-2 d-md-flex justify-content-md-end">
                       <button
                         onClick={fetchData3}
-                        className={activeButton === 1 ? "btn btn-primary" : "btn btn-light"}
+                        className={
+                          activeButton === 1
+                            ? "btn btn-primary"
+                            : "btn btn-light"
+                        }
                         // className="btn btn-primary me-md-2 active"
                         type="button"
                         style={{ borderRadius: "4px" }}>
@@ -186,7 +182,11 @@ const Tutorlist = () => {
                       </button>
                       <button
                         onClick={fetchData2}
-                        className={activeButton === 2 ? "btn btn-primary" : "btn btn-light"}
+                        className={
+                          activeButton === 2
+                            ? "btn btn-primary"
+                            : "btn btn-light"
+                        }
                         // className="btn btn-primary"
                         type="button"
                         style={{ borderRadius: "4px" }}>
@@ -194,7 +194,11 @@ const Tutorlist = () => {
                       </button>
                       <button
                         onClick={fetchData1}
-                        className={activeButton === 3 ?"btn btn-primary" : "btn btn-light"}
+                        className={
+                          activeButton === 3
+                            ? "btn btn-primary"
+                            : "btn btn-light"
+                        }
                         // className="btn btn-primary"
                         type="button"
                         style={{ borderRadius: "4px" }}>
@@ -202,7 +206,11 @@ const Tutorlist = () => {
                       </button>
                       <button
                         onClick={fetchData4}
-                        className={activeButton === 4 ? "btn btn-primary" : "btn btn-light"}
+                        className={
+                          activeButton === 4
+                            ? "btn btn-primary"
+                            : "btn btn-light"
+                        }
                         // className="btn btn-primary"
                         type="button"
                         style={{ borderRadius: "4px" }}>
@@ -210,7 +218,11 @@ const Tutorlist = () => {
                       </button>
                       <button
                         onClick={fetchData5}
-                        className={activeButton === 5 ? "btn btn-primary" : "btn btn-light"}
+                        className={
+                          activeButton === 5
+                            ? "btn btn-primary"
+                            : "btn btn-light"
+                        }
                         // className="btn btn-primary"
                         type="button"
                         style={{ borderRadius: "4px" }}>
@@ -289,12 +301,16 @@ const Tutorlist = () => {
                                     <th scope="col">Moble No</th>
                                     <th scope="col">Subject</th>
                                     <th scope="col">Balance</th>
-                                    {activeButton === 2 && <th scope="col">No. of worning Que</th>}
-                                    {activeButton === 5 &&  <th scope="col">No. of reaming day</th>}
+                                    {activeButton === 2 && (
+                                      <th scope="col">No. of worning Que</th>
+                                    )}
+                                    {activeButton === 5 && (
+                                      <th scope="col">No. of reaming day</th>
+                                    )}
                                     <th scope="col">Action</th>
                                   </tr>
                                 </thead>
-                                {displayUsers &&
+                                {displayUsers && displayUsers.length > 0 ? (
                                   displayUsers.map((data) => (
                                     <tbody key={data._id}>
                                       <tr>
@@ -314,32 +330,49 @@ const Tutorlist = () => {
                                         <td>{data.mobileNo || "-"}</td>
                                         <td>
                                           {data.subjects &&
-                                            data.subjects?.length > 0
+                                          data.subjects?.length > 0
                                             ? data.subjects
-                                              .slice(0, 2)
-                                              .join(", ")
+                                                .slice(0, 2)
+                                                .join(", ")
                                             : "-"}
                                         </td>
                                         <td>
                                           {data.balance
                                             ? parseFloat(data.balance).toFixed(
-                                              2
-                                            )
+                                                2
+                                              )
                                             : "-"}
                                         </td>
-                                        {activeButton === 2 && <td className="text-center">{data.warningQuestions}</td>}
-                                        {activeButton === 5 && <td className="text-center">{data.daysRemaining}</td>}
+                                        {activeButton === 2 && (
+                                          <td className="text-center">
+                                            {data.warningQuestions}
+                                          </td>
+                                        )}
+                                        {activeButton === 5 && (
+                                          <td className="text-center">
+                                            {data.daysRemaining}
+                                          </td>
+                                        )}
                                         <td>
                                           <Link
                                             to={`/tutordetails/${data._id}/${activeButton}`}>
                                             <button className="btn btn-primary btn-sm">
-                                              click
+                                              Click
                                             </button>
                                           </Link>
                                         </td>
                                       </tr>
                                     </tbody>
-                                  ))}
+                                  ))
+                                ) : (
+                                  <tbody>
+                                    <tr>
+                                      <td colSpan="8">
+                                        <h4>No Tutor Found ...</h4>
+                                      </td>
+                                    </tr>
+                                  </tbody>
+                                )}
                               </table>
                               <div className="table-pagination">
                                 <Pagination

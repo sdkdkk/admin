@@ -123,7 +123,10 @@ const Studentdetails = () => {
               {studentdetail.map((data) => {
                 return (
                   <>
-                    <div className="row" style={{ backgroundColor: "#c0d7ff" }}>
+                    <div
+                     key={data._id}
+                      className="row"
+                      style={{ backgroundColor: "#c0d7ff" }}>
                       <div className="col">
                         <div className="profile">
                           <div className="profile-img mt-2">
@@ -184,9 +187,9 @@ const Studentdetails = () => {
                       </thead>
                       <tbody>
                         <>
-                          {displaytransation.map((Data, id) => {
+                          {displaytransation.map((Data) => {
                             return (
-                              <tr key={id}>
+                              <tr key={Data._id}>
                                 <td colSpan="2">
                                   <Moment format="D MMM YYYY" withTitle>
                                     {Data.date}
@@ -245,7 +248,7 @@ const Studentdetails = () => {
                             </thead>
                             <tbody>
                               {displayque.map((data) => (
-                                <tr>
+                                <tr key={data._id}>
                                   <td
                                     style={{ cursor: "pointer" }}
                                     onClick={() => {
