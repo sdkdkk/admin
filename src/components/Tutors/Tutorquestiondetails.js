@@ -9,6 +9,8 @@ import Fillups from "../Questionpages/Fillups";
 import Matchfollow from "../Questionpages/Matchfollow";
 import Questionanswer from "../Questionpages/Questionanswer";
 import { Button } from "react-bootstrap";
+import { toast } from "react-toastify";
+import axios from "axios";
 
 const Tutorquestiondetails = () => {
   const [editing, setEditing] = useState(false);
@@ -22,6 +24,21 @@ const Tutorquestiondetails = () => {
     setEditing(true);
     setEditData(location.state.data.allQuestions); // Set editData with current data
   };
+const token = localStorage.getItem("token")
+
+  function handleDeleteClick(_id) {
+    axios
+      .post(`https://vaidik-backend.onrender.com/api/v1/admin/deletequestion`, {
+        token: token,
+      })
+      .then((response) => {
+        // fetchSubjectData();
+        toast.success(response.data.message);
+      })
+      .catch((error) => {
+        toast.error(error.data.message);
+      });
+  }
   return (
     <>
       <div className="container-scroller">
@@ -71,7 +88,6 @@ const Tutorquestiondetails = () => {
                                     <Questionanswer />
                                   )}
                                 </div>
-                               
                               </div>
                             </div>
                           </div>
