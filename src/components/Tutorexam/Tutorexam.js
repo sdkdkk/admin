@@ -247,7 +247,7 @@ const Tutorexam = () => {
                               {...register("questionSubject")}>
                               <option>Select Subject</option>
                               {subjectList.map((a) => (
-                                <option value={a.questionSubject}>
+                                <option key={a._id} value={a.questionSubject}>
                                   {a.questionSubject}
                                 </option>
                               ))}
@@ -502,7 +502,7 @@ const Tutorexam = () => {
                         onChange={(e) => setQuestionSubject(e.target.value)}
                         id="displayname">
                         {subjectList.map((a) => (
-                          <option value={a.questionSubject}>
+                          <option key={a._id} value={a.questionSubject}>
                             {a.questionSubject}
                           </option>
                         ))}
@@ -531,9 +531,9 @@ const Tutorexam = () => {
                 <div className="col-md-12 grid-margin stretch-card">
                   <div className="card">
                     <div className="card-body">
-                      <div class="table-responsive">
-                        <table class="table">
-                          <thead class="text-uppercase">
+                      <div className="table-responsive">
+                        <table className="table">
+                          <thead className="text-uppercase">
                             <tr>
                               <th scope="col">Question</th>
                               <th scope="col">Question Type</th>
@@ -541,22 +541,24 @@ const Tutorexam = () => {
                               {/* <th scope="col">Action</th> */}
                             </tr>
                           </thead>
-                          <tbody class="text-capitalize text-sm-start">
+                          <tbody className="text-capitalize text-sm-start">
                             {[...tutorexamquestionData].map((data, id) => {
                               return (
-                                <tr class="" key={data._id}>
-                                  <td class="d-flex flex-column">
-                                    <small class="text-muted">
+                                <tr key={data._id}>
+                                  <td className="d-flex flex-column">
+                                    <small className="text-muted">
                                       <Badge
                                         pill
                                         color="primary"
-                                        class="bg-opacity-25 text-primary">
+                                        className="bg-opacity-25 text-primary">
                                         {data.questionType}
                                       </Badge>
                                       {data.questionSubject}
                                     </small>
                                     <small>
-                                      <p class="question">{data.question}</p>
+                                      <p className="question">
+                                        {data.question}
+                                      </p>
                                     </small>
                                     <small>
                                       <ReadMore>{data.answer}</ReadMore>
@@ -564,7 +566,7 @@ const Tutorexam = () => {
                                   </td>
                                   <td>{data.questionType}</td>
                                   <td>{data.questionSubject}</td>
-                                  <td class="text-center">
+                                  <td className="text-center">
                                     <div className="dropdown">
                                       <button
                                         className="dropdown__button"

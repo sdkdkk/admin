@@ -71,7 +71,6 @@ console.log(_id);
     fetchData();
   }, []);
 
-  console.log(data);
   const approveTutors = async () => {
     const tutorsObjData = {
       token: token,
@@ -260,7 +259,6 @@ console.log(_id);
 
                           <div>
                             <strong>Bank Name:</strong>
-
                             {data.bankdetails?.bankName || ""}
                           </div>
                           <div>
@@ -313,7 +311,6 @@ console.log(_id);
                             <strong>Rs.{data.balance}</strong>
                           </h4>
                         </div>
-
                         {active === "3" ? (
                           <div className=" text-center">
                             <hr />
@@ -462,7 +459,6 @@ console.log(_id);
                     </div>
                   </div>
                 </div>
-
                 {active === "2" ? (
                   <>
                     <div className=" text-start heading-main mt-5">
@@ -522,7 +518,6 @@ console.log(_id);
                                             .split(" ")
                                             .slice(0, 3)
                                             .join(" ")}
-                                          ...
                                         </td>
                                         <td>
                                           {data.allQuestions.questionType}
@@ -533,7 +528,7 @@ console.log(_id);
                                         <td>{data.allQuestions.tutorPrice}</td>
                                         <td>{data.allQuestions.status}</td>
                                       </tr>
-                                    ))}{" "}
+                                    ))}
                                   </tbody>
                                 </table>
                                 <div className="table-pagination">

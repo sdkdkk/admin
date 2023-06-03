@@ -16,11 +16,9 @@ const Searchengine = () => {
   let navigate = useNavigate();
   const dispatch = useDispatch();
 
-
   const toComponentB = (data) => {
     navigate("/Searchenginequedetail", { state: { data } });
   };
-
 
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
@@ -30,7 +28,7 @@ const Searchengine = () => {
     const skip = (currentPage - 1) * itemsPerPage;
     var limit = itemsPerPage;
     dispatch(searchengine(limit, skip, 0)).then(() => {
-      setIsLoading(false); 
+      setIsLoading(false);
     });
   }, [currentPage, itemsPerPage]);
 
@@ -92,17 +90,13 @@ const Searchengine = () => {
                           </thead>
                           <tbody>
                             {searchengineData.map((data) => (
-                              <tr>
+                              <tr key={data.id}>
                                 <td
                                   style={{ cursor: "pointer" }}
                                   onClick={() => {
                                     toComponentB(data);
                                   }}>
-                                  {data.question
-                                    .split(" ")
-                                    .slice(0, 3)
-                                    .join(" ")}
-                                  ...
+                                  {data.question.split(" ").slice(0, 3).join(" ")}
                                 </td>
                                 <td>{data.questionType}</td>
                                 <td>{data.questionSubject}</td>
@@ -127,8 +121,7 @@ const Searchengine = () => {
                         </button>
                         <button
                           className="btn btn-primary"
-                          onClick={() => setCurrentPage(currentPage + 1)}
-                        >
+                          onClick={() => setCurrentPage(currentPage + 1)}>
                           {" "}
                           next{" "}
                         </button>

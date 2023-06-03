@@ -45,7 +45,6 @@ const Studentreferral = () => {
         token: token,
       });
       setExtrasum(response.data.document);
-      console.log(response.data.document);
       setLoading1(false);
     } catch (error) {
       logoutIfInvalidToken(error.response);
