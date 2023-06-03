@@ -8,37 +8,14 @@ import Mcqquestion from "../Questionpages/Mcqquestion";
 import Fillups from "../Questionpages/Fillups";
 import Matchfollow from "../Questionpages/Matchfollow";
 import Questionanswer from "../Questionpages/Questionanswer";
-import { Button } from "react-bootstrap";
-import { toast } from "react-toastify";
-import axios from "axios";
+
 
 const Tutorquestiondetails = () => {
-  const [editing, setEditing] = useState(false);
-  const [editData, setEditData] = useState({}); //
-  const [formData, setFormData] = useState({
-    /* initial data */
-  });
-  const location = useLocation();
-  const getresponse = location.state.data.allQuestions;
-  const handleEdit = () => {
-    setEditing(true);
-    setEditData(location.state.data.allQuestions); // Set editData with current data
-  };
-const token = localStorage.getItem("token")
 
-  function handleDeleteClick(_id) {
-    axios
-      .post(`https://vaidik-backend.onrender.com/api/v1/admin/deletequestion`, {
-        token: token,
-      })
-      .then((response) => {
-        // fetchSubjectData();
-        toast.success(response.data.message);
-      })
-      .catch((error) => {
-        toast.error(error.data.message);
-      });
-  }
+  const location = useLocation();
+  
+
+
   return (
     <>
       <div className="container-scroller">
@@ -67,10 +44,10 @@ const token = localStorage.getItem("token")
                                     location.state.data.allQuestions
                                       .questionType === "MCQ" ? (
                                     <Mcqquestion
-                                      question={
-                                        location.state.data.allQuestions
-                                          .question
-                                      }
+                                      // question={
+                                      //   location.state.data.allQuestions
+                                      //     .question
+                                      // }
                                     />
                                   ) : location.state.data.allQuestions
                                       .questionType === "FillInBlanks-exp" ||

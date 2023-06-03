@@ -295,8 +295,8 @@ const Tutorlist = () => {
                                   </tr>
                                 </thead>
                                 {displayUsers &&
-                                  displayUsers.map((data) => (
-                                    <tbody key={data._id}>
+                                  displayUsers.map((data, id) => (
+                                    <tbody key={id}>
                                       <tr>
                                         {data.updatedAt ? (
                                           <td>

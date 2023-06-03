@@ -22,7 +22,7 @@ const url = process.env.REACT_APP_API_BASE_URL;
 const Tutordetails = () => {
   const dispatch = useDispatch();
   const { _id, active } = useParams();
-
+console.log(_id);
   useEffect(() => {
     dispatch(tutordetail(_id));
   }, [dispatch, _id]);
@@ -196,8 +196,8 @@ const Tutordetails = () => {
   };
 
   const toComponentB = (data) => {
-    console.log(data);
-    navigate("/tutorquestiondetails", { state: { data } });
+    console.log(data,_id);
+    navigate("/tutorquestiondetails", { state: { data,_id } });
   };
 
   return (

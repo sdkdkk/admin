@@ -7,15 +7,17 @@ import axios from "axios";
 import { Controller, useForm } from "react-hook-form";
 import { Button } from "react-bootstrap";
 import { toast } from "react-toastify";
+import { useSelector } from "react-redux";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Mcqquestion = () => {
-  
   const location = useLocation();
+  console.log(location.state._id);
+
   const questionId = location.state.data.allQuestions.questionId;
-  const tutorId = location.state.data._id;
- 
+  const tutorId = location.state._id;
+
   const answer = location.state.data.allQuestions.answer;
   const explation = location.state.data.allQuestions.explanation;
   // Get the answer from location
@@ -30,7 +32,6 @@ const Mcqquestion = () => {
   };
   const [isEditing, setEditing] = useState(false);
   const onSubmit = async (data) => {
-   
     const token = localStorage.getItem("token");
     try {
       // setLoading1(true);

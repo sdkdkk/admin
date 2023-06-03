@@ -81,7 +81,6 @@ const Questiontiming = () => {
       id: data.id,
     };
 
-
     try {
       const { data } = await axios.post(
         `${url}/admin/setquestiontiming`,
@@ -96,7 +95,7 @@ const Questiontiming = () => {
         notify(data.error);
       }
     } catch (error) {
-      logoutIfInvalidToken(error.response)
+      logoutIfInvalidToken(error.response);
       notify(error.response.data.error);
     }
   };
@@ -118,17 +117,14 @@ const Questiontiming = () => {
     try {
       setLoading1(true);
 
-      const response = await axios.post(
-        `${url}/admin/getquestiontiming`,
-        {
-          token: token,
-        }
-      );
+      const response = await axios.post(`${url}/admin/getquestiontiming`, {
+        token: token,
+      });
       setData(response.data.data);
 
       setLoading1(false);
     } catch (error) {
-      logoutIfInvalidToken(error.response)
+      logoutIfInvalidToken(error.response);
       setLoading1(false);
     }
   };
@@ -152,23 +148,19 @@ const Questiontiming = () => {
       unsolvedhours: Math.floor(data.unsolved_time / 60),
       unsolvedminutes: Math.floor(data.unsolved_time % 60),
     });
-
   };
 
   function handleDeleteClick(_id) {
     axios
-      .post(
-        `${url}/admin/questiontiming/${_id}`,
-        {
-          token: token,
-        }
-      )
+      .post(`${url}/admin/questiontiming/${_id}`, {
+        token: token,
+      })
       .then((response) => {
         fetchData();
         toast.success(response.data.message);
       })
       .catch((error) => {
-        toast.error(error.data.message);
+        toast.error(error.response.data.error);
       });
   }
 
