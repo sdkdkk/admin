@@ -579,12 +579,12 @@ const Tutordetails = () => {
                     ""
                   )}
                   <Link to={`/professionaldetails/${_id}`}>
-                    <button className="btn btn-outline-primary" type="button">
+                    <button className="btn btn-outline-primary mx-1" type="button">
                       Edit User
                     </button>
                   </Link>
                   <Link to={`/tutorlist`}>
-                    <button className="btn btn-primary" type="button">
+                    <button className="btn btn-primary mx-1" type="button">
                       Back to List
                     </button>
                   </Link>

@@ -132,9 +132,9 @@ const Searchquestion = () => {
                                   <td>{data.questionType}</td>
                                   <td>{data.questionSubject}</td>
                                   <td>{data.questionPrice}</td>
-                                  <td>{data.status}</td>
+                                  <td>{data.status.toLowerCase()}</td>
                                 </tr>
-                              ))}{" "}
+                              ))}
                           </tbody>
                         </table>
                       )}
