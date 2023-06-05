@@ -61,8 +61,7 @@ const IssueQuestion = () => {
                         <h3>Issue Question</h3>
                         <div className="table-container my-4">
                           {loading1 ? (
-                            <p
-                            className="loader-container">
+                            <p className="loader-container">
                               <ColorRing
                                 visible={true}
                                 height="80"
@@ -80,11 +79,13 @@ const IssueQuestion = () => {
                                 bordered
                                 hover
                                 responsive
-                                className="single-color">
+                                className="single-color"
+                              >
                                 <thead>
                                   <tr>
                                     <th scope="col">No.</th>
                                     <th scope="col">Questions</th>
+                                    <th scope="col">Question Photo</th>
                                     <th scope="col">Subject</th>
                                     <th scope="col">Type </th>
                                     <th scope="col">Status</th>
@@ -116,7 +117,8 @@ const IssueQuestion = () => {
                                       <td>
                                         <Link
                                           to={`/issueinfo/${id}`}
-                                          state={{ issueData: item }}>
+                                          state={{ issueData: item }}
+                                        >
                                           <Button className="btn-info">
                                             View
                                           </Button>

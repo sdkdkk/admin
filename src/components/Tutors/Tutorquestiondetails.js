@@ -8,20 +8,14 @@ import Mcqquestion from "../Questionpages/Mcqquestion";
 import Fillups from "../Questionpages/Fillups";
 import Matchfollow from "../Questionpages/Matchfollow";
 import Questionanswer from "../Questionpages/Questionanswer";
-import { Button } from "react-bootstrap";
+
 
 const Tutorquestiondetails = () => {
-  const [editing, setEditing] = useState(false);
-  const [editData, setEditData] = useState({}); //
-  const [formData, setFormData] = useState({
-    /* initial data */
-  });
+
   const location = useLocation();
-  const getresponse = location.state.data.allQuestions;
-  const handleEdit = () => {
-    setEditing(true);
-    setEditData(location.state.data.allQuestions); // Set editData with current data
-  };
+  
+
+
   return (
     <>
       <div className="container-scroller">
@@ -50,10 +44,10 @@ const Tutorquestiondetails = () => {
                                     location.state.data.allQuestions
                                       .questionType === "MCQ" ? (
                                     <Mcqquestion
-                                      question={
-                                        location.state.data.allQuestions
-                                          .question
-                                      }
+                                      // question={
+                                      //   location.state.data.allQuestions
+                                      //     .question
+                                      // }
                                     />
                                   ) : location.state.data.allQuestions
                                       .questionType === "FillInBlanks-exp" ||
@@ -71,7 +65,6 @@ const Tutorquestiondetails = () => {
                                     <Questionanswer />
                                   )}
                                 </div>
-                               
                               </div>
                             </div>
                           </div>
