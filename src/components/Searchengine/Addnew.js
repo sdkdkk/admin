@@ -8,7 +8,6 @@ import { Col } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import ImageResize from "quill-image-resize-module-react";
-
 import "react-quill/dist/quill.snow.css";
 import axios from "axios";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
@@ -18,16 +17,13 @@ const url = process.env.REACT_APP_API_BASE_URL;
 Quill.register("modules/imageResize", ImageResize);
 
 const Addnew = () => {
-  // const [question, setQuestion] = useState('');
-  // const [questionType, setQuestionType] = useState("");
-  // const [questionSubject, setQuestionsubject] = useState('');
-  // const [answer, setAnswer] = useState("");
+
   const [images, setImages] = useState([]);
-  // const [explanation, setExplanation] = useState("");
+
   const [questionTypes, setQuestionTypes] = useState([]);
   const [questionSubject, setQuestionSubject] = useState([]);
   const [editorHtml, setEditorHtml] = useState("");
-  // const [selectedOption, setSelectedOption] = useState("");
+ 
   const navigate = useNavigate();
   const [optionsArray, setOptionsArray] = useState([]);
   const [selectedOption, setSelectedOption] = useState("");
@@ -37,9 +33,7 @@ const Addnew = () => {
   const {
     register,
     handleSubmit,
-    // formats,
     control,
-    // modules,
     editorRef,
     reset,
     formState: { errors },
@@ -64,7 +58,6 @@ const Addnew = () => {
       ["clean"],
     ],
     clipboard: {
-      // toggle to add extra line breaks when pasting HTML:
       matchVisual: false,
     },
     imageResize: {
@@ -157,15 +150,11 @@ const Addnew = () => {
     if (event.target.value.endsWith("-exp")) {
       setIsExp(true);
     } else {
-      setIsExp(""); // Add this line
+      setIsExp(""); 
     }
-    // setQuestionType(event.target.value);
   };
 
-  // const handleChange = (event) => {
-  //   setSelectedOption(event.target.value);
-  //   setQuestionType(event.target.value);
-  // };
+ 
 
   const token = localStorage.getItem("token");
   const onSubmit = (data) => {
@@ -186,7 +175,6 @@ const Addnew = () => {
       body: formData,
     })
       .then((response) => {
-        // Reset the input fields after submitting the form
         setImages([]);
         setEditorHtml("");
         setIsLoading(false);
@@ -195,26 +183,9 @@ const Addnew = () => {
       })
       .catch((error) => {
         setIsLoading(false);
-        // handle error
       });
   };
 
-  // const handleImageChange = (event) => {
-  //   const files = event.target.files;
-  //   const imagesArray = [];
-  //   for (let i = 0; i < files.length && i < 4; i++) {
-  //     imagesArray.push(files[i]);
-  //   }
-  //   setImages(imagesArray);
-  // };
-
-  // const handleExplanationChange = (value) => {
-  //   setExplanation(value);
-  // };
-
-  // const handleAnswerChange = (value) => {
-  //   setAnswer(value);
-  // };
 
   return (
     <div>
@@ -240,7 +211,6 @@ const Addnew = () => {
                           </label>
                           <input
                             type="file"
-                            // className="custom-file-input pb--5 pt--5"
                             className="form-control"
                             id="inputGroupFile01"
                             aria-describedby="inputGroupFileAddon01"
@@ -265,8 +235,6 @@ const Addnew = () => {
                             className="form-control"
                             type="text"
                             name="question"
-                            // value={question}
-                            // onChange={(event) => setQuestion(event.target.value)}
                             {...register("question", { required: true })}
                           />
                           {errors.question && (
@@ -282,9 +250,7 @@ const Addnew = () => {
                             id="questionType"
                             className="form-control"
                             name="questionType"
-                            // value={selectedOption}
                             {...register("questionType", { required: true })}
-                            // onChange={handleChange}
                             onChange={(e) => handleChange(e)}>
                             <option value="">Select question type</option>
                             {questionTypes.map((type) => (
@@ -309,9 +275,7 @@ const Addnew = () => {
                             id="questionSubject"
                             className="form-control"
                             name="questionSubject"
-                            // value={selectedOption}
                             {...register("questionSubject", { required: true })}
-                            // onChange={handleChange}
                             onChange={(e) => handleChange(e)}>
                             <option value="">Select question Subject</option>
                             {questionSubject.map((type) => (
@@ -326,25 +290,6 @@ const Addnew = () => {
                             </p>
                           )}
                         </div>
-                        {/* <div className="mb-3">
-                          <label
-                            htmlFor="exampleInputEmail1"
-                            className="form-label">
-                            Questions Subject
-                          </label>
-                          <input
-                            type="text"
-                            // value={questionSubject}
-                            className="form-control"
-                            name="questionSubject"
-                            {...register("questionSubject", { required: true })}
-                            // onChange={(event) => setQuestionsubject(event.target.value)}
-                          />
-                          {errors.questionSubject && (
-                            <p className="error">Please Enter a Subject</p>
-                          )}
-                        </div> */}
-
                         <Col md={12}>
                           <div>
                             <p className="mx-1">Answer</p>
@@ -357,12 +302,9 @@ const Addnew = () => {
                                 <ReactQuill
                                   theme="snow"
                                   name="answer"
-                                  {...register("answer", { required: true })}
-                                  //onChange={(value) => setEditorHtml(value)}
-                                  // value={answer || ""}
+                                  {...register("answer", { required: true })}    
                                   modules={modules}
                                   formats={formats}
-                                  // onChange={handleAnswerChange}
                                   bounds={"#root"}
                                   placeholder="type Here...."
                                   ref={editorRef}
@@ -391,11 +333,8 @@ const Addnew = () => {
                                     {...register("explanation", {
                                       required: true,
                                     })}
-                                    //onChange={(value) => setEditorHtml(value)}
-                                    // value={answer || ""}
                                     modules={modules}
                                     formats={formats}
-                                    // onChange={handleExplanationChange}
                                     bounds={"#root"}
                                     placeholder="type Here...."
                                     ref={editorRef}

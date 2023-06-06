@@ -27,7 +27,9 @@ const Studentlist = () => {
   const displayUsers =
     currentData && currentData.slice(indexOfFirstPage, indexOfLastPage);
   const dispatch = useDispatch();
-  const totalPages = currentData ? Math.ceil(currentData.length / postsPerPage) : 0;
+  const totalPages = currentData
+    ? Math.ceil(currentData.length / postsPerPage)
+    : 0;
 
   //date picker
   const [values, setValues] = useState([
@@ -55,11 +57,12 @@ const Studentlist = () => {
   }, [searchTerm]);
 
   const searchItem = () => {
-    if (studentists) { // Add null check here
+    if (studentists) {
+      // Add null check here
       const filteredData = studentists.filter((item) => {
         const itemDate = new Date(item.createdAt);
         const name = item.name ? item.name.toLowerCase() : null;
-  
+
         return (
           (!values[0] || itemDate >= values[0].toDate()) &&
           (!values[1] || itemDate <= values[1].toDate()) &&
@@ -163,7 +166,8 @@ const Studentlist = () => {
                             </tr>
                           </thead>
                           {displayUsers && displayUsers.length > 0 ? (
-                          displayUsers && displayUsers.map((data) => (
+                            displayUsers &&
+                            displayUsers.map((data) => (
                               <tbody key={data._id}>
                                 <tr>
                                   <td>
