@@ -1,33 +1,29 @@
 import React, { useState } from "react";
 import "./Que.css";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import Moment from "react-moment";
 import axios from "axios";
 import { Controller, useForm } from "react-hook-form";
 import { Button } from "react-bootstrap";
 import { toast } from "react-toastify";
-import { useSelector } from "react-redux";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Mcqquestion = () => {
   const location = useLocation();
-  console.log(location.state._id);
-
-  const questionId = location.state.data.allQuestions.questionId;
-  const tutorId = location.state._id;
-
+  console.log(location.state.data.allQuestions.questionId);
   const answer = location.state.data.allQuestions.answer;
   const explation = location.state.data.allQuestions.explanation;
   // Get the answer from location
-
+  console.log(answer);
   const [imageSrc, setImageSrc] = useState("");
   const [show, setShow] = useState(false);
   const [data, setData] = useState([]);
   const { register, handleSubmit, control } = useForm({});
   const [isEditing, setEditing] = useState(false);
   const onSubmit = async (data) => {
+    console.log(data);
     const token = localStorage.getItem("token");
     try {
       // setLoading1(true);
@@ -54,23 +50,6 @@ const Mcqquestion = () => {
     }
   };
 
-  let token = localStorage.getItem("token");
-
-  function handleDeleteClick(_id) {
-    axios
-      .post(`${url}/admin/deletequestion`, {
-        token: token,
-        tutorId: tutorId,
-        questionId: questionId,
-      })
-      .then((response) => {
-        toast.success(response.data.message);
-      })
-      .catch((error) => {
-        console.log(error);
-        toast.error(error.response.data.error);
-      });
-  }
   return (
     <>
       <div className="container-scroller">
@@ -138,8 +117,7 @@ const Mcqquestion = () => {
                               />
                               <label
                                 className="form-check-label"
-                                htmlFor="rbt-radio-1"
-                              >
+                                htmlFor="rbt-radio-1">
                                 A)
                               </label>
                             </div>
@@ -188,8 +166,7 @@ const Mcqquestion = () => {
                               />
                               <label
                                 className="form-check-label"
-                                htmlFor="rbt-radio-1"
-                              >
+                                htmlFor="rbt-radio-1">
                                 C)
                               </label>
                             </div>
@@ -213,8 +190,7 @@ const Mcqquestion = () => {
                               />
                               <label
                                 className="form-check-label"
-                                htmlFor="rbt-radio-1"
-                              >
+                                htmlFor="rbt-radio-1">
                                 D)
                               </label>
                             </div>
@@ -240,17 +216,14 @@ const Mcqquestion = () => {
                   <Button
                     className="border-edit-btn"
                     size="lg"
-                    onClick={() => setEditing(!isEditing)}
-                  >
+                    onClick={() => setEditing(!isEditing)}>
                     {!isEditing && <i className="fa fa-pen" />}
                     {!isEditing ? "Edit" : "Cancel"}
                   </Button>{" "}
                   <Button className="btn-success mx-4" type="submit">
                     Update
                   </Button>
-                  <Button className="btn-danger" onClick={handleDeleteClick}>
-                    Delete
-                  </Button>
+                  <Button className="btn-danger">Delete</Button>
                 </div>
               </div>
             </form>
