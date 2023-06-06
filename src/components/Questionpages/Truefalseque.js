@@ -53,7 +53,7 @@ const Truefalseque = () => {
       <div className="container-scroller">
         <div className="container-fluid page-body-wrapper">
           <div className="container-fluid">
-            <div className="text-start">
+            <div className="mx-2 text-start">
               <p>
                 <span className="text-dark">Question Subject : </span>
                 {location.state.data.allQuestions.questionSubject}
