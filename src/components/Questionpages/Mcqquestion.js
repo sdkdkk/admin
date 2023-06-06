@@ -19,11 +19,8 @@ const Mcqquestion = () => {
   const [show, setShow] = useState(false);
   const [data, setData] = useState([]);
   const { register, handleSubmit, control } = useForm({});
-  const handleImageClick = (url) => {
-    setShow(true);
-    setImageSrc(url);
-  };
 
+  const [isEditing, setEditing] = useState(false);
   const onSubmit = async (data) => {
     console.log(data);
     const token = localStorage.getItem("token");
@@ -83,6 +80,7 @@ const Mcqquestion = () => {
                       className="p--20 rbt-border radius-6 w-100 bg-primary-opacity"
                       defaultValue={location.state.data.allQuestions.question}
                       {...register("question")}
+                      disabled={!isEditing}
                     />
 
                     {/*<span
@@ -111,6 +109,7 @@ const Mcqquestion = () => {
                                     id="rbt-radio-1"
                                     defaultChecked={answer === "a"}
                                     value="a"
+                                    disabled={!isEditing}
                                   />
                                 )}
                               />
@@ -135,6 +134,7 @@ const Mcqquestion = () => {
                                     id="rbt-radio-2"
                                     defaultChecked={answer === "b"}
                                     value="b"
+                                    disabled={!isEditing}
                                   />
                                 )}
                               />
@@ -159,6 +159,7 @@ const Mcqquestion = () => {
                                     id="rbt-radio-3"
                                     defaultChecked={answer === "c"}
                                     value="c"
+                                    disabled={!isEditing}
                                   />
                                 )}
                               />
@@ -183,6 +184,7 @@ const Mcqquestion = () => {
                                     id="rbt-radio-4"
                                     defaultChecked={answer === "d"}
                                     value="d"
+                                    disabled={!isEditing}
                                   />
                                 )}
                               />
@@ -206,13 +208,21 @@ const Mcqquestion = () => {
                     className="p--20 rbt-border radius-6 w-100 bg-primary-opacity"
                     defaultValue={location.state.data.allQuestions.explanation}
                     {...register("explanation")}
+                    disabled={!isEditing}
                   />
                 </div>
 
-                <div className="">
+                <div className="Personal-Settings-button col-lg-6">
                   {/* Render the edit/update/delete buttons based on the editing state */}
-
-                  <Button className="btn-warning mx-4" type="submit">
+                  <Button
+                    className="border-edit-btn"
+                    size="lg"
+                    onClick={() => setEditing(!isEditing)}
+                  >
+                    {!isEditing && <i className="fa fa-pen" />}
+                    {!isEditing ? "Edit" : "Cancel"}
+                  </Button>{" "}
+                  <Button className="btn-success mx-4" type="submit">
                     Update
                   </Button>
                   <Button className="btn-danger">Delete</Button>
@@ -226,7 +236,6 @@ const Mcqquestion = () => {
       <Modal show={show} onHide={() => setShow(false)}>
         <Modal.Header closeButton className="border-0"></Modal.Header>
         <Modal.Body className="text-center">
-          {" "}
           <img
             style={{ maxWidth: "100%", maxHeight: "100%" }}
             src={imageSrc}

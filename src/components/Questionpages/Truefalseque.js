@@ -33,18 +33,13 @@ const Truefalseque = () => {
               )}
             </div>
             <div className="row">
+              
               <div className="col-md-12 col-lg-12 mb--20">
                 <h5>Question</h5>
-                <input
-                  className="p--20 rbt-border radius-6 w-100 bg-primary-opacity"
-                  value={location.state.data.allQuestions.question}
-                />
-
-                {/*<span
-                    dangerouslySetInnerHTML={{
-                      __html: location.state.data.allQuestions.question,
-                    }}
-                  />*/}
+                <input className="p--20 rbt-border radius-6 w-100 bg-primary-opacity" value={location.state.data.allQuestions.question} />
+                 
+                              
+               
               </div>
               {answer && (
                 <div className="col-md-12 col-lg-12 mb--20">
