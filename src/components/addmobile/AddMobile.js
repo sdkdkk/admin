@@ -9,9 +9,13 @@ import { Controller, useForm } from "react-hook-form";
 import { ColorRing } from "react-loader-spinner";
 import { Pagination } from "@mui/material";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
+import "react-phone-input-2/lib/style.css";
+import PhoneInput from "react-phone-input-2";
 import "react-toastify/dist/ReactToastify.css";
 import "react-phone-number-input/style.css";
-import PhoneInput from "react-phone-number-input";
+import "../Css/Tutorlist.css";
+
+const url = process.env.REACT_APP_API_BASE_URL;
 
 const AddMobile = () => {
   const {
@@ -21,11 +25,6 @@ const AddMobile = () => {
     control,
     formState: { errors },
   } = useForm({});
-  //   const [phoneNumber, setPhoneNumber] = useState("");
-
-  //   const handlePhoneNumberChange = (value) => {
-  //     setPhoneNumber(value);
-  //   };
 
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
@@ -48,19 +47,14 @@ const AddMobile = () => {
   const fetchData = async () => {
     try {
       setLoading1(true);
-      const response = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/getmobileno`,
-        {
-          token: token,
-        }
-      );
-      console.log(response.data.document);
+      const response = await axios.post(`${url}/admin/getmobileno`, {
+        token: token,
+      });
+
       setData(response.data.document);
       setLoading1(false);
     } catch (error) {
       logoutIfInvalidToken(error.response);
-      console.log(error.response.data.error);
-      // notify("Invalid refresh token!");
       setLoading1(false);
     }
   };
@@ -70,32 +64,19 @@ const AddMobile = () => {
   }, []);
 
   const onSubmit = async (data) => {
-    console.log(data);
     try {
       setLoading(true);
       const requestUrl = data._id
-        ? `https://vaidik-backend.onrender.com/admin/mobileno`
-        : `https://vaidik-backend.onrender.com/admin/mobileno`;
+        ? `${url}/admin/mobileno`
+        : `${url}/admin/mobileno`;
       var response;
-      if (data._id) {
-        response = await axios.post(requestUrl, {
-          mobileNo: data.mobileNo,
-          id: data._id,
-          token: token,
-        });
-      } else {
-        response = await axios.post(requestUrl, {
-          mobileNo: data.mobileNo,
-          token: token,
-        });
-      }
-
+      response = await axios.post(requestUrl, {
+        mobileNo: data.mobileNo,
+        token: token,
+      });
       if (response.data.status === 1) {
-        // setData(response.data);
         notify(response.data.message);
         fetchData();
-
-        // setEditCouponId(null);
       }
     } catch (error) {
       logoutIfInvalidToken(error.response);
@@ -104,16 +85,15 @@ const AddMobile = () => {
       setLoading(false);
     }
   };
-  console.log(data);
 
   const handleUpdate = (coupon) => {
     reset(coupon);
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  function handleDelet(_id) {
+  function handleDelet() {
     axios
-      .post(`https://vaidik-backend.onrender.com/admin/mobileno/${_id}`, {
+      .post(`${url}/admin/mobileno`, {
         token: token,
       })
       .then((response) => {
@@ -126,11 +106,11 @@ const AddMobile = () => {
   }
 
   const formatPhoneNumber = (phoneNumber) => {
-    // Assuming phoneNumber is a string in the format "1234567890"
-    const areaCode = phoneNumber.slice(0, 3);
-    const firstPart = phoneNumber.slice(3, 6);
-    const secondPart = phoneNumber.slice(6, 10);
-    return `(${areaCode}) ${firstPart}-${secondPart}`;
+    // Assuming phoneNumber is a string in the format "918888888888"
+    const countryCode = phoneNumber.slice(0, 2);
+    const firstPart = phoneNumber.slice(2, 7);
+    const secondPart = phoneNumber.slice(7, 12);
+    return `${countryCode} ${firstPart}-${secondPart}`;
   };
 
   return (
@@ -188,7 +168,7 @@ const AddMobile = () => {
                                       )}
                                     />
                                     {errors.mobileNo && (
-                                      <p className="error-msg">
+                                      <p className="error-msg text-danger">
                                         {errors.mobileNo.message}
                                       </p>
                                     )}
@@ -201,8 +181,7 @@ const AddMobile = () => {
                             <Button
                               variant="primary"
                               type="submit"
-                              disabled={loading}
-                            >
+                              disabled={loading}>
                               {loading ? "Loading..." : "Add"}
                             </Button>
                           </div>
@@ -219,7 +198,7 @@ const AddMobile = () => {
                     <div className="card-body">
                       <div className="table-container">
                         {loading1 ? (
-                          <p style={{ marginLeft: "400px", marginTop: "50px" }}>
+                          <p className="loader-container">
                             <ColorRing
                               visible={true}
                               height="80"
@@ -237,8 +216,7 @@ const AddMobile = () => {
                               bordered
                               hover
                               responsive
-                              className="single-color"
-                            >
+                              className="single-color">
                               <thead>
                                 <tr>
                                   <th>Sr. No</th>
@@ -258,15 +236,13 @@ const AddMobile = () => {
                                     <td>
                                       <Button
                                         variant="success"
-                                        onClick={() => handleUpdate(data)}
-                                      >
+                                        onClick={() => handleUpdate(data)}>
                                         Update
                                       </Button>
                                       <Button
                                         className="mx-2"
                                         variant="danger"
-                                        onClick={() => handleDelet(data._id)}
-                                      >
+                                        onClick={() => handleDelet(data._id)}>
                                         Delete
                                       </Button>
                                     </td>
@@ -281,7 +257,6 @@ const AddMobile = () => {
                                 onChange={handleChange}
                                 shape="rounded"
                                 variant="outlined"
-                                // showFirstButton
                               />
                             </div>
                           </>

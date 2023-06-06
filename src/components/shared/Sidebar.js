@@ -126,7 +126,28 @@ const Sidebar = () => {
               <i className="icon-screen-desktop menu-icon"></i>
             </Link>
           </li>
-
+          {/* Student */}
+          <li className="nav-item">
+            <a
+              className="nav-link"
+              data-toggle="collapse"
+              href="#student-menu"
+              aria-expanded="false"
+              aria-controls="student-menu"
+            >
+              <span className="menu-title">Issue Question</span>
+              <i className="icon-layers menu-icon"></i>
+            </a>
+            <div className="collapse" id="student-menu">
+              <ul className="nav flex-column sub-menu">
+                <li className="nav-item">
+                  <Link className="nav-link" to="/issuequestion">
+                    Issue Question
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </li>
 
           {/*Questions*/}
           <li className="nav-item">
@@ -159,7 +180,7 @@ const Sidebar = () => {
                 </li>
                 <li className="nav-item">
                   <Link className="nav-link" to="/unsolvedque">
-                  UnSloved
+                    UnSloved
                   </Link>
                 </li>
               </ul>
@@ -230,6 +251,49 @@ const Sidebar = () => {
               <i className="icon-screen-desktop menu-icon"></i>
             </Link>
           </li>
+
+             {/*Bonus Section*/}
+             <li className="nav-item nav-category">
+            <span className="nav-link">Bonus Section</span>
+          </li>
+
+          
+          {/*Bonus Section*/}
+          <li className="nav-item">
+            <Link className="nav-link" to="/studentreferral">
+              <span className="menu-title">Student Referral</span>
+              <i className="icon-screen-desktop menu-icon"></i>
+            </Link>
+          </li>
+
+          {/*Bonus Section*/}
+          <li className="nav-item">
+            <Link className="nav-link" to="/studentpostingstreak">
+              <span className="menu-title">Student Posting Streak</span>
+              <i className="icon-screen-desktop menu-icon"></i>
+            </Link>
+          </li>
+
+          {/*Bonus Section*/}
+          <li className="nav-item">
+            <Link className="nav-link" to="/tutorreferral">
+              <span className="menu-title">Tutor Referral</span>
+              <i className="icon-screen-desktop menu-icon"></i>
+            </Link>
+          </li>
+
+              {/*Tutorexamconfig*/}
+              <li className="nav-item">
+            <Link className="nav-link" to="/tutorpostingstreak">
+              <span className="menu-title">Tutor Posting Streak</span>
+              <i className="icon-screen-desktop menu-icon"></i>
+            </Link>
+          </li>
+
+
+
+
+
 
           {/*pages*/}
           <li className="nav-item nav-category">
@@ -341,7 +405,6 @@ const Sidebar = () => {
             </div>
           </li>
 
-          
           {/*mobileNo*/}
           <li className="nav-item">
             <Link className="nav-link" to="/addmobile">

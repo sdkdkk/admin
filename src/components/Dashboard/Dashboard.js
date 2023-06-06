@@ -12,6 +12,8 @@ import axios from "axios";
 import { ColorRing } from "react-loader-spinner";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
+const url = process.env.REACT_APP_API_BASE_URL;
+
 const Dashboard = () => {
   const [loading1, setLoading1] = useState(false);
   const [data, setData] = useState([]);
@@ -26,19 +28,16 @@ const Dashboard = () => {
     try {
       setLoading1(true);
 
-      const response = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/dashboardstats`,
-        { token: token }
-      );
+      const response = await axios.post(`${url}/admin/dashboardstats`, {
+        token: token,
+      });
       setData(response.data.dashboardStats);
       setLoading1(false);
     } catch (error) {
-      logoutIfInvalidToken(error.response)
+      logoutIfInvalidToken(error.response);
       setLoading1(false);
     }
   };
-
-  console.log(data);
 
   return (
     <>
@@ -46,16 +45,27 @@ const Dashboard = () => {
         <Navbar />
         <div className="container-fluid page-body-wrapper">
           <Sidebar />
-
           {loading1 ? (
-            <p style={{ marginLeft: "520px", marginTop: "250px" }}>
+            <p
+              style={{
+                marginLeft: "auto",
+                marginRight: "auto",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100vh",
+              }}>
               <ColorRing
                 visible={true}
                 height="80"
                 width="80"
                 ariaLabel="blocks-loading"
-                wrapperStyle={{}}
-                wrapperClass="blocks-wrapper"
+                wrapperStyle={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "100vh",
+                }}
                 colors={["black"]}
               />
             </p>

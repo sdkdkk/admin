@@ -9,6 +9,9 @@ import axios from "axios";
 import { ColorRing } from "react-loader-spinner";
 import { Pagination } from "@mui/material";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
+import "../Tutors/Tutorlist.css";
+
+const url = process.env.REACT_APP_API_BASE_URL;
 
 const StudentClass = () => {
   const {
@@ -25,7 +28,6 @@ const StudentClass = () => {
 
   const notify = (data) => toast(data);
 
-  //table
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(8);
   const indexOfLastPage = currentPage * postsPerPage;
@@ -40,20 +42,13 @@ const StudentClass = () => {
   const fetchData = async () => {
     try {
       setLoading1(true);
-      const response = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/getclass`,
-        {
-          token: token,
-        }
-      );
-      console.log(response.data.data);
+      const response = await axios.post(`${url}/admin/getclass`, {
+        token: token,
+      });
       setStudentClass(response.data.data);
-      console.log(studentClass);
       setLoading1(false);
     } catch (error) {
-      logoutIfInvalidToken(error.response)
-      console.log(error.response.data.error);
-      // notify("Invalid refresh token!");
+      logoutIfInvalidToken(error.response);
       setLoading1(false);
     }
   };
@@ -66,8 +61,8 @@ const StudentClass = () => {
     try {
       setLoading(true);
       const requestUrl = data._id
-        ? `https://vaidik-backend.onrender.com/admin/setclass`
-        : `https://vaidik-backend.onrender.com/admin/setclass`;
+        ? `${url}/admin/setclass`
+        : `${url}/admin/setclass`;
       var response;
       if (data._id) {
         response = await axios.post(requestUrl, {
@@ -87,10 +82,9 @@ const StudentClass = () => {
           studentClass: "",
         });
         fetchData();
-        // setEditCouponId(null);
       }
     } catch (error) {
-      logoutIfInvalidToken(error.response)
+      logoutIfInvalidToken(error.response);
       notify(error.response.data.error);
     } finally {
       setLoading(false);
@@ -100,13 +94,12 @@ const StudentClass = () => {
   const handleUpdate = (coupon) => {
     setIsEditMode(true);
     reset(coupon);
-    // Scroll to the top of the page
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   function handleDelet(_id) {
     axios
-      .post(`https://vaidik-backend.onrender.com/admin/deleteclass/${_id}`, {
+      .post(`${url}/admin/deleteclass/${_id}`, {
         token: token,
       })
       .then((response) => {
@@ -165,8 +158,7 @@ const StudentClass = () => {
                             <Button
                               variant="primary"
                               type="submit"
-                              disabled={loading}
-                            >
+                              disabled={loading}>
                               {isEditMode
                                 ? loading
                                   ? "Loading..."
@@ -189,7 +181,7 @@ const StudentClass = () => {
                     <div className="card-body">
                       <div className="table-container">
                         {loading1 ? (
-                          <p style={{ marginLeft: "400px", marginTop: "50px" }}>
+                          <p className="loader-container">
                             <ColorRing
                               visible={true}
                               height="80"
@@ -207,8 +199,7 @@ const StudentClass = () => {
                               bordered
                               hover
                               responsive
-                              className="single-color"
-                            >
+                              className="single-color">
                               <thead>
                                 <tr>
                                   <th>Sr. No</th>
@@ -218,7 +209,7 @@ const StudentClass = () => {
                               </thead>
                               <tbody>
                                 {displayUsers.map((data, index, _id) => (
-                                  <tr>
+                                  <tr key={data._id}>
                                     <td>
                                       {index +
                                         1 +
@@ -228,15 +219,13 @@ const StudentClass = () => {
                                     <td>
                                       <Button
                                         variant="success"
-                                        onClick={() => handleUpdate(data)}
-                                      >
+                                        onClick={() => handleUpdate(data)}>
                                         Update
                                       </Button>
                                       <Button
                                         className="mx-2"
                                         variant="danger"
-                                        onClick={() => handleDelet(data._id)}
-                                      >
+                                        onClick={() => handleDelet(data._id)}>
                                         Delete
                                       </Button>
                                     </td>
@@ -251,7 +240,6 @@ const StudentClass = () => {
                                 onChange={handleChange}
                                 shape="rounded"
                                 variant="outlined"
-                                // showFirstButton
                               />
                             </div>
                           </>

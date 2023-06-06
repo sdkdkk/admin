@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from "react";
-import { Testimonialdata } from "../Data/Data1";
 import { Pagination } from "@mui/material";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
@@ -23,6 +22,8 @@ import {
 } from "../../Redux/Loginpages/testimonialUserDeleteSlice";
 import { ColorRing } from "react-loader-spinner";
 
+
+
 const Testimonial = () => {
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
@@ -31,11 +32,11 @@ const Testimonial = () => {
   const testimonialform = useSelector((state) => state.testimonialform);
   const testimonialstatus = useSelector((state) => state.testimonialstatus);
   const testimonialUserDeleteState = useSelector((state) => state.testimonialUserDelete);
-  console.log('testimonial.user', testimonial.user?.testimonial)
+
   var [isActive, SetisActive] = useState(true);
 
   const [isOpen, setIsOpen] = useState("");
-  console.log(testimonial);
+
   const handleDropdownClick = (id) => {
     setIsOpen(isOpen === id ? "" : id);
   };

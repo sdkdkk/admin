@@ -113,6 +113,9 @@ td.d-flex.flex-column {
     .justify-content-md-start {
         margin-top: 14%;
     }
+    .dropdown.react-bootstrap-select.w-100 {
+        margin-top: 20px;
+    }
 }
 
 @media only screen and (min-width: 700px) {
@@ -142,6 +145,12 @@ td.d-flex.flex-column {
 }
 
 @media only screen and (min-width: 320px) {
+    .mobiltutordetails {
+        text-align: center;
+    }
+}
+
+@media only screen and (min-width: 76px) {
     .mobiltutordetails {
         text-align: center;
     }

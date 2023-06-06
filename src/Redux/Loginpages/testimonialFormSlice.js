@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { logoutIfInvalidToken } from '../../helpers/handleError';
-
+const url = process.env.REACT_APP_API_BASE_URL;
 const { createSlice } = require("@reduxjs/toolkit");
 
-const url = "https://vaidik-backend.onrender.com";
+// const url = "${url}";
 
 const testimonialFormSlice = createSlice({
 
@@ -47,7 +47,7 @@ const testimonialFormSlice = createSlice({
 export const { testimonialFromPending, testimonialFormSuccess, testimonialFormFailure } = testimonialFormSlice.actions;
 
 export const testimonialformapi = (token) => async (dispatch) => {
-    console.log(token);
+
     dispatch(testimonialFromPending());
     try {
 

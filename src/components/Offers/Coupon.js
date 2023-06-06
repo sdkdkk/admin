@@ -11,6 +11,9 @@ import axios from "axios";
 import { ColorRing } from "react-loader-spinner";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
+
+const url = process.env.REACT_APP_API_BASE_URL;
+
 const Coupon = () => {
   const {
     register,
@@ -41,17 +44,15 @@ const Coupon = () => {
     try {
       setLoading1(true);
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/getcoupons`,
+        `${url}/admin/getcoupons`,
         {
           token: token,
         }
       );
-      console.log(response.data.data);
       setConversionRate(response.data.data);
       setLoading1(false);
     } catch (error) {
       logoutIfInvalidToken(error.response)
-      console.log(error.response.data.error);
       // notify("Invalid refresh token!");
       setLoading1(false);
     }
@@ -65,8 +66,8 @@ const Coupon = () => {
     try {
       setLoading(true);
       const requestUrl = data._id
-        ? `https://vaidik-backend.onrender.com/admin/couponcode`
-        : `https://vaidik-backend.onrender.com/admin/couponcode`;
+        ? `${url}/admin/couponcode`
+        : `${url}/admin/couponcode`;
       var response;
       if (data._id) {
         response = await axios.post(requestUrl, {
@@ -115,7 +116,7 @@ const Coupon = () => {
   function handleDelet(_id) {
     axios
       .post(
-        `https://vaidik-backend.onrender.com/admin/deletecouponcode/${_id}`,
+        `${url}/admin/deletecouponcode/${_id}`,
         {
           token: token,
         }
@@ -235,7 +236,7 @@ const Coupon = () => {
                     <div className="card-body">
                       <div className="table-container">
                         {loading1 ? (
-                          <p style={{ marginLeft: "400px", marginTop: "50px" }}>
+                          <p className="loader-container">
                             <ColorRing
                               visible={true}
                               height="80"

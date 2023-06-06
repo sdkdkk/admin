@@ -6,7 +6,6 @@ import Moment from "react-moment";
 
 const McqquestionSearchengine = () => {
   const location = useLocation();
-  console.log(location.state.data);
   const answer = location.state.data.answer; // Get the answer from location
 
   const [imageSrc, setImageSrc] = useState("");
@@ -22,13 +21,13 @@ const McqquestionSearchengine = () => {
       <div className="container-scroller">
         <div className="container-fluid page-body-wrapper">
           <div className="container-fluid">
-            <div className="mx-2 text-start">
+            <div className="text-start">
               <p>
-                <span className="text-dark">Question Subject:</span>
+                <span className="text-dark">Question Subject: </span>
                 {location.state.data.questionSubject}
               </p>
-              <p>Question Type:{location.state.data.questionType}</p>
-              <p>Status:{location.state.data.status}</p>
+              <p>Question Type: {location.state.data.questionType}</p>
+              <p>Status: {location.state.data.status}</p>
               {location.state.data.createdAt && (
                 <p>
                   Date Of Posted:

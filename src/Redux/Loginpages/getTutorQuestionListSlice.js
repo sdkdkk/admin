@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios';
 import { createSlice } from "@reduxjs/toolkit";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
-
+const url = process.env.REACT_APP_API_BASE_URL;
 const initialState = {
     data: [],
     isLoading: false,
@@ -15,7 +15,7 @@ export const getTutorQuestionsListApi = createAsyncThunk('admin/gettutorexamques
     const token = localStorage.getItem('token')
     const { questionSubject, questionType, limit, skip, searchParams = "" } = payload
     try {
-        const response = await axios.post(`https://vaidik-backend.onrender.com/admin/gettutorexamquestion?questionSubject=${questionSubject}&questionType=${questionType}&limit=${limit}&skip=${skip}${searchParams}`, { token });
+        const response = await axios.post(`${url}/admin/gettutorexamquestion?questionSubject=${questionSubject}&questionType=${questionType}&limit=${limit}&skip=${skip}${searchParams}`, { token });
         return response.data;
     } catch (error) {
         logoutIfInvalidToken(error.response)

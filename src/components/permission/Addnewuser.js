@@ -8,23 +8,22 @@ import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
 import { ColorRing } from "react-loader-spinner";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
+
+const url = process.env.REACT_APP_API_BASE_URL;
+
 const Addnewuser = () => {
-  const [defaultValues, setDefaultValues] = useState({});
   const {
     register,
     handleSubmit,
     watch,
     formState: { errors },
     reset,
-    getValues,
-    setValue
+      setValue
   } = useForm({ });
   const password = watch("password");
   const navigate = useNavigate();
   const notify = (data) => toast(data);
   const [loading, setLoading] = useState(false);
-  const [isEditMode, setIsEditMode] = useState(false);
-
   const [loading1, setLoading1] = useState(false);
   const [data, setData] = useState([]);
   const [roleData, setRoleData] = useState([]);
@@ -33,7 +32,7 @@ const Addnewuser = () => {
   const onSubmit = async (data) => {
     try {
       setLoading(true);
-      const requestUrl = `https://vaidik-backend.onrender.com/admin/newuser`;
+      const requestUrl = `${url}/admin/newuser`;
 
       var response;
       if (data._id) {
@@ -59,14 +58,12 @@ const Addnewuser = () => {
             id: data._id,
           });
         }
-        console.log();
       } else {
         response = await axios.post(requestUrl, {
           token: token,
           username: data.username,
           email: data.email,
           password: data.password,
-          //   cpassword: data.cpassword,
           role: data.role,
           isactive: data.isactive,
           mainpassword: data.mainpassword,
@@ -74,7 +71,6 @@ const Addnewuser = () => {
       }
       if (response.data.message) {
         notify(response.data.message);
-        console.log(data);
         reset();
         setTimeout(() => {
           navigate("/users");
@@ -86,7 +82,6 @@ const Addnewuser = () => {
       }
     } catch (error) {
       logoutIfInvalidToken(error.response)
-      console.log("error - ", error);
       notify(error.response.data.error);
     }
 
@@ -101,38 +96,33 @@ const Addnewuser = () => {
   const adminrolename = async () => {
     try {
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/role`,
+        `${url}/admin/role`,
         {
           token: token,
         }
       );
-      console.log(response.data.data);
       setRoleData(response.data.data);
       setLoading1(false);
     } catch (error) {
       logoutIfInvalidToken(error.response)
-      console.log(error.response.data.error);
       setLoading1(false);
     }
   };
-  console.log(roleData);
 
   const fetchData = async () => {
     try {
       setLoading1(true);
 
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/getadmin`,
+        `${url}/admin/getadmin`,
         {
           token: token,
         }
       );
-      console.log(response.data.document);
       setData(response.data.document);
       setLoading1(false);
     } catch (error) {
       logoutIfInvalidToken(error.response)
-      console.log(error.response.data.error);
       setLoading1(false);
     }
   };
@@ -140,21 +130,12 @@ const Addnewuser = () => {
 
   const filtrData = data.filter((item) => item._id === id);
 
-  //   const tableEditData = filtrData && filtrData?.map((item) => item);
-  // console.log(tableEditData);
   const roleValue = filtrData?.[0]?.role?.rolename;
-
-  const roleId = roleData.find((item) =>
-    item.rolename === roleValue ? item._id : ""
-  );
-
   const defaultRoleId = roleData?.find((a) => a.rolename === roleValue)?._id;
 
   useEffect(() => {
     if(!filtrData?.[0] || !defaultRoleId) return
     const defaultData = { ...filtrData?.[0], role: defaultRoleId };
-    // setDefaultValues({ isactive: defaultData?.isactive });
-    // delete defaultData.isactive;
     reset(defaultData);
     setValue("isactive", filtrData?.[0]?.isactive.toString())
   }, [data, defaultRoleId]);
@@ -175,12 +156,7 @@ const Addnewuser = () => {
                   <div className="card new-table">
                     <div className="card-body">
                       {loading1 ? (
-                        <p
-                          style={{
-                            marginLeft: "400px",
-                            marginTop: "50px",
-                          }}
-                        >
+                        <p className="loader-container">
                           <ColorRing
                             visible={true}
                             height="80"
@@ -237,7 +213,7 @@ const Addnewuser = () => {
                               type="password"
                               className="form-control"
                               id="password"
-                              autocomplete="new-password"
+                              autoComplete="new-password"
                               placeholder="Enter password"
                               {...register("password", {
                                 minLength: {
@@ -285,8 +261,6 @@ const Addnewuser = () => {
                               id="user-role"
                               defaultValue={defaultRoleId}
                               {...register("role", { required: true })}
-                              //  placeholder="Please select your Role"
-                              //  value={roleId === roleValue}
                             >
                               {roleData &&
                                 roleData.map((value) => {
@@ -323,10 +297,6 @@ const Addnewuser = () => {
                                 {...register("isactive", {
                                   required: "Please select an account status",
                                 })}
-                                // checked={
-                                //   formIsActive == 1 ? true : false
-                                // }
-                                //   checked={tableEditData?.[0]?.isactive === 1}
                               />
                               <label
                                 className="form-check-label"
@@ -347,10 +317,6 @@ const Addnewuser = () => {
                                 {...register("isactive", {
                                   required: "Please select an account status",
                                 })}
-                                // checked={
-                                //   formIsActive == 0 ? true : false
-                                // }
-                                //   checked={tableEditData?.[0]?.isactive === 0}
                               />
                               <label
                                 className="form-check-label"

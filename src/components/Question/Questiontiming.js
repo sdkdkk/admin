@@ -12,6 +12,8 @@ import { ColorRing } from "react-loader-spinner";
 import { Pagination } from "@mui/material";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
+const url = process.env.REACT_APP_API_BASE_URL;
+
 const Questiontiming = () => {
   const [loading, setLoading] = useState(false);
 
@@ -21,7 +23,6 @@ const Questiontiming = () => {
   const notify = (data) => toast(data);
   const dispatch = useDispatch();
   const questiontypeTime = useSelector((state) => state.questiontypetime);
-  console.log(questiontypeTime);
   const [data, setData] = useState([]);
 
   useEffect(() => {
@@ -36,7 +37,6 @@ const Questiontiming = () => {
   const onSubmit = async (data) => {
     setLoading1(true);
     let token = localStorage.getItem("token");
-    console.log(data._id);
     // Parse hours and minutes as numbers
     const hours = data.firsthours ? parseInt(data.firsthours) : 0;
     const minutes = data.firstminutes ? parseInt(data.firstminutes) : 0;
@@ -80,13 +80,10 @@ const Questiontiming = () => {
       unsolved_time: unsolved_time,
       id: data.id,
     };
-    // console.log(timingObjData);
-
-    // dispatch(questiontimingApi(timingObjData));
 
     try {
       const { data } = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/setquestiontiming`,
+        `${url}/admin/setquestiontiming`,
         timingObjData
       );
 
@@ -98,8 +95,7 @@ const Questiontiming = () => {
         notify(data.error);
       }
     } catch (error) {
-      logoutIfInvalidToken(error.response)
-      console.log("error - ", error);
+      logoutIfInvalidToken(error.response);
       notify(error.response.data.error);
     }
   };
@@ -121,19 +117,14 @@ const Questiontiming = () => {
     try {
       setLoading1(true);
 
-      const response = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/getquestiontiming`,
-        {
-          token: token,
-        }
-      );
-      console.log(response.data.data);
+      const response = await axios.post(`${url}/admin/getquestiontiming`, {
+        token: token,
+      });
       setData(response.data.data);
 
       setLoading1(false);
     } catch (error) {
-      logoutIfInvalidToken(error.response)
-      console.log(error.response.data.error);
+      logoutIfInvalidToken(error.response);
       setLoading1(false);
     }
   };
@@ -157,24 +148,19 @@ const Questiontiming = () => {
       unsolvedhours: Math.floor(data.unsolved_time / 60),
       unsolvedminutes: Math.floor(data.unsolved_time % 60),
     });
-
-    console.log(data);
   };
 
   function handleDeleteClick(_id) {
     axios
-      .post(
-        `https://vaidik-backend.onrender.com/admin/questiontiming/${_id}`,
-        {
-          token: token,
-        }
-      )
+      .post(`${url}/admin/questiontiming/${_id}`, {
+        token: token,
+      })
       .then((response) => {
         fetchData();
         toast.success(response.data.message);
       })
       .catch((error) => {
-        toast.error(error.data.message);
+        toast.error(error.response.data.error);
       });
   }
 

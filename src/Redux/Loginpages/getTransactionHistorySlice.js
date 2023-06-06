@@ -2,7 +2,7 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios';
 import { createSlice } from "@reduxjs/toolkit";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
-
+const url = process.env.REACT_APP_API_BASE_URL;
 
 const initialState = {
     data: [],
@@ -15,7 +15,7 @@ const initialState = {
 export const getTransactionHistory = createAsyncThunk('/admin/fetchTransactionHistory', async(params, { rejectWithValue }) => {
     const token = localStorage.getItem('token')
     try {
-        const response = await axios.post(`https://vaidik-backend.onrender.com/admin/fetchTransactionHistory${params}`, { token });
+        const response = await axios.post(`${url}/admin/fetchTransactionHistory${params}`, { token });
         return response.data;
     } catch (error) {
         logoutIfInvalidToken(error.response)

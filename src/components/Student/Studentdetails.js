@@ -11,13 +11,14 @@ import Moment from "react-moment";
 import face3 from "../Image/face3.jpg";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
+const url = process.env.REACT_APP_API_BASE_URL;
+
 const Studentdetails = () => {
   const { _id } = useParams();
   const [studentdetail, setStudentdetail] = useState([]);
   const [studentque, setStudentque] = useState([]);
   const [studenttransation, setStudenttransation] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  console.log(studentdetail);
   const token = localStorage.getItem("token");
   const [Loader, setLoader] = useState(true);
   let navigate = useNavigate();
@@ -25,37 +26,27 @@ const Studentdetails = () => {
   const fetchData = async () => {
     try {
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/studentquestionanswer/${_id}`,
+        `${url}/admin/studentquestionanswer/${_id}`,
         {
           token: token,
         }
       );
       const response1 = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/studenttransactiondetails/${_id}`,
+        `${url}/admin/studenttransactiondetails/${_id}`,
         {
           token: token,
         }
       );
-      const response2 = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/studentdetails/${_id}`,
-        {
-          token: token,
-        }
-      );
+      const response2 = await axios.post(`${url}/admin/studentdetails/${_id}`, {
+        token: token,
+      });
       setStudentque(response.data.message);
       setStudenttransation(response1.data.transaction);
       setStudentdetail(response2.data.document);
       setLoader(false);
     } catch (error) {
-      logoutIfInvalidToken(error.response)
+      logoutIfInvalidToken(error.response);
       if (error.response) {
-        console.log(error.response.status);
-        console.log(error.response.data);
-        console.log(error.response.headers);
-      } else if (error.request) {
-        console.log(error.request);
-      } else {
-        console.log("Error", error.message);
       }
     }
   };
@@ -74,9 +65,7 @@ const Studentdetails = () => {
   const handleChange = (event, value) => {
     setCurrentPage(value);
   };
-  console.log(displayque);
 
-  const [clicked, setClicked] = useState(false);
   const [currentPage1, setCurrentPage1] = useState(1);
   const [postsPerPage1] = useState(6);
   const indexOfLastPage1 = currentPage1 * postsPerPage1;
@@ -102,19 +91,31 @@ const Studentdetails = () => {
         <Sidebar />
         <div className="main-details" style={{ width: "inherit" }}>
           {Loader ? (
-            <div
-              className="loader-end text-center"
-              style={{ marginTop: "250px" }}>
+            <div className="loader-end text-center">
               {Loader ? (
-                <ColorRing
-                  visible={true}
-                  height="80"
-                  width="80"
-                  ariaLabel="blocks-loading"
-                  wrapperStyle={{}}
-                  wrapperClass="blocks-wrapper"
-                  colors={["black"]}
-                />
+                <p
+                  style={{
+                    marginLeft: "auto",
+                    marginRight: "auto",
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                    height: "100vh",
+                  }}>
+                  <ColorRing
+                    visible={true}
+                    height="80"
+                    width="80"
+                    ariaLabel="blocks-loading"
+                    wrapperStyle={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: "100vh",
+                    }}
+                    colors={["black"]}
+                  />
+                </p>
               ) : null}
             </div>
           ) : (
@@ -122,7 +123,10 @@ const Studentdetails = () => {
               {studentdetail.map((data) => {
                 return (
                   <>
-                    <div className="row" style={{ backgroundColor: "#c0d7ff" }}>
+                    <div
+                     key={data._id}
+                      className="row"
+                      style={{ backgroundColor: "#c0d7ff" }}>
                       <div className="col">
                         <div className="profile">
                           <div className="profile-img mt-2">
@@ -159,7 +163,7 @@ const Studentdetails = () => {
                           <strong>Balance</strong>
                         </div>
                         <h4 className="text-success">
-                          <b> $. {data.balance || "-"} </b>
+                          <b> $ {data.balance || "-"} </b>
                         </h4>
                       </div>
                     </div>
@@ -183,16 +187,16 @@ const Studentdetails = () => {
                       </thead>
                       <tbody>
                         <>
-                          {displaytransation.map((Data, id) => {
+                          {displaytransation.map((Data) => {
                             return (
-                              <tr key={id}>
+                              <tr key={Data._id}>
                                 <td colSpan="2">
                                   <Moment format="D MMM YYYY" withTitle>
                                     {Data.date}
                                   </Moment>
                                 </td>
-                                <td colSpan="2">$.{Data.amount} </td>
-                                <td colSpan="2">$.{Data.balance}</td>
+                                <td colSpan="2">$ {Data.amount} </td>
+                                <td colSpan="2">$ {Data.balance}</td>
                               </tr>
                             );
                           })}
@@ -244,7 +248,7 @@ const Studentdetails = () => {
                             </thead>
                             <tbody>
                               {displayque.map((data) => (
-                                <tr>
+                                <tr key={data._id}>
                                   <td
                                     style={{ cursor: "pointer" }}
                                     onClick={() => {

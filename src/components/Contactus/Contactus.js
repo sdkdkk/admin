@@ -1,336 +1,273 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+// import axios from "axios";
+import { Button } from "react-bootstrap";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
-import contact from "../Image/contact.jpg";
-import { Link } from "react-router-dom";
-import "./Contactus.css";
-import { useForm, Controller } from "react-hook-form";
-import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
-import axios from "axios";
-import { toast } from "react-toastify";
+import "../Tutors/Tutorlist.css";
+import { Pagination } from "@mui/material";
+import { useDispatch, useSelector } from "react-redux";
+import { ColorRing } from "react-loader-spinner";
+import { getstudentcontact } from "../../Redux/Loginpages/getstudentcontactSlice";
+import { gettutorcontact } from "../../Redux/Loginpages/gettutorcontactSlice";
+import { useNavigate } from "react-router-dom";
 
 const Contactus = () => {
-  const notify = (data) => toast(data);
-  const {
-    register,
-    handleSubmit,
-    control,
-    formState: { errors },
-    reset,
-  } = useForm({ mode: "all" });
+  const studentcontact = useSelector(
+    (state) => state.studentcontact.data.document
+  );
+  const tutorcontact = useSelector((state) => state.tutorcontact.data.document);
 
-  const onSubmit = async (data) => {
-    let token = localStorage.getItem("token");
+  const [selectedStatus, setSelectedStatus] = useState("studentcontact");
+  const [searchName, setSearchName] = useState("");
+  const [status, setStatus] = useState({
+    studentcontact: [],
+    tutorcontact: [],
+    selectedStatus: 1, // Default value for solved (you can change it as per your requirement)
+  });
 
-    // Parse hours and minute as numbers
+  const [currentData, setCurrentData] = useState(status[selectedStatus]);
+  const [activeButton, setActiveButton] = useState(1);
+  const dispatch = useDispatch();
+  const [Loader, setLoader] = useState(true);
 
-    let contactData = {
-      token: token,
-      fullname: data.fullname,
-      email: data.email,
-      mobileNo: data.mobileNo,
-      Message: data.Message,
-    };
-    // console.log(timingObjData);
+  useEffect(() => {
+    setStatus({
+      studentcontact: studentcontact,
+      tutorcontact: tutorcontact,
+    });
+    setLoader(false);
+  }, [studentcontact, tutorcontact]);
 
-    // dispatch(questiontimingApi(timingObjData));
+  useEffect(() => {
+    dispatch(getstudentcontact()).then(() => setLoader(false));
+  }, []);
 
-    try {
-      const { data } = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/admincontact`,
-        contactData
-      );
+  // const fetchData1 = async () => {
+  //   setActiveButton(1);
+  //   setStatus({ ...status, selectedStatus: "all" });
+  //   dispatch(getstudentcontact("all"));
+  // };
 
-      console.log(data.document);
-      if (data.status === 1) {
-        notify(data.message);
-        reset();
-      } else {
-        notify(data.error);
-      }
-    } catch (error) {
-      console.log("error - ", error);
-      notify(error.response.data.error);
+  const fetchData1 = async () => {
+    setActiveButton(1);
+    setStatus({ ...status, selectedStatus: "all" });
+    setLoader(true); // Show the loader
+    dispatch(getstudentcontact("all")).then(() => setLoader(false)); // Hide the loader
+    setSearchName("");
+  };
+
+  const fetchData2 = async () => {
+    setActiveButton(2);
+    setStatus({ ...status, selectedStatus: "all" });
+    setLoader(true); // Show the loader
+    dispatch(gettutorcontact("all")).then(() => setLoader(false)); // Hide the loader
+  };
+
+  useEffect(() => {
+    setCurrentData(status[selectedStatus]);
+  }, [selectedStatus, status[selectedStatus]]);
+
+  //Pagination
+  const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(8);
+  const indexOfLastPage = currentPage * postsPerPage;
+  const indexOfFirstPage = indexOfLastPage - postsPerPage;
+  let displayUsers =
+    currentData && currentData.slice(indexOfFirstPage, indexOfLastPage);
+  const totalPages = Math.ceil(currentData?.length / postsPerPage);
+
+  const handleChange = (event, value) => {
+    setCurrentPage(value);
+  };
+  let navigate = useNavigate();
+
+  const toComponentB = (data, _id) => {
+    navigate("/contactdetails", { state: { data, _id } });
+  };
+
+  const handleStatusChange = (e) => {
+    const selectedStatus = e.target.value;
+    setStatus({ ...status, selectedStatus });
+    if (selectedStatus === "all") {
+      const allData = [...status.studentcontact];
+      setCurrentData(allData);
+      setCurrentPage(1);
+    } else if (selectedStatus === "1") {
+      const allData = [...status.studentcontact];
+      let data = [];
+      allData.forEach((element) => {
+        if (element.issolved === 1) {
+          data.push(element);
+        }
+      });
+      setCurrentData(data);
+    } else {
+      const allData = [...status.studentcontact];
+      let data = [];
+      allData.forEach((element) => {
+        if (element.issolved === 0) {
+          data.push(element);
+        }
+      });
+      setCurrentData(data);
     }
   };
 
+  const handleSearch = () => {
+    // const allData = [...status.studentcontact];
+    const filteredData = displayUsers.filter((item) =>
+      item.fullname.toLowerCase().includes(searchName.toLowerCase())
+    );
+    setCurrentData(filteredData);
+    setCurrentPage(1);
+  };
+
   return (
-    <>
+    <div>
       <div className="container-scroller">
         <Navbar />
         <div className="container-fluid page-body-wrapper">
           <Sidebar />
           <div className="main-panel">
             <div className="content-wrapper">
-              <div className="page-header">
-                <h3 className="page-title">Contact Us</h3>
+              <div className="oneline">
+                <h3 className="main-text">Contact List</h3>
               </div>
-              <div className="row mt-3">
-                <div className="col-12 grid-margin stretch-card">
-                  <div className="card new-table">
-                    <div className="card-body">
-                      <div className="converter-container">
-                        <div className="input-container">
-                          <main className="rbt-main-wrapper">
-                            <div className="rbt-conatct-area bg-gradient-11 rbt-section-gap">
-                              <div className="container">
-                                <div className="row">
-                                  <div className="col-lg-12">
-                                    <div className="section-title text-center mb--60">
-                                      <span className="subtitle bg-secondary-opacity">
-                                        Contact Us
-                                      </span>
-                                      <h2 className="title">
-                                        Have Some Questions?{" "}
-                                      </h2>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div className="row g-5">
-                                  <div
-                                    className="col-lg-4 col-md-6 col-sm-6 col-12 sal-animate"
-                                    data-sal="slide-up"
-                                    data-sal-delay={150}
-                                    data-sal-duration={800}
-                                  >
-                                    <div className="rbt-address">
-                                      <div className="icon">
-                                        <i className="feather-headphones" />
-                                      </div>
-                                      <div className="inner">
-                                        <h4 className="title">
-                                          Contact Phone Number
-                                        </h4>
-                                        <p>
-                                          <Link
-                                            to="tel:+444555666777"
-                                            className="text-decoration-none"
-                                          >
-                                            +444 555 666 777
-                                          </Link>
-                                        </p>
-                                        <p>
-                                          <Link
-                                            to="tel:+222222222333"
-                                            className="text-decoration-none"
-                                          >
-                                            +222 222 222 333
-                                          </Link>
-                                        </p>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div
-                                    className="col-lg-4 col-md-6 col-sm-6 col-12 sal-animate"
-                                    data-sal="slide-up"
-                                    data-sal-delay={200}
-                                    data-sal-duration={800}
-                                  >
-                                    <div className="rbt-address">
-                                      <div className="icon">
-                                        <i className="feather-mail" />
-                                      </div>
-                                      <div className="inner">
-                                        <h4 className="title">
-                                          Our Email Address
-                                        </h4>
-                                        <p>
-                                          <Link
-                                            to="mailto:admin@gmail.com"
-                                            className="text-decoration-none"
-                                          >
-                                            admin@gmail.com
-                                          </Link>
-                                        </p>
-                                        <p>
-                                          <Link
-                                            to="mailto:example@gmail.com"
-                                            className="text-decoration-none"
-                                          >
-                                            example@gmail.com
-                                          </Link>
-                                        </p>
-                                      </div>
-                                    </div>
-                                  </div>
-                                  <div
-                                    className="col-lg-4 col-md-6 col-sm-6 col-12 sal-animate"
-                                    data-sal="slide-up"
-                                    data-sal-delay={250}
-                                    data-sal-duration={800}
-                                  >
-                                    <div className="rbt-address">
-                                      <div className="icon">
-                                        <i className="feather-map-pin" />
-                                      </div>
-                                      <div className="inner">
-                                        <h4 className="title">Our Location</h4>
-                                        <p>
-                                          5678 Bangla Main Road, cities 580{" "}
-                                          <br /> GBnagla, example 54786
-                                        </p>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="rbt-contact-address mb--80">
-                              <div className="container">
-                                <div className="row g-5">
-                                  <div className="col-lg-6">
-                                    <div className="thumbnail">
-                                      <img
-                                        className="w-100 radius-6"
-                                        src={contact}
-                                        alt="Contact Images"
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="col-lg-6">
-                                    <div className="rbt-contact-form contact-form-style-1 max-width-auto">
-                                      <div className="section-title text-start">
-                                        <span className="subtitle bg-primary-opacity">
-                                          inquiry now
-                                        </span>
-                                      </div>
-                                      <h4 className="title">
-                                        You Can Contact With Me
-                                      </h4>
-                                      <form
-                                        onSubmit={handleSubmit(onSubmit)}
-                                        action="#"
-                                        className="rbt-profile-row rbt-default-form row row--15"
-                                      >
-                                        <div className="col-lg-12 col-12">
-                                          <div className="rbt-form-group">
-                                            <label htmlFor="firstname">
-                                              Full Name
-                                            </label>
-                                            <input
-                                              className="rounded-2"
-                                              id="fullname"
-                                              type="text"
-                                              defaultValue=""
-                                              placeholder="Jone Dio"
-                                              {...register("fullname", {
-                                                required: "Provide your Name!",
-                                              })}
-                                            />
-                                            <p className="error-msg">
-                                              {errors.fullname &&
-                                                errors.fullname.message}
-                                            </p>
-                                          </div>
-                                        </div>
-                                        <div className="col-lg-12 col-12">
-                                          <div className="rbt-form-group">
-                                            <label htmlFor="lastname">
-                                              Email
-                                            </label>
-                                            <input
-                                              className="rounded-2"
-                                              id="lastname"
-                                              type="email"
-                                              defaultValue=""
-                                              placeholder="jonedio@gmail.com"
-                                              {...register("email", {
-                                                required:
-                                                  "Please Enter A Valid Email!",
-                                                pattern: {
-                                                  value:
-                                                    /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                                                },
-                                              })}
-                                            />{" "}
-                                            <p className="error-msg">
-                                              {errors.email &&
-                                                errors.email.message}
-                                            </p>
-                                          </div>
-                                        </div>
+              <div className="page-header">
+                <div className="col-md-12">
+                  <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button
+                      onClick={fetchData1}
+                      className={activeButton === 1 ?  "btn btn-primary"
+                      : "btn btn-light"}
+                      type="button"
+                      style={{ borderRadius: "4px" }}>
+                      Student Contact
+                    </button>
+                    <button
+                      onClick={fetchData2}
+                      className={activeButton === 2  ? "btn btn-primary"
+                      : "btn btn-light"}
+                      type="button"
+                      style={{ borderRadius: "4px" }}>
+                      Tutor Contact
+                    </button>
+                  </div>
+                </div>
+              </div>
 
-                                        <div className="col-lg-12 col-12">
-                                          <label htmlFor="bio">Mobile No</label>
-                                          <div className="rbt-form-group">
-                                            <div className="d-flex flex-row-reverse">
-                                              <div className="flex-grow-1">
-                                                <Controller
-                                                  name="mobileNo"
-                                                  control={control}
-                                                  rules={{
-                                                    required:
-                                                      "Mobile number is required",
-                                                  }}
-                                                  render={({
-                                                    field: {
-                                                      onChange,
-                                                      onBlur,
-                                                      value,
-                                                      name,
-                                                      ref,
-                                                    },
-                                                  }) => (
-                                                    <PhoneInput
-                                                      className="mb-4 mobile-input"
-                                                      country={"us"}
-                                                      value={value}
-                                                      onChange={onChange}
-                                                      onBlur={onBlur}
-                                                      inputRef={ref}
-                                                    />
-                                                  )}
-                                                />
-                                                {errors.mobileNo && (
-                                                  <p className="error-msg">
-                                                    {errors.mobileNo.message}
-                                                  </p>
-                                                )}
-                                              </div>
-                                            </div>
-                                          </div>
-                                        </div>
-                                        <div className="col-12">
-                                          <div className="rbt-form-group">
-                                            <label htmlFor="bio">Message</label>
-                                            <textarea
-                                              className="rounded-2"
-                                              placeholder="Something Say"
-                                              id="bio"
-                                              cols={20}
-                                              rows={5}
-                                              defaultValue={""}
-                                              {...register("Message", {
-                                                required: "Enter message!",
-                                              })}
-                                            />
-                                            <p className="error-msg">
-                                              {errors.Message &&
-                                                errors.Message.message}
-                                            </p>
-                                          </div>
-                                        </div>
-                                        <div className="col-12 mt--20">
-                                          <div className="rbt-form-group">
-                                            <button
-                                              className="btn-sm rbt-btn btn-gradient"
-                                              type="submit"
-                                            >
-                                              Send Message
-                                            </button>
-                                          </div>
-                                        </div>
-                                      </form>
-                                    </div>
-                                  </div>
-                                </div>
+              <div>
+                <div className="row">
+                  <div className="col-12 grid-margin stretch-card">
+                    <div className="card">
+                      <div className="card-body">
+                        <div className="row">
+                          <div className="col-12 col-md-6">
+                            <input
+                              type="text"
+                              id="fname"
+                              placeholder="search name"
+                              name="fname"
+                              value={searchName}
+                              onChange={(e) => setSearchName(e.target.value)}
+                            />
+                          </div>
+                          <div className="col-12 col-md-2 mt-3 mt-md-0">
+                            <Button
+                              className="algin-right"
+                              onClick={handleSearch}>
+                              Search
+                            </Button>
+                          </div>
+                          <div className="col-12 col-md-4 mt-3 mt-md-0">
+                            <div className="filter-select rbt-modern-select ">
+                              <div className="dropdown react-bootstrap-select w-100">
+                                <select
+                                  className="w-100 form-select"
+                                  value={status.selectedStatus}
+                                  onChange={handleStatusChange}
+                                  id="displayname">
+                                  <option value="all">All</option>
+                                  <option value={1}>Solved</option>
+                                  <option value={0}>Unsolved</option>
+                                </select>
                               </div>
                             </div>
-                          </main>
+                          </div>
                         </div>
                       </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="row">
+                  <div className="col-12 grid-margin stretch-card">
+                    <div className="card new-table">
+                      {Loader ? (
+                        <div className="loader-container">
+                          <ColorRing
+                            visible={true}
+                            height="80"
+                            width="80"
+                            ariaLabel="blocks-loading"
+                            wrapperStyle={{}}
+                            wrapperClass="blocks-wrapper"
+                            colors={["black"]}
+                          />
+                        </div>
+                      ) : (
+                        <div className="card-body">
+                          <table className="table v-top">
+                            <thead>
+                              <tr>
+                                <th scope="col">Full Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Mobile No</th>
+                                <th scope="col">Message</th>
+                                <th scope="col">Action</th>
+                              </tr>
+                            </thead>
+                            {displayUsers && displayUsers.length > 0 ? (
+                              displayUsers.map((data) => (
+                                <tbody key={data._id}>
+                                  <tr>
+                                    <td>{data.fullname || "-"}</td>
+                                    <td>{data.email.substring(0, 20)}</td>
+                                    <td>{data.mobileNo || "-"}</td>
+                                    <td>{data.Message || "-"}</td>
+                                    <td>
+                                      <button
+                                        className="btn btn-primary btn-sm"
+                                        onClick={() => {
+                                          toComponentB(data);
+                                        }}>
+                                        click
+                                      </button>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              ))
+                            ) : (
+                              <tbody>
+                                <tr>
+                                  <td colSpan="8">
+                                    <h4>No contact Found ...</h4>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            )}
+                          </table>
+                          <div className="table-pagination">
+                            <Pagination
+                              count={totalPages}
+                              page={currentPage}
+                              onChange={handleChange}
+                              shape="rounded"
+                              variant="outlined"
+                            />
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 </div>
@@ -340,7 +277,8 @@ const Contactus = () => {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };
+
 export default Contactus;

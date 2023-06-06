@@ -13,6 +13,8 @@ import "react-quill/dist/quill.snow.css";
 import axios from "axios";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
+const url = process.env.REACT_APP_API_BASE_URL;
+
 Quill.register("modules/imageResize", ImageResize);
 
 const Addnew = () => {
@@ -23,6 +25,7 @@ const Addnew = () => {
   const [images, setImages] = useState([]);
   // const [explanation, setExplanation] = useState("");
   const [questionTypes, setQuestionTypes] = useState([]);
+  const [questionSubject, setQuestionSubject] = useState([]);
   const [editorHtml, setEditorHtml] = useState("");
   // const [selectedOption, setSelectedOption] = useState("");
   const navigate = useNavigate();
@@ -45,8 +48,6 @@ const Addnew = () => {
       questionType: "",
     },
   });
-
-  console.log(optionsArray);
 
   const modules = {
     toolbar: [
@@ -88,15 +89,13 @@ const Addnew = () => {
     "image",
     "video",
   ];
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const response = await axios.get(
-          `https://vaidik-backend.onrender.com/getquestiontype`,
-          {
-            token: token,
-          }
-        );
+        const response = await axios.get(`${url}/getquestiontype`, {
+          token: token,
+        });
 
         setQuestionTypes(response.data.data);
         let responseArray = [];
@@ -111,20 +110,46 @@ const Addnew = () => {
         });
         setOptionsArray(responseArray);
       } catch (error) {
-        logoutIfInvalidToken(error.response)
+        logoutIfInvalidToken(error.response);
         if (error.response) {
-          console.log(error.response.status);
-          console.log(error.response.data);
-          console.log(error.response.headers);
         } else if (error.request) {
-          console.log(error.request);
         } else {
-          console.log("Error", error.message);
         }
       }
     };
 
     fetchData();
+  }, []);
+
+  useEffect(() => {
+    const fetchData1 = async () => {
+      try {
+        const response1 = await axios.post(`${url}/getquestionsubject`, {
+          token: token,
+        });
+
+        setQuestionSubject(response1.data.data);
+        let responseArray1 = [];
+        response1.data.data.forEach((element) => {
+          let obj = {
+            label: "",
+            value: "",
+          };
+          obj.label = element;
+          obj.value = element;
+          responseArray1.push(obj);
+        });
+        setOptionsArray(responseArray1);
+      } catch (error) {
+        logoutIfInvalidToken(error.response1);
+        if (error.response1) {
+        } else if (error.request1) {
+        } else {
+        }
+      }
+    };
+
+    fetchData1();
   }, []);
 
   const handleChange = (event) => {
@@ -156,12 +181,11 @@ const Addnew = () => {
     }
     formData.append("explanation", data.explanation || "");
     setIsLoading(true);
-    fetch("https://vaidik-backend.onrender.com/admin/questionpost", {
+    fetch(`${url}/admin/questionpost`, {
       method: "POST",
       body: formData,
     })
       .then((response) => {
-        console.log(response);
         // Reset the input fields after submitting the form
         setImages([]);
         setEditorHtml("");
@@ -277,6 +301,33 @@ const Addnew = () => {
                         </div>
                         <div className="mb-3">
                           <label
+                            htmlFor="questionSubject"
+                            className="form-label">
+                            Question Subject
+                          </label>
+                          <select
+                            id="questionSubject"
+                            className="form-control"
+                            name="questionSubject"
+                            // value={selectedOption}
+                            {...register("questionSubject", { required: true })}
+                            // onChange={handleChange}
+                            onChange={(e) => handleChange(e)}>
+                            <option value="">Select question Subject</option>
+                            {questionSubject.map((type) => (
+                              <option value={type.value} key={type.value}>
+                                {type.questionSubject}
+                              </option>
+                            ))}
+                          </select>
+                          {errors.questionType && (
+                            <p className="error">
+                              Please select a type of subject
+                            </p>
+                          )}
+                        </div>
+                        {/* <div className="mb-3">
+                          <label
                             htmlFor="exampleInputEmail1"
                             className="form-label">
                             Questions Subject
@@ -292,24 +343,12 @@ const Addnew = () => {
                           {errors.questionSubject && (
                             <p className="error">Please Enter a Subject</p>
                           )}
-                        </div>
-                        {/* <Col md={12}>
-                          <div>
-                            <p className="mx-1">Answer</p>
-                            <ReactQuill
-                            type="answer"
-                              // value={answer || ''}
-                              name="answer"
-                              {...register("answer", { required: true })}
-                              // onChange={handleAnswerChange}
-                            />
-                           {errors.answer && <p className="error">Please upload at least one image</p>}
-                          </div>
-                        </Col> */}
+                        </div> */}
+
                         <Col md={12}>
                           <div>
                             <p className="mx-1">Answer</p>
-                            
+
                             <Controller
                               name="answer"
                               control={control}
@@ -372,44 +411,6 @@ const Addnew = () => {
                             </div>
                           </Col>
                         ) : null}
-                        {/* {console.log(questionTypes[1])}
-                        {questionTypes[1] ? (
-                          <Col md={12}>
-                            <div>
-                              <p className="mx-1">Explanation</p>
-                              <Controller
-                                name="explanation"
-                                control={control}
-                                defaultValue={editorHtml}
-                                render={({ field }) => (
-                                  <ReactQuill
-                                    theme="snow"
-                                    name="explanation"
-                                    {...register("explanation", {
-                                      required: true,
-                                    })}
-                                    //onChange={(value) => setEditorHtml(value)}
-                                    // value={answer || ""}
-                                    modules={modules}
-                                    formats={formats}
-                                    // onChange={handleExplanationChange}
-                                    bounds={"#root"}
-                                    placeholder="type Here...."
-                                    ref={editorRef}
-                                    {...field}
-                                  />
-                                )}
-                              />
-                              {errors.explanation && (
-                                <p className="error">
-                                  Please Enter a explanation
-                                </p>
-                              )}
-                            </div>
-                          </Col>
-                        ) : (
-                          ""
-                        )} */}
 
                         <div className="mt-4">
                           <Link to="/searchengine">

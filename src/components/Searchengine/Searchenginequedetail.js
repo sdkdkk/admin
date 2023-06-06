@@ -14,7 +14,6 @@ import TruefalsequeSearchengine from "../QuestionpageSearchengine/TruefalsequeSe
 const Searchenginequedetail = () => {
   const location = useLocation();
   const getresponse = location.state.data;
-  console.log(getresponse);
 
   return (
     <>

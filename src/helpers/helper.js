@@ -50,7 +50,6 @@ export const resourcesList = [
   };
 
   findResource(ids, resourcesList);
-  console.log('result', result, ids)
 
   return result.join(", ");
   };

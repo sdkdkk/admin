@@ -8,6 +8,8 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
+const url = process.env.REACT_APP_API_BASE_URL;
+
 const Questionreasnwer = () => {
   const {
     register,
@@ -21,24 +23,18 @@ const Questionreasnwer = () => {
   const [reanswer, setReanswer] = useState("");
   const notify = (data) => toast(data);
   const token = localStorage.getItem("token");
-  console.log(conversionRate);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         setLoading1(true);
-        const response = await axios.post(
-          `https://vaidik-backend.onrender.com/admin/getreanswer`,
-          {
-            token: token,
-          }
-        );
-        // console.log(response.data);
+        const response = await axios.post(`${url}/admin/getreanswer`, {
+          token: token,
+        });
         setConversionRate(response.data.data);
         setLoading1(false);
       } catch (error) {
-        logoutIfInvalidToken(error.response)
-        console.log(error.response.data.error);
+        logoutIfInvalidToken(error.response);
         // notify("Invalid refresh token!");
         setLoading(false);
       }
@@ -59,22 +55,17 @@ const Questionreasnwer = () => {
       const minutes = data.minutes ? parseInt(data.minutes) : 0;
       const reanswerTime = hours * 60 + minutes;
       //   const { hours, minutes } = data.reanswer_time;
-      const response = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/setreanswer`,
-        {
-          choice: reanswer === "yes",
-          reanswer_time: parseInt(reanswerTime),
-          token: token,
-        }
-      );
+      const response = await axios.post(`${url}/admin/setreanswer`, {
+        choice: reanswer === "yes",
+        reanswer_time: parseInt(reanswerTime),
+        token: token,
+      });
       if (response.data.status === 1) {
-        console.log(response.data.status);
         notify(response.data.message);
         e.target.reset();
       }
     } catch (error) {
-      logoutIfInvalidToken(error.response)
-      console.log(error.response.data.error);
+      logoutIfInvalidToken(error.response);
       notify(error.response.data.error);
     } finally {
       setLoading(false); // set loading to false when API call is complete

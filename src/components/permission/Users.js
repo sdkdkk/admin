@@ -10,6 +10,8 @@ import { Button } from "react-bootstrap";
 import { toast } from "react-toastify";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
+const url = process.env.REACT_APP_API_BASE_URL;
+
 const Users = () => {
   const [loading, setLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
@@ -26,53 +28,38 @@ const Users = () => {
   const fetchData = async () => {
     try {
       setLoading1(true);
-
-      const response = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/getadmin`,
-        {
-          token: token,
-        }
-      );
-      console.log(response.data);
+      const response = await axios.post(`${url}/admin/getadmin`, {
+        token: token,
+      });
       setData(response.data.document);
-
       setLoading1(false);
     } catch (error) {
-      logoutIfInvalidToken(error.response)
-      console.log(data);
-      console.log(error);
+      logoutIfInvalidToken(error.response);
       notify(data.error);
-
       setLoading1(false);
     }
   };
 
   async function handleDeleteClick(_id) {
-    setDeleteLoading(true)
+    setDeleteLoading(true);
     try {
       setLoading(true);
 
-      const response = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/deleteadmin/${_id}`,
-        {
-          token: token,
-        }
-      );
+      const response = await axios.post(`${url}/admin/deleteadmin/${_id}`, {
+        token: token,
+      });
       const tempData = [...data].filter((a) => a._id !== _id);
-      setData(tempData)
-      console.log(response.data.message);
+      setData(tempData);
 
       notify(response.data.message);
       setLoading(false);
     } catch (error) {
-      logoutIfInvalidToken(error.response)
-      console.log(data);
-      console.log(error.response.data.error);
+      logoutIfInvalidToken(error.response);
       notify(error.response.data.error);
 
       setLoading1(false);
-    }finally{
-      setDeleteLoading(false)
+    } finally {
+      setDeleteLoading(false);
     }
   }
 
@@ -102,12 +89,7 @@ const Users = () => {
                         <div className="col-lg-12 mt-4">
                           <div className="table-responsive">
                             {loading1 ? (
-                              <p
-                                style={{
-                                  marginLeft: "400px",
-                                  marginTop: "50px",
-                                }}
-                              >
+                              <p className="loader-container">
                                 <ColorRing
                                   visible={true}
                                   height="80"
@@ -131,7 +113,6 @@ const Users = () => {
                                   </tr>
                                 </thead>
                                 {data.map((value, index) => {
-                                  console.log(value.role);
                                   return (
                                     <tbody key={index}>
                                       <tr>
@@ -156,8 +137,7 @@ const Users = () => {
                                             disabled={deleteLoading}
                                             onClick={() =>
                                               handleDeleteClick(value._id)
-                                            }
-                                          >
+                                            }>
                                             Delete
                                           </Button>
                                         </td>

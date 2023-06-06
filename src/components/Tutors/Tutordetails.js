@@ -3,9 +3,8 @@ import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
 import "../Tutors/Tutorlist.css";
 import "../Css/Tutorlist.css";
-import { CgProfile } from "react-icons/cg";
 import { Pagination } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import Moment from "react-moment";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -17,12 +16,13 @@ import { logoutIfInvalidToken } from "../../helpers/handleError";
 import { Button, ToastContainer } from "react-bootstrap";
 import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
 import { toast } from "react-toastify";
+
+const url = process.env.REACT_APP_API_BASE_URL;
+
 const Tutordetails = () => {
-  const tutordetails = useSelector((state) => state.tutordetail);
-  console.log(tutordetails);
   const dispatch = useDispatch();
-  const { _id } = useParams();
-  console.log(_id);
+  const { _id, active } = useParams();
+console.log(_id);
   useEffect(() => {
     dispatch(tutordetail(_id));
   }, [dispatch, _id]);
@@ -32,32 +32,28 @@ const Tutordetails = () => {
   const [transation, setTransation] = useState([]);
   const [tutorpaydetails, setTutorpaydetails] = useState([]);
   const [Loader, setLoader] = useState(true);
-  console.log(tutorpaydetails);
+
   const token = localStorage.getItem("token");
-  console.log(data);
 
   useEffect(() => {
     setIsLoading(true);
     const fetchData = async () => {
       try {
         const response = await axios.post(
-          `https://vaidik-backend.onrender.com/admin/tutorquestionanswer/${_id}`,
+          `${url}/admin/tutorquestionanswer/${_id}`,
           {
             token: token,
           }
         );
         const response1 = await axios.post(
-          `https://vaidik-backend.onrender.com/admin/transactiondetails/${_id}`,
+          `${url}/admin/transactiondetails/${_id}`,
           {
             token: token,
           }
         );
-        const response2 = await axios.post(
-          `https://vaidik-backend.onrender.com/admin/tutordetails/${_id}`,
-          {
-            token: token,
-          }
-        );
+        const response2 = await axios.post(`${url}/admin/tutordetails/${_id}`, {
+          token: token,
+        });
         setData(response.data.message);
         setTransation(response1.data.transaction);
         setTutorpaydetails(response2.data.document);
@@ -66,13 +62,8 @@ const Tutordetails = () => {
       } catch (error) {
         logoutIfInvalidToken(error.response);
         if (error.response) {
-          console.log(error.response.status);
-          console.log(error.response.data);
-          console.log(error.response.headers);
         } else if (error.request) {
-          console.log(error.request);
         } else {
-          console.log("Error", error.message);
         }
       }
     };
@@ -80,7 +71,6 @@ const Tutordetails = () => {
     fetchData();
   }, []);
 
-  console.log(data);
   const approveTutors = async () => {
     const tutorsObjData = {
       token: token,
@@ -88,17 +78,16 @@ const Tutordetails = () => {
     };
     try {
       const { data } = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/tutorstatus/${_id}`,
+        `${url}/admin/tutorstatus/${_id}`,
         tutorsObjData
       );
-      console.log(data);
+
       if (data.message) {
         toast.success(data.message);
       } else {
         toast.error(data.error);
       }
     } catch (error) {
-      console.log("error - ", error);
       toast.error(error.response.data.error);
     }
   };
@@ -110,20 +99,77 @@ const Tutordetails = () => {
     };
     try {
       const { data } = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/tutorstatus/${_id}`,
+        `${url}/admin/tutorstatus/${_id}`,
         tutorsObjData
       );
-      console.log(data);
+
       if (data.message) {
         toast.success(data.message);
       } else {
         toast.error(data.error);
       }
     } catch (error) {
-      console.log("error - ", error);
       toast.error(error.response.data.error);
     }
   };
+
+  //warningQuestions Api
+  const warningQuestions = async () => {
+    const tutorsObjData = {
+      token: token,
+    };
+    try {
+      const { data } = await axios.post(
+        `${url}/admin/gettutorwarningquestion/${_id}?skip=0&limit=5`,
+        tutorsObjData
+      );
+
+      if (data.message) {
+        toast.success(data.message);
+      } else {
+        toast.error(data.error);
+      }
+    } catch (error) {
+      toast.error(error.response.data.error);
+    }
+  };
+  useEffect(() => {
+    warningQuestions();
+  }, []);
+
+  //Suspend Api
+  const Suspend = async () => {
+    try {
+      const { data } = await axios.post(`${url}/admin/suspendtutor/${_id}`, {
+        token: token,
+      });
+
+      if (data.message) {
+        toast.success(data.message);
+      } else {
+        toast.error(data.error);
+      }
+    } catch (error) {
+      toast.error(error.response.data.error);
+    }
+  };
+  //Reactive Api
+  const Reactive = async () => {
+    try {
+      const { data } = await axios.post(`${url}/admin/reactivetutor/${_id}`, {
+        token: token,
+      });
+
+      if (data.message) {
+        toast.success(data.message);
+      } else {
+        toast.error(data.error);
+      }
+    } catch (error) {
+      toast.error(error.response.data.error);
+    }
+  };
+
   let navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(8);
@@ -134,7 +180,7 @@ const Tutordetails = () => {
   const handleChange = (event, value) => {
     setCurrentPage(value);
   };
-  console.log(displayUsers);
+
   const [currentPage1, setCurrentPage1] = useState(1);
   const [postsPerPage1] = useState(6);
   const indexOfLastPage1 = currentPage1 * postsPerPage1;
@@ -149,11 +195,9 @@ const Tutordetails = () => {
   };
 
   const toComponentB = (data) => {
-    console.log(data)
-    navigate("/tutorquestiondetails", { state: { data } });
+    console.log(data,_id);
+    navigate("/tutorquestiondetails", { state: { data,_id } });
   };
-
-  console.log(displaytransation);
 
   return (
     <>
@@ -163,20 +207,31 @@ const Tutordetails = () => {
           <Sidebar />
           <div className="main-details" style={{ width: "inherit" }}>
             {Loader ? (
-              <div
-                className="loader-end text-center"
-                style={{ marginTop: "250px" }}
-              >
+              <div className="loader-end text-center">
                 {Loader ? (
-                  <ColorRing
-                    visible={true}
-                    height="80"
-                    width="80"
-                    ariaLabel="blocks-loading"
-                    wrapperStyle={{}}
-                    wrapperClass="blocks-wrapper"
-                    colors={["black"]}
-                  />
+                  <p
+                    style={{
+                      marginLeft: "auto",
+                      marginRight: "auto",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      height: "100vh",
+                    }}>
+                    <ColorRing
+                      visible={true}
+                      height="80"
+                      width="80"
+                      ariaLabel="blocks-loading"
+                      wrapperStyle={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                        height: "100vh",
+                      }}
+                      colors={["black"]}
+                    />
+                  </p>
                 ) : null}
               </div>
             ) : (
@@ -186,8 +241,7 @@ const Tutordetails = () => {
                     <div key={index} style={{ backgroundColor: "#c0d7ff" }}>
                       <div
                         className="row"
-                        style={{ backgroundColor: "#c0d7ff" }}
-                      >
+                        style={{ backgroundColor: "#c0d7ff" }}>
                         <div className="col">
                           <div className="profile">
                             <div className="profile-img mt-2">
@@ -205,7 +259,6 @@ const Tutordetails = () => {
 
                           <div>
                             <strong>Bank Name:</strong>
-
                             {data.bankdetails?.bankName || ""}
                           </div>
                           <div>
@@ -258,22 +311,23 @@ const Tutordetails = () => {
                             <strong>Rs.{data.balance}</strong>
                           </h4>
                         </div>
-
-                        <div className=" text-center">
-                          <hr />
-                          <Button
-                            className="btn-success my-4 mx-3"
-                            onClick={() => approveTutors()}
-                          >
-                            <AiOutlineCheck /> Approve
-                          </Button>
-                          <Button
-                            className="btn-danger"
-                            onClick={() => rejectTutors()}
-                          >
-                            <AiOutlineClose /> Rejected
-                          </Button>
-                        </div>
+                        {active === "3" ? (
+                          <div className=" text-center">
+                            <hr />
+                            <Button
+                              className="btn-success my-4 mx-3"
+                              onClick={() => approveTutors()}>
+                              <AiOutlineCheck /> Approve
+                            </Button>
+                            <Button
+                              className="btn-danger"
+                              onClick={() => rejectTutors()}>
+                              <AiOutlineClose /> Rejected
+                            </Button>
+                          </div>
+                        ) : (
+                          ""
+                        )}
                       </div>
                     </div>
                   );
@@ -332,15 +386,29 @@ const Tutordetails = () => {
                       <div className="card-body">
                         {isLoading ? (
                           <div>
-                            <ColorRing
-                              visible={true}
-                              height="80"
-                              width="80"
-                              ariaLabel="blocks-loading"
-                              wrapperStyle={{}}
-                              wrapperClass="blocks-wrapper"
-                              colors={["black"]}
-                            />
+                            <p
+                              style={{
+                                marginLeft: "auto",
+                                marginRight: "auto",
+                                display: "flex",
+                                justifyContent: "center",
+                                alignItems: "center",
+                                height: "100vh",
+                              }}>
+                              <ColorRing
+                                visible={true}
+                                height="80"
+                                width="80"
+                                ariaLabel="blocks-loading"
+                                wrapperStyle={{
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                  height: "100vh",
+                                }}
+                                colors={["black"]}
+                              />
+                            </p>
                           </div>
                         ) : (
                           <>
@@ -361,8 +429,7 @@ const Tutordetails = () => {
                                       style={{ cursor: "pointer" }}
                                       onClick={() => {
                                         toComponentB(data);
-                                      }}
-                                    >
+                                      }}>
                                       {data.allQuestions.question
                                         .split(" ")
                                         .slice(0, 3)
@@ -392,10 +459,125 @@ const Tutordetails = () => {
                     </div>
                   </div>
                 </div>
+                {active === "2" ? (
+                  <>
+                    <div className=" text-start heading-main mt-5">
+                      <h4>Warning Questions</h4>
+                    </div>
+                    <div className="row">
+                      <div className="col-12 grid-margin stretch-card">
+                        <div className="card new-table">
+                          <div className="card-body">
+                            {isLoading ? (
+                              <div>
+                                <p
+                                  style={{
+                                    marginLeft: "auto",
+                                    marginRight: "auto",
+                                    display: "flex",
+                                    justifyContent: "center",
+                                    alignItems: "center",
+                                    height: "100vh",
+                                  }}>
+                                  <ColorRing
+                                    visible={true}
+                                    height="80"
+                                    width="80"
+                                    ariaLabel="blocks-loading"
+                                    wrapperStyle={{
+                                      display: "flex",
+                                      justifyContent: "center",
+                                      alignItems: "center",
+                                      height: "100vh",
+                                    }}
+                                    colors={["black"]}
+                                  />
+                                </p>
+                              </div>
+                            ) : (
+                              <>
+                                <table className="table v-top">
+                                  <thead>
+                                    <tr>
+                                      <th scope="col">Question</th>
+                                      <th scope="col">Question Type</th>
+                                      <th scope="col">Question Subject</th>
+                                      <th scope="col">tutor Price</th>
+                                      <th scope="col">status</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    {displayUsers.map((data) => (
+                                      <tr key={data._id}>
+                                        <td
+                                          style={{ cursor: "pointer" }}
+                                          onClick={() => {
+                                            toComponentB(data);
+                                          }}>
+                                          {data.allQuestions.question
+                                            .split(" ")
+                                            .slice(0, 3)
+                                            .join(" ")}
+                                        </td>
+                                        <td>
+                                          {data.allQuestions.questionType}
+                                        </td>
+                                        <td>
+                                          {data.allQuestions.questionSubject}
+                                        </td>
+                                        <td>{data.allQuestions.tutorPrice}</td>
+                                        <td>{data.allQuestions.status}</td>
+                                      </tr>
+                                    ))}
+                                  </tbody>
+                                </table>
+                                <div className="table-pagination">
+                                  <Pagination
+                                    count={totalPages}
+                                    page={currentPage}
+                                    onChange={handleChange}
+                                    shape="rounded"
+                                    variant="outlined"
+                                  />
+                                </div>
+                              </>
+                            )}
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </>
+                ) : (
+                  ""
+                )}
+
                 <div
                   className="gap-2 d-md-flex"
-                  style={{ justifyContent: "end" }}
-                >
+                  style={{ justifyContent: "end" }}>
+                  {active === "5" ? (
+                    <Link to="/tutorlist">
+                      <button
+                        className="btn btn-outline-primary"
+                        type="button"
+                        onClick={Reactive}>
+                        Reactive
+                      </button>
+                    </Link>
+                  ) : (
+                    ""
+                  )}
+                  {active === "2" ? (
+                    <Link to="/tutorlist">
+                      <button
+                        className="btn btn-outline-primary"
+                        type="button"
+                        onClick={Suspend}>
+                        Suspend
+                      </button>
+                    </Link>
+                  ) : (
+                    ""
+                  )}
                   <Link to={`/professionaldetails/${_id}`}>
                     <button className="btn btn-outline-primary" type="button">
                       Edit User

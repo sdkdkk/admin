@@ -18,7 +18,7 @@ import Socialmediasetting from "./components/Services/Socialmediasetting";
 import Login from "./components/Login/Login";
 import Scroll from "./components/Scroll/Scroll";
 import Tutorexam from "./components/Tutorexam/Tutorexam";
-import Signup from "./components/Login/Signup";
+
 import Tutordetails from "./components/Tutors/Tutordetails";
 import Studentdetails from "./components/Student/Studentdetails";
 import Testexam from "./components/Tutorexam/Testexam";
@@ -65,6 +65,15 @@ import StudentClass from "./components/studentClass/StudentClass";
 import { isLoggedIn } from "./helpers/utility";
 import ForgotpassWord from "./components/ForgotPassWord/ForgotpassWord";
 import AddMobile from "./components/addmobile/AddMobile";
+import Contactdetails from "./components/Contactus/Contactdetails";
+import IssueQuestion from "./components/Question/IssueQuestion";
+import IssueInfo from "./components/Question/IssueInfo";
+import Studentpostingstreak from "./components/Bonussection/Studentpostingstreak";
+import Tutorpostingstreak from "./components/Bonussection/Tutorpostingstreak ";
+import Studentreferral from "./components/Bonussection/Studentreferral";
+import Tutorreferral from "./components/Bonussection/Tutorreferral";
+
+
 
 function RequireAuth({ children }) {
   let auth = isLoggedIn();
@@ -201,10 +210,8 @@ function App() {
           }
         />
         <Route path="login" element={<Login />} />
-        <Route path="signup" element={<Signup />} />
-        <Route path="signup" element={<Signup />} />
         <Route
-          path="/tutordetails/:_id"
+          path="/tutordetails/:_id/:active"
           element={
             <RequireAuth>
               <Tutordetails />
@@ -350,7 +357,22 @@ function App() {
             </RequireAuth>
           }
         />
-
+        <Route
+          path="/issuequestion"
+          element={
+            <RequireAuth>
+              <IssueQuestion />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/issueinfo/:id"
+          element={
+            <RequireAuth>
+              <IssueInfo />
+            </RequireAuth>
+          }
+        />
         <Route path="/tutorque" element={<Tutorque />} />
         <Route path="/adminque" element={<Adminque />} />
         <Route path="/reanswerque" element={<Reanswerque />} />
@@ -480,6 +502,38 @@ function App() {
             </RequireAuth>
           }
         />
+        <Route
+          path="/studentpostingstreak"
+          element={
+            <RequireAuth>
+              <Studentpostingstreak />
+            </RequireAuth>
+          }
+        />
+         <Route
+          path="/tutorpostingstreak"
+          element={
+            <RequireAuth>
+              <Tutorpostingstreak />
+            </RequireAuth>
+          }
+        />
+             <Route
+          path="/studentreferral"
+          element={
+            <RequireAuth>
+              <Studentreferral />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="/tutorreferral"
+          element={
+            <RequireAuth>
+              <Tutorreferral />
+            </RequireAuth>
+          }
+        />
 
         <Route path="/contactus" element={<Contactus />} />
         <Route path="/forgotpassword" element={<ForgotpassWord />} />
@@ -491,8 +545,8 @@ function App() {
             </RequireAuth>
           }
         />
-        <Route path="/addmobile" element={<AddMobile /> } />
-
+        <Route path="/addmobile" element={<AddMobile />} />
+        <Route path="/contactdetails" element={<Contactdetails />} />
       </Routes>
       <Scroll />
     </BrowserRouter>

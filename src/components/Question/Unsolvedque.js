@@ -11,6 +11,8 @@ import axios from "axios";
 import { getAdminQuestions } from "../../Redux/Loginpages/getAdminQuestionSlice";
 import { useNavigate } from "react-router-dom";
 
+const url = process.env.REACT_APP_API_BASE_URL;
+
 const Unsolvedque = () => {
 
     const history = useNavigate();
@@ -31,14 +33,13 @@ const Unsolvedque = () => {
     const fetchSubjectData = async () => {
         try {
             const response = await axios.post(
-                `https://vaidik-backend.onrender.com/getquestionsubject`,
+                `${url}/getquestionsubject`,
                 {
                     token: token,
                 }
             );
             setSubjectList(response?.data?.data);
         } catch (error) {
-            console.log(error.response.data.error);
             // notify("Invalid refresh token!");
         }
     };

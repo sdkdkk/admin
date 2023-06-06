@@ -4,9 +4,7 @@ import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
 import "../Css/Tutorlist.css";
-// import { Pagination } from "@mui/material";
 import { Button } from "react-bootstrap";
-// import { BiDotsVerticalRounded } from "react-icons/bi";
 import { useDispatch, useSelector } from "react-redux";
 import { searchengine } from "../../Redux/Loginpages/searchengineSlice";
 import { useNavigate } from "react-router-dom";
@@ -14,38 +12,14 @@ import { ColorRing } from "react-loader-spinner";
 
 const Searchengine = () => {
   const searchengineState = useSelector((state) => state.searchengine);
-  const searchengineerror = useSelector((state) => state.searchengine.error);
   const [isLoading, setIsLoading] = useState(false);
-  console.log(searchengineState);
   let navigate = useNavigate();
   const dispatch = useDispatch();
 
-  // useEffect(() => {
-  //   if (
-  //     searchengineerror &&
-  //     (searchengineerror.error === "Please enter correct Token!" ||
-  //       searchengineerror.error === "Invalid refresh token!")
-  //   ) {
-  //     try {
-  //       console.log(searchengineerror);
-  //       var limit = 5,
-  //         skip = 0,
-  //         act = 1;
-  //       dispatch(searchengine(limit, skip, act)).then(() => {
-  //         navigate("/login");
-  //       });
-  //     } catch (error) {
-  //       console.log("cccfg - ", error);
-  //     }
-  //   }
-  // }, [searchengineerror, dispatch, navigate]);
-
-  // console.log(searchengineState)
   const toComponentB = (data) => {
     navigate("/Searchenginequedetail", { state: { data } });
   };
 
-  //Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
 
@@ -53,9 +27,8 @@ const Searchengine = () => {
     setIsLoading(true);
     const skip = (currentPage - 1) * itemsPerPage;
     var limit = itemsPerPage;
-    // dispatch(searchengine(limit, skip));
     dispatch(searchengine(limit, skip, 0)).then(() => {
-      setIsLoading(false); // Set isLoading to false when data is fetched
+      setIsLoading(false);
     });
   }, [currentPage, itemsPerPage]);
 
@@ -93,7 +66,7 @@ const Searchengine = () => {
                   <div className="card new-table">
                     <div className="card-body">
                       {isLoading ? (
-                        <div style={{ marginLeft: "450px", marginTop: "50px" }}>
+                        <div className="loader-container">
                           <ColorRing
                             visible={true}
                             height="80"
@@ -117,30 +90,18 @@ const Searchengine = () => {
                           </thead>
                           <tbody>
                             {searchengineData.map((data) => (
-                              <tr>
+                              <tr key={data.id}>
                                 <td
                                   style={{ cursor: "pointer" }}
                                   onClick={() => {
                                     toComponentB(data);
                                   }}>
-                                  {data.question
-                                    .split(" ")
-                                    .slice(0, 3)
-                                    .join(" ")}
-                                  ...
+                                  {data.question.split(" ").slice(0, 3).join(" ")}
                                 </td>
                                 <td>{data.questionType}</td>
                                 <td>{data.questionSubject}</td>
                                 <td>{data.questionPrice}</td>
                                 <td>{data.status}</td>
-
-                                {/* <td>
-                                    <Link to={`/studentdetails/${data._id}`}>
-                                      <button className="btn btn-primary btn-sm">
-                                        click
-                                      </button>
-                                    </Link>
-                                  </td> */}
                               </tr>
                             ))}{" "}
                           </tbody>
@@ -160,24 +121,10 @@ const Searchengine = () => {
                         </button>
                         <button
                           className="btn btn-primary"
-                          onClick={() => setCurrentPage(currentPage + 1)}
-                          // disabled={
-                          //   currentPage ===
-                          //   Math.ceil(Searchengine.length / postsPerPage)
-                          // }
-                        >
+                          onClick={() => setCurrentPage(currentPage + 1)}>
                           {" "}
                           next{" "}
                         </button>
-                        {/* <Pagination
-                          count={4}
-                          page={currentPage}
-                          onChange={handleChange}
-                          shape="rounded"
-                          variant="outlined"
-                          showFirstButton
-                          showLastButton
-                        /> */}
                       </div>
                     </div>
                   </div>

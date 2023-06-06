@@ -9,6 +9,8 @@ import "react-toastify/dist/ReactToastify.css";
 import { ColorRing } from "react-loader-spinner";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
+const url = process.env.REACT_APP_API_BASE_URL;
+
 const Tutorexamconfig = () => {
   const {
     register,
@@ -17,12 +19,12 @@ const Tutorexamconfig = () => {
   } = useForm({});
 
   const token = localStorage.getItem("token");
-  console.log(token);
+
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [conversionRate, setConversionRate] = useState([]);
   const [updatedConversionRate, setUpdatedConversionRate] = useState({});
-  console.log(conversionRate);
+
   const notify = (data) => toast(data);
 
   useEffect(() => {
@@ -30,17 +32,15 @@ const Tutorexamconfig = () => {
       try {
         setLoading1(true);
         const response = await axios.post(
-          `https://vaidik-backend.onrender.com/admin/gettutorexamdetail`,
+          `${url}/admin/gettutorexamdetail`,
           {
             token: token,
           }
         );
-        // console.log(response.data);
         await setConversionRate(response.data.data);
         setLoading1(false);
       } catch (error) {
         logoutIfInvalidToken(error.response)
-        console.log(error.response.data.error);
         // notify("Invalid refresh token!");
         setLoading(false);
       }
@@ -52,7 +52,7 @@ const Tutorexamconfig = () => {
     try {
       setLoading(true);
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/tutorexamdetail`,
+        `${url}/admin/tutorexamdetail`,
         {
           MCQ: parseInt(data.MCQ),
           theory: parseInt(data.theory),
@@ -60,7 +60,6 @@ const Tutorexamconfig = () => {
         }
       );
       if (response.data.status === 1) {
-        console.log(response.data.status);
         notify(response.data.message);
         setUpdatedConversionRate({
           MCQ: parseInt(data.MCQ),
@@ -69,7 +68,6 @@ const Tutorexamconfig = () => {
       }
     } catch (error) {
       logoutIfInvalidToken(error.response)
-      console.log(error.response.data.error);
       notify(error.response.data.error);
     } finally {
       setLoading(false); // set loading to false when API call is complete
@@ -92,7 +90,7 @@ const Tutorexamconfig = () => {
                   <div className="card new-table">
                     <div className="card-body">
                       {loading1 ? (
-                        <p style={{ marginLeft: "400px", marginTop: "50px" }}>
+                        <p className="loader-container">
                           <ColorRing
                             visible={true}
                             height="80"

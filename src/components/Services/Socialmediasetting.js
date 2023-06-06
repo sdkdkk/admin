@@ -3,7 +3,6 @@ import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
 import "../Css/Tutorlist.css";
-import { useDispatch, useSelector } from "react-redux";
 import { Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -11,23 +10,19 @@ import axios from "axios";
 import { ColorRing } from "react-loader-spinner";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
+const url = process.env.REACT_APP_API_BASE_URL;
+
 const Socialmediasetting = () => {
   const [loading, setLoading] = useState(false);
-  const [isEditMode, setIsEditMode] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [data, setData] = useState([]);
   let token = localStorage.getItem("token");
   const notify = (data) => toast(data);
-  const socialmedia = useSelector((state) => state.socialmedia);
-  const dispatch = useDispatch();
-  console.log(socialmedia);
 
   const { register, handleSubmit, reset } = useForm({});
-
   const onSubmit = async (data) => {
     setLoading(true);
     let token = localStorage.getItem("token");
-    console.log(data);
     let mediaObjData = {
       token: token,
       Facebook: data.Facebook,
@@ -36,11 +31,10 @@ const Socialmediasetting = () => {
       YouTube: data.YouTube,
       Instagram: data.Instagram,
     };
-    console.log(mediaObjData);
 
     try {
       const { data } = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/socialmedia`,
+        `${url}/admin/socialmedia`,
         mediaObjData
       );
       if (data.status === 1) {
@@ -50,8 +44,7 @@ const Socialmediasetting = () => {
         notify(data.error);
       }
     } catch (error) {
-      logoutIfInvalidToken(error.response)
-      console.log("error - ", error);
+      logoutIfInvalidToken(error.response);
       notify(error.response.data.error);
     }
     setLoading(false);
@@ -66,19 +59,14 @@ const Socialmediasetting = () => {
     try {
       setLoading1(true);
 
-      const response = await axios.post(
-        `https://vaidik-backend.onrender.com/admin/getsocialmedia`,
-        {
-          token: token,
-        }
-      );
-      console.log(response.data.data);
+      const response = await axios.post(`${url}/admin/getsocialmedia`, {
+        token: token,
+      });
       setData(response.data.data);
       reset(response.data.data);
       setLoading1(false);
     } catch (error) {
-      logoutIfInvalidToken(error.response)
-      console.log(error.response.data.error);
+      logoutIfInvalidToken(error.response);
       setLoading1(false);
     }
   };
@@ -100,7 +88,7 @@ const Socialmediasetting = () => {
                     <div className="card-body">
                       <Form onSubmit={handleSubmit(onSubmit)}>
                         {loading1 ? (
-                          <p style={{ marginLeft: "400px", marginTop: "50px" }}>
+                          <p className="loader-container">
                             <ColorRing
                               visible={true}
                               height="80"

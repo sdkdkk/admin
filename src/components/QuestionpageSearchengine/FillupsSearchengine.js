@@ -5,7 +5,6 @@ import { useLocation } from "react-router-dom";
 const FillupsSearchengine = () => {
   const location = useLocation();
   const answerData = JSON.parse(location.state.data.answer);
-  console.log(location.state.data);
 
   return (
     <>

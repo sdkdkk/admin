@@ -8,19 +8,16 @@ import { DateObject } from "react-multi-date-picker";
 import DatePicker from "react-multi-date-picker";
 import InputIcon from "react-multi-date-picker/components/input_icon";
 import { Pagination } from "@mui/material";
-// import { StudentList } from "../Data/Data1";
 import { studentlistd } from "../../Redux/Loginpages/studentlistSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { ColorRing } from "react-loader-spinner";
 import Moment from "react-moment";
 
-
 const Studentlist = () => {
   const studentists = useSelector((state) => state.studentlist.data.document);
   const isLoading = useSelector((state) => state.studentlist.isLoading);
-  // console.log(studentists);
-  //table
+
   const [searchTerm, setSearchTerm] = useState("");
   const [currentData, setCurrentData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
@@ -30,9 +27,8 @@ const Studentlist = () => {
   const displayUsers =
     currentData && currentData.slice(indexOfFirstPage, indexOfLastPage);
   const dispatch = useDispatch();
-  const totalPages = Math.ceil(currentData.length / postsPerPage);
+  const totalPages = currentData ? Math.ceil(currentData.length / postsPerPage) : 0;
 
-  console.log(displayUsers);
   //date picker
   const [values, setValues] = useState([
     new DateObject().subtract(4, "days"),
@@ -59,17 +55,19 @@ const Studentlist = () => {
   }, [searchTerm]);
 
   const searchItem = () => {
-    const filteredData = studentists.filter((item) => {
-      const itemDate = new Date(item.createdAt);
-      const name = item.name ? item.name.toLowerCase() : null;
-
-      return (
-        (!values[0] || itemDate >= values[0].toDate()) &&
-        (!values[1] || itemDate <= values[1].toDate()) &&
-        (!searchTerm || name === searchTerm.toLowerCase())
-      );
-    });
-    setCurrentData(filteredData);
+    if (studentists) { // Add null check here
+      const filteredData = studentists.filter((item) => {
+        const itemDate = new Date(item.createdAt);
+        const name = item.name ? item.name.toLowerCase() : null;
+  
+        return (
+          (!values[0] || itemDate >= values[0].toDate()) &&
+          (!values[1] || itemDate <= values[1].toDate()) &&
+          (!searchTerm || name === searchTerm.toLowerCase())
+        );
+      });
+      setCurrentData(filteredData);
+    }
   };
 
   return (
@@ -79,14 +77,26 @@ const Studentlist = () => {
         <div className="container-fluid page-body-wrapper">
           <Sidebar />
           {isLoading ? (
-            <p style={{ marginLeft: "500px", marginTop: "250px" }}>
+            <p
+              style={{
+                marginLeft: "auto",
+                marginRight: "auto",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100vh",
+              }}>
               <ColorRing
                 visible={true}
                 height="80"
                 width="80"
                 ariaLabel="blocks-loading"
-                wrapperStyle={{}}
-                wrapperClass="blocks-wrapper"
+                wrapperStyle={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  height: "100vh",
+                }}
                 colors={["black"]}
               />
             </p>
@@ -152,9 +162,9 @@ const Studentlist = () => {
                               <th scope="col">Action</th>
                             </tr>
                           </thead>
-                          {displayUsers &&
-                            displayUsers.map((data) => (
-                              <tbody>
+                          {displayUsers && displayUsers.length > 0 ? (
+                          displayUsers && displayUsers.map((data) => (
+                              <tbody key={data._id}>
                                 <tr>
                                   <td>
                                     {data.createdAt ? (
@@ -183,7 +193,16 @@ const Studentlist = () => {
                                   </td>
                                 </tr>
                               </tbody>
-                            ))}
+                            ))
+                          ) : (
+                            <tbody>
+                              <tr>
+                                <td colSpan="8">
+                                  <h4>No student Found ...</h4>
+                                </td>
+                              </tr>
+                            </tbody>
+                          )}
                         </table>
                         <div className="table-pagination">
                           <Pagination
@@ -192,8 +211,6 @@ const Studentlist = () => {
                             onChange={handleChange}
                             shape="rounded"
                             variant="outlined"
-                            // showFirstButton
-                            // showLastButton
                           />
                         </div>
                       </div>
