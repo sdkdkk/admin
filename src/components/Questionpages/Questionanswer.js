@@ -52,15 +52,15 @@ const Questionanswer = () => {
       <div className="container-scroller">
         <div className="container-fluid page-body-wrapper">
           <div className="container-fluid">
-            <div className="mx-2 text-start">
+            <div className="text-start">
               <p>
-                <span className="text-dark">Question Subject:</span>
+                <span className="text-dark">Question Subject: </span>
                 {location.state.data.allQuestions.questionSubject}
               </p>
               <p>
-                Question Type:{location.state.data.allQuestions.questionType}
+                Question Type: {location.state.data.allQuestions.questionType}
               </p>
-              <p>Status:{location.state.data.allQuestions.status}</p>
+              <p>Status: {location.state.data.allQuestions.status}</p>
               {location.state.data.allQuestions.dateOfPosted && (
                 <p>
                   Date Of Posted:

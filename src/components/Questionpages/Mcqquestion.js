@@ -21,10 +21,6 @@ const Mcqquestion = () => {
   const [show, setShow] = useState(false);
   const [data, setData] = useState([]);
   const { register, handleSubmit, control } = useForm({});
-  const handleImageClick = (url) => {
-    setShow(true);
-    setImageSrc(url);
-  };
   const [isEditing, setEditing] = useState(false);
   const onSubmit = async (data) => {
     console.log(data);
@@ -59,15 +55,15 @@ const Mcqquestion = () => {
       <div className="container-scroller">
         <div className="container-fluid page-body-wrapper">
           <div className="container-fluid">
-            <div className="mx-2 text-start">
+            <div className="text-start">
               <p>
-                <span className="text-dark">Question Subject:</span>
+                <span className="text-dark">Question Subject: </span>
                 {location.state.data.allQuestions.questionSubject}
               </p>
               <p>
-                Question Type:{location.state.data.allQuestions.questionType}
+                Question Type: {location.state.data.allQuestions.questionType}
               </p>
-              <p>Status:{location.state.data.allQuestions.status}</p>
+              <p>Status: {location.state.data.allQuestions.status}</p>
               {location.state.data.allQuestions.createdAt && (
                 <p>
                   Date Of Posted:
@@ -81,6 +77,7 @@ const Mcqquestion = () => {
               <div className="content mt-2">
                 <div className="row">
                   <div className="col-md-12 col-lg-12 mb--20 ">
+                  <h5>Question</h5>
                     <input
                       className="p--20 rbt-border radius-6 w-100 bg-primary-opacity"
                       defaultValue={location.state.data.allQuestions.question}
@@ -94,7 +91,7 @@ const Mcqquestion = () => {
                     }}
                   />*/}
 
-                    <h5>Question</h5>
+                    
                   </div>
                   {answer && (
                     <div className="col-md-12 col-lg-12 mb--20">

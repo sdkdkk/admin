@@ -22,9 +22,9 @@ const QuestionanswerSearchengine = () => {
         <div className="container-fluid page-body-wrapper">
           {/* <Sidebar /> */}
           <div className="container-fluid">
-            <div className="mx-2 text-start">
+            <div className="text-start">
               <p>
-                <span className="text-dark">Question Subject:</span>
+                <span className="text-dark">Question Subject: </span>
                 {questionSubject}
               </p>
               <p>Question Type: {questionType}</p>
