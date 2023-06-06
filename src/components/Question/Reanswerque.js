@@ -203,10 +203,10 @@ const Reanswerque = () => {
               <div className="row mt-4">
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table">
-                    <div class="card-body">
-                      <div class="table-responsive">
+                    <div className="card-body">
+                      <div className="table-responsive">
                         <table
-                          class={`table ${
+                          className={`table ${
                             getAdminQuestionsState?.isLoading && "table-loading"
                           }`}>
                           <thead>
@@ -255,7 +255,7 @@ const Reanswerque = () => {
                           </tbody>
                         </table>
                       </div>
-                      <div class="table-pagination">
+                      <div className="table-pagination">
                         <Pagination
                           page={currentPage}
                           onChange={handleChange}

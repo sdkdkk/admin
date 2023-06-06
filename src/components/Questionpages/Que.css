@@ -62,15 +62,15 @@ input[type=tel],
 textarea {
     font-size: 16px;
     font-weight: 400;
-    height: 48px;
+    height: 44px;
     line-height: 28px;
     background: #fff;
     -webkit-box-shadow: none;
     box-shadow: none;
-    padding: 0 15px;
+    padding: 0 26px;
     outline: none;
     /* border: var(--border-width) solid var(--color-border); */
-    border-radius: var(--radius);
+    border-radius: 6px;
     color: var(--color-body);
     box-shadow: var(--shadow-10);
 }

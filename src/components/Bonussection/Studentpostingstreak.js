@@ -187,7 +187,7 @@ const Studentpostingstreak = () => {
                               width="80"
                               ariaLabel="blocks-loading"
                               wrapperStyle={{}}
-                              wrapperClass="blocks-wrapper"
+                              wrapperclassName="blocks-wrapper"
                               colors={["black"]}
                             />
                           </p>
