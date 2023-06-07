@@ -21,13 +21,6 @@ const Matchfollow = () => {
 
   const [editedAnswer, setEditedAnswer] = useState([...answerData]);
   const onSubmit = async (formData) => {
-    const cleanedAnswer = editedAnswer.map((item) => {
-      return {
-        id: item.id,
-        value: item.value.replace(/\\/g, ""),
-      };
-    });
-
     const token = localStorage.getItem("token");
 
     try {
@@ -37,10 +30,11 @@ const Matchfollow = () => {
           token: token,
           questionId: location.state.data.allQuestions.questionId,
           question: formData.question,
-          answer: isEditing ? cleanedAnswer : answerData,
+          answer: JSON.stringify(editedAnswer), // Convert the answer array to a JSON string
           explanation: formData.explanation,
         }
       );
+
       setData(response.data);
       toast.success(response.data.message);
     } catch (error) {
@@ -53,7 +47,7 @@ const Matchfollow = () => {
     <div className="container-scroller">
       <div className="container-fluid page-body-wrapper">
         <div className="container-fluid">
-          <div className="mx-2 text-start">
+          <div className="text-start">
             <p>
               <span className="text-dark">Question Subject:</span>
               {location.state.data.allQuestions.questionSubject}
@@ -88,10 +82,15 @@ const Matchfollow = () => {
                     <h5>Answer</h5>
                     {editedAnswer.map((data, index) => (
                       <div key={index}>
+                        <span className="mx-3">{data.id}</span>
                         <input
-                          className="p--20 rbt-border radius-6 bg-primary-opacity"
-                          defaultValue={data.value}
-                          {...register(`answer.${index}.value`)}
+                          className="p--20 rbt-border radius-6 "
+                          value={data.value} // Use the value prop instead of defaultValue
+                          onChange={(e) => {
+                            const updatedAnswer = [...editedAnswer];
+                            updatedAnswer[index].value = e.target.value;
+                            setEditedAnswer(updatedAnswer);
+                          }}
                         />
                         <input
                           type="hidden"
@@ -112,14 +111,23 @@ const Matchfollow = () => {
                     <div className="p--20 rbt-border radius-6 bg-primary-opacity">
                       {editedAnswer.map((data, index) => (
                         <div key={index}>
-                          <span className="mx-3">{data.id}</span>
+                          <span className="">{data.id}</span>
                           <span>=</span>
-                          <span className="mx-3">{data.value}</span>
+                          <span className="">{data.value}</span>
                         </div>
                       ))}
                     </div>
                   </div>
                 )}
+                <div className="col-md-12 col-lg-12 mb--20">
+                  <h5>Explanation</h5>
+                  <input
+                    className="p--20 rbt-border radius-6 w-100 bg-primary-opacity"
+                    defaultValue={location.state.data.allQuestions.explanation}
+                    {...register("explanation")}
+                    disabled={!isEditing}
+                  />
+                </div>
               </div>
             </div>
             <div className="Personal-Settings-button col-lg-6">
