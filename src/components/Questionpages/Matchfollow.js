@@ -4,7 +4,7 @@ import { useLocation } from "react-router-dom";
 import Moment from "react-moment";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { Controller, useForm } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { Button } from "react-bootstrap";
 
 const url = process.env.REACT_APP_API_BASE_URL;
@@ -16,9 +16,9 @@ const Matchfollow = () => {
   );
   console.log(answerData);
   const [data, setData] = useState([]);
-  const { register, handleSubmit, control } = useForm({});
+  const { register, handleSubmit } = useForm({});
   const [isEditing, setEditing] = useState(false);
-  const [answer, setAnswer] = useState("");
+
   const [editedAnswer, setEditedAnswer] = useState([...answerData]);
   const onSubmit = async (formData) => {
     const cleanedAnswer = editedAnswer.map((item) => {
@@ -41,7 +41,6 @@ const Matchfollow = () => {
           explanation: formData.explanation,
         }
       );
-
       setData(response.data);
       toast.success(response.data.message);
     } catch (error) {
@@ -59,7 +58,9 @@ const Matchfollow = () => {
               <span className="text-dark">Question Subject: </span>
               {location.state.data.allQuestions.questionSubject}
             </p>
-            <p>Question Type: {location.state.data.allQuestions.questionType}</p>
+            <p>
+              Question Type: {location.state.data.allQuestions.questionType}
+            </p>
             <p>Status: {location.state.data.allQuestions.status}</p>
             {location.state.data.allQuestions.createdAt && (
               <p>
@@ -83,24 +84,28 @@ const Matchfollow = () => {
                   />
                 </div>
                 {isEditing ? (
-                 <div className="col-md-12 col-lg-12 mb--20">
-                 <h5>Answer</h5>
-                 {editedAnswer.map((data, index) => (
-                   <div key={index}>
-                     <input
-                       className="p--20 rbt-border radius-6 bg-primary-opacity"
-                       defaultValue={data.value}
-                       {...register(`answer.${index}.value`)}
-                     />
-                     <input
-                       type="hidden"
-                       defaultValue={data.id}
-                       {...register(`answer.${index}.id`)}
-                     />
-                   </div>
-                 ))}
-                 <input type="hidden" defaultValue={editedAnswer.length} {...register("answerLength")} />
-               </div>
+                  <div className="col-md-12 col-lg-12 mb--20">
+                    <h5>Answer</h5>
+                    {editedAnswer.map((data, index) => (
+                      <div key={index}>
+                        <input
+                          className="p--20 rbt-border radius-6 bg-primary-opacity"
+                          defaultValue={data.value}
+                          {...register(`answer.${index}.value`)}
+                        />
+                        <input
+                          type="hidden"
+                          defaultValue={data.id}
+                          {...register(`answer.${index}.id`)}
+                        />
+                      </div>
+                    ))}
+                    <input
+                      type="hidden"
+                      defaultValue={editedAnswer.length}
+                      {...register("answerLength")}
+                    />
+                  </div>
                 ) : (
                   <div className="col-md-12 col-lg-12 mb--20">
                     <h5>Answer</h5>
@@ -118,7 +123,6 @@ const Matchfollow = () => {
               </div>
             </div>
             <div className="Personal-Settings-button col-lg-6">
-              {/* Render the edit/update/delete buttons based on the editing state */}
               <Button
                 className="border-edit-btn"
                 size="lg"

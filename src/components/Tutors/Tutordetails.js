@@ -262,7 +262,7 @@ console.log(_id);
                             {data.bankdetails?.bankName || ""}
                           </div>
                           <div>
-                            <strong>Account Number:</strong>
+                            <strong>Acc.Number:</strong>
                             {data.bankdetails?.accountNumber || ""}
                           </div>
                           <div>
