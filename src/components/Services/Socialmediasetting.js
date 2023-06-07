@@ -101,7 +101,7 @@ const Socialmediasetting = () => {
                           </p>
                         ) : (
                           <>
-                            {" "}
+                            
                             <div className="row">
                               <div className="col-md-6">
                                 <Form.Group
@@ -175,7 +175,7 @@ const Socialmediasetting = () => {
                               type="submit"
                               disabled={loading}>
                               {loading ? "Loading..." : "Update"}
-                            </Button>{" "}
+                            </Button>
                           </div>
                         </div>
                       </Form>

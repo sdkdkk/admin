@@ -144,7 +144,7 @@ const StudentClass = () => {
                               />
                               {errors.studentClass && (
                                 <p className="error text-right text-danger">
-                                  Please Enter a Student Class{" "}
+                                  Please Enter a Student Class
                                 </p>
                               )}
                             </div>

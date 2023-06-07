@@ -81,8 +81,8 @@ const Questionreasnwer = () => {
           <div className="main-panel">
             <div className="content-wrapper">
               <div className="page-header">
-                <h3 className="page-title"> Question Reanswer Choice </h3>{" "}
-              </div>{" "}
+                <h3 className="page-title"> Question Reanswer Choice </h3>
+              </div>
               <div className="row mt-3">
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table">
@@ -90,8 +90,8 @@ const Questionreasnwer = () => {
                       <form onSubmit={handleSubmit((data) => onSubmit(data))}>
                         <div className="row">
                           <div className="col-lg-2 col-md-4 mt-2">
-                            <h6> Reanswer </h6>{" "}
-                          </div>{" "}
+                            <h6> Reanswer </h6>
+                          </div>
                           <div className="col-md-4">
                             <Form.Check
                               type="radio"
@@ -111,20 +111,20 @@ const Questionreasnwer = () => {
                               checked={reanswer === "no"}
                               onChange={() => setReanswer("no")}
                             />
-                          </div>{" "}
-                        </div>{" "}
+                          </div>
+                        </div>
                         <div className="row mt-4">
                           <div className="col-lg-2 col-md-4 mt-2">
-                            <h6> Reanswer Time </h6>{" "}
-                          </div>{" "}
+                            <h6> Reanswer Time </h6>
+                          </div>
                           <div className="col-lg-3 col-md-8">
                             <div className="mb-3">
                               <label
                                 htmlFor="hoursInput"
                                 className="form-label">
-                                {" "}
-                                Hours:{" "}
-                              </label>{" "}
+                                
+                                Hours:
+                              </label>
                               <input
                                 type="number"
                                 className="form-control"
@@ -146,16 +146,16 @@ const Questionreasnwer = () => {
                                   Please enter the hours.
                                 </p>
                               )}
-                            </div>{" "}
-                          </div>{" "}
+                            </div>
+                          </div>
                           <div className="col-lg-3 col-md-8 mt-3 mt-md-0">
                             <div className="mb-3">
                               <label
                                 htmlFor="minutesOutput"
                                 className="form-label">
-                                {" "}
-                                Minutes:{" "}
-                              </label>{" "}
+                                
+                                Minutes:
+                              </label>
                               <input
                                 type="number"
                                 className="form-control"
@@ -173,7 +173,7 @@ const Questionreasnwer = () => {
                         </div>
                         <div className="row mt-2">
                           <div className="col-lg-2 col-md-4">
-                            {/* <h6> & nbsp; </h6>{" "} */}
+                            {/* <h6> & nbsp; </h6> */}
                           </div>
                           <div className="col-lg-4 col-md-8 mb-2 text-md-end">
                             <Button variant="primary" type="submit">

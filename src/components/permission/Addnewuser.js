@@ -245,7 +245,7 @@ const Addnewuser = () => {
                                   value === password ||
                                   "The password does not match",
                               })}
-                            />{" "}
+                            />
                             {data ? (
                               <p className="text-danger">
                                 {errors.cpassword && errors.cpassword.message}

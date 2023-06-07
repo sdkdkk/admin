@@ -35,7 +35,7 @@ const QuestionanswerSearchengine = () => {
                 <div className="col-md-12 col-lg-12 mb--20">
                   <h5>Question</h5>
                   <div className="p--20 rbt-border radius-6 bg-primary-opacity">
-                    Q 01.{" "}
+                    Q 01.
                     <span dangerouslySetInnerHTML={{ __html: question }} />
                   </div>
                   {location.state.data.questionPhoto.map((photoUrl) => (
@@ -69,7 +69,7 @@ const QuestionanswerSearchengine = () => {
       <Modal show={show} onHide={() => setShow(false)}>
         <Modal.Header closeButton className="border-0"></Modal.Header>
         <Modal.Body className="text-center">
-          {" "}
+          
           <img
             style={{ maxWidth: "100%", maxHeight: "100%" }}
             src={imageSrc}

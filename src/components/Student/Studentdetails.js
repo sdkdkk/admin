@@ -268,7 +268,7 @@ const Studentdetails = () => {
                                   <td>{data.allQuestions.tutorPrice}</td>
                                   <td>{data.allQuestions.status}</td>
                                 </tr>
-                              ))}{" "}
+                              ))}
                             </tbody>
                           </table>
                           <div className="table-pagination">

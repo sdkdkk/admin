@@ -161,7 +161,7 @@ const Coupon = () => {
                               />
                               {errors.couponCode && (
                                 <p className="error text-right text-danger">
-                                  Please Enter a couponCode{" "}
+                                  Please Enter a couponCode
                                 </p>
                               )}
                             </div>
@@ -182,7 +182,7 @@ const Coupon = () => {
                               />
                               {errors.discount && (
                                 <p className="error text-right text-danger">
-                                  Please Enter a discount{" "}
+                                  Please Enter a discount
                                 </p>
                               )}
                             </div>
@@ -205,7 +205,7 @@ const Coupon = () => {
                               />
                               {errors.validityDate && (
                                 <p className="error text-right text-danger">
-                                  Please Enter a Validity Date{" "}
+                                  Please Enter a Validity Date
                                 </p>
                               )}
                             </div>

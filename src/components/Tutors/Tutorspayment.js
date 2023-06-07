@@ -129,7 +129,7 @@ const Tutorspayment = () => {
                                           </Button>
                                         </span>
                                         <span className="list-group-item mt-2 ">
-                                          <b>IFSC Code</b> :{" "}
+                                          <b>IFSC Code</b> :
                                           {value.bankdetails?.IFSCCode || ""}
                                           <Button
                                             style={{ border: "none" }}

@@ -33,7 +33,7 @@ const TruefalsequeSearchengine = () => {
               <div className="col-md-12 col-lg-12 mb--20">
                 <h5>Question</h5>
                 <div className="p--20 rbt-border radius-6 bg-primary-opacity">
-                  Q 01.{" "}
+                  Q 01.
                   <span
                     dangerouslySetInnerHTML={{
                       __html: location.state.data.question,

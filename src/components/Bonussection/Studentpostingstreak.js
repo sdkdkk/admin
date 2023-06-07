@@ -127,7 +127,7 @@ const Studentpostingstreak = () => {
                               />
                               {errors.initial && (
                                 <p className="error text-right text-danger">
-                                  Please Enter a initial{" "}
+                                  Please Enter a initial
                                 </p>
                               )}
                             </div>
@@ -150,7 +150,7 @@ const Studentpostingstreak = () => {
                               />
                               {errors.extrasum && (
                                 <p className="error text-right text-danger">
-                                  Please Enter a extrasum{" "}
+                                  Please Enter a extrasum
                                 </p>
                               )}
                             </div>

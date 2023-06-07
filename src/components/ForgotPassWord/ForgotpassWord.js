@@ -145,7 +145,7 @@ const ForgotpassWord = () => {
                             </div>
                           </div>
                           <div className="col-lg-12 col-md-12 col-12 text-center mt--50">
-                            Don’t have an account?{" "}
+                            Don’t have an account?
                             <Link to="/signup" className="color-primary">
                               Sign up
                             </Link>

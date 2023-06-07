@@ -11,7 +11,6 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { tutordetail } from "../../Redux/Loginpages/tutordetailSlice";
 import { ColorRing } from "react-loader-spinner";
-import face3 from "../Image/face3.jpg";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 import { Button, ToastContainer } from "react-bootstrap";
 import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
@@ -22,7 +21,7 @@ const url = process.env.REACT_APP_API_BASE_URL;
 const Tutordetails = () => {
   const dispatch = useDispatch();
   const { _id, active } = useParams();
-console.log(_id);
+  console.log(_id);
   useEffect(() => {
     dispatch(tutordetail(_id));
   }, [dispatch, _id]);
@@ -195,8 +194,8 @@ console.log(_id);
   };
 
   const toComponentB = (data) => {
-    console.log(data,_id);
-    navigate("/tutorquestiondetails", { state: { data,_id } });
+    console.log(data, _id);
+    navigate("/tutorquestiondetails", { state: { data, _id } });
   };
 
   return (
@@ -245,10 +244,10 @@ console.log(_id);
                         <div className="col">
                           <div className="profile">
                             <div className="profile-img mt-2">
-                              <img src={face3} alt=" " />
+                              <img src={data.profilephoto} alt=" " />
                             </div>
                             <div className="profile-info">
-                              <h5 className="mt-2">{data.name}</h5>
+                              <h6 className="">{data.name}</h6>
                               <p>{data.mobileNo}</p>
                               <p>{data.email}</p>
                             </div>
@@ -256,7 +255,6 @@ console.log(_id);
                         </div>
                         <div className="col bankdetails">
                           <h5 className="mt-2">Bank Details</h5>
-
                           <div>
                             <strong>Bank Name:</strong>
                             {data.bankdetails?.bankName || ""}
@@ -332,7 +330,6 @@ console.log(_id);
                     </div>
                   );
                 })}
-
                 <div className="heading-main mt-5 text-start">
                   <h4>Transaction History</h4>
                 </div>
@@ -348,21 +345,17 @@ console.log(_id);
                           </tr>
                         </thead>
                         <tbody>
-                          <>
-                            {displaytransation.map((Data, id) => {
-                              return (
-                                <tr key={id}>
-                                  <td colSpan="2">
-                                    <Moment format="D MMM YYYY" withTitle>
-                                      {Data.date}
-                                    </Moment>
-                                  </td>
-                                  <td colSpan="2">Rs.{Data.amount} </td>
-                                  <td colSpan="2">Rs.{Data.balance}</td>
-                                </tr>
-                              );
-                            })}
-                          </>
+                          {displaytransation.map((Data, id) => {
+                            return (
+                              <tr key={id}>
+                                <td colSpan="2">
+                                  <Moment format="D MMM YYYY" withTitle>{Data.date}</Moment>
+                                </td>
+                                <td colSpan="2">Rs.{Data.amount}</td>
+                                <td colSpan="2">Rs.{Data.balance}</td>
+                              </tr>
+                            );
+                          })}
                         </tbody>
                       </table>
                       <div className="table-pagination">
@@ -425,10 +418,7 @@ console.log(_id);
                               <tbody>
                                 {displayUsers.map((data) => (
                                   <tr key={data.id}>
-                                    <td
-                                      style={{ cursor: "pointer" }}
-                                      onClick={() => {
-                                        toComponentB(data);
+                                    <td style={{ cursor: "pointer" }} onClick={() => { toComponentB(data);
                                       }}>
                                       {data.allQuestions.question
                                         .split(" ")
@@ -441,7 +431,7 @@ console.log(_id);
                                     <td>{data.allQuestions.tutorPrice}</td>
                                     <td>{data.allQuestions.status}</td>
                                   </tr>
-                                ))}{" "}
+                                ))}
                               </tbody>
                             </table>
                             <div className="table-pagination">
@@ -550,7 +540,6 @@ console.log(_id);
                 ) : (
                   ""
                 )}
-
                 <div
                   className="gap-2 d-md-flex"
                   style={{ justifyContent: "end" }}>
