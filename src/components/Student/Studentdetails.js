@@ -79,9 +79,11 @@ const Studentdetails = () => {
   const handleChange1 = (event, value) => {
     setCurrentPage1(value);
   };
+  console.log(_id);
 
-  const toComponentB = (data) => {
-    navigate("/studentquestiondetails", { state: { data } });
+  const toComponentB = (data, ) => {
+    console.log(data, _id);
+    navigate("/studentquestiondetails", { state: { data, _id } });
   };
 
   return (
@@ -101,7 +103,8 @@ const Studentdetails = () => {
                     justifyContent: "center",
                     alignItems: "center",
                     height: "100vh",
-                  }}>
+                  }}
+                >
                   <ColorRing
                     visible={true}
                     height="80"
@@ -122,52 +125,51 @@ const Studentdetails = () => {
             <div className="second-section text-start mt-4 mx-4">
               {studentdetail.map((data) => {
                 return (
-                  <>
-                    <div
-                     key={data._id}
-                      className="row"
-                      style={{ backgroundColor: "#c0d7ff" }}>
-                      <div className="col">
-                        <div className="profile">
-                          <div className="profile-img mt-2">
-                            <img src={face3} alt="" />
-                          </div>
-                          <div className="profile-info">
-                            <h5 className="mt-2">{data.name || ""}</h5>
-                            <h6> +91 98989 74747 </h6>
-                            <p>{data.email}</p>
-                          </div>
+                  <div
+                    key={data._id}
+                    className="row"
+                    style={{ backgroundColor: "#c0d7ff" }}
+                  >
+                    <div className="col">
+                      <div className="profile">
+                        <div className="profile-img mt-2">
+                          <img src={face3} alt="" />
                         </div>
-                      </div>
-
-                      <div className="col Subject text-center">
-                        <div className="mt-3">
-                          <h5>Total Referral </h5>
-                          <div className="badge rounded-pill bg-dark">
-                            {data.refferal || ""}
-                          </div>
+                        <div className="profile-info">
+                          <h5 className="mt-2">{data.name || ""}</h5>
+                          <h6> +91 98989 74747 </h6>
+                          <p>{data.email}</p>
                         </div>
-                      </div>
-                      <div className="col Earnings text-center">
-                        <div className="mt-2">
-                          <strong>Earnings</strong>
-                        </div>
-                        <b>{data.deposit || "_"}</b>
-                        <div>
-                          <strong>Paid</strong>
-                        </div>
-                        <h4 className="text-danger">
-                          <b> {data.paid || "-"}</b>
-                        </h4>
-                        <div>
-                          <strong>Balance</strong>
-                        </div>
-                        <h4 className="text-success">
-                          <b> $ {data.balance || "-"} </b>
-                        </h4>
                       </div>
                     </div>
-                  </>
+
+                    <div className="col Subject text-center">
+                      <div className="mt-3">
+                        <h5>Total Referral </h5>
+                        <div className="badge rounded-pill bg-dark">
+                          {data.refferal || ""}
+                        </div>
+                      </div>
+                    </div>
+                    <div className="col Earnings text-center">
+                      <div className="mt-2">
+                        <strong>Earnings</strong>
+                      </div>
+                      <b>{data.deposit || "_"}</b>
+                      <div>
+                        <strong>Paid</strong>
+                      </div>
+                      <h4 className="text-danger">
+                        <b> {data.paid || "-"}</b>
+                      </h4>
+                      <div>
+                        <strong>Balance</strong>
+                      </div>
+                      <h4 className="text-success">
+                        <b> $ {data.balance || "-"} </b>
+                      </h4>
+                    </div>
+                  </div>
                 );
               })}
 
@@ -247,13 +249,14 @@ const Studentdetails = () => {
                               </tr>
                             </thead>
                             <tbody>
-                              {displayque.map((data) => (
+                              {displayque.map((data, index) => (
                                 <tr key={data._id}>
                                   <td
                                     style={{ cursor: "pointer" }}
                                     onClick={() => {
                                       toComponentB(data);
-                                    }}>
+                                    }}
+                                  >
                                     {data.allQuestions.question
                                       .split(" ")
                                       .slice(0, 3)

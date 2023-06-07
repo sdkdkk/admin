@@ -17,7 +17,9 @@ const Fillups = () => {
   const [data, setData] = useState([]);
   const [isEditing, setEditing] = useState(false);
   const [editedAnswer, setEditedAnswer] = useState(answerData);
-
+  const questionId = location.state.data.allQuestions.questionId;
+  const tutorId = location.state.data._id;
+  const questionType = location.state.data.allQuestions.questionType;
   const handleRemoveField = (id) => {
     const updatedAnswer = editedAnswer.filter((_, index) => index !== id);
     setEditedAnswer(updatedAnswer);
@@ -29,6 +31,7 @@ const Fillups = () => {
   };
 
   const onSubmit = async (data) => {
+    
     const { answer, question, explanation } = data;
     const token = localStorage.getItem("token");
     try {
@@ -50,6 +53,23 @@ const Fillups = () => {
     }
   };
 
+  let token = localStorage.getItem("token");
+
+  function handleDeleteClick(_id) {
+    axios
+      .post(`${url}/admin/deletequestion`, {
+        token: token,
+        tutorId: tutorId,
+        questionId: questionId,
+      })
+      .then((response) => {
+        toast.success(response.data.message);
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error(error.response.data.error);
+      });
+  }
   return (
     <>
       <div className="container-scroller">
@@ -126,7 +146,8 @@ const Fillups = () => {
                             <button
                               type="button"
                               className="remove-field rbt-btn btn-sm btn-border-gradient mt-2 mx-1 "
-                              onClick={() => handleRemoveField(id)}>
+                              onClick={() => handleRemoveField(id)}
+                            >
                               Remove
                             </button>
                           </div>
@@ -135,12 +156,16 @@ const Fillups = () => {
                     <button
                       type="button"
                       className="rbt-btn btn-sm add-field"
-                      onClick={handleAddField}>
+                      onClick={handleAddField}
+                    >
                       Add field
                     </button>
                   </div>
 
-                  <div className="col-md-12 col-lg-12 mb--20">
+                  {questionType === "MCQ-exp" ||
+                    questionType === "TrueFalse-exp" ||
+                    questionType === "FillInBlanks-exp" ||
+                    questionType === "ShortAnswer-exp" ? <div className="col-md-12 col-lg-12 mb--20">
                     <h5>Explanation</h5>
                     <input
                       className="p--20 rbt-border radius-6 w-100 bg-primary-opacity"
@@ -150,21 +175,30 @@ const Fillups = () => {
                       {...register("explanation")}
                       disabled={!isEditing}
                     />
+                  </div> : ""}
+                </div>
+
+                {location.state.data.allQuestions.status === "Answered" ?  (
+                  <div className="Personal-Settings-button col-lg-6">
+                    <Button
+                      className="border-edit-btn"
+                      size="lg"
+                      onClick={() => setEditing(!isEditing)}
+                    >
+                      {!isEditing && <i className="fa fa-pen" />}
+                      {!isEditing ? "Edit" : "Cancel"}
+                    </Button>
+                    <Button className="btn-success mx-1" type="submit">
+                      Update
+                    </Button>
+                    <Button
+                      className="btn-danger mx-1"
+                      onClick={handleDeleteClick}
+                    >
+                      Delete
+                    </Button>
                   </div>
-                </div>
-                <div className="Personal-Settings-button col-lg-6">
-                  <Button
-                    className="border-edit-btn"
-                    size="lg"
-                    onClick={() => setEditing(!isEditing)}>
-                    {!isEditing && <i className="fa fa-pen" />}
-                    {!isEditing ? "Edit" : "Cancel"}
-                  </Button>
-                  <Button className="btn-success mx-1" type="submit">
-                    Update
-                  </Button>
-                  <Button className="btn-danger mx-1">Delete</Button>
-                </div>
+                ):""}
               </div>
             </form>
           </div>

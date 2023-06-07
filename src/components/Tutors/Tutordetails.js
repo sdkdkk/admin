@@ -61,10 +61,10 @@ console.log(_id);
         setLoader(false);
       } catch (error) {
         logoutIfInvalidToken(error.response);
-        if (error.response) {
-        } else if (error.request) {
-        } else {
-        }
+        // if (error.response) {
+        // } else if (error.request) {
+        // } else {
+        // }
       }
     };
 
