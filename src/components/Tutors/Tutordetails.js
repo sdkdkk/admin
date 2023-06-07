@@ -11,7 +11,6 @@ import axios from "axios";
 import { useParams } from "react-router-dom";
 import { tutordetail } from "../../Redux/Loginpages/tutordetailSlice";
 import { ColorRing } from "react-loader-spinner";
-import face3 from "../Image/face3.jpg";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 import { Button, ToastContainer } from "react-bootstrap";
 import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
@@ -245,10 +244,10 @@ console.log(_id);
                         <div className="col">
                           <div className="profile">
                             <div className="profile-img mt-2">
-                              <img src={face3} alt=" " />
+                              <img src={data.profilephoto} alt=" " />
                             </div>
                             <div className="profile-info">
-                              <h5 className="mt-2">{data.name}</h5>
+                              <h6 className="">{data.name}</h6>
                               <p>{data.mobileNo}</p>
                               <p>{data.email}</p>
                             </div>
