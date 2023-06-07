@@ -73,7 +73,7 @@ const Wallet = () => {
                                     <div className="d-grid gap-2 d-md-flex justify-content-md-end">
                                         <button onClick={() => getWalletDataApi("Student")} className="btn btn-primary me-md-2" type="button">Student</button>
                                         <button onClick={() => getWalletDataApi("Tutor")} className="btn btn-primary" type="button">Tutor</button>
-                                        {/* <button class="btn btn-primary" type="button">Unverified</button> */}
+                                        {/* <button className="btn btn-primary" type="button">Unverified</button> */}
                                     </div>
                                 </div>
                             </div>

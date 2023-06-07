@@ -157,7 +157,7 @@ const Addnewrole = () => {
                             {...register("rolename")}
                           />
                         </div>
-                        <div class="form-group">
+                        <div className="form-group">
                           <label for="email">Resources</label>
                           <div className="main-scroll">
                             <div className="scroll-table">

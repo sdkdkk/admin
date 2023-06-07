@@ -64,7 +64,7 @@ const TransactionDetails = () => {
               </div>
               <div className="page-headers">
                 <div className="col-md-12">
-                  <div class="d-grid gap-2 d-md-flex justify-content-md-end"></div>
+                  <div className="d-grid gap-2 d-md-flex justify-content-md-end"></div>
                 </div>
               </div>
               <div className="row mt-5">

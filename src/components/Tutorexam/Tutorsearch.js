@@ -76,8 +76,8 @@ const Tutorsearch = () => {
                   <div className="card">
                     <div className="card-body">
 
-                      <div class="table-responsive">
-                        <table class="table v-top">
+                      <div className="table-responsive">
+                        <table className="table v-top">
                           <thead>
                             <tr>
                               <th scope="col">Question</th>
@@ -93,7 +93,7 @@ const Tutorsearch = () => {
                             width="80"
                             ariaLabel="blocks-loading"
                             wrapperStyle={{}}
-                            wrapperClass="blocks-wrapper"
+                            wrapperclassName="blocks-wrapper"
                             colors={["black"]}
                           />
                         </div></div> : <>
