@@ -207,10 +207,10 @@ const Adminque = () => {
                             <div className="row mt-4">
                                 <div className="col-12 grid-margin stretch-card">
                                     <div className="card new-table">
-                                        <div class="card-body">
-                                            <div class="table-responsive">
+                                        <div className="card-body">
+                                            <div className="table-responsive">
                                                 <table
-                                                    class={`table ${getAdminQuestionsState?.isLoading && "table-loading"
+                                                    className={`table ${getAdminQuestionsState?.isLoading && "table-loading"
                                                         }`}>
                                                     <thead>
                                                         <tr>
@@ -258,7 +258,7 @@ const Adminque = () => {
                                                     </tbody>
                                                 </table>
                                             </div>
-                                            <div class="table-pagination">
+                                            <div className="table-pagination">
                                                 <Pagination
                                                     page={currentPage}
                                                     onChange={handleChange}

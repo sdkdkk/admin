@@ -80,7 +80,7 @@
     });
 
     //checkbox and radios
-    $(".form-check label,.form-radio label").append('<i class="input-helper"></i>');
+    $(".form-check label,.form-radio label").append('<i className="input-helper"></i>');
 
     //fullscreen
     $("#fullscreen-button").on("click", function toggleFullScreen() {

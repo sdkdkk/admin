@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "react-bootstrap";
+import { Button, Form } from "react-bootstrap";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
@@ -129,6 +129,22 @@ const Tutorlist = () => {
     setCurrentPage(1);
   };
 
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
+
+  const handleStartDateChange = (event) => {
+    setStartDate(event.target.value);
+  };
+
+  const handleEndDateChange = (event) => {
+    setEndDate(event.target.value);
+  };
+
+  const handleSearch = (event) => {
+    event.preventDefault();
+    // Do something with the start and end dates
+  };
+
   return (
     <div>
       <div className="container-scroller">
@@ -144,7 +160,8 @@ const Tutorlist = () => {
                 justifyContent: "center",
                 alignItems: "center",
                 height: "100vh",
-              }}>
+              }}
+            >
               <ColorRing
                 visible={true}
                 height="80"
@@ -175,9 +192,9 @@ const Tutorlist = () => {
                             ? "btn btn-primary"
                             : "btn btn-light"
                         }
-                        // className="btn btn-primary me-md-2 active"
                         type="button"
-                        style={{ borderRadius: "4px" }}>
+                        style={{ borderRadius: "4px" }}
+                      >
                         Working
                       </button>
                       <button
@@ -187,9 +204,9 @@ const Tutorlist = () => {
                             ? "btn btn-primary"
                             : "btn btn-light"
                         }
-                        // className="btn btn-primary"
                         type="button"
-                        style={{ borderRadius: "4px" }}>
+                        style={{ borderRadius: "4px" }}
+                      >
                         Warning
                       </button>
                       <button
@@ -199,9 +216,9 @@ const Tutorlist = () => {
                             ? "btn btn-primary"
                             : "btn btn-light"
                         }
-                        // className="btn btn-primary"
                         type="button"
-                        style={{ borderRadius: "4px" }}>
+                        style={{ borderRadius: "4px" }}
+                      >
                         Unverified
                       </button>
                       <button
@@ -211,9 +228,9 @@ const Tutorlist = () => {
                             ? "btn btn-primary"
                             : "btn btn-light"
                         }
-                        // className="btn btn-primary"
                         type="button"
-                        style={{ borderRadius: "4px" }}>
+                        style={{ borderRadius: "4px" }}
+                      >
                         Trial
                       </button>
                       <button
@@ -223,9 +240,9 @@ const Tutorlist = () => {
                             ? "btn btn-primary"
                             : "btn btn-light"
                         }
-                        // className="btn btn-primary"
                         type="button"
-                        style={{ borderRadius: "4px" }}>
+                        style={{ borderRadius: "4px" }}
+                      >
                         Suspend
                       </button>
                     </div>
@@ -242,7 +259,7 @@ const Tutorlist = () => {
                           width="80"
                           ariaLabel="blocks-loading"
                           wrapperStyle={{}}
-                          wrapperClass="blocks-wrapper"
+                          wrapperclassName="blocks-wrapper"
                           colors={["black"]}
                         />
                       ) : null}
@@ -255,16 +272,21 @@ const Tutorlist = () => {
                             <div className="card-body">
                               <div className="row">
                                 <div className="col-md-6">
-                                  <input
-                                    type="text"
-                                    id="fname"
-                                    placeholder="search name"
-                                    name="fname"
-                                    onChange={(e) => {
-                                      setSearchTerm(e.target.value);
-                                    }}
-                                  />
+                                  <Form>
+                                    <Form.Control
+                                      type="search"
+                                      id="fname"
+                                      className="form-control me-3"
+                                      placeholder="search name"
+                                      aria-label="Search"
+                                      name="fname"
+                                      onChange={(e) =>
+                                        setSearchTerm(e.target.value)
+                                      }
+                                    />
+                                  </Form>
                                 </div>
+
                                 <div className="col-md-4">
                                   <DatePicker
                                     rangeHover
@@ -273,17 +295,48 @@ const Tutorlist = () => {
                                     onChange={setValues}
                                     range
                                     render={<InputIcon />}
-                                    width={500}
+                                    width={900}
                                   />
                                 </div>
+
                                 <div className="col-md-2">
                                   <Button
-                                    className="algin-right"
-                                    onClick={searchItem}>
+                                    className="btn-search"
+                                    onClick={searchItem}
+                                  >
                                     Search
                                   </Button>
                                 </div>
                               </div>
+
+                              {/*<div className="search-container">
+                                <form>
+                                  <input
+                                    type="text"
+                                    id="search-input"
+                                    placeholder="Search..."
+                                    onChange={(e) =>
+                                      setSearchTerm(e.target.value)
+                                    }
+                                  />
+
+                                  <DatePicker
+                                    rangeHover
+                                    className="rmdp-input date"
+                                    value={values}
+                                    onChange={setValues}
+                                    range
+                                    render={<InputIcon />}
+                                    width={900}
+                                  />
+                                  <button
+                                    id="search-button"
+                                    onClick={searchItem}
+                                  >
+                                    Search
+                                  </button>
+                                </form>
+                                  </div>*/}
                             </div>
                           </div>
                         </div>
@@ -318,7 +371,8 @@ const Tutorlist = () => {
                                           <td>
                                             <Moment
                                               format="DD MMM YYYY"
-                                              withTitle>
+                                              withTitle
+                                            >
                                               {data.updatedAt || null}
                                             </Moment>
                                           </td>
@@ -355,10 +409,11 @@ const Tutorlist = () => {
                                         )}
                                         <td>
                                           <Link
-                                            to={`/tutordetails/${data._id}/${activeButton}`}>
-                                            <button className="btn btn-primary btn-sm">
-                                              Click
-                                            </button>
+                                            to={`/tutordetails/${data._id}/${activeButton}`}
+                                          >
+                                            <Button className="btn btn-primary btn-sm">
+                                              View
+                                            </Button>
                                           </Link>
                                         </td>
                                       </tr>
@@ -367,8 +422,17 @@ const Tutorlist = () => {
                                 ) : (
                                   <tbody>
                                     <tr>
-                                      <td colSpan="8">
-                                        <h4>No Tutor Found ...</h4>
+                                      <td
+                                        colSpan={
+                                          activeButton === 2 ||
+                                          activeButton === 5
+                                            ? 8
+                                            : 7
+                                        }
+                                      >
+                                        <div className="information mt-3 text-danger fs-4">
+                                          No Tutor Found
+                                        </div>
                                       </td>
                                     </tr>
                                   </tbody>

@@ -47,6 +47,13 @@ const Sidebar = () => {
                     Tutors Payment
                   </Link>
                 </li>
+
+                <li className="nav-item">
+                  <Link className="nav-link" to="/tutorpayments">
+                    Tutors Payments
+                  </Link>
+                </li>
+
               </ul>
             </div>
           </li>

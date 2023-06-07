@@ -99,20 +99,20 @@
         //html template for the picker UI
         if (typeof options.template !== 'string' && !(options.template instanceof $))
             options.template =
-            '<div class="daterangepicker">' +
-                '<div class="ranges"></div>' +
-                '<div class="drp-calendar left">' +
-                    '<div class="calendar-table"></div>' +
-                    '<div class="calendar-time"></div>' +
+            '<div className="daterangepicker">' +
+                '<div className="ranges"></div>' +
+                '<div className="drp-calendar left">' +
+                    '<div className="calendar-table"></div>' +
+                    '<div className="calendar-time"></div>' +
                 '</div>' +
-                '<div class="drp-calendar right">' +
-                    '<div class="calendar-table"></div>' +
-                    '<div class="calendar-time"></div>' +
+                '<div className="drp-calendar right">' +
+                    '<div className="calendar-table"></div>' +
+                    '<div className="calendar-time"></div>' +
                 '</div>' +
-                '<div class="drp-buttons">' +
-                    '<span class="drp-selected"></span>' +
-                    '<button class="cancelBtn" type="button"></button>' +
-                    '<button class="applyBtn" disabled="disabled" type="button"></button> ' +
+                '<div className="drp-buttons">' +
+                    '<span className="drp-selected"></span>' +
+                    '<button className="cancelBtn" type="button"></button>' +
+                    '<button className="applyBtn" disabled="disabled" type="button"></button> ' +
                 '</div>' +
             '</div>';
 
@@ -690,7 +690,7 @@
             var selected = side == 'left' ? this.startDate : this.endDate;
             var arrow = this.locale.direction == 'ltr' ? {left: 'chevron-left', right: 'chevron-right'} : {left: 'chevron-right', right: 'chevron-left'};
 
-            var html = '<table class="table-condensed">';
+            var html = '<table className="table-condensed">';
             html += '<thead>';
             html += '<tr>';
 
@@ -699,7 +699,7 @@
                 html += '<th></th>';
 
             if ((!minDate || minDate.isBefore(calendar.firstDay)) && (!this.linkedCalendars || side == 'left')) {
-                html += '<th class="prev available"><span></span></th>';
+                html += '<th className="prev available"><span></span></th>';
             } else {
                 html += '<th></th>';
             }
@@ -714,7 +714,7 @@
                 var inMinYear = currentYear == minYear;
                 var inMaxYear = currentYear == maxYear;
 
-                var monthHtml = '<select class="monthselect">';
+                var monthHtml = '<select className="monthselect">';
                 for (var m = 0; m < 12; m++) {
                     if ((!inMinYear || (minDate && m >= minDate.month())) && (!inMaxYear || (maxDate && m <= maxDate.month()))) {
                         monthHtml += "<option value='" + m + "'" +
@@ -728,7 +728,7 @@
                 }
                 monthHtml += "</select>";
 
-                var yearHtml = '<select class="yearselect">';
+                var yearHtml = '<select className="yearselect">';
                 for (var y = minYear; y <= maxYear; y++) {
                     yearHtml += '<option value="' + y + '"' +
                         (y === currentYear ? ' selected="selected"' : '') +
@@ -739,9 +739,9 @@
                 dateHtml = monthHtml + yearHtml;
             }
 
-            html += '<th colspan="5" class="month">' + dateHtml + '</th>';
+            html += '<th colspan="5" className="month">' + dateHtml + '</th>';
             if ((!maxDate || maxDate.isAfter(calendar.lastDay)) && (!this.linkedCalendars || side == 'right' || this.singleDatePicker)) {
-                html += '<th class="next available"><span></span></th>';
+                html += '<th className="next available"><span></span></th>';
             } else {
                 html += '<th></th>';
             }
@@ -751,7 +751,7 @@
 
             // add week number label
             if (this.showWeekNumbers || this.showISOWeekNumbers)
-                html += '<th class="week">' + this.locale.weekLabel + '</th>';
+                html += '<th className="week">' + this.locale.weekLabel + '</th>';
 
             $.each(this.locale.daysOfWeek, function(index, dayOfWeek) {
                 html += '<th>' + dayOfWeek + '</th>';
@@ -775,9 +775,9 @@
 
                 // add week number
                 if (this.showWeekNumbers)
-                    html += '<td class="week">' + calendar[row][0].week() + '</td>';
+                    html += '<td className="week">' + calendar[row][0].week() + '</td>';
                 else if (this.showISOWeekNumbers)
-                    html += '<td class="week">' + calendar[row][0].isoWeek() + '</td>';
+                    html += '<td className="week">' + calendar[row][0].isoWeek() + '</td>';
 
                 for (var col = 0; col < 7; col++) {
 
@@ -837,7 +837,7 @@
                     if (!disabled)
                         cname += 'available';
 
-                    html += '<td class="' + cname.replace(/^\s+|\s+$/g, '') + '" data-title="' + 'r' + row + 'c' + col + '">' + calendar[row][col].date() + '</td>';
+                    html += '<td className="' + cname.replace(/^\s+|\s+$/g, '') + '" data-title="' + 'r' + row + 'c' + col + '">' + calendar[row][col].date() + '</td>';
 
                 }
                 html += '</tr>';
@@ -898,7 +898,7 @@
             // hours
             //
 
-            html = '<select class="hourselect">';
+            html = '<select className="hourselect">';
 
             var start = this.timePicker24Hour ? 0 : 1;
             var end = this.timePicker24Hour ? 23 : 12;
@@ -918,7 +918,7 @@
                 if (i_in_24 == selected.hour() && !disabled) {
                     html += '<option value="' + i + '" selected="selected">' + i + '</option>';
                 } else if (disabled) {
-                    html += '<option value="' + i + '" disabled="disabled" class="disabled">' + i + '</option>';
+                    html += '<option value="' + i + '" disabled="disabled" className="disabled">' + i + '</option>';
                 } else {
                     html += '<option value="' + i + '">' + i + '</option>';
                 }
@@ -930,7 +930,7 @@
             // minutes
             //
 
-            html += ': <select class="minuteselect">';
+            html += ': <select className="minuteselect">';
 
             for (var i = 0; i < 60; i += this.timePickerIncrement) {
                 var padded = i < 10 ? '0' + i : i;
@@ -945,7 +945,7 @@
                 if (selected.minute() == i && !disabled) {
                     html += '<option value="' + i + '" selected="selected">' + padded + '</option>';
                 } else if (disabled) {
-                    html += '<option value="' + i + '" disabled="disabled" class="disabled">' + padded + '</option>';
+                    html += '<option value="' + i + '" disabled="disabled" className="disabled">' + padded + '</option>';
                 } else {
                     html += '<option value="' + i + '">' + padded + '</option>';
                 }
@@ -958,7 +958,7 @@
             //
 
             if (this.timePickerSeconds) {
-                html += ': <select class="secondselect">';
+                html += ': <select className="secondselect">';
 
                 for (var i = 0; i < 60; i++) {
                     var padded = i < 10 ? '0' + i : i;
@@ -973,7 +973,7 @@
                     if (selected.second() == i && !disabled) {
                         html += '<option value="' + i + '" selected="selected">' + padded + '</option>';
                     } else if (disabled) {
-                        html += '<option value="' + i + '" disabled="disabled" class="disabled">' + padded + '</option>';
+                        html += '<option value="' + i + '" disabled="disabled" className="disabled">' + padded + '</option>';
                     } else {
                         html += '<option value="' + i + '">' + padded + '</option>';
                     }
@@ -987,16 +987,16 @@
             //
 
             if (!this.timePicker24Hour) {
-                html += '<select class="ampmselect">';
+                html += '<select className="ampmselect">';
 
                 var am_html = '';
                 var pm_html = '';
 
                 if (minDate && selected.clone().hour(12).minute(0).second(0).isBefore(minDate))
-                    am_html = ' disabled="disabled" class="disabled"';
+                    am_html = ' disabled="disabled" className="disabled"';
 
                 if (maxDate && selected.clone().hour(0).minute(0).second(0).isAfter(maxDate))
-                    pm_html = ' disabled="disabled" class="disabled"';
+                    pm_html = ' disabled="disabled" className="disabled"';
 
                 if (selected.hour() >= 12) {
                     html += '<option value="AM"' + am_html + '>AM</option><option value="PM" selected="selected"' + pm_html + '>PM</option>';

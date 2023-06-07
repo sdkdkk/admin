@@ -7,6 +7,9 @@ import tutorworkingReducer from "../Redux/Loginpages/tutorworkingSlice";
 import tutortrialReducer from "../Redux/Loginpages/tutortrialSlice";
 
 import tutorspaymentReducer from "../Redux/Loginpages/tutorspaymentSlice";
+
+import tutorpaymentsReducer from "../Redux/Loginpages/tutorPaymentsSlice";
+
 import tutordetailReducer from "../Redux/Loginpages/tutordetailSlice";
 import studentlistReducer from "../Redux/Loginpages/studentlistSlice";
 import admintutorexamverifyReducer from "../Redux/Loginpages/admintutorexamverifySlice";
@@ -46,6 +49,9 @@ const reducer = combineReducers({
 
     suspend: tutorsuspendReducer,
     tutorpayment: tutorspaymentReducer,
+
+    tutorPayments : tutorpaymentsReducer,
+
     tutordetail: tutordetailReducer,
     studentlist: studentlistReducer,
     admintutorexamverify: admintutorexamverifyReducer,

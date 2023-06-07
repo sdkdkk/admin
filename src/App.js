@@ -4,6 +4,9 @@ import "bootstrap/dist/css/bootstrap.css";
 import Dashboard from "./components/Dashboard/Dashboard";
 import Navbar from "./components/shared/Navbar";
 import Tutorlist from "./components/Tutors/Tutorlist";
+
+import TutorPayments from "./components/Tutors/TutorPayments";
+
 import Tutorspayment from "./components/Tutors/Tutorspayment";
 import Studentlist from "./components/Student/Studentlist";
 import Studentpayment from "./components/Student/Studentpayment";
@@ -75,6 +78,7 @@ import Tutorreferral from "./components/Bonussection/Tutorreferral";
 
 
 
+
 function RequireAuth({ children }) {
   let auth = isLoggedIn();
 
@@ -113,6 +117,16 @@ function App() {
             </RequireAuth>
           }
         />
+        
+        <Route
+          path="tutorpayments"
+          element={
+            <RequireAuth>
+              <TutorPayments/>
+            </RequireAuth>
+          }
+        />
+
         <Route
           path="tutorspayment"
           element={
@@ -510,7 +524,7 @@ function App() {
             </RequireAuth>
           }
         />
-         <Route
+        <Route
           path="/tutorpostingstreak"
           element={
             <RequireAuth>
@@ -518,7 +532,7 @@ function App() {
             </RequireAuth>
           }
         />
-             <Route
+        <Route
           path="/studentreferral"
           element={
             <RequireAuth>
