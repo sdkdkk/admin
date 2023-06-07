@@ -124,7 +124,7 @@ const Tutorreferral = () => {
                               />
                               {errors.referralpersonalreward && (
                                 <p className="error text-right text-danger">
-                                  Please Enter a referral personal reward{" "}
+                                  Please Enter a referral personal reward
                                 </p>
                               )}
                             </div>
@@ -147,7 +147,7 @@ const Tutorreferral = () => {
                               />
                               {errors.referralotherreward && (
                                 <p className="error text-right text-danger">
-                                  Please Enter a referralotherreward{" "}
+                                  Please Enter a referralotherreward
                                 </p>
                               )}
                             </div>

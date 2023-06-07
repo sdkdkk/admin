@@ -27,7 +27,6 @@ const IssueQuestion = () => {
       const response = await axios.post(`${url}/admin/issuequestion`, {
         token: token,
       });
-      console.log(response.data.message);
       setData(response.data.message);
       setLoading1(false);
     } catch (error) {
@@ -41,7 +40,6 @@ const IssueQuestion = () => {
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
   const displayUsers = data?.slice(indexOfFirstPage, indexOfLastPage);
   const totalPages = Math.ceil(data?.length / postsPerPage);
-  console.log(displayUsers);
   const handleChange = (event, value) => {
     setCurrentPage(value);
   };

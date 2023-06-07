@@ -142,7 +142,7 @@ const Tutorsubject = () => {
                               />
                               {errors.questionSubject && (
                                 <p className="error text-right text-danger">
-                                  Please Enter a Question Subject{" "}
+                                  Please Enter a Question Subject
                                 </p>
                               )}
                             </div>

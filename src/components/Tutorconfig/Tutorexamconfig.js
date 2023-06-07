@@ -132,7 +132,7 @@ const Tutorexamconfig = () => {
                                   </div>
                                   {errors.MCQ && (
                                     <p className="error text-right text-danger">
-                                      Please Enter a mcq{" "}
+                                      Please Enter a mcq
                                     </p>
                                   )}
                                 </div>

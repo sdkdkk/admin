@@ -137,7 +137,7 @@ const Matchfollow = () => {
                 onClick={() => setEditing(!isEditing)}>
                 {!isEditing && <i className="fa fa-pen" />}
                 {!isEditing ? "Edit" : "Cancel"}
-              </Button>{" "}
+              </Button>
               <Button className="btn-success mx-4" type="submit">
                 Update
               </Button>

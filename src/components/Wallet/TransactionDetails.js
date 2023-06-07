@@ -103,7 +103,7 @@ const TransactionDetails = () => {
                                 <td>{value.category}</td>
                                 <td>{value.status}</td>
                                 <td>
-                                  <button>Details</button>{" "}
+                                  <button>Details</button>
                                 </td>
                               </tr>
                             );

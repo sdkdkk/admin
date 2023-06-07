@@ -142,7 +142,7 @@ const Questiontype = () => {
                               />
                               {errors.questionType && (
                                 <p className="error text-right text-danger">
-                                  Please Enter a questionType{" "}
+                                  Please Enter a questionType
                                 </p>
                               )}
                             </div>

@@ -115,14 +115,14 @@ const Searchquestion = () => {
                           </thead>
                           <tbody>
                             {searchResults &&
-                              searchResults.map((data) => (
-                                <tr>
+                              searchResults.map((data,id) => (
+                                <tr key={id}>
                                   <td
                                     style={{ cursor: "pointer" }}
                                     onClick={() => {
                                       toComponentB(data);
                                     }}>
-                                    {" "}
+                                    
                                     {data.question
                                       .split(" ")
                                       .slice(0, 5)
@@ -144,7 +144,7 @@ const Searchquestion = () => {
                           className="btn btn-primary"
                           onClick={() => setCurrentPage(currentPage - 1)}
                           disabled={currentPage === 1}>
-                          prev{" "}
+                          prev
                         </button>
                         <button className="btn btn-primary mx-2">
                           {currentPage}
@@ -152,7 +152,7 @@ const Searchquestion = () => {
                         <button
                           className="btn btn-primary"
                           onClick={() => setCurrentPage(currentPage + 1)}>
-                          next{" "}
+                          next
                         </button>
                       </div>
                       <div className="mt-2 text-end">

@@ -113,16 +113,16 @@ const Tutorsearch = () => {
                         onClick={() => setCurrentPage((prev) => prev - 1)}
                         disabled={currentPage === 1}
                           className="btn btn-primary">
-                          {" "}
-                          prev{" "}
+                          
+                          prev
                         </button>
                         <button className="btn btn-primary mx-2">
                         </button>
                         <button
                         onClick={() => setCurrentPage((prev) => prev + 1)}
                           className="btn btn-primary">
-                          {" "}
-                          next{" "}
+                          
+                          next
                         </button>
                       </div>
                     </div>

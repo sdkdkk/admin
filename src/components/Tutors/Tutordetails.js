@@ -21,7 +21,7 @@ const url = process.env.REACT_APP_API_BASE_URL;
 const Tutordetails = () => {
   const dispatch = useDispatch();
   const { _id, active } = useParams();
-console.log(_id);
+  console.log(_id);
   useEffect(() => {
     dispatch(tutordetail(_id));
   }, [dispatch, _id]);
@@ -194,8 +194,8 @@ console.log(_id);
   };
 
   const toComponentB = (data) => {
-    console.log(data,_id);
-    navigate("/tutorquestiondetails", { state: { data,_id } });
+    console.log(data, _id);
+    navigate("/tutorquestiondetails", { state: { data, _id } });
   };
 
   return (
@@ -255,7 +255,6 @@ console.log(_id);
                         </div>
                         <div className="col bankdetails">
                           <h5 className="mt-2">Bank Details</h5>
-
                           <div>
                             <strong>Bank Name:</strong>
                             {data.bankdetails?.bankName || ""}
@@ -331,7 +330,6 @@ console.log(_id);
                     </div>
                   );
                 })}
-
                 <div className="heading-main mt-5 text-start">
                   <h4>Transaction History</h4>
                 </div>
@@ -347,21 +345,17 @@ console.log(_id);
                           </tr>
                         </thead>
                         <tbody>
-                          <>
-                            {displaytransation.map((Data, id) => {
-                              return (
-                                <tr key={id}>
-                                  <td colSpan="2">
-                                    <Moment format="D MMM YYYY" withTitle>
-                                      {Data.date}
-                                    </Moment>
-                                  </td>
-                                  <td colSpan="2">Rs.{Data.amount} </td>
-                                  <td colSpan="2">Rs.{Data.balance}</td>
-                                </tr>
-                              );
-                            })}
-                          </>
+                          {displaytransation.map((Data, id) => {
+                            return (
+                              <tr key={id}>
+                                <td colSpan="2">
+                                  <Moment format="D MMM YYYY" withTitle>{Data.date}</Moment>
+                                </td>
+                                <td colSpan="2">Rs.{Data.amount}</td>
+                                <td colSpan="2">Rs.{Data.balance}</td>
+                              </tr>
+                            );
+                          })}
                         </tbody>
                       </table>
                       <div className="table-pagination">
@@ -424,10 +418,7 @@ console.log(_id);
                               <tbody>
                                 {displayUsers.map((data) => (
                                   <tr key={data.id}>
-                                    <td
-                                      style={{ cursor: "pointer" }}
-                                      onClick={() => {
-                                        toComponentB(data);
+                                    <td style={{ cursor: "pointer" }} onClick={() => { toComponentB(data);
                                       }}>
                                       {data.allQuestions.question
                                         .split(" ")
@@ -440,7 +431,7 @@ console.log(_id);
                                     <td>{data.allQuestions.tutorPrice}</td>
                                     <td>{data.allQuestions.status}</td>
                                   </tr>
-                                ))}{" "}
+                                ))}
                               </tbody>
                             </table>
                             <div className="table-pagination">
@@ -549,7 +540,6 @@ console.log(_id);
                 ) : (
                   ""
                 )}
-
                 <div
                   className="gap-2 d-md-flex"
                   style={{ justifyContent: "end" }}>

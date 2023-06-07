@@ -129,7 +129,7 @@ const Questionanswer = () => {
                   onClick={() => setEditing(!isEditing)}>
                   {!isEditing && <i className="fa fa-pen" />}
                   {!isEditing ? "Edit" : "Cancel"}
-                </Button>{" "}
+                </Button>
                 <Button className="btn-success mx-4" type="submit">
                   Update
                 </Button>
@@ -143,7 +143,7 @@ const Questionanswer = () => {
       <Modal show={show} onHide={() => setShow(false)}>
         <Modal.Header closeButton className="border-0"></Modal.Header>
         <Modal.Body className="text-center">
-          {" "}
+          
           <img
             style={{ maxWidth: "100%", maxHeight: "100%" }}
             src={imageSrc}

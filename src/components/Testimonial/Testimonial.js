@@ -173,7 +173,7 @@ const Testimonial = () => {
                                   <tr key={data.id}>
                                     <td>{data.sortOrder}</td>
                                     <td>
-                                      {" "}
+                                      
                                       <img
                                         src={data.profileimage}
                                         className="cardresto-img-top mx-4"

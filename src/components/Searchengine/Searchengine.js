@@ -89,8 +89,8 @@ const Searchengine = () => {
                             </tr>
                           </thead>
                           <tbody>
-                            {searchengineData.map((data) => (
-                              <tr key={data.id}>
+                            {searchengineData.map((data, id) => (
+                              <tr key={id}>
                                 <td
                                   style={{ cursor: "pointer" }}
                                   onClick={() => {
@@ -103,7 +103,7 @@ const Searchengine = () => {
                                 <td>{data.questionPrice}</td>
                                 <td>{data.status.toLowerCase()}</td>
                               </tr>
-                            ))}{" "}
+                            ))}
                           </tbody>
                         </table>
                       )}
@@ -113,8 +113,8 @@ const Searchengine = () => {
                           className="btn btn-primary"
                           onClick={() => setCurrentPage(currentPage - 1)}
                           disabled={currentPage === 1}>
-                          {" "}
-                          prev{" "}
+                          
+                          prev
                         </button>
                         <button className="btn btn-primary mx-2">
                           {currentPage}
@@ -122,8 +122,8 @@ const Searchengine = () => {
                         <button
                           className="btn btn-primary"
                           onClick={() => setCurrentPage(currentPage + 1)}>
-                          {" "}
-                          next{" "}
+                          
+                          next
                         </button>
                       </div>
                     </div>
