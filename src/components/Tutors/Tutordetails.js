@@ -416,8 +416,8 @@ const Tutordetails = () => {
                                 </tr>
                               </thead>
                               <tbody>
-                                {displayUsers.map((data) => (
-                                  <tr key={data.id}>
+                                {displayUsers.map((data,id) => (
+                                  <tr key={id}>
                                     <td style={{ cursor: "pointer" }} onClick={() => { toComponentB(data);
                                       }}>
                                       {data.allQuestions.question
