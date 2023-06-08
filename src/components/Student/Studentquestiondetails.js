@@ -16,7 +16,7 @@ import Fillups from "../Questionpages/Fillups";
 const Studentquestiondetails = () => {
   const location = useLocation();
   const getresponse = location.state.data.allQuestions;
-
+console.log(getresponse);
   return (
     <>
       <div className="container-scroller">

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Que.css";
-import { useLocation } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import Moment from "react-moment";
 import axios from "axios";
@@ -12,9 +12,12 @@ const url = process.env.REACT_APP_API_BASE_URL;
 
 const Mcqquestion = () => {
   const location = useLocation();
-  console.log(location.state.data.allQuestions.questionId);
+  const { id } = useParams();
+  console.log(location.state.data);
+  console.log(id);
   const answer = location.state.data.allQuestions.answer;
-  const explation = location.state.data.allQuestions.explanation;
+  const explanation = location.state.data.allQuestions.explanation;
+  console.log(explanation);
   // Get the answer from location
   console.log(answer);
   const [imageSrc, setImageSrc] = useState("");
@@ -22,34 +25,51 @@ const Mcqquestion = () => {
   const [data, setData] = useState([]);
   const { register, handleSubmit, control } = useForm({});
   const [isEditing, setEditing] = useState(false);
+  const questionId = location.state.data.allQuestions.questionId;
+  const tutorId = location.state.data._id;
+  console.log(location.state.data.allQuestions.status);
+
+  console.log(location.state.data.allQuestions.questionType);
+  const questionType = location.state.data.allQuestions.questionType;
   const onSubmit = async (data) => {
-    console.log(data);
     const token = localStorage.getItem("token");
+    const updateDataObj = {
+      token: token,
+      questionId: location.state.data.allQuestions.questionId,
+      question: location.state.data.allQuestions.question,
+      answer: answer,
+      explanation: location.state.data.allQuestions.explanation,
+    };
     try {
-      // setLoading1(true);
       const response = await axios.post(
         `${url}/admin/updatetutorquestionanswer`,
-        {
-          token: token,
-          questionId: location.state.data.allQuestions.questionId,
-          question: data.question,
-          answer: data.answer,
-          explanation: data.explanation,
-        }
+        updateDataObj
       );
       console.log(response.data);
       setData(response.data);
       toast.success(response.data.message);
-      // setLoading1(false);
     } catch (error) {
-      // logoutIfInvalidToken(error.response);
-      console.log(error.response.data.error);
       toast.error(error.response.data.error);
-      // notify("Invalid refresh token!");
-      // setLoading1(false);
     }
   };
 
+  let token = localStorage.getItem("token");
+
+  function handleDeleteClick() {
+    axios
+      .post(`${url}/admin/deletequestion`, {
+        token: token,
+        tutorId: tutorId,
+        questionId: questionId,
+      })
+      .then((response) => {
+        toast.success(response.data.message);
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error(error.response.data.error);
+      });
+  }
   return (
     <>
       <div className="container-scroller">
@@ -77,7 +97,7 @@ const Mcqquestion = () => {
               <div className="content mt-2">
                 <div className="row">
                   <div className="col-md-12 col-lg-12 mb--20 ">
-                  <h5>Question</h5>
+                    <h5>Question</h5>
                     <input
                       className="p--20 rbt-border radius-6 w-100 bg-primary-opacity"
                       defaultValue={location.state.data.allQuestions.question}
@@ -90,8 +110,6 @@ const Mcqquestion = () => {
                       __html: location.state.data.allQuestions.question,
                     }}
                   />*/}
-
-                    
                   </div>
                   {answer && (
                     <div className="col-md-12 col-lg-12 mb--20">
@@ -117,7 +135,8 @@ const Mcqquestion = () => {
                               />
                               <label
                                 className="form-check-label"
-                                htmlFor="rbt-radio-1">
+                                htmlFor="rbt-radio-1"
+                              >
                                 A)
                               </label>
                             </div>
@@ -166,7 +185,8 @@ const Mcqquestion = () => {
                               />
                               <label
                                 className="form-check-label"
-                                htmlFor="rbt-radio-1">
+                                htmlFor="rbt-radio-1"
+                              >
                                 C)
                               </label>
                             </div>
@@ -190,7 +210,8 @@ const Mcqquestion = () => {
                               />
                               <label
                                 className="form-check-label"
-                                htmlFor="rbt-radio-1">
+                                htmlFor="rbt-radio-1"
+                              >
                                 D)
                               </label>
                             </div>
@@ -200,31 +221,44 @@ const Mcqquestion = () => {
                     </div>
                   )}
                 </div>
+                {questionType === "MCQ-exp" ||
+                questionType === "TrueFalse-exp" ||
+                questionType === "FillInBlanks-exp" ||
+                questionType === "ShortAnswer-exp" ? (
+                  <div className="col-md-12 col-lg-12 mb--20">
+                    <h5>Explanation</h5>
+                    <input
+                      className="p--20 rbt-border radius-6 w-100 bg-primary-opacity"
+                      defaultValue={explanation}
+                      {...register("explanation")}
+                      disabled={!isEditing}
+                    />
+                  </div>
+                ) : (
+                  ""
+                )}
 
-                <div className="col-md-12 col-lg-12 mb--20">
-                  <h5>Explanation</h5>
-                  <input
-                    className="p--20 rbt-border radius-6 w-100 bg-primary-opacity"
-                    defaultValue={location.state.data.allQuestions.explanation}
-                    {...register("explanation")}
-                    disabled={!isEditing}
-                  />
-                </div>
-
-                <div className="Personal-Settings-button col-lg-6">
-                  {/* Render the edit/update/delete buttons based on the editing state */}
-                  <Button
-                    className="border-edit-btn"
-                    size="lg"
-                    onClick={() => setEditing(!isEditing)}>
-                    {!isEditing && <i className="fa fa-pen" />}
-                    {!isEditing ? "Edit" : "Cancel"}
-                  </Button>
-                  <Button className="btn-success mx-4" type="submit">
-                    Update
-                  </Button>
-                  <Button className="btn-danger">Delete</Button>
-                </div>
+                {location.state.data.allQuestions.status === "Answered" ? (
+                  <div className="Personal-Settings-button col-lg-6">
+                    {/* Render the edit/update/delete buttons based on the editing state */}
+                    <Button
+                      className="border-edit-btn"
+                      size="lg"
+                      onClick={() => setEditing(!isEditing)}
+                    >
+                      {!isEditing && <i className="fa fa-pen" />}
+                      {!isEditing ? "Edit" : "Cancel"}
+                    </Button>
+                    <Button className="btn-success mx-4" type="submit">
+                      Update
+                    </Button>
+                    <Button className="btn-danger" onClick={handleDeleteClick}>
+                      Delete
+                    </Button>
+                  </div>
+                ) : (
+                  ""
+                )}
               </div>
             </form>
           </div>

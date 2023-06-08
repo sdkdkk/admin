@@ -18,8 +18,11 @@ const Matchfollow = () => {
   const [data, setData] = useState([]);
   const { register, handleSubmit } = useForm({});
   const [isEditing, setEditing] = useState(false);
-
+  const questionId = location.state.data.allQuestions.questionId;
+  const tutorId = location.state.data._id;
+  const studentId = location.state._id;
   const [editedAnswer, setEditedAnswer] = useState([...answerData]);
+  const questionType = location.state.data.allQuestions.questionType;
   const onSubmit = async (formData) => {
     const token = localStorage.getItem("token");
 
@@ -42,6 +45,24 @@ const Matchfollow = () => {
       toast.error(error.response.data.error);
     }
   };
+  
+  let token = localStorage.getItem("token");
+  
+  function handleDeleteClick(_id) {
+    axios
+      .post(`${url}/admin/deletequestion`, {
+        token: token,
+        tutorId: tutorId,
+        questionId: questionId,
+      })
+      .then((response) => {
+        toast.success(response.data.message);
+      })
+      .catch((error) => {
+        console.log(error);
+        toast.error(error.response.data.error);
+      });
+  }
 
   return (
     <div className="container-scroller">
@@ -119,7 +140,10 @@ const Matchfollow = () => {
                     </div>
                   </div>
                 )}
-                <div className="col-md-12 col-lg-12 mb--20">
+                {questionType === "MCQ-exp" ||
+                questionType === "TrueFalse-exp" ||
+                questionType === "FillInBlanks-exp" ||
+                questionType === "ShortAnswer-exp" ?<div className="col-md-12 col-lg-12 mb--20">
                   <h5>Explanation</h5>
                   <input
                     className="p--20 rbt-border radius-6 w-100 bg-primary-opacity"
@@ -127,10 +151,10 @@ const Matchfollow = () => {
                     {...register("explanation")}
                     disabled={!isEditing}
                   />
-                </div>
+                </div>:""}
               </div>
             </div>
-            <div className="Personal-Settings-button col-lg-6">
+            {location.state.data.allQuestions.status === "Answered" ?  <div className="Personal-Settings-button col-lg-6">
               <Button
                 className="border-edit-btn"
                 size="lg"
@@ -141,8 +165,8 @@ const Matchfollow = () => {
               <Button className="btn-success mx-4" type="submit">
                 Update
               </Button>
-              <Button className="btn-danger">Delete</Button>
-            </div>
+              <Button className="btn-danger" onClick={handleDeleteClick}>Delete</Button>
+            </div> :""}
           </form>
         </div>
       </div>
