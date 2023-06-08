@@ -195,7 +195,7 @@ const Tutordetails = () => {
 
   const toComponentB = (data) => {
     console.log(data, _id);
-    navigate("/tutorquestiondetails", { state: { data, _id } });
+    navigate("/tutorquestiondetails", { state: { data, _id, active } });
   };
 
   return (
@@ -416,8 +416,8 @@ const Tutordetails = () => {
                                 </tr>
                               </thead>
                               <tbody>
-                                {displayUsers.map((data) => (
-                                  <tr key={data.id}>
+                                {displayUsers.map((data,id) => (
+                                  <tr key={id}>
                                     <td style={{ cursor: "pointer" }} onClick={() => { toComponentB(data);
                                       }}>
                                       {data.allQuestions.question
@@ -497,8 +497,8 @@ const Tutordetails = () => {
                                     </tr>
                                   </thead>
                                   <tbody>
-                                    {displayUsers.map((data) => (
-                                      <tr key={data._id}>
+                                    {displayUsers.map((data,id) => (
+                                      <tr key={id}>
                                         <td
                                           style={{ cursor: "pointer" }}
                                           onClick={() => {

@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import "./Que.css";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
-import { Button } from "react-bootstrap";
+import { Button, Modal } from "react-bootstrap";
 import Moment from "react-moment";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Fillups = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const answerData = JSON.parse(location.state.data.allQuestions.answer);
   console.log(location.state.data.allQuestions);
   const { register, handleSubmit } = useForm({});
@@ -18,7 +19,10 @@ const Fillups = () => {
   const [isEditing, setEditing] = useState(false);
   const [editedAnswer, setEditedAnswer] = useState(answerData);
   const questionId = location.state.data.allQuestions.questionId;
-  const tutorId = location.state.data._id;
+  const question = location.state.data.allQuestions.question;
+  const explanation = location.state.data.allQuestions.explanation;
+  const tutorId = location.state._id;
+  const active = location.state.active;
   const questionType = location.state.data.allQuestions.questionType;
   const handleRemoveField = (id) => {
     const updatedAnswer = editedAnswer.filter((_, index) => index !== id);
@@ -30,23 +34,34 @@ const Fillups = () => {
     setEditedAnswer(updatedAnswer);
   };
 
+  const [imageSrc, setImageSrc] = useState("");
+  const [show, setShow] = useState(false);
+  
+  const handleImageClick = (url) => {
+    setShow(true);
+    setImageSrc(url);
+  };
+
   const onSubmit = async (data) => {
-    
-    const { answer, question, explanation } = data;
     const token = localStorage.getItem("token");
     try {
       const response = await axios.post(
         `${url}/admin/updatetutorquestionanswer`,
         {
           token: token,
-          questionId: location.state.data.allQuestions.questionId,
-          question: question,
-          answer: JSON.stringify(editedAnswer), // Convert the array to a JSON string
-          explanation: explanation,
+          questionId: questionId,
+          question: data.question ? data.question : question,
+          answer: data.editedAnswer
+            ? data.editedAnswer
+            : JSON.stringify(editedAnswer), // Convert the array to a JSON string
+          explanation: data.explanation ? data.explanation : explanation,
         }
       );
       setData(response.data);
       toast.success(response.data.message);
+      if (response.data.message) {
+        navigate(`/tutordetails/${tutorId}/${active}`);
+      }
     } catch (error) {
       console.log(error.response.data.error);
       toast.error(error.response.data.error);
@@ -100,32 +115,26 @@ const Fillups = () => {
                     <h5>Question</h5>
                     <input
                       className="p--20 rbt-border radius-6 w-100 bg-primary-opacity"
-                      defaultValue={location.state.data.allQuestions.question}
+                      defaultValue={question}
                       {...register("question")}
                       disabled={!isEditing}
                     />
+                    {location.state.data.allQuestions.questionPhoto.map(
+                      (photoUrl) => (
+                        <img
+                          key={photoUrl}
+                          src={photoUrl}
+                          style={{
+                            width: "50px",
+                            height: "50px",
+                          }}
+                          onClick={() => handleImageClick(photoUrl)}
+                          className="profile-img mt-3"
+                          alt=""
+                        />
+                      )
+                    )}
                   </div>
-                  {/* <div className="col-md-12 col-lg-12 mb--20">
-                    <h5>Answer</h5>
-                    {Array.isArray(editedAnswer) &&
-                      editedAnswer.map((data, id) => (
-                        <div key={id} className="mb-2">
-                          <span className="mx-3 fw-bolder">{id + 1}) </span>
-                          <input
-                            className="p--20 rbt-border radius-6 w-100 bg-primary-opacity"
-                            defaultValue={data}
-                            name="stuff[]"
-                            onChange={(e) => {
-                              const updatedAnswers = [...editedAnswer];
-                              updatedAnswers[id] = e.target.value;
-                              setEditedAnswer(updatedAnswers);
-                            }}
-                            disabled={!isEditing}
-                          />
-                        </div>
-                      ))}
-                  </div> */}
-
                   <div className="multi-field-wrapper">
                     <h5>Answer</h5>
                     <div className="multi-fields">
@@ -163,23 +172,27 @@ const Fillups = () => {
                   </div>
 
                   {questionType === "MCQ-exp" ||
-                    questionType === "TrueFalse-exp" ||
-                    questionType === "FillInBlanks-exp" ||
-                    questionType === "ShortAnswer-exp" ? <div className="col-md-12 col-lg-12 mb--20">
-                    <h5>Explanation</h5>
-                    <input
-                      className="p--20 rbt-border radius-6 w-100 bg-primary-opacity"
-                      defaultValue={
-                        location.state.data.allQuestions.explanation
-                      }
-                      {...register("explanation")}
-                      disabled={!isEditing}
-                    />
-                  </div> : ""}
+                  questionType === "TrueFalse-exp" ||
+                  questionType === "FillInBlanks-exp" ||
+                  questionType === "ShortAnswer-exp" ? (
+                    <div className="col-md-12 col-lg-12 mb--20">
+                      <h5>Explanation</h5>
+                      <input
+                        className="p--20 rbt-border radius-6 w-100 bg-primary-opacity"
+                        defaultValue={
+                          location.state.data.allQuestions.explanation
+                        }
+                        {...register("explanation")}
+                        disabled={!isEditing}
+                      />
+                    </div>
+                  ) : (
+                    ""
+                  )}
                 </div>
 
-                {location.state.data.allQuestions.status === "Answered" ?  (
-                  <div className="Personal-Settings-button col-lg-6">
+                {location.state.data.allQuestions.status === "Answered" ? (
+                  <div className="Personal-Settings-button col-lg-6 my-3">
                     <Button
                       className="border-edit-btn"
                       size="lg"
@@ -198,12 +211,25 @@ const Fillups = () => {
                       Delete
                     </Button>
                   </div>
-                ):""}
+                ) : (
+                  ""
+                )}
               </div>
             </form>
           </div>
         </div>
       </div>
+       {/* image show modal */}
+       <Modal show={show} onHide={() => setShow(false)}>
+       <Modal.Header closeButton className="border-0"></Modal.Header>
+       <Modal.Body className="text-center">
+         <img
+           style={{ maxWidth: "100%", maxHeight: "100%" }}
+           src={imageSrc}
+           alt="modal-img"
+         />
+       </Modal.Body>
+     </Modal>
     </>
   );
 };
