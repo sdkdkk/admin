@@ -17,6 +17,7 @@ import { logoutIfInvalidToken } from "../../helpers/handleError";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Questionpricing = () => {
+
   const notify = (data) => toast(data);
   const {
     register,
@@ -33,13 +34,14 @@ const Questionpricing = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [data, setData] = useState([]);
+
   let token = localStorage.getItem("token");
+
   useEffect(() => {
     setLoading1(true);
     let token = localStorage.getItem("token");
     dispatch(questiontypeApi(token));
     dispatch(questiontypePriceApi());
-
     fetchData();
     setLoading1(false);
   }, []);
@@ -235,13 +237,9 @@ const Questionpricing = () => {
                               variant="primary"
                               type="submit"
                               disabled={loading}>
-                              {isEditMode
-                                ? loading
-                                  ? "Loading..."
-                                  : "Update"
-                                : loading
-                                ? "Loading..."
-                                : "Add"}
+                              {
+                                isEditMode ? loading ? "Loading..." : "Update" : loading ? "Loading..." : "Add"
+                              }
                             </Button>
                           </div>
                         </div>

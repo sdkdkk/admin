@@ -140,7 +140,7 @@ const Unsolvedque = () => {
                                             Reanswer
                                         </button> */}
                                         <button
-                                            // className="btn btn-primary"
+                                            className="btn btn-light"
                                             type="button"
                                             onClick={() => setWhomtoAsk("unsolved")}
                                             style={{ borderRadius: "4px" }}>

@@ -62,7 +62,6 @@ const Sidebar = () => {
                     Tutors Payments
                   </Link>
                 </li>
-
               </ul>
             </div>
           </li>
@@ -94,6 +93,14 @@ const Sidebar = () => {
           <li className={`nav-item ${activeLink === '/wallet' ? 'active' : ''}`}>
             <Link className="nav-link" to="/wallet">
               <span className="menu-title">Wallet</span>
+              <i className="icon-screen-desktop menu-icon"></i>
+            </Link>
+          </li>
+
+          {/*Subscription*/}
+          <li className="nav-item">
+            <Link className="nav-link" to="/subscription">
+              <span className="menu-title">Subscription</span>
               <i className="icon-screen-desktop menu-icon"></i>
             </Link>
           </li>
@@ -203,7 +210,7 @@ const Sidebar = () => {
             </div>
           </li>
 
-          <li className="nav-item">
+          <li className={`nav-item ${activeLink === '/questions' ? 'active' : ''}`}>
             <Link className="nav-link" to="/questions">
               <span className="menu-title">Questions</span>
               <i className="icon-screen-desktop menu-icon"></i>
@@ -216,7 +223,7 @@ const Sidebar = () => {
           </li>
 
           {/*Question timing*/}
-          <li className="nav-item">
+          <li className={`nav-item ${activeLink === '/questiontiming' ? 'active' : ''}`}>
             <Link className="nav-link" to="/questiontiming">
               <span className="menu-title">Question timing</span>
               <i className="icon-screen-desktop menu-icon"></i>
@@ -224,7 +231,7 @@ const Sidebar = () => {
           </li>
 
           {/*Question Pricing*/}
-          <li className="nav-item">
+          <li className={`nav-item ${activeLink === '/questionpricing' ? 'active' : ''}`}>
             <Link className="nav-link" to="/questionpricing">
               <span className="menu-title">Question Pricing</span>
               <i className="icon-screen-desktop menu-icon"></i>
@@ -232,7 +239,7 @@ const Sidebar = () => {
           </li>
 
           {/*Question Reanswer Choice*/}
-          <li className="nav-item">
+          <li className={`nav-item ${activeLink === '/questionreanswer' ? 'active' : ''}`}>
             <Link className="nav-link" to="/questionreanswer">
               <span className="menu-title">Question Reanswer</span>
               <i className="icon-screen-desktop menu-icon"></i>
@@ -245,7 +252,7 @@ const Sidebar = () => {
           </li>
 
           {/*Tutor exam*/}
-          <li className="nav-item">
+          <li className={`nav-item ${activeLink === '/tutorexam' ? 'active' : ''}`}>
             <Link className="nav-link" to="/tutorexam">
               <span className="menu-title">Tutor Exam Questions</span>
               <i className="icon-screen-desktop menu-icon"></i>
@@ -253,7 +260,7 @@ const Sidebar = () => {
           </li>
 
           {/*Test Exam*/}
-          <li className="nav-item">
+          <li className={`nav-item ${activeLink === '/testexam' ? 'active' : ''}`}>
             <Link className="nav-link" to="/testexam">
               <span className="menu-title">Tutor Exam Checking</span>
               <i className="icon-screen-desktop menu-icon"></i>
@@ -261,7 +268,7 @@ const Sidebar = () => {
           </li>
 
           {/*Tutorexamconfig*/}
-          <li className="nav-item">
+          <li className={`nav-item ${activeLink === '/tutorexamconfig' ? 'active' : ''}`}>
             <Link className="nav-link" to="/tutorexamconfig">
               <span className="menu-title">Tutor Exam Configuration</span>
               <i className="icon-screen-desktop menu-icon"></i>
@@ -305,11 +312,6 @@ const Sidebar = () => {
               <i className="icon-screen-desktop menu-icon"></i>
             </Link>
           </li>
-
-
-
-
-
 
           {/*pages*/}
           <li className="nav-item nav-category">
