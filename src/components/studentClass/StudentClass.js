@@ -164,8 +164,8 @@ const StudentClass = () => {
                                   ? "Loading..."
                                   : "Update"
                                 : loading
-                                ? "Loading..."
-                                : "Add"}
+                                  ? "Loading..."
+                                  : "Add"}
                             </Button>
                           </div>
                         </div>

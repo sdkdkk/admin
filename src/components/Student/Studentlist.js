@@ -52,9 +52,7 @@ const Studentlist = () => {
     };
   }, [studentists]);
 
-  useEffect(() => {
-    searchItem();
-  }, [searchTerm]);
+
 
   const searchItem = () => {
     if (studentists) {
@@ -118,7 +116,9 @@ const Studentlist = () => {
                             <input
                               type="text"
                               id="fname"
+                              className="form-control me-2"
                               placeholder="search name"
+                              aria-label="Search"
                               name="fname"
                               value={searchTerm}
                               onChange={(e) => {
@@ -191,7 +191,7 @@ const Studentlist = () => {
                                   <td>
                                     <Link to={`/studentdetails/${data._id}`}>
                                       <button className="btn btn-primary btn-sm">
-                                        click
+                                        See Details
                                       </button>
                                     </Link>
                                   </td>
@@ -202,7 +202,7 @@ const Studentlist = () => {
                             <tbody>
                               <tr>
                                 <td colSpan="8">
-                                  <h4>No student Found ...</h4>
+                                  <h4 className="information mt-3 text-danger">No Student Found</h4>
                                 </td>
                               </tr>
                             </tbody>

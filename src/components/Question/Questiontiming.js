@@ -15,6 +15,7 @@ import { logoutIfInvalidToken } from "../../helpers/handleError";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Questiontiming = () => {
+
   const [loading, setLoading] = useState(false);
 
   const [isEditMode, setIsEditMode] = useState(false);
@@ -32,6 +33,7 @@ const Questiontiming = () => {
     fetchData();
     setLoading1(false);
   }, []);
+
   const { register, handleSubmit, reset } = useForm({});
 
   const onSubmit = async (data) => {
@@ -484,8 +486,8 @@ const Questiontiming = () => {
                                   ? "Loading..."
                                   : "Update"
                                 : loading
-                                ? "Loading..."
-                                : "Add"}
+                                  ? "Loading..."
+                                  : "Add"}
                             </Button>
                           </div>
                         </div>

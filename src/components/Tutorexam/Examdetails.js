@@ -10,14 +10,18 @@ import {
   admintutorexamresponse,
   reset,
 } from "../../Redux/Loginpages/admintutorexamresponseSlice";
+import { toast } from "react-toastify";
 
 const Examdetails = () => {
   let history = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
+
   const admintutorexamresponseState = useSelector(
     (state) => state.admintutorexamresponse
   );
+
+  console.log(admintutorexamresponseState.data.message);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [examInfo, setExamInfo] = useState({});
   const [selectedValue, setSelectedValue] = useState([]);
@@ -36,8 +40,10 @@ const Examdetails = () => {
 
   useEffect(() => {
     if (admintutorexamresponseState?.isSuccess) {
+      
       dispatch(reset());
-      // history("/testexam");
+
+       history("/tutorlist");
     }
   }, [admintutorexamresponseState?.isSuccess]);
 
@@ -60,7 +66,18 @@ const Examdetails = () => {
     } else {
       setCurrentIndex(currentIndex + 1);
     }
+    if (admintutorexamresponseState.data.message) {
+    history("/tutorlist")
+    }
   };
+
+  useEffect(() => {
+  if (admintutorexamresponseState.data.status===1) {
+    toast.success(admintutorexamresponseState.data.message)
+    } else {
+    toast.error(admintutorexamresponseState)
+    }
+  }, [admintutorexamresponseState])
 
   const handleBack = () => {
     if (currentIndex === 0) {

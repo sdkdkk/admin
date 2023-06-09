@@ -18,21 +18,22 @@ const Tutorsearch = () => {
   const { tutorexamquestion = [] } = getTutorQuestionsListData.data || [];
   const tutorexamquestionData = tutorexamquestion || [];
 
-  const getSearchQuestion = () =>{
+  const getSearchQuestion = () => {
     const searchQuery = `&search=${searchParams}`
     const payload = {
-      questionSubject : "",
-      questionType : "",
+      questionSubject: "",
+      questionType: "",
       limit: 6,
       skip: (currentPage - 1) * 6,
-      searchParams : searchQuery
+      searchParams: searchQuery
     };
     dispatch(getTutorQuestionsListApi(payload));
   }
 
-  useEffect(() =>{
-    getSearchQuestion()
-  },[currentPage])
+  useEffect(() => {
+    getSearchQuestion();
+  }, [currentPage])
+
 
   return (
     <>
@@ -86,42 +87,43 @@ const Tutorsearch = () => {
                             </tr>
                           </thead>
                           <tbody>
-                          {getTutorQuestionsListData.isLoading ? <div><div style={{ marginLeft: "450px", marginTop: "50px" }}>
-                          <ColorRing
-                            visible={true}
-                            height="80"
-                            width="80"
-                            ariaLabel="blocks-loading"
-                            wrapperStyle={{}}
-                            wrapperclassName="blocks-wrapper"
-                            colors={["black"]}
-                          />
-                        </div></div> : <>
-                            {tutorexamquestionData.map((q) =>(<tr>
-                              <td>{q.question}</td>
-                              <td>{q.questionType}</td>
-                              <td>{q.questionSubject}</td>
-                            </tr>))}
-                            </> }
-                            
+                            {getTutorQuestionsListData.isLoading ? <div>
+                              <div style={{ marginLeft: "450px", marginTop: "50px" }}>
+                                <ColorRing
+                                  visible={true}
+                                  height="80"
+                                  width="80"
+                                  ariaLabel="blocks-loading"
+                                  wrapperStyle={{}}
+                                  wrapperclassName="blocks-wrapper"
+                                  colors={["black"]}
+                                />
+                              </div>
+                            </div> :
+                              <>
+                                {tutorexamquestionData.map((q) => (<tr>
+                                  <td>{q.question}</td>
+                                  <td>{q.questionType}</td>
+                                  <td>{q.questionSubject}</td>
+                                </tr>))}
+                              </>}
                           </tbody>
                         </table>
                       </div>
 
                       <div className="table-pagination">
                         <button
-                        onClick={() => setCurrentPage((prev) => prev - 1)}
-                        disabled={currentPage === 1}
+                          onClick={() => setCurrentPage((prev) => prev - 1)}
+                          disabled={currentPage === 1}
                           className="btn btn-primary">
-                          
                           prev
                         </button>
                         <button className="btn btn-primary mx-2">
+                          {currentPage}
                         </button>
                         <button
-                        onClick={() => setCurrentPage((prev) => prev + 1)}
+                          onClick={() => setCurrentPage((prev) => prev + 1)}
                           className="btn btn-primary">
-                          
                           next
                         </button>
                       </div>

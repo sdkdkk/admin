@@ -116,7 +116,7 @@ function App() {
             </RequireAuth>
           }
         />
-        
+
 
         <Route
           path="tutorspayment"
@@ -152,13 +152,13 @@ function App() {
         />
 
         <Route
-        path="/subscription"
-        element={
-          <RequireAuth>
-            <Subscription />
-          </RequireAuth>
-        }
-      />
+          path="/subscription"
+          element={
+            <RequireAuth>
+              <Subscription />
+            </RequireAuth>
+          }
+        />
         <Route
           path="transactionDetails"
           element={

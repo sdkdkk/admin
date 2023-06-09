@@ -118,28 +118,28 @@ const Question = () => {
                 <div className="col-md-12">
                   <div className="d-grid gap-2 d-md-flex justify-content-md-end">
                     <button
-                      // className="btn btn-primary me-md-2 active"
+                      className="btn btn-light"
                       type="button"
                       onClick={() => setWhomtoAsk("tutor")}
                       style={{ borderRadius: "4px" }}>
                       Tutor
                     </button>
                     <button
-                      // className="btn btn-primary"
+                      className="btn btn-light"
                       type="button"
                       onClick={() => setWhomtoAsk("admin")}
                       style={{ borderRadius: "4px" }}>
                       Admin
                     </button>
                     <button
-                      // className="btn btn-primary"
+                      className="btn btn-light"
                       type="button"
                       onClick={() => setWhomtoAsk("reanswer")}
                       style={{ borderRadius: "4px" }}>
                       Reanswer
                     </button>
                     <button
-                      // className="btn btn-primary"
+                      className="btn btn-light"
                       type="button"
                       onClick={() => setWhomtoAsk("unsolved")}
                       style={{ borderRadius: "4px" }}>
@@ -209,9 +209,8 @@ const Question = () => {
                     <div className="card-body">
                       <div className="table-responsive">
                         <table
-                          className={`table ${
-                            getAdminQuestionsState?.isLoading && "table-loading"
-                          }`}>
+                          className={`table ${getAdminQuestionsState?.isLoading && "table-loading"
+                            }`}>
                           <thead>
                             <tr>
                               <th scope="col">Sr.No</th>
@@ -225,7 +224,7 @@ const Question = () => {
                           <tbody>
                             {transactions.map((a, index) => (
                               <tr>
-                                <td>{a._id}</td>
+                                <td>{index + 1}</td>
                                 <td>{a.question}</td>
                                 <td>{a.questionType}</td>
                                 <td>{a.questionSubject}</td>

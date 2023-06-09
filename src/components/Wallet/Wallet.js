@@ -1,4 +1,4 @@
-import React, { useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 // import { Button } from "react-bootstrap";
 // import { Link } from "react-router-dom";
 import Footer from "../shared/Footer";
@@ -37,19 +37,19 @@ const Wallet = () => {
         setCurrentPage(value);
     };
 
-    const getWalletDataApi = (category = "Student") =>{
+    const getWalletDataApi = (category = "Student") => {
         const params = `?category=${category}&limit=10&skip=${(currentPage - 1) * 10}`;
         dispatch(getWalletData(params))
     }
 
-    const handleDetailsClick = (data) =>{
-        const { category, walletId, type } = data 
-        history(`/transactionDetails?category=${category}&walletId=${walletId}&type=${type}`)   
+    const handleDetailsClick = (data) => {
+        const { category, walletId, type } = data
+        history(`/transactionDetails?category=${category}&walletId=${walletId}&type=${type}`)
     }
 
-    useEffect(() =>{
+    useEffect(() => {
         getWalletDataApi()
-    },[currentPage])
+    }, [currentPage])
 
     return (
         <div>
@@ -95,17 +95,22 @@ const Wallet = () => {
                                                     </tr>
                                                 </thead>
                                                 <tbody>
-                                                    {walletTransactions && [...walletTransactions].map((value,pos) => {
+                                                    {walletTransactions && [...walletTransactions].map((value, pos) => {
                                                         return (
                                                             <tr key={value._id}>
-                                                                <td>{pos+1}</td>
+                                                                <td>{pos + 1}</td>
                                                                 <td>{moment(value?.date).format("DD-MM-YYYY")}</td>
                                                                 <td>{value.name}</td>
                                                                 <td>{value.transactionId}</td>
                                                                 <td>Rs.{value.amount}</td>
                                                                 <td>{value.category}</td>
-                                                                <td>{value.status}</td>
-                                                                <td><button onClick={() => handleDetailsClick(value)}>Details</button></td>
+                                                                <td>
+                                                                    {
+                                                                        value.status === 'Success' ? <span className="badge text-bg-success">{value.status}</span>
+                                                                            : <span className="badge text-bg-secondary">{value.status}</span>
+                                                                    }
+                                                                </td>
+                                                                <td><button className="btn btn-dark btn-sm" onClick={() => handleDetailsClick(value)}>Details</button></td>
                                                             </tr>
                                                         )
                                                     })}
