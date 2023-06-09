@@ -5,8 +5,6 @@ import Dashboard from "./components/Dashboard/Dashboard";
 import Navbar from "./components/shared/Navbar";
 import Tutorlist from "./components/Tutors/Tutorlist";
 
-import TutorPayments from "./components/Tutors/TutorPayments";
-
 import Tutorspayment from "./components/Tutors/Tutorspayment";
 import Studentlist from "./components/Student/Studentlist";
 import Studentpayment from "./components/Student/Studentpayment";
@@ -118,14 +116,6 @@ function App() {
           }
         />
         
-        <Route
-          path="tutorpayments"
-          element={
-            <RequireAuth>
-              <TutorPayments/>
-            </RequireAuth>
-          }
-        />
 
         <Route
           path="tutorspayment"
