@@ -238,7 +238,7 @@ const Pages = () => {
                                 })}
                                 placeholder="Enter SortOrder"
                               />
-                              <p className="error-msg">
+                              <p className="error-msg text-danger">
                                 {errors.sortOrder && errors.sortOrder.message}
                               </p>
                             </Form.Group>
@@ -257,7 +257,7 @@ const Pages = () => {
                                 })}
                                 placeholder="Enter Page Name"
                               />
-                              <p className="error-msg">
+                              <p className="error-msg text-danger">
                                 {errors.pageName && errors.pageName.message}
                               </p>
                             </Form.Group>
@@ -285,7 +285,7 @@ const Pages = () => {
                                   />
                                 )}
                               />
-                              <p className="error-msg">
+                              <p className="error-msg text-danger">
                                 {errors.contentText &&
                                   errors.contentText.message}
                               </p>
@@ -304,7 +304,7 @@ const Pages = () => {
                                   required: "Please Enter A Valid metaTitle!",
                                 })}
                               />
-                              <p className="error-msg">
+                              <p className="error-msg text-danger">
                                 {errors.metaTitle && errors.metaTitle.message}
                               </p>
                             </Form.Group>
@@ -323,7 +323,7 @@ const Pages = () => {
                                 })}
                                 placeholder="Enter Meta Keyword"
                               />
-                              <p className="error-msg">
+                              <p className="error-msg text-danger">
                                 {errors.metaKeyword &&
                                   errors.metaKeyword.message}
                               </p>
@@ -343,7 +343,7 @@ const Pages = () => {
                                 placeholder="Leave a comment here"
                                 style={{ height: "130px" }}
                               />
-                              <p className="error-msg">
+                              <p className="error-msg text-danger">
                                 {errors.metaDescription &&
                                   errors.metaDescription.message}
                               </p>

@@ -17,13 +17,12 @@ const url = process.env.REACT_APP_API_BASE_URL;
 Quill.register("modules/imageResize", ImageResize);
 
 const Addnew = () => {
-
   const [images, setImages] = useState([]);
 
   const [questionTypes, setQuestionTypes] = useState([]);
   const [questionSubject, setQuestionSubject] = useState([]);
   const [editorHtml, setEditorHtml] = useState("");
- 
+
   const navigate = useNavigate();
   const [optionsArray, setOptionsArray] = useState([]);
   const [selectedOption, setSelectedOption] = useState("");
@@ -150,11 +149,9 @@ const Addnew = () => {
     if (event.target.value.endsWith("-exp")) {
       setIsExp(true);
     } else {
-      setIsExp(""); 
+      setIsExp("");
     }
   };
-
- 
 
   const token = localStorage.getItem("token");
   const onSubmit = (data) => {
@@ -186,7 +183,6 @@ const Addnew = () => {
       });
   };
 
-
   return (
     <div>
       <div className="container-scroller">
@@ -215,12 +211,12 @@ const Addnew = () => {
                             id="inputGroupFile01"
                             aria-describedby="inputGroupFileAddon01"
                             name="questionPhoto"
-                            {...register("questionPhoto")}
+                            {...register("questionPhoto", { required: true })}
                             multiple
                             accept=".png,.jpg,.jpeg,.tif,.tiff,.bmp,.gif,.ico"
                           />
-                          {errors.questionPhoto && (
-                            <p className="error">
+                          {errors?.questionPhoto && (
+                            <p className="error text-danger">
                               Please upload at least one image
                             </p>
                           )}
@@ -238,7 +234,9 @@ const Addnew = () => {
                             {...register("question", { required: true })}
                           />
                           {errors.question && (
-                            <p className="error">Please Enter a question</p>
+                            <p className="error text-danger">
+                              Please Enter a question
+                            </p>
                           )}
                         </div>
                         <div></div>
@@ -260,7 +258,7 @@ const Addnew = () => {
                             ))}
                           </select>
                           {errors.questionType && (
-                            <p className="error">
+                            <p className="error text-danger">
                               Please select a type of question
                             </p>
                           )}
@@ -285,7 +283,7 @@ const Addnew = () => {
                             ))}
                           </select>
                           {errors.questionType && (
-                            <p className="error">
+                            <p className="error text-danger">
                               Please select a type of subject
                             </p>
                           )}
@@ -302,7 +300,7 @@ const Addnew = () => {
                                 <ReactQuill
                                   theme="snow"
                                   name="answer"
-                                  {...register("answer", { required: true })}    
+                                  {...register("answer", { required: true })}
                                   modules={modules}
                                   formats={formats}
                                   bounds={"#root"}
@@ -313,7 +311,9 @@ const Addnew = () => {
                               )}
                             />
                             {errors.answer && (
-                              <p className="error">Please Enter a answer</p>
+                              <p className="error text-danger">
+                                Please Enter a answer
+                              </p>
                             )}
                           </div>
                         </Col>
@@ -343,7 +343,7 @@ const Addnew = () => {
                                 )}
                               />
                               {errors.explanation && (
-                                <p className="error">
+                                <p className="error text-danger">
                                   Please Enter a explanation
                                 </p>
                               )}

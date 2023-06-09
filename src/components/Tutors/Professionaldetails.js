@@ -21,9 +21,13 @@ const Professionaldetails = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [loading, setLoading] = useState(false);
   const [myimage, setMyImage] = useState(null);
+
+  console.log(myimage)
+
   const uploadImage = (e) => {
     setMyImage(URL.createObjectURL(e.target.files[0]));
   };
+
   const [user, setUser] = useState();
   const notify = (data) => toast(data);
   const { register, handleSubmit, reset } = useForm();
@@ -52,7 +56,8 @@ const Professionaldetails = () => {
   const onSubmit = (data) => {
     setIsLoading(true);
     const formData = new FormData();
-    const files = data.myimage;
+    const files = new File([myimage], 'filename.png', { type: myimage.type });
+    // const files = data.myimage;
 
     formData.append("token", token);
     formData.append(`profilephoto`, files);
