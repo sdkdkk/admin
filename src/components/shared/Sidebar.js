@@ -282,7 +282,7 @@ const Sidebar = () => {
 
 
           {/*Bonus Section*/}
-          <li className="nav-item">
+          <li className={`nav-item ${activeLink === '/studentreferral' ? 'active' : ''}`}>
             <Link className="nav-link" to="/studentreferral">
               <span className="menu-title">Student Referral</span>
               <i className="icon-screen-desktop menu-icon"></i>
@@ -290,7 +290,7 @@ const Sidebar = () => {
           </li>
 
           {/*Bonus Section*/}
-          <li className="nav-item">
+          <li className={`nav-item ${activeLink === '/studentpostingstreak' ? 'active' : ''}`}>
             <Link className="nav-link" to="/studentpostingstreak">
               <span className="menu-title">Student Posting Streak</span>
               <i className="icon-screen-desktop menu-icon"></i>

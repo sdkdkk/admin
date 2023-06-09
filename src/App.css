@@ -180,3 +180,19 @@ td.text-right.font-weight-bold {
       width: auto;
     }
   } */
+
+
+
+
+  /* logo css */
+@media (max-width: 991px) {
+    .navbar .navbar-brand-wrapper .navbar-brand.brand-logo {
+      display: inline-block;
+    }
+  }
+  
+  @media (max-width: 480px) {
+    .navbar .navbar-brand-wrapper {
+      width: 100px;
+    }
+  }

@@ -21,9 +21,38 @@ const Professionaldetails = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [loading, setLoading] = useState(false);
   const [myimage, setMyImage] = useState(null);
-  const uploadImage = (e) => {
-    setMyImage(URL.createObjectURL(e.target.files[0]));
+  const [width, setWidth] = useState(null);
+  const [height, setHeight] = useState(null);
+
+  const uploadImage = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
+  
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
+  
+        // Set the canvas width and height to match the image
+        canvas.width = img.width;
+        canvas.height = img.height;
+  
+        // Draw the image on the canvas
+        ctx.drawImage(img, 0, 0);
+  
+        // get the resized image as a data URL
+        const dataUrl = canvas.toDataURL();
+  
+        // update the state with the new image
+        setMyImage(dataUrl);
+      };
+      img.src = event.target.result;
+    };
+    reader.readAsDataURL(file);
   };
+  
+
   const [user, setUser] = useState();
   const notify = (data) => toast(data);
   const { register, handleSubmit, reset } = useForm();
@@ -52,10 +81,11 @@ const Professionaldetails = () => {
   const onSubmit = (data) => {
     setIsLoading(true);
     const formData = new FormData();
-    const files = data.myimage;
+    const files = new File([myimage], 'filename.png', { type: myimage.type });
+    // const files = data.myimage;
 
     formData.append("token", token);
-    formData.append(`profilephoto`, files);
+    formData.append(`profilephoto`, myimage);
     formData.append("name", data.name);
     formData.append("mobileNo", data.mobileNo);
     formData.append("country", data.country);
@@ -98,7 +128,7 @@ const Professionaldetails = () => {
         console.error(error);
       });
   };
-
+console.log(myimage)
   return (
     <div>
       <div className="container-scroller">
@@ -145,9 +175,11 @@ const Professionaldetails = () => {
                               <div className="card">
                                 <div className="card-body">
                                   <div className="profile-details">
+                                   { console.log(data.personaldetails.profilephoto[0])}
                                     <img
                                       type="file"
                                       name="image"
+                                      // src={myimage === null ? data.personaldetails.profilephoto[0] : myimage}
                                       src={
                                         myimage === null
                                           ? data.personaldetails.profilephoto
@@ -170,12 +202,12 @@ const Professionaldetails = () => {
                                           hidden
                                           accept="image/*"
                                           type="file"
-                                          onChange={uploadImage}
+                                          onChange={(e)=>uploadImage(e)}
                                         />
                                       </Button>
-                                      <Button variant="contained" size="small">
-                                        Reset
-                                      </Button>
+                                      <Button variant="contained" size="small" onClick={()=> setMyImage(null)}>
+        Reset
+      </Button>
                                       <div>
                                         <small className="text-muted d-flex flex-column my-3 mx-3">
                                           Allowed JPG,GIf or PNG. Max size of

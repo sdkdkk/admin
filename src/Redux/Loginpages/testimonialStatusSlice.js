@@ -46,18 +46,18 @@ export const {
 } = testimonialStatusSlice.actions;
 
 export const Statuschange = (status, id) => async (dispatch) => {
-
   const token = localStorage.getItem("token");
 
   dispatch(testimonialStatusPending());
   try {
     const { data } = await axios.post(`${url}/admin/testimonialstatus/${id}`, {
-      token,status
+      token,
+      status,
     });
 
     if (data.status === 1) {
-      toast.success(data.message);
       dispatch(testimonialStatusSuccess(data));
+      toast.success(data.message);
     } else dispatch(testimonialStatusFailure(data));
   } catch (error) {
     logoutIfInvalidToken(error.response);

@@ -235,7 +235,8 @@ const Tutordetails = () => {
               </div>
             ) : (
               <div className="second-section text-start mt-4 mx-4">
-                {tutorpaydetails.map((data, index) => {
+                  {tutorpaydetails.map((data, index) => {
+                  console.log(data.profilephoto[0])
                   return (
                     <div key={index} style={{ backgroundColor: "#c0d7ff" }}>
                       <div
@@ -244,7 +245,7 @@ const Tutordetails = () => {
                         <div className="col">
                           <div className="profile">
                             <div className="profile-img mt-2">
-                              <img src={data.profilephoto} alt=" " />
+                              <img src={data.profilephoto[0]} alt=" " />
                             </div>
                             <div className="profile-info">
                               <h6 className="">{data.name}</h6>

@@ -21,7 +21,10 @@ const Testimonial = () => {
   const testimonial = useSelector((state) => state.testimonial);
   const testimonialform = useSelector((state) => state.testimonialform);
   const testimonialstatus = useSelector((state) => state.testimonialstatus);
-  const testimonialUserDeleteState = useSelector((state) => state.testimonialUserDelete);
+  const testimonialUserDeleteState = useSelector(
+    (state) => state.testimonialUserDelete
+  );
+  const [submitted, setSubmitted] = useState(false);
 
   var [isActive, SetisActive] = useState(true);
 
@@ -72,10 +75,10 @@ const Testimonial = () => {
   useEffect(() => {
     reset(defaultValues);
   }, [defaultValues]);
-  
-  const onSubmit = (data) => {
+
+  const onSubmit = async (data) => {
     const formData = new FormData();
-   
+
     formData.append("sortOrder", data.sortOrder);
     formData.append("profileimage", data.profileimage[0]);
     formData.append("name", data.name);
@@ -85,14 +88,10 @@ const Testimonial = () => {
     if (defaultValues?.id) {
       formData.append("id", defaultValues?.id);
     }
-
-    dispatch(testimonialformapi(formData));
-    setTimeout(() => {
-      setDefaultValues({});
-      reset({});
-    }, [500]);
+    await dispatch(testimonialformapi(formData));
+    setSubmitted(true); // Set the submitted state to true
+    reset();
   };
-
   
   const changestatus = async (value, id, index) => {
     console.log(value,id,index);
@@ -146,8 +145,7 @@ const Testimonial = () => {
                             testimonialform.loading ||
                             testimonialUserDeleteState.isLoading) &&
                           "table-loading"
-                        }`}
-                      >
+                        }`}>
                         <thead>
                           <tr>
                             <th scope="col">Sort Order</th>
@@ -166,7 +164,6 @@ const Testimonial = () => {
                                   <tr key={data.id}>
                                     <td>{data.sortOrder}</td>
                                     <td>
-                                      
                                       <img
                                         src={data.profileimage}
                                         className="cardresto-img-top mx-4"
@@ -197,8 +194,7 @@ const Testimonial = () => {
                                           className="dropdown__button"
                                           onClick={() =>
                                             handleDropdownClick(data.id)
-                                          }
-                                        >
+                                          }>
                                           ...
                                         </button>
                                         {data.id === isOpen && (
@@ -207,15 +203,13 @@ const Testimonial = () => {
                                               <li
                                                 onClick={() =>
                                                   handleEditClick(data)
-                                                }
-                                              >
+                                                }>
                                                 Edit
                                               </li>
                                               <li
                                                 onClick={() =>
                                                   handleDeleteClick(data.id)
-                                                }
-                                              >
+                                                }>
                                                 Delete
                                               </li>
                                             </ul>
@@ -253,8 +247,7 @@ const Testimonial = () => {
                           <div className="col-md-6">
                             <Form.Group
                               className="mb-3"
-                              controlId="formBasicEmail"
-                            >
+                              controlId="formBasicEmail">
                               <Form.Label>SortOrder</Form.Label>
                               <Form.Control
                                 type="number"
@@ -264,33 +257,33 @@ const Testimonial = () => {
                                 })}
                                 placeholder="Enter SortOrder"
                               />
-                              <p className="error-msg">
+                              <p className="error-msg text-danger">
                                 {errors.sortOrder && errors.sortOrder.message}
                               </p>
                             </Form.Group>
                             <Form.Group
                               className="mb-3"
-                              controlId="formBasicEmail"
-                            >
+                              controlId="formBasicEmail">
                               <Form.Label> Profile Image</Form.Label>
                               <Form.Control
                                 type="file"
                                 name="profileimage"
                                 accept=".png,.jpg,.jpeg,.tif,.tiff,.bmp,.gif,.ico"
-                                {...register("profileimage", { 
-                                  required: (defaultValues.id? '' : "Please Enter A Valid image!"),
+                                {...register("profileimage", {
+                                  required: defaultValues.id
+                                    ? ""
+                                    : "Please Enter A Valid image!",
                                 })}
                                 placeholder="Enter image"
                               />
-                              <p className="error-msg">
+                              <p className="error-msg text-danger">
                                 {errors.profileimage &&
                                   errors.profileimage.message}
                               </p>
                             </Form.Group>
                             <Form.Group
                               className="mb-3"
-                              controlId="formBasicEmail"
-                            >
+                              controlId="formBasicEmail">
                               <Form.Label>User Name</Form.Label>
                               <Form.Control
                                 type="text"
@@ -300,7 +293,7 @@ const Testimonial = () => {
                                 })}
                                 placeholder="Enter User Name"
                               />
-                              <p className="error-msg">
+                              <p className="error-msg text-danger">
                                 {errors.name && errors.name.message}
                               </p>
                             </Form.Group>
@@ -318,7 +311,7 @@ const Testimonial = () => {
                                 placeholder="Leave a comment here"
                                 style={{ height: "200px" }}
                               />
-                              <p className="error-msg">
+                              <p className="error-msg text-danger">
                                 {errors.description &&
                                   errors.description.message}
                               </p>
@@ -327,8 +320,7 @@ const Testimonial = () => {
                               <div className="col-sm-4">
                                 <label
                                   htmlFor="flexSwitchCheckChecked"
-                                  className="form-label"
-                                >
+                                  className="form-label">
                                   Is Active
                                 </label>
                               </div>
@@ -350,14 +342,12 @@ const Testimonial = () => {
                             <div className="testmonial-btn mt-4">
                               <button
                                 type="submit"
-                                className="btn btn-primary mx-2"
-                              >
+                                className="btn btn-primary mx-2">
                                 Back
                               </button>
                               <button
                                 type="submit"
-                                className="btn btn-primary mx-2"
-                              >
+                                className="btn btn-primary mx-2">
                                 {Object.keys(defaultValues).length === 0
                                   ? "Submit"
                                   : "Update"}

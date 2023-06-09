@@ -77,6 +77,10 @@ td.d-flex.flex-column {
     color: white;
 }
 
+.react-tel-input .form-control {
+    width: auto !important;
+}
+
 @media screen and (max-width: 600px) {
     .oneline {
         top: 0;
