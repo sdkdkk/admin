@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Que.css";
-import { useLocation } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import Moment from "react-moment";
 import { Button } from "react-bootstrap";
@@ -12,14 +12,18 @@ const url = process.env.REACT_APP_API_BASE_URL;
 
 const Questionanswer = () => {
   const location = useLocation();
+  const navigate = useNavigate();
   const [imageSrc, setImageSrc] = useState("");
   const [show, setShow] = useState(false);
   const [data, setData] = useState([]);
   const [isEditing, setEditing] = useState(false);
   const { register, handleSubmit, control } = useForm({});
   const questionId = location.state.data.allQuestions.questionId;
-  const tutorId = location.state.data._id;
-  const questionType = location.state.data.allQuestions.questionType;
+  const tutorId = location.state._id;
+  const active = location.state.active;
+  const question = location.state.data.allQuestions.question;
+  const answer = location.state.data.allQuestions.answer;
+
   const handleImageClick = (url) => {
     setShow(true);
     setImageSrc(url);
@@ -34,17 +38,17 @@ const Questionanswer = () => {
         `${url}/admin/updatetutorquestionanswer`,
         {
           token: token,
-          questionId: location.state.data.allQuestions.questionId,
-          question: data.question,
-          answer: data.answer,
-          explanation: data.explanation,
+          questionId: questionId,
+          question: data.question ? data.question : question,
+          answer: data.answer ? data.answer : answer,
         }
       );
-      console.log(response.data);
       setData(response.data);
       toast.success(response.data.message);
+      if (response.data.message) {
+        navigate(`/tutordetails/${tutorId}/${active}`);
+      }
     } catch (error) {
-      console.log(error.response.data.error);
       toast.error(error.response.data.error);
     }
   };
@@ -95,54 +99,42 @@ const Questionanswer = () => {
                 <div className="row">
                   <div className="col-md-12 col-lg-12 mb--20">
                     <h5>Question</h5>
-                    <input
-                      className="p--20 rbt-border radius-6 w-100 bg-primary-opacity"
-                      defaultValue={location.state.data.allQuestions.question}
-                      {...register("question")}
-                      disabled={!isEditing}
-                    />
-                    {location.state.data.allQuestions.questionPhoto.map(
-                      (photoUrl) => (
-                        <img
-                          key={photoUrl}
-                          src={photoUrl}
-                          style={{
-                            width: "200px",
-                            height: "200px",
-                          }}
-                          onClick={() => handleImageClick(photoUrl)}
-                          className="profile-img mt-3"
-                          alt=""
-                        />
-                      )
-                    )}
+                    <div className="p--20 rbt-border radius-6 w-100 bg-primary-opacity">
+                      <input
+                        className="p--20 rbt-border radius-6 w-100 bg-primary-opacity"
+                        defaultValue={question}
+                        {...register("question")}
+                        disabled={!isEditing}
+                      />
+
+                      {location.state.data.allQuestions.questionPhoto.map(
+                        (photoUrl) => (
+                          <img
+                            key={photoUrl}
+                            src={photoUrl}
+                            style={{
+                              width: "50px",
+                              height: "50px",
+                            }}
+                            onClick={() => handleImageClick(photoUrl)}
+                            className="profile-img mt-3"
+                            alt=""
+                          />
+                        )
+                      )}
+                    </div>
                   </div>
                   {location.state.data.allQuestions.answer && (
                     <div className="col-md-12 col-lg-12 mb--20">
                       <h5>Answer</h5>
                       <input
                         className="p--20 rbt-border radius-6 w-100 bg-primary-opacity"
-                        defaultValue={location.state.data.allQuestions.answer}
+                        defaultValue={answer}
                         {...register("answer")}
                         disabled={!isEditing}
                       />
                     </div>
                   )}
-
-                  {questionType === "MCQ-exp" ||
-                    questionType === "TrueFalse-exp" ||
-                    questionType === "FillInBlanks-exp" ||
-                    questionType === "ShortAnswer-exp" ? <div className="col-md-12 col-lg-12 mb--20">
-                    <h5>Explanation</h5>
-                    <input
-                      className="p--20 rbt-border radius-6 w-100 bg-primary-opacity"
-                      defaultValue={
-                        location.state.data.allQuestions.explanation
-                      }
-                      {...register("explanation")}
-                      disabled={!isEditing}
-                    />
-                  </div> : ""}
                 </div>
               </div>
 
@@ -159,7 +151,9 @@ const Questionanswer = () => {
                   <Button className="btn-success mx-4" type="submit">
                     Update
                   </Button>
-                  <Button className="btn-danger">Delete</Button>
+                  <Button className="btn-danger" onClick={handleDeleteClick}>
+                    Delete
+                  </Button>
                 </div>
               ) : (
                 ""
@@ -172,7 +166,6 @@ const Questionanswer = () => {
       <Modal show={show} onHide={() => setShow(false)}>
         <Modal.Header closeButton className="border-0"></Modal.Header>
         <Modal.Body className="text-center">
-          
           <img
             style={{ maxWidth: "100%", maxHeight: "100%" }}
             src={imageSrc}

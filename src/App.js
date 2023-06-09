@@ -73,6 +73,7 @@ import Studentpostingstreak from "./components/Bonussection/Studentpostingstreak
 import Tutorpostingstreak from "./components/Bonussection/Tutorpostingstreak ";
 import Studentreferral from "./components/Bonussection/Studentreferral";
 import Tutorreferral from "./components/Bonussection/Tutorreferral";
+import Subscription from "./components/Wallet/Subscription";
 
 
 
@@ -149,6 +150,15 @@ function App() {
             </RequireAuth>
           }
         />
+
+        <Route
+        path="/subscription"
+        element={
+          <RequireAuth>
+            <Subscription />
+          </RequireAuth>
+        }
+      />
         <Route
           path="transactionDetails"
           element={

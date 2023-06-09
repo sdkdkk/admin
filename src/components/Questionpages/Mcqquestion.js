@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Que.css";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import Moment from "react-moment";
 import axios from "axios";
@@ -12,48 +12,48 @@ const url = process.env.REACT_APP_API_BASE_URL;
 
 const Mcqquestion = () => {
   const location = useLocation();
-  const { id } = useParams();
-  console.log(location.state.data);
-  console.log(id);
+  const navigate = useNavigate();
+  const question = location.state.data.allQuestions.question;
   const answer = location.state.data.allQuestions.answer;
   const explanation = location.state.data.allQuestions.explanation;
-  console.log(explanation);
-  // Get the answer from location
-  console.log(answer);
-  const [imageSrc, setImageSrc] = useState("");
+  const questionId = location.state.data.allQuestions.questionId;
   const [show, setShow] = useState(false);
   const [data, setData] = useState([]);
   const { register, handleSubmit, control } = useForm({});
   const [isEditing, setEditing] = useState(false);
-  const questionId = location.state.data.allQuestions.questionId;
-  const tutorId = location.state.data._id;
-  console.log(location.state.data.allQuestions.status);
-
-  console.log(location.state.data.allQuestions.questionType);
+  const tutorId = location.state._id;
+  const active = location.state.active;
   const questionType = location.state.data.allQuestions.questionType;
+  let token = localStorage.getItem("token");
+  const [imageSrc, setImageSrc] = useState("");
+
+  const handleImageClick = (url) => {
+    setShow(true);
+    setImageSrc(url);
+  };
+
+
   const onSubmit = async (data) => {
-    const token = localStorage.getItem("token");
-    const updateDataObj = {
-      token: token,
-      questionId: location.state.data.allQuestions.questionId,
-      question: location.state.data.allQuestions.question,
-      answer: answer,
-      explanation: location.state.data.allQuestions.explanation,
-    };
     try {
       const response = await axios.post(
         `${url}/admin/updatetutorquestionanswer`,
-        updateDataObj
+        {
+          token: token,
+          questionId: location.state.data.allQuestions.questionId,
+          question: data.question ? data.question : question,
+          answer: data.answer ? data.answer : answer,
+          explanation: data.explanation ? data.explanation : explanation,
+        }
       );
-      console.log(response.data);
       setData(response.data);
       toast.success(response.data.message);
+      if (response.data.message) {
+        navigate(`/tutordetails/${tutorId}/${active}`);
+      }
     } catch (error) {
       toast.error(error.response.data.error);
     }
   };
-
-  let token = localStorage.getItem("token");
 
   function handleDeleteClick() {
     axios
@@ -66,7 +66,6 @@ const Mcqquestion = () => {
         toast.success(response.data.message);
       })
       .catch((error) => {
-        console.log(error);
         toast.error(error.response.data.error);
       });
   }
@@ -100,11 +99,25 @@ const Mcqquestion = () => {
                     <h5>Question</h5>
                     <input
                       className="p--20 rbt-border radius-6 w-100 bg-primary-opacity"
-                      defaultValue={location.state.data.allQuestions.question}
+                      defaultValue={question}
                       {...register("question")}
                       disabled={!isEditing}
                     />
-
+                    {location.state.data.allQuestions.questionPhoto.map(
+                      (photoUrl) => (
+                        <img
+                          key={photoUrl}
+                          src={photoUrl}
+                          style={{
+                            width: "50px",
+                            height: "50px",
+                          }}
+                          onClick={() => handleImageClick(photoUrl)}
+                          className="profile-img mt-3"
+                          alt=""
+                        />
+                      )
+                    )}
                     {/*<span
                     dangerouslySetInnerHTML={{
                       __html: location.state.data.allQuestions.question,
