@@ -21,14 +21,6 @@ const Professionaldetails = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [loading, setLoading] = useState(false);
   const [myimage, setMyImage] = useState(null);
-<<<<<<< HEAD
-
-  console.log(myimage)
-
-  const uploadImage = (e) => {
-    setMyImage(URL.createObjectURL(e.target.files[0]));
-  };
-=======
   const [width, setWidth] = useState(null);
   const [height, setHeight] = useState(null);
 
@@ -60,7 +52,6 @@ const Professionaldetails = () => {
     reader.readAsDataURL(file);
   };
   
->>>>>>> c2cb9200d3452752ae6ca5e2ec7bcd991ccdd9cc
 
   const [user, setUser] = useState();
   const notify = (data) => toast(data);
