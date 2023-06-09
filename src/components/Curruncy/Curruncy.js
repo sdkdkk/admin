@@ -85,24 +85,24 @@ const Curruncy = () => {
                       <div className="converter-container">
                         <div className="input-container">
                           {loading ? (
-                             <p className="loader-container">
-                             <ColorRing
-                               visible={true}
-                               height="80"
-                               width="80"
-                               ariaLabel="blocks-loading"
-                               wrapperStyle={{}}
-                               wrapperclassName="blocks-wrapper"
-                               colors={["black"]}
-                             />
-                           </p>
+                            <p className="loader-container">
+                              <ColorRing
+                                visible={true}
+                                height="80"
+                                width="80"
+                                ariaLabel="blocks-loading"
+                                wrapperStyle={{}}
+                                wrapperclassName="blocks-wrapper"
+                                colors={["black"]}
+                              />
+                            </p>
                           ) : (
                             <form onSubmit={handleSubmit(onSubmit)}>
                               <label className="usd" htmlFor="usd-input">
                                 1 USD =
                               </label>
                               <input
-                                className="mx-2 p-0"
+                                className="col-form-label mx-2 p-2"
                                 type="number"
                                 id="usd-input"
                                 min="0"

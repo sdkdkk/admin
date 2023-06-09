@@ -52,6 +52,7 @@ const ReadMore = ({ children }) => {
 };
 
 const Tutorexam = () => {
+
   //Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(8);
@@ -244,7 +245,9 @@ const Tutorexam = () => {
                             <Form.Select
                               aria-label="Default select example"
                               name="questionSubject"
-                              {...register("questionSubject")}>
+                              {...register("questionSubject", {
+                                required: "Please select a subject",
+                              })}>
                               <option>Select Subject</option>
                               {subjectList.map((a) => (
                                 <option key={a._id} value={a.questionSubject}>
@@ -254,7 +257,7 @@ const Tutorexam = () => {
                             </Form.Select>
                             {errors.questionSubject && (
                               <p className="text-danger">
-                                Please select a Class
+                                {errors.questionSubject.message}
                               </p>
                             )}
                           </div>
@@ -299,7 +302,7 @@ const Tutorexam = () => {
                                   />
                                 )}
                               />
-                              <p className="error-msg">
+                              <p className="error-msg text-danger">
                                 {errors.question && errors.question.message}
                               </p>
                             </Form.Group>
@@ -310,7 +313,9 @@ const Tutorexam = () => {
                               <Form.Select
                                 aria-label="Default select example"
                                 name="questionType"
-                                {...register("questionType")}
+                                {...register("questionType", {
+                                  required: "Please select a question type",
+                                })}
                                 onChange={(e) => {
                                   setValue("questionType", e.target.value);
                                   setFormValue({
@@ -323,7 +328,7 @@ const Tutorexam = () => {
                               </Form.Select>
                               {errors.questionType && (
                                 <p className="text-danger">
-                                  Please select a Class
+                                  {errors.questionType.message}
                                 </p>
                               )}
                             </div>

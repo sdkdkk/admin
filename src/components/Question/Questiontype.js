@@ -174,16 +174,16 @@ const Questiontype = () => {
                       <div className="table-container">
                         {loading1 ? (
                           <p className="loader-container">
-                          <ColorRing
-                            visible={true}
-                            height="80"
-                            width="80"
-                            ariaLabel="blocks-loading"
-                            wrapperStyle={{}}
-                            wrapperclassName="blocks-wrapper"
-                            colors={["black"]}
-                          />
-                        </p>
+                            <ColorRing
+                              visible={true}
+                              height="80"
+                              width="80"
+                              ariaLabel="blocks-loading"
+                              wrapperStyle={{}}
+                              wrapperclassName="blocks-wrapper"
+                              colors={["black"]}
+                            />
+                          </p>
                         ) : (
                           <>
                             <Table

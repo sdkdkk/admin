@@ -81,7 +81,8 @@ const Professionaldetails = () => {
   const onSubmit = (data) => {
     setIsLoading(true);
     const formData = new FormData();
-    const files = data.myimage;
+    const files = new File([myimage], 'filename.png', { type: myimage.type });
+    // const files = data.myimage;
 
     formData.append("token", token);
     formData.append(`profilephoto`, myimage);

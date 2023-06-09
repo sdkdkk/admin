@@ -384,17 +384,17 @@ const Tutorlist = () => {
                                         <td>{data.mobileNo || "-"}</td>
                                         <td>
                                           {data.subjects &&
-                                          data.subjects?.length > 0
+                                            data.subjects?.length > 0
                                             ? data.subjects
-                                                .slice(0, 2)
-                                                .join(", ")
+                                              .slice(0, 2)
+                                              .join(", ")
                                             : "-"}
                                         </td>
                                         <td>
                                           {data.balance
                                             ? parseFloat(data.balance).toFixed(
-                                                2
-                                              )
+                                              2
+                                            )
                                             : "-"}
                                         </td>
                                         {activeButton === 2 && (
@@ -412,7 +412,7 @@ const Tutorlist = () => {
                                             to={`/tutordetails/${data._id}/${activeButton}`}
                                           >
                                             <Button className="btn btn-primary btn-sm">
-                                              View
+                                              See Details
                                             </Button>
                                           </Link>
                                         </td>
@@ -425,7 +425,7 @@ const Tutorlist = () => {
                                       <td
                                         colSpan={
                                           activeButton === 2 ||
-                                          activeButton === 5
+                                            activeButton === 5
                                             ? 8
                                             : 7
                                         }

@@ -135,7 +135,7 @@ const AddMobile = () => {
                           </div>
                           <div className="col-lg-4 col-md-8">
                             <div className="mb-3">
-                              <div className="rbt-form-group">
+                              <div className="rbt-form-groups">
                                 <div className="d-flex flex-row-reverse">
                                   <div className="flex-grow-1">
                                     <Controller
@@ -164,6 +164,7 @@ const AddMobile = () => {
                                           value={value}
                                           onChange={onChange}
                                           onBlur={onBlur}
+                                          style={{ width: 'auto' }}
                                         />
                                       )}
                                     />

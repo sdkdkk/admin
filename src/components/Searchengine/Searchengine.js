@@ -113,7 +113,7 @@ const Searchengine = () => {
                           className="btn btn-primary"
                           onClick={() => setCurrentPage(currentPage - 1)}
                           disabled={currentPage === 1}>
-                          
+
                           prev
                         </button>
                         <button className="btn btn-primary mx-2">
@@ -122,7 +122,7 @@ const Searchengine = () => {
                         <button
                           className="btn btn-primary"
                           onClick={() => setCurrentPage(currentPage + 1)}>
-                          
+
                           next
                         </button>
                       </div>

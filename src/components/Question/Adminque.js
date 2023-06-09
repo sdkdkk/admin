@@ -126,7 +126,7 @@ const Adminque = () => {
                                             Tutor
                                         </button> */}
                                         <button
-                                            // className="btn btn-primary"
+                                            className="btn btn-light"
                                             type="button"
                                             onClick={() => setWhomtoAsk("admin")}
                                             style={{ borderRadius: "4px" }}>
@@ -225,7 +225,7 @@ const Adminque = () => {
                                                     <tbody>
                                                         {transactions.map((a, index) => (
                                                             <tr>
-                                                                <td>{a._id}</td>
+                                                                <td>{index + 1}</td>
                                                                 <td>{a.question}</td>
                                                                 <td>{a.questionType}</td>
                                                                 <td>{a.questionSubject}</td>

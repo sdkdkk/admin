@@ -81,7 +81,7 @@ const Studentdetails = () => {
   };
   console.log(_id);
 
-  const toComponentB = (data, ) => {
+  const toComponentB = (data,) => {
     console.log(data, _id);
     navigate("/studentquestiondetails", { state: { data, _id } });
   };
@@ -128,7 +128,7 @@ const Studentdetails = () => {
                   <div
                     key={data._id}
                     className="row"
-                    style={{ backgroundColor: "#c0d7ff" }}
+                    style={{ backgroundColor: "#c0d7ff", borderRadius: '10px' }}
                   >
                     <div className="col">
                       <div className="profile">
