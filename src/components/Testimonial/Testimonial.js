@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Pagination } from "@mui/material";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
@@ -8,19 +8,11 @@ import "./Testimonial.css";
 import Form from "react-bootstrap/Form";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { Testimoniald } from "../../Redux/Loginpages/testimonialSlice";
 import { Statuschange } from "../../Redux/Loginpages/testimonialStatusSlice";
 import { testimonialformapi } from "../../Redux/Loginpages/testimonialFormSlice";
-
-// import { ToastContainer, toast } from "react-toastify";
-// import "react-toastify/dist/ReactToastify.css";
-import {
-  testimonialUserDelete,
-  reset as resetTestimonialUserDelete,
-} from "../../Redux/Loginpages/testimonialUserDeleteSlice";
-import { ColorRing } from "react-loader-spinner";
+import { testimonialUserDelete,reset as resetTestimonialUserDelete} from "../../Redux/Loginpages/testimonialUserDeleteSlice";
 
 const Testimonial = () => {
   const dispatch = useDispatch();
@@ -58,7 +50,6 @@ const Testimonial = () => {
   const {
     register,
     handleSubmit,
-    setValue,
     reset,
     formState: { errors },
   } = useForm({ values: defaultValues });
@@ -101,10 +92,13 @@ const Testimonial = () => {
     setSubmitted(true); // Set the submitted state to true
     reset();
   };
-
+  
   const changestatus = async (value, id, index) => {
+    console.log(value,id,index);
     var st;
+   
     if (testimonial.user?.testimonial[index].isactive === true) {
+      console.log(testimonial.user?.testimonial[index].isactive);
       st = false;
     } else {
       st = true;

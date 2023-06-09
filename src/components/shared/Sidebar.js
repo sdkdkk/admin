@@ -53,7 +53,6 @@ const Sidebar = () => {
                     Tutors Payments
                   </Link>
                 </li>
-
               </ul>
             </div>
           </li>
@@ -85,6 +84,14 @@ const Sidebar = () => {
           <li className="nav-item">
             <Link className="nav-link" to="/wallet">
               <span className="menu-title">Wallet</span>
+              <i className="icon-screen-desktop menu-icon"></i>
+            </Link>
+          </li>
+
+          {/*Subscription*/}
+          <li className="nav-item">
+            <Link className="nav-link" to="/subscription">
+              <span className="menu-title">Subscription</span>
               <i className="icon-screen-desktop menu-icon"></i>
             </Link>
           </li>
@@ -259,12 +266,11 @@ const Sidebar = () => {
             </Link>
           </li>
 
-             {/*Bonus Section*/}
-             <li className="nav-item nav-category">
+          {/*Bonus Section*/}
+          <li className="nav-item nav-category">
             <span className="nav-link">Bonus Section</span>
           </li>
 
-          
           {/*Bonus Section*/}
           <li className="nav-item">
             <Link className="nav-link" to="/studentreferral">
@@ -289,18 +295,13 @@ const Sidebar = () => {
             </Link>
           </li>
 
-              {/*Tutorexamconfig*/}
-              <li className="nav-item">
+          {/*Tutorexamconfig*/}
+          <li className="nav-item">
             <Link className="nav-link" to="/tutorpostingstreak">
               <span className="menu-title">Tutor Posting Streak</span>
               <i className="icon-screen-desktop menu-icon"></i>
             </Link>
           </li>
-
-
-
-
-
 
           {/*pages*/}
           <li className="nav-item nav-category">
