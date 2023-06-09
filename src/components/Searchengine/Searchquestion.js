@@ -11,31 +11,38 @@ import { logoutIfInvalidToken } from "../../helpers/handleError";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Searchquestion = () => {
+
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
+  const [searchPerformed, setSearchPerformed] = useState(false);
+  const [SearchError, setSearchError] = useState('');
   const token = localStorage.getItem("token");
   const [isLoading, setIsLoading] = useState(false);
   let navigate = useNavigate();
 
 
+  //Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
 
   const handleSearch = async (limit = 5, skip = 0) => {
+    setIsLoading(true);
     try {
-      const response = await axios.post(
-        `${url}/admin/adminsearchquestion?limit=${limit}&skip=${skip}&search=${searchTerm}`,
+      const response = await axios.post(`${url}/admin/adminsearchquestion?limit=${limit}&skip=${skip}&search=${searchTerm}`,
         {
           token: token,
         }
       );
-      setIsLoading(true);
       setSearchResults(response.data.data);
+      setSearchPerformed(true);
       setIsLoading(false);
     } catch (error) {
       logoutIfInvalidToken(error.response);
-      if (error.response) {
-      }
+      if (error.response && error.response.data.error) {
+        setSearchError(error.response.data.error);
+        setIsLoading(false);
+        setSearchPerformed(false);
+      } else { }
     }
   };
 
@@ -48,7 +55,7 @@ const Searchquestion = () => {
     const skip = (currentPage - 1) * itemsPerPage;
     var limit = itemsPerPage;
     handleSearch(limit, skip).then(() => {
-      setIsLoading(false); // Set isLoading to false when data is fetched
+      setIsLoading(false);
     });
   }, [currentPage, itemsPerPage]);
 
@@ -68,20 +75,20 @@ const Searchquestion = () => {
                   <div className="card new-table">
                     <div className="card-body">
                       <div className="d-flex">
-                      <input
-                        type="text"
-                        value={searchTerm}
-                        placeholder="Please Search question.."
-                        onChange={(e) => setSearchTerm(e.target.value)}
-                        className="form-control mr-2"
-                      />
-                      <button
-                        onClick={() => handleSearch()}
-                        className="btn btn-primary"
-                      >
-                        Search
-                      </button>
-                    </div>
+                        <input
+                          type="text"
+                          value={searchTerm}
+                          placeholder="Please Search question.."
+                          onChange={(e) => setSearchTerm(e.target.value)}
+                          className="form-control mr-2"
+                        />
+                        <button
+                          onClick={() => handleSearch()}
+                          className="btn btn-primary"
+                        >
+                          Search
+                        </button>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -114,15 +121,16 @@ const Searchquestion = () => {
                             </tr>
                           </thead>
                           <tbody>
-                            {searchResults &&
-                              searchResults.map((data,id) => (
+
+                            {searchPerformed && searchResults.length > 0 ?
+                              searchResults.map((data, id) => (
                                 <tr key={id}>
                                   <td
                                     style={{ cursor: "pointer" }}
                                     onClick={() => {
                                       toComponentB(data);
                                     }}>
-                                    
+                                    {" "}
                                     {data.question
                                       .split(" ")
                                       .slice(0, 5)
@@ -134,10 +142,12 @@ const Searchquestion = () => {
                                   <td>{data.questionPrice}</td>
                                   <td>{data.status.toLowerCase()}</td>
                                 </tr>
-                              ))}
+                              ))
+                              : SearchError ? <h4 className="information text-danger">{SearchError}</h4> : null}{" "}
                           </tbody>
                         </table>
                       )}
+
 
                       <div className="table-pagination">
                         <button
@@ -169,7 +179,7 @@ const Searchquestion = () => {
           </div>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 

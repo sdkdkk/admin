@@ -10,6 +10,7 @@ import { ColorRing } from "react-loader-spinner";
 import { FaCopy } from "react-icons/fa";
 
 const Tutorspayment = () => {
+
   const tutorpayment = useSelector((state) => state.tutorpayment.data.info);
   const isLoading = useSelector((state) => state.tutorpayment.isLoading);
   const dispatch = useDispatch();
@@ -155,7 +156,7 @@ const Tutorspayment = () => {
                                             onClick={() =>
                                               handleCopy(
                                                 value.bankdetails.accountType ||
-                                                  ""
+                                                ""
                                               )
                                             }>
                                             <FaCopy />

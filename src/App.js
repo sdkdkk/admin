@@ -117,12 +117,12 @@ function App() {
             </RequireAuth>
           }
         />
-        
+
         <Route
           path="tutorpayments"
           element={
             <RequireAuth>
-              <TutorPayments/>
+              <TutorPayments />
             </RequireAuth>
           }
         />

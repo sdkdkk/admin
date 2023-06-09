@@ -32,32 +32,32 @@ const TutorPayments = () => {
                   <div className="card new-table">
                     <div className="card-body">
                       <div className="table-responsive">
-                        {isLoading ?(
-                              <p
-                              style={{
-                                marginLeft: "auto",
-                                marginRight: "auto",
+                        {isLoading ? (
+                          <p
+                            style={{
+                              marginLeft: "auto",
+                              marginRight: "auto",
+                              display: "flex",
+                              justifyContent: "center",
+                              alignItems: "center",
+                              height: "100vh",
+                            }}>
+                            <ColorRing
+                              visible={true}
+                              height="80"
+                              width="80"
+                              ariaLabel="blocks-loading"
+                              wrapperStyle={{
                                 display: "flex",
                                 justifyContent: "center",
                                 alignItems: "center",
                                 height: "100vh",
-                              }}>
-                              <ColorRing
-                                visible={true}
-                                height="80"
-                                width="80"
-                                ariaLabel="blocks-loading"
-                                wrapperStyle={{
-                                  display: "flex",
-                                  justifyContent: "center",
-                                  alignItems: "center",
-                                  height: "100vh",
-                                }}
-                                colors={["black"]}
-                              />
-                            </p>
-                        ):(
-                            <table className="table">
+                              }}
+                              colors={["black"]}
+                            />
+                          </p>
+                        ) : (
+                          <table className="table">
                             <thead>
                               <tr>
                                 <th scope="col">Email</th>
@@ -76,7 +76,7 @@ const TutorPayments = () => {
                                 <th scope="col"> Amount </th>
                               </tr>
                             </thead>
-                            { payments && payments.map((data) => (
+                            {payments && payments.map((data) => (
                               <tbody key={data._id}>
                                 <tr key={data._id}>
                                   <td>{data.email}</td>
@@ -98,7 +98,7 @@ const TutorPayments = () => {
                             ))}
                           </table>
                         )}
-                      
+
                       </div>
                     </div>
                   </div>

@@ -119,7 +119,7 @@ const Tutorque = () => {
                                 <div className="col-md-12">
                                     <div className="d-grid gap-2 d-md-flex justify-content-md-end">
                                         <button
-                                            // className="btn btn-primary me-md-2 active"
+                                            className="btn btn-light"
                                             type="button"
                                             onClick={() => setWhomtoAsk("tutor")}
                                             style={{ borderRadius: "4px" }}>
