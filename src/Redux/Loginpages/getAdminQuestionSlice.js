@@ -12,7 +12,7 @@ const initialState = {
 }
 
 
-export const getAdminQuestions = createAsyncThunk('admin/adminquestion?questionType', async(payload, { rejectWithValue }) => {
+export const getAdminQuestions = createAsyncThunk('admin/adminquestion?questionType', async (payload, { rejectWithValue }) => {
     const { questionType, questionSubject, whomto_ask, limit, skip } = payload
     const token = localStorage.getItem('token')
     try {

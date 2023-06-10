@@ -1,7 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios';
 import { createSlice } from "@reduxjs/toolkit";
+
 import { logoutIfInvalidToken } from "../../helpers/handleError";
+
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const initialState = {
@@ -12,7 +14,7 @@ const initialState = {
 }
 
 
-export const studentlistd = createAsyncThunk('user/getUserList', async(page, { rejectWithValue }) => {
+export const studentlistd = createAsyncThunk('user/getUserList', async (page, { rejectWithValue }) => {
     const token = localStorage.getItem('token')
     try {
         const response = await axios.post(`${url}/admin/studentlist`, { token });

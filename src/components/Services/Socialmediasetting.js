@@ -13,10 +13,13 @@ import { logoutIfInvalidToken } from "../../helpers/handleError";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Socialmediasetting = () => {
+
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [data, setData] = useState([]);
+
   let token = localStorage.getItem("token");
+
   const notify = (data) => toast(data);
 
   const { register, handleSubmit, reset } = useForm({});
@@ -33,10 +36,7 @@ const Socialmediasetting = () => {
     };
 
     try {
-      const { data } = await axios.post(
-        `${url}/admin/socialmedia`,
-        mediaObjData
-      );
+      const { data } = await axios.post(`${url}/admin/socialmedia`, mediaObjData);
       if (data.status === 1) {
         notify(data.message);
         fetchData();
@@ -101,7 +101,7 @@ const Socialmediasetting = () => {
                           </p>
                         ) : (
                           <>
-                            
+
                             <div className="row">
                               <div className="col-md-6">
                                 <Form.Group

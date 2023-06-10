@@ -28,13 +28,7 @@ const Tutorlist = () => {
   const isLoadinguser = useSelector((state) => state.user.isLoading);
 
   const [selectedStatus, setSelectedStatus] = useState("working");
-  const [status, setStatus] = useState({
-    users: [],
-    warning: [],
-    working: [],
-    suspend: [],
-    trial: [],
-  });
+  const [status, setStatus] = useState({ users: [], warning: [], working: [], suspend: [], trial: [], });
 
   const [searchTerm, setSearchTerm] = useState("");
   const [currentData, setCurrentData] = useState([]);
@@ -43,13 +37,7 @@ const Tutorlist = () => {
   const [Loader, setLoader] = useState(true);
 
   useEffect(() => {
-    setStatus({
-      users: users,
-      warning: warning,
-      working: working,
-      suspend: suspend,
-      trial: trial,
-    });
+    setStatus({ users: users, warning: warning, working: working, suspend: suspend, trial: trial, });
     setLoader(false);
   }, [users, warning, working, suspend, trial]);
 
@@ -100,8 +88,7 @@ const Tutorlist = () => {
   const [postsPerPage] = useState(8);
   const indexOfLastPage = currentPage * postsPerPage;
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
-  let displayUsers =
-    currentData && currentData.slice(indexOfFirstPage, indexOfLastPage);
+  let displayUsers = currentData && currentData.slice(indexOfFirstPage, indexOfLastPage);
   const totalPages = Math.ceil((currentData?.length || 0) / postsPerPage);
 
   const handleChange = (event, value) => {
@@ -309,34 +296,6 @@ const Tutorlist = () => {
                                 </div>
                               </div>
 
-                              {/*<div className="search-container">
-                                <form>
-                                  <input
-                                    type="text"
-                                    id="search-input"
-                                    placeholder="Search..."
-                                    onChange={(e) =>
-                                      setSearchTerm(e.target.value)
-                                    }
-                                  />
-
-                                  <DatePicker
-                                    rangeHover
-                                    className="rmdp-input date"
-                                    value={values}
-                                    onChange={setValues}
-                                    range
-                                    render={<InputIcon />}
-                                    width={900}
-                                  />
-                                  <button
-                                    id="search-button"
-                                    onClick={searchItem}
-                                  >
-                                    Search
-                                  </button>
-                                </form>
-                                  </div>*/}
                             </div>
                           </div>
                         </div>
@@ -364,7 +323,7 @@ const Tutorlist = () => {
                                   </tr>
                                 </thead>
                                 {displayUsers && displayUsers.length > 0 ? (
-                                  displayUsers.map((data,id) => (
+                                  displayUsers.map((data, id) => (
                                     <tbody key={id}>
                                       <tr>
                                         {data.updatedAt ? (

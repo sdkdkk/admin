@@ -13,12 +13,8 @@ import { logoutIfInvalidToken } from "../../helpers/handleError";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Tutorpostingstreak = () => {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({});
+
+  const { register, handleSubmit, reset, formState: { errors }, } = useForm({});
 
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
@@ -41,9 +37,7 @@ const Tutorpostingstreak = () => {
   const fetchData = async () => {
     try {
       setLoading1(true);
-      const response = await axios.post(`${url}/admin/gettutorpostingstreak`, {
-        token: token,
-      });
+      const response = await axios.post(`${url}/admin/gettutorpostingstreak`, { token: token, });
       setExtrasum(response.data.document);
       setLoading1(false);
     } catch (error) {

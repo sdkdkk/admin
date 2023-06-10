@@ -8,9 +8,8 @@ import { toast } from "react-toastify";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Contactdetails = () => {
+
   const location = useLocation();
-  console.log(location.state.data.issolved);
-  console.log(location.state._id);
   const getcontactdetails = location.state.data;
   const token = localStorage.getItem("token");
   const id = location.state.data._id;
@@ -18,10 +17,7 @@ const Contactdetails = () => {
   //Suspend Api
   const Solved = async () => {
     try {
-      const { data } = await axios.post(`${url}/admin/admincontact/${id}`, {
-        token: token,
-      });
-      console.log(data.message);
+      const { data } = await axios.post(`${url}/admin/admincontact/${id}`, { token: token, });
       if (data.message) {
         toast.success(data.message);
       } else {
@@ -32,7 +28,7 @@ const Contactdetails = () => {
     }
   };
 
-  
+
   return (
     <>
       <div className="container-scroller">

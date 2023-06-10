@@ -19,12 +19,7 @@ const url = process.env.REACT_APP_API_BASE_URL;
 const Questionpricing = () => {
 
   const notify = (data) => toast(data);
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({});
+  const { register, handleSubmit, reset, formState: { errors }, } = useForm({});
 
   const dispatch = useDispatch();
   const questiontypeTime = useSelector((state) => state.questiontypetime);
@@ -90,11 +85,7 @@ const Questionpricing = () => {
     try {
       setLoading1(true);
 
-      const response = await axios.post(
-        `${url}/admin/getquestionpricing`,
-        {
-          token: token,
-        }
+      const response = await axios.post(`${url}/admin/getquestionpricing`, { token: token, }
       );
       setData(response.data.data);
       setLoading1(false);
@@ -123,10 +114,7 @@ const Questionpricing = () => {
   function handleDeleteClick(_id) {
     axios
       .post(
-        `${url}/admin/questionpricing/${_id}`,
-        {
-          token: token,
-        }
+        `${url}/admin/questionpricing/${_id}`, { token: token, }
       )
       .then((response) => {
         fetchData();

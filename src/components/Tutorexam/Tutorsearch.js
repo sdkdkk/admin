@@ -8,12 +8,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { ColorRing } from "react-loader-spinner";
 
 const Tutorsearch = () => {
+
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const [searchParams, setSearchParams] = useState("");
-  const getTutorQuestionsListData = useSelector(
-    (state) => state.getTutorQuestionsList
-  );
+  const getTutorQuestionsListData = useSelector((state) => state.getTutorQuestionsList);
 
   const { tutorexamquestion = [] } = getTutorQuestionsListData.data || [];
   const tutorexamquestionData = tutorexamquestion || [];

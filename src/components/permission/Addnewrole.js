@@ -3,7 +3,6 @@ import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
-
 import "./permission.css";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -14,20 +13,17 @@ import { logoutIfInvalidToken } from "../../helpers/handleError";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Addnewrole = () => {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-    reset,
-  } = useForm({});
+  const { register, handleSubmit, watch, formState: { errors },  reset,} = useForm({});
+
   const password = watch("password");
   const navigate = useNavigate();
   const notify = (data) => toast(data);
+
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [data, setData] = useState([]);
   const [resourceData, setResourceData] = useState([]);
+  
   let token = localStorage.getItem("token");
 
   const onSubmit = async (data) => {

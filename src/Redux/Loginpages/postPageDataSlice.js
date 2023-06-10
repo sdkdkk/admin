@@ -1,9 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios';
 import { createSlice } from "@reduxjs/toolkit";
+
 import { logoutIfInvalidToken } from "../../helpers/handleError";
+
 import { toast } from "react-toastify";
+
 const url = process.env.REACT_APP_API_BASE_URL;
+
 const initialState = {
     data: [],
     isLoading: false,
@@ -12,7 +16,7 @@ const initialState = {
 }
 
 
-export const postPageDataApi = createAsyncThunk('/admin/cms', async(payload, { rejectWithValue }) => {
+export const postPageDataApi = createAsyncThunk('/admin/cms', async (payload, { rejectWithValue }) => {
     const token = localStorage.getItem('token')
     try {
         const response = await axios.post(`${url}/admin/cms`, { token, ...payload });
@@ -43,7 +47,7 @@ export const postPageDataSlice = createSlice({
             state.isLoading = false;
             state.isSuccess = false;
             state.errorMessage = payload;
-            
+
         }
     }
 })

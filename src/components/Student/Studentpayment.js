@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
-//import { Link } from "react-router-dom";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
 import "../Css/Tutorlist.css";
-// import { MDBTable, MDBTableHead, MDBTableBody } from 'mdb-react-ui-kit';
-// import { Pagination } from "@mui/material";
 import { Button } from "react-bootstrap";
-
-
 
 const Studentpayment = () => {
 
@@ -17,10 +12,7 @@ const Studentpayment = () => {
   const [clicked, setClicked] = useState(false);
   const [teamData, setTeamData] = useState([]);
   const nbaData = async () => {
-    const response = await axios.get(
-      "https://jsonplaceholder.typicode.com/users"
-    );
-
+    const response = await axios.get("https://jsonplaceholder.typicode.com/users");
     setTeamData(response.data);
   };
 
@@ -45,16 +37,6 @@ const Studentpayment = () => {
           <div className="content-wrapper">
             <div className="page-header">
               <h3 className="page-title">Tutors Payment</h3>
-              {/* <nav aria-label="breadcrumb">
-                <ol className="breadcrumb">
-                  <li className="breadcrumb-item">
-                    <Link href="#">UI Elements</Link>
-                  </li>
-                  <li className="breadcrumb-item active" aria-current="page">
-                    Typography
-                  </li>
-                </ol>
-              </nav> */}
             </div>
             <div className="row">
               <div className="col-md-12 grid-margin">
@@ -111,7 +93,7 @@ const Studentpayment = () => {
                           </tbody>
                         );
                       })}
-                    </table>   
+                    </table>
                   </div>
                 </div>
               </div>

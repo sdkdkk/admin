@@ -13,10 +13,10 @@ const initialState = {
 }
 
 
-export const admintutorexamresponse = createAsyncThunk('user/getUserList', async(payload, { rejectWithValue }) => {
+export const admintutorexamresponse = createAsyncThunk('user/getUserList', async (payload, { rejectWithValue }) => {
     const token = localStorage.getItem('token')
     try {
-        const response = await axios.post(`${url}/admin/admintutorexamresponse`, { token, ...payload  });
+        const response = await axios.post(`${url}/admin/admintutorexamresponse`, { token, ...payload });
         return response.data;
     } catch (error) {
         logoutIfInvalidToken(error.response)

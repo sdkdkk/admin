@@ -11,13 +11,17 @@ import { toast } from "react-toastify";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Questionanswer = () => {
+
   const location = useLocation();
   const navigate = useNavigate();
+
   const [imageSrc, setImageSrc] = useState("");
   const [show, setShow] = useState(false);
   const [data, setData] = useState([]);
   const [isEditing, setEditing] = useState(false);
+
   const { register, handleSubmit, control } = useForm({});
+
   const questionId = location.state.data.allQuestions.questionId;
   const tutorId = location.state._id;
   const active = location.state.active;
@@ -30,7 +34,6 @@ const Questionanswer = () => {
   };
 
   const onSubmit = async (data) => {
-    console.log(data);
     const token = localStorage.getItem("token");
     try {
       // setLoading1(true);
@@ -66,7 +69,6 @@ const Questionanswer = () => {
         toast.success(response.data.message);
       })
       .catch((error) => {
-        console.log(error);
         toast.error(error.response.data.error);
       });
   }

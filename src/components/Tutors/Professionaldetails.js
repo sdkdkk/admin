@@ -21,8 +21,6 @@ const Professionaldetails = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [loading, setLoading] = useState(false);
   const [myimage, setMyImage] = useState(null);
-  const [width, setWidth] = useState(null);
-  const [height, setHeight] = useState(null);
 
   const uploadImage = (event) => {
     const file = event.target.files[0];
@@ -82,11 +80,8 @@ const Professionaldetails = () => {
     setIsLoading(true);
     const formData = new FormData();
     const file = dataURLtoFile(myimage, "profilephoto.png");
-    // const files = new File([myimage], 'filename.png', { type: myimage.type });
-    // const files = data.myimage;
 
     formData.append("token", token);
-    // formData.append(`profilephoto`, myimage);
     formData.append("profilephoto", file);
     formData.append("name", data.name);
     formData.append("mobileNo", data.mobileNo);
@@ -125,13 +120,7 @@ const Professionaldetails = () => {
         }
         setIsLoading(false);
       })
-
-      .catch((error) => {
-        console.error(error);
-      });
   };
-
-  console.log(myimage)
 
   // Helper function to convert data URL to file
   function dataURLtoFile(dataurl, filename) {
@@ -192,21 +181,16 @@ const Professionaldetails = () => {
                               <div className="card">
                                 <div className="card-body">
                                   <div className="profile-details">
-                                    {console.log(data.personaldetails.profilephoto[0])}
+
                                     <img
                                       type="file"
                                       name="image"
-                                      // src={myimage === null ? data.personaldetails.profilephoto[0] : myimage}
-                                      src={
-                                        myimage === null
-                                          ? data.personaldetails.profilephoto
-                                          : myimage
-                                      }
+                                      src={myimage === null ? data.personaldetails.profilephoto : myimage}
                                       defaultValue={
                                         data.professionaldetails.profilephoto
                                       }
                                       className="profile-img"
-                                      alt=""
+                                      alt="img"
                                     />
                                     <div className="">
                                       <Button

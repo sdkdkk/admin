@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from "react";
-// import { Link } from "react-router-dom";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
-// import "../Css/Tutorlist.css";
 import { BsPaypal, BsFillMenuButtonWideFill } from "react-icons/bs";
 import Person2OutlinedIcon from "@mui/icons-material/Person2Outlined";
 import StickyNote2OutlinedIcon from "@mui/icons-material/StickyNote2Outlined";

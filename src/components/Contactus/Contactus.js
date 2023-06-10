@@ -12,18 +12,13 @@ import { gettutorcontact } from "../../Redux/Loginpages/gettutorcontactSlice";
 import { useNavigate } from "react-router-dom";
 
 const Contactus = () => {
-  const studentcontact = useSelector(
-    (state) => state.studentcontact.data.document
-  );
+
+  const studentcontact = useSelector((state) => state.studentcontact.data.document);
   const tutorcontact = useSelector((state) => state.tutorcontact.data.document);
 
   const [selectedStatus, setSelectedStatus] = useState("studentcontact");
   const [searchName, setSearchName] = useState("");
-  const [status, setStatus] = useState({
-    studentcontact: [],
-    tutorcontact: [],
-    selectedStatus: 1, // Default value for solved (you can change it as per your requirement)
-  });
+  const [status, setStatus] = useState({ studentcontact: [], tutorcontact: [], selectedStatus: 1,});
 
   const [currentData, setCurrentData] = useState(status[selectedStatus]);
   const [activeButton, setActiveButton] = useState(1);
@@ -41,12 +36,6 @@ const Contactus = () => {
   useEffect(() => {
     dispatch(getstudentcontact()).then(() => setLoader(false));
   }, []);
-
-  // const fetchData1 = async () => {
-  //   setActiveButton(1);
-  //   setStatus({ ...status, selectedStatus: "all" });
-  //   dispatch(getstudentcontact("all"));
-  // };
 
   const fetchData1 = async () => {
     setActiveButton(1);
@@ -138,16 +127,16 @@ const Contactus = () => {
                   <div className="d-grid gap-2 d-md-flex justify-content-md-end">
                     <button
                       onClick={fetchData1}
-                      className={activeButton === 1 ?  "btn btn-primary"
-                      : "btn btn-light"}
+                      className={activeButton === 1 ? "btn btn-primary"
+                        : "btn btn-light"}
                       type="button"
                       style={{ borderRadius: "4px" }}>
                       Student Contact
                     </button>
                     <button
                       onClick={fetchData2}
-                      className={activeButton === 2  ? "btn btn-primary"
-                      : "btn btn-light"}
+                      className={activeButton === 2 ? "btn btn-primary"
+                        : "btn btn-light"}
                       type="button"
                       style={{ borderRadius: "4px" }}>
                       Tutor Contact

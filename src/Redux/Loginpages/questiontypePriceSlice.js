@@ -1,7 +1,9 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
+
 const url = process.env.REACT_APP_API_BASE_URL;
+
 const questiontypePriceSlice = createSlice({
   name: "questiontypeprice",
   initialState: {

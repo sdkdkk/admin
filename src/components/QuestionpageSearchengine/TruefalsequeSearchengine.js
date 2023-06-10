@@ -4,6 +4,7 @@ import { useLocation } from "react-router-dom";
 import Moment from "react-moment";
 
 const TruefalsequeSearchengine = () => {
+
   const location = useLocation();
   const answer = location.state.data.answer;
   const getresponse = location.state.data;

@@ -13,7 +13,7 @@ const Fillups = () => {
   const location = useLocation();
   const navigate = useNavigate();
   const answerData = JSON.parse(location.state.data.allQuestions.answer);
-  console.log(location.state.data.allQuestions);
+
   const { register, handleSubmit } = useForm({});
   const [data, setData] = useState([]);
   const [isEditing, setEditing] = useState(false);
@@ -25,8 +25,7 @@ const Fillups = () => {
   const active = location.state.active;
   const questionType = location.state.data.allQuestions.questionType;
   const handleRemoveField = (id) => {
-    const updatedAnswer = editedAnswer.filter((_, index) => index !== id);
-    setEditedAnswer(updatedAnswer);
+    const updatedAnswer = editedAnswer.filter((_, index) => index !== id); setEditedAnswer(updatedAnswer);
   };
 
   const handleAddField = () => {
@@ -36,7 +35,7 @@ const Fillups = () => {
 
   const [imageSrc, setImageSrc] = useState("");
   const [show, setShow] = useState(false);
-  
+
   const handleImageClick = (url) => {
     setShow(true);
     setImageSrc(url);
@@ -63,7 +62,6 @@ const Fillups = () => {
         navigate(`/tutordetails/${tutorId}/${active}`);
       }
     } catch (error) {
-      console.log(error.response.data.error);
       toast.error(error.response.data.error);
     }
   };
@@ -81,7 +79,6 @@ const Fillups = () => {
         toast.success(response.data.message);
       })
       .catch((error) => {
-        console.log(error);
         toast.error(error.response.data.error);
       });
   }
@@ -172,9 +169,9 @@ const Fillups = () => {
                   </div>
 
                   {questionType === "MCQ-exp" ||
-                  questionType === "TrueFalse-exp" ||
-                  questionType === "FillInBlanks-exp" ||
-                  questionType === "ShortAnswer-exp" ? (
+                    questionType === "TrueFalse-exp" ||
+                    questionType === "FillInBlanks-exp" ||
+                    questionType === "ShortAnswer-exp" ? (
                     <div className="col-md-12 col-lg-12 mb--20">
                       <h5>Explanation</h5>
                       <input
@@ -219,17 +216,17 @@ const Fillups = () => {
           </div>
         </div>
       </div>
-       {/* image show modal */}
-       <Modal show={show} onHide={() => setShow(false)}>
-       <Modal.Header closeButton className="border-0"></Modal.Header>
-       <Modal.Body className="text-center">
-         <img
-           style={{ maxWidth: "100%", maxHeight: "100%" }}
-           src={imageSrc}
-           alt="modal-img"
-         />
-       </Modal.Body>
-     </Modal>
+      {/* image show modal */}
+      <Modal show={show} onHide={() => setShow(false)}>
+        <Modal.Header closeButton className="border-0"></Modal.Header>
+        <Modal.Body className="text-center">
+          <img
+            style={{ maxWidth: "100%", maxHeight: "100%" }}
+            src={imageSrc}
+            alt="modal-img"
+          />
+        </Modal.Body>
+      </Modal>
     </>
   );
 };

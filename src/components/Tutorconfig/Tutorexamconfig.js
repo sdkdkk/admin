@@ -12,11 +12,8 @@ import { logoutIfInvalidToken } from "../../helpers/handleError";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Tutorexamconfig = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({});
+
+  const { register, handleSubmit, formState: { errors }, } = useForm({});
 
   const token = localStorage.getItem("token");
 
@@ -31,12 +28,7 @@ const Tutorexamconfig = () => {
     const fetchData = async () => {
       try {
         setLoading1(true);
-        const response = await axios.post(
-          `${url}/admin/gettutorexamdetail`,
-          {
-            token: token,
-          }
-        );
+        const response = await axios.post(`${url}/admin/gettutorexamdetail`, { token: token, });
         await setConversionRate(response.data.data);
         setLoading1(false);
       } catch (error) {
