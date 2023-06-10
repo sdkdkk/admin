@@ -149,12 +149,14 @@ const Addnew = () => {
     if (event.target.value.endsWith("-exp")) {
       setIsExp(true);
     } else {
-      setIsExp("");
+      setIsExp(false);
     }
+  
   };
 
   const token = localStorage.getItem("token");
   const onSubmit = (data) => {
+    console.log(data);
     const formData = new FormData();
     const files = data.questionPhoto;
     formData.append("question", data.question);
@@ -240,54 +242,54 @@ const Addnew = () => {
                           )}
                         </div>
                         <div></div>
-                        <div className="mb-3">
+                        <div className="mb-3 dropdown react-bootstrap-select w-100">
                           <label htmlFor="questionType" className="form-label">
                             Question Type
                           </label>
                           <select
                             id="questionType"
-                            className="form-control"
+                            className="w-100 form-control"
                             name="questionType"
                             {...register("questionType", { required: true })}
-                            onChange={(e) => handleChange(e)}>
-                            <option value="">Select question type</option>
-                            {questionTypes.map((type) => (
-                              <option value={type.value} key={type.value}>
+                             onClick={handleChange}
+                           >
+                            <option value="">Select your questionType</option>
+                            {questionTypes.map((type,index) => (
+                              <option value={type.value} key={index}  >
                                 {type.questionType}
                               </option>
                             ))}
                           </select>
-                          {errors.questionType && (
-                            <p className="error text-danger">
-                              Please select a type of question
-                            </p>
+                          {errors.questionType && errors.questionType.type  && (
+                            <p className=" text-danger">Please select questionType</p>
                           )}
+                          
                         </div>
-                        <div className="mb-3">
+                        <div className="mb-3 dropdown react-bootstrap-select w-100">
                           <label
                             htmlFor="questionSubject"
                             className="form-label">
                             Question Subject
                           </label>
-                          <select
+                        <select
                             id="questionSubject"
-                            className="form-control"
+                            className="w-100 form-control"
                             name="questionSubject"
                             {...register("questionSubject", { required: true })}
-                            onChange={(e) => handleChange(e)}>
-                            <option value="">Select question Subject</option>
-                            {questionSubject.map((type) => (
-                              <option value={type.value} key={type.value}>
+                          >
+                            <option value="">Select your subject</option>
+                            {questionSubject.map((type, index) => (
+                              <option value={type.value} key={index}>
                                 {type.questionSubject}
                               </option>
                             ))}
                           </select>
-                          {errors.questionType && (
-                            <p className="error text-danger">
-                              Please select a type of subject
-                            </p>
+                          {errors.questionSubject && (
+                            <p className=" text-danger">Please select a subject</p>
                           )}
                         </div>
+                         
+                        
                         <Col md={12}>
                           <div>
                             <p className="mx-1">Answer</p>
