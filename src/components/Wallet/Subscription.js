@@ -69,6 +69,7 @@ const Subscription = () => {
   const fetchData = async () => {
     try {
       setLoading1(true);
+  
       const response = await axios.post(`${url}/admin/getsubscription`, {
         token: token,
       });
@@ -247,7 +248,7 @@ const Subscription = () => {
                                         onChange={(e) =>
                                           changestatus(
                                             e.target.value,
-                                            data.id,
+                                            data._id,
                                             index
                                           )
                                         }
