@@ -83,6 +83,7 @@ const Pages = () => {
   }, [pagesListDeleteState?.isSuccess]);
 
   const onSubmit = (data) => {
+    console.log(data);
     // localStorage.setItem("data", token);
     if (defaultValue?._id) {
       data.id = defaultValue?._id;
@@ -253,29 +254,28 @@ const Pages = () => {
                             <div>
                               <p className="mx-1">Context Text</p>
                               <Controller
-                                name="contentText"
-                                control={control}
-                                // defaultValue={editorHtml}
-                                render={({ field }) => (
-                                  <ReactQuill
-                                    theme="snow"
-                                    name="contentText"
-                                    onChange={handleChange}
-                                    //onChange={(value) => setEditorHtml(value)}
-                                    value={field.value}
-                                    modules={modules}
-                                    formats={formats}
-                                    bounds={"#root"}
-                                    placeholder="type Here...."
-                                    ref={editorRef}
-                                    {...field}
-                                  />
-                                )}
+                              name="contentText"
+                              control={control}
+                              render={({ field }) => (
+                                <ReactQuill
+                                  theme="snow"
+                                  name="contentText"
+                                  {...register("contentText", { required: true })}
+                                  modules={modules}
+                                  formats={formats}
+                                  bounds={"#root"}
+                                  placeholder="type Here...."
+                                  ref={editorRef}
+                                  {...field}
+                                />
+                              )}
                               />
-                              <p className="error-msg text-danger">
-                                {errors.contentText &&
-                                  errors.contentText.message}
+                               {errors.contentText && (
+                              <p className="error text-danger">
+                                Please Enter a contentText
                               </p>
+                            )}
+                             
                             </div>
                           </Col>
                           <div className="col-md-6 mt-4">
