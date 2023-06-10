@@ -2,9 +2,7 @@ import React from "react";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
-// import "./Searchengine.css";
 import { useLocation } from "react-router-dom";
-
 import Truefalseque from "../Questionpages/Truefalseque";
 import Mcqquestion from "../Questionpages/Mcqquestion";
 import Matchfollow from "../Questionpages/Matchfollow";
@@ -14,9 +12,10 @@ import Fillups from "../Questionpages/Fillups";
 
 
 const Studentquestiondetails = () => {
+
   const location = useLocation();
   const getresponse = location.state.data.allQuestions;
-console.log(getresponse);
+
   return (
     <>
       <div className="container-scroller">
@@ -40,25 +39,25 @@ console.log(getresponse);
                                 <div>
                                   {location.state.data.allQuestions
                                     .questionType === "TrueFalse-exp" ||
-                                  location.state.data.allQuestions
-                                    .questionType === "TrueFalse" ? (
+                                    location.state.data.allQuestions
+                                      .questionType === "TrueFalse" ? (
                                     <Truefalseque />
                                   ) : location.state.data.allQuestions
-                                      .questionType === "MCQ-exp" ||
+                                    .questionType === "MCQ-exp" ||
                                     location.state.data.allQuestions
                                       .questionType === "MCQ" ? (
                                     <Mcqquestion />
                                   ) : location.state.data.allQuestions
-                                      .questionType === "FillInBlanks-exp" ||
+                                    .questionType === "FillInBlanks-exp" ||
                                     location.state.data.allQuestions
                                       .questionType === "FillInBlanks" ? (
                                     <Fillups />
                                   ) : location.state.data.allQuestions
-                                      .questionType ===
-                                      "MatchTheFollowing-less5" ||
+                                    .questionType ===
+                                    "MatchTheFollowing-less5" ||
                                     location.state.data.allQuestions
                                       .questionType ===
-                                      "MatchTheFollowing-more5" ? (
+                                    "MatchTheFollowing-more5" ? (
                                     <Matchfollow />
                                   ) : (
                                     <Questionanswer />

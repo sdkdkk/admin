@@ -14,12 +14,7 @@ import { logoutIfInvalidToken } from "../../helpers/handleError";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Curruncy = () => {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({});
+  const { register, handleSubmit, reset, formState: { errors }, } = useForm({});
   const [loading, setLoading] = useState(false);
   const [loadingpost, setLoadingpost] = useState(false);
   const notify = (data) => toast(data);
@@ -28,11 +23,7 @@ const Curruncy = () => {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const response = await axios.post(
-        `${url}/admin/getcurrencyconversion?Currency=USD`,
-        {
-          token: token,
-        }
+      const response = await axios.post(`${url}/admin/getcurrencyconversion?Currency=USD`, { token: token, }
       );
       await setConversionRate(response.data);
       setLoading(false);

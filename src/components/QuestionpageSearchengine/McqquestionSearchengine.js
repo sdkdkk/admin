@@ -5,6 +5,7 @@ import Modal from "react-bootstrap/Modal";
 import Moment from "react-moment";
 
 const McqquestionSearchengine = () => {
+
   const location = useLocation();
   const answer = location.state.data.answer; // Get the answer from location
 
@@ -82,7 +83,7 @@ const McqquestionSearchengine = () => {
                             <label
                               className="form-check-label"
                               htmlFor="rbt-radio-1">
-                              
+
                               A)
                             </label>
                           </div>
@@ -100,7 +101,7 @@ const McqquestionSearchengine = () => {
                             <label
                               className="form-check-label"
                               htmlFor="rbt-radio-2">
-                              
+
                               B)
                             </label>
                           </div>
@@ -118,7 +119,7 @@ const McqquestionSearchengine = () => {
                             <label
                               className="form-check-label"
                               htmlFor="rbt-radio-3">
-                              
+
                               C)
                             </label>
                           </div>
@@ -136,7 +137,7 @@ const McqquestionSearchengine = () => {
                             <label
                               className="form-check-label"
                               htmlFor="rbt-radio-4">
-                              
+
                               D)
                             </label>
                           </div>
@@ -154,7 +155,7 @@ const McqquestionSearchengine = () => {
       <Modal show={show} onHide={() => setShow(false)}>
         <Modal.Header closeButton className="border-0"></Modal.Header>
         <Modal.Body className="text-center">
-          
+
           <img
             style={{ maxWidth: "100%", maxHeight: "100%" }}
             src={imageSrc}

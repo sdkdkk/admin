@@ -12,7 +12,7 @@ const initialState = {
 }
 
 
-export const getTransactionHistory = createAsyncThunk('/admin/fetchTransactionHistory', async(params, { rejectWithValue }) => {
+export const getTransactionHistory = createAsyncThunk('/admin/fetchTransactionHistory', async (params, { rejectWithValue }) => {
     const token = localStorage.getItem('token')
     try {
         const response = await axios.post(`${url}/admin/fetchTransactionHistory${params}`, { token });

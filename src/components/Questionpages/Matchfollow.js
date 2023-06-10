@@ -12,21 +12,24 @@ const url = process.env.REACT_APP_API_BASE_URL;
 const Matchfollow = () => {
   const location = useLocation();
   const navigate = useNavigate();
-  const answerData = JSON.parse(
-    location.state.data.allQuestions.answer.replace(/\\/g, "")
-  );
-  console.log(answerData);
+  const answerData = JSON.parse(location.state.data.allQuestions.answer.replace(/\\/g, ""));
+
   const [data, setData] = useState([]);
+
   const { register, handleSubmit } = useForm({});
+
   const [isEditing, setEditing] = useState(false);
   const tutorId = location.state._id;
   const active = location.state.active;
+
   const [editedAnswer, setEditedAnswer] = useState([...answerData]);
+
   const questionType = location.state.data.allQuestions.questionType;
   const question = location.state.data.allQuestions.question;
   const explanation = location.state.data.allQuestions.explanation;
   const questionId = location.state.data.allQuestions.questionId;
   let token = localStorage.getItem("token");
+
   const [imageSrc, setImageSrc] = useState("");
   const [show, setShow] = useState(false);
 
@@ -81,7 +84,7 @@ const Matchfollow = () => {
           <div className="container-fluid">
             <div className="text-start">
               <p>
-                <span className="text-dark">Question Subject:</span>
+                <span className="text-dark">Question Subject: </span>
                 {location.state.data.allQuestions.questionSubject}
               </p>
               <p>

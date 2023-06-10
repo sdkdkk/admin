@@ -12,18 +12,17 @@ import { useForm } from "react-hook-form";
 import { Testimoniald } from "../../Redux/Loginpages/testimonialSlice";
 import { Statuschange } from "../../Redux/Loginpages/testimonialStatusSlice";
 import { testimonialformapi } from "../../Redux/Loginpages/testimonialFormSlice";
-import { testimonialUserDelete,reset as resetTestimonialUserDelete} from "../../Redux/Loginpages/testimonialUserDeleteSlice";
+import { testimonialUserDelete, reset as resetTestimonialUserDelete } from "../../Redux/Loginpages/testimonialUserDeleteSlice";
 
 const Testimonial = () => {
+
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const [defaultValues, setDefaultValues] = useState({});
   const testimonial = useSelector((state) => state.testimonial);
   const testimonialform = useSelector((state) => state.testimonialform);
   const testimonialstatus = useSelector((state) => state.testimonialstatus);
-  const testimonialUserDeleteState = useSelector(
-    (state) => state.testimonialUserDelete
-  );
+  const testimonialUserDeleteState = useSelector((state) => state.testimonialUserDelete);
   const [submitted, setSubmitted] = useState(false);
 
   var [isActive, SetisActive] = useState(true);
@@ -34,25 +33,12 @@ const Testimonial = () => {
     setIsOpen(isOpen === id ? "" : id);
   };
 
-  // const activeForm = () => {
-  //   if (isActive === true) {
-  //     SetisActive(false);
-  //   } else {
-  //     SetisActive(true);
-  //   }
-  // };
-
   const activeForm = () => {
     SetisActive((prevIsActive) => !prevIsActive); // Toggle the value of isActive
   };
   var tokens = localStorage.getItem("token");
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({ values: defaultValues });
+  const { register, handleSubmit, reset, formState: { errors }, } = useForm({ values: defaultValues });
 
   useEffect(() => {
     dispatch(Testimoniald(tokens));
@@ -92,13 +78,11 @@ const Testimonial = () => {
     setSubmitted(true); // Set the submitted state to true
     reset();
   };
-  
+
   const changestatus = async (value, id, index) => {
-    console.log(value,id,index);
     var st;
-   
+
     if (testimonial.user?.testimonial[index].isactive === true) {
-      console.log(testimonial.user?.testimonial[index].isactive);
       st = false;
     } else {
       st = true;
@@ -139,13 +123,12 @@ const Testimonial = () => {
                   <div className="card new-table">
                     <div className="card-body">
                       <table
-                        className={`table ${
-                          (testimonial.loading ||
-                            testimonialstatus.loading ||
-                            testimonialform.loading ||
-                            testimonialUserDeleteState.isLoading) &&
+                        className={`table ${(testimonial.loading ||
+                          testimonialstatus.loading ||
+                          testimonialform.loading ||
+                          testimonialUserDeleteState.isLoading) &&
                           "table-loading"
-                        }`}>
+                          }`}>
                         <thead>
                           <tr>
                             <th scope="col">Sort Order</th>
@@ -229,8 +212,8 @@ const Testimonial = () => {
                           onChange={handleChange}
                           shape="rounded"
                           variant="outlined"
-                          // showFirstButton
-                          // showLastButton
+                        // showFirstButton
+                        // showLastButton
                         />
                       </div>
                     </div>
@@ -332,9 +315,9 @@ const Testimonial = () => {
                                     id="flexSwitchCheckChecked"
                                     onChange={() => activeForm()}
                                     checked={isActive} // Use the isActive value as the checked state of the checkbox
-                                    // disabled={
-                                    //   Object.keys(defaultValues).length !== 0
-                                    // } // Disable the checkbox during edit
+                                  // disabled={
+                                  //   Object.keys(defaultValues).length !== 0
+                                  // } // Disable the checkbox during edit
                                   />
                                 </div>
                               </div>

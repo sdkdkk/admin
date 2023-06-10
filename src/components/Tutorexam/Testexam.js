@@ -4,7 +4,6 @@ import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
 import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
-// import ReactPaginate from "react-paginate";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { admintutorexamverify } from "../../Redux/Loginpages/admintutorexamverifySlice";
@@ -12,6 +11,7 @@ import Moment from "react-moment";
 import { ColorRing } from "react-loader-spinner";
 
 const Testexam = () => {
+
   const testexam = useSelector((state) => state.admintutorexamverify.data.data);
   const dispatch = useDispatch();
   let navigate = useNavigate();

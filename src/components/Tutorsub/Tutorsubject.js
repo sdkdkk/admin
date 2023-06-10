@@ -13,12 +13,7 @@ import { logoutIfInvalidToken } from "../../helpers/handleError";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Tutorsubject = () => {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({});
+  const { register, handleSubmit, reset, formState: { errors }, } = useForm({});
 
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);

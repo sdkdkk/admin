@@ -17,11 +17,7 @@ import { logoutIfInvalidToken } from "../../helpers/handleError";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Subscription = () => {
-  const {
-    register,
-    handleSubmit,
-    reset,
-     } = useForm({});
+  const { register, handleSubmit, reset, } = useForm({});
 
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
@@ -42,7 +38,6 @@ const Subscription = () => {
 
   const onSubmit = async (data) => {
     const id = data._id;
-    console.log(id);
     try {
       setLoading(true);
       const requestUrl = `${url}/admin/subscriptionpricechange/${data._id}`;
@@ -54,7 +49,6 @@ const Subscription = () => {
           status: data.status,
         });
       }
-      console.log(response);
       if (response.data.message) {
         toast.success(response.data.message);
         reset();
@@ -78,7 +72,6 @@ const Subscription = () => {
       const response = await axios.post(`${url}/admin/getsubscription`, {
         token: token,
       });
-      console.log(response.data.subscription);
       setData(response.data.subscription);
       setLoading1(false);
     } catch (error) {
@@ -88,8 +81,7 @@ const Subscription = () => {
   };
 
   const handleUpdateClick = (data) => {
-    console.log(data);
-   
+
     reset(data);
     SetisActive(data.isactive);
   };
@@ -100,9 +92,8 @@ const Subscription = () => {
   };
 
 
-  const changestatus = async (value, id, index, ) => {
-    console.log(value, id, index,)
- 
+  const changestatus = async (value, id, index,) => {
+
     var status;
 
     if (data[index].isactive === true) {
@@ -110,7 +101,6 @@ const Subscription = () => {
     } else {
       status = true;
     }
-    console.log(status);
     setStatus(status)
     try {
       // setLoading1(true);
@@ -118,17 +108,16 @@ const Subscription = () => {
         token: token,
         status
       });
-      console.log(response.data);
-  setStatus(response.data)
-    
-      if(response.data.message){
-      toast.success(response.data.message)}
+      setStatus(response.data)
+
+      if (response.data.message) {
+        toast.success(response.data.message)
+      }
     } catch (error) {
-      console.log(error);
       toast.error(error.response.data.error);
     }
   };
-  
+
   return (
     <>
       <div className="container-scroller">
@@ -198,8 +187,8 @@ const Subscription = () => {
                                   ? "Loading..."
                                   : "Update"
                                 : loading
-                                ? "Loading..."
-                                : "Add"}
+                                  ? "Loading..."
+                                  : "Add"}
                             </Button>
                           </div>
                         </div>
@@ -263,7 +252,7 @@ const Subscription = () => {
                                             index
                                           )
                                         }
-                                                                            />
+                                      />
                                     </span>
                                   </td>
                                   <td>

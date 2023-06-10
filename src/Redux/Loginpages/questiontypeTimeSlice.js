@@ -1,7 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+
 import { logoutIfInvalidToken } from "../../helpers/handleError";
+
 const url = process.env.REACT_APP_API_BASE_URL;
+
 const questiontypeTimeSlice = createSlice({
   name: "questiontypetime",
   initialState: {
@@ -38,7 +41,7 @@ const questiontypeTimeSlice = createSlice({
 //Testimonial
 
 export const { questiontypePending, questiontypeSuccess, questiontypeFailure } =
-questiontypeTimeSlice.actions;
+  questiontypeTimeSlice.actions;
 
 export const questiontypeApi = (token) => async (dispatch) => {
   dispatch(questiontypePending());

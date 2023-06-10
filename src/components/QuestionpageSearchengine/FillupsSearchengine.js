@@ -3,6 +3,7 @@ import "./Que.css";
 import { useLocation } from "react-router-dom";
 
 const FillupsSearchengine = () => {
+
   const location = useLocation();
   const answerData = JSON.parse(location.state.data.answer);
 
@@ -28,11 +29,11 @@ const FillupsSearchengine = () => {
                   <div className="p--20 rbt-border radius-6 bg-primary-opacity">
                     {Array.isArray(answerData)
                       ? answerData.map((data, id) => (
-                          <p>
-                            <span className="mx-3 fw-bolder">{id + 1}) </span>
-                            {data}
-                          </p>
-                        ))
+                        <p>
+                          <span className="mx-3 fw-bolder">{id + 1}) </span>
+                          {data}
+                        </p>
+                      ))
                       : ""}
                   </div>
                 </div>

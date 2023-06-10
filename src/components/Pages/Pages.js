@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
-import Data from "./Pages.json";
 import { Pagination } from "@mui/material";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
-// import "../Css/Tutorlist.css";
 import Form from "react-bootstrap/Form";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
 import { useNavigate } from "react-router-dom";
@@ -14,29 +12,28 @@ import { Pagesd } from "../../Redux/Loginpages/authSlice";
 import { Button, Col } from "react-bootstrap";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import {
-  postPageDataApi,
-  reset as resetPostPageDataApi,
-} from "../../Redux/Loginpages/postPageDataSlice";
-import {
-  pagesListDelete,
-  reset as resetPagesListDelete,
-} from "../../Redux/Loginpages/pagesListDeleteSlice";
+import { postPageDataApi, reset as resetPostPageDataApi, } from "../../Redux/Loginpages/postPageDataSlice";
+import { pagesListDelete, reset as resetPagesListDelete, } from "../../Redux/Loginpages/pagesListDeleteSlice";
 import { updatePageDataApi } from "../../Redux/Loginpages/updatePageDataSlice";
 import { getPageListApi } from "../../Redux/Loginpages/getPageListSlice";
 
 
 
 const Pages = () => {
+
   const [currentPage, setCurrentPage] = useState(1);
+
   const auth = useSelector((state) => state.auth);
   const token = useSelector((state) => state.auth.token);
+
   const [isOpen, setIsOpen] = useState("");
   const [defaultValue, setDefaultValue] = useState({});
+
   const postPageDataState = useSelector((state) => state.postPageData);
   const pagesListDeleteState = useSelector((state) => state.pagesListDelete);
   const getPageListState = useSelector((state) => state.getPageList);
   const updatePageDataState = useSelector((state) => state.updatePageData);
+
   const { document = [] } = getPageListState?.data || {};
 
   const dispatch = useDispatch();
@@ -46,16 +43,7 @@ const Pages = () => {
     setCurrentPage(value);
   };
 
-  const {
-    register,
-    reset,
-    handleSubmit,
-    formats,
-    control,
-    modules,
-    editorRef,
-    formState: { errors },
-  } = useForm({ values: defaultValue });
+  const { register, reset, handleSubmit, formats, control, modules, editorRef, formState: { errors }, } = useForm({ values: defaultValue });
 
   useEffect(() => {
     if (postPageDataState?.isSuccess) {
@@ -130,12 +118,11 @@ const Pages = () => {
                   <div className="card new-table">
                     <div className="card-body">
                       <table
-                        className={`table ${
-                          (getPageListState.isLoading ||
+                        className={`table ${(getPageListState.isLoading ||
                             updatePageDataState.isLoading ||
                             postPageDataState?.isLoading) &&
                           "table-loading"
-                        }`}
+                          }`}
                       >
                         <thead>
                           <tr>

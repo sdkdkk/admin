@@ -17,9 +17,8 @@ const Question = () => {
   const history = useNavigate();
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
-  const getAdminQuestionsState = useSelector(
-    (state) => state.getAdminQuestions
-  );
+  const getAdminQuestionsState = useSelector((state) => state.getAdminQuestions);
+
   const [subjectList, setSubjectList] = useState([]);
   const [questionSubject, setQuestionSubject] = useState("");
   const [questionType, setQuestionType] = useState("");
@@ -31,11 +30,7 @@ const Question = () => {
 
   const fetchSubjectData = async () => {
     try {
-      const response = await axios.post(
-        `${url}/getquestionsubject`,
-        {
-          token: token,
-        }
+      const response = await axios.post(`${url}/getquestionsubject`, { token: token, }
       );
       setSubjectList(response?.data?.data);
     } catch (error) {

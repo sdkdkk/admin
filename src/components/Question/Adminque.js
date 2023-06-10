@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-// import axios from "axios";
 import { Button } from "react-bootstrap";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
@@ -17,10 +16,11 @@ const Adminque = () => {
 
     const history = useNavigate();
     const dispatch = useDispatch();
+
     const token = useSelector((state) => state.auth.token);
-    const getAdminQuestionsState = useSelector(
-        (state) => state.getAdminQuestions
-    );
+
+    const getAdminQuestionsState = useSelector((state) => state.getAdminQuestions);
+
     const [subjectList, setSubjectList] = useState([]);
     const [questionSubject, setQuestionSubject] = useState("");
     const [questionType, setQuestionType] = useState("");
@@ -32,11 +32,7 @@ const Adminque = () => {
 
     const fetchSubjectData = async () => {
         try {
-            const response = await axios.post(
-                `${url}/getquestionsubject`,
-                {
-                    token: token,
-                }
+            const response = await axios.post(`${url}/getquestionsubject`, { token: token, }
             );
             setSubjectList(response?.data?.data);
         } catch (error) {

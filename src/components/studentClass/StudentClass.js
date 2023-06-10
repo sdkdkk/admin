@@ -14,16 +14,14 @@ import "../Tutors/Tutorlist.css";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const StudentClass = () => {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({});
+
+  const { register, handleSubmit, reset, formState: { errors }, } = useForm({});
+
   const [isEditMode, setIsEditMode] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [studentClass, setStudentClass] = useState([]);
+
   const token = localStorage.getItem("token");
 
   const notify = (data) => toast(data);
@@ -42,9 +40,7 @@ const StudentClass = () => {
   const fetchData = async () => {
     try {
       setLoading1(true);
-      const response = await axios.post(`${url}/admin/getclass`, {
-        token: token,
-      });
+      const response = await axios.post(`${url}/admin/getclass`, { token: token, });
       setStudentClass(response.data.data);
       setLoading1(false);
     } catch (error) {

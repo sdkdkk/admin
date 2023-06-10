@@ -15,9 +15,12 @@ const url = process.env.REACT_APP_API_BASE_URL;
 const Roles = () => {
   const [loading, setLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
+
   const notify = (data) => toast(data);
+
   const [loading1, setLoading1] = useState(false);
   const [data, setData] = useState([]);
+  
   let token = localStorage.getItem("token");
 
   useEffect(() => {

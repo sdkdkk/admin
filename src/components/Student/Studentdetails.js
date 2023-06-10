@@ -14,32 +14,28 @@ import { logoutIfInvalidToken } from "../../helpers/handleError";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Studentdetails = () => {
+
   const { _id } = useParams();
+
   const [studentdetail, setStudentdetail] = useState([]);
   const [studentque, setStudentque] = useState([]);
   const [studenttransation, setStudenttransation] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+
   const token = localStorage.getItem("token");
+
   const [Loader, setLoader] = useState(true);
+
   let navigate = useNavigate();
 
   const fetchData = async () => {
     try {
-      const response = await axios.post(
-        `${url}/admin/studentquestionanswer/${_id}`,
-        {
-          token: token,
-        }
+      const response = await axios.post(`${url}/admin/studentquestionanswer/${_id}`, { token: token, }
       );
-      const response1 = await axios.post(
-        `${url}/admin/studenttransactiondetails/${_id}`,
-        {
-          token: token,
-        }
+      const response1 = await axios.post(`${url}/admin/studenttransactiondetails/${_id}`, { token: token, }
       );
-      const response2 = await axios.post(`${url}/admin/studentdetails/${_id}`, {
-        token: token,
-      });
+      const response2 = await axios.post(`${url}/admin/studentdetails/${_id}`, { token: token, });
+
       setStudentque(response.data.message);
       setStudenttransation(response1.data.transaction);
       setStudentdetail(response2.data.document);
@@ -79,10 +75,8 @@ const Studentdetails = () => {
   const handleChange1 = (event, value) => {
     setCurrentPage1(value);
   };
-  console.log(_id);
 
   const toComponentB = (data,) => {
-    console.log(data, _id);
     navigate("/studentquestiondetails", { state: { data, _id } });
   };
 

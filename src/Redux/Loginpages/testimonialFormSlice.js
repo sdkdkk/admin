@@ -1,10 +1,10 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
 import { logoutIfInvalidToken } from '../../helpers/handleError';
-const url = process.env.REACT_APP_API_BASE_URL;
-const { createSlice } = require("@reduxjs/toolkit");
 
-// const url = "${url}";
+const url = process.env.REACT_APP_API_BASE_URL;
+
+const { createSlice } = require("@reduxjs/toolkit");
 
 const testimonialFormSlice = createSlice({
 
@@ -51,13 +51,13 @@ export const testimonialformapi = (token) => async (dispatch) => {
     dispatch(testimonialFromPending());
     try {
 
-        const { data } = await axios.post(`${url}/admin/testimonial`, token );
+        const { data } = await axios.post(`${url}/admin/testimonial`, token);
 
-        if (data.status === 1){
+        if (data.status === 1) {
             toast.success(data.message);
             dispatch(testimonialFormSuccess(data));
         }
-        else{
+        else {
             dispatch(testimonialFormFailure(data));
         }
     } catch (error) {

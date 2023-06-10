@@ -16,8 +16,11 @@ const Searchquestion = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [searchPerformed, setSearchPerformed] = useState(false);
   const [SearchError, setSearchError] = useState('');
+
   const token = localStorage.getItem("token");
+
   const [isLoading, setIsLoading] = useState(false);
+
   let navigate = useNavigate();
 
 

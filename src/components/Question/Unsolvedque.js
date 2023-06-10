@@ -18,9 +18,8 @@ const Unsolvedque = () => {
     const history = useNavigate();
     const dispatch = useDispatch();
     const token = useSelector((state) => state.auth.token);
-    const getAdminQuestionsState = useSelector(
-        (state) => state.getAdminQuestions
-    );
+    const getAdminQuestionsState = useSelector((state) => state.getAdminQuestions);
+
     const [subjectList, setSubjectList] = useState([]);
     const [questionSubject, setQuestionSubject] = useState("");
     const [questionType, setQuestionType] = useState("");
@@ -32,11 +31,7 @@ const Unsolvedque = () => {
 
     const fetchSubjectData = async () => {
         try {
-            const response = await axios.post(
-                `${url}/getquestionsubject`,
-                {
-                    token: token,
-                }
+            const response = await axios.post(`${url}/getquestionsubject`, { token: token, }
             );
             setSubjectList(response?.data?.data);
         } catch (error) {
@@ -45,13 +40,9 @@ const Unsolvedque = () => {
     };
 
     const getQuestionList = () => {
-        const payload = {
-            questionType,
-            questionSubject,
-            whomto_ask: whomtoAsk,
-            limit: 5,
-            skip: (currentPage - 1) * 5,
-        };
+
+        const payload = { questionType, questionSubject, whomto_ask: whomtoAsk, limit: 5, skip: (currentPage - 1) * 5, };
+
         dispatch(getAdminQuestions(payload));
     };
 
@@ -118,27 +109,6 @@ const Unsolvedque = () => {
                             <div className="page-header">
                                 <div className="col-md-12">
                                     <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-                                        {/* <button
-                                            // className="btn btn-primary me-md-2 active"
-                                            type="button"
-                                            onClick={() => setWhomtoAsk("tutor")}
-                                            style={{ borderRadius: "4px" }}>
-                                            Tutor
-                                        </button> */}
-                                        {/* <button
-                                            // className="btn btn-primary"
-                                            type="button"
-                                            onClick={() => setWhomtoAsk("admin")}
-                                            style={{ borderRadius: "4px" }}>
-                                            Admin
-                                        </button> */}
-                                        {/* <button
-                                            // className="btn btn-primary"
-                                            type="button"
-                                            onClick={() => setWhomtoAsk("reanswer")}
-                                            style={{ borderRadius: "4px" }}>
-                                            Reanswer
-                                        </button> */}
                                         <button
                                             className="btn btn-light"
                                             type="button"

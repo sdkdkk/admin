@@ -17,9 +17,8 @@ const Reanswerque = () => {
   const history = useNavigate();
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
-  const getAdminQuestionsState = useSelector(
-    (state) => state.getAdminQuestions
-  );
+  const getAdminQuestionsState = useSelector((state) => state.getAdminQuestions);
+
   const [subjectList, setSubjectList] = useState([]);
   const [questionSubject, setQuestionSubject] = useState("");
   const [questionType, setQuestionType] = useState("");
@@ -41,13 +40,9 @@ const Reanswerque = () => {
   };
 
   const getQuestionList = () => {
-    const payload = {
-      questionType,
-      questionSubject,
-      whomto_ask: whomtoAsk,
-      limit: 5,
-      skip: (currentPage - 1) * 5,
-    };
+
+    const payload = { questionType, questionSubject, whomto_ask: whomtoAsk, limit: 5, skip: (currentPage - 1) * 5, };
+
     dispatch(getAdminQuestions(payload));
   };
 

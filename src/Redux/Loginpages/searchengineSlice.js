@@ -1,7 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+
 import { logoutIfInvalidToken } from "../../helpers/handleError";
+
 const url = process.env.REACT_APP_API_BASE_URL;
+
 const searchengineSlice = createSlice({
     name: "searchengine",
     initialState: {
@@ -57,28 +60,28 @@ export const {
 // }
 export const searchengine =
     (limit = 5, skip = 0, act = 0) =>
-    async(dispatch) => {
-        if (act === 1) {
+        async (dispatch) => {
+            if (act === 1) {
 
-            localStorage.removeItem("token");
-            dispatch(reset());
-        } else {
-            dispatch(searchenginePending());
-            try {
-                const token = localStorage.getItem("token");
-                const { data } = await axios.post(
-                    `${url}/admin/adminviewquestion?limit=${limit}&skip=${skip}`, { token }
-                );
-                if (data.status === 1) {
-                    dispatch(searchengineSuccess(data));
-                } else {
-                    dispatch(searchengineFailure(data));
+                localStorage.removeItem("token");
+                dispatch(reset());
+            } else {
+                dispatch(searchenginePending());
+                try {
+                    const token = localStorage.getItem("token");
+                    const { data } = await axios.post(
+                        `${url}/admin/adminviewquestion?limit=${limit}&skip=${skip}`, { token }
+                    );
+                    if (data.status === 1) {
+                        dispatch(searchengineSuccess(data));
+                    } else {
+                        dispatch(searchengineFailure(data));
+                    }
+                } catch (error) {
+                    logoutIfInvalidToken(error.response)
+                    dispatch(searchengineFailure(error.response.data));
                 }
-            } catch (error) {
-                logoutIfInvalidToken(error.response)
-                dispatch(searchengineFailure(error.response.data));
             }
-        }
-    };
+        };
 
 export default searchengineSlice.reducer;

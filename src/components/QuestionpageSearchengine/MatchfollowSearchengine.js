@@ -3,6 +3,7 @@ import "./Que.css";
 import { useLocation } from "react-router-dom";
 
 const MatchfollowSearchengine = () => {
+
   const location = useLocation();
   const answerData = JSON.parse(location.state.data.answer);
 
@@ -28,12 +29,12 @@ const MatchfollowSearchengine = () => {
                   <div className="p--20 rbt-border radius-6 bg-primary-opacity">
                     {Array.isArray(answerData)
                       ? answerData.map((data) => (
-                          <div key={data.id}>
-                            <span className="mx-3">{data.id} </span>
-                            <span>=</span>
-                            <span className="mx-3">{data.value}</span>
-                          </div>
-                        ))
+                        <div key={data.id}>
+                          <span className="mx-3">{data.id} </span>
+                          <span>=</span>
+                          <span className="mx-3">{data.value}</span>
+                        </div>
+                      ))
                       : ""}
                   </div>
                 </div>

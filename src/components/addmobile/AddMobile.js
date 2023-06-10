@@ -18,13 +18,8 @@ import "../Css/Tutorlist.css";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const AddMobile = () => {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    control,
-    formState: { errors },
-  } = useForm({});
+
+  const { register, handleSubmit, reset, control, formState: { errors }, } = useForm({});
 
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
@@ -42,6 +37,7 @@ const AddMobile = () => {
   const handleChange = (event, value) => {
     setCurrentPage(value);
   };
+
   const totalPages = Math.ceil(data?.length / postsPerPage);
 
   const fetchData = async () => {
@@ -50,7 +46,6 @@ const AddMobile = () => {
       const response = await axios.post(`${url}/admin/getmobileno`, {
         token: token,
       });
-
       setData(response.data.document);
       setLoading1(false);
     } catch (error) {

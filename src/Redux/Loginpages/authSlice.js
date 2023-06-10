@@ -1,7 +1,9 @@
 import axios from "axios";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 const { createSlice } = require("@reduxjs/toolkit");
+
 const url = process.env.REACT_APP_API_BASE_URL;
+
 const authSlice = createSlice({
     name: "auth",
     initialState: {
@@ -40,17 +42,17 @@ const authSlice = createSlice({
 //Sign-In
 export const { resetAuth } = authSlice.actions;
 
-export const resetAuthAction = (formData) => async(dispatch) => {
-   dispatch(resetAuth());
- };
+export const resetAuthAction = (formData) => async (dispatch) => {
+    dispatch(resetAuth());
+};
 
 export const { signInPending, signInSuccess, signInFailure } =
-authSlice.actions;
-export const signIn = (formData) => async(dispatch) => {
+    authSlice.actions;
+export const signIn = (formData) => async (dispatch) => {
     dispatch(signInPending());
     try {
         const { data } = await axios.post(
-           ` ${url}/admin/login`,
+            ` ${url}/admin/login`,
             formData
         );
         dispatch(signInSuccess(data));

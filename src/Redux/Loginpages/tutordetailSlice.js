@@ -1,10 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios';
 import { createSlice } from "@reduxjs/toolkit";
+
 import { useParams } from 'react-router-dom';
+
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
 const url = process.env.REACT_APP_API_BASE_URL;
+
 const initialState = {
     data: [],
     isLoading: false,
@@ -13,7 +16,7 @@ const initialState = {
 }
 
 
-export const tutordetail = createAsyncThunk('tutors/Tutorspayment', async(page, { rejectWithValue }) => {
+export const tutordetail = createAsyncThunk('tutors/Tutorspayment', async (page, { rejectWithValue }) => {
     const token = localStorage.getItem('token')
     const { _id } = useParams();
     try {

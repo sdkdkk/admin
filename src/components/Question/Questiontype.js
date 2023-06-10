@@ -14,12 +14,8 @@ import "../Tutors/Tutorlist.css";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Questiontype = () => {
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formState: { errors },
-  } = useForm({});
+  
+  const { register, handleSubmit, reset, formState: { errors },} = useForm({});
 
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
@@ -97,9 +93,7 @@ const Questiontype = () => {
 
   function handleDelet(_id) {
     axios
-      .post(`${url}/admin/questiontype/${_id}`, {
-        token: token,
-      })
+      .post(`${url}/admin/questiontype/${_id}`, { token: token, })
       .then((response) => {
         fetchData();
         toast.success(response.data.message);

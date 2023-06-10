@@ -13,7 +13,7 @@ const initialState = {
 
 export const getstudentcontact = createAsyncThunk(
     "user/getUserList",
-    async(selectedStatus, { rejectWithValue }) => {
+    async (selectedStatus, { rejectWithValue }) => {
         const token = localStorage.getItem("token");
         try {
             const response = await axios.post(

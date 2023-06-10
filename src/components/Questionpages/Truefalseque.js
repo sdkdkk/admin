@@ -10,8 +10,10 @@ import { Button, Modal } from "react-bootstrap";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Truefalseque = () => {
+
   const location = useLocation();
   const navigate = useNavigate();
+
   const answer = location.state.data.allQuestions.answer;
   const question = location.state.data.allQuestions.question;
   const questionId = location.state.data.allQuestions.questionId;
@@ -19,21 +21,23 @@ const Truefalseque = () => {
   const explanation = location.state.data.allQuestions.explanation;
   const tutorId = location.state._id;
   const active = location.state.active;
+
   const { register, handleSubmit, control } = useForm({});
+
   const [isEditing, setEditing] = useState(false);
   const [data, setData] = useState([]);
+
   const token = localStorage.getItem("token");
 
   const [imageSrc, setImageSrc] = useState("");
   const [show, setShow] = useState(false);
-  
+
   const handleImageClick = (url) => {
     setShow(true);
     setImageSrc(url);
   };
 
   const onSubmit = async (data) => {
-    console.log(data);
 
     try {
       const response = await axios.post(
@@ -194,9 +198,9 @@ const Truefalseque = () => {
                 )}
 
                 {questionType === "MCQ-exp" ||
-                questionType === "TrueFalse-exp" ||
-                questionType === "FillInBlanks-exp" ||
-                questionType === "ShortAnswer-exp" ? (
+                  questionType === "TrueFalse-exp" ||
+                  questionType === "FillInBlanks-exp" ||
+                  questionType === "ShortAnswer-exp" ? (
                   <div className="col-md-12 col-lg-12 mb--20">
                     <h5>Explanation</h5>
                     <input
@@ -237,17 +241,17 @@ const Truefalseque = () => {
           </div>
         </div>
       </div>
-       {/* image show modal */}
-       <Modal show={show} onHide={() => setShow(false)}>
-       <Modal.Header closeButton className="border-0"></Modal.Header>
-       <Modal.Body className="text-center">
-         <img
-           style={{ maxWidth: "100%", maxHeight: "100%" }}
-           src={imageSrc}
-           alt="modal-img"
-         />
-       </Modal.Body>
-     </Modal>
+      {/* image show modal */}
+      <Modal show={show} onHide={() => setShow(false)}>
+        <Modal.Header closeButton className="border-0"></Modal.Header>
+        <Modal.Body className="text-center">
+          <img
+            style={{ maxWidth: "100%", maxHeight: "100%" }}
+            src={imageSrc}
+            alt="modal-img"
+          />
+        </Modal.Body>
+      </Modal>
     </>
   );
 };
