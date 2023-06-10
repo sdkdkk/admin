@@ -27,23 +27,23 @@ const Professionaldetails = () => {
   const uploadImage = (event) => {
     const file = event.target.files[0];
     const reader = new FileReader();
-  
+
     reader.onload = (event) => {
       const img = new Image();
       img.onload = () => {
         const canvas = document.createElement("canvas");
         const ctx = canvas.getContext("2d");
-  
+
         // Set the canvas width and height to match the image
         canvas.width = img.width;
         canvas.height = img.height;
-  
+
         // Draw the image on the canvas
         ctx.drawImage(img, 0, 0);
-  
+
         // get the resized image as a data URL
         const dataUrl = canvas.toDataURL();
-  
+
         // update the state with the new image
         setMyImage(dataUrl);
       };
@@ -51,7 +51,7 @@ const Professionaldetails = () => {
     };
     reader.readAsDataURL(file);
   };
-  
+
 
   const [user, setUser] = useState();
   const notify = (data) => toast(data);
@@ -81,11 +81,13 @@ const Professionaldetails = () => {
   const onSubmit = (data) => {
     setIsLoading(true);
     const formData = new FormData();
-    const files = new File([myimage], 'filename.png', { type: myimage.type });
+    const file = dataURLtoFile(myimage, "profilephoto.png");
+    // const files = new File([myimage], 'filename.png', { type: myimage.type });
     // const files = data.myimage;
 
     formData.append("token", token);
-    formData.append(`profilephoto`, myimage);
+    // formData.append(`profilephoto`, myimage);
+    formData.append("profilephoto", file);
     formData.append("name", data.name);
     formData.append("mobileNo", data.mobileNo);
     formData.append("country", data.country);
@@ -128,7 +130,22 @@ const Professionaldetails = () => {
         console.error(error);
       });
   };
-console.log(myimage)
+
+  console.log(myimage)
+
+  // Helper function to convert data URL to file
+  function dataURLtoFile(dataurl, filename) {
+    const arr = dataurl.split(",");
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, { type: mime });
+  }
+
   return (
     <div>
       <div className="container-scroller">
@@ -167,15 +184,15 @@ console.log(myimage)
                     <h3 className="page-title">Personal Details:</h3>
                   </div>
                   {user &&
-                    user.map((data , index) => {
+                    user.map((data, index) => {
                       return (
-                        <Form  key={index} onSubmit={handleSubmit(onSubmit)}>
+                        <Form key={index} onSubmit={handleSubmit(onSubmit)}>
                           <div className="row">
                             <div className="col-12 grid-margin stretch-card">
                               <div className="card">
                                 <div className="card-body">
                                   <div className="profile-details">
-                                   { console.log(data.personaldetails.profilephoto[0])}
+                                    {console.log(data.personaldetails.profilephoto[0])}
                                     <img
                                       type="file"
                                       name="image"
@@ -202,12 +219,12 @@ console.log(myimage)
                                           hidden
                                           accept="image/*"
                                           type="file"
-                                          onChange={(e)=>uploadImage(e)}
+                                          onChange={(e) => uploadImage(e)}
                                         />
                                       </Button>
-                                      <Button variant="contained" size="small" onClick={()=> setMyImage(null)}>
-        Reset
-      </Button>
+                                      <Button variant="contained" size="small" onClick={() => setMyImage(null)}>
+                                        Reset
+                                      </Button>
                                       <div>
                                         <small className="text-muted d-flex flex-column my-3 mx-3">
                                           Allowed JPG,GIf or PNG. Max size of
