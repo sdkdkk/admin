@@ -236,16 +236,16 @@ const Tutordetails = () => {
             ) : (
               <div className="second-section text-start mt-4 mx-4">
                   {tutorpaydetails.map((data, index) => {
-                  console.log(data.profilephoto[0])
+                 
                   return (
                     <div key={index} style={{ backgroundColor: "#c0d7ff" }}>
                       <div
                         className="row"
-                        style={{ backgroundColor: "#c0d7ff", borderRadius: '10px' }}>
+                        style={{ backgroundColor: "#c0d7ff" }}>
                         <div className="col">
                           <div className="profile">
                             <div className="profile-img mt-2">
-                              <img src={data.profilephoto[0]} alt=" " />
+                              <img src={data.profilephoto} alt=" " />
                             </div>
                             <div className="profile-info">
                               <h6 className="">{data.name}</h6>
@@ -417,11 +417,10 @@ const Tutordetails = () => {
                                 </tr>
                               </thead>
                               <tbody>
-                                {displayUsers.map((data, id) => (
+                                {displayUsers.map((data,id) => (
                                   <tr key={id}>
-                                    <td style={{ cursor: "pointer" }} onClick={() => {
-                                      toComponentB(data);
-                                    }}>
+                                    <td style={{ cursor: "pointer" }} onClick={() => { toComponentB(data);
+                                      }}>
                                       {data.allQuestions.question
                                         .split(" ")
                                         .slice(0, 3)
@@ -499,7 +498,7 @@ const Tutordetails = () => {
                                     </tr>
                                   </thead>
                                   <tbody>
-                                    {displayUsers.map((data, id) => (
+                                    {displayUsers.map((data,id) => (
                                       <tr key={id}>
                                         <td
                                           style={{ cursor: "pointer" }}

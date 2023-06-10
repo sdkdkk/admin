@@ -34,7 +34,7 @@ const Examdetails = () => {
 
   useEffect(() => {
     if (Object.keys(examInfo).length === 0 && !location.state?.data) {
-      history("/testexam");
+     // history("/testexam");
     }
   }, [examInfo, location.state?.data]);
 
