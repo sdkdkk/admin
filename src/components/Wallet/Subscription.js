@@ -134,61 +134,58 @@ const Subscription = () => {
                   <div className="card new-table">
                     <div className="card-body">
                       <Form onSubmit={handleSubmit(onSubmit)}>
-                        <div className="row mt-4">
-                          <div className="col-lg-2 col-md-4 ">
+                        <div className="row">
+                          {/* Form field for duration */}
+                          <div className="col-md-4">
+                            <label htmlFor="duration" className="form-label">
+                              Duration
+                            </label>
                             <input
                               type="text"
-                              className="form-control me-2"
+                              className="form-control"
+                              id="duration"
                               {...register("duration")}
                               readOnly
                             />
                           </div>
-                          <div className="col-lg-4 col-md-8">
-                            <div className="input-group mb-3 form-inline">
+
+                          {/* Form field for price */}
+                          <div className="col-md-4">
+                            <label htmlFor="price" className="form-label">
+                              Price
+                            </label>
+                            <div className="input-group mb-3">
                               <input
                                 type="number"
-                                className="form-control me-2"
-                                id="hoursInput"
-                                required
+                                className="form-control"
+                                id="price"
                                 {...register("price")}
+                                required
                               />
                               <span className="input-group-text">INR</span>
                             </div>
-                          </div>{" "}
-                          <div className="col-lg-2 col-md-8 my-2 d-flex form-switch">
-                            <input
-                              // className="form-check-input"
-                              // type="checkbox"
-                              // id="flexSwitchCheckChecked"
-                              // {...register("status")}
-                              // onChange={() => activeForm()}
-                              // defaultChecked={isActive}
-                              className="form-check-input checkbox"
-                              type="checkbox"
-                              id="flexSwitchCheckChecked"
-                              onChange={() => activeForm()}
-                              checked={isActive}
-                            />
                           </div>
-                        </div>
 
-                        <div className="row mt-2">
-                          <div className="col-lg-2 col-md-4">
-                            <h6>&nbsp;</h6>
+                          {/* Switch to activate/deactivate subscription plan */}
+                          <div className="col-md-2">
+                            <label htmlFor="subscription" className="form-label">
+                              Subscription
+                            </label>
+                            <div className="form-check form-switch mt-2">
+                              <input
+                                className="form-check-input"
+                                type="checkbox"
+                                id="subscription"
+                                onChange={() => activeForm()}
+                                checked={isActive}
+                              />
+                            </div>
                           </div>
-                          <div className="col-lg-4 col-md-8 mb-2 text-md-end">
-                            <Button
-                              variant="primary"
-                              type="submit"
-                              disabled={loading}
-                            >
-                              {isEditMode
-                                ? loading
-                                  ? "Loading..."
-                                  : "Update"
-                                : loading
-                                  ? "Loading..."
-                                  : "Add"}
+
+                          {/* Submit button */}
+                          <div className="col-md-2 d-flex align-items-end">
+                            <Button variant="primary" type="submit" disabled={loading}>
+                              {isEditMode ? (loading ? "Loading..." : "Update") : loading ? "Loading..." : "Add"}
                             </Button>
                           </div>
                         </div>
@@ -202,6 +199,7 @@ const Subscription = () => {
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table">
                     <div className="card-body">
+                      {/* Loading spinner while data is being fetched */}
                       {loading1 ? (
                         <p style={{ marginLeft: "400px", marginTop: "50px" }}>
                           <ColorRing
@@ -215,12 +213,12 @@ const Subscription = () => {
                           />
                         </p>
                       ) : (
+                        /* Table to display existing subscription plans */
                         <>
                           <Table
                             striped
                             bordered
-                            // hover
-                            responsive
+                            responsive // Make table responsive
                             className="single-color table "
                           >
                             <thead>
@@ -228,18 +226,19 @@ const Subscription = () => {
                                 <th>Sr.No</th>
                                 <th>Duration</th>
                                 <th>price</th>
-                                <th>Status </th>
+                                <th>Status</th>
                                 <th>Action</th>
                               </tr>
                             </thead>
                             <tbody>
+                              {/* Map over subscription plan data and display in table rows */}
                               {data?.map((data, index) => (
                                 <tr key={index}>
                                   <td>{index + 1}</td>
                                   <td>{data.duration}</td>
                                   <td>{data.price}</td>
                                   <td>
-                                    <span className="form-switch text-center">
+                                    <div className="form-check form-switch">
                                       <input
                                         className="form-check-input"
                                         type="checkbox"
@@ -247,14 +246,15 @@ const Subscription = () => {
                                         defaultChecked={data.isactive}
                                         onChange={(e) =>
                                           changestatus(
-                                            e.target.checked,
-                                            data._id,
+                                            e.target.value,
+                                            data.id,
                                             index
                                           )
                                         }
                                       />
-                                    </span>
+                                    </div>
                                   </td>
+                                  {/* Button to edit subscription plan */}
                                   <td>
                                     <Button
                                       variant="success"
