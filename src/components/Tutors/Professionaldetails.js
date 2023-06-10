@@ -111,11 +111,10 @@ const uploadImage = (event) => {
     console.log(data)
     setIsLoading(true);
     const formData = new FormData();
-    // const files = data.myimage;
-    
+    const file = dataURLtoFile(myimage, "profilephoto.png");
 
     formData.append("token", token);
-    formData.append(`profilephoto`, myimage);
+    formData.append("profilephoto", file);
     formData.append("name", data.name);
     formData.append("mobileNo", data.mobileNo);
     formData.append("country", data.country);
@@ -153,11 +152,23 @@ const uploadImage = (event) => {
         }
         setIsLoading(false);
       })
-
-      .catch((error) => {
-        console.error(error);
-      });
   };
+
+  console.log(myimage)
+
+  // Helper function to convert data URL to file
+  function dataURLtoFile(dataurl, filename) {
+    const arr = dataurl.split(",");
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, { type: mime });
+  }
+
   return (
     <div>
       <div className="container-scroller">
@@ -204,13 +215,16 @@ const uploadImage = (event) => {
                               <div className="card">
                                 <div className="card-body">
                                   <div className="profile-details">
-                                
+                                    {console.log(data.personaldetails.profilephoto[0])}
                                     <img
                                       type="file"
                                       name="image"
-                                      src={myimage ? myimage: data.personaldetails.profilephoto}
+                                      src={myimage === null ? data.personaldetails.profilephoto : myimage}
+                                      defaultValue={
+                                        data.professionaldetails.profilephoto
+                                      }
                                       className="profile-img"
-                                      alt=""
+                                      alt="img"
                                     />
                                     <div className="">
                                       <Button
