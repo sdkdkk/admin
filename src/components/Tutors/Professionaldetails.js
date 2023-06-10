@@ -22,64 +22,36 @@ const Professionaldetails = () => {
   const [loading, setLoading] = useState(false);
   const [myimage, setMyImage] = useState(null);
 
+  const uploadImage = (event) => {
+    const file = event.target.files[0];
+    const reader = new FileReader();
 
+    reader.onload = (event) => {
+      const img = new Image();
+      img.onload = () => {
+        const canvas = document.createElement("canvas");
+        const ctx = canvas.getContext("2d");
 
-//   const uploadImage = (event) => {
-//   const file = event.target.files[0];
-//   const reader = new FileReader();
+        // Set the canvas width and height to match the image
+        canvas.width = img.width;
+        canvas.height = img.height;
 
-//   reader.onload = (event) => {
-//     const img = new Image();
-//     img.onload = () => {
-//       const canvas = document.createElement("canvas");
-//       const ctx = canvas.getContext("2d");
+        // Draw the image on the canvas
+        ctx.drawImage(img, 0, 0);
 
-//       // Set the canvas width and height to match the image
-//       canvas.width = img.width;
-//       canvas.height = img.height;
+        // get the resized image as a data URL
+        const dataUrl = canvas.toDataURL();
 
-//       // Draw the image on the canvas
-//       ctx.drawImage(img, 0, 0);
-
-//       // Convert the canvas data to base64 format
-//       const dataUrl = canvas.toDataURL("image/jpeg");
-
-//       // Update the state with the new image
-//       setMyImage(dataUrl);
-//     };
-//     img.src = event.target.result;
-//   };
-//   reader.readAsDataURL(file);
-// };
-const uploadImage = (event) => {
-  const file = event.target.files[0];
-  const reader = new FileReader();
-
-  reader.onload = (event) => {
-    const img = new Image();
-    img.onload = () => {
-      const canvas = document.createElement("canvas");
-      const ctx = canvas.getContext("2d");
-
-      // Set the canvas width and height to match the image
-      canvas.width = img.width;
-      canvas.height = img.height;
-
-      // Draw the image on the canvas
-      ctx.drawImage(img, 0, 0);
-
-      // Convert the canvas data to base64 format
-      const dataUrl = canvas.toDataURL("image/jpeg");
-
-      // Update the state with the new image
-      setMyImage(dataUrl);
+        // update the state with the new image
+        setMyImage(dataUrl);
+      };
+      img.src = event.target.result;
     };
-    img.src = event.target.result;
+    reader.readAsDataURL(file);
   };
-  reader.readAsDataURL(file);
-};
 
-  const [user, setUser] = useState([]);
+
+  const [user, setUser] = useState();
   const notify = (data) => toast(data);
   const { register, handleSubmit, reset } = useForm();
 
@@ -104,16 +76,13 @@ const uploadImage = (event) => {
     fetchData();
   }, []);
 
-
   const onSubmit = (data) => {
-    console.log(data)
     setIsLoading(true);
     const formData = new FormData();
-    // const files = data.myimage;
-    
+    const file = dataURLtoFile(myimage, "profilephoto.png");
 
     formData.append("token", token);
-    formData.append(`profilephoto`, myimage);
+    formData.append("profilephoto", file);
     formData.append("name", data.name);
     formData.append("mobileNo", data.mobileNo);
     formData.append("country", data.country);
@@ -151,11 +120,21 @@ const uploadImage = (event) => {
         }
         setIsLoading(false);
       })
-
-      .catch((error) => {
-        console.error(error);
-      });
   };
+
+  // Helper function to convert data URL to file
+  function dataURLtoFile(dataurl, filename) {
+    const arr = dataurl.split(",");
+    const mime = arr[0].match(/:(.*?);/)[1];
+    const bstr = atob(arr[1]);
+    let n = bstr.length;
+    const u8arr = new Uint8Array(n);
+    while (n--) {
+      u8arr[n] = bstr.charCodeAt(n);
+    }
+    return new File([u8arr], filename, { type: mime });
+  }
+
   return (
     <div>
       <div className="container-scroller">
@@ -202,13 +181,16 @@ const uploadImage = (event) => {
                               <div className="card">
                                 <div className="card-body">
                                   <div className="profile-details">
-                                
+
                                     <img
                                       type="file"
                                       name="image"
-                                      src={myimage ? myimage: data.personaldetails.profilephoto}
+                                      src={myimage === null ? data.personaldetails.profilephoto : myimage}
+                                      defaultValue={
+                                        data.professionaldetails.profilephoto
+                                      }
                                       className="profile-img"
-                                      alt=""
+                                      alt="img"
                                     />
                                     <div className="">
                                       <Button
@@ -219,14 +201,14 @@ const uploadImage = (event) => {
                                         Upload
                                         <input
                                           hidden
-                                          // accept="image/*"
+                                          accept="image/*"
                                           type="file"
-                                          onChange={(e)=>uploadImage(e)}
+                                          onChange={(e) => uploadImage(e)}
                                         />
                                       </Button>
-                                      <Button variant="contained" size="small" onClick={()=> setMyImage(null)}>
-        Reset
-      </Button>
+                                      <Button variant="contained" size="small" onClick={() => setMyImage(null)}>
+                                        Reset
+                                      </Button>
                                       <div>
                                         <small className="text-muted d-flex flex-column my-3 mx-3">
                                           Allowed JPG,GIf or PNG. Max size of
