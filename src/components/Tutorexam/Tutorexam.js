@@ -17,14 +17,8 @@ import { useNavigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import { TutorExam } from "../../Redux/Loginpages/authSlice";
 import { getTutorQuestionsListApi } from "../../Redux/Loginpages/getTutorQuestionListSlice";
-import {
-  postTutorQuestionApi,
-  reset as resetPostTutorQuestionApi,
-} from "../../Redux/Loginpages/postTutorQuestionListSlice";
-import {
-  deleteTutorQuestion,
-  reset as resetDeleteTutorQuestion,
-} from "../../Redux/Loginpages/deleteTutorQuestionSlice";
+import { postTutorQuestionApi, reset as resetPostTutorQuestionApi, } from "../../Redux/Loginpages/postTutorQuestionListSlice";
+import { deleteTutorQuestion, reset as resetDeleteTutorQuestion, } from "../../Redux/Loginpages/deleteTutorQuestionSlice";
 import { updateTutorQuestionApi } from "../../Redux/Loginpages/updateTutorQuestionSlice";
 import axios from "axios";
 import { logoutIfInvalidToken } from "../../helpers/handleError";

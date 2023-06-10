@@ -19,9 +19,9 @@ import { toast } from "react-toastify";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Tutordetails = () => {
+
   const dispatch = useDispatch();
   const { _id, active } = useParams();
-  console.log(_id);
   useEffect(() => {
     dispatch(tutordetail(_id));
   }, [dispatch, _id]);
@@ -60,10 +60,6 @@ const Tutordetails = () => {
         setLoader(false);
       } catch (error) {
         logoutIfInvalidToken(error.response);
-        // if (error.response) {
-        // } else if (error.request) {
-        // } else {
-        // }
       }
     };
 
@@ -76,10 +72,7 @@ const Tutordetails = () => {
       status: 3,
     };
     try {
-      const { data } = await axios.post(
-        `${url}/admin/tutorstatus/${_id}`,
-        tutorsObjData
-      );
+      const { data } = await axios.post(`${url}/admin/tutorstatus/${_id}`, tutorsObjData);
 
       if (data.message) {
         toast.success(data.message);
@@ -97,10 +90,7 @@ const Tutordetails = () => {
       status: 2,
     };
     try {
-      const { data } = await axios.post(
-        `${url}/admin/tutorstatus/${_id}`,
-        tutorsObjData
-      );
+      const { data } = await axios.post(`${url}/admin/tutorstatus/${_id}`, tutorsObjData);
 
       if (data.message) {
         toast.success(data.message);
@@ -194,7 +184,6 @@ const Tutordetails = () => {
   };
 
   const toComponentB = (data) => {
-    console.log(data, _id);
     navigate("/tutorquestiondetails", { state: { data, _id, active } });
   };
 
@@ -235,8 +224,8 @@ const Tutordetails = () => {
               </div>
             ) : (
               <div className="second-section text-start mt-4 mx-4">
-                  {tutorpaydetails.map((data, index) => {
-                 
+                {tutorpaydetails.map((data, index) => {
+
                   return (
                     <div key={index} style={{ backgroundColor: "#c0d7ff" }}>
                       <div
@@ -417,10 +406,11 @@ const Tutordetails = () => {
                                 </tr>
                               </thead>
                               <tbody>
-                                {displayUsers.map((data,id) => (
+                                {displayUsers.map((data, id) => (
                                   <tr key={id}>
-                                    <td style={{ cursor: "pointer" }} onClick={() => { toComponentB(data);
-                                      }}>
+                                    <td style={{ cursor: "pointer" }} onClick={() => {
+                                      toComponentB(data);
+                                    }}>
                                       {data.allQuestions.question
                                         .split(" ")
                                         .slice(0, 3)
@@ -498,7 +488,7 @@ const Tutordetails = () => {
                                     </tr>
                                   </thead>
                                   <tbody>
-                                    {displayUsers.map((data,id) => (
+                                    {displayUsers.map((data, id) => (
                                       <tr key={id}>
                                         <td
                                           style={{ cursor: "pointer" }}

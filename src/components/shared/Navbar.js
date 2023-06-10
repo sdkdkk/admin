@@ -9,9 +9,6 @@ const Navbar = () => {
   function toggleOffcanvas() {
     document.querySelector('.sidebar-offcanvas').classList.toggle('active');
   }
-  // function toggleRightSidebar() {
-  //   document.querySelector('.right-sidebar').classList.toggle('open');
-  // }
 
   return (
     <nav className="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">

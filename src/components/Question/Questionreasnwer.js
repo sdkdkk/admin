@@ -11,11 +11,7 @@ import { logoutIfInvalidToken } from "../../helpers/handleError";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Questionreasnwer = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm({});
+  const { register, handleSubmit, formState: { errors }, } = useForm({});
 
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
@@ -122,7 +118,7 @@ const Questionreasnwer = () => {
                               <label
                                 htmlFor="hoursInput"
                                 className="form-label">
-                                
+
                                 Hours:
                               </label>
                               <input
@@ -134,10 +130,10 @@ const Questionreasnwer = () => {
                                   loading1 || conversionRate.length === 0
                                     ? ""
                                     : String(
-                                        Math.floor(
-                                          conversionRate.reanswer_time / 60
-                                        )
+                                      Math.floor(
+                                        conversionRate.reanswer_time / 60
                                       )
+                                    )
                                 }
                                 {...register("hours")}
                               />
@@ -153,7 +149,7 @@ const Questionreasnwer = () => {
                               <label
                                 htmlFor="minutesOutput"
                                 className="form-label">
-                                
+
                                 Minutes:
                               </label>
                               <input

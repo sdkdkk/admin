@@ -19,35 +19,20 @@ const IssueInfo = () => {
   const location = useLocation();
   const { issueData } = location.state;
   const token = localStorage.getItem("token");
-  console.log(issueData);
 
-  console.log(issueData.allQuestions.questionId);
-  const {
-    register,
-    handleSubmit,
-    reset,
-    watch,
-    formState: { errors },
-  } = useForm({});
+  const { register, handleSubmit, reset, watch, formState: { errors },} = useForm({});
 
   const onSubmit = async (data) => {
-    console.log(data);
-    const issueSubData = {
-      token: token,
-      questionId: issueData.allQuestions.questionId,
-      questionSubject: data.questionSubject,
-    };
+    const issueSubData = { token: token, questionId: issueData.allQuestions.questionId, questionSubject: data.questionSubject,};
     try {
       const { data } = await axios.post(
         `${url}/admin/updateissuesubject`,
         issueSubData
       );
-      console.log(data);
       if (data.status === 1) {
         toast.success(data.message);
         reset();
       } else {
-        console.log(data);
         toast.error(data.error);
       }
     } catch (error) {
@@ -59,8 +44,6 @@ const IssueInfo = () => {
     fetchSubjectData();
   }, []);
 
-  console.log(issueData);
-  console.log(issueData.allQuestions.questionType);
 
   const fetchSubjectData = async () => {
     try {
@@ -80,10 +63,8 @@ const IssueInfo = () => {
     };
     try {
       const response = await axios.post(`${url}/admin/issuesolve`, issueSolve);
-      console.log(response);
     } catch (error) {
       // notify("Invalid refresh token!");
-      console.log(error);
     }
   };
   return (

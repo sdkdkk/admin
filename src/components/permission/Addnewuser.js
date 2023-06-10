@@ -12,21 +12,17 @@ import { logoutIfInvalidToken } from "../../helpers/handleError";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Addnewuser = () => {
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-    reset,
-      setValue
-  } = useForm({ });
+
+  const { register, handleSubmit, watch, formState: { errors }, reset, setValue } = useForm({});
   const password = watch("password");
   const navigate = useNavigate();
   const notify = (data) => toast(data);
+
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [data, setData] = useState([]);
   const [roleData, setRoleData] = useState([]);
+
   let token = localStorage.getItem("token");
 
   const onSubmit = async (data) => {
@@ -95,11 +91,7 @@ const Addnewuser = () => {
 
   const adminrolename = async () => {
     try {
-      const response = await axios.post(
-        `${url}/admin/role`,
-        {
-          token: token,
-        }
+      const response = await axios.post(`${url}/admin/role`, {token: token,}
       );
       setRoleData(response.data.data);
       setLoading1(false);
@@ -134,7 +126,7 @@ const Addnewuser = () => {
   const defaultRoleId = roleData?.find((a) => a.rolename === roleValue)?._id;
 
   useEffect(() => {
-    if(!filtrData?.[0] || !defaultRoleId) return
+    if (!filtrData?.[0] || !defaultRoleId) return
     const defaultData = { ...filtrData?.[0], role: defaultRoleId };
     reset(defaultData);
     setValue("isactive", filtrData?.[0]?.isactive.toString())
@@ -287,9 +279,8 @@ const Addnewuser = () => {
                             </label>
                             <div className="form-check">
                               <input
-                                className={`form-check-input ${
-                                  errors.accountStatus ? "is-invalid" : ""
-                                }`}
+                                className={`form-check-input ${errors.accountStatus ? "is-invalid" : ""
+                                  }`}
                                 type="radio"
                                 name="account-status"
                                 id="isactive"
@@ -307,9 +298,8 @@ const Addnewuser = () => {
                             </div>
                             <div className="form-check">
                               <input
-                                className={`form-check-input ${
-                                  errors.accountStatus ? "is-invalid" : ""
-                                }`}
+                                className={`form-check-input ${errors.accountStatus ? "is-invalid" : ""
+                                  }`}
                                 type="radio"
                                 name="account-status"
                                 id="disabled"

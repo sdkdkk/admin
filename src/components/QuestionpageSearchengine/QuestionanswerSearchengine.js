@@ -4,12 +4,13 @@ import { useLocation } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 
 const QuestionanswerSearchengine = () => {
+
   const location = useLocation();
-  const { question, answer, questionSubject, questionType, status } =
-    location.state.data;
+  const { question, answer, questionSubject, questionType, status } = location.state.data;
 
   const [imageSrc, setImageSrc] = useState("");
   const [show, setShow] = useState(false);
+
   const handleImageClick = (url) => {
     setShow(true);
     setImageSrc(url);
@@ -69,7 +70,7 @@ const QuestionanswerSearchengine = () => {
       <Modal show={show} onHide={() => setShow(false)}>
         <Modal.Header closeButton className="border-0"></Modal.Header>
         <Modal.Body className="text-center">
-          
+
           <img
             style={{ maxWidth: "100%", maxHeight: "100%" }}
             src={imageSrc}

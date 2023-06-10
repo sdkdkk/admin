@@ -29,14 +29,7 @@ const Addnew = () => {
   const [isExp, setIsExp] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  const {
-    register,
-    handleSubmit,
-    control,
-    editorRef,
-    reset,
-    formState: { errors },
-  } = useForm({
+  const { register, handleSubmit, control, editorRef, reset, formState: { errors }, } = useForm({
     defaultValues: {
       questionType: "",
     },

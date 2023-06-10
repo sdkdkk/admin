@@ -1,12 +1,8 @@
 import React, { useEffect, useState } from "react";
-// import { Button } from "react-bootstrap";
-// import { Link } from "react-router-dom";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
 import "../Css/Tutorlist.css";
-import { DateObject } from "react-multi-date-picker";
-import Wallets from "./Wallet.json";
 import { Pagination } from "@mui/material";
 import { getWalletData } from "../../Redux/Loginpages/getWalletDataSlice";
 import { useDispatch, useSelector } from "react-redux";
@@ -20,11 +16,6 @@ const Wallet = () => {
     const history = useNavigate();
     const getWalletDataState = useSelector(state => state.getWalletData)
     const walletTransactions = getWalletDataState?.data?.transactions
-    //date picker
-    // const [values, setValues] = useState([
-    //     new DateObject().subtract(4, "days"),
-    //     new DateObject().add(4, "days"),
-    // ]);
 
     //Pagination
     const [currentPage, setCurrentPage] = useState(1);

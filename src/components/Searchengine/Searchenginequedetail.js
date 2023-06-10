@@ -12,6 +12,7 @@ import QuestionanswerSearchengine from "../QuestionpageSearchengine/Questionansw
 import TruefalsequeSearchengine from "../QuestionpageSearchengine/TruefalsequeSearchengine";
 
 const Searchenginequedetail = () => {
+
   const location = useLocation();
   const getresponse = location.state.data;
 
@@ -38,25 +39,25 @@ const Searchenginequedetail = () => {
                                 <div>
                                   {location.state.data
                                     .questionType === "TrueFalse-exp" ||
-                                  location.state.data
-                                    .questionType === "TrueFalse" ? (
+                                    location.state.data
+                                      .questionType === "TrueFalse" ? (
                                     <TruefalsequeSearchengine />
                                   ) : location.state.data
-                                      .questionType === "MCQ-exp" ||
+                                    .questionType === "MCQ-exp" ||
                                     location.state.data
                                       .questionType === "MCQ" ? (
                                     <McqquestionSearchengine />
                                   ) : location.state.data
-                                      .questionType === "FillInBlanks-exp" ||
+                                    .questionType === "FillInBlanks-exp" ||
                                     location.state.data
                                       .questionType === "FillInBlanks" ? (
                                     <FillupsSearchengine />
                                   ) : location.state.data
-                                      .questionType ===
-                                      "MatchTheFollowing-less5" ||
+                                    .questionType ===
+                                    "MatchTheFollowing-less5" ||
                                     location.state.data
                                       .questionType ===
-                                      "MatchTheFollowing-more5" ? (
+                                    "MatchTheFollowing-more5" ? (
                                     <MatchfollowSearchengine />
                                   ) : (
                                     <QuestionanswerSearchengine />

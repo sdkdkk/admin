@@ -1,8 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axios from 'axios';
 import { createSlice } from "@reduxjs/toolkit";
+
 import { logoutIfInvalidToken } from "../../helpers/handleError";
+
 const url = process.env.REACT_APP_API_BASE_URL;
+
 const initialState = {
     data: [],
     isLoading: false,
@@ -11,7 +14,7 @@ const initialState = {
 }
 
 
-export const postTutorQuestionApi = createAsyncThunk('admin/ask/tutorexamquestion', async(payload, { rejectWithValue }) => {
+export const postTutorQuestionApi = createAsyncThunk('admin/ask/tutorexamquestion', async (payload, { rejectWithValue }) => {
     const token = localStorage.getItem('token')
     try {
         const response = await axios.post(`${url}/admin/ask/tutorexamquestion`, { token, ...payload });
@@ -41,7 +44,7 @@ export const postTutorQuestionSlice = createSlice({
             state.isLoading = false;
             state.isSuccess = false;
             state.errorMessage = payload;
-            
+
         }
     }
 })

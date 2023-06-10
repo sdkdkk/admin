@@ -21,8 +21,6 @@ const Professionaldetails = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [loading, setLoading] = useState(false);
   const [myimage, setMyImage] = useState(null);
-  const [width, setWidth] = useState(null);
-  const [height, setHeight] = useState(null);
 
 
 

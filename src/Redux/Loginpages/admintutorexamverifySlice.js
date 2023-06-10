@@ -13,7 +13,7 @@ const initialState = {
 
 
 
-export const admintutorexamverify = createAsyncThunk('user/getUserList', async(page, { rejectWithValue }) => {
+export const admintutorexamverify = createAsyncThunk('user/getUserList', async (page, { rejectWithValue }) => {
     const token = localStorage.getItem('token')
     try {
         const token = localStorage.getItem('token')

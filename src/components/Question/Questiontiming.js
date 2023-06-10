@@ -65,9 +65,7 @@ const Questiontiming = () => {
     const admin_time = adminhours * 60 + adminminutes;
 
     const unsolvedhours = data.unsolvedhours ? parseInt(data.unsolvedhours) : 0;
-    const unsolvedminutes = data.unsolvedminutes
-      ? parseInt(data.unsolvedminutes)
-      : 0;
+    const unsolvedminutes = data.unsolvedminutes ? parseInt(data.unsolvedminutes) : 0;
     const unsolved_time = unsolvedhours * 60 + unsolvedminutes;
 
     let timingObjData = {
@@ -84,10 +82,7 @@ const Questiontiming = () => {
     };
 
     try {
-      const { data } = await axios.post(
-        `${url}/admin/setquestiontiming`,
-        timingObjData
-      );
+      const { data } = await axios.post(`${url}/admin/setquestiontiming`, timingObjData);
 
       if (data.status === 1) {
         notify(data.message);
@@ -106,11 +101,14 @@ const Questiontiming = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(8);
+
   const indexOfLastPage = Math.min(currentPage * postsPerPage, data.length);
   const indexOfFirstPage = (currentPage - 1) * postsPerPage;
   const displayUsers = data.slice(indexOfFirstPage, indexOfLastPage);
   const pageCount = Math.ceil(data.length / postsPerPage);
+
   let token = localStorage.getItem("token");
+
   const handleChange = (event, value) => {
     setCurrentPage(value);
   };
@@ -154,9 +152,7 @@ const Questiontiming = () => {
 
   function handleDeleteClick(_id) {
     axios
-      .post(`${url}/admin/questiontiming/${_id}`, {
-        token: token,
-      })
+      .post(`${url}/admin/questiontiming/${_id}`, { token: token, })
       .then((response) => {
         fetchData();
         toast.success(response.data.message);

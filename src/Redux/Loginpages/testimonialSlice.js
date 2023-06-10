@@ -49,7 +49,7 @@ export const Testimoniald = (token) => async (dispatch) => {
     dispatch(testimonialPending());
     try {
 
-        const { data } = await axios.post(`${url}/admin/gettestimonial`, {token});
+        const { data } = await axios.post(`${url}/admin/gettestimonial`, { token });
 
         if (data.status === 1)
             dispatch(testimonialSuccess(data));

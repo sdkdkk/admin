@@ -3,13 +3,9 @@ import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
 import "./Exam.css";
-import { Link } from "react-router-dom";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  admintutorexamresponse,
-  reset,
-} from "../../Redux/Loginpages/admintutorexamresponseSlice";
+import { admintutorexamresponse, reset, } from "../../Redux/Loginpages/admintutorexamresponseSlice";
 import { toast } from "react-toastify";
 
 const Examdetails = () => {
@@ -21,7 +17,6 @@ const Examdetails = () => {
     (state) => state.admintutorexamresponse
   );
 
-  console.log(admintutorexamresponseState.data.message);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [examInfo, setExamInfo] = useState({});
   const [selectedValue, setSelectedValue] = useState([]);
@@ -34,16 +29,16 @@ const Examdetails = () => {
 
   useEffect(() => {
     if (Object.keys(examInfo).length === 0 && !location.state?.data) {
-     // history("/testexam");
+      // history("/testexam");
     }
   }, [examInfo, location.state?.data]);
 
   useEffect(() => {
     if (admintutorexamresponseState?.isSuccess) {
-      
+
       dispatch(reset());
 
-       history("/tutorlist");
+      history("/tutorlist");
     }
   }, [admintutorexamresponseState?.isSuccess]);
 
@@ -67,15 +62,15 @@ const Examdetails = () => {
       setCurrentIndex(currentIndex + 1);
     }
     if (admintutorexamresponseState.data.message) {
-    history("/tutorlist")
+      history("/tutorlist")
     }
   };
 
   useEffect(() => {
-  if (admintutorexamresponseState.data.status===1) {
-    toast.success(admintutorexamresponseState.data.message)
+    if (admintutorexamresponseState.data.status === 1) {
+      toast.success(admintutorexamresponseState.data.message)
     } else {
-    toast.error(admintutorexamresponseState)
+      toast.error(admintutorexamresponseState)
     }
   }, [admintutorexamresponseState])
 

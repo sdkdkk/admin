@@ -14,6 +14,7 @@ import { Link } from "react-router-dom";
 import { ColorRing } from "react-loader-spinner";
 import Moment from "react-moment";
 
+
 const Studentlist = () => {
   const studentists = useSelector((state) => state.studentlist.data.document);
   const isLoading = useSelector((state) => state.studentlist.isLoading);
@@ -22,14 +23,14 @@ const Studentlist = () => {
   const [currentData, setCurrentData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(10);
+
   const indexOfLastPage = currentPage * postsPerPage;
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
-  const displayUsers =
-    currentData && currentData.slice(indexOfFirstPage, indexOfLastPage);
+  const displayUsers = currentData && currentData.slice(indexOfFirstPage, indexOfLastPage);
+
   const dispatch = useDispatch();
-  const totalPages = currentData
-    ? Math.ceil(currentData.length / postsPerPage)
-    : 0;
+
+  const totalPages = currentData ? Math.ceil(currentData.length / postsPerPage) : 0;
 
   //date picker
   const [values, setValues] = useState([

@@ -14,12 +14,9 @@ const ForgotpassWord = () => {
   const { register, handleSubmit, reset } = useForm({});
 
   const onSubmit = async (data) => {
-      
+
     try {
-      const { response } = await axios.post(
-        `${url}/admin/forgotpassword`,
-        data
-      );
+      const { response } = await axios.post(`${url}/admin/forgotpassword`,  data );
 
       if (data.status === 1) {
         notify(data.message);

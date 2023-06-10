@@ -36,6 +36,7 @@ const IssueQuestion = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(8);
+
   const indexOfLastPage = currentPage * postsPerPage;
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
   const displayUsers = data?.slice(indexOfFirstPage, indexOfLastPage);
@@ -43,6 +44,7 @@ const IssueQuestion = () => {
   const handleChange = (event, value) => {
     setCurrentPage(value);
   };
+
   return (
     <>
       <div>
@@ -133,7 +135,7 @@ const IssueQuestion = () => {
                                   onChange={handleChange}
                                   shape="rounded"
                                   variant="outlined"
-                                  // showFirstButton
+                                // showFirstButton
                                 />
                               </div>
                             </>

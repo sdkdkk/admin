@@ -11,20 +11,28 @@ import { toast } from "react-toastify";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Mcqquestion = () => {
+
   const location = useLocation();
   const navigate = useNavigate();
+
   const question = location.state.data.allQuestions.question;
   const answer = location.state.data.allQuestions.answer;
   const explanation = location.state.data.allQuestions.explanation;
   const questionId = location.state.data.allQuestions.questionId;
+
   const [show, setShow] = useState(false);
   const [data, setData] = useState([]);
+
   const { register, handleSubmit, control } = useForm({});
+
   const [isEditing, setEditing] = useState(false);
+
   const tutorId = location.state._id;
   const active = location.state.active;
   const questionType = location.state.data.allQuestions.questionType;
+
   let token = localStorage.getItem("token");
+
   const [imageSrc, setImageSrc] = useState("");
 
   const handleImageClick = (url) => {
@@ -173,7 +181,7 @@ const Mcqquestion = () => {
                               />
                               <label
                                 className="form-check-label"
-                                // htmlFor="rbt-radio-2"
+                              // htmlFor="rbt-radio-2"
                               >
                                 B)
                               </label>
@@ -235,9 +243,9 @@ const Mcqquestion = () => {
                   )}
                 </div>
                 {questionType === "MCQ-exp" ||
-                questionType === "TrueFalse-exp" ||
-                questionType === "FillInBlanks-exp" ||
-                questionType === "ShortAnswer-exp" ? (
+                  questionType === "TrueFalse-exp" ||
+                  questionType === "FillInBlanks-exp" ||
+                  questionType === "ShortAnswer-exp" ? (
                   <div className="col-md-12 col-lg-12 mb--20">
                     <h5>Explanation</h5>
                     <input
