@@ -144,9 +144,3 @@ p.Answer {
         overflow: auto;
     }
 }
-
-@media only screen and (min-width: 375px) {
-    .subscriptioninr {
-        margin-top: 10px;
-    }
-}
