@@ -24,36 +24,64 @@ const Professionaldetails = () => {
   const [width, setWidth] = useState(null);
   const [height, setHeight] = useState(null);
 
-  const uploadImage = (event) => {
-    const file = event.target.files[0];
-    const reader = new FileReader();
 
-    reader.onload = (event) => {
-      const img = new Image();
-      img.onload = () => {
-        const canvas = document.createElement("canvas");
-        const ctx = canvas.getContext("2d");
 
-        // Set the canvas width and height to match the image
-        canvas.width = img.width;
-        canvas.height = img.height;
+//   const uploadImage = (event) => {
+//   const file = event.target.files[0];
+//   const reader = new FileReader();
 
-        // Draw the image on the canvas
-        ctx.drawImage(img, 0, 0);
+//   reader.onload = (event) => {
+//     const img = new Image();
+//     img.onload = () => {
+//       const canvas = document.createElement("canvas");
+//       const ctx = canvas.getContext("2d");
 
-        // get the resized image as a data URL
-        const dataUrl = canvas.toDataURL();
+//       // Set the canvas width and height to match the image
+//       canvas.width = img.width;
+//       canvas.height = img.height;
 
-        // update the state with the new image
-        setMyImage(dataUrl);
-      };
-      img.src = event.target.result;
+//       // Draw the image on the canvas
+//       ctx.drawImage(img, 0, 0);
+
+//       // Convert the canvas data to base64 format
+//       const dataUrl = canvas.toDataURL("image/jpeg");
+
+//       // Update the state with the new image
+//       setMyImage(dataUrl);
+//     };
+//     img.src = event.target.result;
+//   };
+//   reader.readAsDataURL(file);
+// };
+const uploadImage = (event) => {
+  const file = event.target.files[0];
+  const reader = new FileReader();
+
+  reader.onload = (event) => {
+    const img = new Image();
+    img.onload = () => {
+      const canvas = document.createElement("canvas");
+      const ctx = canvas.getContext("2d");
+
+      // Set the canvas width and height to match the image
+      canvas.width = img.width;
+      canvas.height = img.height;
+
+      // Draw the image on the canvas
+      ctx.drawImage(img, 0, 0);
+
+      // Convert the canvas data to base64 format
+      const dataUrl = canvas.toDataURL("image/jpeg");
+
+      // Update the state with the new image
+      setMyImage(dataUrl);
     };
-    reader.readAsDataURL(file);
+    img.src = event.target.result;
   };
+  reader.readAsDataURL(file);
+};
 
-
-  const [user, setUser] = useState();
+  const [user, setUser] = useState([]);
   const notify = (data) => toast(data);
   const { register, handleSubmit, reset } = useForm();
 
@@ -78,16 +106,16 @@ const Professionaldetails = () => {
     fetchData();
   }, []);
 
+
   const onSubmit = (data) => {
+    console.log(data)
     setIsLoading(true);
     const formData = new FormData();
-    const file = dataURLtoFile(myimage, "profilephoto.png");
-    // const files = new File([myimage], 'filename.png', { type: myimage.type });
     // const files = data.myimage;
+    
 
     formData.append("token", token);
-    // formData.append(`profilephoto`, myimage);
-    formData.append("profilephoto", file);
+    formData.append(`profilephoto`, myimage);
     formData.append("name", data.name);
     formData.append("mobileNo", data.mobileNo);
     formData.append("country", data.country);
@@ -130,22 +158,6 @@ const Professionaldetails = () => {
         console.error(error);
       });
   };
-
-  console.log(myimage)
-
-  // Helper function to convert data URL to file
-  function dataURLtoFile(dataurl, filename) {
-    const arr = dataurl.split(",");
-    const mime = arr[0].match(/:(.*?);/)[1];
-    const bstr = atob(arr[1]);
-    let n = bstr.length;
-    const u8arr = new Uint8Array(n);
-    while (n--) {
-      u8arr[n] = bstr.charCodeAt(n);
-    }
-    return new File([u8arr], filename, { type: mime });
-  }
-
   return (
     <div>
       <div className="container-scroller">
@@ -184,27 +196,19 @@ const Professionaldetails = () => {
                     <h3 className="page-title">Personal Details:</h3>
                   </div>
                   {user &&
-                    user.map((data, index) => {
+                    user.map((data , index) => {
                       return (
-                        <Form key={index} onSubmit={handleSubmit(onSubmit)}>
+                        <Form  key={index} onSubmit={handleSubmit(onSubmit)}>
                           <div className="row">
                             <div className="col-12 grid-margin stretch-card">
                               <div className="card">
                                 <div className="card-body">
                                   <div className="profile-details">
-                                    {console.log(data.personaldetails.profilephoto[0])}
+                                
                                     <img
                                       type="file"
                                       name="image"
-                                      // src={myimage === null ? data.personaldetails.profilephoto[0] : myimage}
-                                      src={
-                                        myimage === null
-                                          ? data.personaldetails.profilephoto
-                                          : myimage
-                                      }
-                                      defaultValue={
-                                        data.professionaldetails.profilephoto
-                                      }
+                                      src={myimage ? myimage: data.personaldetails.profilephoto}
                                       className="profile-img"
                                       alt=""
                                     />
@@ -217,14 +221,14 @@ const Professionaldetails = () => {
                                         Upload
                                         <input
                                           hidden
-                                          accept="image/*"
+                                          // accept="image/*"
                                           type="file"
-                                          onChange={(e) => uploadImage(e)}
+                                          onChange={(e)=>uploadImage(e)}
                                         />
                                       </Button>
-                                      <Button variant="contained" size="small" onClick={() => setMyImage(null)}>
-                                        Reset
-                                      </Button>
+                                      <Button variant="contained" size="small" onClick={()=> setMyImage(null)}>
+        Reset
+      </Button>
                                       <div>
                                         <small className="text-muted d-flex flex-column my-3 mx-3">
                                           Allowed JPG,GIf or PNG. Max size of
