@@ -61,9 +61,8 @@ const Contactus = () => {
   const [postsPerPage] = useState(8);
   const indexOfLastPage = currentPage * postsPerPage;
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
-  let displayUsers =
-    currentData && currentData.slice(indexOfFirstPage, indexOfLastPage);
-  const totalPages = Math.ceil(currentData?.length / postsPerPage);
+  let displayUsers =currentData && currentData.slice(indexOfFirstPage, indexOfLastPage);
+  const totalPages = Math.ceil((currentData?.length || 0) / postsPerPage);
 
   const handleChange = (event, value) => {
     setCurrentPage(value);
@@ -153,6 +152,7 @@ const Contactus = () => {
                         <div className="row">
                           <div className="col-12 col-md-6">
                             <input
+                              className="w-100"
                               type="text"
                               id="fname"
                               placeholder="search name"
@@ -163,7 +163,7 @@ const Contactus = () => {
                           </div>
                           <div className="col-12 col-md-2 mt-3 mt-md-0">
                             <Button
-                              className="algin-right"
+                              className="algin-right mt-1"
                               onClick={handleSearch}>
                               Search
                             </Button>
@@ -172,7 +172,7 @@ const Contactus = () => {
                             <div className="filter-select rbt-modern-select ">
                               <div className="dropdown react-bootstrap-select w-100">
                                 <select
-                                  className="w-100 form-select"
+                                  className="w-100 form-select mt-1"
                                   value={status.selectedStatus}
                                   onChange={handleStatusChange}
                                   id="displayname">
@@ -207,7 +207,8 @@ const Contactus = () => {
                         <div className="card-body">
                           <table className="table v-top">
                             <thead>
-                              <tr>
+                                <tr>
+                                <th scope="col">Sr. No</th>
                                 <th scope="col">Full Name</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Mobile No</th>
@@ -216,9 +217,10 @@ const Contactus = () => {
                               </tr>
                             </thead>
                             {displayUsers && displayUsers.length > 0 ? (
-                              displayUsers.map((data) => (
+                              displayUsers.map((data,id) => (
                                 <tbody key={data._id}>
                                   <tr>
+                                    <td>{id+1}</td>
                                     <td>{data.fullname || "-"}</td>
                                     <td>{data.email.substring(0, 20)}</td>
                                     <td>{data.mobileNo || "-"}</td>
@@ -247,7 +249,7 @@ const Contactus = () => {
                           </table>
                           <div className="table-pagination">
                             <Pagination
-                              count={totalPages}
+                             count={totalPages}
                               page={currentPage}
                               onChange={handleChange}
                               shape="rounded"

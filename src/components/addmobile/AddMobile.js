@@ -222,7 +222,7 @@ const AddMobile = () => {
                               </thead>
                               <tbody>
                                 {displayUsers?.map((data, index, _id) => (
-                                  <tr key={data._id}>
+                                  <tr key={index}>
                                     <td>
                                       {index +
                                         1 +

@@ -131,6 +131,7 @@ const Testimonial = () => {
                           }`}>
                         <thead>
                           <tr>
+                            <th scope="col">Sr No.</th>
                             <th scope="col">Sort Order</th>
                             <th scope="col">Profile Img</th>
                             <th scope="col">User</th>
@@ -145,6 +146,7 @@ const Testimonial = () => {
                                 .slice((currentPage - 1) * 5, currentPage * 5)
                                 .map((data, index) => (
                                   <tr key={data.id}>
+                                    <td>{ index +1}</td>
                                     <td>{data.sortOrder}</td>
                                     <td>
                                       <img

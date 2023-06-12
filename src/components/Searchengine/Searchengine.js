@@ -82,7 +82,8 @@ const Searchengine = () => {
                       ) : (
                         <table className="table v-top">
                           <thead>
-                            <tr>
+                              <tr>
+                              <th scope="col">Sr. No</th>
                               <th scope="col">Question</th>
                               <th scope="col">Question Type</th>
                               <th scope="col">Question Subject</th>
@@ -93,12 +94,13 @@ const Searchengine = () => {
                           <tbody>
                             {searchengineData.map((data, id) => (
                               <tr key={id}>
+                                <td>{id + 1}</td>
                                 <td
                                   style={{ cursor: "pointer" }}
                                   onClick={() => {
                                     toComponentB(data);
                                   }}>
-                                  {data.question.split(" ").slice(0, 3).join(" ")}
+                                     <p className="question">{data.question.split(" ").slice(0, 3).join(" ")}</p>
                                 </td>
                                 <td>{data.questionType}</td>
                                 <td>{data.questionSubject}</td>

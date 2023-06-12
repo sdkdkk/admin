@@ -282,8 +282,10 @@ const Tutorlist = () => {
                                     onChange={setValues}
                                     range
                                     render={<InputIcon />}
-                                    width={900}
-                                  />
+                                   // width={100}
+                                      />
+                                       
+                             
                                 </div>
 
                                 <div className="col-md-2">

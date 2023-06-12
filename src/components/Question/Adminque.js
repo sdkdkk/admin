@@ -155,9 +155,9 @@ const Adminque = () => {
                                                 onChange={(e) => setQuestionSubject(e.target.value)}
                                                 className="w-100 form-select"
                                                 id="displayname">
-                                                {subjectList.map((a) => {
+                                                {subjectList.map((a, id) => {
                                                     return (
-                                                        <option value={a.questionSubject}>
+                                                        <option key={id} value={a.questionSubject}>
                                                             {a.questionSubject}
                                                         </option>
                                                     );
@@ -220,9 +220,9 @@ const Adminque = () => {
                                                     </thead>
                                                     <tbody>
                                                         {transactions.map((a, index) => (
-                                                            <tr>
+                                                            <tr key={index}>
                                                                 <td>{index + 1}</td>
-                                                                <td>{a.question}</td>
+                                                                <td><p className="question">{a.question}</p></td>
                                                                 <td>{a.questionType}</td>
                                                                 <td>{a.questionSubject}</td>
                                                                 <td>{a.status}</td>

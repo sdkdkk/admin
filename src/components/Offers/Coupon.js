@@ -258,7 +258,7 @@ const Coupon = () => {
 
                               <tbody>
                                 {displayUsers.map((data, index) => (
-                                  <tr key={data._id}>
+                                  <tr key={index}>
                                     <td>
                                       {index +
                                         1 +

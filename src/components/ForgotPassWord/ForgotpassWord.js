@@ -111,10 +111,11 @@ const ForgotpassWord = () => {
                           className="rbt-profile-row rbt-default-form row row--15"
                           onSubmit={handleSubmit(onSubmit)}
                         >
-                          <div className="col-lg-12 col-md-12 col-12 ">
+                          <div className="col-lg-12 col-md-12 col-12 mb-4">
                             <div className="rbt-form-group">
-                              <label>Email</label>
+                              <label className="fw-bolder">Email</label>
                               <input
+                                className="w-100"
                                 placeholder="Enter Your Email ID"
                                 type="email"
                                 required
@@ -143,8 +144,8 @@ const ForgotpassWord = () => {
                           </div>
                           <div className="col-lg-12 col-md-12 col-12 text-center mt--50">
                             Don’t have an account?
-                            <Link to="/signup" className="color-primary">
-                              Sign up
+                            <Link to="/login" className="color-primary">
+                              Sign in
                             </Link>
                           </div>
                         </form>
