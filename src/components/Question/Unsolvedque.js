@@ -129,9 +129,9 @@ const Unsolvedque = () => {
                                                 onChange={(e) => setQuestionSubject(e.target.value)}
                                                 className="w-100 form-select"
                                                 id="displayname">
-                                                {subjectList.map((a) => {
+                                                {subjectList.map((a,i) => {
                                                     return (
-                                                        <option value={a.questionSubject}>
+                                                        <option key={i} value={a.questionSubject}>
                                                             {a.questionSubject}
                                                         </option>
                                                     );
@@ -194,9 +194,9 @@ const Unsolvedque = () => {
                                                     </thead>
                                                     <tbody>
                                                         {transactions.map((a, index) => (
-                                                            <tr>
-                                                                <td>{a._id}</td>
-                                                                <td>{a.question}</td>
+                                                            <tr key={index}>
+                                                                <td>{index+1}</td>
+                                                                <td><p className="question">{a.question}</p></td>
                                                                 <td>{a.questionType}</td>
                                                                 <td>{a.questionSubject}</td>
                                                                 <td>{a.status}</td>

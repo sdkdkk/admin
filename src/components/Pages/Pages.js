@@ -127,6 +127,7 @@ const Pages = () => {
                       >
                         <thead>
                           <tr>
+                            <th scope="col">Sr. No</th>
                             <th scope="col">Sort Order</th>
                             <th scope="col">Page Name</th>
                             <th scope="col">ACTION</th>
@@ -137,6 +138,7 @@ const Pages = () => {
                           .map((data, index) => (
                             <tbody key={index}>
                               <tr>
+                                <td>{index + 1}</td>
                                 <td>{data.sortOrder}</td>
                                 <td>{data.pageName}</td>
                                 <td>

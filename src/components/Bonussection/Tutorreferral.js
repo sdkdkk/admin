@@ -201,7 +201,7 @@ const Tutorreferral = () => {
                               </thead>
                               <tbody>
                                 {displayUsers.map((data, index, _id) => (
-                                  <tr key={data._id}>
+                                  <tr key={_id}>
                                     <td>
                                       {index +
                                         1 +

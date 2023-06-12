@@ -20,7 +20,7 @@ const Subscription = () => {
 
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(false);
-  const [isEditMode, setIsEditMode] = useState(false);
+  const [isEditMode] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [data, setData] = useState([]);
   const [status, setStatus] = useState();
@@ -34,13 +34,11 @@ const Subscription = () => {
     fetchData();
     setLoading1(false);
   }, []);
-  var [isActive, SetisActive] = useState(true);
+  var [isActive, setIsActive] = useState(true);
  
-
  const activeForm = () => {
-  SetisActive((prevFormStatus) => !prevFormStatus); // Toggle the value of formStatus
+  setIsActive((prevFormStatus) => !prevFormStatus); // Toggle the value of formStatus
 };
-
 
   const onSubmit = async (data) => {
     try {
@@ -87,9 +85,8 @@ const Subscription = () => {
   };
 
   const handleUpdateClick = (data) => {
-
     reset(data);
-    SetisActive(data.isactive);
+    setIsActive(data.isactive);
   };
   // status change api
  

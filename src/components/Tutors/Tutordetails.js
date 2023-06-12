@@ -411,11 +411,11 @@ const Tutordetails = () => {
                                     <td style={{ cursor: "pointer" }} onClick={() => {
                                       toComponentB(data);
                                     }}>
-                                      {data.allQuestions.question
+                                      <p className="question"> {data.allQuestions.question
                                         .split(" ")
                                         .slice(0, 3)
                                         .join(" ")}
-                                      ...
+                                      ...</p>  
                                     </td>
                                     <td>{data.allQuestions.questionType}</td>
                                     <td>{data.allQuestions.questionSubject}</td>

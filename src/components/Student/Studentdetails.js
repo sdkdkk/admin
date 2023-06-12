@@ -117,10 +117,10 @@ const Studentdetails = () => {
             </div>
           ) : (
             <div className="second-section text-start mt-4 mx-4">
-              {studentdetail.map((data) => {
+              {studentdetail.map((data,id) => {
                 return (
                   <div
-                    key={data._id}
+                    key={id}
                     className="row"
                     style={{ backgroundColor: "#c0d7ff", borderRadius: '10px' }}
                   >
@@ -183,9 +183,9 @@ const Studentdetails = () => {
                       </thead>
                       <tbody>
                         <>
-                          {displaytransation.map((Data) => {
+                          {displaytransation.map((Data,id) => {
                             return (
-                              <tr key={Data._id}>
+                              <tr key={id}>
                                 <td colSpan="2">
                                   <Moment format="D MMM YYYY" withTitle>
                                     {Data.date}
@@ -244,18 +244,18 @@ const Studentdetails = () => {
                             </thead>
                             <tbody>
                               {displayque.map((data, index) => (
-                                <tr key={data._id}>
+                                <tr key={index}>
                                   <td
                                     style={{ cursor: "pointer" }}
                                     onClick={() => {
                                       toComponentB(data);
                                     }}
                                   >
-                                    {data.allQuestions.question
+                                       <p className="question">{data.allQuestions.question
                                       .split(" ")
                                       .slice(0, 3)
                                       .join(" ")}
-                                    ...
+                                    ...</p>
                                   </td>
                                   <td>{data.allQuestions.questionType}</td>
                                   <td>{data.allQuestions.questionSubject}</td>
