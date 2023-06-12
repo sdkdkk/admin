@@ -181,6 +181,7 @@ const Tutorexam = () => {
   }, [postTutorQuestionData?.isSuccess || updateTutorQuestionData?.isSuccess]);
 
   const onSubmit = (data) => {
+    console.log(data)
     const rest = data.questionType === "MCQ" ? { mcqoptions: mcqoptions } : {};
     if (data.questionType === "MCQ" && data?.answer) {
       delete data.answer;
@@ -234,44 +235,36 @@ const Tutorexam = () => {
                     <div className="card-body">
                       <div className="row">
                         <div className="col-md-12">
-                          <div className="dropdown">
-                            <Form.Label>Select Subject</Form.Label>
-                            <Form.Select
-                              aria-label="Default select example"
-                              name="questionSubject"
-                              {...register("questionSubject", {
-                                required: "Please select a subject",
-                              })}>
-                              <option>Select Subject</option>
-                              {subjectList.map((a) => (
+                          <div className="dropdown react-bootstrap-select w-100">
+                            <label htmlFor="questionType" className="form-label">
+                              Select Subject
+                            </label>
+                            <select
+                            id="questionSubject"
+                            className="w-50 form-control"
+                            name="questionSubject"
+                            {...register("questionSubject", { required: true })}
+                            >
+                            <option value="">Select your Subject</option>
+                             {subjectList.map((a) => (
                                 <option key={a._id} value={a.questionSubject}>
                                   {a.questionSubject}
                                 </option>
                               ))}
-                            </Form.Select>
-                            {errors.questionSubject && (
-                              <p className="text-danger">
-                                {errors.questionSubject.message}
-                              </p>
+                          </select>
+                          {errors.questionSubject && (
+                            <p className=" text-danger">Please select questionType</p>
                             )}
-                          </div>
-                        </div>
+                            </div>
+                         </div>
                       </div>
                       <Form onSubmit={handleSubmit(onSubmit)}>
                         <div className="row pt-4">
                           <div className="col-md-12">
                             <Form.Group
-                              className="mb-3"
+                              className="mb-3 "
                               controlId="formBasicEmail">
                               <Form.Label>Questions</Form.Label>
-                              {/* <Form.Control
-                                as="textarea" rows={3}
-                                name="question"
-                                placeholder="Enter Questions"
-                                {...register("question", {
-                                  required: "Please Enter A Valid Question!",
-                                })}
-                              /> */}
                               <Controller
                                 name="question"
                                 control={control}
@@ -302,27 +295,26 @@ const Tutorexam = () => {
                             </Form.Group>
                           </div>
                           <div className="col-md-12">
-                            <div className="dropdown">
-                              <Form.Label>Select Question Type</Form.Label>
-                              <Form.Select
-                                aria-label="Default select example"
+                            <div className="dropdown react-bootstrap-select w-100">
+                              <label>Select Question Type</label>
+                              <select
                                 name="questionType"
-                                {...register("questionType", {
-                                  required: "Please select a question type",
-                                })}
-                                onChange={(e) => {
+                                id="questionSubject"
+                                className="w-50 form-control"
+                                {...register("questionType", {required: true})}
+                                onClick={(e) => {
                                   setValue("questionType", e.target.value);
                                   setFormValue({
                                     questionType: e.target.value,
                                   });
                                 }}>
-                                <option>Select Type</option>
+                                <option value="">Select Type</option>
                                 <option value="MCQ">MCQ</option>
                                 <option value="Theory">Theory</option>
-                              </Form.Select>
+                              </select>
                               {errors.questionType && (
                                 <p className="text-danger">
-                                  {errors.questionType.message}
+                                 Please select a question type
                                 </p>
                               )}
                             </div>
