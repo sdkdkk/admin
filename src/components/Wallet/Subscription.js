@@ -13,7 +13,6 @@ import { ColorRing } from "react-loader-spinner";
 import { questiontypePriceApi } from "../../Redux/Loginpages/questiontypePriceSlice";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
-
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Subscription = () => {
@@ -75,6 +74,7 @@ const Subscription = () => {
   const fetchData = async () => {
     try {
       setLoading1(true);
+  
       const response = await axios.post(`${url}/admin/getsubscription`, {
         token: token,
       });
