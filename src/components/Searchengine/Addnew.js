@@ -28,6 +28,7 @@ const Addnew = () => {
   const [selectedOption, setSelectedOption] = useState("");
   const [isExp, setIsExp] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [answerData, setanswerData] = useState([]);
 
   const {
     register,
@@ -150,7 +151,7 @@ const Addnew = () => {
       setIsExp(true);
     } else {
       setIsExp(false);
-    }  
+    }
   };
 
   const token = localStorage.getItem("token");
@@ -249,19 +250,19 @@ const Addnew = () => {
                             className="w-100 form-control"
                             name="questionType"
                             {...register("questionType", { required: true })}
-                             onClick={handleChange}
-                           >
+                            onClick={handleChange}>
                             <option value="">Select your questionType</option>
-                            {questionTypes.map((type,index) => (
-                              <option value={type.value} key={index}  >
+                            {questionTypes.map((type, index) => (
+                              <option value={type.value} key={index}>
                                 {type.questionType}
                               </option>
                             ))}
                           </select>
-                          {errors.questionType && errors.questionType.type  && (
-                            <p className=" text-danger">Please select questionType</p>
+                          {errors.questionType && errors.questionType.type && (
+                            <p className=" text-danger">
+                              Please select questionType
+                            </p>
                           )}
-                          
                         </div>
                         <div className="mb-3 dropdown react-bootstrap-select w-100">
                           <label
@@ -269,12 +270,13 @@ const Addnew = () => {
                             className="form-label">
                             Question Subject
                           </label>
-                        <select
+                          <select
                             id="questionSubject"
                             className="w-100 form-control"
                             name="questionSubject"
-                            {...register("questionSubject", { required: true })}
-                          >
+                            {...register("questionSubject", {
+                              required: true,
+                            })}>
                             <option value="">Select your subject</option>
                             {questionSubject.map((type, index) => (
                               <option value={type.value} key={index}>
@@ -283,40 +285,222 @@ const Addnew = () => {
                             ))}
                           </select>
                           {errors.questionSubject && (
-                            <p className=" text-danger">Please select a subject</p>
+                            <p className=" text-danger">
+                              Please select a subject
+                            </p>
                           )}
                         </div>
-                         
-                        
-                        <Col md={12}>
-                          <div>
-                            <p className="mx-1">Answer</p>
 
-                            <Controller
-                              name="answer"
-                              control={control}
-                              defaultValue={editorHtml}
-                              render={({ field }) => (
-                                <ReactQuill
-                                  theme="snow"
-                                  name="answer"
-                                  {...register("answer", { required: true })}
-                                  modules={modules}
-                                  formats={formats}
-                                  bounds={"#root"}
-                                  placeholder="type Here...."
-                                  ref={editorRef}
-                                  {...field}
-                                />
+                        {selectedOption === "ShortAnswer" ||
+                        selectedOption === "ShortAnswer-exp" ||
+                        selectedOption === "Definations" ||
+                        selectedOption === "Writing" ||
+                        selectedOption === "LongAnswer" ||
+                        selectedOption === "ProblemSolving" ||
+                        selectedOption === "Theory" ? (
+                          <Col md={12}>
+                            <div>
+                              <p className="mx-1">Answer</p>
+                              <Controller
+                                name="answer"
+                                control={control}
+                                defaultValue={editorHtml}
+                                render={({ field }) => (
+                                  <ReactQuill
+                                    theme="snow"
+                                    name="answer"
+                                    {...register("answer", { required: true })}
+                                    modules={modules}
+                                    formats={formats}
+                                    bounds={"#root"}
+                                    placeholder="type Here...."
+                                    ref={editorRef}
+                                    {...field}
+                                  />
+                                )}
+                              />
+                              {errors.answer && (
+                                <p className="error text-danger">
+                                  Please Enter a answer
+                                </p>
                               )}
-                            />
-                            {errors.answer && (
-                              <p className="error text-danger">
-                                Please Enter a answer
-                              </p>
-                            )}
+                            </div>
+                          </Col>
+                        ) : null}
+
+                        {selectedOption === "MCQ" ||
+                        selectedOption === "MCQ-exp" ? (
+                          <div className="p--20 rbt-border radius-6 bg-primary-opacity mt-2">
+                            <div className="row">
+                              <p className="mx-1">Answer</p>
+
+                              <>
+                                <div className="col-lg-6">
+                                  <div className="rbt-form-check p--10">
+                                    <Controller
+                                      control={control}
+                                      name="answer"
+                                      render={({ field }) => (
+                                        <input
+                                          {...field}
+                                          className="form-check-input"
+                                          type="radio"
+                                          id="rbt-radio-1"
+                                          value="a"
+                                        />
+                                      )}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor="rbt-radio-1">
+                                      A)
+                                    </label>
+                                  </div>
+                                </div>
+                                <div className="col-lg-6">
+                                  <div className="rbt-form-check p--10">
+                                    <Controller
+                                      control={control}
+                                      name="answer"
+                                      render={({ field }) => (
+                                        <input
+                                          {...field}
+                                          className="form-check-input"
+                                          type="radio"
+                                          id="rbt-radio-2"
+                                          value="b"
+                                        />
+                                      )}
+                                    />
+                                    <label className="form-check-label">
+                                      {/* htmlFor="rbt-radio-2" */}B)
+                                    </label>
+                                  </div>
+                                </div>
+                                <div className="col-lg-6">
+                                  <div className="rbt-form-check p--10">
+                                    <Controller
+                                      control={control}
+                                      name="answer"
+                                      render={({ field }) => (
+                                        <input
+                                          {...field}
+                                          className="form-check-input"
+                                          type="radio"
+                                          id="rbt-radio-3"
+                                          value="c"
+                                        />
+                                      )}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor="rbt-radio-1">
+                                      C)
+                                    </label>
+                                  </div>
+                                </div>
+                                <div className="col-lg-6">
+                                  <div className="rbt-form-check p--10">
+                                    <Controller
+                                      control={control}
+                                      name="answer"
+                                      render={({ field }) => (
+                                        <input
+                                          {...field}
+                                          className="form-check-input"
+                                          type="radio"
+                                          id="rbt-radio-4"
+                                          value="d"
+                                        />
+                                      )}
+                                    />
+                                    <label
+                                      className="form-check-label"
+                                      htmlFor="rbt-radio-1">
+                                      D)
+                                    </label>
+                                  </div>
+                                </div>
+                              </>
+                            </div>
                           </div>
-                        </Col>
+                        ) : null}
+
+                        {selectedOption === "TrueFalse" ? (
+                          <div className="p--20 rbt-border radius-6 bg-primary-opacity">
+                            <div className="row">
+                              <p className="mx-1">Answer</p>
+                              <div className="col-lg-6">
+                                <div className="rbt-form-check p--10">
+                                  <Controller
+                                    control={control}
+                                    name="answer"
+                                    render={({ field }) => (
+                                      <>
+                                        <input
+                                          type="radio"
+                                          {...field}
+                                          id="true"
+                                          value="true"
+                                          checked={field.value === "true"} // Set the checked state based on the field value
+                                        />
+                                        <label
+                                          className="form-check-label mx-2"
+                                          htmlFor="rbt-radio-1">
+                                          True
+                                        </label>
+                                      </>
+                                    )}
+                                  />
+                                </div>
+                              </div>
+                              <div className="col-lg-6">
+                                <div className="rbt-form-check p--10">
+                                  <Controller
+                                    control={control}
+                                    name="answer"
+                                    render={({ field }) => (
+                                      <>
+                                        <input
+                                          type="radio"
+                                          {...field}
+                                          id="false"
+                                          value="false"
+                                          checked={field.value === "false"} // Set the checked state based on the field value
+                                        />
+                                        <label
+                                          className="form-check-label mx-2"
+                                          htmlFor="rbt-radio-2">
+                                          False
+                                        </label>
+                                      </>
+                                    )}
+                                  />
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                        ) : null}
+
+                        {selectedOption === "MatchTheFollowing-more5" && (
+                          <div className="col-md-12 col-lg-12 mb--20">
+                            <h5>Answer</h5>
+                            <div className="p--20 rbt-border radius-6 bg-primary-opacity">
+                              {Array.isArray(answerData) ? (
+                                answerData.map((data) => (
+                                  <div key={data.id}>
+                                    <span className="mx-3">{data.id} </span>
+                                    <span>=</span>
+                                    <span className="mx-3">{data.value}</span>
+                                  </div>
+                                ))
+                              ) : (
+                                <p>No answer data</p>
+                              )}
+                            </div>
+                          </div>
+                        )}
+                        
 
                         {isExp ? (
                           <Col md={12}>

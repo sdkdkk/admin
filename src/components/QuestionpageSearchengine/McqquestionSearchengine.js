@@ -3,11 +3,16 @@ import "./Que.css";
 import { useLocation } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import Moment from "react-moment";
+import DOMPurify from 'dompurify';
 
 const McqquestionSearchengine = () => {
 
   const location = useLocation();
-  const answer = location.state.data.answer; // Get the answer from location
+  const answer = DOMPurify.sanitize(location.state.data.answer, {
+    ALLOWED_TAGS: [],
+  });
+
+  console.log(answer)
 
   const [imageSrc, setImageSrc] = useState("");
   const [show, setShow] = useState(false);
