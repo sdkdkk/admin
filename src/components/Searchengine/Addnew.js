@@ -150,13 +150,11 @@ const Addnew = () => {
       setIsExp(true);
     } else {
       setIsExp(false);
-    }
-  
+    }  
   };
 
   const token = localStorage.getItem("token");
   const onSubmit = (data) => {
-    console.log(data);
     const formData = new FormData();
     const files = data.questionPhoto;
     formData.append("question", data.question);

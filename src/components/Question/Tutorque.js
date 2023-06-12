@@ -9,12 +9,12 @@ import { Pagination } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { getAdminQuestions } from "../../Redux/Loginpages/getAdminQuestionSlice";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Tutorque = () => {
-
+  const location = useLocation();
     const history = useNavigate();
     const dispatch = useDispatch();
     const token = useSelector((state) => state.auth.token);
@@ -47,8 +47,10 @@ const Tutorque = () => {
     };
 
     const handleAnswerClick = (data) => {
+        console.log(data)
+        console.log(data._id)
         if (
-            data.questionType.includes("exp") &&
+            data.questionType?.includes("exp") &&
             !["MCQ-exp", "TrueFalse-exp", "FillInBlanks-exp"].includes(
                 data.questionType
             )
@@ -214,10 +216,14 @@ const Tutorque = () => {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {transactions.map((a, index) => (
+                                                        {transactions.length === 0 ? (
+                                                            <tr>
+                                                                <td colSpan="6" className="fw-3 fw-bolder text-center">No Question found</td>
+                                                             </tr>
+                                                        ) : transactions.map((a, index) => (
                                                             <tr key={index}>
                                                                 <td>{index+1}</td>
-                                                                <td><p className="question">{a.question}</p></td>
+                                                                <td><p className="question">{a.question.slice(0,40)}....</p></td>
                                                                 <td>{a.questionType}</td>
                                                                 <td>{a.questionSubject}</td>
                                                                 <td>{a.status}</td>

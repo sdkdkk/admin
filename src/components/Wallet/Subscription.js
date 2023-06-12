@@ -92,8 +92,7 @@ const Subscription = () => {
  
 
   const changestatus = async (value, id, index,) => {
-    console.log(id)
-    var status;
+     var status;
 
     if (data[index].isactive === true) {
       status = false;

@@ -24,7 +24,7 @@ const Adminque = () => {
     const [subjectList, setSubjectList] = useState([]);
     const [questionSubject, setQuestionSubject] = useState("");
     const [questionType, setQuestionType] = useState("");
-    const [whomtoAsk, setWhomtoAsk] = useState("tutor");
+    const [whomtoAsk, setWhomtoAsk] = useState("admin");
     const [isOpen, setIsOpen] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
 
@@ -51,7 +51,8 @@ const Adminque = () => {
         dispatch(getAdminQuestions(payload));
     };
 
-    const handleAnswerClick = (data) => {
+    const handleAnswerClick = (data,id) => {
+        console.log(data,id);
         if (
             data.questionType.includes("exp") &&
             !["MCQ-exp", "TrueFalse-exp", "FillInBlanks-exp"].includes(
@@ -219,7 +220,11 @@ const Adminque = () => {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {transactions.map((a, index) => (
+                                                        {transactions.length === 0 ? (
+                                                            <tr>
+                                                                <td colSpan="6" className="fw-3 fw-bolder text-center">No Question found</td>
+                                                             </tr>
+                                                        ) :transactions.map((a, index) => (
                                                             <tr key={index}>
                                                                 <td>{index + 1}</td>
                                                                 <td><p className="question">{a.question}</p></td>

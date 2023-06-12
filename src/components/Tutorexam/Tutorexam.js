@@ -181,7 +181,6 @@ const Tutorexam = () => {
   }, [postTutorQuestionData?.isSuccess || updateTutorQuestionData?.isSuccess]);
 
   const onSubmit = (data) => {
-    console.log(data)
     const rest = data.questionType === "MCQ" ? { mcqoptions: mcqoptions } : {};
     if (data.questionType === "MCQ" && data?.answer) {
       delete data.answer;
