@@ -25,19 +25,25 @@ const Subscription = () => {
   const [loading1, setLoading1] = useState(false);
   const [data, setData] = useState([]);
   const [status, setStatus] = useState();
+
   let token = localStorage.getItem("token");
   useEffect(() => {
     setLoading1(true);
     let token = localStorage.getItem("token");
     dispatch(questiontypeApi(token));
     dispatch(questiontypePriceApi());
-
     fetchData();
     setLoading1(false);
   }, []);
+  var [isActive, SetisActive] = useState(true);
+ 
+
+ const activeForm = () => {
+  SetisActive((prevFormStatus) => !prevFormStatus); // Toggle the value of formStatus
+};
+
 
   const onSubmit = async (data) => {
-    const id = data._id;
     try {
       setLoading(true);
       const requestUrl = `${url}/admin/subscriptionpricechange/${data._id}`;
@@ -46,7 +52,7 @@ const Subscription = () => {
         response = await axios.post(requestUrl, {
           token: token,
           price: data.price,
-          status: data.status,
+          status: isActive,
         });
       }
       if (response.data.message) {
@@ -86,14 +92,10 @@ const Subscription = () => {
     SetisActive(data.isactive);
   };
   // status change api
-  var [isActive, SetisActive] = useState(true);
-  const activeForm = () => {
-    SetisActive((prevIsActive) => !prevIsActive); // Toggle the value of isActive
-  };
-
+ 
 
   const changestatus = async (value, id, index,) => {
-
+    console.log(id)
     var status;
 
     if (data[index].isactive === true) {
@@ -247,7 +249,7 @@ const Subscription = () => {
                                         onChange={(e) =>
                                           changestatus(
                                             e.target.value,
-                                            data.id,
+                                            data._id,
                                             index
                                           )
                                         }
