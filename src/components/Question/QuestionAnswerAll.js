@@ -4,17 +4,15 @@ import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
 import ReactQuill, { Quill } from "react-quill";
 import "../Css/Tutorlist.css";
-import { Col, Modal } from "react-bootstrap";
+import { Button, Col, Modal } from "react-bootstrap";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import ImageResize from "quill-image-resize-module-react";
 import "react-quill/dist/quill.snow.css";
-import axios from "axios";
-import { logoutIfInvalidToken } from "../../helpers/handleError";
 import { useDispatch, useSelector } from "react-redux";
 import { postAdminQuestions } from "../../Redux/Loginpages/postAdminQuestionSlice";
 
-const url = process.env.REACT_APP_API_BASE_URL;
+
 
 Quill.register("modules/imageResize", ImageResize);
 
@@ -29,9 +27,37 @@ const QuestionAnswerAll = () => {
   };
   const [editorHtml, setEditorHtml] = useState("");
   const [isLoading, setIsLoading] = useState(false);
-  const [answerData, setanswerData] = useState([]);
+ const [answerData, setAnswerData] = useState([{ id: "", value: "" }, { id: "", value: "" }]);
   const dispatch =useDispatch()
-  const token = localStorage.getItem("token");
+    const token = localStorage.getItem("token");
+     const [fields, setFields] = useState([{  value: "" },{  value: "" }]);
+  console.log(fields);
+
+  const handleAddField = () => {
+    setFields([...fields, {  value: "" }]);
+  };
+
+  const handleRemoveField = (index) => {
+    const valuesCopy = [...fields];
+    valuesCopy.splice(index, 1);
+    setFields(valuesCopy);
+  };
+
+  const addAnswerData = () => {
+    setAnswerData([...answerData, { id: "", value: "" }]);
+  };
+
+  const removeAnswerData = (index) => {
+    const updatedAnswerData = [...answerData];
+    updatedAnswerData.splice(index, 6);
+    setAnswerData(updatedAnswerData);
+  };
+
+  const handleAnswerDataChange = (index, key, value) => {
+    const updatedAnswerData = [...answerData];
+    updatedAnswerData[index][key] = value;
+    setAnswerData(updatedAnswerData);
+  };
   const {
     register,
     handleSubmit,
@@ -87,28 +113,38 @@ const QuestionAnswerAll = () => {
     const getAdminQuestionsState = useSelector((state) => state.getAdminQuestions);
     console.log(getAdminQuestionsState);
   const filterData = getAdminQuestionsState?.data?.transactions?.filter((item) =>item._id === id);
-    console.log(filterData?.[0]?.questionType);
+ 
+
     useEffect(() => {
-    reset(filterData?.[0])
+            reset(filterData?.[0])
     }, [reset])
 
+  const questionType = filterData?.[0]?.questionType
+    const questionPhoto = filterData?.[0]?.questionPhoto
 
     const onSubmit = (data) => {
      
-            const formDataObj = {
+      console.log(data);
+      const formattedAnswerData = answerData.map((item) => ({
+        id: item.id,
+        value: item.value,
+      }));
+      const formDataObj = {
             token: token,
             questionId:id,
-            answer: data.answer,
+            answer: (questionType === "FillInBlanks" || questionType === "FillInBlanks-exp" || questionType === "MatchTheFollowing-more5" || questionType === "MatchTheFollowing-less5")
+                ? JSON.stringify(formattedAnswerData)
+                 : data.answer,
             explanation:data.explanation || ""
-         }
+           }
    
-    setIsLoading(true);
+        setIsLoading(true);
         dispatch(postAdminQuestions(formDataObj))
         setIsLoading(false);
-  };
-    const questionType = filterData?.[0]?.questionType
-    const questionPhoto = filterData?.[0]?.questionPhoto
- 
+       
+      };
+
+    
   return (
     <div>
       <div className="container-scroller">
@@ -260,7 +296,7 @@ const QuestionAnswerAll = () => {
                                       )}
                                     />
                                     <label className="form-check-label">
-                                      {/* htmlFor="rbt-radio-2" */}B)
+                                     B)
                                     </label>
                                   </div>
                                 </div>
@@ -313,7 +349,7 @@ const QuestionAnswerAll = () => {
                           </div>
                         ) : null}
 
-                        {questionType === "TrueFalse" ? (
+                        {questionType === "TrueFalse" || questionType === "TrueFalse-exp"? (
                           <div className="p--20 rbt-border radius-6 bg-primary-opacity">
                             <div className="row">
                               <p className="mx-1">Answer</p>
@@ -369,27 +405,86 @@ const QuestionAnswerAll = () => {
                           </div>
                         ) : null}
 
-                        {questionType === "MatchTheFollowing-more5" && (
+                         {questionType === "MatchTheFollowing-more5" ||
+                        questionType === "MatchTheFollowing-less5" ? (
                           <div className="col-md-12 col-lg-12 mb--20">
                             <h5>Answer</h5>
-                            <div className="p--20 rbt-border radius-6 bg-primary-opacity">
-                              {Array.isArray(answerData) ? (
-                                answerData.map((data) => (
-                                  <div key={data.id}>
-                                    <span className="mx-3">{data.id} </span>
-                                    <span>=</span>
-                                    <span className="mx-3">{data.value}</span>
-                                  </div>
-                                ))
-                              ) : (
-                                <p>No answer data</p>
-                              )}
-                            </div>
+                            {answerData?.map((data, index) => (
+                              <div key={index}>
+                                <input
+                                  className="mr-2"
+                                  type="text"
+                                  value={data.id}
+                                  onChange={(e) =>
+                                    handleAnswerDataChange(
+                                      index,
+                                      "id",
+                                      e.target.value
+                                    )
+                                  }
+                                />
+                                =
+                                <input
+                                  className="ml-2"
+                                  type="text"
+                                  value={data.value}
+                                  onChange={(e) =>
+                                    handleAnswerDataChange(
+                                      index,
+                                      "value",
+                                      e.target.value
+                                    )
+                                  }
+                                />
+                                <Button className="btn-danger my-3 mx-2 p-2 mt-2" onClick={() => removeAnswerData(index)}>
+                                  Remove
+                                </Button>
+                              </div>
+                            ))}
+                            <Button className="btn-primary" onClick={addAnswerData}>Add Answer</Button>
                           </div>
-                        )}
+                        ) : null}
+
+                        {questionType === "FillInBlanks" ||
+                        questionType === "FillInBlanks-exp" ? (
+                          <div className="multi-field-wrapper">
+                                                          <h5>Answer</h5>
+                         <div className="d-flex">
+                            <div className="multi-fields ">
+                              {fields.map((field, index) => (
+                                <div key={index} >
+                                      <input
+                                          className="my-2"
+                                    type="text"
+                                    value={field.value}
+                                    onChange={(e) => {
+                                      const valuesCopy = [...fields];
+                                      valuesCopy[index].value = e.target.value;
+                                      setFields(valuesCopy);
+                                    }}
+                                  />
+                                  {index !== 0 && (
+                                    <Button className="btn-danger mx-2"
+                                      type="button"
+                                      onClick={() => handleRemoveField(index)}>
+                                      Remove Field
+                                    </Button>
+                                  )}
+                                </div>
+                              ))}
+                           </div>
+                            </div>
+                            <button
+                              type="button"
+                              className="rbt-btn btn-sm add-field my-3"
+                              onClick={handleAddField}>
+                              Add field
+                            </button>
+                          </div>
+                        ) : null}
                         
 
-                        {questionType === "MCQ-exp" || questionType === "MCQ-exp"  ? (
+                        {questionType === "MCQ-exp" || questionType === "FillInBlanks-exp" ||  questionType === "ShortAnswer-exp" || questionType === "TrueFalse-exp"? (
                           <Col md={12}>
                             <div>
                               <p className="mx-1">Explanation</p>
