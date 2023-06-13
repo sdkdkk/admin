@@ -28,7 +28,25 @@ const Addnew = () => {
   const [selectedOption, setSelectedOption] = useState("");
   const [isExp, setIsExp] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [answerData, setanswerData] = useState([]);
+  const [answerData, setAnswerData] = useState([]);
+
+  console.log(answerData);
+
+  const addAnswerData = () => {
+    setAnswerData([...answerData, { id: "", value: "" }]);
+  };
+
+  const removeAnswerData = (index) => {
+    const updatedAnswerData = [...answerData];
+    updatedAnswerData.splice(index, 6);
+    setAnswerData(updatedAnswerData);
+  };
+
+  const handleAnswerDataChange = (index, key, value) => {
+    const updatedAnswerData = [...answerData];
+    updatedAnswerData[index][key] = value;
+    setAnswerData(updatedAnswerData);
+  };
 
   const {
     register,
@@ -156,32 +174,70 @@ const Addnew = () => {
 
   const token = localStorage.getItem("token");
   const onSubmit = (data) => {
-    const formData = new FormData();
-    const files = data.questionPhoto;
-    formData.append("question", data.question);
-    formData.append("questionType", data.questionType);
-    formData.append("questionSubject", data.questionSubject);
-    formData.append("answer", data.answer);
-    formData.append("token", token);
-    for (let i = 0; i < files.length; i++) {
-      formData.append(`questionPhoto`, files[i]);
-    }
-    formData.append("explanation", data.explanation || "");
-    setIsLoading(true);
-    fetch(`${url}/admin/questionpost`, {
-      method: "POST",
-      body: formData,
-    })
-      .then((response) => {
-        setImages([]);
-        setEditorHtml("");
-        setIsLoading(false);
-        reset();
-        navigate("/searchengine");
+    console.log(data);
+    if (selectedOption === "MatchTheFollowing-more5") {
+      // If the selected question type is "MatchTheFollowing-more5",
+      // handle the answer data and post it to the API
+      const formData = new FormData();
+
+      const formattedAnswerData = answerData.map((item) => ({
+        id: item.id,
+        value: item.value,
+      }));
+
+      const files = data.questionPhoto;
+      formData.append("question", data.question);
+      formData.append("questionType", data.questionType);
+      formData.append("questionSubject", data.questionSubject);
+      formData.append("answer", JSON.stringify(formattedAnswerData));
+      formData.append("token", token);
+      for (let i = 0; i < files.length; i++) {
+        formData.append(`questionPhoto`, files[i]);
+      }
+      formData.append("explanation", data.explanation || "");
+      setIsLoading(true);
+      fetch(`${url}/admin/questionpost`, {
+        method: "POST",
+        body: formData,
       })
-      .catch((error) => {
-        setIsLoading(false);
-      });
+        .then((response) => {
+          setImages([]);
+          setEditorHtml("");
+          setIsLoading(false);
+          reset();
+          navigate("/searchengine");
+        })
+        .catch((error) => {
+          setIsLoading(false);
+        });
+    } else {
+      const formData = new FormData();
+      const files = data.questionPhoto;
+      formData.append("question", data.question);
+      formData.append("questionType", data.questionType);
+      formData.append("questionSubject", data.questionSubject);
+      formData.append("answer", data.answer);
+      formData.append("token", token);
+      for (let i = 0; i < files.length; i++) {
+        formData.append(`questionPhoto`, files[i]);
+      }
+      formData.append("explanation", data.explanation || "");
+      setIsLoading(true);
+      fetch(`${url}/admin/questionpost`, {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => {
+          setImages([]);
+          setEditorHtml("");
+          setIsLoading(false);
+          reset();
+          navigate("/searchengine");
+        })
+        .catch((error) => {
+          setIsLoading(false);
+        });
+    }
   };
 
   return (
@@ -483,26 +539,47 @@ const Addnew = () => {
                           </div>
                         ) : null}
 
-                        {selectedOption === "MatchTheFollowing-more5" && (
+                        {selectedOption === "MatchTheFollowing-more5" ||
+                        selectedOption === "MatchTheFollowing-less5" ? (
                           <div className="col-md-12 col-lg-12 mb--20">
-                            <h5>Answer</h5>
-                            <div className="p--20 rbt-border radius-6 bg-primary-opacity">
-                              {Array.isArray(answerData) ? (
-                                answerData.map((data) => (
-                                  <div key={data.id}>
-                                    <span className="mx-3">{data.id} </span>
-                                    <span>=</span>
-                                    <span className="mx-3">{data.value}</span>
-                                  </div>
-                                ))
-                              ) : (
-                                <p>No answer data</p>
-                              )}
+                          <h5>Answer</h5>
+                          {answerData.map((data, index) => (
+                            <div key={index}>
+                              <input
+                                className="mr-2"
+                                type="text"
+                                value={data.id}
+                                onChange={(e) =>
+                                  handleAnswerDataChange(
+                                    index,
+                                    "id",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                              =
+                              <input
+                                className="ml-2"
+                                type="text"
+                                value={data.value}
+                                onChange={(e) =>
+                                  handleAnswerDataChange(
+                                    index,
+                                    "value",
+                                    e.target.value
+                                  )
+                                }
+                              />
+                              <button onClick={() => removeAnswerData(index)}>
+                                Remove
+                              </button>
                             </div>
-                          </div>
-                        )}
-                        
+                          ))}
+                          <button onClick={addAnswerData}>Add Answer</button>
+                        </div>
+                        ) : null}
 
+                       
                         {isExp ? (
                           <Col md={12}>
                             <div>
