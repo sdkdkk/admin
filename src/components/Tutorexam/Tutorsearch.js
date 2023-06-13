@@ -86,21 +86,26 @@ const Tutorsearch = () => {
                             </tr>
                           </thead>
                           <tbody>
-                            {getTutorQuestionsListData.isLoading ? <div>
-                              <div style={{ marginLeft: "450px", marginTop: "50px" }}>
-                                <ColorRing
-                                  visible={true}
-                                  height="80"
-                                  width="80"
-                                  ariaLabel="blocks-loading"
-                                  wrapperStyle={{}}
-                                  wrapperclassName="blocks-wrapper"
-                                  colors={["black"]}
-                                />
-                              </div>
-                            </div> :
+                            {getTutorQuestionsListData.isLoading ?
+                              <div>
+                                <div style={{ marginLeft: "450px", marginTop: "50px" }}>
+                                  <ColorRing
+                                    visible={true}
+                                    height="80"
+                                    width="80"
+                                    ariaLabel="blocks-loading"
+                                    wrapperStyle={{}}
+                                    wrapperclassName="blocks-wrapper"
+                                    colors={["black"]}
+                                  />
+                                </div>
+                              </div> :
                               <>
-                                {tutorexamquestionData.map((q) => (<tr>
+                                {tutorexamquestionData.length === 0 ? (
+                                  <tr>
+                                    <td colSpan="6" className="fw-3 fw-bolder text-center">No Question found</td>
+                                  </tr>
+                                ) : tutorexamquestionData.map((q) => (<tr>
                                   <td>{q.question}</td>
                                   <td>{q.questionType}</td>
                                   <td>{q.questionSubject}</td>
