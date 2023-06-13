@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
-import { Table, Thead, Tbody, Tr, Th, Td } from "react-super-responsive-table";
+import { Table, Thead, Tbody, Tr, th, Td } from "react-super-responsive-table";
 import "react-super-responsive-table/dist/SuperResponsiveTableStyle.css";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
@@ -57,40 +57,43 @@ const Testexam = () => {
                   <div className="col-md-12 grid-margin stretch-card">
                     <div className="card">
                       <div className="card-body">
-                        <Table id="myTable">
-                          <Thead>
-                            <Tr>
-                              <Th>Date</Th>
-                              <Th>Tutor Name</Th>
-                              <Th>Email</Th>
-                              <Th>Subject</Th>
-                              <Th>Status</Th>
-                            </Tr>
-                          </Thead>
-                          {testexam &&
+                        <table className="table v-top">
+                          <thead>
+                            <tr>
+                              <th>Date</th>
+                              <th>Tutor Name</th>
+                              <th>Email</th>
+                              <th>Subject</th>
+                              <th>Status</th>
+                            </tr>
+                          </thead>
+                            {testexam?.length === 0 ? (
+                              <tr>
+                                <td colSpan="5" className="fw-3 fw-bolder text-center">No Question found</td>
+                              </tr>) :testexam &&
                             testexam.map((data) => (
-                              <Tbody>
-                                <Tr>
-                                  <Td>
+                              <tbody>
+                                <tr>
+                                  <td>
                                     <Moment format="D MMM YYYY" withTitle>
                                       {data.examDate}
                                     </Moment>
-                                  </Td>
-                                  <Td>{data.name}</Td>
-                                  <Td>{data.email}</Td>
-                                  <Td>{data.examSubject}</Td>
-                                  <Td>
+                                  </td>
+                                  <td>{data.name}</td>
+                                  <td>{data.email}</td>
+                                  <td>{data.examSubject}</td>
+                                  <td>
                                     <button
                                       onClick={() => {
                                         toComponentB(data);
                                       }}>
                                       Check
                                     </button>
-                                  </Td>
-                                </Tr>
-                              </Tbody>
+                                  </td>
+                                </tr>
+                              </tbody>
                             ))}
-                        </Table>
+                        </table>
                       </div>
                     </div>
                   </div>

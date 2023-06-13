@@ -5,12 +5,13 @@ import Sidebar from "../shared/Sidebar";
 import ReactQuill, { Quill } from "react-quill";
 import "../Css/Tutorlist.css";
 import { Button, Col, Modal } from "react-bootstrap";
-import { Link, useNavigate, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import ImageResize from "quill-image-resize-module-react";
 import "react-quill/dist/quill.snow.css";
 import { useDispatch, useSelector } from "react-redux";
 import { postAdminQuestions } from "../../Redux/Loginpages/postAdminQuestionSlice";
+import { getAdminQuestions } from "../../Redux/Loginpages/getAdminQuestionSlice";
 
 
 
@@ -65,11 +66,7 @@ const QuestionAnswerAll = () => {
     editorRef,
     reset,
     formState: { errors },
-  } = useForm({
-    defaultValues: {
-      questionType: "",
-    },
-  });
+  } = useForm({});
 
   const modules = {
     toolbar: [
@@ -109,21 +106,21 @@ const QuestionAnswerAll = () => {
     "link",
     "image",
     "video",
-  ];
+    ];
+    
     const getAdminQuestionsState = useSelector((state) => state.getAdminQuestions);
-    console.log(getAdminQuestionsState);
+   
   const filterData = getAdminQuestionsState?.data?.transactions?.filter((item) =>item._id === id);
- 
-
-    useEffect(() => {
-            reset(filterData?.[0])
-    }, [reset])
-
+ console.log(filterData);
   const questionType = filterData?.[0]?.questionType
     const questionPhoto = filterData?.[0]?.questionPhoto
+   
+    useEffect(() => {
+           reset(filterData?.[0])
+        }, [filterData?.[0]])
 
     const onSubmit = (data) => {
-     
+        
       console.log(data);
       const formattedAnswerData = answerData.map((item) => ({
         id: item.id,
@@ -137,7 +134,6 @@ const QuestionAnswerAll = () => {
                  : data.answer,
             explanation:data.explanation || ""
            }
-   
         setIsLoading(true);
         dispatch(postAdminQuestions(formDataObj))
         setIsLoading(false);
@@ -172,6 +168,7 @@ const QuestionAnswerAll = () => {
                             className="form-control"
                             type="text"
                             name="question"
+                            defaultValue={filterData?.[0]?.question}
                             {...register("question")}
                             readOnly
                           />
@@ -191,7 +188,7 @@ const QuestionAnswerAll = () => {
                             </label>
                             <input
                             className="form-control"
-                            type="text"
+                            type="text"                      
                             name="questionType"
                             {...register("questionType")}
                             readOnly
