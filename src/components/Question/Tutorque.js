@@ -14,12 +14,10 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Tutorque = () => {
-  const location = useLocation();
-    const history = useNavigate();
     const dispatch = useDispatch();
     const token = useSelector((state) => state.auth.token);
     const getAdminQuestionsState = useSelector((state) => state.getAdminQuestions);
-
+ const [queTypeList, setQueTypeList] = useState([]);
     const [subjectList, setSubjectList] = useState([]);
     const [questionSubject, setQuestionSubject] = useState("");
     const [questionType, setQuestionType] = useState("");
@@ -34,6 +32,17 @@ const Tutorque = () => {
             const response = await axios.post(`${url}/getquestionsubject`, { token: token, }
             );
             setSubjectList(response?.data?.data);
+        } catch (error) {
+    console.log(error)
+        }
+    };
+
+  const fetchQueTypeData = async () => {
+        try {
+            const response = await axios.get(`${url}/getquestiontype`, {token }
+            );
+            setQueTypeList(response?.data?.data);
+            console.log(response?.data?.data);
         } catch (error) {
             // notify("Invalid refresh token!");
         }
@@ -57,9 +66,11 @@ const Tutorque = () => {
     useEffect(() => {
         getQuestionList();
     }, [questionSubject, questionType, currentPage, whomtoAsk]);
-
+  
+  
     useEffect(() => {
         fetchSubjectData();
+        fetchQueTypeData()
     }, []);
 
     return (
@@ -83,27 +94,6 @@ const Tutorque = () => {
                                             style={{ borderRadius: "4px" }}>
                                             Tutor
                                         </button>
-                                        {/* <button
-                                            // className="btn btn-primary"
-                                            type="button"
-                                            onClick={() => setWhomtoAsk("admin")}
-                                            style={{ borderRadius: "4px" }}>
-                                            Admin
-                                        </button> */}
-                                        {/* <button
-                                            // className="btn btn-primary"
-                                            type="button"
-                                            onClick={() => setWhomtoAsk("reanswer")}
-                                            style={{ borderRadius: "4px" }}>
-                                            Reanswer
-                                        </button> */}
-                                        {/* <button
-                                            // className="btn btn-primary"
-                                            type="button"
-                                            onClick={() => setWhomtoAsk("unsolved")}
-                                            style={{ borderRadius: "4px" }}>
-                                            Unsolved
-                                        </button> */}
                                     </div>
                                 </div>
                             </div>
@@ -133,30 +123,18 @@ const Tutorque = () => {
                                         <label>Question Type :</label>
                                         <div className="dropdown react-bootstrap-select w-100">
                                             <select
-                                                className="w-100 form-select"
                                                 onChange={(e) => setQuestionType(e.target.value)}
+                                                className="w-100 form-select"
                                                 id="displayname">
-                                                <option value="MCQ">MCQ</option>
-                                                <option value="MCQ-exp">MCQ-exp</option>
-                                                <option value="TrueFalse">True / False</option>
-                                                <option value="TrueFalse-exp">True / False-exp</option>
-                                                <option value="FillInBlanks">Fill In the Blanks</option>
-                                                <option value="FillInBlanks-exp">
-                                                    Fill In the Blanks-exp
-                                                </option>
-                                                <option value="ShortAnswer">Short Answer</option>
-                                                <option value="MatchTheFollowing-less5">
-                                                    Match The Following-less5
-                                                </option>
-                                                <option value="MatchTheFollowing-more5">
-                                                    Match The Following-more5
-                                                </option>
-                                                <option value="ProblemSolving">Problem Solving</option>
-                                                <option value="LongAnswer">Long Answer</option>
-                                                <option value="Writing">Writing</option>
-                                                <option value="CaseStudy-more3">CaseStudy-more3</option>
-                                                <option value="CaseStudy-less3">CaseStudy-less3</option>
+                                                {queTypeList?.map((a, id) => {
+                                                    return (
+                                                        <option key={id} value={a.questionType}>
+                                                            {a.questionType}
+                                                        </option>
+                                                    );
+                                                })}
                                             </select>
+                                           
                                         </div>
                                     </div>
                                 </div>

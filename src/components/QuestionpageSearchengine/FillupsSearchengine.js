@@ -6,9 +6,8 @@ import Moment from "react-moment";
 
 const FillupsSearchengine = () => {
   const location = useLocation();
-  const answerData = DOMPurify.sanitize(location.state.data.answer, {
-    ALLOWED_TAGS: [],
-  });
+  const answerData = JSON.parse(location.state.data.answer);
+  console.log(location.state.data);
 
   return (
     <>
@@ -47,17 +46,31 @@ const FillupsSearchengine = () => {
                 </div>
                 <div className="col-md-12 col-lg-12 mb--20">
                   <h5>Answer</h5>
-                  <div className="p--20 rbt-border radius-6 bg-primary-opacity">
-                    {Array.isArray(answerData)
-                      ? answerData.map((data, id) => (
-                          <p>
-                            <span className="mx-3 fw-bolder">{id + 1}) </span>
-                            {data}
-                          </p>
-                        ))
-                      : ""}
-                  </div>
+
+                  {Array.isArray(answerData) && (
+                    <div className="p--20 rbt-border radius-6 bg-primary-opacity">
+                      {answerData.map((data, id) => (
+                        <p key={id}>
+                          <span className="mx-3 fw-bolder">{id + 1}) </span>
+                          {data.value}
+                        </p>
+                      ))}
+                    </div>
+                  )}
                 </div>
+                {location.state.data.explanation && (
+                  <div className="col-md-12 col-lg-12 mb--20 ">
+                    <h5>Explanation</h5>
+                    <div className="p--20 rbt-border radius-6 bg-primary-opacity">
+                      <span
+                        dangerouslySetInnerHTML={{
+                          __html: location.state.data.explanation,
+                        }}
+                      />
+                      <br />
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>

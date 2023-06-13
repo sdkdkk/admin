@@ -3,16 +3,13 @@ import "./Que.css";
 import { useLocation } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import Moment from "react-moment";
-import DOMPurify from 'dompurify';
+import DOMPurify from "dompurify";
 
 const McqquestionSearchengine = () => {
-
   const location = useLocation();
   const answer = DOMPurify.sanitize(location.state.data.answer, {
     ALLOWED_TAGS: [],
   });
-
-  console.log(answer)
 
   const [imageSrc, setImageSrc] = useState("");
   const [show, setShow] = useState(false);
@@ -88,7 +85,6 @@ const McqquestionSearchengine = () => {
                             <label
                               className="form-check-label"
                               htmlFor="rbt-radio-1">
-
                               A)
                             </label>
                           </div>
@@ -106,7 +102,6 @@ const McqquestionSearchengine = () => {
                             <label
                               className="form-check-label"
                               htmlFor="rbt-radio-2">
-
                               B)
                             </label>
                           </div>
@@ -124,7 +119,6 @@ const McqquestionSearchengine = () => {
                             <label
                               className="form-check-label"
                               htmlFor="rbt-radio-3">
-
                               C)
                             </label>
                           </div>
@@ -142,12 +136,24 @@ const McqquestionSearchengine = () => {
                             <label
                               className="form-check-label"
                               htmlFor="rbt-radio-4">
-
                               D)
                             </label>
                           </div>
                         </div>
                       </div>
+                    </div>
+                  </div>
+                )}
+                {location.state.data.explanation && (
+                  <div className="col-md-12 col-lg-12 mb--20 ">
+                    <h5>Explanation</h5>
+                    <div className="p--20 rbt-border radius-6 bg-primary-opacity">
+                      <span
+                        dangerouslySetInnerHTML={{
+                          __html: location.state.data.explanation,
+                        }}
+                      />
+                      <br />
                     </div>
                   </div>
                 )}
@@ -160,7 +166,6 @@ const McqquestionSearchengine = () => {
       <Modal show={show} onHide={() => setShow(false)}>
         <Modal.Header closeButton className="border-0"></Modal.Header>
         <Modal.Body className="text-center">
-
           <img
             style={{ maxWidth: "100%", maxHeight: "100%" }}
             src={imageSrc}

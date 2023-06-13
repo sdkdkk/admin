@@ -69,7 +69,7 @@ const Contactdetails = () => {
                   </div>
                 </div>
               </div>
-              {location.state.data.issolved === 1 ? (
+              {location.state.data.issolved === 0 ? (
                 <button
                   className="btn btn-outline-primary"
                   type="button"

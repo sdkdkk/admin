@@ -8,7 +8,7 @@ import { Pagination } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { getAdminQuestions } from "../../Redux/Loginpages/getAdminQuestionSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
@@ -20,10 +20,11 @@ const Adminque = () => {
     const token = useSelector((state) => state.auth.token);
 
     const getAdminQuestionsState = useSelector((state) => state.getAdminQuestions);
-
+ const [queTypeList, setQueTypeList] = useState([]);
     const [subjectList, setSubjectList] = useState([]);
     const [questionSubject, setQuestionSubject] = useState("");
     const [questionType, setQuestionType] = useState("");
+   
     const [whomtoAsk, setWhomtoAsk] = useState("admin");
     const [isOpen, setIsOpen] = useState("");
     const [currentPage, setCurrentPage] = useState(1);
@@ -40,6 +41,17 @@ const Adminque = () => {
         }
     };
 
+      const fetchQueTypeData = async () => {
+        try {
+            const response = await axios.get(`${url}/getquestiontype`, {token }
+            );
+            setQueTypeList(response?.data?.data);
+            console.log(response?.data?.data);
+        } catch (error) {
+            // notify("Invalid refresh token!");
+        }
+    };
+
     const getQuestionList = () => {
         const payload = {
             questionType,
@@ -51,39 +63,39 @@ const Adminque = () => {
         dispatch(getAdminQuestions(payload));
     };
 
-    const handleAnswerClick = (data,id) => {
-        console.log(data,id);
-        if (
-            data.questionType.includes("exp") &&
-            !["MCQ-exp", "TrueFalse-exp", "FillInBlanks-exp"].includes(
-                data.questionType
-            )
-        ) {
-            history(`/questionanswer?id=${data._id}`);
-        } else {
-            switch (data.questionType) {
-                case "MCQ":
-                case "MCQ-exp":
-                    history(`/mcqquestion?id=${data._id}`);
-                    return;
-                case "TrueFalse":
-                case "TrueFalse-exp":
-                    history(`/truefalse?id=${data._id}`);
-                    return;
-                case "FillInBlanks":
-                case "FillInBlanks-exp":
-                    history(`/fillups?id=${data._id}`);
-                    return;
-                case "MatchTheFollowing-less5":
-                case "MatchTheFollowing-more5":
-                    history(`/matchfollow?id=${data._id}`);
-                    return;
-                default:
-                    history(`/questionanswer?id=${data._id}`);
-                    return;
-            }
-        }
-    };
+    // const handleAnswerClick = (data,id) => {
+    //     console.log(data,id);
+    //     if (
+    //         data.questionType.includes("exp") &&
+    //         !["MCQ-exp", "TrueFalse-exp", "FillInBlanks-exp"].includes(
+    //             data.questionType
+    //         )
+    //     ) {
+    //         history(`/questionanswer?id=${data._id}`);
+    //     } else {
+    //         switch (data.questionType) {
+    //             case "MCQ":
+    //             case "MCQ-exp":
+    //                 history(`/mcqquestion?id=${data._id}`);
+    //                 return;
+    //             case "TrueFalse":
+    //             case "TrueFalse-exp":
+    //                 history(`/truefalse?id=${data._id}`);
+    //                 return;
+    //             case "FillInBlanks":
+    //             case "FillInBlanks-exp":
+    //                 history(`/fillups?id=${data._id}`);
+    //                 return;
+    //             case "MatchTheFollowing-less5":
+    //             case "MatchTheFollowing-more5":
+    //                 history(`/matchfollow?id=${data._id}`);
+    //                 return;
+    //             default:
+    //                 history(`/questionanswer?id=${data._id}`);
+    //                 return;
+    //         }
+    //     }
+    // };
 
     const handleDropdownClick = (id) => {
         setIsOpen(isOpen === id ? "" : id);
@@ -99,6 +111,7 @@ const Adminque = () => {
 
     useEffect(() => {
         fetchSubjectData();
+        fetchQueTypeData()
     }, []);
 
     return (
@@ -171,31 +184,19 @@ const Adminque = () => {
                                     <div className="filter-select rbt-modern-select mb--10">
                                         <label>Question Type :</label>
                                         <div className="dropdown react-bootstrap-select w-100">
-                                            <select
-                                                className="w-100 form-select"
+                                             <select
                                                 onChange={(e) => setQuestionType(e.target.value)}
+                                                className="w-100 form-select"
                                                 id="displayname">
-                                                <option value="MCQ">MCQ</option>
-                                                <option value="MCQ-exp">MCQ-exp</option>
-                                                <option value="TrueFalse">True / False</option>
-                                                <option value="TrueFalse-exp">True / False-exp</option>
-                                                <option value="FillInBlanks">Fill In the Blanks</option>
-                                                <option value="FillInBlanks-exp">
-                                                    Fill In the Blanks-exp
-                                                </option>
-                                                <option value="ShortAnswer">Short Answer</option>
-                                                <option value="MatchTheFollowing-less5">
-                                                    Match The Following-less5
-                                                </option>
-                                                <option value="MatchTheFollowing-more5">
-                                                    Match The Following-more5
-                                                </option>
-                                                <option value="ProblemSolving">Problem Solving</option>
-                                                <option value="LongAnswer">Long Answer</option>
-                                                <option value="Writing">Writing</option>
-                                                <option value="CaseStudy-more3">CaseStudy-more3</option>
-                                                <option value="CaseStudy-less3">CaseStudy-less3</option>
+                                                {queTypeList?.map((a, id) => {
+                                                    return (
+                                                        <option key={id} value={a.questionType}>
+                                                            {a.questionType}
+                                                        </option>
+                                                    );
+                                                })}
                                             </select>
+                                           
                                         </div>
                                     </div>
                                 </div>
@@ -243,12 +244,9 @@ const Adminque = () => {
                                                                         {a._id === isOpen && (
                                                                             <div className="dropdown__popup">
                                                                                 <ul className="dropdown__list">
-                                                                                    <li
-                                                                                        onClick={() =>
-                                                                                            handleAnswerClick(a)
-                                                                                        }>
+                                                                                      <Link to={`/questionanswerall/${a._id}`}>  <li>
                                                                                         Answer
-                                                                                    </li>
+                                                                                    </li></Link>
                                                                                 </ul>
                                                                             </div>
                                                                         )}
