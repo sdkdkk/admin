@@ -7,24 +7,25 @@ import "../Css/Tutorlist.css";
 import { Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { searchengine } from "../../Redux/Loginpages/searchengineSlice";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { ColorRing } from "react-loader-spinner";
 
 const Searchengine = () => {
-
   const searchengineState = useSelector((state) => state.searchengine);
   const [isLoading, setIsLoading] = useState(false);
 
   let navigate = useNavigate();
   const dispatch = useDispatch();
+  const location = useLocation();
 
   const toComponentB = (data) => {
     navigate("/Searchenginequedetail", { state: { data } });
   };
 
+  const queryParams = new URLSearchParams(location.search);
+  const currentPageQueryParam = queryParams.get("page");
   const [currentPage, setCurrentPage] = useState(() => {
-    const storedPage = localStorage.getItem("currentPage");
-    return storedPage ? parseInt(storedPage) : 1;
+    return currentPageQueryParam ? parseInt(currentPageQueryParam) : 1;
   });
   const [itemsPerPage] = useState(5);
 
@@ -36,11 +37,6 @@ const Searchengine = () => {
       setIsLoading(false);
     });
   }, [currentPage, itemsPerPage, dispatch]);
-
-  useEffect(() => {
-    localStorage.setItem("currentPage", currentPage.toString());
-  }, [currentPage]);
-
 
   const searchengineData = searchengineState?.user?.data || [];
   return (
@@ -90,7 +86,7 @@ const Searchengine = () => {
                       ) : (
                         <table className="table v-top">
                           <thead>
-                              <tr>
+                            <tr>
                               <th scope="col">Sr. No</th>
                               <th scope="col">Question</th>
                               <th scope="col">Question Type</th>
@@ -100,22 +96,31 @@ const Searchengine = () => {
                             </tr>
                           </thead>
                           <tbody>
-                            {searchengineData.map((data, id) => (
-                              <tr key={id}>
-                                <td>{id + 1}</td>
-                                <td
-                                  style={{ cursor: "pointer" }}
-                                  onClick={() => {
-                                    toComponentB(data);
-                                  }}>
-                                     <p className="question">{data.question.split(" ").slice(0, 3).join(" ")}</p>
-                                </td>
-                                <td>{data.questionType}</td>
-                                <td>{data.questionSubject}</td>
-                                <td>{data.questionPrice}</td>
-                                <td>{data.status.toLowerCase()}</td>
-                              </tr>
-                            ))}
+                            {searchengineData.map((data, index) => {
+                              const serialNumber =
+                                (currentPage - 1) * itemsPerPage + index + 1;
+                              return (
+                                <tr key={index}>
+                                  <td>{serialNumber}</td>
+                                  <td
+                                    style={{ cursor: "pointer" }}
+                                    onClick={() => {
+                                      toComponentB(data);
+                                    }}>
+                                    <p className="question">
+                                      {data.question
+                                        .split(" ")
+                                        .slice(0, 3)
+                                        .join(" ")}
+                                    </p>
+                                  </td>
+                                  <td>{data.questionType}</td>
+                                  <td>{data.questionSubject}</td>
+                                  <td>{data.questionPrice}</td>
+                                  <td>{data.status.toLowerCase()}</td>
+                                </tr>
+                              );
+                            })}
                           </tbody>
                         </table>
                       )}
@@ -123,9 +128,13 @@ const Searchengine = () => {
                       <div className="table-pagination">
                         <button
                           className="btn btn-primary"
-                          onClick={() => setCurrentPage(currentPage - 1)}
+                          onClick={() => {
+                            if (currentPage > 1) {
+                              setCurrentPage(currentPage - 1);
+                              navigate(`/Searchengine?page=${currentPage - 1}`);
+                            }
+                          }}
                           disabled={currentPage === 1}>
-
                           prev
                         </button>
                         <button className="btn btn-primary mx-2">
@@ -133,8 +142,10 @@ const Searchengine = () => {
                         </button>
                         <button
                           className="btn btn-primary"
-                          onClick={() => setCurrentPage(currentPage + 1)}>
-
+                          onClick={() => {
+                            setCurrentPage(currentPage + 1);
+                            navigate(`/Searchengine?page=${currentPage + 1}`);
+                          }}>
                           next
                         </button>
                       </div>
