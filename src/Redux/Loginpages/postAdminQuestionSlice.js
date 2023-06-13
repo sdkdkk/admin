@@ -24,6 +24,8 @@ export const postAdminQuestions = createAsyncThunk('admin/sendanswer', async (pa
         toast.success(response.data.message)
         return response.data;
     } catch (error) {
+        console.log(error.response.data.error)
+        toast.error(error.response.data.error)
         logoutIfInvalidToken(error.response)
         return rejectWithValue(error.message);
     }

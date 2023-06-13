@@ -75,6 +75,7 @@ import Studentreferral from "./components/Bonussection/Studentreferral";
 import Tutorreferral from "./components/Bonussection/Tutorreferral";
 import Subscription from "./components/Wallet/Subscription";
 import Questionanswer from "./components/Questionpages/Questionanswer";
+import QuestionAnswerAll from "./components/Question/QuestionAnswerAll";
 
 
 
@@ -542,7 +543,7 @@ function App() {
             </RequireAuth>
           }
         />
-
+        <Route path="/questionanswerall/:id" element={<QuestionAnswerAll />} />
         <Route path="/contactus" element={<Contactus />} />
         <Route path="/forgotpassword" element={<ForgotpassWord />} />
         <Route
