@@ -120,7 +120,7 @@ const Studentlist = () => {
                 height: "100vh",
               }}>
               <ColorRing
-                visible={true}
+                visible={true}  
                 height="80"
                 width="80"
                 ariaLabel="blocks-loading"
