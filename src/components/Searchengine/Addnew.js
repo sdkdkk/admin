@@ -36,7 +36,7 @@ const Addnew = () => {
   console.log(fields);
 
   const handleAddField = () => {
-    setFields([...fields, {  value: "" }]);
+    setFields([...fields, { value: "" }]);
   };
 
   const handleRemoveField = (index) => {
@@ -189,16 +189,15 @@ const Addnew = () => {
 
   const onSubmit = (data) => {
     console.log(data);
-    if (selectedOption === "MatchTheFollowing-more5") {
-      // If the selected question type is "MatchTheFollowing-more5",
-      // handle the answer data and post it to the API
+    if (
+      selectedOption === "MatchTheFollowing-more5" ||
+      selectedOption === "MatchTheFollowing-less5"
+    ) {
       const formData = new FormData();
-
       const formattedAnswerData = answerData.map((item) => ({
         id: item.id,
         value: item.value,
       }));
-
       const files = data.questionPhoto;
       formData.append("question", data.question);
       formData.append("questionType", data.questionType);
@@ -224,9 +223,11 @@ const Addnew = () => {
         .catch((error) => {
           setIsLoading(false);
         });
-    } else if (selectedOption === "FillInBlanks" || selectedOption ==="FillInBlanks-exp") {
+    } else if (
+      selectedOption === "FillInBlanks" ||
+      selectedOption === "FillInBlanks-exp"
+    ) {
       const formData = new FormData();
-
       const formattedAnswerData = fields.map((item) => ({
         id: item.id,
         value: item.value,
@@ -399,7 +400,9 @@ const Addnew = () => {
                         selectedOption === "Writing" ||
                         selectedOption === "LongAnswer" ||
                         selectedOption === "ProblemSolving" ||
-                        selectedOption === "Theory" ? (
+                        selectedOption === "Theory" ||
+                        selectedOption === "CaseStudy-less3" ||
+                        selectedOption === "CaseStudy-more3" ? (
                           <Col md={12}>
                             <div>
                               <p className="mx-1">Answer</p>
@@ -429,7 +432,6 @@ const Addnew = () => {
                             </div>
                           </Col>
                         ) : null}
-
                         {selectedOption === "MCQ" ||
                         selectedOption === "MCQ-exp" ? (
                           <div className="p--20 rbt-border radius-6 bg-primary-opacity mt-2">
@@ -591,7 +593,7 @@ const Addnew = () => {
                             {answerData.map((data, index) => (
                               <div key={index}>
                                 <input
-                                  className="mr-2"
+                                  className="mr-2 mt-2"
                                   type="text"
                                   value={data.id}
                                   onChange={(e) =>
@@ -615,12 +617,12 @@ const Addnew = () => {
                                     )
                                   }
                                 />
-                                <button onClick={() => removeAnswerData(index)}>
+                                <button className="btn btn-danger mx-2" onClick={() => removeAnswerData(index)}>
                                   Remove
                                 </button>
                               </div>
                             ))}
-                            <button onClick={addAnswerData}>Add Answer</button>
+                            <button className="btn btn-primary mt-2" onClick={addAnswerData}>Add Answer</button>
                           </div>
                         ) : null}
 
@@ -633,6 +635,7 @@ const Addnew = () => {
                                 <div key={index}>
                                   <input
                                     type="text"
+                                    className="mt-2"
                                     value={field.value}
                                     onChange={(e) => {
                                       const valuesCopy = [...fields];
@@ -643,6 +646,7 @@ const Addnew = () => {
                                   {index !== 0 && (
                                     <button
                                       type="button"
+                                      className="btn btn-danger mx-2"
                                       onClick={() => handleRemoveField(index)}>
                                       Remove Field
                                     </button>
@@ -652,7 +656,7 @@ const Addnew = () => {
                             </div>
                             <button
                               type="button"
-                              className="rbt-btn btn-sm add-field"
+                              className="rbt-btn btn-sm add-field mt-2"
                               onClick={handleAddField}>
                               Add field
                             </button>
