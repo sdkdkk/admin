@@ -52,6 +52,19 @@ const MatchfollowSearchengine = () => {
                   </div>
                 </div>
               )}
+              {location.state.data.explanation && (
+                <div className="col-md-12 col-lg-12 mb--20 ">
+                  <h5>Explanation</h5>
+                  <div className="p--20 rbt-border radius-6 bg-primary-opacity">
+                    <span
+                      dangerouslySetInnerHTML={{
+                        __html: location.state.data.explanation,
+                      }}
+                    />
+                    <br />
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </div>
