@@ -343,6 +343,7 @@ const Addnew = () => {
                                       render={({ field }) => (
                                         <input
                                           {...field}
+                                          
                                           className="form-check-input"
                                           type="radio"
                                           id="rbt-radio-1"
