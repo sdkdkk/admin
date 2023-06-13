@@ -22,7 +22,10 @@ const Searchengine = () => {
     navigate("/Searchenginequedetail", { state: { data } });
   };
 
-  const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(() => {
+    const storedPage = localStorage.getItem("currentPage");
+    return storedPage ? parseInt(storedPage) : 1;
+  });
   const [itemsPerPage] = useState(5);
 
   useEffect(() => {
@@ -32,7 +35,12 @@ const Searchengine = () => {
     dispatch(searchengine(limit, skip, 0)).then(() => {
       setIsLoading(false);
     });
-  }, [currentPage, itemsPerPage]);
+  }, [currentPage, itemsPerPage, dispatch]);
+
+  useEffect(() => {
+    localStorage.setItem("currentPage", currentPage.toString());
+  }, [currentPage]);
+
 
   const searchengineData = searchengineState?.user?.data || [];
   return (
