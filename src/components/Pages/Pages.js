@@ -100,6 +100,7 @@ const Pages = () => {
     }, 1000);
     reset();
   };
+  
 
   return (
     <div>
