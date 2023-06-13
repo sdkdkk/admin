@@ -18,7 +18,7 @@ const Reanswerque = () => {
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
   const getAdminQuestionsState = useSelector((state) => state.getAdminQuestions);
-
+  const [queTypeList, setQueTypeList] = useState([]);
   const [subjectList, setSubjectList] = useState([]);
   const [questionSubject, setQuestionSubject] = useState("");
   const [questionType, setQuestionType] = useState("");
@@ -39,6 +39,17 @@ const Reanswerque = () => {
     }
   };
 
+  const fetchQueTypeData = async () => {
+        try {
+            const response = await axios.get(`${url}/getquestiontype`, {token }
+            );
+            setQueTypeList(response?.data?.data);
+            console.log(response?.data?.data);
+        } catch (error) {
+            // notify("Invalid refresh token!");
+        }
+    };
+
   const getQuestionList = () => {
 
     const payload = { questionType, questionSubject, whomto_ask: whomtoAsk, limit: 5, skip: (currentPage - 1) * 5, };
@@ -46,39 +57,7 @@ const Reanswerque = () => {
     dispatch(getAdminQuestions(payload));
   };
 
-  const handleAnswerClick = (data) => {
-    if (
-      data.questionType.includes("exp") &&
-      !["MCQ-exp", "TrueFalse-exp", "FillInBlanks-exp"].includes(
-        data.questionType
-      )
-    ) {
-      history(`/questionanswer?id=${data._id}`);
-    } else {
-      switch (data.questionType) {
-        case "MCQ":
-        case "MCQ-exp":
-          history(`/mcqquestion?id=${data._id}`);
-          return;
-        case "TrueFalse":
-        case "TrueFalse-exp":
-          history(`/truefalse?id=${data._id}`);
-          return;
-        case "FillInBlanks":
-        case "FillInBlanks-exp":
-          history(`/fillups?id=${data._id}`);
-          return;
-        case "MatchTheFollowing-less5":
-        case "MatchTheFollowing-more5":
-          history(`/matchfollow?id=${data._id}`);
-          return;
-        default:
-          history(`/questionanswer?id=${data._id}`);
-          return;
-      }
-    }
-  };
-
+  
   const handleDropdownClick = (id) => {
     setIsOpen(isOpen === id ? "" : id);
   };
@@ -93,6 +72,7 @@ const Reanswerque = () => {
 
   useEffect(() => {
     fetchSubjectData();
+    fetchQueTypeData()
   }, []);
 
   return (
@@ -145,30 +125,14 @@ const Reanswerque = () => {
                     <label>Question Type :</label>
                     <div className="dropdown react-bootstrap-select w-100">
                       <select
-                        className="w-100 form-select"
-                        onChange={(e) => setQuestionType(e.target.value)}
-                        id="displayname">
-                        <option value="MCQ">MCQ</option>
-                        <option value="MCQ-exp">MCQ-exp</option>
-                        <option value="TrueFalse">True / False</option>
-                        <option value="TrueFalse-exp">True / False-exp</option>
-                        <option value="FillInBlanks">Fill In the Blanks</option>
-                        <option value="FillInBlanks-exp">
-                          Fill In the Blanks-exp
-                        </option>
-                        <option value="ShortAnswer">Short Answer</option>
-                        <option value="MatchTheFollowing-less5">
-                          Match The Following-less5
-                        </option>
-                        <option value="MatchTheFollowing-more5">
-                          Match The Following-more5
-                        </option>
-                        <option value="ProblemSolving">Problem Solving</option>
-                        <option value="LongAnswer">Long Answer</option>
-                        <option value="Writing">Writing</option>
-                        <option value="CaseStudy-more3">CaseStudy-more3</option>
-                        <option value="CaseStudy-less3">CaseStudy-less3</option>
-                      </select>
+                        onChange={(e) => setQuestionType(e.target.value)} 
+                        className="w-100 form-select" id="displayname">
+                        {queTypeList?.map((a, id) => {
+                          return (
+                            <option key={id} value={a.questionType}> {a.questionType}</option>
+                                                    );
+                                                })}
+                                            </select>
                     </div>
                   </div>
                 </div>
