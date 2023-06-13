@@ -32,6 +32,19 @@ const Addnew = () => {
 
   console.log(answerData);
 
+  const [fields, setFields] = useState([]);
+  console.log(fields);
+
+  const handleAddField = () => {
+    setFields([...fields, {  value: "" }]);
+  };
+
+  const handleRemoveField = (index) => {
+    const valuesCopy = [...fields];
+    valuesCopy.splice(index, 1);
+    setFields(valuesCopy);
+  };
+
   const addAnswerData = () => {
     setAnswerData([...answerData, { id: "", value: "" }]);
   };
@@ -173,6 +186,7 @@ const Addnew = () => {
   };
 
   const token = localStorage.getItem("token");
+
   const onSubmit = (data) => {
     console.log(data);
     if (selectedOption === "MatchTheFollowing-more5") {
@@ -185,6 +199,38 @@ const Addnew = () => {
         value: item.value,
       }));
 
+      const files = data.questionPhoto;
+      formData.append("question", data.question);
+      formData.append("questionType", data.questionType);
+      formData.append("questionSubject", data.questionSubject);
+      formData.append("answer", JSON.stringify(formattedAnswerData));
+      formData.append("token", token);
+      for (let i = 0; i < files.length; i++) {
+        formData.append(`questionPhoto`, files[i]);
+      }
+      formData.append("explanation", data.explanation || "");
+      setIsLoading(true);
+      fetch(`${url}/admin/questionpost`, {
+        method: "POST",
+        body: formData,
+      })
+        .then((response) => {
+          setImages([]);
+          setEditorHtml("");
+          setIsLoading(false);
+          reset();
+          navigate("/searchengine");
+        })
+        .catch((error) => {
+          setIsLoading(false);
+        });
+    } else if (selectedOption === "FillInBlanks" || selectedOption ==="FillInBlanks-exp") {
+      const formData = new FormData();
+
+      const formattedAnswerData = fields.map((item) => ({
+        id: item.id,
+        value: item.value,
+      }));
       const files = data.questionPhoto;
       formData.append("question", data.question);
       formData.append("questionType", data.questionType);
@@ -268,15 +314,15 @@ const Addnew = () => {
                             id="inputGroupFile01"
                             aria-describedby="inputGroupFileAddon01"
                             name="questionPhoto"
-                            {...register("questionPhoto", { required: true })}
+                            {...register("questionPhoto", { required: false })}
                             multiple
                             accept=".png,.jpg,.jpeg,.tif,.tiff,.bmp,.gif,.ico"
                           />
-                          {errors?.questionPhoto && (
+                          {/* {errors?.questionPhoto && (
                             <p className="error text-danger">
                               Please upload at least one image
                             </p>
-                          )}
+                          )} */}
                         </div>
                         <div className="mb-3">
                           <label
@@ -399,7 +445,6 @@ const Addnew = () => {
                                       render={({ field }) => (
                                         <input
                                           {...field}
-                                          
                                           className="form-check-input"
                                           type="radio"
                                           id="rbt-radio-1"
@@ -542,44 +587,78 @@ const Addnew = () => {
                         {selectedOption === "MatchTheFollowing-more5" ||
                         selectedOption === "MatchTheFollowing-less5" ? (
                           <div className="col-md-12 col-lg-12 mb--20">
-                          <h5>Answer</h5>
-                          {answerData.map((data, index) => (
-                            <div key={index}>
-                              <input
-                                className="mr-2"
-                                type="text"
-                                value={data.id}
-                                onChange={(e) =>
-                                  handleAnswerDataChange(
-                                    index,
-                                    "id",
-                                    e.target.value
-                                  )
-                                }
-                              />
-                              =
-                              <input
-                                className="ml-2"
-                                type="text"
-                                value={data.value}
-                                onChange={(e) =>
-                                  handleAnswerDataChange(
-                                    index,
-                                    "value",
-                                    e.target.value
-                                  )
-                                }
-                              />
-                              <button onClick={() => removeAnswerData(index)}>
-                                Remove
-                              </button>
-                            </div>
-                          ))}
-                          <button onClick={addAnswerData}>Add Answer</button>
-                        </div>
+                            <h5>Answer</h5>
+                            {answerData.map((data, index) => (
+                              <div key={index}>
+                                <input
+                                  className="mr-2"
+                                  type="text"
+                                  value={data.id}
+                                  onChange={(e) =>
+                                    handleAnswerDataChange(
+                                      index,
+                                      "id",
+                                      e.target.value
+                                    )
+                                  }
+                                />
+                                =
+                                <input
+                                  className="ml-2"
+                                  type="text"
+                                  value={data.value}
+                                  onChange={(e) =>
+                                    handleAnswerDataChange(
+                                      index,
+                                      "value",
+                                      e.target.value
+                                    )
+                                  }
+                                />
+                                <button onClick={() => removeAnswerData(index)}>
+                                  Remove
+                                </button>
+                              </div>
+                            ))}
+                            <button onClick={addAnswerData}>Add Answer</button>
+                          </div>
                         ) : null}
 
-                       
+                        {selectedOption === "FillInBlanks" ||
+                        selectedOption === "FillInBlanks-exp" ? (
+                          <div className="multi-field-wrapper">
+                            <h5>Answer</h5>
+                            <div className="multi-fields">
+                              {fields.map((field, index) => (
+                                <div key={index}>
+                                  <input
+                                    type="text"
+                                    value={field.value}
+                                    onChange={(e) => {
+                                      const valuesCopy = [...fields];
+                                      valuesCopy[index].value = e.target.value;
+                                      setFields(valuesCopy);
+                                    }}
+                                  />
+                                  {index !== 0 && (
+                                    <button
+                                      type="button"
+                                      onClick={() => handleRemoveField(index)}>
+                                      Remove Field
+                                    </button>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
+                            <button
+                              type="button"
+                              className="rbt-btn btn-sm add-field"
+                              onClick={handleAddField}>
+                              Add field
+                            </button>
+                          </div>
+                        ) : null}
+
                         {isExp ? (
                           <Col md={12}>
                             <div>
