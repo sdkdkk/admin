@@ -6,7 +6,7 @@ import "../Css/Tutorlist.css";
 import { Pagination } from "@mui/material";
 import { useDispatch } from "react-redux";
 import Moment from "react-moment";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { tutordetail } from "../../Redux/Loginpages/tutordetailSlice";
@@ -166,9 +166,24 @@ const Tutordetails = () => {
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
   const displayUsers = data && data.slice(indexOfFirstPage, indexOfLastPage);
   const totalPages = Math.ceil(data.length / postsPerPage);
+
+  const location = useLocation();
+
   const handleChange = (event, value) => {
     setCurrentPage(value);
+    const searchParams = new URLSearchParams(location.search);
+    searchParams.set("page", value);
+    window.history.replaceState({}, "", `${location.pathname}?${searchParams.toString()}`);
   };
+
+  useEffect(() => {
+    // Retrieve the "page" query parameter from the URL
+    const searchParams = new URLSearchParams(location.search);
+    const pageParam = searchParams.get("page");
+    const initialPage = pageParam ? parseInt(pageParam) : 1;
+  
+    setCurrentPage(initialPage);
+  }, [location.search]);
 
   const [currentPage1, setCurrentPage1] = useState(1);
   const [postsPerPage1] = useState(6);

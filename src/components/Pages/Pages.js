@@ -5,7 +5,7 @@ import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
 import Form from "react-bootstrap/Form";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Pagesd } from "../../Redux/Loginpages/authSlice";
@@ -39,9 +39,23 @@ const Pages = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const location = useLocation();
+
   const handleChange = (event, value) => {
     setCurrentPage(value);
+    const searchParams = new URLSearchParams(location.search);
+    searchParams.set("page", value);
+    window.history.replaceState({}, "", `${location.pathname}?${searchParams.toString()}`);
   };
+
+  useEffect(() => {
+    // Retrieve the "page" query parameter from the URL
+    const searchParams = new URLSearchParams(location.search);
+    const pageParam = searchParams.get("page");
+    const initialPage = pageParam ? parseInt(pageParam) : 1;
+  
+    setCurrentPage(initialPage);
+  }, [location.search]);
 
   const { register, reset, handleSubmit, formats, control, modules, editorRef, formState: { errors }, } = useForm({ values: defaultValue });
 
@@ -136,7 +150,7 @@ const Pages = () => {
                           .map((data, index) => (
                             <tbody key={index}>
                               <tr>
-                                <td>{index + 1}</td>
+                              <td>{(currentPage - 1) * 5 + index + 1}</td>
                                 <td>{data.sortOrder}</td>
                                 <td>{data.pageName}</td>
                                 <td>
