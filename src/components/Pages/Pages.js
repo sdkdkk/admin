@@ -83,8 +83,6 @@ const Pages = () => {
   }, [pagesListDeleteState?.isSuccess]);
 
   const onSubmit = (data) => {
-    console.log(data);
-    // localStorage.setItem("data", token);
     if (defaultValue?._id) {
       data.id = defaultValue?._id;
       delete data._id;

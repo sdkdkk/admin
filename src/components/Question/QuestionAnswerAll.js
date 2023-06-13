@@ -4,50 +4,34 @@ import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
 import ReactQuill, { Quill } from "react-quill";
 import "../Css/Tutorlist.css";
-import { Col } from "react-bootstrap";
-import { Link, useNavigate } from "react-router-dom";
+import { Col, Modal } from "react-bootstrap";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import ImageResize from "quill-image-resize-module-react";
 import "react-quill/dist/quill.snow.css";
 import axios from "axios";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
+import { useDispatch, useSelector } from "react-redux";
+import { postAdminQuestions } from "../../Redux/Loginpages/postAdminQuestionSlice";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
 Quill.register("modules/imageResize", ImageResize);
 
-const Addnew = () => {
-  const [images, setImages] = useState([]);
-
-  const [questionTypes, setQuestionTypes] = useState([]);
-  const [questionSubject, setQuestionSubject] = useState([]);
+const QuestionAnswerAll = () => {
+    const { id } = useParams()
+  
+ const [showModal, setShowModal] = useState(false);
+  const [modalImageSrc, setModalImageSrc] = useState("");
+  const handleImageClick = (src) => {
+    setModalImageSrc(src);
+    setShowModal(true);
+  };
   const [editorHtml, setEditorHtml] = useState("");
-
-  const navigate = useNavigate();
-  const [optionsArray, setOptionsArray] = useState([]);
-  const [selectedOption, setSelectedOption] = useState("");
-  const [isExp, setIsExp] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [answerData, setAnswerData] = useState([]);
-
-  console.log(answerData);
-
-  const addAnswerData = () => {
-    setAnswerData([...answerData, { id: "", value: "" }]);
-  };
-
-  const removeAnswerData = (index) => {
-    const updatedAnswerData = [...answerData];
-    updatedAnswerData.splice(index, 6);
-    setAnswerData(updatedAnswerData);
-  };
-
-  const handleAnswerDataChange = (index, key, value) => {
-    const updatedAnswerData = [...answerData];
-    updatedAnswerData[index][key] = value;
-    setAnswerData(updatedAnswerData);
-  };
-
+  const [answerData, setanswerData] = useState([]);
+  const dispatch =useDispatch()
+  const token = localStorage.getItem("token");
   const {
     register,
     handleSubmit,
@@ -100,146 +84,31 @@ const Addnew = () => {
     "image",
     "video",
   ];
+    const getAdminQuestionsState = useSelector((state) => state.getAdminQuestions);
+    console.log(getAdminQuestionsState);
+  const filterData = getAdminQuestionsState?.data?.transactions?.filter((item) =>item._id === id);
+    console.log(filterData?.[0]?.questionType);
+    useEffect(() => {
+    reset(filterData?.[0])
+    }, [reset])
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const response = await axios.get(`${url}/getquestiontype`, {
-          token: token,
-        });
 
-        setQuestionTypes(response.data.data);
-        let responseArray = [];
-        response.data.data.forEach((element) => {
-          let obj = {
-            label: "",
-            value: "",
-          };
-          obj.label = element;
-          obj.value = element;
-          responseArray.push(obj);
-        });
-        setOptionsArray(responseArray);
-      } catch (error) {
-        logoutIfInvalidToken(error.response);
-        if (error.response) {
-        } else if (error.request) {
-        } else {
-        }
-      }
-    };
-
-    fetchData();
-  }, []);
-
-  useEffect(() => {
-    const fetchData1 = async () => {
-      try {
-        const response1 = await axios.post(`${url}/getquestionsubject`, {
-          token: token,
-        });
-
-        setQuestionSubject(response1.data.data);
-        let responseArray1 = [];
-        response1.data.data.forEach((element) => {
-          let obj = {
-            label: "",
-            value: "",
-          };
-          obj.label = element;
-          obj.value = element;
-          responseArray1.push(obj);
-        });
-        setOptionsArray(responseArray1);
-      } catch (error) {
-        logoutIfInvalidToken(error.response1);
-        if (error.response1) {
-        } else if (error.request1) {
-        } else {
-        }
-      }
-    };
-
-    fetchData1();
-  }, []);
-
-  const handleChange = (event) => {
-    setSelectedOption(event.target.value);
-    if (event.target.value.endsWith("-exp")) {
-      setIsExp(true);
-    } else {
-      setIsExp(false);
-    }
+    const onSubmit = (data) => {
+     
+            const formDataObj = {
+            token: token,
+            questionId:id,
+            answer: data.answer,
+            explanation:data.explanation || ""
+         }
+   
+    setIsLoading(true);
+        dispatch(postAdminQuestions(formDataObj))
+        setIsLoading(false);
   };
-
-  const token = localStorage.getItem("token");
-  const onSubmit = (data) => {
-    console.log(data);
-    if (selectedOption === "MatchTheFollowing-more5") {
-      // If the selected question type is "MatchTheFollowing-more5",
-      // handle the answer data and post it to the API
-      const formData = new FormData();
-
-      const formattedAnswerData = answerData.map((item) => ({
-        id: item.id,
-        value: item.value,
-      }));
-
-      const files = data.questionPhoto;
-      formData.append("question", data.question);
-      formData.append("questionType", data.questionType);
-      formData.append("questionSubject", data.questionSubject);
-      formData.append("answer", JSON.stringify(formattedAnswerData));
-      formData.append("token", token);
-      for (let i = 0; i < files.length; i++) {
-        formData.append(`questionPhoto`, files[i]);
-      }
-      formData.append("explanation", data.explanation || "");
-      setIsLoading(true);
-      fetch(`${url}/admin/questionpost`, {
-        method: "POST",
-        body: formData,
-      })
-        .then((response) => {
-          setImages([]);
-          setEditorHtml("");
-          setIsLoading(false);
-          reset();
-          navigate("/searchengine");
-        })
-        .catch((error) => {
-          setIsLoading(false);
-        });
-    } else {
-      const formData = new FormData();
-      const files = data.questionPhoto;
-      formData.append("question", data.question);
-      formData.append("questionType", data.questionType);
-      formData.append("questionSubject", data.questionSubject);
-      formData.append("answer", data.answer);
-      formData.append("token", token);
-      for (let i = 0; i < files.length; i++) {
-        formData.append(`questionPhoto`, files[i]);
-      }
-      formData.append("explanation", data.explanation || "");
-      setIsLoading(true);
-      fetch(`${url}/admin/questionpost`, {
-        method: "POST",
-        body: formData,
-      })
-        .then((response) => {
-          setImages([]);
-          setEditorHtml("");
-          setIsLoading(false);
-          reset();
-          navigate("/searchengine");
-        })
-        .catch((error) => {
-          setIsLoading(false);
-        });
-    }
-  };
-
+    const questionType = filterData?.[0]?.questionType
+    const questionPhoto = filterData?.[0]?.questionPhoto
+ 
   return (
     <div>
       <div className="container-scroller">
@@ -256,28 +125,7 @@ const Addnew = () => {
                   <div className="card">
                     <div className="card-body">
                       <form onSubmit={handleSubmit(onSubmit)}>
-                        <div className="mb-3">
-                          <label
-                            htmlFor="exampleInputEmail1"
-                            className="form-label">
-                            Image
-                          </label>
-                          <input
-                            type="file"
-                            className="form-control"
-                            id="inputGroupFile01"
-                            aria-describedby="inputGroupFileAddon01"
-                            name="questionPhoto"
-                            {...register("questionPhoto", { required: true })}
-                            multiple
-                            accept=".png,.jpg,.jpeg,.tif,.tiff,.bmp,.gif,.ico"
-                          />
-                          {errors?.questionPhoto && (
-                            <p className="error text-danger">
-                              Please upload at least one image
-                            </p>
-                          )}
-                        </div>
+                        
                         <div className="mb-3">
                           <label
                             htmlFor="exampleInputEmail1"
@@ -288,74 +136,56 @@ const Addnew = () => {
                             className="form-control"
                             type="text"
                             name="question"
-                            {...register("question", { required: true })}
+                            {...register("question")}
+                            readOnly
                           />
-                          {errors.question && (
-                            <p className="error text-danger">
-                              Please Enter a question
-                            </p>
-                          )}
+                            <div>
+                                <img src={questionPhoto?.[0]} onClick={() => handleImageClick(questionPhoto[0])} alt="" />
+                              <Modal show={showModal} onHide={() => setShowModal(false)}>
+                                    <Modal.Body className="text-center">
+                                        <img src={modalImageSrc} alt="modal-img" />
+                                    </Modal.Body>
+                              </Modal>
+                       </div>
                         </div>
                         <div></div>
                         <div className="mb-3 dropdown react-bootstrap-select w-100">
                           <label htmlFor="questionType" className="form-label">
                             Question Type
-                          </label>
-                          <select
-                            id="questionType"
-                            className="w-100 form-control"
+                            </label>
+                            <input
+                            className="form-control"
+                            type="text"
                             name="questionType"
-                            {...register("questionType", { required: true })}
-                            onClick={handleChange}>
-                            <option value="">Select your questionType</option>
-                            {questionTypes.map((type, index) => (
-                              <option value={type.value} key={index}>
-                                {type.questionType}
-                              </option>
-                            ))}
-                          </select>
-                          {errors.questionType && errors.questionType.type && (
-                            <p className=" text-danger">
-                              Please select questionType
-                            </p>
-                          )}
+                            {...register("questionType")}
+                            readOnly
+                          />
+                                            
                         </div>
                         <div className="mb-3 dropdown react-bootstrap-select w-100">
                           <label
                             htmlFor="questionSubject"
                             className="form-label">
                             Question Subject
-                          </label>
-                          <select
-                            id="questionSubject"
-                            className="w-100 form-control"
-                            name="questionSubject"
-                            {...register("questionSubject", {
-                              required: true,
-                            })}>
-                            <option value="">Select your subject</option>
-                            {questionSubject.map((type, index) => (
-                              <option value={type.value} key={index}>
-                                {type.questionSubject}
-                              </option>
-                            ))}
-                          </select>
-                          {errors.questionSubject && (
-                            <p className=" text-danger">
-                              Please select a subject
-                            </p>
-                          )}
+                            </label>
+                            <input
+                            className="form-control"
+                            type="text"
+                            name="questionType"
+                            {...register("questionSubject")}
+                            readOnly                          
+                          />
                         </div>
 
-                        {selectedOption === "ShortAnswer" ||
-                        selectedOption === "ShortAnswer-exp" ||
-                        selectedOption === "Definations" ||
-                        selectedOption === "Writing" ||
-                        selectedOption === "LongAnswer" ||
-                        selectedOption === "ProblemSolving" ||
-                        selectedOption === "Theory" ? (
+                        {questionType === "ShortAnswer" ||
+                        questionType === "ShortAnswer-exp" ||
+                        questionType === "Definations" ||
+                        questionType === "Writing" ||
+                        questionType === "LongAnswer" ||
+                        questionType === "ProblemSolving" ||
+                        questionType === "Theory" ? (
                           <Col md={12}>
-                            <div>
+                             <div>
                               <p className="mx-1">Answer</p>
                               <Controller
                                 name="answer"
@@ -380,12 +210,13 @@ const Addnew = () => {
                                   Please Enter a answer
                                 </p>
                               )}
-                            </div>
+                            </div> 
+                                                          
                           </Col>
                         ) : null}
 
-                        {selectedOption === "MCQ" ||
-                        selectedOption === "MCQ-exp" ? (
+                        {questionType === "MCQ" ||
+                        questionType === "MCQ-exp" ? (
                           <div className="p--20 rbt-border radius-6 bg-primary-opacity mt-2">
                             <div className="row">
                               <p className="mx-1">Answer</p>
@@ -399,7 +230,6 @@ const Addnew = () => {
                                       render={({ field }) => (
                                         <input
                                           {...field}
-                                          
                                           className="form-check-input"
                                           type="radio"
                                           id="rbt-radio-1"
@@ -483,7 +313,7 @@ const Addnew = () => {
                           </div>
                         ) : null}
 
-                        {selectedOption === "TrueFalse" ? (
+                        {questionType === "TrueFalse" ? (
                           <div className="p--20 rbt-border radius-6 bg-primary-opacity">
                             <div className="row">
                               <p className="mx-1">Answer</p>
@@ -539,48 +369,27 @@ const Addnew = () => {
                           </div>
                         ) : null}
 
-                        {selectedOption === "MatchTheFollowing-more5" ||
-                        selectedOption === "MatchTheFollowing-less5" ? (
+                        {questionType === "MatchTheFollowing-more5" && (
                           <div className="col-md-12 col-lg-12 mb--20">
-                          <h5>Answer</h5>
-                          {answerData.map((data, index) => (
-                            <div key={index}>
-                              <input
-                                className="mr-2"
-                                type="text"
-                                value={data.id}
-                                onChange={(e) =>
-                                  handleAnswerDataChange(
-                                    index,
-                                    "id",
-                                    e.target.value
-                                  )
-                                }
-                              />
-                              =
-                              <input
-                                className="ml-2"
-                                type="text"
-                                value={data.value}
-                                onChange={(e) =>
-                                  handleAnswerDataChange(
-                                    index,
-                                    "value",
-                                    e.target.value
-                                  )
-                                }
-                              />
-                              <button onClick={() => removeAnswerData(index)}>
-                                Remove
-                              </button>
+                            <h5>Answer</h5>
+                            <div className="p--20 rbt-border radius-6 bg-primary-opacity">
+                              {Array.isArray(answerData) ? (
+                                answerData.map((data) => (
+                                  <div key={data.id}>
+                                    <span className="mx-3">{data.id} </span>
+                                    <span>=</span>
+                                    <span className="mx-3">{data.value}</span>
+                                  </div>
+                                ))
+                              ) : (
+                                <p>No answer data</p>
+                              )}
                             </div>
-                          ))}
-                          <button onClick={addAnswerData}>Add Answer</button>
-                        </div>
-                        ) : null}
+                          </div>
+                        )}
+                        
 
-                       
-                        {isExp ? (
+                        {questionType === "MCQ-exp" || questionType === "MCQ-exp"  ? (
                           <Col md={12}>
                             <div>
                               <p className="mx-1">Explanation</p>
@@ -642,4 +451,4 @@ const Addnew = () => {
   );
 };
 
-export default Addnew;
+export default QuestionAnswerAll;

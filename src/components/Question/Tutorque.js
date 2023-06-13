@@ -9,12 +9,12 @@ import { Pagination } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { getAdminQuestions } from "../../Redux/Loginpages/getAdminQuestionSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Tutorque = () => {
-
+  const location = useLocation();
     const history = useNavigate();
     const dispatch = useDispatch();
     const token = useSelector((state) => state.auth.token);
@@ -44,39 +44,6 @@ const Tutorque = () => {
         const payload = { questionType, questionSubject, whomto_ask: whomtoAsk, limit: 5, skip: (currentPage - 1) * 5, };
 
         dispatch(getAdminQuestions(payload));
-    };
-
-    const handleAnswerClick = (data) => {
-        if (
-            data.questionType.includes("exp") &&
-            !["MCQ-exp", "TrueFalse-exp", "FillInBlanks-exp"].includes(
-                data.questionType
-            )
-        ) {
-            history(`/questionanswer?id=${data._id}`);
-        } else {
-            switch (data.questionType) {
-                case "MCQ":
-                case "MCQ-exp":
-                    history(`/mcqquestion?id=${data._id}`);
-                    return;
-                case "TrueFalse":
-                case "TrueFalse-exp":
-                    history(`/truefalse?id=${data._id}`);
-                    return;
-                case "FillInBlanks":
-                case "FillInBlanks-exp":
-                    history(`/fillups?id=${data._id}`);
-                    return;
-                case "MatchTheFollowing-less5":
-                case "MatchTheFollowing-more5":
-                    history(`/matchfollow?id=${data._id}`);
-                    return;
-                default:
-                    history(`/questionanswer?id=${data._id}`);
-                    return;
-            }
-        }
     };
 
     const handleDropdownClick = (id) => {
@@ -214,10 +181,15 @@ const Tutorque = () => {
                                                         </tr>
                                                     </thead>
                                                     <tbody>
-                                                        {transactions.map((a, index) => (
+                                                        {transactions.length === 0 ? (
+                                                            <tr>
+                                                                <td colSpan="6" className="fw-3 fw-bolder text-center">No Question found</td>
+                                                             </tr>
+                                                        ) : transactions.map((a, index) => (
+                                                         
                                                             <tr key={index}>
                                                                 <td>{index+1}</td>
-                                                                <td><p className="question">{a.question}</p></td>
+                                                                <td><p className="question">{a.question.slice(0,40)}....</p></td>
                                                                 <td>{a.questionType}</td>
                                                                 <td>{a.questionSubject}</td>
                                                                 <td>{a.status}</td>
@@ -233,12 +205,9 @@ const Tutorque = () => {
                                                                         {a._id === isOpen && (
                                                                             <div className="dropdown__popup">
                                                                                 <ul className="dropdown__list">
-                                                                                    <li
-                                                                                        onClick={() =>
-                                                                                            handleAnswerClick(a)
-                                                                                        }>
+                                                                                  <Link to={`/questionanswerall/${a._id}`}>  <li>
                                                                                         Answer
-                                                                                    </li>
+                                                                                    </li></Link>
                                                                                 </ul>
                                                                             </div>
                                                                         )}

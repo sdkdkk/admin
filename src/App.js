@@ -37,7 +37,7 @@ import Tutorsubject from "./components/Tutorsub/Tutorsubject";
 import Tutorexamconfig from "./components/Tutorconfig/Tutorexamconfig";
 import Tutorsearch from "./components/Tutorexam/Tutorsearch";
 import Questiontype from "./components/Question/Questiontype";
-import Questions from "./components/Question/Questions";
+
 
 import Tutorque from "./components/Question/Tutorque";
 import Adminque from "./components/Question/Adminque";
@@ -74,6 +74,8 @@ import Tutorpostingstreak from "./components/Bonussection/Tutorpostingstreak ";
 import Studentreferral from "./components/Bonussection/Studentreferral";
 import Tutorreferral from "./components/Bonussection/Tutorreferral";
 import Subscription from "./components/Wallet/Subscription";
+import Questionanswer from "./components/Questionpages/Questionanswer";
+import QuestionAnswerAll from "./components/Question/QuestionAnswerAll";
 
 
 
@@ -363,14 +365,7 @@ function App() {
             </RequireAuth>
           }
         />
-        <Route
-          path="/questions"
-          element={
-            <RequireAuth>
-              <Questions />
-            </RequireAuth>
-          }
-        />
+       
         <Route
           path="/issuequestion"
           element={
@@ -548,7 +543,7 @@ function App() {
             </RequireAuth>
           }
         />
-
+        <Route path="/questionanswerall/:id" element={<QuestionAnswerAll />} />
         <Route path="/contactus" element={<Contactus />} />
         <Route path="/forgotpassword" element={<ForgotpassWord />} />
         <Route
@@ -559,6 +554,7 @@ function App() {
             </RequireAuth>
           }
         />
+        <Route path="questionanswer/:id" element={<Questionanswer />} />
         <Route path="/addmobile" element={<AddMobile />} />
         <Route path="/contactdetails" element={<Contactdetails />} />
       </Routes>

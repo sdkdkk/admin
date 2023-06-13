@@ -2,11 +2,14 @@ import React from "react";
 import "./Que.css";
 import { useLocation } from "react-router-dom";
 import Moment from "react-moment";
+import DOMPurify from 'dompurify';
 
 const TruefalsequeSearchengine = () => {
 
   const location = useLocation();
-  const answer = location.state.data.answer;
+  const answer = DOMPurify.sanitize(location.state.data.answer, {
+    ALLOWED_TAGS: [],
+  });
   const getresponse = location.state.data;
 
   return (
