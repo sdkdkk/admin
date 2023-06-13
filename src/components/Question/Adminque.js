@@ -8,7 +8,7 @@ import { Pagination } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { getAdminQuestions } from "../../Redux/Loginpages/getAdminQuestionSlice";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
@@ -243,12 +243,9 @@ const Adminque = () => {
                                                                         {a._id === isOpen && (
                                                                             <div className="dropdown__popup">
                                                                                 <ul className="dropdown__list">
-                                                                                    <li
-                                                                                        onClick={() =>
-                                                                                            handleAnswerClick(a)
-                                                                                        }>
+                                                                                      <Link to={`/questionanswerall/${a._id}`}>  <li>
                                                                                         Answer
-                                                                                    </li>
+                                                                                    </li></Link>
                                                                                 </ul>
                                                                             </div>
                                                                         )}

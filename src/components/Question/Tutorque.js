@@ -14,8 +14,6 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Tutorque = () => {
-  const location = useLocation();
-    const history = useNavigate();
     const dispatch = useDispatch();
     const token = useSelector((state) => state.auth.token);
     const getAdminQuestionsState = useSelector((state) => state.getAdminQuestions);
@@ -35,7 +33,7 @@ const Tutorque = () => {
             );
             setSubjectList(response?.data?.data);
         } catch (error) {
-            // notify("Invalid refresh token!");
+    console.log(error)
         }
     };
 
@@ -57,7 +55,8 @@ const Tutorque = () => {
     useEffect(() => {
         getQuestionList();
     }, [questionSubject, questionType, currentPage, whomtoAsk]);
-
+  
+  
     useEffect(() => {
         fetchSubjectData();
     }, []);
@@ -83,27 +82,6 @@ const Tutorque = () => {
                                             style={{ borderRadius: "4px" }}>
                                             Tutor
                                         </button>
-                                        {/* <button
-                                            // className="btn btn-primary"
-                                            type="button"
-                                            onClick={() => setWhomtoAsk("admin")}
-                                            style={{ borderRadius: "4px" }}>
-                                            Admin
-                                        </button> */}
-                                        {/* <button
-                                            // className="btn btn-primary"
-                                            type="button"
-                                            onClick={() => setWhomtoAsk("reanswer")}
-                                            style={{ borderRadius: "4px" }}>
-                                            Reanswer
-                                        </button> */}
-                                        {/* <button
-                                            // className="btn btn-primary"
-                                            type="button"
-                                            onClick={() => setWhomtoAsk("unsolved")}
-                                            style={{ borderRadius: "4px" }}>
-                                            Unsolved
-                                        </button> */}
                                     </div>
                                 </div>
                             </div>
