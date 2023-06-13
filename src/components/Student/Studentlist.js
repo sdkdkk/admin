@@ -16,6 +16,7 @@ import Moment from "react-moment";
 
 
 const Studentlist = () => {
+  
   const studentists = useSelector((state) => state.studentlist.data.document);
   const isLoading = useSelector((state) => state.studentlist.isLoading);
 
@@ -54,20 +55,36 @@ const Studentlist = () => {
   }, [studentists]);
 
 
-
   const searchItem = () => {
     if (studentists) {
-      // Add null check here
       const filteredData = studentists.filter((item) => {
         const itemDate = new Date(item.createdAt);
         const name = item.name ? item.name.toLowerCase() : null;
 
-        return (
-          (!values[0] || itemDate >= values[0].toDate()) &&
-          (!values[1] || itemDate <= values[1].toDate()) &&
-          (!searchTerm || name === searchTerm.toLowerCase())
-        );
+        if (values.length === 1) {
+          // Handle single date selection
+          const selectedDate = values[0].toDate();
+          return (
+            itemDate.getDate() === selectedDate.getDate() &&
+            itemDate.getMonth() === selectedDate.getMonth() &&
+            itemDate.getFullYear() === selectedDate.getFullYear() &&
+            (!searchTerm || name.includes(searchTerm.toLowerCase()))
+          );
+        } else if (values.length === 2) {
+          // Handle range selection
+          const firstDate = values[0].toDate();
+          const lastDate = values[1].toDate();
+          return (
+            itemDate >= firstDate &&
+            itemDate <= lastDate &&
+            (!searchTerm || name.includes(searchTerm.toLowerCase()))
+          );
+        } else {
+          // Handle no date selection (show all data)
+          return true;
+        }
       });
+
       setCurrentData(filteredData);
     }
   };
