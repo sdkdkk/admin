@@ -16,7 +16,7 @@ const Wallet = () => {
     const history = useNavigate();
     const getWalletDataState = useSelector(state => state.getWalletData)
     const walletTransactions = getWalletDataState?.data?.transactions
-
+console.log(getWalletDataState);
     //Pagination
     const [currentPage, setCurrentPage] = useState(1);
     const [postsPerPage] = useState(8);
