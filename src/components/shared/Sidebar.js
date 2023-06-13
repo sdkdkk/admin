@@ -92,12 +92,12 @@ const Sidebar = () => {
           </li>
 
           {/*Subscription*/}
-          <li className="nav-item">
+          {/* <li className="nav-item">
             <Link className="nav-link" to="/subscription">
               <span className="menu-title">Subscription</span>
               <i className="icon-screen-desktop menu-icon"></i>
             </Link>
-          </li>
+          </li> */}
 
           {/*Tutor Subject*/}
           <li className={`nav-item ${activeLink === '/tutorsubject' ? 'active' : ''}`}>
@@ -204,13 +204,7 @@ const Sidebar = () => {
             </div>
           </li>
 
-          <li className={`nav-item ${activeLink === '/questions' ? 'active' : ''}`}>
-            <Link className="nav-link" to="/questions">
-              <span className="menu-title">Questions</span>
-              <i className="icon-screen-desktop menu-icon"></i>
-            </Link>
-          </li>
-
+         
           {/*Question Setting*/}
           <li className="nav-item nav-category">
             <span className="nav-link">Question Setting</span>

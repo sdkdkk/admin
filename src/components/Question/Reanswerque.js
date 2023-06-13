@@ -22,7 +22,7 @@ const Reanswerque = () => {
   const [subjectList, setSubjectList] = useState([]);
   const [questionSubject, setQuestionSubject] = useState("");
   const [questionType, setQuestionType] = useState("");
-  const [whomtoAsk, setWhomtoAsk] = useState("tutor");
+  const [whomtoAsk, setWhomtoAsk] = useState("reanswer");
   const [isOpen, setIsOpen] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -193,7 +193,10 @@ const Reanswerque = () => {
                             </tr>
                           </thead>
                           <tbody>
-                            {transactions.map((a, index) => (
+                            {transactions.length === 0 ? (
+                              <tr>
+                                <td colSpan="6" className="fw-3 fw-bolder text-center">No Question found</td>
+                              </tr>) :transactions.map((a, index) => (
                               <tr key={index}>
                                 <td>{index + 1}</td>
                                 <td><p className="question">{a.question}</p></td>
