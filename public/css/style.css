@@ -4237,7 +4237,7 @@ pre code {
     margin-left: 91.66667%;
   }
 }
-.table-loading tbody, form:after  {
+.table-loading tbody:after  {
   position: absolute;
   top: 0;
   left: 0;

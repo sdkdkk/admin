@@ -80,6 +80,7 @@ import Transactiondetailshow from "./components/Wallet/Transactiondetailshow";
 
 import Thoughts from "./components/Tutorexam/Thoughts";
 import Tutorexampopup from "./components/Tutorexam/Tutorexampopup";
+import PostingGuideLine from "./components/Pages/PostingGuideLine";
 
 
 function RequireAuth({ children }) {
@@ -575,6 +576,7 @@ function App() {
             </RequireAuth>
           }
         />
+         <Route path="/postingguideline" element={<PostingGuideLine /> } />
         <Route path="/transactiondetailshow" element={<Transactiondetailshow /> } />
         <Route path="/questionanswer/:id" element={<Questionanswer />} />
         <Route path="/addmobile" element={<AddMobile />} />
