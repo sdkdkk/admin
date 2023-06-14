@@ -5,7 +5,9 @@ import Moment from "react-moment";
 
 const MatchfollowSearchengine = () => {
   const location = useLocation();
-  const answerData = JSON.parse(location.state.data.answer);
+  const answerData = location.state.data.answer
+    ? JSON.parse(location.state.data.answer)
+    : null;
 
   return (
     <div className="container-scroller">

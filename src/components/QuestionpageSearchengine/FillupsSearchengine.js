@@ -6,7 +6,9 @@ import Moment from "react-moment";
 
 const FillupsSearchengine = () => {
   const location = useLocation();
-  const answerData = JSON.parse(location.state.data.answer);
+  const answerData = location.state.data.answer
+    ? JSON.parse(location.state.data.answer)
+    : null;
   console.log(location.state.data);
 
   return (
@@ -33,8 +35,9 @@ const FillupsSearchengine = () => {
             <div className="content mt-2">
               <div className="row">
                 <div className="col-md-12 col-lg-12 mb--20 ">
-                  <h5>Question</h5>
+                
                   <div className="p--20 rbt-border radius-6 bg-primary-opacity">
+                  <h5>Question:</h5>
                     Q 01.{" "}
                     <span
                       dangerouslySetInnerHTML={{
@@ -45,10 +48,9 @@ const FillupsSearchengine = () => {
                   </div>
                 </div>
                 <div className="col-md-12 col-lg-12 mb--20">
-                  <h5>Answer</h5>
-
                   {Array.isArray(answerData) && (
                     <div className="p--20 rbt-border radius-6 bg-primary-opacity">
+                      <h5>Answer:</h5>
                       {answerData.map((data, id) => (
                         <p key={id}>
                           <span className="mx-3 fw-bolder">{id + 1}) </span>
@@ -60,8 +62,9 @@ const FillupsSearchengine = () => {
                 </div>
                 {location.state.data.explanation && (
                   <div className="col-md-12 col-lg-12 mb--20 ">
-                    <h5>Explanation</h5>
+               
                     <div className="p--20 rbt-border radius-6 bg-primary-opacity">
+                    <h5>Explanation:</h5>
                       <span
                         dangerouslySetInnerHTML={{
                           __html: location.state.data.explanation,
