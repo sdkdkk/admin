@@ -16,7 +16,7 @@ const initialState = {
 }
 
 
-export const postAdminQuestions = createAsyncThunk('admin/sendanswer', async (payload, { rejectWithValue }) => {
+export const postAdminQuestionsApi = createAsyncThunk('admin/sendanswer', async (payload, { rejectWithValue }) => {
 
     const token = localStorage.getItem('token')
     try {
@@ -39,15 +39,15 @@ export const postAdminQuestionsSlice = createSlice({
         reset: (state) => initialState
     },
     extraReducers: {
-        [postAdminQuestions.pending]: (state) => {
+        [postAdminQuestionsApi.pending]: (state) => {
             state.isLoading = true;
         },
-        [postAdminQuestions.fulfilled]: (state, { payload }) => {
+        [postAdminQuestionsApi.fulfilled]: (state, { payload }) => {
             state.isLoading = false;
             state.isSuccess = true;
             state.data = payload;
         },
-        [postAdminQuestions.rejected]: (state, { payload }) => {
+        [postAdminQuestionsApi.rejected]: (state, { payload }) => {
             state.isLoading = false;
             state.isSuccess = false;
             state.errorMessage = payload

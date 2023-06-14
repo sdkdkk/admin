@@ -5,20 +5,23 @@ import Sidebar from "../shared/Sidebar";
 import ReactQuill, { Quill } from "react-quill";
 import "../Css/Tutorlist.css";
 import { Button, Col, Modal } from "react-bootstrap";
-import { Link, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import ImageResize from "quill-image-resize-module-react";
 import "react-quill/dist/quill.snow.css";
 import { useDispatch, useSelector } from "react-redux";
-import { postAdminQuestions } from "../../Redux/Loginpages/postAdminQuestionSlice";
+import { postAdminQuestionsApi } from "../../Redux/Loginpages/postAdminQuestionSlice";
 import { getAdminQuestions } from "../../Redux/Loginpages/getAdminQuestionSlice";
-
+import { ColorRing } from "react-loader-spinner";
 
 
 Quill.register("modules/imageResize", ImageResize);
 
 const QuestionAnswerAll = () => {
-    const { id } = useParams()
+    const { id,  } = useParams()
+const navigate =useNavigate()
+  const postAdminQuestions = useSelector((state) => state.postAdminQuestions)
+  console.log(postAdminQuestions)
   
  const [showModal, setShowModal] = useState(false);
   const [modalImageSrc, setModalImageSrc] = useState("");
@@ -59,14 +62,7 @@ const QuestionAnswerAll = () => {
     updatedAnswerData[index][key] = value;
     setAnswerData(updatedAnswerData);
   };
-  const {
-    register,
-    handleSubmit,
-    control,
-    editorRef,
-    reset,
-    formState: { errors },
-  } = useForm({});
+  const { register, handleSubmit, control, editorRef,reset,formState: { errors }} = useForm({});
 
   const modules = {
     toolbar: [
@@ -106,22 +102,47 @@ const QuestionAnswerAll = () => {
     "link",
     "image",
     "video",
-    ];
-    
-    const getAdminQuestionsState = useSelector((state) => state.getAdminQuestions);
-   
+  ];
+  const getAdminQuestionsState = useSelector((state) => state.getAdminQuestions);
   const filterData = getAdminQuestionsState?.data?.transactions?.filter((item) =>item._id === id);
- console.log(filterData);
-  const questionType = filterData?.[0]?.questionType
-    const questionPhoto = filterData?.[0]?.questionPhoto
+  console.log(filterData?.[0])
+ 
+  const questionPhoto = filterData?.[0]?.questionPhoto
+  const selectType = filterData?.[0]?.questionType
+ 
+
+  const [whomtoAsk, setWhomtoAsk] = useState("tutor" ||"admin" || "reanswer" || "unsolved");
+ 
+    const [questionSubject, setQuestionSubject] = useState("");
+    const [questionType, setQuestionType] = useState("");
+    const [currentPage, setCurrentPage] = useState(1);
+
+   const getQuestionList = () => {
+
+     const payload = { questionType, questionSubject, whomto_ask :whomtoAsk, limit: 5, skip: (currentPage - 1) * 5, };
+  setIsLoading(true)
+     dispatch(getAdminQuestions(payload));
+       setIsLoading(false)
+    };
+  
+  useEffect(() => {
+     setIsLoading(true)
+    getQuestionList();
+      setIsLoading(false)
+   }, [questionSubject, questionType, whomtoAsk]);
+  
    
-    useEffect(() => {
-           reset(filterData?.[0])
+  useEffect(() => {
+        setIsLoading(true);
+        reset(filterData?.[0])
+        setIsLoading(false);
         }, [filterData?.[0]])
 
     const onSubmit = (data) => {
         
       console.log(data);
+      
+
       const formattedAnswerData = answerData.map((item) => ({
         id: item.id,
         value: item.value,
@@ -129,14 +150,19 @@ const QuestionAnswerAll = () => {
       const formDataObj = {
             token: token,
             questionId:id,
-            answer: (questionType === "FillInBlanks" || questionType === "FillInBlanks-exp" || questionType === "MatchTheFollowing-more5" || questionType === "MatchTheFollowing-less5")
+            answer: (selectType === "FillInBlanks" || selectType === "FillInBlanks-exp" || selectType === "MatchTheFollowing-more5" || selectType === "MatchTheFollowing-less5")
                 ? JSON.stringify(formattedAnswerData)
                  : data.answer,
             explanation:data.explanation || ""
-           }
+      }
+    
         setIsLoading(true);
-        dispatch(postAdminQuestions(formDataObj))
-        setIsLoading(false);
+        dispatch(postAdminQuestionsApi(formDataObj))
+      setIsLoading(false);
+
+        if (postAdminQuestions?.data?.message ==="Answer Submitted Successfully." )  {
+          navigate(data.whomto_ask === "tutor" ? "/tutorque" :filterData?.[0]?.whomto_ask  === "admin"?"/adminque" : filterData?.[0]?.whomto_ask  === "reanswer"?"/reanswer": filterData?.[0]?.whomto_ask  === "unsolved"? "/unsolved":"")
+        }
        
       };
 
@@ -151,12 +177,14 @@ const QuestionAnswerAll = () => {
             <div className="content-wrapper">
               <div className="oneline">
                 <h3 className="main-text">Search Engine</h3>
+              
               </div>
               <div className="row  ">
                 <div className="col-md-12 grid-margin stretch-card questionanstext">
-                  <div className="card">
+                  <div className={`card ${getAdminQuestions?.isLoading || postAdminQuestions?.isLoading ? "table-loading" : ""}`}
+>
                     <div className="card-body">
-                      <form onSubmit={handleSubmit(onSubmit)}>
+                     <form onSubmit={handleSubmit(onSubmit)} >
                         
                         <div className="mb-3">
                           <label
@@ -168,27 +196,26 @@ const QuestionAnswerAll = () => {
                             className="form-control"
                             type="text"
                             name="question"
-                            defaultValue={filterData?.[0]?.question}
                             {...register("question")}
                             readOnly
                           />
-                            <div>
-                                <img src={questionPhoto?.[0]} onClick={() => handleImageClick(questionPhoto[0])} alt="" />
-                              <Modal show={showModal} onHide={() => setShowModal(false)}>
-                                    <Modal.Body className="text-center">
-                                        <img src={modalImageSrc} alt="modal-img" />
-                                    </Modal.Body>
-                              </Modal>
-                       </div>
+                          <div>
+                            <img src={questionPhoto?.[0]} onClick={() => handleImageClick(questionPhoto[0])} alt="" className="my-3" />
+                            <Modal show={showModal} onHide={() => setShowModal(false)}>
+                              <Modal.Body className="text-center">
+                                <img src={modalImageSrc} alt="modal-img" />
+                              </Modal.Body>
+                            </Modal>
+                          </div>
                         </div>
                         <div></div>
-                        <div className="mb-3 dropdown react-bootstrap-select w-100">
+                        <div className="mb-3  dropdown react-bootstrap-select w-100">
                           <label htmlFor="questionType" className="form-label">
                             Question Type
-                            </label>
-                            <input
+                          </label>
+                          <input
                             className="form-control"
-                            type="text"                      
+                            type="text"
                             name="questionType"
                             {...register("questionType")}
                             readOnly
@@ -200,25 +227,27 @@ const QuestionAnswerAll = () => {
                             htmlFor="questionSubject"
                             className="form-label">
                             Question Subject
-                            </label>
-                            <input
+                          </label>
+                          <input
                             className="form-control"
                             type="text"
-                            name="questionType"
+                            name="questionSubject"
                             {...register("questionSubject")}
-                            readOnly                          
+                            readOnly
                           />
                         </div>
 
-                        {questionType === "ShortAnswer" ||
-                        questionType === "ShortAnswer-exp" ||
-                        questionType === "Definations" ||
-                        questionType === "Writing" ||
-                        questionType === "LongAnswer" ||
-                        questionType === "ProblemSolving" ||
-                        questionType === "Theory" ? (
+                          {selectType === "ShortAnswer" ||
+                           selectType ==="CaseStudy-less3"||
+                          selectType === "ShortAnswer-exp" ||
+                          selectType === "Definations" ||
+                          selectType === "Writing" ||
+                          selectType === "LongAnswer" ||
+                          selectType === "ProblemSolving" ||
+                          selectType === "CaseStudy-more3" ||
+                          selectType === "Theory" ? (
                           <Col md={12}>
-                             <div>
+                            <div>
                               <p className="mx-1">Answer</p>
                               <Controller
                                 name="answer"
@@ -243,13 +272,13 @@ const QuestionAnswerAll = () => {
                                   Please Enter a answer
                                 </p>
                               )}
-                            </div> 
+                            </div>
                                                           
                           </Col>
                         ) : null}
 
-                        {questionType === "MCQ" ||
-                        questionType === "MCQ-exp" ? (
+                        {selectType === "MCQ" ||
+                          selectType === "MCQ-exp" ? (
                           <div className="p--20 rbt-border radius-6 bg-primary-opacity mt-2">
                             <div className="row">
                               <p className="mx-1">Answer</p>
@@ -293,7 +322,7 @@ const QuestionAnswerAll = () => {
                                       )}
                                     />
                                     <label className="form-check-label">
-                                     B)
+                                      B)
                                     </label>
                                   </div>
                                 </div>
@@ -346,7 +375,7 @@ const QuestionAnswerAll = () => {
                           </div>
                         ) : null}
 
-                        {questionType === "TrueFalse" || questionType === "TrueFalse-exp"? (
+                        {selectType === "TrueFalse" || selectType === "TrueFalse-exp" ? (
                           <div className="p--20 rbt-border radius-6 bg-primary-opacity">
                             <div className="row">
                               <p className="mx-1">Answer</p>
@@ -402,8 +431,8 @@ const QuestionAnswerAll = () => {
                           </div>
                         ) : null}
 
-                         {questionType === "MatchTheFollowing-more5" ||
-                        questionType === "MatchTheFollowing-less5" ? (
+                        {selectType === "MatchTheFollowing-more5" ||
+                          selectType === "MatchTheFollowing-less5" ? (
                           <div className="col-md-12 col-lg-12 mb--20">
                             <h5>Answer</h5>
                             {answerData?.map((data, index) => (
@@ -442,46 +471,46 @@ const QuestionAnswerAll = () => {
                           </div>
                         ) : null}
 
-                        {questionType === "FillInBlanks" ||
-                        questionType === "FillInBlanks-exp" ? (
+                        {selectType === "FillInBlanks" ||
+                          selectType === "FillInBlanks-exp" ? (
                           <div className="multi-field-wrapper">
-                                                          <h5>Answer</h5>
-                         <div className="d-flex">
-                            <div className="multi-fields ">
-                              {fields.map((field, index) => (
-                                <div key={index} >
-                                      <input
-                                          className="my-2"
-                                    type="text"
-                                    value={field.value}
-                                    onChange={(e) => {
-                                      const valuesCopy = [...fields];
-                                      valuesCopy[index].value = e.target.value;
-                                      setFields(valuesCopy);
-                                    }}
-                                  />
-                                  {index !== 0 && (
-                                    <Button className="btn-danger mx-2"
-                                      type="button"
-                                      onClick={() => handleRemoveField(index)}>
-                                      Remove Field
-                                    </Button>
-                                  )}
-                                </div>
-                              ))}
-                           </div>
+                            <h5>Answer</h5>
+                            <div className="d-flex">
+                              <div className="multi-fields ">
+                                {fields.map((field, index) => (
+                                  <div key={index} >
+                                    <input
+                                      className="my-2"
+                                      type="text"
+                                      value={field.value}
+                                      onChange={(e) => {
+                                        const valuesCopy = [...fields];
+                                        valuesCopy[index].value = e.target.value;
+                                        setFields(valuesCopy);
+                                      }}
+                                    />
+                                    {index !== 0 && (
+                                      <Button className="btn-danger mx-2"
+                                        type="button"
+                                        onClick={() => handleRemoveField(index)}>
+                                        Remove Field
+                                      </Button>
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
                             </div>
-                            <button
+                            <Button
                               type="button"
                               className="rbt-btn btn-sm add-field my-3"
                               onClick={handleAddField}>
                               Add field
-                            </button>
+                            </Button>
                           </div>
                         ) : null}
                         
 
-                        {questionType === "MCQ-exp" || questionType === "FillInBlanks-exp" ||  questionType === "ShortAnswer-exp" || questionType === "TrueFalse-exp"? (
+                        {selectType === "MCQ-exp" || selectType === "FillInBlanks-exp" || selectType === "ShortAnswer-exp" || selectType === "TrueFalse-exp" ? (
                           <Col md={12}>
                             <div>
                               <p className="mx-1">Explanation</p>
@@ -516,20 +545,20 @@ const QuestionAnswerAll = () => {
 
                         <div className="mt-4">
                           <Link to="/searchengine">
-                            <button
+                            <Button
                               disabled={isLoading}
                               className="btn btn-primary mx-2">
                               Back
-                            </button>
+                            </Button>
                           </Link>
-                          <button
+                          <Button
                             disabled={isLoading}
                             type="submit"
                             className="btn btn-primary">
                             {isLoading ? "Posting..." : "Add"}
-                          </button>
+                          </Button>
                         </div>
-                      </form>
+                      </form> 
                     </div>
                   </div>
                 </div>

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
@@ -7,52 +7,30 @@ import { useLocation, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { getTransactionHistory } from "../../Redux/Loginpages/getTransactionHistorySlice";
+import { ColorRing } from "react-loader-spinner";
 
 const Transactiondetailshow = () => {
     const getTransactionHistoryState = useSelector((state) => state.getTransactionHistory); 
-    const location = useLocation();
- 
-    const queryParams = new URLSearchParams(location.search);
-    const category = queryParams.get("category");
-    const walletId = queryParams.get("walletId");
-    const type = queryParams.get("type");
-    console.log(walletId);
-
-
-    console.log(category, type)
-    console.log(getTransactionHistoryState);
-    console.log(location);
-    const dispatch = useDispatch();
+  const location = useLocation();
+  const [isLoading, setIsLoading]=useState(false)
+  
+     const dispatch = useDispatch();
     
       const getWalletDataApi = (category = "Student") => {
-    const params = location.search;
-    console.log(params)
-    dispatch(getTransactionHistory(walletId));
-  };
+          const params = location.search;
+      setIsLoading(true)
+         dispatch(getTransactionHistory(params));
+          setIsLoading(false)
+        };
 
   useEffect(() => {
+    
     getWalletDataApi();
-  }, []);
+       }, []);
     
-    const filterData = getTransactionHistoryState?.data?.transactions?.filter((item) =>item._id === walletId);
-    console.log(filterData);
-//     const { id } = useParams()
+    const filterData = getTransactionHistoryState?.data?.transactions?.filter((item) =>item);
+ 
 
-//   const {reset}=useForm()
-    
-//     const dispatch=useDispatch()
-    
-   
-//     const filterData = getTransactionHistoryState?.data?.transactions?.filter((item) =>item.walletId === id);
-//     console.log(filterData?.[0]);
-    
-//   useEffect(() => {
-//     dispatch(getTransactionHistory()); // Dispatch the action to fetch transaction history data
-
-//     return () => {
-//       dispatch(reset()); // Reset the form when the component is unmounted
-//     };
-//   }, [dispatch]);
     
   return (
     <div>
@@ -67,8 +45,11 @@ const Transactiondetailshow = () => {
               </div>
               <div className="row  ">
                 <div className="col-md-12 grid-margin stretch-card questionanstext">
-                  <div className="card">
-                    {/* <div className="card-body ">
+                  <div className={`card ${getTransactionHistoryState?.isLoading && "table-loading"
+                    }`}>
+                    <form>
+                    <div className="card-body ">
+                         <div>
                      <div className="my-2"><span className="mx-2 fw-6 fw-bolder">Name:</span><span>{filterData?.[0]?.name}</span></div>
                      <div className="my-2"><span className="mx-2 fw-6 fw-bolder">Type:</span><span>{filterData?.[0]?.type}</span></div>
                       <div className="my-2"><span className="mx-2 fw-6 fw-bolder">Category:</span><span>{filterData?.[0]?.category}</span></div>
@@ -78,7 +59,9 @@ const Transactiondetailshow = () => {
                      <div><span className="mx-2 fw-6 fw-bolder">Status:</span><span>{filterData?.[0]?.status}</span></div>
                       <div className="my-2"><span className="mx-2 fw-6 fw-bolder">transactionId:</span><span>{filterData?.[0]?.transactionId}</span></div>
                      <div className="my-2"><span className="mx-2 fw-6 fw-bolder">Description:</span><span>{filterData?.[0]?.description}</span></div>
-                    </div> */}
+                      </div>
+                    </div>
+                    </form>
                   </div>
                 </div>
               </div>
