@@ -181,7 +181,7 @@ const navigate =useNavigate()
               </div>
               <div className="row  ">
                 <div className="col-md-12 grid-margin stretch-card questionanstext">
-                  <div className={`card-body card table ${getAdminQuestions?.isLoading || postAdminQuestions?.isLoading ? "card-loading" : ""}`}
+                  <div className={`card ${getAdminQuestions?.isLoading || postAdminQuestions?.isLoading ? "table-loading" : ""}`}
 >
                     <div className="card-body">
                      <form onSubmit={handleSubmit(onSubmit)} >
@@ -500,12 +500,12 @@ const navigate =useNavigate()
                                 ))}
                               </div>
                             </div>
-                            <button
+                            <Button
                               type="button"
                               className="rbt-btn btn-sm add-field my-3"
                               onClick={handleAddField}>
                               Add field
-                            </button>
+                            </Button>
                           </div>
                         ) : null}
                         
@@ -545,18 +545,18 @@ const navigate =useNavigate()
 
                         <div className="mt-4">
                           <Link to="/searchengine">
-                            <button
+                            <Button
                               disabled={isLoading}
                               className="btn btn-primary mx-2">
                               Back
-                            </button>
+                            </Button>
                           </Link>
-                          <button
+                          <Button
                             disabled={isLoading}
                             type="submit"
                             className="btn btn-primary">
                             {isLoading ? "Posting..." : "Add"}
-                          </button>
+                          </Button>
                         </div>
                       </form> 
                     </div>

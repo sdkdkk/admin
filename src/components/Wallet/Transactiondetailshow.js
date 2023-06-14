@@ -45,8 +45,9 @@ const Transactiondetailshow = () => {
               </div>
               <div className="row  ">
                 <div className="col-md-12 grid-margin stretch-card questionanstext">
-                  <div className={`card table ${getTransactionHistoryState?.isLoading && "card-loading"
-                                                        }`}>
+                  <div className={`card ${getTransactionHistoryState?.isLoading && "table-loading"
+                    }`}>
+                    <form>
                     <div className="card-body ">
                          <div>
                      <div className="my-2"><span className="mx-2 fw-6 fw-bolder">Name:</span><span>{filterData?.[0]?.name}</span></div>
@@ -60,7 +61,7 @@ const Transactiondetailshow = () => {
                      <div className="my-2"><span className="mx-2 fw-6 fw-bolder">Description:</span><span>{filterData?.[0]?.description}</span></div>
                       </div>
                     </div>
-                    
+                    </form>
                   </div>
                 </div>
               </div>
