@@ -43,7 +43,8 @@ const TransactionDetails = () => {
   useEffect(() => {
     getWalletDataApi();
   }, [currentPage]);
-const history=useNavigate()
+  const history = useNavigate()
+  
     const handleDetailsClick = (data) => {
         const { category, walletId, type } = data
         history(`/transactiondetailshow?category=${category}&walletId=${walletId}&type=${type}`)
@@ -96,6 +97,8 @@ const history=useNavigate()
                         </thead>
                         <tbody>
                           {walletTransactions && [...walletTransactions].map((value, pos) => {
+                            console.log(value)
+
                             return (
                               <tr key={value._id}>
                                 <td>{pos + 1}</td>

@@ -165,7 +165,7 @@ const Tutorque = () => {
                                                              </tr>
                                                         ) : transactions.map((a, index) => (
                                                          
-                                                            <tr key={index}>
+                                                        <tr key={index}>
                                                                 <td>{index+1}</td>
                                                                 <td><p className="question">{a.question.slice(0,40)}....</p></td>
                                                                 <td>{a.questionType}</td>

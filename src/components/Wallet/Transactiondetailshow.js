@@ -11,48 +11,22 @@ import { getTransactionHistory } from "../../Redux/Loginpages/getTransactionHist
 const Transactiondetailshow = () => {
     const getTransactionHistoryState = useSelector((state) => state.getTransactionHistory); 
     const location = useLocation();
- 
-    const queryParams = new URLSearchParams(location.search);
-    const category = queryParams.get("category");
-    const walletId = queryParams.get("walletId");
-    const type = queryParams.get("type");
-    console.log(walletId);
-
-
-    console.log(category, type)
-    console.log(getTransactionHistoryState);
-    console.log(location);
-    const dispatch = useDispatch();
+  
+     const dispatch = useDispatch();
     
       const getWalletDataApi = (category = "Student") => {
-    const params = location.search;
-    console.log(params)
-    dispatch(getTransactionHistory(walletId));
-  };
-
-  useEffect(() => {
-    getWalletDataApi();
-  }, []);
-    
-    const filterData = getTransactionHistoryState?.data?.transactions?.filter((item) =>item._id === walletId);
-    console.log(filterData);
-//     const { id } = useParams()
-
-//   const {reset}=useForm()
-    
-//     const dispatch=useDispatch()
-    
+          const params = location.search;
    
-//     const filterData = getTransactionHistoryState?.data?.transactions?.filter((item) =>item.walletId === id);
-//     console.log(filterData?.[0]);
-    
-//   useEffect(() => {
-//     dispatch(getTransactionHistory()); // Dispatch the action to fetch transaction history data
+         dispatch(getTransactionHistory(params));
+        };
 
-//     return () => {
-//       dispatch(reset()); // Reset the form when the component is unmounted
-//     };
-//   }, [dispatch]);
+    useEffect(() => {
+       getWalletDataApi();
+    }, []);
+    
+    const filterData = getTransactionHistoryState?.data?.transactions?.filter((item) =>item);
+ 
+
     
   return (
     <div>
@@ -68,7 +42,7 @@ const Transactiondetailshow = () => {
               <div className="row  ">
                 <div className="col-md-12 grid-margin stretch-card questionanstext">
                   <div className="card">
-                    {/* <div className="card-body ">
+                    <div className="card-body ">
                      <div className="my-2"><span className="mx-2 fw-6 fw-bolder">Name:</span><span>{filterData?.[0]?.name}</span></div>
                      <div className="my-2"><span className="mx-2 fw-6 fw-bolder">Type:</span><span>{filterData?.[0]?.type}</span></div>
                       <div className="my-2"><span className="mx-2 fw-6 fw-bolder">Category:</span><span>{filterData?.[0]?.category}</span></div>
@@ -78,7 +52,7 @@ const Transactiondetailshow = () => {
                      <div><span className="mx-2 fw-6 fw-bolder">Status:</span><span>{filterData?.[0]?.status}</span></div>
                       <div className="my-2"><span className="mx-2 fw-6 fw-bolder">transactionId:</span><span>{filterData?.[0]?.transactionId}</span></div>
                      <div className="my-2"><span className="mx-2 fw-6 fw-bolder">Description:</span><span>{filterData?.[0]?.description}</span></div>
-                    </div> */}
+                    </div> 
                   </div>
                 </div>
               </div>
