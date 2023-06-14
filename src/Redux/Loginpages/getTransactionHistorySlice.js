@@ -16,6 +16,7 @@ export const getTransactionHistory = createAsyncThunk('/admin/fetchTransactionHi
     const token = localStorage.getItem('token')
     try {
         const response = await axios.post(`${url}/admin/fetchTransactionHistory${params}`, { token });
+        console.log(response);
         return response.data;
     } catch (error) {
         logoutIfInvalidToken(error.response)

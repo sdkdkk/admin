@@ -23,8 +23,9 @@ import { updateTutorQuestionApi } from "../../Redux/Loginpages/updateTutorQuesti
 import axios from "axios";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
-const url = process.env.REACT_APP_API_BASE_URL;
 
+
+const url = process.env.REACT_APP_API_BASE_URL;
 const ReadMore = ({ children }) => {
   const text = children;
   const [isReadMore, setIsReadMore] = useState(true);
@@ -46,7 +47,6 @@ const ReadMore = ({ children }) => {
 };
 
 const Tutorexam = () => {
-
   //Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(8);

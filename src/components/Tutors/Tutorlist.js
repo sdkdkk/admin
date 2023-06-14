@@ -11,7 +11,7 @@ import { Pagination } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { tutorunverified } from "../../Redux/Loginpages/tutorunverifiedSlice";
 import { Tutorswarning } from "../../Redux/Loginpages/tutorwarningSlice";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { tutorworking } from "../../Redux/Loginpages/tutorworkingSlice";
 import { ColorRing } from "react-loader-spinner";
 import Moment from "react-moment";
@@ -91,10 +91,24 @@ const Tutorlist = () => {
   let displayUsers = currentData && currentData.slice(indexOfFirstPage, indexOfLastPage);
   const totalPages = Math.ceil((currentData?.length || 0) / postsPerPage);
 
+  const location = useLocation();
+
   const handleChange = (event, value) => {
     setCurrentPage(value);
+    const searchParams = new URLSearchParams(location.search);
+    searchParams.set("page", value);
+    window.history.replaceState({}, "", `${location.pathname}?${searchParams.toString()}`);
   };
 
+  useEffect(() => {
+    // Retrieve the "page" query parameter from the URL
+    const searchParams = new URLSearchParams(location.search);
+    const pageParam = searchParams.get("page");
+    const initialPage = pageParam ? parseInt(pageParam) : 1;
+  
+    setCurrentPage(initialPage);
+  }, [location.search]);
+  
   const searchItem = () => {
     const firstDate = values?.length > 0 ? new Date(values[0]) : null;
     const lastDate = values?.length > 1 ? new Date(values[values.length - 1]) : null;

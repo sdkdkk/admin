@@ -8,16 +8,21 @@ import { getWalletData } from "../../Redux/Loginpages/getWalletDataSlice";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { getTransactionHistory } from "../../Redux/Loginpages/getTransactionHistorySlice";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Button } from "react-bootstrap";
 
 const TransactionDetails = () => {
   const dispatch = useDispatch();
   const location = useLocation();
+  console.log(location);
   const getTransactionHistoryState = useSelector(
     (state) => state.getTransactionHistory
-  );
+  ); 
+  console.log(getTransactionHistoryState);
   const walletTransactions = getTransactionHistoryState?.data?.transactions;
-
+  console.log(walletTransactions);
+  const walletTransactionsFilter = walletTransactions?.filter((item) => item._id );
+  console.log(walletTransactionsFilter);
   //Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(8);
@@ -31,12 +36,22 @@ const TransactionDetails = () => {
 
   const getWalletDataApi = (category = "Student") => {
     const params = location.search;
+    console.log(params)
     dispatch(getTransactionHistory(params));
   };
 
   useEffect(() => {
     getWalletDataApi();
   }, [currentPage]);
+const history=useNavigate()
+    const handleDetailsClick = (data) => {
+        const { category, walletId, type } = data
+        history(`/transactiondetailshow?category=${category}&walletId=${walletId}&type=${type}`)
+    }
+
+    useEffect(() => {
+        getWalletDataApi()
+    }, [currentPage])
 
   return (
     <div>
@@ -93,7 +108,7 @@ const TransactionDetails = () => {
                                 <td>{value.category}</td>
                                 <td>{value.status}</td>
                                 <td>
-                                  <button>Details</button>
+                              <Button className="btn btn-dark btn-sm" onClick={() => handleDetailsClick(value)}>Details</Button>
                                 </td>
                               </tr>
                             );

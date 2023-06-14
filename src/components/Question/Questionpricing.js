@@ -13,6 +13,7 @@ import { ColorRing } from "react-loader-spinner";
 import { Pagination } from "@mui/material";
 import { questiontypePriceApi } from "../../Redux/Loginpages/questiontypePriceSlice";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
+import { useLocation } from "react-router";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
@@ -102,9 +103,23 @@ const Questionpricing = () => {
   const displayUsers = data.slice(indexOfFirstPage, indexOfLastPage);
   const pageCount = Math.ceil(data.length / postsPerPage);
 
+  const location = useLocation();
+
   const handleChange = (event, value) => {
     setCurrentPage(value);
+    const searchParams = new URLSearchParams(location.search);
+    searchParams.set("page", value);
+    window.history.replaceState({}, "", `${location.pathname}?${searchParams.toString()}`);
   };
+
+  useEffect(() => {
+    // Retrieve the "page" query parameter from the URL
+    const searchParams = new URLSearchParams(location.search);
+    const pageParam = searchParams.get("page");
+    const initialPage = pageParam ? parseInt(pageParam) : 1;
+  
+    setCurrentPage(initialPage);
+  }, [location.search]);
 
   const handleUpdateClick = (data) => {
     setIsEditMode(true);

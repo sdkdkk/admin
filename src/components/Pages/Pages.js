@@ -5,23 +5,28 @@ import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
 import Form from "react-bootstrap/Form";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Pagesd } from "../../Redux/Loginpages/authSlice";
 import { Button, Col } from "react-bootstrap";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { postPageDataApi, reset as resetPostPageDataApi, } from "../../Redux/Loginpages/postPageDataSlice";
-import { pagesListDelete, reset as resetPagesListDelete, } from "../../Redux/Loginpages/pagesListDeleteSlice";
+import {
+  postPageDataApi,
+  reset as resetPostPageDataApi,
+} from "../../Redux/Loginpages/postPageDataSlice";
+import {
+  pagesListDelete,
+  reset as resetPagesListDelete,
+} from "../../Redux/Loginpages/pagesListDeleteSlice";
 import { updatePageDataApi } from "../../Redux/Loginpages/updatePageDataSlice";
 import { getPageListApi } from "../../Redux/Loginpages/getPageListSlice";
-
-
+import { ColorRing } from "react-loader-spinner";
 
 const Pages = () => {
-
   const [currentPage, setCurrentPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
 
   const auth = useSelector((state) => state.auth);
   const token = useSelector((state) => state.auth.token);
@@ -39,11 +44,38 @@ const Pages = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const location = useLocation();
+
   const handleChange = (event, value) => {
     setCurrentPage(value);
+    const searchParams = new URLSearchParams(location.search);
+    searchParams.set("page", value);
+    window.history.replaceState(
+      {},
+      "",
+      `${location.pathname}?${searchParams.toString()}`
+    );
   };
 
-  const { register, reset, handleSubmit, formats, control, modules, editorRef, formState: { errors }, } = useForm({ values: defaultValue });
+  useEffect(() => {
+    // Retrieve the "page" query parameter from the URL
+    const searchParams = new URLSearchParams(location.search);
+    const pageParam = searchParams.get("page");
+    const initialPage = pageParam ? parseInt(pageParam) : 1;
+
+    setCurrentPage(initialPage);
+  }, [location.search]);
+
+  const {
+    register,
+    reset,
+    handleSubmit,
+    formats,
+    control,
+    modules,
+    editorRef,
+    formState: { errors },
+  } = useForm({ values: defaultValue });
 
   useEffect(() => {
     if (postPageDataState?.isSuccess) {
@@ -59,6 +91,7 @@ const Pages = () => {
   };
 
   useEffect(() => {
+    setIsLoading(true);
     dispatch(getPageListApi());
   }, []);
 
@@ -82,6 +115,22 @@ const Pages = () => {
     }
   }, [pagesListDeleteState?.isSuccess]);
 
+  useEffect(() => {
+    if (
+      getPageListState.isLoading ||
+      updatePageDataState.isLoading ||
+      postPageDataState?.isLoading
+    ) {
+      setIsLoading(true);
+    } else {
+      setIsLoading(false);
+    }
+  }, [
+    getPageListState.isLoading,
+    updatePageDataState.isLoading,
+    postPageDataState?.isLoading,
+  ]);
+
   const onSubmit = (data) => {
     if (defaultValue?._id) {
       data.id = defaultValue?._id;
@@ -100,7 +149,6 @@ const Pages = () => {
     }, 1000);
     reset();
   };
-  
 
   return (
     <div>
@@ -116,94 +164,105 @@ const Pages = () => {
               <div className="row mt-3">
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table">
-                    <div className="card-body">
-                      <table
-                        className={`table ${(getPageListState.isLoading ||
-                            updatePageDataState.isLoading ||
-                            postPageDataState?.isLoading) &&
-                          "table-loading"
-                          }`}
-                      >
-                        <thead>
-                          <tr>
-                            <th scope="col">Sr. No</th>
-                            <th scope="col">Sort Order</th>
-                            <th scope="col">Page Name</th>
-                            <th scope="col">ACTION</th>
-                          </tr>
-                        </thead>
-                        {[...document]
-                          .slice((currentPage - 1) * 5, currentPage * 5)
-                          .map((data, index) => (
-                            <tbody key={index}>
-                              <tr>
-                                <td>{index + 1}</td>
-                                <td>{data.sortOrder}</td>
-                                <td>{data.pageName}</td>
-                                <td>
-                                  <div className="form-check form-switch">
-                                    <input
-                                      className="form-check-input"
-                                      type="checkbox"
-                                      id="flexSwitchCheckChecked"
-                                      onChange={(e) => {
-                                        changePageStatus(
-                                          data._id,
-                                          e.target.checked
-                                        );
-                                      }}
-                                      defaultChecked={data?.isactive}
-                                    />
-                                  </div>
-                                </td>
-                                <td>
-                                  <div className="dropdown">
-                                    <button
-                                      className="dropdown__button"
-                                      onClick={() =>
-                                        handleDropdownClick(data._id)
-                                      }
-                                    >
-                                      ...
-                                    </button>
-                                    {data._id === isOpen && (
-                                      <div className="dropdown__popup">
-                                        <ul className="dropdown__list">
-                                          <li
-                                            onClick={() =>
-                                              handleEditClick(data)
-                                            }
-                                          >
-                                            Edit
-                                          </li>
-                                          <li
-                                            onClick={() =>
-                                              handleDeleteClick(data._id)
-                                            }
-                                          >
-                                            Delete
-                                          </li>
-                                        </ul>
-                                      </div>
-                                    )}
-                                  </div>
-                                </td>
-                              </tr>
-                            </tbody>
-                          ))}
-                      </table>
-                      <div className="table-pagination">
-                        <Pagination
-                          count={4}
-                          page={currentPage}
-                          onChange={handleChange}
-                          shape="rounded"
-                          variant="outlined"
-                          showFirstButton
-                          showLastButton
+                    {isLoading ? (
+                      <p className="loader-container">
+                        <ColorRing
+                          visible={true}
+                          height="80"
+                          width="80"
+                          ariaLabel="blocks-loading"
+                          wrapperStyle={{}}
+                          wrapperclassName="blocks-wrapper"
+                          colors={["black"]}
                         />
+                      </p>
+                    ) : (
+                      <div className="card-body">
+                        <table
+                          className={`table ${
+                            (getPageListState.isLoading ||
+                              updatePageDataState.isLoading ||
+                              postPageDataState?.isLoading) &&
+                            "table-loading"
+                          }`}>
+                          <thead>
+                            <tr>
+                              <th scope="col">Sr. No</th>
+                              <th scope="col">Sort Order</th>
+                              <th scope="col">Page Name</th>
+                              <th scope="col">ACTION</th>
+                            </tr>
+                          </thead>
+                          {[...document]
+                            .slice((currentPage - 1) * 5, currentPage * 5)
+                            .map((data, index) => (
+                              <tbody key={index}>
+                                <tr>
+                                  <td>{(currentPage - 1) * 5 + index + 1}</td>
+                                  <td>{data.sortOrder}</td>
+                                  <td>{data.pageName}</td>
+                                  <td>
+                                    <div className="form-check form-switch">
+                                      <input
+                                        className="form-check-input"
+                                        type="checkbox"
+                                        id="flexSwitchCheckChecked"
+                                        onChange={(e) => {
+                                          changePageStatus(
+                                            data._id,
+                                            e.target.checked
+                                          );
+                                        }}
+                                        defaultChecked={data?.isactive}
+                                      />
+                                    </div>
+                                  </td>
+                                  <td>
+                                    <div className="dropdown">
+                                      <button
+                                        className="dropdown__button"
+                                        onClick={() =>
+                                          handleDropdownClick(data._id)
+                                        }>
+                                        ...
+                                      </button>
+                                      {data._id === isOpen && (
+                                        <div className="dropdown__popup">
+                                          <ul className="dropdown__list">
+                                            <li
+                                              onClick={() =>
+                                                handleEditClick(data)
+                                              }>
+                                              Edit
+                                            </li>
+                                            <li
+                                              onClick={() =>
+                                                handleDeleteClick(data._id)
+                                              }>
+                                              Delete
+                                            </li>
+                                          </ul>
+                                        </div>
+                                      )}
+                                    </div>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            ))}
+                        </table>
+                        {document.length > 0 && (
+                          <div className="table-pagination">
+                            <Pagination
+                              count={Math.ceil(document.length / 5)}
+                              page={currentPage}
+                              onChange={handleChange}
+                              shape="rounded"
+                              variant="outlined"
+                            />
+                          </div>
+                        )}{" "}
                       </div>
-                    </div>
+                    )}
                   </div>
                 </div>
               </div>
@@ -216,8 +275,7 @@ const Pages = () => {
                           <div className="col-md-12">
                             <Form.Group
                               className="mb-3"
-                              controlId="formBasicEmail"
-                            >
+                              controlId="formBasicEmail">
                               <Form.Label>SortOrder</Form.Label>
                               <Form.Control
                                 type="text"
@@ -235,8 +293,7 @@ const Pages = () => {
                           <div className="col-md-12">
                             <Form.Group
                               className="mb-3"
-                              controlId="formBasicEmail"
-                            >
+                              controlId="formBasicEmail">
                               <Form.Label>Page Name</Form.Label>
                               <Form.Control
                                 type="text"
@@ -255,35 +312,35 @@ const Pages = () => {
                             <div>
                               <p className="mx-1">Context Text</p>
                               <Controller
-                              name="contentText"
-                              control={control}
-                              render={({ field }) => (
-                                <ReactQuill
-                                  theme="snow"
-                                  name="contentText"
-                                  {...register("contentText", { required: true })}
-                                  modules={modules}
-                                  formats={formats}
-                                  bounds={"#root"}
-                                  placeholder="type Here...."
-                                  ref={editorRef}
-                                  {...field}
-                                />
-                              )}
+                                name="contentText"
+                                control={control}
+                                render={({ field }) => (
+                                  <ReactQuill
+                                    theme="snow"
+                                    name="contentText"
+                                    {...register("contentText", {
+                                      required: true,
+                                    })}
+                                    modules={modules}
+                                    formats={formats}
+                                    bounds={"#root"}
+                                    placeholder="type Here...."
+                                    ref={editorRef}
+                                    {...field}
+                                  />
+                                )}
                               />
-                               {errors.contentText && (
-                              <p className="error text-danger">
-                                Please Enter a contentText
-                              </p>
-                            )}
-                             
+                              {errors.contentText && (
+                                <p className="error text-danger">
+                                  Please Enter a contentText
+                                </p>
+                              )}
                             </div>
                           </Col>
                           <div className="col-md-6 mt-4">
                             <Form.Group
                               className="mb-3"
-                              controlId="formBasicEmail"
-                            >
+                              controlId="formBasicEmail">
                               <Form.Label>Meta Title</Form.Label>
                               <Form.Control
                                 type="text"
@@ -300,8 +357,7 @@ const Pages = () => {
                           <div className="col-md-6 mt-4">
                             <Form.Group
                               className="mb-3"
-                              controlId="formBasicEmail"
-                            >
+                              controlId="formBasicEmail">
                               <Form.Label>Meta Keyword</Form.Label>
                               <Form.Control
                                 type="text"
@@ -347,15 +403,13 @@ const Pages = () => {
                           <div className="pages-btn mt-4">
                             <Button
                               className="btn btn-primary mx-2"
-                              onClick={() => (window.location.href = "/pages")}
-                            >
+                              onClick={() => (window.location.href = "/pages")}>
                               Back
                             </Button>
                             <button
                               type="submit"
                               className="btn btn-primary mx-2"
-                              disabled={postPageDataState?.isLoading}
-                            >
+                              disabled={postPageDataState?.isLoading}>
                               {Object.keys(defaultValue).length === 0 ? (
                                 <>
                                   {postPageDataState?.isLoading

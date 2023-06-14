@@ -76,6 +76,7 @@ import Tutorreferral from "./components/Bonussection/Tutorreferral";
 import Subscription from "./components/Wallet/Subscription";
 import Questionanswer from "./components/Questionpages/Questionanswer";
 import QuestionAnswerAll from "./components/Question/QuestionAnswerAll";
+import Transactiondetailshow from "./components/Wallet/Transactiondetailshow";
 
 import Thoughts from "./components/Tutorexam/Thoughts";
 import Tutorexampopup from "./components/Tutorexam/Tutorexampopup";
@@ -574,7 +575,8 @@ function App() {
             </RequireAuth>
           }
         />
-        <Route path="questionanswer/:id" element={<Questionanswer />} />
+        <Route path="/transactiondetailshow" element={<Transactiondetailshow /> } />
+        <Route path="/questionanswer/:id" element={<Questionanswer />} />
         <Route path="/addmobile" element={<AddMobile />} />
         <Route path="/contactdetails" element={<Contactdetails />} />
       </Routes>

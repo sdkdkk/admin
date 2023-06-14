@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { ColorRing } from "react-loader-spinner";
 import { getstudentcontact } from "../../Redux/Loginpages/getstudentcontactSlice";
 import { gettutorcontact } from "../../Redux/Loginpages/gettutorcontactSlice";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 const Contactus = () => {
 
@@ -64,9 +64,22 @@ const Contactus = () => {
   let displayUsers =currentData && currentData.slice(indexOfFirstPage, indexOfLastPage);
   const totalPages = Math.ceil((currentData?.length || 0) / postsPerPage);
 
+  const location = useLocation();
+
   const handleChange = (event, value) => {
     setCurrentPage(value);
+    const searchParams = new URLSearchParams(location.search);
+    searchParams.set("page", value);
+    window.history.replaceState({}, "", `${location.pathname}?${searchParams.toString()}`);
   };
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const pageParam = searchParams.get("page");
+    const initialPage = pageParam ? parseInt(pageParam) : 1;
+  
+    setCurrentPage(initialPage);
+  }, [location.search]);
   let navigate = useNavigate();
 
   const toComponentB = (data, _id) => {

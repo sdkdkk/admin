@@ -13,6 +13,7 @@ import { Testimoniald } from "../../Redux/Loginpages/testimonialSlice";
 import { Statuschange } from "../../Redux/Loginpages/testimonialStatusSlice";
 import { testimonialformapi } from "../../Redux/Loginpages/testimonialFormSlice";
 import { testimonialUserDelete, reset as resetTestimonialUserDelete } from "../../Redux/Loginpages/testimonialUserDeleteSlice";
+import { useLocation } from "react-router";
 
 const Testimonial = () => {
 
@@ -91,9 +92,23 @@ const Testimonial = () => {
     // notify();
   };
 
+  const location = useLocation();
+
   const handleChange = (event, value) => {
     setCurrentPage(value);
+    const searchParams = new URLSearchParams(location.search);
+    searchParams.set("page", value);
+    window.history.replaceState({}, "", `${location.pathname}?${searchParams.toString()}`);
   };
+
+  useEffect(() => {
+    // Retrieve the "page" query parameter from the URL
+    const searchParams = new URLSearchParams(location.search);
+    const pageParam = searchParams.get("page");
+    const initialPage = pageParam ? parseInt(pageParam) : 1;
+  
+    setCurrentPage(initialPage);
+  }, [location.search]);
 
   const handleEditClick = (data) => {
     setIsOpen(false);
@@ -146,7 +161,7 @@ const Testimonial = () => {
                                 .slice((currentPage - 1) * 5, currentPage * 5)
                                 .map((data, index) => (
                                   <tr key={data.id}>
-                                    <td>{ index +1}</td>
+                                     <td>{(currentPage - 1) * 5 + index + 1}</td>
                                     <td>{data.sortOrder}</td>
                                     <td>
                                       <img

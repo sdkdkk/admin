@@ -10,6 +10,7 @@ import { ColorRing } from "react-loader-spinner";
 import { Pagination } from "@mui/material";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 import "../Tutors/Tutorlist.css";
+import { useLocation } from "react-router";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
@@ -29,9 +30,23 @@ const Questiontype = () => {
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
   const displayUsers = conversionRate.slice(indexOfFirstPage, indexOfLastPage);
 
+  const location = useLocation();
+
   const handleChange = (event, value) => {
     setCurrentPage(value);
+    const searchParams = new URLSearchParams(location.search);
+    searchParams.set("page", value);
+    window.history.replaceState({}, "", `${location.pathname}?${searchParams.toString()}`);
   };
+
+  useEffect(() => {
+    // Retrieve the "page" query parameter from the URL
+    const searchParams = new URLSearchParams(location.search);
+    const pageParam = searchParams.get("page");
+    const initialPage = pageParam ? parseInt(pageParam) : 1;
+  
+    setCurrentPage(initialPage);
+  }, [location.search]);
   const totalPages = Math.ceil(conversionRate.length / postsPerPage);
 
   const fetchData = async () => {

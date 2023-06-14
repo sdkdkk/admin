@@ -10,7 +10,7 @@ import InputIcon from "react-multi-date-picker/components/input_icon";
 import { Pagination } from "@mui/material";
 import { studentlistd } from "../../Redux/Loginpages/studentlistSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { ColorRing } from "react-loader-spinner";
 import Moment from "react-moment";
 
@@ -39,9 +39,23 @@ const Studentlist = () => {
     new DateObject().add(4, "days"),
   ]);
 
+  const location = useLocation();
+
   const handleChange = (event, value) => {
     setCurrentPage(value);
+    const searchParams = new URLSearchParams(location.search);
+    searchParams.set("page", value);
+    window.history.replaceState({}, "", `${location.pathname}?${searchParams.toString()}`);
   };
+
+  useEffect(() => {
+    // Retrieve the "page" query parameter from the URL
+    const searchParams = new URLSearchParams(location.search);
+    const pageParam = searchParams.get("page");
+    const initialPage = pageParam ? parseInt(pageParam) : 1;
+  
+    setCurrentPage(initialPage);
+  }, [location.search]);
 
   useEffect(() => {
     dispatch(studentlistd());
