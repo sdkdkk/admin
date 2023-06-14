@@ -78,7 +78,8 @@ import Questionanswer from "./components/Questionpages/Questionanswer";
 import QuestionAnswerAll from "./components/Question/QuestionAnswerAll";
 import Transactiondetailshow from "./components/Wallet/Transactiondetailshow";
 
-
+import Thoughts from "./components/Tutorexam/Thoughts";
+import Tutorexampopup from "./components/Tutorexam/Tutorexampopup";
 
 
 function RequireAuth({ children }) {
@@ -366,7 +367,7 @@ function App() {
             </RequireAuth>
           }
         />
-       
+
         <Route
           path="/issuequestion"
           element={
@@ -383,6 +384,25 @@ function App() {
             </RequireAuth>
           }
         />
+
+        <Route
+          path="thoughts"
+          element={
+            <RequireAuth>
+              <Thoughts />
+            </RequireAuth>
+          }
+        />
+        <Route
+          path="tutorexampopup"
+          element={
+            <RequireAuth>
+              <Tutorexampopup />
+            </RequireAuth>
+          }
+        />
+
+
         <Route path="/tutorque" element={<Tutorque />} />
         <Route path="/adminque" element={<Adminque />} />
         <Route path="/reanswerque" element={<Reanswerque />} />
