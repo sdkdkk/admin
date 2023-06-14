@@ -395,14 +395,14 @@ const Addnew = () => {
                         </div>
 
                         {selectedOption === "ShortAnswer" ||
-                        selectedOption === "ShortAnswer-exp" ||
-                        selectedOption === "Definations" ||
-                        selectedOption === "Writing" ||
-                        selectedOption === "LongAnswer" ||
-                        selectedOption === "ProblemSolving" ||
-                        selectedOption === "Theory" ||
-                        selectedOption === "CaseStudy-less3" ||
-                        selectedOption === "CaseStudy-more3" ? (
+                          selectedOption === "ShortAnswer-exp" ||
+                          selectedOption === "Definations" ||
+                          selectedOption === "Writing" ||
+                          selectedOption === "LongAnswer" ||
+                          selectedOption === "ProblemSolving" ||
+                          selectedOption === "Theory" ||
+                          selectedOption === "CaseStudy-less3" ||
+                          selectedOption === "CaseStudy-more3" ? (
                           <Col md={12}>
                             <div>
                               <p className="mx-1">Answer</p>
@@ -433,7 +433,7 @@ const Addnew = () => {
                           </Col>
                         ) : null}
                         {selectedOption === "MCQ" ||
-                        selectedOption === "MCQ-exp" ? (
+                          selectedOption === "MCQ-exp" ? (
                           <div className="p--20 rbt-border radius-6 bg-primary-opacity mt-2">
                             <div className="row">
                               <p className="mx-1">Answer</p>
@@ -587,47 +587,44 @@ const Addnew = () => {
                         ) : null}
 
                         {selectedOption === "MatchTheFollowing-more5" ||
-                        selectedOption === "MatchTheFollowing-less5" ? (
-                          <div className="col-md-12 col-lg-12 mb--20">
+                          selectedOption === "MatchTheFollowing-less5" ? (
+                          <div className="col-12 col-md-6 col-lg-8 mb-4">
                             <h5>Answer</h5>
                             {answerData.map((data, index) => (
-                              <div key={index}>
+                              <div key={index} className="d-flex align-items-center">
                                 <input
-                                  className="mr-2 mt-2"
+                                  className="mr-2 mt-2 form-control"
                                   type="text"
                                   value={data.id}
                                   onChange={(e) =>
-                                    handleAnswerDataChange(
-                                      index,
-                                      "id",
-                                      e.target.value
-                                    )
+                                    handleAnswerDataChange(index, "id", e.target.value)
                                   }
                                 />
                                 =
                                 <input
-                                  className="ml-2"
+                                  className="ml-2 form-control"
                                   type="text"
                                   value={data.value}
                                   onChange={(e) =>
-                                    handleAnswerDataChange(
-                                      index,
-                                      "value",
-                                      e.target.value
-                                    )
+                                    handleAnswerDataChange(index, "value", e.target.value)
                                   }
                                 />
-                                <button className="btn btn-danger mx-2" onClick={() => removeAnswerData(index)}>
+                                <button
+                                  className="btn btn-danger ml-auto mx-2"
+                                  onClick={() => removeAnswerData(index)}
+                                >
                                   Remove
                                 </button>
                               </div>
                             ))}
-                            <button className="btn btn-primary mt-2" onClick={addAnswerData}>Add Answer</button>
+                            <button className="btn btn-primary mt-2" onClick={addAnswerData}>
+                              Add Answer
+                            </button>
                           </div>
                         ) : null}
 
                         {selectedOption === "FillInBlanks" ||
-                        selectedOption === "FillInBlanks-exp" ? (
+                          selectedOption === "FillInBlanks-exp" ? (
                           <div className="multi-field-wrapper">
                             <h5>Answer</h5>
                             <div className="multi-fields">
