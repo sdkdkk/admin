@@ -204,7 +204,7 @@ const Sidebar = () => {
             </div>
           </li>
 
-         
+
           {/*Question Setting*/}
           <li className="nav-item nav-category">
             <span className="nav-link">Question Setting</span>
@@ -423,6 +423,22 @@ const Sidebar = () => {
           <li className="nav-item">
             <Link className="nav-link" to="/contactus">
               <span className="menu-title">Contact us</span>
+              <i className="icon-screen-desktop menu-icon"></i>
+            </Link>
+          </li>
+
+          {/*Thoughts*/}
+          <li className={`nav-item ${activeLink === '/thoughts' ? 'active' : ''}`}>
+            <Link className="nav-link" to="/thoughts">
+              <span className="menu-title">Thoughts</span>
+              <i className="icon-screen-desktop menu-icon"></i>
+            </Link>
+          </li>
+
+          {/*Thoughts Popup*/}
+          <li className={`nav-item ${activeLink === '/tutorexampopup' ? 'active' : ''}`}>
+            <Link className="nav-link" to="/tutorexampopup">
+              <span className="menu-title">Tutor Exam Popup</span>
               <i className="icon-screen-desktop menu-icon"></i>
             </Link>
           </li>
