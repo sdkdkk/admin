@@ -12,19 +12,25 @@ import { useForm } from "react-hook-form";
 import { Testimoniald } from "../../Redux/Loginpages/testimonialSlice";
 import { Statuschange } from "../../Redux/Loginpages/testimonialStatusSlice";
 import { testimonialformapi } from "../../Redux/Loginpages/testimonialFormSlice";
-import { testimonialUserDelete, reset as resetTestimonialUserDelete } from "../../Redux/Loginpages/testimonialUserDeleteSlice";
+import {
+  testimonialUserDelete,
+  reset as resetTestimonialUserDelete,
+} from "../../Redux/Loginpages/testimonialUserDeleteSlice";
 import { useLocation } from "react-router";
+import { ColorRing } from "react-loader-spinner";
 
 const Testimonial = () => {
-
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const [defaultValues, setDefaultValues] = useState({});
   const testimonial = useSelector((state) => state.testimonial);
   const testimonialform = useSelector((state) => state.testimonialform);
   const testimonialstatus = useSelector((state) => state.testimonialstatus);
-  const testimonialUserDeleteState = useSelector((state) => state.testimonialUserDelete);
+  const testimonialUserDeleteState = useSelector(
+    (state) => state.testimonialUserDelete
+  );
   const [submitted, setSubmitted] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   var [isActive, SetisActive] = useState(true);
 
@@ -39,10 +45,21 @@ const Testimonial = () => {
   };
   var tokens = localStorage.getItem("token");
 
-  const { register, handleSubmit, reset, formState: { errors }, } = useForm({ values: defaultValues });
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({ values: defaultValues });
 
   useEffect(() => {
-    dispatch(Testimoniald(tokens));
+    setIsLoading(true);
+    dispatch(Testimoniald(tokens))
+      .then(() => setIsLoading(false))
+      .catch((error) => {
+        setIsLoading(false);
+        console.log("Error fetching testimonials:", error);
+      });
   }, []);
 
   useEffect(() => {
@@ -98,15 +115,18 @@ const Testimonial = () => {
     setCurrentPage(value);
     const searchParams = new URLSearchParams(location.search);
     searchParams.set("page", value);
-    window.history.replaceState({}, "", `${location.pathname}?${searchParams.toString()}`);
+    window.history.replaceState(
+      {},
+      "",
+      `${location.pathname}?${searchParams.toString()}`
+    );
   };
 
   useEffect(() => {
-    // Retrieve the "page" query parameter from the URL
     const searchParams = new URLSearchParams(location.search);
     const pageParam = searchParams.get("page");
     const initialPage = pageParam ? parseInt(pageParam) : 1;
-  
+
     setCurrentPage(initialPage);
   }, [location.search]);
 
@@ -137,91 +157,109 @@ const Testimonial = () => {
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table">
                     <div className="card-body">
-                      <table
-                        className={`table ${(testimonial.loading ||
-                          testimonialstatus.loading ||
-                          testimonialform.loading ||
-                          testimonialUserDeleteState.isLoading) &&
-                          "table-loading"
+                      {isLoading ? (
+                        <div className="loader-container">
+                          <ColorRing
+                            visible={true}
+                            height="80"
+                            width="80"
+                            ariaLabel="blocks-loading"
+                            wrapperStyle={{}}
+                            wrapperclassName="blocks-wrapper"
+                            colors={["black"]}
+                          />
+                        </div>
+                      ) : (
+                        <table
+                          className={`table ${
+                            (testimonial.loading ||
+                              testimonialstatus.loading ||
+                              testimonialform.loading ||
+                              testimonialUserDeleteState.isLoading) &&
+                            "table-loading"
                           }`}>
-                        <thead>
-                          <tr>
-                            <th scope="col">Sr No.</th>
-                            <th scope="col">Sort Order</th>
-                            <th scope="col">Profile Img</th>
-                            <th scope="col">User</th>
-                            <th scope="col">Action</th>
-                            <th scope="col"></th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          <>
-                            {testimonial.user &&
-                              testimonial.user?.testimonial
-                                .slice((currentPage - 1) * 5, currentPage * 5)
-                                .map((data, index) => (
-                                  <tr key={data.id}>
-                                     <td>{(currentPage - 1) * 5 + index + 1}</td>
-                                    <td>{data.sortOrder}</td>
-                                    <td>
-                                      <img
-                                        src={data.profileimage}
-                                        className="cardresto-img-top mx-4"
-                                        alt="..."
-                                      />
-                                    </td>
-                                    <td>{data.name}</td>
-                                    <td>
-                                      <div className="form-check form-switch">
-                                        <input
-                                          className="form-check-input"
-                                          type="checkbox"
-                                          id="flexSwitchCheckChecked"
-                                          defaultChecked={data.isactive}
-                                          onChange={(e) =>
-                                            changestatus(
-                                              e.target.value,
-                                              data.id,
-                                              index
-                                            )
-                                          }
+                          <thead>
+                            <tr>
+                              <th scope="col">Sr No.</th>
+                              <th scope="col">Sort Order</th>
+                              <th scope="col">Profile Img</th>
+                              <th scope="col">User</th>
+                              <th scope="col">Action</th>
+                              <th scope="col"></th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <>
+                              {testimonial.user &&
+                                testimonial.user?.testimonial
+                                  .slice((currentPage - 1) * 5, currentPage * 5)
+                                  .map((data, index) => (
+                                    <tr key={data.id}>
+                                      <td>
+                                        {(currentPage - 1) * 5 + index + 1}
+                                      </td>
+                                      <td>{data.sortOrder}</td>
+                                      <td>
+                                        <img
+                                          src={data.profileimage}
+                                          className="cardresto-img-top mx-4"
+                                          alt="..."
                                         />
-                                      </div>
-                                    </td>
-                                    <td>
-                                      <div className="dropdown">
-                                        <button
-                                          className="dropdown__button"
-                                          onClick={() =>
-                                            handleDropdownClick(data.id)
-                                          }>
-                                          ...
-                                        </button>
-                                        {data.id === isOpen && (
-                                          <div className="dropdown__popup">
-                                            <ul className="dropdown__list">
-                                              <li
-                                                onClick={() =>
-                                                  handleEditClick(data)
-                                                }>
-                                                Edit
-                                              </li>
-                                              <li
-                                                onClick={() =>
-                                                  handleDeleteClick(data.id)
-                                                }>
-                                                Delete
-                                              </li>
-                                            </ul>
-                                          </div>
-                                        )}
-                                      </div>
-                                    </td>
-                                  </tr>
-                                ))}
-                          </>
-                        </tbody>
-                      </table>
+                                      </td>
+                                      <td>{data.name}</td>
+                                      <td>
+                                        <div className="form-check form-switch">
+                                          <input
+                                            className="form-check-input"
+                                            type="checkbox"
+                                            id="flexSwitchCheckChecked"
+                                            defaultChecked={data.isactive}
+                                            onChange={(e) =>
+                                              changestatus(
+                                                e.target.value,
+                                                data.id,
+                                                index
+                                              )
+                                            }
+                                          />
+                                        </div>
+                                      </td>
+                                      <td>
+                                        <div className="dropdown">
+                                          <button
+                                            className="dropdown__button"
+                                            onClick={() =>
+                                              handleDropdownClick(data.id)
+                                            }>
+                                            ...
+                                          </button>
+                                          {data.id === isOpen && (
+                                            <div className="dropdown__popup">
+                                              <ul className="dropdown__list">
+                                                <li
+                                                  onClick={() =>
+                                                    handleEditClick(data)
+                                                  }>
+                                                  Edit
+                                                </li>
+                                                <li
+                                                  onClick={() =>
+                                                    handleDeleteClick(data.id)
+                                                  }>
+                                                  Delete
+                                                </li>
+                                              </ul>
+                                            </div>
+                                          )}
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  ))}
+                            </>
+                          </tbody>
+                        </table>
+                      )}
+
                       <div className="table-pagination">
                         <Pagination
                           count={2}
@@ -229,8 +267,8 @@ const Testimonial = () => {
                           onChange={handleChange}
                           shape="rounded"
                           variant="outlined"
-                        // showFirstButton
-                        // showLastButton
+                          // showFirstButton
+                          // showLastButton
                         />
                       </div>
                     </div>
@@ -332,9 +370,9 @@ const Testimonial = () => {
                                     id="flexSwitchCheckChecked"
                                     onChange={() => activeForm()}
                                     checked={isActive} // Use the isActive value as the checked state of the checkbox
-                                  // disabled={
-                                  //   Object.keys(defaultValues).length !== 0
-                                  // } // Disable the checkbox during edit
+                                    // disabled={
+                                    //   Object.keys(defaultValues).length !== 0
+                                    // } // Disable the checkbox during edit
                                   />
                                 </div>
                               </div>

@@ -8,6 +8,7 @@ import { getWalletData } from "../../Redux/Loginpages/getWalletDataSlice";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { useLocation, useNavigate } from "react-router-dom";
+import { ColorRing } from "react-loader-spinner";
 
 const Wallet = () => {
   const dispatch = useDispatch();
@@ -17,6 +18,7 @@ const Wallet = () => {
   console.log(getWalletDataState);
   //Pagination
   const [currentPage, setCurrentPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
   const [postsPerPage] = useState(8);
   const indexOfLastPage = currentPage * postsPerPage;
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
@@ -28,15 +30,18 @@ const Wallet = () => {
     setCurrentPage(value);
     const searchParams = new URLSearchParams(location.search);
     searchParams.set("page", value);
-    window.history.replaceState({}, "", `${location.pathname}?${searchParams.toString()}`);
+    window.history.replaceState(
+      {},
+      "",
+      `${location.pathname}?${searchParams.toString()}`
+    );
   };
 
   useEffect(() => {
-    // Retrieve the "page" query parameter from the URL
     const searchParams = new URLSearchParams(location.search);
     const pageParam = searchParams.get("page");
     const initialPage = pageParam ? parseInt(pageParam) : 1;
-  
+
     setCurrentPage(initialPage);
   }, [location.search]);
 
@@ -44,7 +49,14 @@ const Wallet = () => {
     const params = `?category=${category}&limit=10&skip=${
       (currentPage - 1) * 10
     }`;
-    dispatch(getWalletData(params));
+    setIsLoading(true);
+    dispatch(getWalletData(params))
+      .then(() => {
+        setIsLoading(false);
+      })
+      .catch(() => {
+        setIsLoading(false);
+      });
   };
 
   const handleDetailsClick = (data) => {
@@ -91,7 +103,6 @@ const Wallet = () => {
                       type="button">
                       Tutor
                     </button>
-                    {/* <button className="btn btn-primary" type="button">Unverified</button> */}
                   </div>
                 </div>
               </div>
@@ -99,68 +110,82 @@ const Wallet = () => {
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table">
                     <div className="card-body">
-                      <table
-                        className={
-                          getWalletDataState.isLoading
-                            ? `table table-loading`
-                            : "table"
-                        }>
-                        <thead>
-                          <tr>
-                            <th scope="col">Sr.No.</th>
-                            <th scope="col">Date</th>
-                            <th scope="col">Name</th>
-                            <th scope="col">Transaction id</th>
-                            <th scope="col">Amount</th>
-                            <th scope="col">Category</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Action</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-                          {walletTransactions &&
-                            [...walletTransactions].map((value, pos) => {
-                              return (
-                                <tr key={value._id}>
-                                  <td>{pos + 1}</td>
-                                  <td>
-                                    {moment(value?.date).format("DD-MM-YYYY")}
-                                  </td>
-                                  <td>{value.name}</td>
-                                  <td>{value.transactionId}</td>
-                                  <td>Rs.{value.amount}</td>
-                                  <td>{value.category}</td>
-                                  <td>
-                                    {value.status === "Success" ? (
-                                      <span className="badge text-bg-success">
-                                        {value.status}
-                                      </span>
-                                    ) : (
-                                      <span className="badge text-bg-secondary">
-                                        {value.status}
-                                      </span>
-                                    )}
-                                  </td>
-                                  <td>
-                                    <button
-                                      className="btn btn-dark btn-sm"
-                                      onClick={() => handleDetailsClick(value)}>
-                                      Details
-                                    </button>
-                                  </td>
-                                </tr>
-                              );
-                            })}
-                        </tbody>
-                      </table>
+                      {isLoading ? (
+                        <div className="loader-container">
+                          <ColorRing
+                            visible={true}
+                            height="80"
+                            width="80"
+                            ariaLabel="blocks-loading"
+                            wrapperStyle={{}}
+                            wrapperclassName="blocks-wrapper"
+                            colors={["black"]}
+                          />
+                        </div>
+                      ) : (
+                        <table
+                          className={
+                            getWalletDataState.isLoading
+                              ? `table table-loading`
+                              : "table"
+                          }>
+                          <thead>
+                            <tr>
+                              <th scope="col">Sr.No.</th>
+                              <th scope="col">Date</th>
+                              <th scope="col">Name</th>
+                              <th scope="col">Transaction id</th>
+                              <th scope="col">Amount</th>
+                              <th scope="col">Category</th>
+                              <th scope="col">Status</th>
+                              <th scope="col">Action</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            {walletTransactions &&
+                              [...walletTransactions].map((value, pos) => {
+                                return (
+                                  <tr key={value._id}>
+                                    <td>{pos + 1}</td>
+                                    <td>
+                                      {moment(value?.date).format("DD-MM-YYYY")}
+                                    </td>
+                                    <td>{value.name}</td>
+                                    <td>{value.transactionId}</td>
+                                    <td>Rs.{value.amount}</td>
+                                    <td>{value.category}</td>
+                                    <td>
+                                      {value.status === "Success" ? (
+                                        <span className="badge text-bg-success">
+                                          {value.status}
+                                        </span>
+                                      ) : (
+                                        <span className="badge text-bg-secondary">
+                                          {value.status}
+                                        </span>
+                                      )}
+                                    </td>
+                                    <td>
+                                      <button
+                                        className="btn btn-dark btn-sm"
+                                        onClick={() =>
+                                          handleDetailsClick(value)
+                                        }>
+                                        Details
+                                      </button>
+                                    </td>
+                                  </tr>
+                                );
+                              })}
+                          </tbody>
+                        </table>
+                      )}
                       <Pagination
                         count={3}
                         page={currentPage}
                         onChange={handleChange}
                         shape="rounded"
                         variant="outlined"
-                        //showFirstButton
-                        //showLastButton
                       />
                     </div>
                   </div>

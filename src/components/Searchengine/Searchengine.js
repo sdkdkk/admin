@@ -8,7 +8,7 @@ import { Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { searchengine } from "../../Redux/Loginpages/searchengineSlice";
 import { useNavigate, useLocation } from "react-router-dom";
-import { ColorRing } from "react-loader-spinner";
+import { ColorRing, RotatingLines } from "react-loader-spinner";
 
 const Searchengine = () => {
   const searchengineState = useSelector((state) => state.searchengine);
@@ -73,14 +73,12 @@ const Searchengine = () => {
                     <div className="card-body">
                       {isLoading ? (
                         <div className="loader-container">
-                          <ColorRing
+                          <RotatingLines
+                            strokeColor="grey"
+                            strokeWidth="5"
+                            animationDuration="0.75"
+                            width="50"
                             visible={true}
-                            height="80"
-                            width="80"
-                            ariaLabel="blocks-loading"
-                            wrapperStyle={{}}
-                            wrapperclassName="blocks-wrapper"
-                            colors={["black"]}
                           />
                         </div>
                       ) : (
