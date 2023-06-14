@@ -46,7 +46,7 @@ const Adminque = () => {
             const response = await axios.get(`${url}/getquestiontype`, {token }
             );
             setQueTypeList(response?.data?.data);
-            console.log(response?.data?.data);
+            
         } catch (error) {
             // notify("Invalid refresh token!");
         }
@@ -62,40 +62,6 @@ const Adminque = () => {
         };
         dispatch(getAdminQuestions(payload));
     };
-
-    // const handleAnswerClick = (data,id) => {
-    //     console.log(data,id);
-    //     if (
-    //         data.questionType.includes("exp") &&
-    //         !["MCQ-exp", "TrueFalse-exp", "FillInBlanks-exp"].includes(
-    //             data.questionType
-    //         )
-    //     ) {
-    //         history(`/questionanswer?id=${data._id}`);
-    //     } else {
-    //         switch (data.questionType) {
-    //             case "MCQ":
-    //             case "MCQ-exp":
-    //                 history(`/mcqquestion?id=${data._id}`);
-    //                 return;
-    //             case "TrueFalse":
-    //             case "TrueFalse-exp":
-    //                 history(`/truefalse?id=${data._id}`);
-    //                 return;
-    //             case "FillInBlanks":
-    //             case "FillInBlanks-exp":
-    //                 history(`/fillups?id=${data._id}`);
-    //                 return;
-    //             case "MatchTheFollowing-less5":
-    //             case "MatchTheFollowing-more5":
-    //                 history(`/matchfollow?id=${data._id}`);
-    //                 return;
-    //             default:
-    //                 history(`/questionanswer?id=${data._id}`);
-    //                 return;
-    //         }
-    //     }
-    // };
 
     const handleDropdownClick = (id) => {
         setIsOpen(isOpen === id ? "" : id);
@@ -225,7 +191,7 @@ const Adminque = () => {
                                                             <tr>
                                                                 <td colSpan="6" className="fw-3 fw-bolder text-center">No Question found</td>
                                                              </tr>
-                                                        ) :transactions.map((a, index) => (
+                                                        ) : transactions.map((a, index) =>  (
                                                             <tr key={index}>
                                                                 <td>{index + 1}</td>
                                                                 <td><p className="question">{a.question}</p></td>
