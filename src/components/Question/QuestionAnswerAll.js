@@ -10,7 +10,7 @@ import { useForm, Controller } from "react-hook-form";
 import ImageResize from "quill-image-resize-module-react";
 import "react-quill/dist/quill.snow.css";
 import { useDispatch, useSelector } from "react-redux";
-import { postAdminQuestions } from "../../Redux/Loginpages/postAdminQuestionSlice";
+import { postAdminQuestionsApi } from "../../Redux/Loginpages/postAdminQuestionSlice";
 import { getAdminQuestions } from "../../Redux/Loginpages/getAdminQuestionSlice";
 import { ColorRing } from "react-loader-spinner";
 
@@ -20,8 +20,8 @@ Quill.register("modules/imageResize", ImageResize);
 const QuestionAnswerAll = () => {
     const { id,  } = useParams()
 const navigate =useNavigate()
-  const postAdminQuestionsData = useSelector((state) => state.postAdminQuestions)
-  console.log(postAdminQuestionsData)
+  const postAdminQuestions = useSelector((state) => state.postAdminQuestions)
+  console.log(postAdminQuestions)
   
  const [showModal, setShowModal] = useState(false);
   const [modalImageSrc, setModalImageSrc] = useState("");
@@ -141,6 +141,8 @@ const navigate =useNavigate()
     const onSubmit = (data) => {
         
       console.log(data);
+      
+
       const formattedAnswerData = answerData.map((item) => ({
         id: item.id,
         value: item.value,
@@ -153,16 +155,17 @@ const navigate =useNavigate()
                  : data.answer,
             explanation:data.explanation || ""
       }
-      
+    
         setIsLoading(true);
-        dispatch(postAdminQuestions(formDataObj))
-        setIsLoading(false);
-        if (postAdminQuestionsData?.data?.message ==="Answer Submitted Successfully.") {
-          navigate(whomtoAsk === "tutor" ? "/tutorque" :whomtoAsk === "admin"?"/adminque" : whomtoAsk === "reanswer"?"/reanswer": whomtoAsk === "unsolved"? "/unsolved":"")
+        dispatch(postAdminQuestionsApi(formDataObj))
+      setIsLoading(false);
+
+        if (postAdminQuestions?.data?.message ==="Answer Submitted Successfully." )  {
+          navigate(data.whomto_ask === "tutor" ? "/tutorque" :filterData?.[0]?.whomto_ask  === "admin"?"/adminque" : filterData?.[0]?.whomto_ask  === "reanswer"?"/reanswer": filterData?.[0]?.whomto_ask  === "unsolved"? "/unsolved":"")
         }
+       
       };
 
-  
     
   return (
     <div>
@@ -178,22 +181,10 @@ const navigate =useNavigate()
               </div>
               <div className="row  ">
                 <div className="col-md-12 grid-margin stretch-card questionanstext">
-                  <div className="card">
+                  <div className={`card-body card table ${getAdminQuestions?.isLoading || postAdminQuestions?.isLoading ? "card-loading" : ""}`}
+>
                     <div className="card-body">
-                      {isLoading ? (
-                        <p style={{ marginLeft: "400px", marginTop: "50px" }}>
-                          <ColorRing
-                            visible={true}
-                            height="80"
-                            width="80"
-                            ariaLabel="blocks-loading"
-                            wrapperStyle={{}}
-                            wrapperclassName="blocks-wrapper"
-                            // colors={["#EE1090","#EE1090", "#EE1090","#EE1090 ", "#EE1090"   ]}
-                            colors={["#DAF7A6","#FFC300", "#FF5733","#C70039 ", "#900C3F" ,"#581845" ]}
-                          />
-                        </p>
-                      ) : (<form onSubmit={handleSubmit(onSubmit)}>
+                     <form onSubmit={handleSubmit(onSubmit)} >
                         
                         <div className="mb-3">
                           <label
@@ -567,7 +558,7 @@ const navigate =useNavigate()
                             {isLoading ? "Posting..." : "Add"}
                           </button>
                         </div>
-                      </form> )}
+                      </form> 
                     </div>
                   </div>
                 </div>

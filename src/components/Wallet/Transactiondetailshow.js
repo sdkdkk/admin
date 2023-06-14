@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
@@ -7,22 +7,26 @@ import { useLocation, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { getTransactionHistory } from "../../Redux/Loginpages/getTransactionHistorySlice";
+import { ColorRing } from "react-loader-spinner";
 
 const Transactiondetailshow = () => {
     const getTransactionHistoryState = useSelector((state) => state.getTransactionHistory); 
-    const location = useLocation();
+  const location = useLocation();
+  const [isLoading, setIsLoading]=useState(false)
   
      const dispatch = useDispatch();
     
       const getWalletDataApi = (category = "Student") => {
           const params = location.search;
-   
+      setIsLoading(true)
          dispatch(getTransactionHistory(params));
+          setIsLoading(false)
         };
 
-    useEffect(() => {
-       getWalletDataApi();
-    }, []);
+  useEffect(() => {
+    
+    getWalletDataApi();
+       }, []);
     
     const filterData = getTransactionHistoryState?.data?.transactions?.filter((item) =>item);
  
@@ -41,8 +45,10 @@ const Transactiondetailshow = () => {
               </div>
               <div className="row  ">
                 <div className="col-md-12 grid-margin stretch-card questionanstext">
-                  <div className="card">
+                  <div className={`card table ${getTransactionHistoryState?.isLoading && "card-loading"
+                                                        }`}>
                     <div className="card-body ">
+                         <div>
                      <div className="my-2"><span className="mx-2 fw-6 fw-bolder">Name:</span><span>{filterData?.[0]?.name}</span></div>
                      <div className="my-2"><span className="mx-2 fw-6 fw-bolder">Type:</span><span>{filterData?.[0]?.type}</span></div>
                       <div className="my-2"><span className="mx-2 fw-6 fw-bolder">Category:</span><span>{filterData?.[0]?.category}</span></div>
@@ -52,7 +58,9 @@ const Transactiondetailshow = () => {
                      <div><span className="mx-2 fw-6 fw-bolder">Status:</span><span>{filterData?.[0]?.status}</span></div>
                       <div className="my-2"><span className="mx-2 fw-6 fw-bolder">transactionId:</span><span>{filterData?.[0]?.transactionId}</span></div>
                      <div className="my-2"><span className="mx-2 fw-6 fw-bolder">Description:</span><span>{filterData?.[0]?.description}</span></div>
-                    </div> 
+                      </div>
+                    </div>
+                    
                   </div>
                 </div>
               </div>
