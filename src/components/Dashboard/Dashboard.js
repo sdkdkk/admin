@@ -7,7 +7,7 @@ import Person2OutlinedIcon from "@mui/icons-material/Person2Outlined";
 import StickyNote2OutlinedIcon from "@mui/icons-material/StickyNote2Outlined";
 import { Button } from "react-bootstrap";
 import axios from "axios";
-import { ColorRing } from "react-loader-spinner";
+import { ColorRing, RotatingLines } from "react-loader-spinner";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
 const url = process.env.REACT_APP_API_BASE_URL;
@@ -54,19 +54,15 @@ const Dashboard = () => {
                 alignItems: "center",
                 height: "100vh",
               }}>
-              <ColorRing
-                visible={true}
-                height="80"
-                width="80"
-                ariaLabel="blocks-loading"
-                wrapperStyle={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  height: "100vh",
-                }}
-                colors={["black"]}
-              />
+             <div className="loader-container">
+                          <RotatingLines
+                            strokeColor="grey"
+                            strokeWidth="5"
+                            animationDuration="0.75"
+                            width="50"
+                            visible={true}
+                          />
+                        </div>
             </p>
           ) : (
             <>

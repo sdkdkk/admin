@@ -9,7 +9,7 @@ import moment from "moment";
 import { getTransactionHistory } from "../../Redux/Loginpages/getTransactionHistorySlice";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
-import { ColorRing } from "react-loader-spinner";
+import { ColorRing, RotatingLines } from "react-loader-spinner";
 
 const TransactionDetails = () => {
   const dispatch = useDispatch();
@@ -85,15 +85,13 @@ const TransactionDetails = () => {
                   <div className="card new-table mt-4">
                     <div className="card-body">
                       {isLoading ? (
-                        <div className="loader-container">
-                          <ColorRing
+                         <div className="loader-container">
+                          <RotatingLines
+                            strokeColor="grey"
+                            strokeWidth="5"
+                            animationDuration="0.75"
+                            width="50"
                             visible={true}
-                            height="80"
-                            width="80"
-                            ariaLabel="blocks-loading"
-                            wrapperStyle={{}}
-                            wrapperclassName="blocks-wrapper"
-                            colors={["black"]}
                           />
                         </div>
                       ) : (

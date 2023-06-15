@@ -7,25 +7,27 @@ import { useLocation, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { getTransactionHistory } from "../../Redux/Loginpages/getTransactionHistorySlice";
-import { ColorRing } from "react-loader-spinner";
+import { ColorRing, RotatingLines } from "react-loader-spinner";
 
 const Transactiondetailshow = () => {
-    const getTransactionHistoryState = useSelector((state) => state.getTransactionHistory); 
+  const getTransactionHistoryState = useSelector((state) => state.getTransactionHistory);  
+    const isLoading = useSelector((state) => state.getTransactionHistory.isLoading);
   const location = useLocation();
-  const [isLoading, setIsLoading]=useState(false)
+  
   
      const dispatch = useDispatch();
     
       const getWalletDataApi = (category = "Student") => {
           const params = location.search;
-      setIsLoading(true)
+     
          dispatch(getTransactionHistory(params));
-          setIsLoading(false)
+         
         };
 
   useEffect(() => {
-    
+   
     getWalletDataApi();
+  
        }, []);
     
     const filterData = getTransactionHistoryState?.data?.transactions?.filter((item) =>item);
@@ -45,23 +47,33 @@ const Transactiondetailshow = () => {
               </div>
               <div className="row  ">
                 <div className="col-md-12 grid-margin stretch-card questionanstext">
-                  <div className={`card ${getTransactionHistoryState?.isLoading && "table-loading"
-                    }`}>
-                    <form>
-                    <div className="card-body ">
-                         <div>
-                     <div className="my-2"><span className="mx-2 fw-6 fw-bolder">Name:</span><span>{filterData?.[0]?.name}</span></div>
-                     <div className="my-2"><span className="mx-2 fw-6 fw-bolder">Type:</span><span>{filterData?.[0]?.type}</span></div>
+                  <div className="card">
+                    
+                    {isLoading ? (
+                      <div className="loader-container">
+                        <RotatingLines
+                          strokeColor="grey"
+                          strokeWidth="5"
+                          animationDuration="0.75"
+                          width="50"
+                          visible={true}
+                        />
+                      </div>
+                        
+                    ) : <div className="card-body ">
+                        
+                      <div className="my-2"><span className="mx-2 fw-6 fw-bolder">Name:</span><span>{filterData?.[0]?.name}</span></div>
+                      <div className="my-2"><span className="mx-2 fw-6 fw-bolder">Type:</span><span>{filterData?.[0]?.type}</span></div>
                       <div className="my-2"><span className="mx-2 fw-6 fw-bolder">Category:</span><span>{filterData?.[0]?.category}</span></div>
-                     <div className="my-2"><span className="mx-2 fw-6 fw-bolder">Balance:</span><span>{filterData?.[0]?.balance}</span></div>
+                      <div className="my-2"><span className="mx-2 fw-6 fw-bolder">Balance:</span><span>{filterData?.[0]?.balance}</span></div>
                       <div className="my-2"><span className="mx-2 fw-6 fw-bolder">Amount:</span><span>{filterData?.[0]?.amount}</span></div>
                       <div className="my-2"><span className="mx-2 fw-6 fw-bolder">Date:</span><span>{filterData?.[0]?.date}</span></div>
-                     <div><span className="mx-2 fw-6 fw-bolder">Status:</span><span>{filterData?.[0]?.status}</span></div>
+                      <div><span className="mx-2 fw-6 fw-bolder">Status:</span><span>{filterData?.[0]?.status}</span></div>
                       <div className="my-2"><span className="mx-2 fw-6 fw-bolder">transactionId:</span><span>{filterData?.[0]?.transactionId}</span></div>
-                     <div className="my-2"><span className="mx-2 fw-6 fw-bolder">Description:</span><span>{filterData?.[0]?.description}</span></div>
-                      </div>
+                      <div className="my-2"><span className="mx-2 fw-6 fw-bolder">Description:</span><span>{filterData?.[0]?.description}</span></div>
                     </div>
-                    </form>
+                    }
+                    
                   </div>
                 </div>
               </div>

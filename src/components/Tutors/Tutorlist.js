@@ -13,7 +13,7 @@ import { tutorunverified } from "../../Redux/Loginpages/tutorunverifiedSlice";
 import { Tutorswarning } from "../../Redux/Loginpages/tutorwarningSlice";
 import { Link, useLocation } from "react-router-dom";
 import { tutorworking } from "../../Redux/Loginpages/tutorworkingSlice";
-import { ColorRing } from "react-loader-spinner";
+import { ColorRing, RotatingLines } from "react-loader-spinner";
 import Moment from "react-moment";
 import { Tutortrial } from "../../Redux/Loginpages/tutortrialSlice";
 import { Tutorsuspend } from "../../Redux/Loginpages/tutorSuspendSlice";
@@ -175,19 +175,15 @@ const Tutorlist = () => {
                 height: "100vh",
               }}
             >
-              <ColorRing
-                visible={true}
-                height="80"
-                width="80"
-                ariaLabel="blocks-loading"
-                wrapperStyle={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  height: "100vh",
-                }}
-                colors={["black"]}
-              />
+              <div className="loader-container">
+                          <RotatingLines
+                            strokeColor="grey"
+                            strokeWidth="5"
+                            animationDuration="0.75"
+                            width="50"
+                            visible={true}
+                          />
+                        </div>
             </p>
           ) : (
             <div className="main-panel">
@@ -266,15 +262,15 @@ const Tutorlist = () => {
                   {Loader ? (
                     <div className="loader-end text-end">
                       {Loader ? (
-                        <ColorRing
-                          visible={true}
-                          height="80"
-                          width="80"
-                          ariaLabel="blocks-loading"
-                          wrapperStyle={{}}
-                          wrapperclassName="blocks-wrapper"
-                          colors={["black"]}
-                        />
+                       <div className="loader-container">
+                          <RotatingLines
+                            strokeColor="grey"
+                            strokeWidth="5"
+                            animationDuration="0.75"
+                            width="50"
+                            visible={true}
+                          />
+                        </div>
                       ) : null}
                     </div>
                   ) : (

@@ -6,7 +6,7 @@ import "../Css/Tutorlist.css";
 import { Button } from "react-bootstrap";
 import { tutorspayment } from "../../Redux/Loginpages/tutorspaymentSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { ColorRing } from "react-loader-spinner";
+import { ColorRing, RotatingLines } from "react-loader-spinner";
 import { FaCopy } from "react-icons/fa";
 
 const Tutorspayment = () => {
@@ -46,19 +46,15 @@ const Tutorspayment = () => {
               alignItems: "center",
               height: "100vh",
             }}>
-            <ColorRing
-              visible={true}
-              height="80"
-              width="80"
-              ariaLabel="blocks-loading"
-              wrapperStyle={{
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100vh",
-              }}
-              colors={["black"]}
-            />
+             <div className="loader-container">
+                          <RotatingLines
+                            strokeColor="grey"
+                            strokeWidth="5"
+                            animationDuration="0.75"
+                            width="50"
+                            visible={true}
+                          />
+                        </div>
           </p>
         ) : (
           <div className="main-panel">

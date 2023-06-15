@@ -8,7 +8,7 @@ import "./Curruncy.css";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
-import { ColorRing } from "react-loader-spinner";
+import { ColorRing, RotatingLines } from "react-loader-spinner";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
 const url = process.env.REACT_APP_API_BASE_URL;
@@ -77,15 +77,15 @@ const Curruncy = () => {
                         <div className="input-container">
                           {loading ? (
                             <p className="loader-container">
-                              <ColorRing
-                                visible={true}
-                                height="80"
-                                width="80"
-                                ariaLabel="blocks-loading"
-                                wrapperStyle={{}}
-                                wrapperclassName="blocks-wrapper"
-                                colors={["black"]}
-                              />
+                               <div className="loader-container">
+                          <RotatingLines
+                            strokeColor="grey"
+                            strokeWidth="5"
+                            animationDuration="0.75"
+                            width="50"
+                            visible={true}
+                          />
+                        </div>
                             </p>
                           ) : (
                             <form onSubmit={handleSubmit(onSubmit)}>
