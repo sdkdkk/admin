@@ -13,7 +13,7 @@ import { tutorunverified } from "../../Redux/Loginpages/tutorunverifiedSlice";
 import { Tutorswarning } from "../../Redux/Loginpages/tutorwarningSlice";
 import { Link, useLocation } from "react-router-dom";
 import { tutorworking } from "../../Redux/Loginpages/tutorworkingSlice";
-import { ColorRing, RotatingLines } from "react-loader-spinner";
+import {  RotatingLines } from "react-loader-spinner";
 import Moment from "react-moment";
 import { Tutortrial } from "../../Redux/Loginpages/tutortrialSlice";
 import { Tutorsuspend } from "../../Redux/Loginpages/tutorSuspendSlice";
@@ -28,7 +28,13 @@ const Tutorlist = () => {
   const isLoadinguser = useSelector((state) => state.user.isLoading);
 
   const [selectedStatus, setSelectedStatus] = useState("working");
-  const [status, setStatus] = useState({ users: [], warning: [], working: [], suspend: [], trial: [], });
+  const [status, setStatus] = useState({
+    users: [],
+    warning: [],
+    working: [],
+    suspend: [],
+    trial: [],
+  });
 
   const [searchTerm, setSearchTerm] = useState("");
   const [currentData, setCurrentData] = useState([]);
@@ -37,7 +43,13 @@ const Tutorlist = () => {
   const [Loader, setLoader] = useState(true);
 
   useEffect(() => {
-    setStatus({ users: users, warning: warning, working: working, suspend: suspend, trial: trial, });
+    setStatus({
+      users: users,
+      warning: warning,
+      working: working,
+      suspend: suspend,
+      trial: trial,
+    });
     setLoader(false);
   }, [users, warning, working, suspend, trial]);
 
@@ -48,26 +60,31 @@ const Tutorlist = () => {
   const fetchData1 = async () => {
     setActiveButton(3);
     dispatch(tutorunverified());
+    setCurrentPage(1); 
   };
 
   const fetchData2 = async () => {
     setActiveButton(2);
     dispatch(Tutorswarning());
+    setCurrentPage(1); 
   };
 
   const fetchData3 = async () => {
     setActiveButton(1);
     dispatch(tutorworking());
+    setCurrentPage(1); 
   };
 
   const fetchData4 = async () => {
     setActiveButton(4);
     dispatch(Tutortrial());
+    setCurrentPage(1); 
   };
 
   const fetchData5 = async () => {
     setActiveButton(5);
     dispatch(Tutorsuspend());
+    setCurrentPage(1); 
   };
 
   useEffect(() => {
@@ -88,7 +105,8 @@ const Tutorlist = () => {
   const [postsPerPage] = useState(8);
   const indexOfLastPage = currentPage * postsPerPage;
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
-  let displayUsers = currentData && currentData.slice(indexOfFirstPage, indexOfLastPage);
+  let displayUsers =
+    currentData && currentData.slice(indexOfFirstPage, indexOfLastPage);
   const totalPages = Math.ceil((currentData?.length || 0) / postsPerPage);
 
   const location = useLocation();
@@ -97,21 +115,25 @@ const Tutorlist = () => {
     setCurrentPage(value);
     const searchParams = new URLSearchParams(location.search);
     searchParams.set("page", value);
-    window.history.replaceState({}, "", `${location.pathname}?${searchParams.toString()}`);
+    window.history.replaceState(
+      {},
+      "",
+      `${location.pathname}?${searchParams.toString()}`
+    );
   };
 
   useEffect(() => {
-    // Retrieve the "page" query parameter from the URL
     const searchParams = new URLSearchParams(location.search);
     const pageParam = searchParams.get("page");
     const initialPage = pageParam ? parseInt(pageParam) : 1;
-  
+
     setCurrentPage(initialPage);
   }, [location.search]);
-  
+
   const searchItem = () => {
     const firstDate = values?.length > 0 ? new Date(values[0]) : null;
-    const lastDate = values?.length > 1 ? new Date(values[values.length - 1]) : null;
+    const lastDate =
+      values?.length > 1 ? new Date(values[values.length - 1]) : null;
 
     const filteredData = currentData.filter((item) => {
       const itemDate = new Date(item.updatedAt);
@@ -122,7 +144,8 @@ const Tutorlist = () => {
         return (
           itemDate >= firstDate &&
           itemDate <= lastDate &&
-          (searchTerm === "" || (name && name.includes(searchTerm.toLowerCase())))
+          (searchTerm === "" ||
+            (name && name.includes(searchTerm.toLowerCase())))
         );
       } else if (firstDate) {
         // Handle single date selection
@@ -130,10 +153,10 @@ const Tutorlist = () => {
           itemDate.getDate() === firstDate.getDate() &&
           itemDate.getMonth() === firstDate.getMonth() &&
           itemDate.getFullYear() === firstDate.getFullYear() &&
-          (searchTerm === "" || (name && name.includes(searchTerm.toLowerCase())))
+          (searchTerm === "" ||
+            (name && name.includes(searchTerm.toLowerCase())))
         );
       } else {
-        // Handle no date selection (show all data)
         return true;
       }
     });
@@ -155,7 +178,6 @@ const Tutorlist = () => {
 
   const handleSearch = (event) => {
     event.preventDefault();
-    // Do something with the start and end dates
   };
 
   return (
@@ -165,7 +187,7 @@ const Tutorlist = () => {
         <div className="container-fluid page-body-wrapper">
           <Sidebar />
           {isLoadinguser ? (
-            <p
+            <div
               style={{
                 marginLeft: "auto",
                 marginRight: "auto",
@@ -173,18 +195,17 @@ const Tutorlist = () => {
                 justifyContent: "center",
                 alignItems: "center",
                 height: "100vh",
-              }}
-            >
+              }}>
               <div className="loader-container">
-                          <RotatingLines
-                            strokeColor="grey"
-                            strokeWidth="5"
-                            animationDuration="0.75"
-                            width="50"
-                            visible={true}
-                          />
-                        </div>
-            </p>
+                <RotatingLines
+                  strokeColor="grey"
+                  strokeWidth="5"
+                  animationDuration="0.75"
+                  width="50"
+                  visible={true}
+                />
+              </div>
+            </div>
           ) : (
             <div className="main-panel">
               <div className="content-wrapper">
@@ -202,8 +223,7 @@ const Tutorlist = () => {
                             : "btn btn-light"
                         }
                         type="button"
-                        style={{ borderRadius: "4px" }}
-                      >
+                        style={{ borderRadius: "4px" }}>
                         Working
                       </button>
                       <button
@@ -214,8 +234,7 @@ const Tutorlist = () => {
                             : "btn btn-light"
                         }
                         type="button"
-                        style={{ borderRadius: "4px" }}
-                      >
+                        style={{ borderRadius: "4px" }}>
                         Warning
                       </button>
                       <button
@@ -226,8 +245,7 @@ const Tutorlist = () => {
                             : "btn btn-light"
                         }
                         type="button"
-                        style={{ borderRadius: "4px" }}
-                      >
+                        style={{ borderRadius: "4px" }}>
                         Unverified
                       </button>
                       <button
@@ -238,8 +256,7 @@ const Tutorlist = () => {
                             : "btn btn-light"
                         }
                         type="button"
-                        style={{ borderRadius: "4px" }}
-                      >
+                        style={{ borderRadius: "4px" }}>
                         Trial
                       </button>
                       <button
@@ -250,8 +267,7 @@ const Tutorlist = () => {
                             : "btn btn-light"
                         }
                         type="button"
-                        style={{ borderRadius: "4px" }}
-                      >
+                        style={{ borderRadius: "4px" }}>
                         Suspend
                       </button>
                     </div>
@@ -262,7 +278,7 @@ const Tutorlist = () => {
                   {Loader ? (
                     <div className="loader-end text-end">
                       {Loader ? (
-                       <div className="loader-container">
+                        <div className="loader-container">
                           <RotatingLines
                             strokeColor="grey"
                             strokeWidth="5"
@@ -304,22 +320,18 @@ const Tutorlist = () => {
                                     onChange={setValues}
                                     range
                                     render={<InputIcon />}
-                                  // width={100}
+                                    // width={100}
                                   />
-
-
                                 </div>
 
                                 <div className="col-md-2">
                                   <Button
                                     className="btn-search"
-                                    onClick={searchItem}
-                                  >
+                                    onClick={searchItem}>
                                     Search
                                   </Button>
                                 </div>
                               </div>
-
                             </div>
                           </div>
                         </div>
@@ -354,8 +366,7 @@ const Tutorlist = () => {
                                           <td>
                                             <Moment
                                               format="DD MMM YYYY"
-                                              withTitle
-                                            >
+                                              withTitle>
                                               {data.updatedAt || null}
                                             </Moment>
                                           </td>
@@ -367,17 +378,17 @@ const Tutorlist = () => {
                                         <td>{data.mobileNo || "-"}</td>
                                         <td>
                                           {data.subjects &&
-                                            data.subjects?.length > 0
+                                          data.subjects?.length > 0
                                             ? data.subjects
-                                              .slice(0, 2)
-                                              .join(", ")
+                                                .slice(0, 2)
+                                                .join(", ")
                                             : "-"}
                                         </td>
                                         <td>
                                           {data.balance
                                             ? parseFloat(data.balance).toFixed(
-                                              2
-                                            )
+                                                2
+                                              )
                                             : "-"}
                                         </td>
                                         {activeButton === 2 && (
@@ -392,8 +403,7 @@ const Tutorlist = () => {
                                         )}
                                         <td>
                                           <Link
-                                            to={`/tutordetails/${data._id}/${activeButton}`}
-                                          >
+                                            to={`/tutordetails/${data._id}/${activeButton}`}>
                                             <Button className="btn btn-primary btn-sm">
                                               See Details
                                             </Button>
@@ -408,11 +418,10 @@ const Tutorlist = () => {
                                       <td
                                         colSpan={
                                           activeButton === 2 ||
-                                            activeButton === 5
+                                          activeButton === 5
                                             ? 8
                                             : 7
-                                        }
-                                      >
+                                        }>
                                         <div className="information mt-3 text-danger fs-4">
                                           No Tutor Found
                                         </div>

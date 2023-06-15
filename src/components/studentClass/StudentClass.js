@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { Table, Button } from "react-bootstrap";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { ColorRing, RotatingLines } from "react-loader-spinner";
+import { RotatingLines } from "react-loader-spinner";
 import { Pagination } from "@mui/material";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 import "../Tutors/Tutorlist.css";
@@ -44,7 +44,6 @@ const StudentClass = () => {
   };
 
   useEffect(() => {
-    // Retrieve the "page" query parameter from the URL
     const searchParams = new URLSearchParams(location.search);
     const pageParam = searchParams.get("page");
     const initialPage = pageParam ? parseInt(pageParam) : 1;
@@ -192,7 +191,6 @@ const StudentClass = () => {
                     <div className="card-body">
                       <div className="table-container">
                         {loading1 ? (
-                          <p className="loader-container">
                             <div className="loader-container">
                           <RotatingLines
                             strokeColor="grey"
@@ -202,7 +200,6 @@ const StudentClass = () => {
                             visible={true}
                           />
                         </div>
-                          </p>
                         ) : (
                           <>
                             <Table

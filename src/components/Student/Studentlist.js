@@ -14,9 +14,7 @@ import { Link, useLocation } from "react-router-dom";
 import { ColorRing, RotatingLines } from "react-loader-spinner";
 import Moment from "react-moment";
 
-
 const Studentlist = () => {
-  
   const studentists = useSelector((state) => state.studentlist.data.document);
   const isLoading = useSelector((state) => state.studentlist.isLoading);
 
@@ -27,11 +25,14 @@ const Studentlist = () => {
 
   const indexOfLastPage = currentPage * postsPerPage;
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
-  const displayUsers = currentData && currentData.slice(indexOfFirstPage, indexOfLastPage);
+  const displayUsers =
+    currentData && currentData.slice(indexOfFirstPage, indexOfLastPage);
 
   const dispatch = useDispatch();
 
-  const totalPages = currentData ? Math.ceil(currentData.length / postsPerPage) : 0;
+  const totalPages = currentData
+    ? Math.ceil(currentData.length / postsPerPage)
+    : 0;
 
   //date picker
   const [values, setValues] = useState([
@@ -45,7 +46,11 @@ const Studentlist = () => {
     setCurrentPage(value);
     const searchParams = new URLSearchParams(location.search);
     searchParams.set("page", value);
-    window.history.replaceState({}, "", `${location.pathname}?${searchParams.toString()}`);
+    window.history.replaceState(
+      {},
+      "",
+      `${location.pathname}?${searchParams.toString()}`
+    );
   };
 
   useEffect(() => {
@@ -53,7 +58,7 @@ const Studentlist = () => {
     const searchParams = new URLSearchParams(location.search);
     const pageParam = searchParams.get("page");
     const initialPage = pageParam ? parseInt(pageParam) : 1;
-  
+
     setCurrentPage(initialPage);
   }, [location.search]);
 
@@ -67,7 +72,6 @@ const Studentlist = () => {
       setValues([]);
     };
   }, [studentists]);
-
 
   const searchItem = () => {
     if (studentists) {
@@ -110,7 +114,7 @@ const Studentlist = () => {
         <div className="container-fluid page-body-wrapper">
           <Sidebar />
           {isLoading ? (
-            <p
+            <div
               style={{
                 marginLeft: "auto",
                 marginRight: "auto",
@@ -119,16 +123,16 @@ const Studentlist = () => {
                 alignItems: "center",
                 height: "100vh",
               }}>
-               <div className="loader-container">
-                          <RotatingLines
-                            strokeColor="grey"
-                            strokeWidth="5"
-                            animationDuration="0.75"
-                            width="50"
-                            visible={true}
-                          />
-                        </div>
-            </p>
+              <div className="loader-container">
+                <RotatingLines
+                  strokeColor="grey"
+                  strokeWidth="5"
+                  animationDuration="0.75"
+                  width="50"
+                  visible={true}
+                />
+              </div>
+            </div>
           ) : (
             <div className="main-panel">
               <div className="content-wrapper">
@@ -230,7 +234,9 @@ const Studentlist = () => {
                             <tbody>
                               <tr>
                                 <td colSpan="8">
-                                  <h4 className="information mt-3 text-danger">No Student Found</h4>
+                                  <h4 className="information mt-3 text-danger">
+                                    No Student Found
+                                  </h4>
                                 </td>
                               </tr>
                             </tbody>

@@ -45,7 +45,7 @@ const Dashboard = () => {
         <div className="container-fluid page-body-wrapper">
           <Sidebar />
           {loading1 ? (
-            <p
+            <div
               style={{
                 marginLeft: "auto",
                 marginRight: "auto",
@@ -54,16 +54,16 @@ const Dashboard = () => {
                 alignItems: "center",
                 height: "100vh",
               }}>
-             <div className="loader-container">
-                          <RotatingLines
-                            strokeColor="grey"
-                            strokeWidth="5"
-                            animationDuration="0.75"
-                            width="50"
-                            visible={true}
-                          />
-                        </div>
-            </p>
+              <div className="loader-container">
+                <RotatingLines
+                  strokeColor="grey"
+                  strokeWidth="5"
+                  animationDuration="0.75"
+                  width="50"
+                  visible={true}
+                />
+              </div>
+            </div>
           ) : (
             <>
               <div className="main-panel">

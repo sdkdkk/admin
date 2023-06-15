@@ -2,6 +2,11 @@
     height: 100%;
 }
 
+.badge-status {
+    width: 80px;
+    text-align: center;
+}
+
 .rmdp-input {
     padding: 5px 31px 3px 12px;
     height: 40px;
