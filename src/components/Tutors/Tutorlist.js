@@ -13,7 +13,7 @@ import { tutorunverified } from "../../Redux/Loginpages/tutorunverifiedSlice";
 import { Tutorswarning } from "../../Redux/Loginpages/tutorwarningSlice";
 import { Link, useLocation } from "react-router-dom";
 import { tutorworking } from "../../Redux/Loginpages/tutorworkingSlice";
-import { ColorRing, RotatingLines } from "react-loader-spinner";
+import {  RotatingLines } from "react-loader-spinner";
 import Moment from "react-moment";
 import { Tutortrial } from "../../Redux/Loginpages/tutortrialSlice";
 import { Tutorsuspend } from "../../Redux/Loginpages/tutorSuspendSlice";
@@ -60,26 +60,31 @@ const Tutorlist = () => {
   const fetchData1 = async () => {
     setActiveButton(3);
     dispatch(tutorunverified());
+    setCurrentPage(1); 
   };
 
   const fetchData2 = async () => {
     setActiveButton(2);
     dispatch(Tutorswarning());
+    setCurrentPage(1); 
   };
 
   const fetchData3 = async () => {
     setActiveButton(1);
     dispatch(tutorworking());
+    setCurrentPage(1); 
   };
 
   const fetchData4 = async () => {
     setActiveButton(4);
     dispatch(Tutortrial());
+    setCurrentPage(1); 
   };
 
   const fetchData5 = async () => {
     setActiveButton(5);
     dispatch(Tutorsuspend());
+    setCurrentPage(1); 
   };
 
   useEffect(() => {
@@ -118,7 +123,6 @@ const Tutorlist = () => {
   };
 
   useEffect(() => {
-    // Retrieve the "page" query parameter from the URL
     const searchParams = new URLSearchParams(location.search);
     const pageParam = searchParams.get("page");
     const initialPage = pageParam ? parseInt(pageParam) : 1;
@@ -153,7 +157,6 @@ const Tutorlist = () => {
             (name && name.includes(searchTerm.toLowerCase())))
         );
       } else {
-        // Handle no date selection (show all data)
         return true;
       }
     });
@@ -175,7 +178,6 @@ const Tutorlist = () => {
 
   const handleSearch = (event) => {
     event.preventDefault();
-    // Do something with the start and end dates
   };
 
   return (
