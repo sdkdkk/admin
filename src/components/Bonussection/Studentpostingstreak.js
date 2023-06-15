@@ -6,7 +6,7 @@ import { Table, Button } from "react-bootstrap";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
-import { ColorRing } from "react-loader-spinner";
+import { RotatingLines } from "react-loader-spinner";
 import { Pagination } from "@mui/material";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
@@ -43,7 +43,6 @@ const Studentpostingstreak = () => {
       setLoading1(false);
     } catch (error) {
       logoutIfInvalidToken(error.response);
-      // notify("Invalid refresh token!");
       setLoading1(false);
     }
   };
@@ -173,15 +172,13 @@ const Studentpostingstreak = () => {
                       <div className="table-container">
                         {loading1 ? (
                           <p className="loader-container">
-                            <ColorRing
-                              visible={true}
-                              height="80"
-                              width="80"
-                              ariaLabel="blocks-loading"
-                              wrapperStyle={{}}
-                              wrapperclassName="blocks-wrapper"
-                              colors={["black"]}
-                            />
+                           <RotatingLines
+                            strokeColor="grey"
+                            strokeWidth="5"
+                            animationDuration="0.75"
+                            width="50"
+                            visible={true}
+                          />
                           </p>
                         ) : (
                           <>
@@ -227,7 +224,6 @@ const Studentpostingstreak = () => {
                                 onChange={handleChange}
                                 shape="rounded"
                                 variant="outlined"
-                              // showFirstButton
                               />
                             </div>
                           </>

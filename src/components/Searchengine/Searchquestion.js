@@ -4,7 +4,7 @@ import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
 import "../Css/Tutorlist.css";
 import axios from "axios";
-import { ColorRing } from "react-loader-spinner";
+import { RotatingLines } from "react-loader-spinner";
 import { Link, useNavigate } from "react-router-dom";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
@@ -102,14 +102,12 @@ const Searchquestion = () => {
                     <div className="card-body">
                       {isLoading ? (
                         <div className="loader-container">
-                          <ColorRing
+                           <RotatingLines
+                            strokeColor="grey"
+                            strokeWidth="5"
+                            animationDuration="0.75"
+                            width="50"
                             visible={true}
-                            height="80"
-                            width="80"
-                            ariaLabel="blocks-loading"
-                            wrapperStyle={{}}
-                            wrapperclassName="blocks-wrapper"
-                            colors={["black"]}
                           />
                         </div>
                       ) : (

@@ -3,7 +3,7 @@ import Footer from "../shared/Footer";
 import Sidebar from "../shared/Sidebar";
 import Navbar from "../shared/Navbar";
 import axios from "axios";
-import { ColorRing } from "react-loader-spinner";
+import { RotatingLines } from "react-loader-spinner";
 import { Button, Table } from "react-bootstrap";
 import { Pagination } from "@mui/material";
 import { Link } from "react-router-dom";
@@ -62,15 +62,13 @@ const IssueQuestion = () => {
                         <div className="table-container my-4">
                           {loading1 ? (
                             <p className="loader-container">
-                              <ColorRing
-                                visible={true}
-                                height="80"
-                                width="80"
-                                ariaLabel="blocks-loading"
-                                wrapperStyle={{}}
-                                wrapperclassName="blocks-wrapper"
-                                colors={["black"]}
-                              />
+                             <RotatingLines
+                            strokeColor="grey"
+                            strokeWidth="5"
+                            animationDuration="0.75"
+                            width="50"
+                            visible={true}
+                          />
                             </p>
                           ) : (
                             <>

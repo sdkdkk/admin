@@ -8,7 +8,7 @@ import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import { Pagination } from "@mui/material";
 import axios from "axios";
-import { ColorRing } from "react-loader-spinner";
+import { RotatingLines } from "react-loader-spinner";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 import { useLocation } from "react-router";
 
@@ -42,11 +42,9 @@ const Coupon = () => {
   };
 
   useEffect(() => {
-    // Retrieve the "page" query parameter from the URL
     const searchParams = new URLSearchParams(location.search);
     const pageParam = searchParams.get("page");
     const initialPage = pageParam ? parseInt(pageParam) : 1;
-  
     setCurrentPage(initialPage);
   }, [location.search]);
 
@@ -59,7 +57,6 @@ const Coupon = () => {
       setLoading1(false);
     } catch (error) {
       logoutIfInvalidToken(error.response)
-      // notify("Invalid refresh token!");
       setLoading1(false);
     }
   };
@@ -95,11 +92,11 @@ const Coupon = () => {
       if (response.data.status === 1) {
         notify(response.data.message);
         reset({
-          couponCode: "", // Clear couponCode field
-          discount: "", // Clear discount field
-          validityDate: "", // Clear validityDate field
+          couponCode: "",
+          discount: "", 
+          validityDate: "",
         });
-        fetchData(); // Fetch updated data
+        fetchData();
       }
     } catch (error) {
       logoutIfInvalidToken(error.response)
@@ -243,15 +240,13 @@ const Coupon = () => {
                       <div className="table-container">
                         {loading1 ? (
                           <p className="loader-container">
-                            <ColorRing
-                              visible={true}
-                              height="80"
-                              width="80"
-                              ariaLabel="blocks-loading"
-                              wrapperStyle={{}}
-                              wrapperclassName="blocks-wrapper"
-                              colors={["black"]}
-                            />
+                             <RotatingLines
+                            strokeColor="grey"
+                            strokeWidth="5"
+                            animationDuration="0.75"
+                            width="50"
+                            visible={true}
+                          />
                           </p>
                         ) : (
                           <>
@@ -312,7 +307,6 @@ const Coupon = () => {
                                 onChange={handleChange}
                                 shape="rounded"
                                 variant="outlined"
-                              // showFirstButton
                               />
                             </div>
                           </>

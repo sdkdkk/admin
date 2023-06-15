@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { ColorRing } from "react-loader-spinner";
+import { RotatingLines } from "react-loader-spinner";
 import { Pagination } from "@mui/material";
 import { questiontypePriceApi } from "../../Redux/Loginpages/questiontypePriceSlice";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
@@ -18,9 +18,13 @@ import { useLocation } from "react-router";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Questionpricing = () => {
-
   const notify = (data) => toast(data);
-  const { register, handleSubmit, reset, formState: { errors }, } = useForm({});
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({});
 
   const dispatch = useDispatch();
   const questiontypeTime = useSelector((state) => state.questiontypetime);
@@ -28,18 +32,16 @@ const Questionpricing = () => {
 
   const [loading, setLoading] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
-  const [loading1, setLoading1] = useState(false);
+
   const [data, setData] = useState([]);
 
   let token = localStorage.getItem("token");
 
   useEffect(() => {
-    setLoading1(true);
     let token = localStorage.getItem("token");
     dispatch(questiontypeApi(token));
     dispatch(questiontypePriceApi());
     fetchData();
-    setLoading1(false);
   }, []);
 
   const onSubmit = async (data) => {
@@ -73,7 +75,7 @@ const Questionpricing = () => {
         notify(data.error);
       }
     } catch (error) {
-      logoutIfInvalidToken(error.response)
+      logoutIfInvalidToken(error.response);
       notify(error.response.data.error);
     }
 
@@ -84,15 +86,15 @@ const Questionpricing = () => {
 
   const fetchData = async () => {
     try {
-      setLoading1(true);
-
-      const response = await axios.post(`${url}/admin/getquestionpricing`, { token: token, }
-      );
+      setLoading(true);
+      const response = await axios.post(`${url}/admin/getquestionpricing`, {
+        token: token,
+      });
       setData(response.data.data);
-      setLoading1(false);
+      setLoading(false);
     } catch (error) {
-      logoutIfInvalidToken(error.response)
-      setLoading1(false);
+      logoutIfInvalidToken(error.response);
+      setLoading(false);
     }
   };
 
@@ -109,15 +111,17 @@ const Questionpricing = () => {
     setCurrentPage(value);
     const searchParams = new URLSearchParams(location.search);
     searchParams.set("page", value);
-    window.history.replaceState({}, "", `${location.pathname}?${searchParams.toString()}`);
+    window.history.replaceState(
+      {},
+      "",
+      `${location.pathname}?${searchParams.toString()}`
+    );
   };
 
   useEffect(() => {
-    // Retrieve the "page" query parameter from the URL
     const searchParams = new URLSearchParams(location.search);
     const pageParam = searchParams.get("page");
     const initialPage = pageParam ? parseInt(pageParam) : 1;
-  
     setCurrentPage(initialPage);
   }, [location.search]);
 
@@ -128,9 +132,7 @@ const Questionpricing = () => {
 
   function handleDeleteClick(_id) {
     axios
-      .post(
-        `${url}/admin/questionpricing/${_id}`, { token: token, }
-      )
+      .post(`${url}/admin/questionpricing/${_id}`, { token: token })
       .then((response) => {
         fetchData();
         toast.success(response.data.message);
@@ -239,10 +241,14 @@ const Questionpricing = () => {
                             <Button
                               variant="primary"
                               type="submit"
-                              disabled={loading}>
-                              {
-                                isEditMode ? loading ? "Loading..." : "Update" : loading ? "Loading..." : "Add"
-                              }
+                          >
+                              {isEditMode
+                                ? loading
+                                  ? "Loading..."
+                                  : "Update"
+                                : loading
+                                ? "Loading..."
+                                : "Add"}
                             </Button>
                           </div>
                         </div>
@@ -251,16 +257,14 @@ const Questionpricing = () => {
                   </div>
                 </div>
               </div>
-              {loading1 ? (
+              {loading ? (
                 <p style={{ marginLeft: "400px", marginTop: "50px" }}>
-                  <ColorRing
+                  <RotatingLines
+                    strokeColor="grey"
+                    strokeWidth="5"
+                    animationDuration="0.75"
+                    width="50"
                     visible={true}
-                    height="80"
-                    width="80"
-                    ariaLabel="blocks-loading"
-                    wrapperStyle={{}}
-                    wrapperclassName="blocks-wrapper"
-                    colors={["black"]}
                   />
                 </p>
               ) : (
@@ -268,7 +272,6 @@ const Questionpricing = () => {
                   <Table
                     striped
                     bordered
-                    // hover
                     responsive
                     className="single-color table ">
                     <thead>

@@ -7,21 +7,17 @@ import { Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { ColorRing } from "react-loader-spinner";
+import {RotatingLines } from "react-loader-spinner";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Socialmediasetting = () => {
-
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [data, setData] = useState([]);
-
   let token = localStorage.getItem("token");
-
   const notify = (data) => toast(data);
-
   const { register, handleSubmit, reset } = useForm({});
   const onSubmit = async (data) => {
     setLoading(true);
@@ -36,7 +32,10 @@ const Socialmediasetting = () => {
     };
 
     try {
-      const { data } = await axios.post(`${url}/admin/socialmedia`, mediaObjData);
+      const { data } = await axios.post(
+        `${url}/admin/socialmedia`,
+        mediaObjData
+      );
       if (data.status === 1) {
         notify(data.message);
         fetchData();
@@ -89,19 +88,16 @@ const Socialmediasetting = () => {
                       <Form onSubmit={handleSubmit(onSubmit)}>
                         {loading1 ? (
                           <p className="loader-container">
-                            <ColorRing
+                            <RotatingLines
+                              strokeColor="grey"
+                              strokeWidth="5"
+                              animationDuration="0.75"
+                              width="50"
                               visible={true}
-                              height="80"
-                              width="80"
-                              ariaLabel="blocks-loading"
-                              wrapperStyle={{}}
-                              wrapperclassName="blocks-wrapper"
-                              colors={["black"]}
                             />
                           </p>
                         ) : (
                           <>
-
                             <div className="row">
                               <div className="col-md-6">
                                 <Form.Group

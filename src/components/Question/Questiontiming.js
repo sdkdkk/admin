@@ -8,7 +8,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { questiontypeApi } from "../../Redux/Loginpages/questiontypeTimeSlice";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { ColorRing } from "react-loader-spinner";
+import { RotatingLines } from "react-loader-spinner";
 import { Pagination } from "@mui/material";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 import { useLocation } from "react-router";
@@ -18,29 +18,21 @@ const url = process.env.REACT_APP_API_BASE_URL;
 const Questiontiming = () => {
 
   const [loading, setLoading] = useState(false);
-
   const [isEditMode, setIsEditMode] = useState(false);
-
-  const [loading1, setLoading1] = useState(false);
   const notify = (data) => toast(data);
   const dispatch = useDispatch();
   const questiontypeTime = useSelector((state) => state.questiontypetime);
   const [data, setData] = useState([]);
-
   useEffect(() => {
-    setLoading1(true);
     let token = localStorage.getItem("token");
     dispatch(questiontypeApi(token));
     fetchData();
-    setLoading1(false);
   }, []);
 
   const { register, handleSubmit, reset } = useForm({});
 
   const onSubmit = async (data) => {
-    setLoading1(true);
     let token = localStorage.getItem("token");
-    // Parse hours and minutes as numbers
     const hours = data.firsthours ? parseInt(data.firsthours) : 0;
     const minutes = data.firstminutes ? parseInt(data.firstminutes) : 0;
     const first_time = hours * 60 + minutes;
@@ -102,14 +94,11 @@ const Questiontiming = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(8);
-
   const indexOfLastPage = Math.min(currentPage * postsPerPage, data.length);
   const indexOfFirstPage = (currentPage - 1) * postsPerPage;
   const displayUsers = data.slice(indexOfFirstPage, indexOfLastPage);
   const pageCount = Math.ceil(data.length / postsPerPage);
-
   let token = localStorage.getItem("token");
-
   const location = useLocation();
 
   const handleChange = (event, value) => {
@@ -118,30 +107,24 @@ const Questiontiming = () => {
     searchParams.set("page", value);
     window.history.replaceState({}, "", `${location.pathname}?${searchParams.toString()}`);
   };
-
   useEffect(() => {
-    // Retrieve the "page" query parameter from the URL
     const searchParams = new URLSearchParams(location.search);
     const pageParam = searchParams.get("page");
     const initialPage = pageParam ? parseInt(pageParam) : 1;
-  
     setCurrentPage(initialPage);
   }, [location.search]);
   
   const fetchData = async () => {
     let token = localStorage.getItem("token");
     try {
-      setLoading1(true);
-
+      setLoading(true);
       const response = await axios.post(`${url}/admin/getquestiontiming`, {
         token: token,
       });
       setData(response.data.data);
-
-      setLoading1(false);
+      setLoading(false);
     } catch (error) {
       logoutIfInvalidToken(error.response);
-      setLoading1(false);
     }
   };
   const handleUpdateClick = (data) => {
@@ -150,8 +133,8 @@ const Questiontiming = () => {
       ...data,
       id: data._id,
       firstminutes: data.first_time % 60,
-      firsthours: Math.floor(data.first_time / 60), // Extract hours from first_time
-      secondminutes: data.second_time % 60, // Extract minutes from second_time
+      firsthours: Math.floor(data.first_time / 60), 
+      secondminutes: data.second_time % 60, 
       secondhours: Math.floor(data.second_time / 60),
       skiphours: Math.floor(data.skip_time / 60),
       skipminutes: Math.floor(data.skip_time % 60),
@@ -184,7 +167,6 @@ const Questiontiming = () => {
         <Navbar />
         <div className="container-fluid page-body-wrapper">
           <Sidebar />
-
           <div className="main-panel">
             <div className="content-wrapper">
               <div className="page-header">
@@ -513,24 +495,21 @@ const Questiontiming = () => {
                   <div className="card new-table">
                     <div className="card-body">
                       <div className="table-container col-12">
-                        {loading1 ? (
+                        {loading ? (
                           <p style={{ marginLeft: "400px", marginTop: "50px" }}>
-                            <ColorRing
-                              visible={true}
-                              height="80"
-                              width="80"
-                              ariaLabel="blocks-loading"
-                              wrapperStyle={{}}
-                              wrapperclassName="blocks-wrapper"
-                              colors={["black"]}
-                            />
+                            <RotatingLines
+                            strokeColor="grey"
+                            strokeWidth="5"
+                            animationDuration="0.75"
+                            width="50"
+                            visible={true}
+                          />
                           </p>
                         ) : (
                           <>
                             <Table
                               striped
                               bordered
-                              // hover
                               responsive
                               className="single-color table "
                             >

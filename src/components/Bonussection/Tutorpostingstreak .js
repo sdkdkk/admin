@@ -6,15 +6,19 @@ import { Table, Button } from "react-bootstrap";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
-import { ColorRing } from "react-loader-spinner";
+import {RotatingLines } from "react-loader-spinner";
 import { Pagination } from "@mui/material";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Tutorpostingstreak = () => {
-
-  const { register, handleSubmit, reset, formState: { errors }, } = useForm({});
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({});
 
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
@@ -37,7 +41,9 @@ const Tutorpostingstreak = () => {
   const fetchData = async () => {
     try {
       setLoading1(true);
-      const response = await axios.post(`${url}/admin/gettutorpostingstreak`, { token: token, });
+      const response = await axios.post(`${url}/admin/gettutorpostingstreak`, {
+        token: token,
+      });
       setExtrasum(response.data.document);
       setLoading1(false);
     } catch (error) {
@@ -171,14 +177,12 @@ const Tutorpostingstreak = () => {
                       <div className="table-container">
                         {loading1 ? (
                           <p className="loader-container">
-                            <ColorRing
+                            <RotatingLines
+                              strokeColor="grey"
+                              strokeWidth="5"
+                              animationDuration="0.75"
+                              width="50"
                               visible={true}
-                              height="80"
-                              width="80"
-                              ariaLabel="blocks-loading"
-                              wrapperStyle={{}}
-                              wrapperclassName="blocks-wrapper"
-                              colors={["black"]}
                             />
                           </p>
                         ) : (
