@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { Table, Button } from "react-bootstrap";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { ColorRing } from "react-loader-spinner";
+import { ColorRing, RotatingLines } from "react-loader-spinner";
 import { Pagination } from "@mui/material";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 import { useLocation } from "react-router";
@@ -14,8 +14,12 @@ import { useLocation } from "react-router";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Tutorexampopup = () => {
-  const { register, handleSubmit, reset, formState: { errors }, } = useForm({});
-
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({});
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [conversionRate, setConversionRate] = useState([]);
@@ -28,7 +32,7 @@ const Tutorexampopup = () => {
   const indexOfLastPage = currentPage * postsPerPage;
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
   const displayUsers = conversionRate.slice(indexOfFirstPage, indexOfLastPage);
-  const totalPages = Math.ceil( conversionRate.length / postsPerPage);
+  const totalPages = Math.ceil(conversionRate.length / postsPerPage);
 
   const location = useLocation();
 
@@ -36,15 +40,18 @@ const Tutorexampopup = () => {
     setCurrentPage(value);
     const searchParams = new URLSearchParams(location.search);
     searchParams.set("page", value);
-    window.history.replaceState({}, "", `${location.pathname}?${searchParams.toString()}`);
+    window.history.replaceState(
+      {},
+      "",
+      `${location.pathname}?${searchParams.toString()}`
+    );
   };
 
   useEffect(() => {
-    // Retrieve the "page" query parameter from the URL
     const searchParams = new URLSearchParams(location.search);
     const pageParam = searchParams.get("page");
     const initialPage = pageParam ? parseInt(pageParam) : 1;
-  
+
     setCurrentPage(initialPage);
   }, [location.search]);
 
@@ -75,20 +82,20 @@ const Tutorexampopup = () => {
       var response;
       if (data._id) {
         response = await axios.post(requestUrl, {
-            content: data.content,
+          content: data.content,
           id: data._id,
           token: token,
         });
       } else {
         response = await axios.post(requestUrl, {
-            content: data.content,
+          content: data.content,
           token: token,
         });
       }
       if (response.data.status === 1) {
         notify(response.data.message);
         reset({
-            content: "",
+          content: "",
         });
         fetchData();
       }
@@ -184,14 +191,12 @@ const Tutorexampopup = () => {
                       <div className="table-container">
                         {loading1 ? (
                           <p className="loader-container">
-                            <ColorRing
+                            <RotatingLines
+                              strokeColor="grey"
+                              strokeWidth="5"
+                              animationDuration="0.75"
+                              width="50"
                               visible={true}
-                              height="80"
-                              width="80"
-                              ariaLabel="blocks-loading"
-                              wrapperStyle={{}}
-                              wrapperclassName="blocks-wrapper"
-                              colors={["black"]}
                             />
                           </p>
                         ) : (

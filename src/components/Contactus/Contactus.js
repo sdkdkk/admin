@@ -6,19 +6,24 @@ import Sidebar from "../shared/Sidebar";
 import "../Tutors/Tutorlist.css";
 import { Pagination } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { ColorRing } from "react-loader-spinner";
+import { RotatingLines } from "react-loader-spinner";
 import { getstudentcontact } from "../../Redux/Loginpages/getstudentcontactSlice";
 import { gettutorcontact } from "../../Redux/Loginpages/gettutorcontactSlice";
 import { useLocation, useNavigate } from "react-router-dom";
 
 const Contactus = () => {
-
-  const studentcontact = useSelector((state) => state.studentcontact.data.document);
+  const studentcontact = useSelector(
+    (state) => state.studentcontact.data.document
+  );
   const tutorcontact = useSelector((state) => state.tutorcontact.data.document);
 
   const [selectedStatus, setSelectedStatus] = useState("studentcontact");
   const [searchName, setSearchName] = useState("");
-  const [status, setStatus] = useState({ studentcontact: [], tutorcontact: [], selectedStatus: 1,});
+  const [status, setStatus] = useState({
+    studentcontact: [],
+    tutorcontact: [],
+    selectedStatus: 1,
+  });
 
   const [currentData, setCurrentData] = useState(status[selectedStatus]);
   const [activeButton, setActiveButton] = useState(1);
@@ -40,16 +45,16 @@ const Contactus = () => {
   const fetchData1 = async () => {
     setActiveButton(1);
     setStatus({ ...status, selectedStatus: "all" });
-    setLoader(true); // Show the loader
-    dispatch(getstudentcontact("all")).then(() => setLoader(false)); // Hide the loader
+    setLoader(true);
+    dispatch(getstudentcontact("all")).then(() => setLoader(false));
     setSearchName("");
   };
 
   const fetchData2 = async () => {
     setActiveButton(2);
     setStatus({ ...status, selectedStatus: "all" });
-    setLoader(true); // Show the loader
-    dispatch(gettutorcontact("all")).then(() => setLoader(false)); // Hide the loader
+    setLoader(true);
+    dispatch(gettutorcontact("all")).then(() => setLoader(false));
   };
 
   useEffect(() => {
@@ -61,7 +66,8 @@ const Contactus = () => {
   const [postsPerPage] = useState(8);
   const indexOfLastPage = currentPage * postsPerPage;
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
-  let displayUsers =currentData && currentData.slice(indexOfFirstPage, indexOfLastPage);
+  let displayUsers =
+    currentData && currentData.slice(indexOfFirstPage, indexOfLastPage);
   const totalPages = Math.ceil((currentData?.length || 0) / postsPerPage);
 
   const location = useLocation();
@@ -70,14 +76,17 @@ const Contactus = () => {
     setCurrentPage(value);
     const searchParams = new URLSearchParams(location.search);
     searchParams.set("page", value);
-    window.history.replaceState({}, "", `${location.pathname}?${searchParams.toString()}`);
+    window.history.replaceState(
+      {},
+      "",
+      `${location.pathname}?${searchParams.toString()}`
+    );
   };
 
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const pageParam = searchParams.get("page");
     const initialPage = pageParam ? parseInt(pageParam) : 1;
-  
     setCurrentPage(initialPage);
   }, [location.search]);
   let navigate = useNavigate();
@@ -115,7 +124,6 @@ const Contactus = () => {
   };
 
   const handleSearch = () => {
-    // const allData = [...status.studentcontact];
     const filteredData = displayUsers.filter((item) =>
       item.fullname.toLowerCase().includes(searchName.toLowerCase())
     );
@@ -139,16 +147,18 @@ const Contactus = () => {
                   <div className="d-grid gap-2 d-md-flex justify-content-md-end">
                     <button
                       onClick={fetchData1}
-                      className={activeButton === 1 ? "btn btn-primary"
-                        : "btn btn-light"}
+                      className={
+                        activeButton === 1 ? "btn btn-primary" : "btn btn-light"
+                      }
                       type="button"
                       style={{ borderRadius: "4px" }}>
                       Student Contact
                     </button>
                     <button
                       onClick={fetchData2}
-                      className={activeButton === 2 ? "btn btn-primary"
-                        : "btn btn-light"}
+                      className={
+                        activeButton === 2 ? "btn btn-primary" : "btn btn-light"
+                      }
                       type="button"
                       style={{ borderRadius: "4px" }}>
                       Tutor Contact
@@ -206,21 +216,19 @@ const Contactus = () => {
                     <div className="card new-table">
                       {Loader ? (
                         <div className="loader-container">
-                          <ColorRing
+                           <RotatingLines
+                            strokeColor="grey"
+                            strokeWidth="5"
+                            animationDuration="0.75"
+                            width="50"
                             visible={true}
-                            height="80"
-                            width="80"
-                            ariaLabel="blocks-loading"
-                            wrapperStyle={{}}
-                            wrapperclassName="blocks-wrapper"
-                            colors={["black"]}
                           />
                         </div>
                       ) : (
                         <div className="card-body">
                           <table className="table v-top">
                             <thead>
-                                <tr>
+                              <tr>
                                 <th scope="col">Sr. No</th>
                                 <th scope="col">Full Name</th>
                                 <th scope="col">Email</th>
@@ -230,10 +238,10 @@ const Contactus = () => {
                               </tr>
                             </thead>
                             {displayUsers && displayUsers.length > 0 ? (
-                              displayUsers.map((data,id) => (
+                              displayUsers.map((data, id) => (
                                 <tbody key={data._id}>
                                   <tr>
-                                    <td>{id+1}</td>
+                                    <td>{id + 1}</td>
                                     <td>{data.fullname || "-"}</td>
                                     <td>{data.email.substring(0, 20)}</td>
                                     <td>{data.mobileNo || "-"}</td>
@@ -262,7 +270,7 @@ const Contactus = () => {
                           </table>
                           <div className="table-pagination">
                             <Pagination
-                             count={totalPages}
+                              count={totalPages}
                               page={currentPage}
                               onChange={handleChange}
                               shape="rounded"

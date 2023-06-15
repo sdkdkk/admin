@@ -8,7 +8,6 @@ import FloatingLabel from "react-bootstrap/FloatingLabel";
 import { useLocation, useNavigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
-import { Pagesd } from "../../Redux/Loginpages/authSlice";
 import { Button, Col } from "react-bootstrap";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -22,15 +21,13 @@ import {
 } from "../../Redux/Loginpages/pagesListDeleteSlice";
 import { updatePageDataApi } from "../../Redux/Loginpages/updatePageDataSlice";
 import { getPageListApi } from "../../Redux/Loginpages/getPageListSlice";
-import { ColorRing } from "react-loader-spinner";
+import { RotatingLines } from "react-loader-spinner";
 
 const Pages = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
-
   const auth = useSelector((state) => state.auth);
   const token = useSelector((state) => state.auth.token);
-
   const [isOpen, setIsOpen] = useState("");
   const [defaultValue, setDefaultValue] = useState({});
 
@@ -43,7 +40,6 @@ const Pages = () => {
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
-
   const location = useLocation();
 
   const handleChange = (event, value) => {
@@ -58,7 +54,6 @@ const Pages = () => {
   };
 
   useEffect(() => {
-    // Retrieve the "page" query parameter from the URL
     const searchParams = new URLSearchParams(location.search);
     const pageParam = searchParams.get("page");
     const initialPage = pageParam ? parseInt(pageParam) : 1;
@@ -166,15 +161,13 @@ const Pages = () => {
                   <div className="card new-table">
                     {isLoading ? (
                       <p className="loader-container">
-                        <ColorRing
-                          visible={true}
-                          height="80"
-                          width="80"
-                          ariaLabel="blocks-loading"
-                          wrapperStyle={{}}
-                          wrapperclassName="blocks-wrapper"
-                          colors={["black"]}
-                        />
+                         <RotatingLines
+                            strokeColor="grey"
+                            strokeWidth="5"
+                            animationDuration="0.75"
+                            width="50"
+                            visible={true}
+                          />
                       </p>
                     ) : (
                       <div className="card-body">

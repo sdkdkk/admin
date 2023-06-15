@@ -6,7 +6,7 @@ import { Table, Button } from "react-bootstrap";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import { Controller, useForm } from "react-hook-form";
-import { ColorRing } from "react-loader-spinner";
+import { RotatingLines } from "react-loader-spinner";
 import { Pagination } from "@mui/material";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 import "react-phone-input-2/lib/style.css";
@@ -19,27 +19,22 @@ const url = process.env.REACT_APP_API_BASE_URL;
 
 const AddMobile = () => {
 
-  const { register, handleSubmit, reset, control, formState: { errors }, } = useForm({});
+  const { handleSubmit, reset, control, formState: { errors }, } = useForm({});
 
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [data, setData] = useState([]);
   const token = localStorage.getItem("token");
   const notify = (data) => toast(data);
-
-  //table
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(4);
   const indexOfLastPage = currentPage * postsPerPage;
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
   const displayUsers = data?.slice(indexOfFirstPage, indexOfLastPage);
-
   const handleChange = (event, value) => {
     setCurrentPage(value);
   };
-
   const totalPages = Math.ceil(data?.length / postsPerPage);
-
   const fetchData = async () => {
     try {
       setLoading1(true);
@@ -101,7 +96,6 @@ const AddMobile = () => {
   }
 
   const formatPhoneNumber = (phoneNumber) => {
-    // Assuming phoneNumber is a string in the format "918888888888"
     const countryCode = phoneNumber.slice(0, 2);
     const firstPart = phoneNumber.slice(2, 7);
     const secondPart = phoneNumber.slice(7, 12);
@@ -139,7 +133,6 @@ const AddMobile = () => {
                                       rules={{
                                         required: "Mobile number is required",
                                         pattern: {
-                                          //   value: /^(\+\d{1,3}[- ]?)?\d{10}$/,
                                           message: "Invalid phone number",
                                         },
                                       }}
@@ -195,15 +188,13 @@ const AddMobile = () => {
                       <div className="table-container">
                         {loading1 ? (
                           <p className="loader-container">
-                            <ColorRing
-                              visible={true}
-                              height="80"
-                              width="80"
-                              ariaLabel="blocks-loading"
-                              wrapperStyle={{}}
-                              wrapperclassName="blocks-wrapper"
-                              colors={["black"]}
-                            />
+                            <RotatingLines
+                            strokeColor="grey"
+                            strokeWidth="5"
+                            animationDuration="0.75"
+                            width="50"
+                            visible={true}
+                          />
                           </p>
                         ) : (
                           <>

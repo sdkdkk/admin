@@ -17,7 +17,7 @@ import {
   reset as resetTestimonialUserDelete,
 } from "../../Redux/Loginpages/testimonialUserDeleteSlice";
 import { useLocation } from "react-router";
-import { ColorRing } from "react-loader-spinner";
+import {RotatingLines } from "react-loader-spinner";
 
 const Testimonial = () => {
   const dispatch = useDispatch();
@@ -159,14 +159,12 @@ const Testimonial = () => {
                     <div className="card-body">
                       {isLoading ? (
                         <div className="loader-container">
-                          <ColorRing
+                         <RotatingLines
+                            strokeColor="grey"
+                            strokeWidth="5"
+                            animationDuration="0.75"
+                            width="50"
                             visible={true}
-                            height="80"
-                            width="80"
-                            ariaLabel="blocks-loading"
-                            wrapperStyle={{}}
-                            wrapperclassName="blocks-wrapper"
-                            colors={["black"]}
                           />
                         </div>
                       ) : (

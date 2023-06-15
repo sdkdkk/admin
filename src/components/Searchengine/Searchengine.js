@@ -8,7 +8,7 @@ import { Button } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
 import { searchengine } from "../../Redux/Loginpages/searchengineSlice";
 import { useNavigate, useLocation } from "react-router-dom";
-import { ColorRing, RotatingLines } from "react-loader-spinner";
+import { RotatingLines } from "react-loader-spinner";
 
 const Searchengine = () => {
   const searchengineState = useSelector((state) => state.searchengine);

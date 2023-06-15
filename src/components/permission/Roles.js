@@ -5,7 +5,7 @@ import Sidebar from "../shared/Sidebar";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { ColorRing } from "react-loader-spinner";
+import {RotatingLines } from "react-loader-spinner";
 import { Button } from "react-bootstrap";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 import "./permission.css";
@@ -15,12 +15,9 @@ const url = process.env.REACT_APP_API_BASE_URL;
 const Roles = () => {
   const [loading, setLoading] = useState(false);
   const [deleteLoading, setDeleteLoading] = useState(false);
-
   const notify = (data) => toast(data);
-
   const [loading1, setLoading1] = useState(false);
   const [data, setData] = useState([]);
-  
   let token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -30,17 +27,14 @@ const Roles = () => {
   const fetchData = async () => {
     try {
       setLoading1(true);
-
       const response = await axios.post(`${url}/admin/getadminrole`, {
         token: token,
       });
       setData(response.data.document);
-
       setLoading1(false);
     } catch (error) {
       logoutIfInvalidToken(error.response);
       notify(data.error);
-
       setLoading1(false);
     }
   };
@@ -49,13 +43,11 @@ const Roles = () => {
     setDeleteLoading(true);
     try {
       setLoading(true);
-
       const response = await axios.post(`${url}/admin/deleteadminrole/${_id}`, {
         token: token,
       });
       const tempData = [...data].filter((a) => a._id !== _id);
       setData(tempData);
-
       notify(response.data.message);
       setLoading(false);
     } catch (error) {
@@ -95,14 +87,12 @@ const Roles = () => {
                           <div className="table-responsive">
                             {loading1 ? (
                               <p className="loader-container">
-                                <ColorRing
+                                <RotatingLines
+                                  strokeColor="grey"
+                                  strokeWidth="5"
+                                  animationDuration="0.75"
+                                  width="50"
                                   visible={true}
-                                  height="80"
-                                  width="80"
-                                  ariaLabel="blocks-loading"
-                                  wrapperStyle={{}}
-                                  wrapperclassName="blocks-wrapper"
-                                  colors={["black"]}
                                 />
                               </p>
                             ) : (
