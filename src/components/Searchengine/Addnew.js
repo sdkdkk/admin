@@ -4,7 +4,7 @@ import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
 import ReactQuill, { Quill } from "react-quill";
 import "../Css/Tutorlist.css";
-import { Col } from "react-bootstrap";
+import { Button, Col } from "react-bootstrap";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import ImageResize from "quill-image-resize-module-react";
@@ -28,12 +28,13 @@ const Addnew = () => {
   const [selectedOption, setSelectedOption] = useState("");
   const [isExp, setIsExp] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  const [answerData, setAnswerData] = useState([]);
-
-  console.log(answerData);
-
-  const [fields, setFields] = useState([]);
-  console.log(fields);
+  const [answerData, setAnswerData] = useState([
+    [
+      { id: "", value: "" },
+      { id: "", value: "" },
+    ],
+  ]);
+  const [fields, setFields] = useState([[{ value: "" }, { value: "" }]]);
 
   const handleAddField = () => {
     setFields([...fields, { value: "" }]);
@@ -319,11 +320,6 @@ const Addnew = () => {
                             multiple
                             accept=".png,.jpg,.jpeg,.tif,.tiff,.bmp,.gif,.ico"
                           />
-                          {/* {errors?.questionPhoto && (
-                            <p className="error text-danger">
-                              Please upload at least one image
-                            </p>
-                          )} */}
                         </div>
                         <div className="mb-3">
                           <label
@@ -395,14 +391,14 @@ const Addnew = () => {
                         </div>
 
                         {selectedOption === "ShortAnswer" ||
-                          selectedOption === "ShortAnswer-exp" ||
-                          selectedOption === "Definations" ||
-                          selectedOption === "Writing" ||
-                          selectedOption === "LongAnswer" ||
-                          selectedOption === "ProblemSolving" ||
-                          selectedOption === "Theory" ||
-                          selectedOption === "CaseStudy-less3" ||
-                          selectedOption === "CaseStudy-more3" ? (
+                        selectedOption === "ShortAnswer-exp" ||
+                        selectedOption === "Definations" ||
+                        selectedOption === "Writing" ||
+                        selectedOption === "LongAnswer" ||
+                        selectedOption === "ProblemSolving" ||
+                        selectedOption === "Theory" ||
+                        selectedOption === "CaseStudy-less3" ||
+                        selectedOption === "CaseStudy-more3" ? (
                           <Col md={12}>
                             <div>
                               <p className="mx-1">Answer</p>
@@ -433,7 +429,7 @@ const Addnew = () => {
                           </Col>
                         ) : null}
                         {selectedOption === "MCQ" ||
-                          selectedOption === "MCQ-exp" ? (
+                        selectedOption === "MCQ-exp" ? (
                           <div className="p--20 rbt-border radius-6 bg-primary-opacity mt-2">
                             <div className="row">
                               <p className="mx-1">Answer</p>
@@ -546,7 +542,7 @@ const Addnew = () => {
                                           {...field}
                                           id="true"
                                           value="true"
-                                          checked={field.value === "true"} // Set the checked state based on the field value
+                                          checked={field.value === "true"}
                                         />
                                         <label
                                           className="form-check-label mx-2"
@@ -570,7 +566,7 @@ const Addnew = () => {
                                           {...field}
                                           id="false"
                                           value="false"
-                                          checked={field.value === "false"} // Set the checked state based on the field value
+                                          checked={field.value === "false"}
                                         />
                                         <label
                                           className="form-check-label mx-2"
@@ -587,17 +583,23 @@ const Addnew = () => {
                         ) : null}
 
                         {selectedOption === "MatchTheFollowing-more5" ||
-                          selectedOption === "MatchTheFollowing-less5" ? (
+                        selectedOption === "MatchTheFollowing-less5" ? (
                           <div className="col-12 col-md-6 col-lg-8 mb-4">
                             <h5>Answer</h5>
                             {answerData.map((data, index) => (
-                              <div key={index} className="d-flex align-items-center">
+                              <div
+                                key={index}
+                                className="d-flex align-items-center">
                                 <input
                                   className="mr-2 mt-2 form-control"
                                   type="text"
                                   value={data.id}
                                   onChange={(e) =>
-                                    handleAnswerDataChange(index, "id", e.target.value)
+                                    handleAnswerDataChange(
+                                      index,
+                                      "id",
+                                      e.target.value
+                                    )
                                   }
                                 />
                                 =
@@ -606,50 +608,60 @@ const Addnew = () => {
                                   type="text"
                                   value={data.value}
                                   onChange={(e) =>
-                                    handleAnswerDataChange(index, "value", e.target.value)
+                                    handleAnswerDataChange(
+                                      index,
+                                      "value",
+                                      e.target.value
+                                    )
                                   }
                                 />
                                 <button
                                   className="btn btn-danger ml-auto mx-2"
-                                  onClick={() => removeAnswerData(index)}
-                                >
+                                  onClick={() => removeAnswerData(index)}>
                                   Remove
                                 </button>
                               </div>
                             ))}
-                            <button className="btn btn-primary mt-2" onClick={addAnswerData}>
+                            <button
+                              className="btn btn-primary mt-2"
+                              onClick={addAnswerData}>
                               Add Answer
                             </button>
                           </div>
                         ) : null}
 
                         {selectedOption === "FillInBlanks" ||
-                          selectedOption === "FillInBlanks-exp" ? (
+                        selectedOption === "FillInBlanks-exp" ? (
                           <div className="multi-field-wrapper">
                             <h5>Answer</h5>
-                            <div className="multi-fields">
-                              {fields.map((field, index) => (
-                                <div key={index}>
-                                  <input
-                                    type="text"
-                                    className="mt-2"
-                                    value={field.value}
-                                    onChange={(e) => {
-                                      const valuesCopy = [...fields];
-                                      valuesCopy[index].value = e.target.value;
-                                      setFields(valuesCopy);
-                                    }}
-                                  />
-                                  {index !== 0 && (
-                                    <button
-                                      type="button"
-                                      className="btn btn-danger mx-2"
-                                      onClick={() => handleRemoveField(index)}>
-                                      Remove Field
-                                    </button>
-                                  )}
-                                </div>
-                              ))}
+                            <div className="d-flex">
+                              <div className="multi-fields ">
+                                {fields.map((field, index) => (
+                                  <div key={index}>
+                                    <input
+                                      className="my-2"
+                                      type="text"
+                                      value={field.value}
+                                      onChange={(e) => {
+                                        const valuesCopy = [...fields];
+                                        valuesCopy[index].value =
+                                          e.target.value;
+                                        setFields(valuesCopy);
+                                      }}
+                                    />
+                                    {index !== 0 && (
+                                      <Button
+                                        className="btn-danger mx-2"
+                                        type="button"
+                                        onClick={() =>
+                                          handleRemoveField(index)
+                                        }>
+                                        Remove Field
+                                      </Button>
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
                             </div>
                             <button
                               type="button"

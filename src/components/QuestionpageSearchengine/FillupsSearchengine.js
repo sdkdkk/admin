@@ -9,7 +9,6 @@ const FillupsSearchengine = () => {
   const answerData = location.state.data.answer
     ? JSON.parse(location.state.data.answer)
     : null;
-  console.log(location.state.data);
 
   return (
     <>

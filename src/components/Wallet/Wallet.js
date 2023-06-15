@@ -15,7 +15,7 @@ const Wallet = () => {
   const history = useNavigate();
   const getWalletDataState = useSelector((state) => state.getWalletData);
   const walletTransactions = getWalletDataState?.data?.transactions;
-  console.log(getWalletDataState);
+
   //Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
@@ -41,7 +41,6 @@ const Wallet = () => {
     const searchParams = new URLSearchParams(location.search);
     const pageParam = searchParams.get("page");
     const initialPage = pageParam ? parseInt(pageParam) : 1;
-
     setCurrentPage(initialPage);
   }, [location.search]);
 
@@ -159,7 +158,7 @@ const Wallet = () => {
                                           {value.status}
                                         </span>
                                       ) : (
-                                        <span className="badge text-bg-secondary">
+                                        <span className="badge text-bg-warning">
                                           {value.status}
                                         </span>
                                       )}

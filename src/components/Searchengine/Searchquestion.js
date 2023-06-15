@@ -11,18 +11,16 @@ import { logoutIfInvalidToken } from "../../helpers/handleError";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Searchquestion = () => {
-
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [searchPerformed, setSearchPerformed] = useState(false);
-  const [SearchError, setSearchError] = useState('');
+  const [SearchError, setSearchError] = useState("");
 
   const token = localStorage.getItem("token");
 
   const [isLoading, setIsLoading] = useState(false);
 
   let navigate = useNavigate();
-
 
   //Pagination
   const [currentPage, setCurrentPage] = useState(1);
@@ -31,7 +29,8 @@ const Searchquestion = () => {
   const handleSearch = async (limit = 5, skip = 0) => {
     setIsLoading(true);
     try {
-      const response = await axios.post(`${url}/admin/adminsearchquestion?limit=${limit}&skip=${skip}&search=${searchTerm}`,
+      const response = await axios.post(
+        `${url}/admin/adminsearchquestion?limit=${limit}&skip=${skip}&search=${searchTerm}`,
         {
           token: token,
         }
@@ -45,7 +44,8 @@ const Searchquestion = () => {
         setSearchError(error.response.data.error);
         setIsLoading(false);
         setSearchPerformed(false);
-      } else { }
+      } else {
+      }
     }
   };
 
@@ -87,8 +87,7 @@ const Searchquestion = () => {
                         />
                         <button
                           onClick={() => handleSearch()}
-                          className="btn btn-primary"
-                        >
+                          className="btn btn-primary">
                           Search
                         </button>
                       </div>
@@ -102,7 +101,7 @@ const Searchquestion = () => {
                     <div className="card-body">
                       {isLoading ? (
                         <div className="loader-container">
-                           <RotatingLines
+                          <RotatingLines
                             strokeColor="grey"
                             strokeWidth="5"
                             animationDuration="0.75"
@@ -122,8 +121,7 @@ const Searchquestion = () => {
                             </tr>
                           </thead>
                           <tbody>
-
-                            {searchPerformed && searchResults.length > 0 ?
+                            {searchPerformed && searchResults.length > 0 ? (
                               searchResults.map((data, id) => (
                                 <tr key={id}>
                                   <td
@@ -141,14 +139,32 @@ const Searchquestion = () => {
                                   <td>{data.questionType}</td>
                                   <td>{data.questionSubject}</td>
                                   <td>{data.questionPrice}</td>
-                                  <td>{data.status.toLowerCase()}</td>
+                                  <td>
+                                    {data.status === "Answered" ? (
+                                      <span className="badge text-bg-success badge-status">
+                                        {data.status.toLowerCase()}
+                                      </span>
+                                    ) : data.status === "PENDING" ? (
+                                      <span className="badge text-bg-warning badge-status">
+                                        {data.status.toLowerCase()}
+                                      </span>
+                                    ) : (
+                                      <span className="badge text-bg-info badge-status">
+                                        {data.status.toLowerCase()}
+                                      </span>
+                                    )}
+                                  </td>
+                                  {/* <td>{data.status.toLowerCase()}</td> */}
                                 </tr>
                               ))
-                              : SearchError ? <h4 className="information text-danger">{SearchError}</h4> : null}{" "}
+                            ) : SearchError ? (
+                              <h4 className="information text-danger">
+                                {SearchError}
+                              </h4>
+                            ) : null}{" "}
                           </tbody>
                         </table>
                       )}
-
 
                       <div className="table-pagination">
                         <button
@@ -180,7 +196,7 @@ const Searchquestion = () => {
           </div>
         </div>
       </div>
-    </div >
+    </div>
   );
 };
 

@@ -8,7 +8,7 @@ import { Pagination } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { getAdminQuestions } from "../../Redux/Loginpages/getAdminQuestionSlice";
-import { Link, useLocation} from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { RotatingLines } from "react-loader-spinner";
 
 const url = process.env.REACT_APP_API_BASE_URL;
@@ -45,10 +45,7 @@ const Tutorque = () => {
     try {
       const response = await axios.get(`${url}/getquestiontype`, { token });
       setQueTypeList(response?.data?.data);
-      console.log(response?.data?.data);
-    } catch (error) {
-      // notify("Invalid refresh token!");
-    }
+    } catch (error) {}
   };
 
   const getQuestionList = () => {
@@ -177,7 +174,7 @@ const Tutorque = () => {
                     <div className="card-body">
                       {isLoading ? (
                         <div className="loader-container">
-                         <RotatingLines
+                          <RotatingLines
                             strokeColor="grey"
                             strokeWidth="5"
                             animationDuration="0.75"
@@ -222,7 +219,21 @@ const Tutorque = () => {
                                     </td>
                                     <td>{a.questionType}</td>
                                     <td>{a.questionSubject}</td>
-                                    <td>{a.status}</td>
+                                    <td>
+                                      {a.status === "Answered" ? (
+                                        <span className="badge text-bg-success badge-status">
+                                          {a.status.toLowerCase()}
+                                        </span>
+                                      ) : a.status === "PENDING" ? (
+                                        <span className="badge text-bg-warning badge-status">
+                                          {a.status.toLowerCase()}
+                                        </span>
+                                      ) : (
+                                        <span className="badge text-bg-info badge-status">
+                                          {a.status.toLowerCase()}
+                                        </span>
+                                      )}
+                                    </td>
                                     <td>
                                       <div className="dropdown">
                                         <button
