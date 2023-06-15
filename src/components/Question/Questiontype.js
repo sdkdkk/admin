@@ -6,7 +6,7 @@ import { Table, Button } from "react-bootstrap";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
-import { ColorRing, RotatingLines } from "react-loader-spinner";
+import { RotatingLines } from "react-loader-spinner";
 import { Pagination } from "@mui/material";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 import "../Tutors/Tutorlist.css";
@@ -15,8 +15,12 @@ import { useLocation } from "react-router";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Questiontype = () => {
-  
-  const { register, handleSubmit, reset, formState: { errors },} = useForm({});
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({});
 
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
@@ -36,15 +40,18 @@ const Questiontype = () => {
     setCurrentPage(value);
     const searchParams = new URLSearchParams(location.search);
     searchParams.set("page", value);
-    window.history.replaceState({}, "", `${location.pathname}?${searchParams.toString()}`);
+    window.history.replaceState(
+      {},
+      "",
+      `${location.pathname}?${searchParams.toString()}`
+    );
   };
 
   useEffect(() => {
-    // Retrieve the "page" query parameter from the URL
     const searchParams = new URLSearchParams(location.search);
     const pageParam = searchParams.get("page");
     const initialPage = pageParam ? parseInt(pageParam) : 1;
-  
+
     setCurrentPage(initialPage);
   }, [location.search]);
   const totalPages = Math.ceil(conversionRate.length / postsPerPage);
@@ -108,7 +115,7 @@ const Questiontype = () => {
 
   function handleDelet(_id) {
     axios
-      .post(`${url}/admin/questiontype/${_id}`, { token: token, })
+      .post(`${url}/admin/questiontype/${_id}`, { token: token })
       .then((response) => {
         fetchData();
         toast.success(response.data.message);
@@ -182,17 +189,15 @@ const Questiontype = () => {
                     <div className="card-body">
                       <div className="table-container">
                         {loading1 ? (
-                          <p className="loader-container">
-                           <div className="loader-container">
-                          <RotatingLines
-                            strokeColor="grey"
-                            strokeWidth="5"
-                            animationDuration="0.75"
-                            width="50"
-                            visible={true}
-                          />
-                        </div>
-                          </p>
+                          <div className="loader-container">
+                            <RotatingLines
+                              strokeColor="grey"
+                              strokeWidth="5"
+                              animationDuration="0.75"
+                              width="50"
+                              visible={true}
+                            />
+                          </div>
                         ) : (
                           <>
                             <Table

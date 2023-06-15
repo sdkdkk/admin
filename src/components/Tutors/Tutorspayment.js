@@ -6,11 +6,10 @@ import "../Css/Tutorlist.css";
 import { Button } from "react-bootstrap";
 import { tutorspayment } from "../../Redux/Loginpages/tutorspaymentSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { ColorRing, RotatingLines } from "react-loader-spinner";
+import { RotatingLines } from "react-loader-spinner";
 import { FaCopy } from "react-icons/fa";
 
 const Tutorspayment = () => {
-
   const tutorpayment = useSelector((state) => state.tutorpayment.data.info);
   const isLoading = useSelector((state) => state.tutorpayment.isLoading);
   const dispatch = useDispatch();
@@ -37,7 +36,7 @@ const Tutorspayment = () => {
       <div className="container-fluid page-body-wrapper">
         <Sidebar />
         {isLoading ? (
-          <p
+          <div
             style={{
               marginLeft: "auto",
               marginRight: "auto",
@@ -46,16 +45,16 @@ const Tutorspayment = () => {
               alignItems: "center",
               height: "100vh",
             }}>
-             <div className="loader-container">
-                          <RotatingLines
-                            strokeColor="grey"
-                            strokeWidth="5"
-                            animationDuration="0.75"
-                            width="50"
-                            visible={true}
-                          />
-                        </div>
-          </p>
+            <div className="loader-container">
+              <RotatingLines
+                strokeColor="grey"
+                strokeWidth="5"
+                animationDuration="0.75"
+                width="50"
+                visible={true}
+              />
+            </div>
+          </div>
         ) : (
           <div className="main-panel">
             <div className="content-wrapper">
@@ -152,7 +151,7 @@ const Tutorspayment = () => {
                                             onClick={() =>
                                               handleCopy(
                                                 value.bankdetails.accountType ||
-                                                ""
+                                                  ""
                                               )
                                             }>
                                             <FaCopy />

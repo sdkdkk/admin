@@ -286,7 +286,7 @@ const Sidebar = () => {
           </li>
 
           {/*Bonus Section*/}
-          <li className="nav-item">
+          <li className={`nav-item ${activeLink === '/tutorreferral' ? 'active' : ''}`}>
             <Link className="nav-link" to="/tutorreferral">
               <span className="menu-title">Tutor Referral</span>
               <i className="icon-screen-desktop menu-icon"></i>
@@ -294,7 +294,7 @@ const Sidebar = () => {
           </li>
 
           {/*Tutorexamconfig*/}
-          <li className="nav-item">
+          <li className={`nav-item ${activeLink === '/tutorpostingstreak' ? 'active' : ''}`}>
             <Link className="nav-link" to="/tutorpostingstreak">
               <span className="menu-title">Tutor Posting Streak</span>
               <i className="icon-screen-desktop menu-icon"></i>
@@ -307,7 +307,7 @@ const Sidebar = () => {
           </li>
 
           {/*testimonial*/}
-          <li className="nav-item">
+          <li className={`nav-item ${activeLink === '/testimonial' ? 'active' : ''}`}>
             <Link className="nav-link" to="/testimonial">
               <span className="menu-title">Testimonial</span>
               <i className="icon-screen-desktop menu-icon"></i>
@@ -315,7 +315,7 @@ const Sidebar = () => {
           </li>
 
           {/*Pages*/}
-          <li className="nav-item">
+          <li className={`nav-item ${activeLink === '/pages' ? 'active' : ''}`}>
             <Link className="nav-link" to="/pages">
               <span className="menu-title">Pages</span>
               <i className="icon-screen-desktop menu-icon"></i>
@@ -323,7 +323,7 @@ const Sidebar = () => {
           </li>
 
           {/*Features*/}
-          <li className="nav-item">
+          <li  className="nav-item">
             <Link className="nav-link" to="/">
               <span className="menu-title">Features</span>
               <i className="icon-screen-desktop menu-icon"></i>
@@ -331,7 +331,7 @@ const Sidebar = () => {
           </li>
 
           {/*Services*/}
-          <li className="nav-item">
+          <li  className="nav-item">
             <Link className="nav-link" to="/">
               <span className="menu-title">Services</span>
               <i className="icon-screen-desktop menu-icon"></i>
@@ -344,7 +344,7 @@ const Sidebar = () => {
           </li>
 
           {/*coupon*/}
-          <li className="nav-item">
+          <li className={`nav-item ${activeLink === '/coupon' ? 'active' : ''}`}>
             <Link className="nav-link" to="/coupon">
               <span className="menu-title">Coupon</span>
               <i className="icon-screen-desktop menu-icon"></i>
@@ -357,14 +357,14 @@ const Sidebar = () => {
           </li>
 
           {/*User*/}
-          <li className="nav-item">
+          <li className={`nav-item ${activeLink === '/users' ? 'active' : ''}`}>
             <Link className="nav-link" to="/users">
               <span className="menu-title">Users</span>
               <i className="icon-screen-desktop menu-icon"></i>
             </Link>
           </li>
           {/*Role*/}
-          <li className="nav-item">
+          <li className={`nav-item ${activeLink === '/roles' ? 'active' : ''}`}>
             <Link className="nav-link" to="/roles">
               <span className="menu-title">Roles</span>
               <i className="icon-screen-desktop menu-icon"></i>
@@ -376,7 +376,7 @@ const Sidebar = () => {
             <span className="nav-link"> My Account</span>
           </li>
           {/*Profile*/}
-          <li className="nav-item">
+          <li  className="nav-item">
             <Link className="nav-link" to="/">
               <span className="menu-title">Profile</span>
               <i className="icon-screen-desktop menu-icon"></i>
@@ -397,12 +397,12 @@ const Sidebar = () => {
             </a>
             <div className="collapse" id="settings-menu">
               <ul className="nav flex-column sub-menu">
-                <li className="nav-item">
+                <li className={`nav-item ${activeLink === '/socialmediasetting' ? 'active' : ''}`}>
                   <Link className="nav-link" to="/socialmediasetting">
                     Social Media Setting
                   </Link>
                 </li>
-                <li className="nav-item">
+                <li className={`nav-item ${activeLink === '/a' ? 'active' : ''}`}>
                   <Link className="nav-link" to="/">
                     Email Setting
                   </Link>
@@ -412,7 +412,7 @@ const Sidebar = () => {
           </li>
 
           {/*mobileNo*/}
-          <li className="nav-item">
+          <li className={`nav-item ${activeLink === '/addmobile' ? 'active' : ''}`}>
             <Link className="nav-link" to="/addmobile">
               <span className="menu-title"> Add Mobile No</span>
               <i className="icon-screen-desktop menu-icon"></i>
@@ -420,7 +420,7 @@ const Sidebar = () => {
           </li>
 
           {/*contact us*/}
-          <li className="nav-item">
+          <li className={`nav-item ${activeLink === '/contactus' ? 'active' : ''}`}>
             <Link className="nav-link" to="/contactus">
               <span className="menu-title">Contact us</span>
               <i className="icon-screen-desktop menu-icon"></i>
@@ -444,7 +444,7 @@ const Sidebar = () => {
           </li>
 
         {/*Thoughts*/}
-          <li className={`nav-item ${activeLink === '/thoughts' ? 'active' : ''}`}>
+          <li className={`nav-item ${activeLink === '/postingguideline' ? 'active' : ''}`}>
             <Link className="nav-link" to="/postingguideline">
               <span className="menu-title">Posting Guideline</span>
               <i className="icon-screen-desktop menu-icon"></i>

@@ -183,7 +183,6 @@ const Tutorsubject = () => {
                     <div className="card-body">
                       <div className="table-container">
                         {loading1 ? (
-                          <p className="loader-container">
                           <div className="loader-container">
                           <RotatingLines
                             strokeColor="grey"
@@ -193,7 +192,6 @@ const Tutorsubject = () => {
                             visible={true}
                           />
                         </div>
-                          </p>
                         ) : (
                           <>
                             <Table

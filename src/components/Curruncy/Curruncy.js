@@ -8,13 +8,18 @@ import "./Curruncy.css";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
-import { ColorRing, RotatingLines } from "react-loader-spinner";
+import { RotatingLines } from "react-loader-spinner";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Curruncy = () => {
-  const { register, handleSubmit, reset, formState: { errors }, } = useForm({});
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({});
   const [loading, setLoading] = useState(false);
   const [loadingpost, setLoadingpost] = useState(false);
   const notify = (data) => toast(data);
@@ -23,7 +28,9 @@ const Curruncy = () => {
   const fetchData = async () => {
     try {
       setLoading(true);
-      const response = await axios.post(`${url}/admin/getcurrencyconversion?Currency=USD`, { token: token, }
+      const response = await axios.post(
+        `${url}/admin/getcurrencyconversion?Currency=USD`,
+        { token: token }
       );
       await setConversionRate(response.data);
       setLoading(false);
@@ -76,17 +83,15 @@ const Curruncy = () => {
                       <div className="converter-container">
                         <div className="input-container">
                           {loading ? (
-                            <p className="loader-container">
-                               <div className="loader-container">
-                          <RotatingLines
-                            strokeColor="grey"
-                            strokeWidth="5"
-                            animationDuration="0.75"
-                            width="50"
-                            visible={true}
-                          />
-                        </div>
-                            </p>
+                            <div className="loader-container">
+                              <RotatingLines
+                                strokeColor="grey"
+                                strokeWidth="5"
+                                animationDuration="0.75"
+                                width="50"
+                                visible={true}
+                              />
+                            </div>
                           ) : (
                             <form onSubmit={handleSubmit(onSubmit)}>
                               <label className="usd" htmlFor="usd-input">
