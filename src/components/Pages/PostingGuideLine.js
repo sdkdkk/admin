@@ -104,15 +104,10 @@ const PostingGuideLine = () => {
                                 <div className="col-12 grid-margin stretch-card">
                                     <div className="card new-table">
                                         <div className="card-body text-center">
-                                      
-                                                <div>
+                                            <div>
                                                 <Button onClick={handleDownloadPDF}>Download PDF</Button>
-                                              
-                                                </div>
-                                          
-                                    </div> 
-
-
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
