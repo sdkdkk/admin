@@ -8,7 +8,7 @@ import { getWalletData } from "../../Redux/Loginpages/getWalletDataSlice";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ColorRing } from "react-loader-spinner";
+import { ColorRing, RotatingLines } from "react-loader-spinner";
 
 const Wallet = () => {
   const dispatch = useDispatch();
@@ -111,17 +111,16 @@ const Wallet = () => {
                   <div className="card new-table">
                     <div className="card-body">
                       {isLoading ? (
-                        <div className="loader-container">
-                          <ColorRing
+                         <div className="loader-container">
+                          <RotatingLines
+                            strokeColor="grey"
+                            strokeWidth="5"
+                            animationDuration="0.75"
+                            width="50"
                             visible={true}
-                            height="80"
-                            width="80"
-                            ariaLabel="blocks-loading"
-                            wrapperStyle={{}}
-                            wrapperclassName="blocks-wrapper"
-                            colors={["black"]}
                           />
                         </div>
+                        
                       ) : (
                         <table
                           className={

@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { Table, Button } from "react-bootstrap";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { ColorRing } from "react-loader-spinner";
+import { ColorRing, RotatingLines } from "react-loader-spinner";
 import { Pagination } from "@mui/material";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 import { useLocation } from "react-router";
@@ -184,15 +184,15 @@ const Tutorsubject = () => {
                       <div className="table-container">
                         {loading1 ? (
                           <p className="loader-container">
-                            <ColorRing
-                              visible={true}
-                              height="80"
-                              width="80"
-                              ariaLabel="blocks-loading"
-                              wrapperStyle={{}}
-                              wrapperclassName="blocks-wrapper"
-                              colors={["black"]}
-                            />
+                          <div className="loader-container">
+                          <RotatingLines
+                            strokeColor="grey"
+                            strokeWidth="5"
+                            animationDuration="0.75"
+                            width="50"
+                            visible={true}
+                          />
+                        </div>
                           </p>
                         ) : (
                           <>

@@ -15,12 +15,11 @@ const url = process.env.REACT_APP_API_BASE_URL;
 
 const PostingGuideLine = () => {
     const {register, handleSubmit, reset}=useForm({})
-    const [data, setData] = useState([]);
     let token = localStorage.getItem("token");
     const [pdfUrl, setPdfUrl] = useState('')
 
     const fetchData = async () => {
-    let token = localStorage.getItem("token");
+   
     try {
             const response = await axios.get(`${url}/download/postingguideline`);
             setPdfUrl(response.data);
@@ -105,15 +104,10 @@ const PostingGuideLine = () => {
                                 <div className="col-12 grid-margin stretch-card">
                                     <div className="card new-table">
                                         <div className="card-body text-center">
-                                      
-                                                <div>
+                                            <div>
                                                 <Button onClick={handleDownloadPDF}>Download PDF</Button>
-                                              
-                                                </div>
-                                          
-                                    </div> 
-
-
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
