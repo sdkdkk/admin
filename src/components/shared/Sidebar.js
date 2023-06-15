@@ -403,6 +403,11 @@ const Sidebar = () => {
                   </Link>
                 </li>
                 <li className="nav-item">
+                  <Link className="nav-link" to="/AdminPageSetting">
+                   Admin Page Set
+                  </Link>
+                </li>
+                <li className="nav-item">
                   <Link className="nav-link" to="/">
                     Email Setting
                   </Link>
