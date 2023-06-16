@@ -186,27 +186,7 @@ const Tutorlist = () => {
         <Navbar />
         <div className="container-fluid page-body-wrapper">
           <Sidebar />
-          {isLoadinguser ? (
-            <div
-              style={{
-                marginLeft: "auto",
-                marginRight: "auto",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100vh",
-              }}>
-              <div className="loader-container">
-                <RotatingLines
-                  strokeColor="grey"
-                  strokeWidth="5"
-                  animationDuration="0.75"
-                  width="50"
-                  visible={true}
-                />
-              </div>
-            </div>
-          ) : (
+       
             <div className="main-panel">
               <div className="content-wrapper">
                 <div className="oneline">
@@ -275,21 +255,7 @@ const Tutorlist = () => {
                 </div>
 
                 <div>
-                  {Loader ? (
-                    <div className="loader-end text-end">
-                      {Loader ? (
-                        <div className="loader-container">
-                          <RotatingLines
-                            strokeColor="grey"
-                            strokeWidth="5"
-                            animationDuration="0.75"
-                            width="50"
-                            visible={true}
-                          />
-                        </div>
-                      ) : null}
-                    </div>
-                  ) : (
+               
                     <>
                       <div className="row">
                         <div className="col-12 grid-margin stretch-card">
@@ -357,8 +323,63 @@ const Tutorlist = () => {
                                     )}
                                     <th scope="col">Action</th>
                                   </tr>
-                                </thead>
-                                {displayUsers && displayUsers.length > 0 ? (
+                            </thead>
+                            <tbody>
+                              {displayUsers?.map((data, id) => (
+                                    
+                                <tr key={id}>
+                                  {data.updatedAt ? (
+                                    <td>
+                                      <Moment
+                                        format="DD MMM YYYY"
+                                        withTitle>
+                                        {data.updatedAt || null}
+                                      </Moment>
+                                    </td>
+                                  ) : (
+                                    <td>-</td>
+                                  )}
+                                  <td>{data.name || "-"}</td>
+                                  <td>{data.email.substring(0, 20)}</td>
+                                  <td>{data.mobileNo || "-"}</td>
+                                  <td>
+                                    {data.subjects &&
+                                      data.subjects?.length > 0
+                                      ? data.subjects
+                                        .slice(0, 2)
+                                        .join(", ")
+                                      : "-"}
+                                  </td>
+                                  <td>
+                                    {data.balance
+                                      ? parseFloat(data.balance).toFixed(
+                                        2
+                                      )
+                                      : "-"}
+                                  </td>
+                                  {activeButton === 2 && (
+                                    <td className="text-center">
+                                      {data.warningQuestions}
+                                    </td>
+                                  )}
+                                  {activeButton === 5 && (
+                                    <td className="text-center">
+                                      {data.daysRemaining}
+                                    </td>
+                                  )}
+                                  <td>
+                                    <Link
+                                      to={`/tutordetails/${data._id}/${activeButton}`}>
+                                      <Button className="btn btn-primary btn-sm">
+                                        See Details
+                                      </Button>
+                                    </Link>
+                                  </td>
+                                </tr>
+                                   
+                              ))
+                                ? displayUsers?.length > 0 : <tr> <td colSpan={6}>  No Tutor Found</td></tr>}</tbody>
+                               {/* { displayUsers && displayUsers.length > 0 ? (
                                   displayUsers.map((data, id) => (
                                     <tbody key={id}>
                                       <tr>
@@ -378,17 +399,17 @@ const Tutorlist = () => {
                                         <td>{data.mobileNo || "-"}</td>
                                         <td>
                                           {data.subjects &&
-                                          data.subjects?.length > 0
+                                            data.subjects?.length > 0
                                             ? data.subjects
-                                                .slice(0, 2)
-                                                .join(", ")
+                                              .slice(0, 2)
+                                              .join(", ")
                                             : "-"}
                                         </td>
                                         <td>
                                           {data.balance
                                             ? parseFloat(data.balance).toFixed(
-                                                2
-                                              )
+                                              2
+                                            )
                                             : "-"}
                                         </td>
                                         {activeButton === 2 && (
@@ -412,7 +433,8 @@ const Tutorlist = () => {
                                       </tr>
                                     </tbody>
                                   ))
-                                ) : (
+                            )
+                              : (
                                   <tbody>
                                     <tr>
                                       <td
@@ -428,7 +450,7 @@ const Tutorlist = () => {
                                       </td>
                                     </tr>
                                   </tbody>
-                                )}
+                                )} */}
                               </table>
                               <div className="table-pagination">
                                 <Pagination
@@ -444,12 +466,12 @@ const Tutorlist = () => {
                         </div>
                       </div>
                     </>
-                  )}
+                 
                 </div>
               </div>
               <Footer />
             </div>
-          )}
+          
         </div>
       </div>
     </div>

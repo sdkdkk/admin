@@ -15,6 +15,7 @@ import { logoutIfInvalidToken } from "../../helpers/handleError";
 import { Button, ToastContainer } from "react-bootstrap";
 import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
 import { toast } from "react-toastify";
+import { relativeTimeRounding } from "moment";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
@@ -209,41 +210,15 @@ const Tutordetails = () => {
         <div className="container-fluid page-body-wrapper">
           <Sidebar />
           <div className="main-details" style={{ width: "inherit" }}>
-            {Loader ? (
-              <div className="loader-end text-center">
-                {Loader ? (
-                  <p
-                    style={{
-                      marginLeft: "auto",
-                      marginRight: "auto",
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      height: "100vh",
-                    }}>
-                    <ColorRing
-                      visible={true}
-                      height="80"
-                      width="80"
-                      ariaLabel="blocks-loading"
-                      wrapperStyle={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                        height: "100vh",
-                      }}
-                      colors={["black"]}
-                    />
-                  </p>
-                ) : null}
-              </div>
-            ) : (
+          <div className="heading-main mt-5 text-start mx-3">
+                  <h4>Tutor Details</h4>
+                </div>
               <div className="second-section text-start mt-4 mx-4">
                 {tutorpaydetails.map((data, index) => {
 
                   return (
                     <div key={index} style={{ backgroundColor: "#c0d7ff" }}>
-                      <div
+                     <div
                         className="row"
                         style={{ backgroundColor: "#c0d7ff" }}>
                         <div className="col">
@@ -382,34 +357,7 @@ const Tutordetails = () => {
                   <div className="col-12 grid-margin stretch-card">
                     <div className="card new-table">
                       <div className="card-body">
-                        {isLoading ? (
-                          <div>
-                            <p
-                              style={{
-                                marginLeft: "auto",
-                                marginRight: "auto",
-                                display: "flex",
-                                justifyContent: "center",
-                                alignItems: "center",
-                                height: "100vh",
-                              }}>
-                              <ColorRing
-                                visible={true}
-                                height="80"
-                                width="80"
-                                ariaLabel="blocks-loading"
-                                wrapperStyle={{
-                                  display: "flex",
-                                  justifyContent: "center",
-                                  alignItems: "center",
-                                  height: "100vh",
-                                }}
-                                colors={["black"]}
-                              />
-                            </p>
-                          </div>
-                        ) : (
-                          <>
+                        
                             <table className="table v-top">
                               <thead>
                                 <tr>
@@ -463,8 +411,7 @@ const Tutordetails = () => {
                                 variant="outlined"
                               />
                             </div>
-                          </>
-                        )}
+                         
                       </div>
                     </div>
                   </div>
@@ -478,34 +425,7 @@ const Tutordetails = () => {
                       <div className="col-12 grid-margin stretch-card">
                         <div className="card new-table">
                           <div className="card-body">
-                            {isLoading ? (
-                              <div>
-                                <p
-                                  style={{
-                                    marginLeft: "auto",
-                                    marginRight: "auto",
-                                    display: "flex",
-                                    justifyContent: "center",
-                                    alignItems: "center",
-                                    height: "100vh",
-                                  }}>
-                                  <ColorRing
-                                    visible={true}
-                                    height="80"
-                                    width="80"
-                                    ariaLabel="blocks-loading"
-                                    wrapperStyle={{
-                                      display: "flex",
-                                      justifyContent: "center",
-                                      alignItems: "center",
-                                      height: "100vh",
-                                    }}
-                                    colors={["black"]}
-                                  />
-                                </p>
-                              </div>
-                            ) : (
-                              <>
+                            
                                 <table className="table v-top">
                                   <thead>
                                     <tr>
@@ -541,7 +461,7 @@ const Tutordetails = () => {
                                     ))}
                                   </tbody>
                                 </table>
-                                <div className="table-pagination">
+                                <div className="table-pagination float-right my-4">
                                   <Pagination
                                     count={totalPages}
                                     page={currentPage}
@@ -550,8 +470,8 @@ const Tutordetails = () => {
                                     variant="outlined"
                                   />
                                 </div>
-                              </>
-                            )}
+                             
+                         
                           </div>
                         </div>
                       </div>
@@ -599,7 +519,7 @@ const Tutordetails = () => {
                   </Link>
                 </div>
               </div>
-            )}
+         
           </div>
         </div>
       </div>
