@@ -157,7 +157,7 @@ const Testimonial = () => {
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table">
                     <div className="card-body">
-                      {isLoading ? (
+                      {/* {isLoading ? (
                         <div className="loader-container">
                          <RotatingLines
                             strokeColor="grey"
@@ -167,7 +167,7 @@ const Testimonial = () => {
                             visible={true}
                           />
                         </div>
-                      ) : (
+                      ) : ( */}
                         <table
                           className={`table ${
                             (testimonial.loading ||
@@ -256,7 +256,7 @@ const Testimonial = () => {
                             </>
                           </tbody>
                         </table>
-                      )}
+                     
 
                       <div className="table-pagination">
                         <Pagination
