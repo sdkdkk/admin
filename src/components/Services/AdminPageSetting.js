@@ -8,93 +8,128 @@ import { Table, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { useLocation } from "react-router-dom";
+import { Pagination } from "@mui/material";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const AdminPageSetting = () => {
     const [data, setData] = useState([]);
-    const [loading, setLoading]= useState(false)
-   
-  const [fields, setFields] = useState([{ value : ""} ]);
-  console.log(fields);
+    const [loading, setLoading] = useState(false)
+    const [fields, setFields] = useState([{ value: "" }]);
+  const [isEditMode, setIsEditMode] = useState(false);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [postsPerPage] = useState(5);
+    const indexOfLastPage = Math.min(currentPage * postsPerPage, data.length);
+    const indexOfFirstPage = (currentPage - 1) * postsPerPage;
+    const displayUsers = data.slice(indexOfFirstPage, indexOfLastPage);
+    const pageCount = Math.ceil(data.length / postsPerPage);
 
-  const handleAddField = () => {
-    setFields([...fields,  {value: "" }]);
-  };
-
-  const handleRemoveField = (index) => {
-    const valuesCopy = [...fields];
-    valuesCopy.splice(index, 1);
-    setFields(valuesCopy);
-  };
-   let token =localStorage.getItem("token")
-const {register, handleSubmit, reset}=useForm({})
-
-    const onSubmit =async (data) => {
-        console.log(data)
-        
-         const formattedAnswerData = fields.map((item) =>
-           item.value
-         );
-        const subpages = JSON.stringify(formattedAnswerData);
-        console.log(subpages)
-        const adminPageData = {
-            token: token,
-            pagename: data.pagename,
-            subpages: data.subpages,
-              id: data._id,
-          }
-          try {
-              const { data } = await axios.post(`${url}/admin/adminpages`, adminPageData);
-              console.log(data);
-     if (data.status === 1) {
-        toast.success(data.message);
-        reset();
-       } else {
-        toast.error(data.error);
-      }
-    } catch (error) {
-   console.log(error)
-      toast.error(error.response.data.error);
-    }
-    }
-      const handleUpdateClick = (data) => {
-    // setIsEditMode(true);
-          reset(data);
-          console.log(data);
-  };
-
- const fetchData = async () => {
-    try {
-      setLoading(true);
-      const response = await axios.post(`${url}/admin/getadminpages`, {
-        token: token,
-      });
-        console.log(response.data.document)
-      setData(response.data.document);
-      setLoading(false);
-    } catch (error) {
-    console.log(error)
-      setLoading(false);
-    }
+    const handleAddField = () => {
+        setFields([...fields, { value: "" }]);
     };
-    
+
+    const handleRemoveField = (index) => {
+        const valuesCopy = [...fields];
+        valuesCopy.splice(index, 1);
+        setFields(valuesCopy);
+    };
+    let token = localStorage.getItem("token")
+    const { register, handleSubmit, reset } = useForm({})
+
+    const onSubmit = async (data) => {
+        console.log(data)
+        console.log(fields)
+        
+        const formattedAnswerData = fields.map((item) =>
+            item.value
+        );
+      const subpages = formattedAnswerData.filter((value) => value.trim() !== '');
+      const timingObjData = {
+        token: token,
+        pagename: data.pagename,
+        subpages: subpages.length > 0 ? subpages : [],
+        id:data.id
+      }
+        try {
+          
+            const { data } = await axios.post(`${url}/admin/adminpages`, timingObjData)
+          console.log(data)
+            if (data.status === 1) {
+                toast.success(data.message);
+              reset();
+              setFields([])
+                setIsEditMode(false)
+            } else {
+                toast.error(data.error);
+            }
+        } catch (error) {
+            console.log(error)
+            toast.error(error.response.data.error);
+        }
+        fetchData()
+    }
+console.log(data)
+  const handleUpdateClick = (data) => {
+      setIsEditMode(true);
+        reset({
+            id: data._id,
+            pagename: data.name,
+            subpages: data.subpages
+        });
+
+        setFields(data.subpages.map((subpage) => ({ value: subpage })));
+
+    };
+
+    const fetchData = async () => {
+        try {
+            setLoading(true);
+            const response = await axios.post(`${url}/admin/getadminpages`, {
+                token: token,
+            });
+            console.log(response.data.document)
+            setData(response.data.document);
+            setLoading(false);
+        } catch (error) {
+            console.log(error)
+            setLoading(false);
+        }
+    };
+
     useEffect(() => {
         fetchData()
     }, [])
 
-  function handleDeleteClick(_id) {
-    axios
-      .post(`${url}/admin/deleteadminpages/${_id}`, { token: token, })
-      .then((response) => {
-        fetchData();
-        toast.success(response.data.message);
-      })
-      .catch((error) => {
-        toast.error(error.response.data.error);
-      });
-  }
+    function handleDeleteClick(_id) {
+        axios
+            .post(`${url}/admin/deleteadminpages/${_id}`, { token: token, })
+            .then((response) => {
+                fetchData();
+                toast.success(response.data.message);
+            })
+            .catch((error) => {
+                toast.error(error.response.data.error);
+            });
+    }
 
+    const location = useLocation();
+    const handleChange = (event, value) => {
+        setCurrentPage(value);
+        const searchParams = new URLSearchParams(location.search);
+        searchParams.set("page", value);
+        window.history.replaceState(
+            {},
+            "",
+            `${location.pathname}?${searchParams.toString()}`
+        );
+    };
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const pageParam = searchParams.get("page");
+    const initialPage = pageParam ? parseInt(pageParam) : 1;
+    setCurrentPage(initialPage);
+  }, [location.search]);
     return (
         <div>
             <div className="container-scroller">
@@ -115,61 +150,64 @@ const {register, handleSubmit, reset}=useForm({})
                                                     <label
                                                         htmlFor="exampleInputEmail1"
                                                         className="form-label" >
-                                                      Add Page
+                                                        Add Page
                                                     </label>
                                                     <div><input
                                                         type="text"
                                                         className="mt-2"
-                                                    {...register("pagename",{required:true})}                                  
-                                  /></div>
+                                                        {...register("pagename", { required: true })}
+                                                    /></div>
 
                                                 </div>
 
                                                 <div className="row mt-4">
-                                                   
+
                                                     <div className="multi-field-wrapper">
                                                         <h5> Add SubPage</h5>
                                                         <div className="multi-fields">
-                                                         
-                           
-                              {fields.map((field, index) => (
-                                <div key={index}>
-                                  <input
-                                    type="text"
-                                    className="mt-2"
-                                    value={field.value}
-                                    onChange={(e) => {
-                                      const valuesCopy = [...fields];
-                                      valuesCopy[index].value = e.target.value;
-                                      setFields(valuesCopy);
-                                    }}
-                                  />
-                                  {index !== 0 && (
-                                    <button
-                                      type="button"
-                                      className="btn btn-danger mx-2"
-                                      onClick={() => handleRemoveField(index)}>
-                                      Remove Field
-                                    </button>
-                                  )}
-                                </div>
-                              ))}
-                           
-                            <button
-                              type="button"
-                              className="btn btn-primary  add-field mt-2"
-                              onClick={handleAddField}>
-                              Add field
-                            </button>
+
+
+                                                            {fields.map((field, index) => (
+                                                                <div key={index}>
+
+                                                                    <input
+                                                                        className="my-2"
+                                                                        type="text"
+                                                                        value={field.value}
+                                                                        onChange={(e) => {
+                                                                            const valuesCopy = [...fields];
+                                                                            valuesCopy[index].value =
+                                                                                e.target.value;
+                                                                            setFields(valuesCopy);
+                                                                        }}
+                                                                    />
+
+                                                                    {index !== 0 && (
+                                                                        <button
+                                                                            type="button"
+                                                                            className="btn btn-danger mx-2"
+                                                                            onClick={() => handleRemoveField(index)}>
+                                                                            Remove Field
+                                                                        </button>
+                                                                    )}
+                                                                </div>
+                                                            ))}
+
+                                                            <button
+                                                                type="button"
+                                                                className="btn btn-primary  add-field mt-2"
+                                                                onClick={handleAddField}>
+                                                                Add field
+                                                            </button>
                                                         </div>
-                                                        </div>
-                                                
+                                                    </div>
+
 
                                                     <div className="mt-4">
                                                         <Button
                                                             type="submit"
                                                             className="btn btn-success">
-                                                            Submit
+                                                             {isEditMode ? "Update" : "Submit"}
                                                         </Button>
                                                     </div>
                                                 </div>
@@ -197,47 +235,46 @@ const {register, handleSubmit, reset}=useForm({})
                                                             </tr>
                                                         </thead>
                                                         <tbody>
-                                                            {data.map((value, index) => {
+                                                            {displayUsers.map((value, index) => {
                                                                 return (
-                                                               <tr>
-                                                                <td>{ index+1}</td>
-                                                                <td>{value.name}</td>
+                                                                    <tr key={index}>
+                                                                        <td>{index + indexOfFirstPage + 1}</td>
+                                                                        <td>{value.name}</td>
                                                                         <td>{value.subpages.map((page, index) => {
-                                                                           return <p key={index} >
-                                                                              <span >{index + 1}: {page}<br />
-                                                                               </span> 
-                                                                                </p>
+                                                                            return <p key={index} >
+                                                                                <span >{index + 1}: {page}<br />
+                                                                                </span>
+                                                                            </p>
                                                                         })}</td>
-                                                                <td>
-                                                                    <Button
-                                                                                variant="success"
-                                                                                 onClick={() => handleUpdateClick(value)}
-                                                                    >
-                                                                        Edit
-                                                                    </Button>
-                                                                    <Button
-                                                                        className="mx-2"
-                                                                        variant="danger"
-                                                                     onClick={() =>handleDeleteClick(value._id)
-                                        }
-                                                                    >
-                                                                        Delete
-                                                                    </Button>
-                                                                </td>
-                                                            </tr>
-                                                                    )
+                                                                        <td>
+                                                                            <Button onClick={() => handleUpdateClick(value)}
+                                                                            >
+                                                                       Edit
+                                                                            </Button>
+                                                                            <Button
+                                                                                className="mx-2"
+                                                                                variant="danger"
+                                                                                onClick={() => handleDeleteClick(value._id)
+                                                                                }
+                                                                            >
+                                                                                Delete
+                                                                            </Button>
+                                                                        </td>
+                                                                    </tr>
+                                                                )
                                                             })}
-                                                         
+
                                                         </tbody>
                                                     </Table>
-                                                    <div className="table-pagination">
-                                                        {/* <Pagination
-                                                                count={totalPages}
-                                                                page={currentPage}
-                                                                onChange={handleChange}
-                                                                shape="rounded"
-                                                                variant="outlined"
-                                                            /> */}
+                                                    <div className="table-pagination float-right my-4">
+                                                        <Pagination
+                                                            count={pageCount}
+                                                            page={currentPage}
+                                                            onChange={handleChange}
+                                                            shape="rounded"
+                                                            variant="outlined"
+
+                                                        />
                                                     </div>
                                                 </div>
                                             </div>

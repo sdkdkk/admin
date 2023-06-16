@@ -197,7 +197,7 @@ const Sidebar = () => {
                 </li>
                 <li className="nav-item">
                   <Link className={`nav-link ${activeLink === '/unsolvedque' ? 'active' : ''}`} to="/unsolvedque">
-                    UnSloved
+                    UnSolved
                   </Link>
                 </li>
               </ul>
