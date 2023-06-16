@@ -4714,7 +4714,7 @@ pre code {
     content: "";
     display: block;
     position: absolute;
-    top: 80%;
+    top: 86%;
     left: 42%;
     transform: translate(-50%, -50%);
     width: 100px;
@@ -4727,8 +4727,74 @@ pre code {
     z-index: 1;
 
 }
-.table-pagination{
-    margin-top: 10%;
+
+/* @media only screen and (max-width: 768px) {
+    .table-loading:after {
+      width: 50px;
+      height: 50px;
+      top: 80%;
+      left: 25%;
+    }
+  } */
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+
+    .table-loading:after {
+        width: 50px;
+        height: 50px;
+        top: 100%;
+        left: 30%;
+    }
+
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+
+    .table-loading:after {
+        width: 50px;
+        height: 50px;
+        top: 80%;
+        left: 25%;
+    }
+
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+
+    .table-loading:after {
+        width: 50px;
+        height: 50px;
+        top: 80%;
+        left: 45%;
+    }
+
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+
+    .table-loading:after {
+        width: 50px;
+        height: 50px;
+        top: 80%;
+        left: 45%;
+    }
+
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+
+    .table-loading:after {
+        width: 50px;
+        height: 50px;
+        top: 100%;
+        left: 44%;
+    }
+
 }
 
 @keyframes pulse {

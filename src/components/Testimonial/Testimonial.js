@@ -247,7 +247,7 @@ const Testimonial = () => {
                       </table>
 
 
-                      <div className="table-pagination" style={{ marginTop: `${testimonial.loading || testimonialstatus.loading || testimonialform.loading || testimonialUserDeleteState.isLoading ? '10%' : '0'}` }}>
+                      <div className="table-pagination" style={{ marginTop: `${testimonial.loading || testimonialstatus.loading || testimonialform.loading || testimonialUserDeleteState.isLoading ? '15%' : '0'}` }}>
                         <Pagination
                           count={2}
                           page={currentPage}
