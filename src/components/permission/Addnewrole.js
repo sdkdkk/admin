@@ -9,12 +9,24 @@ import { toast } from "react-toastify";
 import axios from "axios";
 import { resourcesList } from "../../helpers/helper";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
+import { useDispatch, useSelector } from "react-redux";
+import { getAdminPagesApi } from "../../Redux/Loginpages/getAdminPageSlice";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Addnewrole = () => {
-  const { register, handleSubmit, watch, formState: { errors },  reset,} = useForm({});
-
+  const dispatch = useDispatch();
+  const getAdminPageSlice = useSelector(
+    (state) => state.getAdminPage?.data?.document
+  );
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+    reset,
+  } = useForm({});
+  console.log("getAdminPageSlice", getAdminPageSlice);
   const password = watch("password");
   const navigate = useNavigate();
   const notify = (data) => toast(data);
@@ -23,8 +35,12 @@ const Addnewrole = () => {
   const [loading1, setLoading1] = useState(false);
   const [data, setData] = useState([]);
   const [resourceData, setResourceData] = useState([]);
-  
+
   let token = localStorage.getItem("token");
+
+  useEffect(() => {
+    dispatch(getAdminPagesApi({}));
+  }, []);
 
   const onSubmit = async (data) => {
     try {
@@ -92,25 +108,31 @@ const Addnewrole = () => {
   const filtrData = data.filter((item) => item._id === id);
   const roleValue = filtrData?.[0]?.role?.rolename || "";
 
+  function onlyUnique(value, index, array) {
+    return array.indexOf(value) === index;
+  }
+  
+
   const handleResourceChange = (index) => {
-    const allSubmunus = resourcesList
-      .map((a) => a.id)
-      .filter((a) => Math.floor(a) === index);
-    if (resourceData?.includes(index)) {
-      if (allSubmunus.length) {
-        const tempData = resourceData.filter((a) => !allSubmunus.includes(a));
-        setResourceData(tempData);
-      } else {
-        const tempData = resourceData.filter((a) => a !== index);
-        setResourceData(tempData);
-      }
-    } else {
-      if (allSubmunus.length) {
-        setResourceData((prev) => [...prev, ...allSubmunus]);
-      } else {
-        setResourceData((prev) => [...prev, index]);
-      }
-    }
+    setResourceData((prev) => ([...prev, index].filter(onlyUnique)))
+    // const allSubmunus = resourcesList
+    //   .map((a) => a.id)
+    //   .filter((a) => Math.floor(a) === index);
+    // if (resourceData?.includes(index)) {
+    //   if (allSubmunus.length) {
+    //     const tempData = resourceData.filter((a) => !allSubmunus.includes(a));
+    //     setResourceData(tempData);
+    //   } else {
+    //     const tempData = resourceData.filter((a) => a !== index);
+    //     setResourceData(tempData);
+    //   }
+    // } else {
+    //   if (allSubmunus.length) {
+    //     setResourceData((prev) => [...prev, ...allSubmunus]);
+    //   } else {
+    //     setResourceData((prev) => [...prev, index]);
+    //   }
+    // }
   };
 
   useEffect(() => {
@@ -136,12 +158,12 @@ const Addnewrole = () => {
                 <div className="col-md-8 col-lg-6 grid-margin stretch-card">
                   <div className="card new-table">
                     <div
-                      className={`card-body ${
-                        loading1 ? "table-loading" : ""
-                      }`}>
+                      className={`card-body ${loading1 ? "table-loading" : ""}`}
+                    >
                       <form
                         onSubmit={handleSubmit(onSubmit)}
-                        className="user-form">
+                        className="user-form"
+                      >
                         <div className="form-group">
                           <label for="username">Role Name</label>
                           <input
@@ -157,60 +179,7 @@ const Addnewrole = () => {
                           <label for="email">Resources</label>
                           <div className="main-scroll">
                             <div className="scroll-table">
-                              <table className="table-body-cell">
-                                <tbody>
-                                  <tr>
-                                    <td>
-                                      <Link>
-                                        <img
-                                          className="table-body-cell"
-                                          src="./img/WebResource (1).jpg"
-                                          alt="Collapse Shop"
-                                        />
-                                      </Link>
-                                    </td>
-                                    <td>
-                                      <input
-                                        type="checkbox"
-                                        checked={resourceData?.includes(1)}
-                                        onChange={() => handleResourceChange(1)}
-                                      />
-                                      <Link className="box-text">
-                                        Dashboard
-                                      </Link>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                              <div className="table-block">
-                                <table className="table-body-cell">
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <div className="images-box" />
-                                      </td>
-                                      <td>
-                                        <Link>
-                                          <img
-                                            className="table-body-cell"
-                                            src="./img/WebResource (1).jpg"
-                                            alt="Collapse Sarees"
-                                          />
-                                        </Link>
-                                      </td>
-                                      <td>
-                                        <input
-                                          type="checkbox"
-                                          checked={resourceData?.includes(2)}
-                                          onChange={() =>
-                                            handleResourceChange(2)
-                                          }
-                                        />
-                                        <Link className="box-text">Tutor</Link>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
+                            {getAdminPageSlice?.map((page) => (
                                 <div className="table-block">
                                   <table className="table-body-cell">
                                     <tbody>
@@ -219,1367 +188,68 @@ const Addnewrole = () => {
                                           <div className="images-box" />
                                         </td>
                                         <td>
-                                          <div className="img-style">
+                                          <Link>
                                             <img
-                                              src="./img/WebResource2.jpg"
-                                              alt="img"
+                                              className="table-body-cell"
+                                              src="./img/WebResource (1).jpg"
+                                              alt="Collapse Sarees"
                                             />
-                                          </div>
-                                        </td>
-                                        <td>
-                                          <img
-                                            className="webresource"
-                                            src="./img/WebResource.jpg"
-                                            alt="img"
-                                          />
+                                          </Link>
                                         </td>
                                         <td>
                                           <input
                                             type="checkbox"
-                                            checked={resourceData?.includes(
-                                              2.1
-                                            )}
+                                            checked={resourceData?.includes(page._id)}
                                             onChange={() =>
-                                              handleResourceChange(2.1)
+                                              handleResourceChange(page._id)
                                             }
                                           />
                                           <Link className="box-text">
-                                            Tutor List
+                                            {page.name}
                                           </Link>
                                         </td>
                                       </tr>
                                     </tbody>
                                   </table>
-                                  <table className="table-body-cell">
-                                    <tbody>
-                                      <tr>
-                                        <td>
-                                          <div className="images-box" />
-                                        </td>
-                                        <td>
-                                          <div className="img-style">
+                                  {!!page?.subpages?.length && <div className="table-block">
+                                    {page?.subpages.map((subMenu) =>(
+                                      <table className="table-body-cell">
+                                      <tbody>
+                                        <tr>
+                                          <td>
+                                            <div className="images-box" />
+                                          </td>
+                                          <td>
+                                            <div className="img-style">
+                                              <img
+                                                src="./img/WebResource2.jpg"
+                                                alt="img"
+                                              />
+                                            </div>
+                                          </td>
+                                          <td>
                                             <img
-                                              src="./img/WebResource2.jpg"
+                                              className="webresource"
+                                              src="./img/WebResource.jpg"
                                               alt="img"
                                             />
-                                          </div>
-                                        </td>
-                                        <td>
-                                          <img
-                                            className="webresource"
-                                            src="./img/WebResource3.jpg"
-                                            alt="img"
-                                          />
-                                        </td>
-                                        <td>
-                                          <input
-                                            type="checkbox"
-                                            checked={resourceData?.includes(
-                                              2.2
-                                            )}
-                                            onChange={() =>
-                                              handleResourceChange(2.2)
-                                            }
-                                          />
-                                          <Link className="box-text">
-                                            Tutor Payment
-                                          </Link>
-                                        </td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
+                                          </td>
+                                          <td>
+                                            <input
+                                              type="checkbox"
+                                              checked={resourceData?.includes(page._id)}
+                                            />
+                                            <Link className="box-text">
+                                              {subMenu}
+                                            </Link>
+                                          </td>
+                                        </tr>
+                                      </tbody>
+                                    </table>
+                                    ))}
+                                  </div>}
                                 </div>
-                                <table className="table-body-cell">
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <div className="images-box" />
-                                      </td>
-                                      <td>
-                                        <Link>
-                                          <img
-                                            className="table-body-cell"
-                                            src="./img/WebResource (1).jpg"
-                                            alt="Collapse Salwar Suits"
-                                          />
-                                        </Link>
-                                      </td>
-                                      <td>
-                                        <input
-                                          type="checkbox"
-                                          checked={resourceData?.includes(3)}
-                                          onChange={() =>
-                                            handleResourceChange(3)
-                                          }
-                                        />
-                                        <Link className="box-text">
-                                          Student
-                                        </Link>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                                <div className="table-block">
-                                  <table className="table-body-cell">
-                                    <tbody>
-                                      <tr>
-                                        <td>
-                                          <div className="images-box" />
-                                        </td>
-                                        <td>
-                                          <div className="img-style">
-                                            <img
-                                              src="./img/WebResource2.jpg"
-                                              alt="img"
-                                            />
-                                          </div>
-                                        </td>
-                                        <td>
-                                          <img
-                                            className="webresource"
-                                            src="./img/WebResource3.jpg"
-                                            alt="img"
-                                          />
-                                        </td>
-                                        <td>
-                                          <input
-                                            type="checkbox"
-                                            checked={resourceData?.includes(
-                                              3.1
-                                            )}
-                                            onChange={() =>
-                                              handleResourceChange(3.1)
-                                            }
-                                          />
-                                          <Link className="box-text">
-                                            Student List
-                                          </Link>
-                                        </td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
-                                </div>
-                                <table className="table-body-cell">
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <div className="images-box" />
-                                      </td>
-                                      <td>
-                                        <img
-                                          className="webresource"
-                                          src="./img/WebResource.jpg"
-                                          alt="img"
-                                        />
-                                      </td>
-                                      <td>
-                                        <input
-                                          type="checkbox"
-                                          checked={resourceData?.includes(4)}
-                                          onChange={() =>
-                                            handleResourceChange(4)
-                                          }
-                                        />
-                                        <Link className="box-text">Wallet</Link>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                                <table className="table-body-cell">
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <div className="images-box" />
-                                      </td>
-                                      <td>
-                                        <img
-                                          className="webresource"
-                                          src="./img/WebResource.jpg"
-                                          alt="img"
-                                        />
-                                      </td>
-                                      <td>
-                                        <input
-                                          type="checkbox"
-                                          checked={resourceData?.includes(5)}
-                                          onChange={() =>
-                                            handleResourceChange(5)
-                                          }
-                                        />
-                                        <Link className="box-text">
-                                          Question Subject
-                                        </Link>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                                <table className="table-body-cell">
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <div className="images-box" />
-                                      </td>
-                                      <td>
-                                        <img
-                                          className="webresource"
-                                          src="./img/WebResource.jpg"
-                                          alt="img"
-                                        />
-                                      </td>
-                                      <td>
-                                        <input
-                                          type="checkbox"
-                                          checked={resourceData?.includes(6)}
-                                          onChange={() =>
-                                            handleResourceChange(6)
-                                          }
-                                        />
-                                        <Link className="box-text">
-                                          Student Class
-                                        </Link>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                                <table className="table-body-cell">
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <div className="images-box" />
-                                      </td>
-                                      <td>
-                                        <img
-                                          className="webresource"
-                                          src="./img/WebResource.jpg"
-                                          alt="img"
-                                        />
-                                      </td>
-                                      <td>
-                                        <input
-                                          type="checkbox"
-                                          checked={resourceData?.includes(7)}
-                                          onChange={() =>
-                                            handleResourceChange(7)
-                                          }
-                                        />
-                                        <Link className="box-text">
-                                          Question Type
-                                        </Link>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                                <table className="table-body-cell">
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <div className="images-box" />
-                                      </td>
-                                      <td>
-                                        <img
-                                          className="webresource"
-                                          src="./img/WebResource.jpg"
-                                          alt="img"
-                                        />
-                                      </td>
-                                      <td>
-                                        <input
-                                          type="checkbox"
-                                          checked={resourceData?.includes(8)}
-                                          onChange={() =>
-                                            handleResourceChange(8)
-                                          }
-                                        />
-                                        <Link className="box-text">
-                                          Currency
-                                        </Link>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                                <table className="table-body-cell">
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <div className="images-box" />
-                                      </td>
-                                      <td>
-                                        <img
-                                          className="webresource"
-                                          src="./img/WebResource.jpg"
-                                          alt="img"
-                                        />
-                                      </td>
-                                      <td>
-                                        <input
-                                          type="checkbox"
-                                          checked={resourceData?.includes(9)}
-                                          onChange={() =>
-                                            handleResourceChange(9)
-                                          }
-                                        />
-                                        <Link className="box-text">
-                                          Search Engine
-                                        </Link>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                                <table className="table-body-cell">
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <div className="images-box" />
-                                      </td>
-                                      <td>
-                                        <img
-                                          className="webresource"
-                                          src="./img/WebResource.jpg"
-                                          alt="img"
-                                        />
-                                      </td>
-                                      <td>
-                                        <input
-                                          type="checkbox"
-                                          checked={resourceData?.includes(10)}
-                                          onChange={() =>
-                                            handleResourceChange(10)
-                                          }
-                                        />
-                                        <Link className="box-text">
-                                        Issue Question
-                                        </Link>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                                <table className="table-body-cell">
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <div className="images-box" />
-                                      </td>
-                                      <td>
-                                        <img
-                                          className="webresource"
-                                          src="./img/WebResource.jpg"
-                                          alt="img"
-                                        />
-                                      </td>
-                                      <td>
-                                        <input
-                                          type="checkbox"
-                                          checked={resourceData?.includes(11)}
-                                          onChange={() =>
-                                            handleResourceChange(11)
-                                          }
-                                        />
-                                        <Link className="box-text">
-                                        Question
-                                        </Link>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                                <div className="table-block">
-                                  <table className="table-body-cell">
-                                    <tbody>
-                                      <tr>
-                                        <td>
-                                          <div className="images-box" />
-                                        </td>
-                                        <td>
-                                          <div className="img-style">
-                                            <img
-                                              src="./img/WebResource2.jpg"
-                                              alt="img"
-                                            />
-                                          </div>
-                                        </td>
-                                        <td>
-                                          <img
-                                            className="webresource"
-                                            src="./img/WebResource.jpg"
-                                            alt="img"
-                                          />
-                                        </td>
-                                        <td>
-                                          <input
-                                            type="checkbox"
-                                            checked={resourceData?.includes(
-                                              11.1
-                                            )}
-                                            onChange={() =>
-                                              handleResourceChange(11.1)
-                                            }
-                                          />
-                                          <Link className="box-text">
-                                          Tutor
-                                          </Link>
-                                        </td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
-                                  <table className="table-body-cell">
-                                    <tbody>
-                                      <tr>
-                                        <td>
-                                          <div className="images-box" />
-                                        </td>
-                                        <td>
-                                          <div className="img-style">
-                                            <img
-                                              src="./img/WebResource2.jpg"
-                                              alt="img"
-                                            />
-                                          </div>
-                                        </td>
-                                        <td>
-                                          <img
-                                            className="webresource"
-                                            src="./img/WebResource3.jpg"
-                                            alt="img"
-                                          />
-                                        </td>
-                                        <td>
-                                          <input
-                                            type="checkbox"
-                                            checked={resourceData?.includes(
-                                              11.2
-                                            )}
-                                            onChange={() =>
-                                              handleResourceChange(11.2)
-                                            }
-                                          />
-                                          <Link className="box-text">
-                                          Admin
-                                          </Link>
-                                        </td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
-                                  <table className="table-body-cell">
-                                    <tbody>
-                                      <tr>
-                                        <td>
-                                          <div className="images-box" />
-                                        </td>
-                                        <td>
-                                          <div className="img-style">
-                                            <img
-                                              src="./img/WebResource2.jpg"
-                                              alt="img"
-                                            />
-                                          </div>
-                                        </td>
-                                        <td>
-                                          <img
-                                            className="webresource"
-                                            src="./img/WebResource.jpg"
-                                            alt="img"
-                                          />
-                                        </td>
-                                        <td>
-                                          <input
-                                            type="checkbox"
-                                            checked={resourceData?.includes(
-                                              11.3
-                                            )}
-                                            onChange={() =>
-                                              handleResourceChange(11.3)
-                                            }
-                                          />
-                                          <Link className="box-text">
-                                          Reanswer
-                                          </Link>
-                                        </td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
-                                  <table className="table-body-cell">
-                                    <tbody>
-                                      <tr>
-                                        <td>
-                                          <div className="images-box" />
-                                        </td>
-                                        <td>
-                                          <div className="img-style">
-                                            <img
-                                              src="./img/WebResource2.jpg"
-                                              alt="img"
-                                            />
-                                          </div>
-                                        </td>
-                                        <td>
-                                          <img
-                                            className="webresource"
-                                            src="./img/WebResource3.jpg"
-                                            alt="img"
-                                          />
-                                        </td>
-                                        <td>
-                                          <input
-                                            type="checkbox"
-                                            checked={resourceData?.includes(
-                                              11.4
-                                            )}
-                                            onChange={() =>
-                                              handleResourceChange(11.4)
-                                            }
-                                          />
-                                          <Link className="box-text">
-                                          Unsolved
-                                          </Link>
-                                        </td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
-                                </div>
-
-                                <table className="table-body-cell">
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <div className="images-box" />
-                                      </td>
-                                      <td>
-                                        <img
-                                          className="webresource"
-                                          src="./img/WebResource.jpg"
-                                          alt="img"
-                                        />
-                                      </td>
-                                      <td>
-                                        <input
-                                          type="checkbox"
-                                          checked={resourceData?.includes(12)}
-                                          onChange={() =>
-                                            handleResourceChange(12)
-                                          }
-                                        />
-                                        <Link className="box-text">
-                                        Question Timing
-                                        </Link>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                                <table className="table-body-cell">
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <div className="images-box" />
-                                      </td>
-                                      <td>
-                                        <img
-                                          className="webresource"
-                                          src="./img/WebResource.jpg"
-                                          alt="img"
-                                        />
-                                      </td>
-                                      <td>
-                                        <input
-                                          type="checkbox"
-                                          checked={resourceData?.includes(13)}
-                                          onChange={() =>
-                                            handleResourceChange(13)
-                                          }
-                                        />
-                                        <Link className="box-text">
-                                          Question Pricing
-                                        </Link>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                                <table className="table-body-cell">
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <div className="images-box" />
-                                      </td>
-                                      <td>
-                                        <img
-                                          className="webresource"
-                                          src="./img/WebResource.jpg"
-                                          alt="img"
-                                        />
-                                      </td>
-                                      <td>
-                                        <input
-                                          type="checkbox"
-                                          checked={resourceData?.includes(14)}
-                                          onChange={() =>
-                                            handleResourceChange(14)
-                                          }
-                                        />
-                                        <Link className="box-text">
-                                          Question Reanswer
-                                        </Link>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                                <table className="table-body-cell">
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <div className="images-box" />
-                                      </td>
-                                      <td>
-                                        <img
-                                          className="webresource"
-                                          src="./img/WebResource.jpg"
-                                          alt="img"
-                                        />
-                                      </td>
-                                      <td>
-                                        <input
-                                          type="checkbox"
-                                          checked={resourceData?.includes(15)}
-                                          onChange={() =>
-                                            handleResourceChange(15)
-                                          }
-                                        />
-                                        <Link className="box-text">
-                                          Tutor Exam Question
-                                        </Link>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                                <table className="table-body-cell">
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <div className="images-box" />
-                                      </td>
-                                      <td>
-                                        <img
-                                          className="webresource"
-                                          src="./img/WebResource.jpg"
-                                          alt="img"
-                                        />
-                                      </td>
-                                      <td>
-                                        <input
-                                          type="checkbox"
-                                          checked={resourceData?.includes(16)}
-                                          onChange={() =>
-                                            handleResourceChange(16)
-                                          }
-                                        />
-                                        <Link className="box-text">
-                                          Tutor Exam Checking
-                                        </Link>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                                <table className="table-body-cell">
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <div className="images-box" />
-                                      </td>
-                                      <td>
-                                        <img
-                                          className="webresource"
-                                          src="./img/WebResource.jpg"
-                                          alt="img"
-                                        />
-                                      </td>
-                                      <td>
-                                        <input
-                                          type="checkbox"
-                                          checked={resourceData?.includes(17)}
-                                          onChange={() =>
-                                            handleResourceChange(17)
-                                          }
-                                        />
-                                        <Link className="box-text">
-                                          Tutor Exam Configuration
-                                        </Link>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-
-                                <table className="table-body-cell">
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <div className="images-box" />
-                                      </td>
-                                      <td>
-                                        <img
-                                          className="webresource"
-                                          src="./img/WebResource.jpg"
-                                          alt="img"
-                                        />
-                                      </td>
-                                      <td>
-                                        <input
-                                          type="checkbox"
-                                          checked={resourceData?.includes(18)}
-                                          onChange={() =>
-                                            handleResourceChange(18)
-                                          }
-                                        />
-                                        <Link className="box-text">
-                                        Student Referral
-                                        </Link>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                                <table className="table-body-cell">
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <div className="images-box" />
-                                      </td>
-                                      <td>
-                                        <img
-                                          className="webresource"
-                                          src="./img/WebResource.jpg"
-                                          alt="img"
-                                        />
-                                      </td>
-                                      <td>
-                                        <input
-                                          type="checkbox"
-                                          checked={resourceData?.includes(19)}
-                                          onChange={() =>
-                                            handleResourceChange(19)
-                                          }
-                                        />
-                                        <Link className="box-text">
-                                        Student Posting Streak
-                                        </Link>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                                <table className="table-body-cell">
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <div className="images-box" />
-                                      </td>
-                                      <td>
-                                        <img
-                                          className="webresource"
-                                          src="./img/WebResource.jpg"
-                                          alt="img"
-                                        />
-                                      </td>
-                                      <td>
-                                        <input
-                                          type="checkbox"
-                                          checked={resourceData?.includes(20)}
-                                          onChange={() =>
-                                            handleResourceChange(20)
-                                          }
-                                        />
-                                        <Link className="box-text">
-                                        Tutor Referral
-                                        </Link>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                                <table className="table-body-cell">
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <div className="images-box" />
-                                      </td>
-                                      <td>
-                                        <img
-                                          className="webresource"
-                                          src="./img/WebResource.jpg"
-                                          alt="img"
-                                        />
-                                      </td>
-                                      <td>
-                                        <input
-                                          type="checkbox"
-                                          checked={resourceData?.includes(21)}
-                                          onChange={() =>
-                                            handleResourceChange(21)
-                                          }
-                                        />
-                                        <Link className="box-text">
-                                        Tutor Posting Streak
-                                        </Link>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-
-                                <table className="table-body-cell">
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <div className="images-box" />
-                                      </td>
-                                      <td>
-                                        <img
-                                          className="webresource"
-                                          src="./img/WebResource.jpg"
-                                          alt="img"
-                                        />
-                                      </td>
-                                      <td>
-                                        <input
-                                          type="checkbox"
-                                          checked={resourceData?.includes(22)}
-                                          onChange={() =>
-                                            handleResourceChange(22)
-                                          }
-                                        />
-                                        <Link className="box-text">
-                                          Testimonial
-                                        </Link>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                                <table className="table-body-cell">
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <div className="images-box" />
-                                      </td>
-                                      <td>
-                                        <img
-                                          className="webresource"
-                                          src="./img/WebResource.jpg"
-                                          alt="img"
-                                        />
-                                      </td>
-                                      <td>
-                                        <input
-                                          type="checkbox"
-                                          checked={resourceData?.includes(23)}
-                                          onChange={() =>
-                                            handleResourceChange(23)
-                                          }
-                                        />
-                                        <Link className="box-text">Pages</Link>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                                <table className="table-body-cell">
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <div className="images-box" />
-                                      </td>
-                                      <td>
-                                        <img
-                                          className="webresource"
-                                          src="./img/WebResource.jpg"
-                                          alt="img"
-                                        />
-                                      </td>
-                                      <td>
-                                        <input
-                                          type="checkbox"
-                                          checked={resourceData?.includes(24)}
-                                          onChange={() =>
-                                            handleResourceChange(24)
-                                          }
-                                        />
-                                        <Link className="box-text">
-                                          Features
-                                        </Link>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                                <table className="table-body-cell">
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <div className="images-box" />
-                                      </td>
-                                      <td>
-                                        <img
-                                          className="webresource"
-                                          src="./img/WebResource.jpg"
-                                          alt="img"
-                                        />
-                                      </td>
-                                      <td>
-                                        <input
-                                          type="checkbox"
-                                          checked={resourceData?.includes(25)}
-                                          onChange={() =>
-                                            handleResourceChange(25)
-                                          }
-                                        />
-                                        <Link className="box-text">
-                                          Services
-                                        </Link>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                                <table className="table-body-cell">
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <div className="images-box" />
-                                      </td>
-                                      <td>
-                                        <img
-                                          className="webresource"
-                                          src="./img/WebResource.jpg"
-                                          alt="img"
-                                        />
-                                      </td>
-                                      <td>
-                                        <input
-                                          type="checkbox"
-                                          checked={resourceData?.includes(26)}
-                                          onChange={() =>
-                                            handleResourceChange(26)
-                                          }
-                                        />
-                                        <Link className="box-text">Coupon</Link>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                                <table className="table-body-cell">
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <div className="images-box" />
-                                      </td>
-                                      <td>
-                                        <img
-                                          className="webresource"
-                                          src="./img/WebResource.jpg"
-                                          alt="img"
-                                        />
-                                      </td>
-                                      <td>
-                                        <input
-                                          type="checkbox"
-                                          checked={resourceData?.includes(27)}
-                                          onChange={() =>
-                                            handleResourceChange(27)
-                                          }
-                                        />
-                                        <Link className="box-text">User</Link>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                                <table className="table-body-cell">
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <div className="images-box" />
-                                      </td>
-                                      <td>
-                                        <img
-                                          className="webresource"
-                                          src="./img/WebResource.jpg"
-                                          alt="img"
-                                        />
-                                      </td>
-                                      <td>
-                                        <input
-                                          type="checkbox"
-                                          checked={resourceData?.includes(28)}
-                                          onChange={() =>
-                                            handleResourceChange(28)
-                                          }
-                                        />
-                                        <Link className="box-text">Role</Link>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                                <div className="table-block">
-                                  <table className="table-body-cell">
-                                    <tbody>
-                                      <tr>
-                                        <td>
-                                          <div className="images-box" />
-                                        </td>
-                                        <td>
-                                          <div className="img-style">
-                                            <img
-                                              src="./img/WebResource2.jpg"
-                                              alt="img"
-                                            />
-                                          </div>
-                                        </td>
-                                        <td>
-                                          <img
-                                            className="webresource"
-                                            src="./img/WebResource.jpg"
-                                            alt="img"
-                                          />
-                                        </td>
-                                        <td>
-                                          <input
-                                            type="checkbox"
-                                            checked={resourceData?.includes(
-                                              28.1
-                                            )}
-                                            onChange={() =>
-                                              handleResourceChange(28.1)
-                                            }
-                                          />
-                                          <Link className="box-text">
-                                            Tutor
-                                          </Link>
-                                        </td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
-                                  <table className="table-body-cell">
-                                    <tbody>
-                                      <tr>
-                                        <td>
-                                          <div className="images-box" />
-                                        </td>
-                                        <td>
-                                          <div className="img-style">
-                                            <img
-                                              src="./img/WebResource2.jpg"
-                                              alt="img"
-                                            />
-                                          </div>
-                                        </td>
-                                        <td>
-                                          <img
-                                            className="webresource"
-                                            src="./img/WebResource3.jpg"
-                                            alt="img"
-                                          />
-                                        </td>
-                                        <td>
-                                          <input
-                                            type="checkbox"
-                                            checked={resourceData?.includes(
-                                              28.2
-                                            )}
-                                            onChange={() =>
-                                              handleResourceChange(28.2)
-                                            }
-                                          />
-                                          <Link className="box-text">
-                                            Admin
-                                          </Link>
-                                        </td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
-
-                                  <table className="table-body-cell">
-                                    <tbody>
-                                      <tr>
-                                        <td>
-                                          <div className="images-box" />
-                                        </td>
-                                        <td>
-                                          <div className="img-style">
-                                            <img
-                                              src="./img/WebResource2.jpg"
-                                              alt="img"
-                                            />
-                                          </div>
-                                        </td>
-                                        <td>
-                                          <img
-                                            className="webresource"
-                                            src="./img/WebResource.jpg"
-                                            alt="img"
-                                          />
-                                        </td>
-                                        <td>
-                                          <input
-                                            type="checkbox"
-                                            checked={resourceData?.includes(
-                                              28.3
-                                            )}
-                                            onChange={() =>
-                                              handleResourceChange(28.3)
-                                            }
-                                          />
-                                          <Link className="box-text">
-                                            Reanswer
-                                          </Link>
-                                        </td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
-                                  <table className="table-body-cell">
-                                    <tbody>
-                                      <tr>
-                                        <td>
-                                          <div className="images-box" />
-                                        </td>
-                                        <td>
-                                          <div className="img-style">
-                                            <img
-                                              src="./img/WebResource2.jpg"
-                                              alt="img"
-                                            />
-                                          </div>
-                                        </td>
-                                        <td>
-                                          <img
-                                            className="webresource"
-                                            src="./img/WebResource3.jpg"
-                                            alt="img"
-                                          />
-                                        </td>
-                                        <td>
-                                          <input
-                                            type="checkbox"
-                                            checked={resourceData?.includes(
-                                              28.4
-                                            )}
-                                            onChange={() =>
-                                              handleResourceChange(28.4)
-                                            }
-                                          />
-                                          <Link className="box-text">
-                                            UnSloved
-                                          </Link>
-                                        </td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
-                                </div>
-                                <table className="table-body-cell">
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <div className="images-box" />
-                                      </td>
-                                      <td>
-                                        <img
-                                          className="webresource"
-                                          src="./img/WebResource3.jpg"
-                                          alt="img"
-                                        />
-                                      </td>
-                                      <td>
-                                        <input
-                                          type="checkbox"
-                                          checked={resourceData?.includes(29)}
-                                          onChange={() =>
-                                            handleResourceChange(29)
-                                          }
-                                        />
-                                        <Link className="box-text">
-                                          Profile
-                                        </Link>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                                <table className="table-body-cell">
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <div className="images-box" />
-                                      </td>
-                                      <td>
-                                        <Link>
-                                          <img
-                                            className="table-body-cell"
-                                            src="./img/WebResource (1).jpg"
-                                            alt="Collapse Sarees"
-                                          />
-                                        </Link>
-                                      </td>
-                                      <td>
-                                        <input
-                                          type="checkbox"
-                                          checked={resourceData?.includes(30)}
-                                          onChange={() =>
-                                            handleResourceChange(30)
-                                          }
-                                        />
-                                        <Link className="box-text">Setting</Link>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                                <div className="table-block">
-                                  <table className="table-body-cell">
-                                    <tbody>
-                                      <tr>
-                                        <td>
-                                          <div className="images-box" />
-                                        </td>
-                                        <td>
-                                          <div className="img-style">
-                                            <img
-                                              src="./img/WebResource2.jpg"
-                                              alt="img"
-                                            />
-                                          </div>
-                                        </td>
-                                        <td>
-                                          <img
-                                            className="webresource"
-                                            src="./img/WebResource.jpg"
-                                            alt="img"
-                                          />
-                                        </td>
-                                        <td>
-                                          <input
-                                            type="checkbox"
-                                            checked={resourceData?.includes(
-                                              30.1
-                                            )}
-                                            onChange={() =>
-                                              handleResourceChange(30.1)
-                                            }
-                                          />
-                                          <Link className="box-text">
-                                          Social Media Setting
-                                          </Link>
-                                        </td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
-                                  <table className="table-body-cell">
-                                    <tbody>
-                                      <tr>
-                                        <td>
-                                          <div className="images-box" />
-                                        </td>
-                                        <td>
-                                          <div className="img-style">
-                                            <img
-                                              src="./img/WebResource2.jpg"
-                                              alt="img"
-                                            />
-                                          </div>
-                                        </td>
-                                        <td>
-                                          <img
-                                            className="webresource"
-                                            src="./img/WebResource3.jpg"
-                                            alt="img"
-                                          />
-                                        </td>
-                                        <td>
-                                          <input
-                                            type="checkbox"
-                                            checked={resourceData?.includes(
-                                              30.2
-                                            )}
-                                            onChange={() =>
-                                              handleResourceChange(30.2)
-                                            }
-                                          />
-                                          <Link className="box-text">
-                                          Email Settings
-                                          </Link>
-                                        </td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
-                                </div>
-                                <table className="table-body-cell">
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <div className="images-box" />
-                                      </td>
-                                      <td>
-                                        <img
-                                          className="webresource"
-                                          src="./img/WebResource3.jpg"
-                                          alt="img"
-                                        />
-                                      </td>
-                                      <td>
-                                        <input
-                                          type="checkbox"
-                                          checked={resourceData?.includes(31)}
-                                          onChange={() =>
-                                            handleResourceChange(31)
-                                          }
-                                        />
-                                        <Link className="box-text">
-                                        Add Mobile No
-                                        </Link>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                                <table className="table-body-cell">
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <div className="images-box" />
-                                      </td>
-                                      <td>
-                                        <img
-                                          className="webresource"
-                                          src="./img/WebResource3.jpg"
-                                          alt="img"
-                                        />
-                                      </td>
-                                      <td>
-                                        <input
-                                          type="checkbox"
-                                          checked={resourceData?.includes(32)}
-                                          onChange={() =>
-                                            handleResourceChange(32)
-                                          }
-                                        />
-                                        <Link className="box-text">
-                                        Contact us
-                                        </Link>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                                <table className="table-body-cell">
-                                  <tbody>
-                                    <tr>
-                                      <td>
-                                        <div className="images-box" />
-                                      </td>
-                                      <td>
-                                        <img
-                                          className="webresource"
-                                          src="./img/WebResource3.jpg"
-                                          alt="img"
-                                        />
-                                      </td>
-                                      <td>
-                                        <input
-                                          type="checkbox"
-                                          checked={resourceData?.includes(33)}
-                                          onChange={() =>
-                                            handleResourceChange(33)
-                                          }
-                                        />
-                                        <Link className="box-text">
-                                          Sign Out
-                                        </Link>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                </table>
-                              </div>
+                            ))}
                             </div>
                             <Link
                               id="ContentPlaceHolder1_tView_SkipLink"
@@ -1605,7 +275,8 @@ const Addnewrole = () => {
                           <button
                             disabled={loading}
                             type="submit"
-                            className="btn btn-primary">
+                            className="btn btn-primary"
+                          >
                             {!loading ? (
                               <>{data._id ? "Update" : "Submit"}</>
                             ) : (

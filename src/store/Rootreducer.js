@@ -37,6 +37,7 @@ import getTransactionHistorySlice from "../Redux/Loginpages/getTransactionHistor
 import getstudentcontactReducer from "../Redux/Loginpages/getstudentcontactSlice";
 import gettutorcontactReducer from "../Redux/Loginpages/gettutorcontactSlice";
 import  tutorsuspendReducer  from "../Redux/Loginpages/tutorSuspendSlice";
+import getAdminPageReducer from "../Redux/Loginpages/getAdminPageSlice";
 
 const reducer = combineReducers({
     auth: authReducer,
@@ -73,7 +74,8 @@ const reducer = combineReducers({
     getWalletData: getWalletDataSlice,
     getTransactionHistory: getTransactionHistorySlice,
     studentcontact: getstudentcontactReducer,
-    tutorcontact: gettutorcontactReducer
+    tutorcontact: gettutorcontactReducer,
+    getAdminPage: getAdminPageReducer,
 });
 
 export default reducer;
