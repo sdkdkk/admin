@@ -402,16 +402,12 @@ const Sidebar = () => {
                     Social Media Setting
                   </Link>
                 </li>
-<<<<<<< HEAD
                 <li className="nav-item">
                   <Link className="nav-link" to="/AdminPageSetting">
                    Admin Page Set
                   </Link>
                 </li>
                 <li className="nav-item">
-=======
-                <li className={`nav-item ${activeLink === '/a' ? 'active' : ''}`}>
->>>>>>> 12d5c5b0fed6bf6ca604f4c8ef778e856d3f0e82
                   <Link className="nav-link" to="/">
                     Email Setting
                   </Link>
