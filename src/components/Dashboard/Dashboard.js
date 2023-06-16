@@ -52,18 +52,10 @@ const Dashboard = () => {
                 display: "flex",
                 justifyContent: "center",
                 alignItems: "center",
-                height: "100vh",
+                height: "60vh",
               }}>
-              <div className="loader-container">
-                <RotatingLines
-                  strokeColor="grey"
-                  strokeWidth="5"
-                  animationDuration="0.75"
-                  width="50"
-                  visible={true}
-                />
-              </div>
-            </div>
+              <div className="table-loading"/>
+                           </div>
           ) : (
             <>
               <div className="main-panel">
