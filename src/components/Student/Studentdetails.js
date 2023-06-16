@@ -14,7 +14,6 @@ import { logoutIfInvalidToken } from "../../helpers/handleError";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Studentdetails = () => {
-
   const { _id } = useParams();
 
   const [studentdetail, setStudentdetail] = useState([]);
@@ -30,11 +29,17 @@ const Studentdetails = () => {
 
   const fetchData = async () => {
     try {
-      const response = await axios.post(`${url}/admin/studentquestionanswer/${_id}`, { token: token, }
+      const response = await axios.post(
+        `${url}/admin/studentquestionanswer/${_id}`,
+        { token: token }
       );
-      const response1 = await axios.post(`${url}/admin/studenttransactiondetails/${_id}`, { token: token, }
+      const response1 = await axios.post(
+        `${url}/admin/studenttransactiondetails/${_id}`,
+        { token: token }
       );
-      const response2 = await axios.post(`${url}/admin/studentdetails/${_id}`, { token: token, });
+      const response2 = await axios.post(`${url}/admin/studentdetails/${_id}`, {
+        token: token,
+      });
 
       setStudentque(response.data.message);
       setStudenttransation(response1.data.transaction);
@@ -76,7 +81,7 @@ const Studentdetails = () => {
     setCurrentPage1(value);
   };
 
-  const toComponentB = (data,) => {
+  const toComponentB = (data) => {
     navigate("/studentquestiondetails", { state: { data, _id } });
   };
 
@@ -97,8 +102,7 @@ const Studentdetails = () => {
                     justifyContent: "center",
                     alignItems: "center",
                     height: "100vh",
-                  }}
-                >
+                  }}>
                   <ColorRing
                     visible={true}
                     height="80"
@@ -117,13 +121,15 @@ const Studentdetails = () => {
             </div>
           ) : (
             <div className="second-section text-start mt-4 mx-4">
-              {studentdetail.map((data,id) => {
+              {studentdetail.map((data, id) => {
                 return (
                   <div
                     key={id}
                     className="row"
-                    style={{ backgroundColor: "#c0d7ff", borderRadius: '10px' }}
-                  >
+                    style={{
+                      backgroundColor: "#c0d7ff",
+                      borderRadius: "10px",
+                    }}>
                     <div className="col">
                       <div className="profile">
                         <div className="profile-img mt-2">
@@ -183,7 +189,7 @@ const Studentdetails = () => {
                       </thead>
                       <tbody>
                         <>
-                          {displaytransation.map((Data,id) => {
+                          {displaytransation.map((Data, id) => {
                             return (
                               <tr key={id}>
                                 <td colSpan="2">
@@ -249,18 +255,34 @@ const Studentdetails = () => {
                                     style={{ cursor: "pointer" }}
                                     onClick={() => {
                                       toComponentB(data);
-                                    }}
-                                  >
-                                       <p className="question">{data.allQuestions.question
-                                      .split(" ")
-                                      .slice(0, 3)
-                                      .join(" ")}
-                                    ...</p>
+                                    }}>
+                                    <p className="question">
+                                      {data.allQuestions.question
+                                        .split(" ")
+                                        .slice(0, 3)
+                                        .join(" ")}
+                                      ...
+                                    </p>
                                   </td>
                                   <td>{data.allQuestions.questionType}</td>
                                   <td>{data.allQuestions.questionSubject}</td>
                                   <td>{data.allQuestions.tutorPrice}</td>
-                                  <td>{data.allQuestions.status}</td>
+                                  <td>
+                                    {data.allQuestions.status === "Answered" ? (
+                                      <span className="badge text-bg-success badge-status">
+                                        {data.allQuestions.status.toLowerCase()}
+                                      </span>
+                                    ) : data.allQuestions.status ===
+                                      "PENDING" ? (
+                                      <span className="badge text-bg-warning badge-status">
+                                        {data.allQuestions.status.toLowerCase()}
+                                      </span>
+                                    ) : (
+                                      <span className="badge text-bg-info badge-status">
+                                        {data.allQuestions.status.toLowerCase()}
+                                      </span>
+                                    )}
+                                  </td>
                                 </tr>
                               ))}
                             </tbody>

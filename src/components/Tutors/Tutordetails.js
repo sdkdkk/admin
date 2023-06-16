@@ -435,7 +435,21 @@ const Tutordetails = () => {
                                     <td>{data.allQuestions.questionType}</td>
                                     <td>{data.allQuestions.questionSubject}</td>
                                     <td>{data.allQuestions.tutorPrice}</td>
-                                    <td>{data.allQuestions.status}</td>
+                                    <td>
+                                    {data.allQuestions.status === "Answered" ? (
+                                      <span className="badge text-bg-success badge-status">
+                                        {data.allQuestions.status.toLowerCase()}
+                                      </span>
+                                    ) : data.allQuestions.status === "PENDING" ? (
+                                      <span className="badge text-bg-warning badge-status">
+                                        {data.allQuestions.status.toLowerCase()}
+                                      </span>
+                                    ) : (
+                                      <span className="badge text-bg-info badge-status">
+                                        {data.allQuestions.status.toLowerCase()}
+                                      </span>
+                                    )}
+                                  </td>
                                   </tr>
                                 ))}
                               </tbody>
