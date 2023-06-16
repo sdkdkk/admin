@@ -136,9 +136,9 @@ const Addnewrole = () => {
   };
 
   useEffect(() => {
-    reset(filtrData?.[0]);
     if (filtrData?.[0]?.action?.length) {
-      setResourceData(filtrData?.[0]?.action);
+      const selectedRoles = filtrData?.[0]?.action?.map((a) => a._id)
+      setResourceData(selectedRoles);
     }
   }, [reset, data, roleValue]);
 
