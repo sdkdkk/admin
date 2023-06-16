@@ -116,7 +116,21 @@ const Searchengine = () => {
                                   <td>{data.questionType}</td>
                                   <td>{data.questionSubject}</td>
                                   <td>{data.questionPrice}</td>
-                                  <td>{data.status.toLowerCase()}</td>
+                                  <td>
+                                    {data.status === "Answered" ? (
+                                      <span className="badge text-bg-success badge-status">
+                                        {data.status.toLowerCase()}
+                                      </span>
+                                    ) : data.status === "PENDING" ? (
+                                      <span className="badge text-bg-warning badge-status">
+                                        {data.status.toLowerCase()}
+                                      </span>
+                                    ) : (
+                                      <span className="badge text-bg-info badge-status">
+                                        {data.status.toLowerCase()}
+                                      </span>
+                                    )}
+                                  </td>
                                 </tr>
                               );
                             })}

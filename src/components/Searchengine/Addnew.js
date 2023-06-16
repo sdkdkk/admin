@@ -526,7 +526,8 @@ const Addnew = () => {
                           </div>
                         ) : null}
 
-                        {selectedOption === "TrueFalse" ? (
+                        {selectedOption === "TrueFalse" ||
+                        selectedOption === "TrueFalse-exp"? (
                           <div className="p--20 rbt-border radius-6 bg-primary-opacity">
                             <div className="row">
                               <p className="mx-1">Answer</p>
