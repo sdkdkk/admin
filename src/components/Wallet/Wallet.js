@@ -8,7 +8,7 @@ import { getWalletData } from "../../Redux/Loginpages/getWalletDataSlice";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { useLocation, useNavigate } from "react-router-dom";
-import { ColorRing, RotatingLines } from "react-loader-spinner";
+import {RotatingLines } from "react-loader-spinner";
 
 const Wallet = () => {
   const dispatch = useDispatch();

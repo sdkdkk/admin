@@ -17,7 +17,7 @@ import {
   reset as resetTestimonialUserDelete,
 } from "../../Redux/Loginpages/testimonialUserDeleteSlice";
 import { useLocation } from "react-router";
-import {RotatingLines } from "react-loader-spinner";
+import { RotatingLines } from "react-loader-spinner";
 
 const Testimonial = () => {
   const dispatch = useDispatch();
@@ -157,116 +157,105 @@ const Testimonial = () => {
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table">
                     <div className="card-body">
-                      {/* {isLoading ? (
-                        <div className="loader-container">
-                         <RotatingLines
-                            strokeColor="grey"
-                            strokeWidth="5"
-                            animationDuration="0.75"
-                            width="50"
-                            visible={true}
-                          />
-                        </div>
-                      ) : ( */}
-                        <table
-                          className={`table ${
-                            (testimonial.loading ||
-                              testimonialstatus.loading ||
-                              testimonialform.loading ||
-                              testimonialUserDeleteState.isLoading) &&
-                            "table-loading"
-                          }`}>
-                          <thead>
-                            <tr>
-                              <th scope="col">Sr No.</th>
-                              <th scope="col">Sort Order</th>
-                              <th scope="col">Profile Img</th>
-                              <th scope="col">User</th>
-                              <th scope="col">Action</th>
-                              <th scope="col"></th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <>
-                              {testimonial.user &&
-                                testimonial.user?.testimonial
-                                  .slice((currentPage - 1) * 5, currentPage * 5)
-                                  .map((data, index) => (
-                                    <tr key={data.id}>
-                                      <td>
-                                        {(currentPage - 1) * 5 + index + 1}
-                                      </td>
-                                      <td>{data.sortOrder}</td>
-                                      <td>
-                                        <img
-                                          src={data.profileimage}
-                                          className="cardresto-img-top mx-4"
-                                          alt="..."
-                                        />
-                                      </td>
-                                      <td>{data.name}</td>
-                                      <td>
-                                        <div className="form-check form-switch">
-                                          <input
-                                            className="form-check-input"
-                                            type="checkbox"
-                                            id="flexSwitchCheckChecked"
-                                            defaultChecked={data.isactive}
-                                            onChange={(e) =>
-                                              changestatus(
-                                                e.target.value,
-                                                data.id,
-                                                index
-                                              )
-                                            }
-                                          />
-                                        </div>
-                                      </td>
-                                      <td>
-                                        <div className="dropdown">
-                                          <button
-                                            className="dropdown__button"
-                                            onClick={() =>
-                                              handleDropdownClick(data.id)
-                                            }>
-                                            ...
-                                          </button>
-                                          {data.id === isOpen && (
-                                            <div className="dropdown__popup">
-                                              <ul className="dropdown__list">
-                                                <li
-                                                  onClick={() =>
-                                                    handleEditClick(data)
-                                                  }>
-                                                  Edit
-                                                </li>
-                                                <li
-                                                  onClick={() =>
-                                                    handleDeleteClick(data.id)
-                                                  }>
-                                                  Delete
-                                                </li>
-                                              </ul>
-                                            </div>
-                                          )}
-                                        </div>
-                                      </td>
-                                    </tr>
-                                  ))}
-                            </>
-                          </tbody>
-                        </table>
-                     
 
-                      <div className="table-pagination">
+                      <table
+                        className={`table ${(testimonial.loading ||
+                            testimonialstatus.loading ||
+                            testimonialform.loading ||
+                            testimonialUserDeleteState.isLoading) &&
+                          "table-loading"
+                          }`}>
+                        <thead>
+                          <tr>
+                            <th scope="col">Sr No.</th>
+                            <th scope="col">Sort Order</th>
+                            <th scope="col">Profile Img</th>
+                            <th scope="col">User</th>
+                            <th scope="col">Action</th>
+                            <th scope="col"></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <>
+                            {testimonial.user &&
+                              testimonial.user?.testimonial
+                                .slice((currentPage - 1) * 5, currentPage * 5)
+                                .map((data, index) => (
+                                  <tr key={data.id}>
+                                    <td>
+                                      {(currentPage - 1) * 5 + index + 1}
+                                    </td>
+                                    <td>{data.sortOrder}</td>
+                                    <td>
+                                      <img
+                                        src={data.profileimage}
+                                        className="cardresto-img-top mx-4"
+                                        alt="..."
+                                      />
+                                    </td>
+                                    <td>{data.name}</td>
+                                    <td>
+                                      <div className="form-check form-switch">
+                                        <input
+                                          className="form-check-input"
+                                          type="checkbox"
+                                          id="flexSwitchCheckChecked"
+                                          defaultChecked={data.isactive}
+                                          onChange={(e) =>
+                                            changestatus(
+                                              e.target.value,
+                                              data.id,
+                                              index
+                                            )
+                                          }
+                                        />
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <div className="dropdown">
+                                        <button
+                                          className="dropdown__button"
+                                          onClick={() =>
+                                            handleDropdownClick(data.id)
+                                          }>
+                                          ...
+                                        </button>
+                                        {data.id === isOpen && (
+                                          <div className="dropdown__popup">
+                                            <ul className="dropdown__list">
+                                              <li
+                                                onClick={() =>
+                                                  handleEditClick(data)
+                                                }>
+                                                Edit
+                                              </li>
+                                              <li
+                                                onClick={() =>
+                                                  handleDeleteClick(data.id)
+                                                }>
+                                                Delete
+                                              </li>
+                                            </ul>
+                                          </div>
+                                        )}
+                                      </div>
+                                    </td>
+                                  </tr>
+                                ))}
+                          </>
+                        </tbody>
+                      </table>
+
+
+                      <div className="table-pagination" style={{ marginTop: `${testimonial.loading || testimonialstatus.loading || testimonialform.loading || testimonialUserDeleteState.isLoading ? '15%' : '0'}` }}>
                         <Pagination
                           count={2}
                           page={currentPage}
                           onChange={handleChange}
                           shape="rounded"
                           variant="outlined"
-                          // showFirstButton
-                          // showLastButton
+                        // showFirstButton
+                        // showLastButton
                         />
                       </div>
                     </div>
@@ -368,9 +357,9 @@ const Testimonial = () => {
                                     id="flexSwitchCheckChecked"
                                     onChange={() => activeForm()}
                                     checked={isActive} // Use the isActive value as the checked state of the checkbox
-                                    // disabled={
-                                    //   Object.keys(defaultValues).length !== 0
-                                    // } // Disable the checkbox during edit
+                                  // disabled={
+                                  //   Object.keys(defaultValues).length !== 0
+                                  // } // Disable the checkbox during edit
                                   />
                                 </div>
                               </div>

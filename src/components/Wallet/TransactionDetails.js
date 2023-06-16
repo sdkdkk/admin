@@ -9,22 +9,18 @@ import moment from "moment";
 import { getTransactionHistory } from "../../Redux/Loginpages/getTransactionHistorySlice";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
-import { ColorRing, RotatingLines } from "react-loader-spinner";
+import {RotatingLines } from "react-loader-spinner";
 
 const TransactionDetails = () => {
   const dispatch = useDispatch();
   const location = useLocation();
-  console.log(location);
   const getTransactionHistoryState = useSelector(
     (state) => state.getTransactionHistory
   );
-  console.log(getTransactionHistoryState);
   const walletTransactions = getTransactionHistoryState?.data?.transactions;
-  console.log(walletTransactions);
   const walletTransactionsFilter = walletTransactions?.filter(
     (item) => item._id
   );
-  console.log(walletTransactionsFilter);
   //Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
@@ -38,7 +34,6 @@ const TransactionDetails = () => {
 
   const getWalletDataApi = (category = "Student") => {
     const params = location.search;
-    console.log(params);
     setIsLoading(true);
     dispatch(getTransactionHistory(params))
       .then(() => setIsLoading(false))
@@ -85,7 +80,7 @@ const TransactionDetails = () => {
                   <div className="card new-table mt-4">
                     <div className="card-body">
                       {isLoading ? (
-                         <div className="loader-container">
+                        <div className="loader-container">
                           <RotatingLines
                             strokeColor="grey"
                             strokeWidth="5"
@@ -116,8 +111,6 @@ const TransactionDetails = () => {
                           <tbody>
                             {walletTransactions &&
                               [...walletTransactions].map((value, pos) => {
-                                console.log(value);
-
                                 return (
                                   <tr key={value._id}>
                                     <td>{pos + 1}</td>
