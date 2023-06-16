@@ -82,7 +82,8 @@ const Searchengine = () => {
                           />
                         </div>
                       ) : (
-                        <table className="table v-top">
+                        <table 
+                        >
                           <thead>
                             <tr>
                               <th scope="col">Sr. No</th>
