@@ -238,10 +238,7 @@ const Questionpricing = () => {
                             <h6>&nbsp;</h6>
                           </div>
                           <div className="col-lg-4 col-md-8 mb-2 text-md-end">
-                            <Button
-                              variant="primary"
-                              type="submit"
-                          >
+                            <Button variant="primary" type="submit">
                               {isEditMode
                                 ? loading
                                   ? "Loading..."
@@ -257,69 +254,79 @@ const Questionpricing = () => {
                   </div>
                 </div>
               </div>
-              {loading ? (
-                <p style={{ marginLeft: "400px", marginTop: "50px" }}>
-                  <RotatingLines
-                    strokeColor="grey"
-                    strokeWidth="5"
-                    animationDuration="0.75"
-                    width="50"
-                    visible={true}
-                  />
-                </p>
-              ) : (
-                <>
-                  <Table
-                    striped
-                    bordered
-                    responsive
-                    className="single-color table ">
-                    <thead>
-                      <tr>
-                        <th>Sr.No</th>
-                        <th>Question Type</th>
-                        <th>Question Pricing</th>
-                        <th>Tutor Pricing</th>
-                        <th>Admin Pricing</th>
-                        <th>Action</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      {displayUsers.map((data, index, _id) => (
-                        <tr key={index}>
-                          <td>{index + indexOfFirstPage + 1}</td>
-                          <td>{data.Type}</td>
-                          <td>{data.question_price}</td>
-                          <td>{data.tutor_price}</td>
-                          <td>{data.admin_price}</td>
-                          <td>
-                            <Button
-                              variant="success"
-                              onClick={() => handleUpdateClick(data)}>
-                              Edit
-                            </Button>
-                            <Button
-                              className="mx-2"
-                              variant="danger"
-                              onClick={() => handleDeleteClick(data._id)}>
-                              Delete
-                            </Button>
-                          </td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </Table>
-                  <div className="table-pagination">
-                    <Pagination
-                      count={pageCount}
-                      page={currentPage}
-                      onChange={handleChange}
-                      shape="rounded"
-                      variant="outlined"
-                    />
+              <div className="row">
+                <div className="col-12 grid-margin stretch-card">
+                  <div className="card new-table">
+                    <div className="card-body">
+                      {loading ? (
+                        <p style={{ marginLeft: "400px", marginTop: "50px" }}>
+                          <RotatingLines
+                            strokeColor="grey"
+                            strokeWidth="5"
+                            animationDuration="0.75"
+                            width="50"
+                            visible={true}
+                          />
+                        </p>
+                      ) : (
+                        <>
+                          <Table
+                            striped
+                            bordered
+                            responsive
+                            className="single-color table ">
+                            <thead>
+                              <tr>
+                                <th>Sr.No</th>
+                                <th>Question Type</th>
+                                <th>Question Pricing</th>
+                                <th>Tutor Pricing</th>
+                                <th>Admin Pricing</th>
+                                <th>Action</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {displayUsers.map((data, index, _id) => (
+                                <tr key={index}>
+                                  <td>{index + indexOfFirstPage + 1}</td>
+                                  <td>{data.Type}</td>
+                                  <td>{data.question_price}</td>
+                                  <td>{data.tutor_price}</td>
+                                  <td>{data.admin_price}</td>
+                                  <td>
+                                    <Button
+                                      variant="success"
+                                      onClick={() => handleUpdateClick(data)}>
+                                      Edit
+                                    </Button>
+                                    <Button
+                                      className="mx-2"
+                                      variant="danger"
+                                      onClick={() =>
+                                        handleDeleteClick(data._id)
+                                      }>
+                                      Delete
+                                    </Button>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>
+                          </Table>
+                          <div className="table-pagination">
+                            <Pagination
+                              count={pageCount}
+                              page={currentPage}
+                              onChange={handleChange}
+                              shape="rounded"
+                              variant="outlined"
+                            />
+                          </div>
+                        </>
+                      )}
+                    </div>
                   </div>
-                </>
-              )}
+                </div>
+              </div>
             </div>
             <Footer />
           </div>

@@ -6,7 +6,7 @@ import { Pagination } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useParams } from "react-router-dom";
-import { ColorRing } from "react-loader-spinner";
+import { ColorRing, RotatingLines } from "react-loader-spinner";
 import Moment from "react-moment";
 import face3 from "../Image/face3.jpg";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
@@ -103,19 +103,15 @@ const Studentdetails = () => {
                     alignItems: "center",
                     height: "100vh",
                   }}>
-                  <ColorRing
-                    visible={true}
-                    height="80"
-                    width="80"
-                    ariaLabel="blocks-loading"
-                    wrapperStyle={{
-                      display: "flex",
-                      justifyContent: "center",
-                      alignItems: "center",
-                      height: "100vh",
-                    }}
-                    colors={["black"]}
-                  />
+                  <div className="loader-container">
+                    <RotatingLines
+                      strokeColor="pink"
+                      strokeWidth="5"
+                      animationDuration="0.75"
+                      width="50"
+                      visible={true}
+                    />
+                  </div>
                 </p>
               ) : null}
             </div>

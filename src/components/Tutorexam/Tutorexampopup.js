@@ -192,7 +192,7 @@ const Tutorexampopup = () => {
                         {loading1 ? (
                           <p className="loader-container">
                             <RotatingLines
-                              strokeColor="grey"
+                              strokeColor="pink"
                               strokeWidth="5"
                               animationDuration="0.75"
                               width="50"
