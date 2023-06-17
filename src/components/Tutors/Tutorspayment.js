@@ -25,7 +25,6 @@ const Tutorspayment = () => {
     }
     setClicked(index);
   };
-
   const handleCopy = (name) => {
     navigator.clipboard.writeText(name);
   };
@@ -47,7 +46,7 @@ const Tutorspayment = () => {
             }}>
             <div className="loader-container">
               <RotatingLines
-                strokeColor="grey"
+                strokeColor="pink"
                 strokeWidth="5"
                 animationDuration="0.75"
                 width="50"

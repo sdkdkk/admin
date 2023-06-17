@@ -46,16 +46,23 @@ const Dashboard = () => {
           <Sidebar />
           {loading1 ? (
             <div
-              style={{
-                marginLeft: "auto",
-                marginRight: "auto",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "60vh",
-              }}>
-              <div className="table-loading"/>
-                           </div>
+            className="loader-container"
+            style={{
+              marginLeft: "auto",
+              marginRight: "auto",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100vh",
+            }}>
+            <RotatingLines
+              strokeColor="pink"
+              strokeWidth="5"
+              animationDuration="0.75"
+              width="50"
+              visible={true}
+            />
+          </div>
           ) : (
             <>
               <div className="main-panel">

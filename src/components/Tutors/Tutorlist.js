@@ -13,7 +13,7 @@ import { tutorunverified } from "../../Redux/Loginpages/tutorunverifiedSlice";
 import { Tutorswarning } from "../../Redux/Loginpages/tutorwarningSlice";
 import { Link, useLocation } from "react-router-dom";
 import { tutorworking } from "../../Redux/Loginpages/tutorworkingSlice";
-import {  RotatingLines } from "react-loader-spinner";
+import { RotatingLines } from "react-loader-spinner";
 import Moment from "react-moment";
 import { Tutortrial } from "../../Redux/Loginpages/tutortrialSlice";
 import { Tutorsuspend } from "../../Redux/Loginpages/tutorSuspendSlice";
@@ -60,31 +60,31 @@ const Tutorlist = () => {
   const fetchData1 = async () => {
     setActiveButton(3);
     dispatch(tutorunverified());
-    setCurrentPage(1); 
+    setCurrentPage(1);
   };
 
   const fetchData2 = async () => {
     setActiveButton(2);
     dispatch(Tutorswarning());
-    setCurrentPage(1); 
+    setCurrentPage(1);
   };
 
   const fetchData3 = async () => {
     setActiveButton(1);
     dispatch(tutorworking());
-    setCurrentPage(1); 
+    setCurrentPage(1);
   };
 
   const fetchData4 = async () => {
     setActiveButton(4);
     dispatch(Tutortrial());
-    setCurrentPage(1); 
+    setCurrentPage(1);
   };
 
   const fetchData5 = async () => {
     setActiveButton(5);
     dispatch(Tutorsuspend());
-    setCurrentPage(1); 
+    setCurrentPage(1);
   };
 
   useEffect(() => {
@@ -186,203 +186,153 @@ const Tutorlist = () => {
         <Navbar />
         <div className="container-fluid page-body-wrapper">
           <Sidebar />
-       
-            <div className="main-panel">
-              <div className="content-wrapper">
-                <div className="oneline">
-                  <h3 className="main-text">Tutors List</h3>
-                </div>
-                <div className="page-header">
-                  <div className="col-md-12">
-                    <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-                      <button
-                        onClick={fetchData3}
-                        className={
-                          activeButton === 1
-                            ? "btn btn-primary"
-                            : "btn btn-light"
-                        }
-                        type="button"
-                        style={{ borderRadius: "4px" }}>
-                        Working
-                      </button>
-                      <button
-                        onClick={fetchData2}
-                        className={
-                          activeButton === 2
-                            ? "btn btn-primary"
-                            : "btn btn-light"
-                        }
-                        type="button"
-                        style={{ borderRadius: "4px" }}>
-                        Warning
-                      </button>
-                      <button
-                        onClick={fetchData1}
-                        className={
-                          activeButton === 3
-                            ? "btn btn-primary"
-                            : "btn btn-light"
-                        }
-                        type="button"
-                        style={{ borderRadius: "4px" }}>
-                        Unverified
-                      </button>
-                      <button
-                        onClick={fetchData4}
-                        className={
-                          activeButton === 4
-                            ? "btn btn-primary"
-                            : "btn btn-light"
-                        }
-                        type="button"
-                        style={{ borderRadius: "4px" }}>
-                        Trial
-                      </button>
-                      <button
-                        onClick={fetchData5}
-                        className={
-                          activeButton === 5
-                            ? "btn btn-primary"
-                            : "btn btn-light"
-                        }
-                        type="button"
-                        style={{ borderRadius: "4px" }}>
-                        Suspend
-                      </button>
-                    </div>
+
+          <div className="main-panel">
+            <div className="content-wrapper">
+              <div className="oneline">
+                <h3 className="main-text">Tutors List</h3>
+              </div>
+              <div className="page-header">
+                <div className="col-md-12">
+                  <div className="d-grid gap-2 d-md-flex justify-content-md-end">
+                    <button
+                      onClick={fetchData3}
+                      className={
+                        activeButton === 1 ? "btn btn-primary" : "btn btn-light"
+                      }
+                      type="button"
+                      style={{ borderRadius: "4px" }}>
+                      Working
+                    </button>
+                    <button
+                      onClick={fetchData2}
+                      className={
+                        activeButton === 2 ? "btn btn-primary" : "btn btn-light"
+                      }
+                      type="button"
+                      style={{ borderRadius: "4px" }}>
+                      Warning
+                    </button>
+                    <button
+                      onClick={fetchData1}
+                      className={
+                        activeButton === 3 ? "btn btn-primary" : "btn btn-light"
+                      }
+                      type="button"
+                      style={{ borderRadius: "4px" }}>
+                      Unverified
+                    </button>
+                    <button
+                      onClick={fetchData4}
+                      className={
+                        activeButton === 4 ? "btn btn-primary" : "btn btn-light"
+                      }
+                      type="button"
+                      style={{ borderRadius: "4px" }}>
+                      Trial
+                    </button>
+                    <button
+                      onClick={fetchData5}
+                      className={
+                        activeButton === 5 ? "btn btn-primary" : "btn btn-light"
+                      }
+                      type="button"
+                      style={{ borderRadius: "4px" }}>
+                      Suspend
+                    </button>
                   </div>
                 </div>
+              </div>
 
-                <div>
-               
-                    <>
-                      <div className="row">
-                        <div className="col-12 grid-margin stretch-card">
-                          <div className="card">
-                            <div className="card-body">
-                              <div className="row">
-                                <div className="col-md-6">
-                                  <Form>
-                                    <Form.Control
-                                      type="search"
-                                      id="fname"
-                                      className="form-control me-3"
-                                      placeholder="search name"
-                                      aria-label="Search"
-                                      name="fname"
-                                      onChange={(e) =>
-                                        setSearchTerm(e.target.value)
-                                      }
-                                    />
-                                  </Form>
-                                </div>
+              <div>
+                <>
+                  <div className="row">
+                    <div className="col-12 grid-margin stretch-card">
+                      <div className="card">
+                        <div className="card-body">
+                          <div className="row">
+                            <div className="col-md-6">
+                              <Form>
+                                <Form.Control
+                                  type="search"
+                                  id="fname"
+                                  className="form-control me-3"
+                                  placeholder="search name"
+                                  aria-label="Search"
+                                  name="fname"
+                                  onChange={(e) =>
+                                    setSearchTerm(e.target.value)
+                                  }
+                                />
+                              </Form>
+                            </div>
 
-                                <div className="col-md-4">
-                                  <DatePicker
-                                    rangeHover
-                                    className="rmdp-input date"
-                                    value={values}
-                                    onChange={setValues}
-                                    range
-                                    render={<InputIcon />}
-                                    // width={100}
-                                  />
-                                </div>
+                            <div className="col-md-4">
+                              <DatePicker
+                                rangeHover
+                                className="rmdp-input date"
+                                value={values}
+                                onChange={setValues}
+                                range
+                                render={<InputIcon />}
+                                // width={100}
+                              />
+                            </div>
 
-                                <div className="col-md-2">
-                                  <Button
-                                    className="btn-search"
-                                    onClick={searchItem}>
-                                    Search
-                                  </Button>
-                                </div>
-                              </div>
+                            <div className="col-md-2">
+                              <Button
+                                className="btn-search"
+                                onClick={searchItem}>
+                                Search
+                              </Button>
                             </div>
                           </div>
                         </div>
                       </div>
-                      <div className="row">
-                        <div className="col-12 grid-margin stretch-card">
-                          <div className="card new-table">
-                            <div className="card-body">
-                              <table className="table v-top">
-                                <thead>
-                                  <tr>
-                                    <th scope="col">Reg.Date</th>
-                                    <th scope="col">User Name</th>
-                                    <th scope="col">Email</th>
-                                    <th scope="col">Moble No</th>
-                                    <th scope="col">Subject</th>
-                                    <th scope="col">Balance</th>
-                                    {activeButton === 2 && (
-                                      <th scope="col">No. of worning Que</th>
-                                    )}
-                                    {activeButton === 5 && (
-                                      <th scope="col">No. of reaming day</th>
-                                    )}
-                                    <th scope="col">Action</th>
-                                  </tr>
-                            </thead>
-                            <tbody>
-                              {displayUsers?.map((data, id) => (
-                                    
-                                <tr key={id}>
-                                  {data.updatedAt ? (
-                                    <td>
-                                      <Moment
-                                        format="DD MMM YYYY"
-                                        withTitle>
-                                        {data.updatedAt || null}
-                                      </Moment>
-                                    </td>
-                                  ) : (
-                                    <td>-</td>
-                                  )}
-                                  <td>{data.name || "-"}</td>
-                                  <td>{data.email.substring(0, 20)}</td>
-                                  <td>{data.mobileNo || "-"}</td>
-                                  <td>
-                                    {data.subjects &&
-                                      data.subjects?.length > 0
-                                      ? data.subjects
-                                        .slice(0, 2)
-                                        .join(", ")
-                                      : "-"}
-                                  </td>
-                                  <td>
-                                    {data.balance
-                                      ? parseFloat(data.balance).toFixed(
-                                        2
-                                      )
-                                      : "-"}
-                                  </td>
-                                  {activeButton === 2 && (
-                                    <td className="text-center">
-                                      {data.warningQuestions}
-                                    </td>
-                                  )}
-                                  {activeButton === 5 && (
-                                    <td className="text-center">
-                                      {data.daysRemaining}
-                                    </td>
-                                  )}
-                                  <td>
-                                    <Link
-                                      to={`/tutordetails/${data._id}/${activeButton}`}>
-                                      <Button className="btn btn-primary btn-sm">
-                                        See Details
-                                      </Button>
-                                    </Link>
-                                  </td>
-                                </tr>
-                                   
-                              ))
-                                ? displayUsers?.length > 0 : <tr> <td colSpan={6}>  No Tutor Found</td></tr>}</tbody>
-                               {/* { displayUsers && displayUsers.length > 0 ? (
-                                  displayUsers.map((data, id) => (
-                                    <tbody key={id}>
-                                      <tr>
+                    </div>
+                  </div>
+                  <div className="row">
+                    <div className="col-12 grid-margin stretch-card">
+                      <div className="card new-table">
+                        <div className="card-body">
+                          {isLoadinguser ? (
+                            <div className="loader-container">
+                              <RotatingLines
+                                strokeColor="pink"
+                                strokeWidth="5"
+                                animationDuration="0.75"
+                                width="50"
+                                visible={true}
+                              />
+                            </div>
+                          ) : (
+                            <>
+                              { displayUsers && displayUsers.length === 0 ? (
+                                <div className="no-tutor-found text-center text-danger ">
+                                  No tutor found
+                                </div>
+                              ) : (
+                                <table className="table v-top">
+                                  <thead>
+                                    <tr>
+                                      <th scope="col">Reg.Date</th>
+                                      <th scope="col">User Name</th>
+                                      <th scope="col">Email</th>
+                                      <th scope="col">Moble No</th>
+                                      <th scope="col">Subject</th>
+                                      <th scope="col">Balance</th>
+                                      {activeButton === 2 && (
+                                        <th scope="col">No. of warning Que</th>
+                                      )}
+                                      {activeButton === 5 && (
+                                        <th scope="col">No. of reaming day</th>
+                                      )}
+                                      <th scope="col">Action</th>
+                                    </tr>
+                                  </thead>
+                                  <tbody>
+                                    {displayUsers?.map((data, id) => (
+                                      <tr key={id}>
                                         {data.updatedAt ? (
                                           <td>
                                             <Moment
@@ -399,17 +349,17 @@ const Tutorlist = () => {
                                         <td>{data.mobileNo || "-"}</td>
                                         <td>
                                           {data.subjects &&
-                                            data.subjects?.length > 0
+                                          data.subjects?.length > 0
                                             ? data.subjects
-                                              .slice(0, 2)
-                                              .join(", ")
+                                                .slice(0, 2)
+                                                .join(", ")
                                             : "-"}
                                         </td>
                                         <td>
                                           {data.balance
                                             ? parseFloat(data.balance).toFixed(
-                                              2
-                                            )
+                                                2
+                                              )
                                             : "-"}
                                         </td>
                                         {activeButton === 2 && (
@@ -431,47 +381,31 @@ const Tutorlist = () => {
                                           </Link>
                                         </td>
                                       </tr>
-                                    </tbody>
-                                  ))
-                            )
-                              : (
-                                  <tbody>
-                                    <tr>
-                                      <td
-                                        colSpan={
-                                          activeButton === 2 ||
-                                          activeButton === 5
-                                            ? 8
-                                            : 7
-                                        }>
-                                        <div className="information mt-3 text-danger fs-4">
-                                          No Tutor Found
-                                        </div>
-                                      </td>
-                                    </tr>
+                                    ))}
                                   </tbody>
-                                )} */}
-                              </table>
-                              <div className="table-pagination">
-                                <Pagination
-                                  count={totalPages}
-                                  page={currentPage}
-                                  onChange={handleChange}
-                                  shape="rounded"
-                                  variant="outlined"
-                                />
-                              </div>
-                            </div>
+                                </table>
+                              )}
+                            </>
+                          )}
+
+                          <div className="table-pagination">
+                            <Pagination
+                              count={totalPages}
+                              page={currentPage}
+                              onChange={handleChange}
+                              shape="rounded"
+                              variant="outlined"
+                            />
                           </div>
                         </div>
                       </div>
-                    </>
-                 
-                </div>
+                    </div>
+                  </div>
+                </>
               </div>
-              <Footer />
             </div>
-          
+            <Footer />
+          </div>
         </div>
       </div>
     </div>
