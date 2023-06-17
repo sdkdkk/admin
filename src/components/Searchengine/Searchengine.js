@@ -82,8 +82,7 @@ const Searchengine = () => {
                           />
                         </div>
                       ) : (
-                        <table 
-                        >
+                        <table className="table reponsive">
                           <thead>
                             <tr>
                               <th scope="col">Sr. No</th>
