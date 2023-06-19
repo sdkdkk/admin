@@ -113,78 +113,67 @@ const Studentlist = () => {
         <Navbar />
         <div className="container-fluid page-body-wrapper">
           <Sidebar />
-          {isLoading ? (
-            <div
-              style={{
-                marginLeft: "auto",
-                marginRight: "auto",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "100vh",
-              }}>
-              <div className="loader-container">
-                <RotatingLines
-                  strokeColor="pink"
-                  strokeWidth="5"
-                  animationDuration="0.75"
-                  width="50"
-                  visible={true}
-                />
+
+          <div className="main-panel">
+            <div className="content-wrapper">
+              <div className="page-header">
+                <h3 className="page-title">Student List</h3>
               </div>
-            </div>
-          ) : (
-            <div className="main-panel">
-              <div className="content-wrapper">
-                <div className="page-header">
-                  <h3 className="page-title">Student List</h3>
-                </div>
-                <div className="row">
-                  <div className="col-12 grid-margin stretch-card">
-                    <div className="card">
-                      <div className="card-body">
-                        <div className="row">
-                          <div className="col-md-6">
-                            <input
-                              type="text"
-                              id="fname"
-                              className="form-control me-2"
-                              placeholder="search name"
-                              aria-label="Search"
-                              name="fname"
-                              value={searchTerm}
-                              onChange={(e) => {
-                                setSearchTerm(e.target.value);
-                              }}
-                            />
-                          </div>
-                          <div className="col-md-4">
-                            <DatePicker
-                              rangeHover
-                              className="rmdp-input date"
-                              value={values}
-                              onChange={setValues}
-                              range
-                              render={<InputIcon />}
-                              width={500}
-                            />
-                          </div>
-                          <div className="col-md-2">
-                            <Button
-                              className="algin-right"
-                              onClick={searchItem}>
-                              Search
-                            </Button>
-                          </div>
+              <div className="row">
+                <div className="col-12 grid-margin stretch-card">
+                  <div className="card">
+                    <div className="card-body">
+                      <div className="row">
+                        <div className="col-md-6">
+                          <input
+                            type="text"
+                            id="fname"
+                            className="form-control me-2"
+                            placeholder="search name"
+                            aria-label="Search"
+                            name="fname"
+                            value={searchTerm}
+                            onChange={(e) => {
+                              setSearchTerm(e.target.value);
+                            }}
+                          />
+                        </div>
+                        <div className="col-md-4">
+                          <DatePicker
+                            rangeHover
+                            className="rmdp-input date"
+                            value={values}
+                            onChange={setValues}
+                            range
+                            render={<InputIcon />}
+                            width={500}
+                          />
+                        </div>
+                        <div className="col-md-2">
+                          <Button className="algin-right" onClick={searchItem}>
+                            Search
+                          </Button>
                         </div>
                       </div>
                     </div>
                   </div>
                 </div>
-                <div className="row">
-                  <div className="col-12 grid-margin stretch-card">
-                    <div className="card new-table">
-                      <div className="card-body">
+              </div>
+              <div className="row">
+                <div className="col-12 grid-margin stretch-card">
+                  <div className="card new-table">
+                    <div className="card-body">
+                      {isLoading ? (
+                        <div className="loader-container">
+                          <RotatingLines
+                            strokeColor="pink"
+                            strokeWidth="5"
+                            animationDuration="0.75"
+                            width="50"
+                            visible={true}
+                          />
+                        </div>
+                      ) : (
                         <table className="table v-top">
                           <thead>
                             <tr>
@@ -242,23 +231,24 @@ const Studentlist = () => {
                             </tbody>
                           )}
                         </table>
-                        <div className="table-pagination">
-                          <Pagination
-                            count={totalPages}
-                            page={currentPage}
-                            onChange={handleChange}
-                            shape="rounded"
-                            variant="outlined"
-                          />
-                        </div>
+                      )}
+
+                      <div className="table-pagination">
+                        <Pagination
+                          count={totalPages}
+                          page={currentPage}
+                          onChange={handleChange}
+                          shape="rounded"
+                          variant="outlined"
+                        />
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-              <Footer />
             </div>
-          )}
+            <Footer />
+          </div>
         </div>
       </div>
     </div>

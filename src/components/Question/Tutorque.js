@@ -175,7 +175,7 @@ const Tutorque = () => {
                       {isLoading ? (
                         <div className="loader-container">
                           <RotatingLines
-                            strokeColor="grey"
+                            strokeColor="pink"
                             strokeWidth="5"
                             animationDuration="0.75"
                             width="50"
@@ -185,10 +185,7 @@ const Tutorque = () => {
                       ) : (
                         <div className="table-responsive">
                           <table
-                            className={`table ${
-                              getAdminQuestionsState?.isLoading &&
-                              "table-loading"
-                            }`}>
+                            className={`table `}>
                             <thead>
                               <tr>
                                 <th scope="col">Sr.No</th>

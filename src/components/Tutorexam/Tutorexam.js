@@ -22,6 +22,7 @@ import { deleteTutorQuestion, reset as resetDeleteTutorQuestion, } from "../../R
 import { updateTutorQuestionApi } from "../../Redux/Loginpages/updateTutorQuestionSlice";
 import axios from "axios";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
+import { RotatingLines } from "react-loader-spinner";
 
 
 
@@ -49,6 +50,7 @@ const ReadMore = ({ children }) => {
 const Tutorexam = () => {
   //Pagination
   const [currentPage, setCurrentPage] = useState(1);
+  const [loading, setLoading] = useState(false);
   const [postsPerPage] = useState(8);
   const [editorHtml, setEditorHtml] = useState("");
   const [isOpen, setIsOpen] = useState("");
@@ -97,12 +99,15 @@ const Tutorexam = () => {
 
   const fetchData = async () => {
     try {
+      setLoading(true);
       const response = await axios.post(`${url}/getquestionsubject`, {
         token: token,
       });
       setSubjectList(response?.data?.data);
+      setLoading(false);
     } catch (error) {
       logoutIfInvalidToken(error.response);
+      
       // notify("Invalid refresh token!");
     }
   };
@@ -521,78 +526,92 @@ const Tutorexam = () => {
                 <div className="col-md-12 grid-margin stretch-card">
                   <div className="card">
                     <div className="card-body">
-                      <div className="table-responsive">
-                        <table className="table">
-                          <thead className="text-uppercase">
-                            <tr>
-                              <th scope="col">Question</th>
-                              <th scope="col">Question Type</th>
-                              <th scope="col">Question Subject</th>
-                              {/* <th scope="col">Action</th> */}
-                            </tr>
-                          </thead>
-                          <tbody className="text-capitalize text-sm-start">
-                            {[...tutorexamquestionData].map((data, id) => {
-                              return (
-                                <tr key={data._id}>
-                                  <td className="d-flex flex-column">
-                                    <small className="text-muted">
-                                      <Badge
-                                        pill
-                                        color="primary"
-                                        className="bg-opacity-25 text-primary">
-                                        {data.questionType}
-                                      </Badge>
-                                      {data.questionSubject}
-                                    </small>
-                                    <small>
-                                      <p className="question">
-                                        {data.question}
-                                      </p>
-                                    </small>
-                                    <small>
-                                      <ReadMore>{data.answer}</ReadMore>
-                                    </small>
-                                  </td>
-                                  <td>{data.questionType}</td>
-                                  <td>{data.questionSubject}</td>
-                                  <td className="text-center">
-                                    <div className="dropdown">
-                                      <button
-                                        className="dropdown__button"
-                                        onClick={() =>
-                                          handleDropdownClick(data._id)
-                                        }>
-                                        <BiDotsVerticalRounded />
-                                      </button>
-                                      {data._id === isOpen && (
-                                        <div
-                                          style={{ left: "-44px" }}
-                                          className="dropdown__popup">
-                                          <ul className="dropdown__list">
-                                            <li
-                                              onClick={() =>
-                                                handleUpdateClick(data)
-                                              }>
-                                              Edit
-                                            </li>
-                                            <li
-                                              onClick={() =>
-                                                handleDeleteClick(data._id)
-                                              }>
-                                              Delete
-                                            </li>
-                                          </ul>
-                                        </div>
-                                      )}
-                                    </div>
-                                  </td>
-                                </tr>
-                              );
-                            })}
-                          </tbody>
-                        </table>
-                      </div>
+
+                      {loading ?(
+                            <div className="loader-container">
+                            <RotatingLines
+                              strokeColor="pink"
+                              strokeWidth="5"
+                              animationDuration="0.75"
+                              width="50"
+                              visible={true}
+                            />
+                          </div>
+                      ):(
+  <div className="table-responsive">
+  <table className="table">
+    <thead className="text-uppercase">
+      <tr>
+        <th scope="col">Question</th>
+        <th scope="col">Question Type</th>
+        <th scope="col">Question Subject</th>
+        {/* <th scope="col">Action</th> */}
+      </tr>
+    </thead>
+    <tbody className="text-capitalize text-sm-start">
+      {[...tutorexamquestionData].map((data, id) => {
+        return (
+          <tr key={data._id}>
+            <td className="d-flex flex-column">
+              <small className="text-muted">
+                <Badge
+                  pill
+                  color="primary"
+                  className="bg-opacity-25 text-primary">
+                  {data.questionType}
+                </Badge>
+                {data.questionSubject}
+              </small>
+              <small>
+                <p className="question">
+                  {data.question}
+                </p>
+              </small>
+              <small>
+                <ReadMore>{data.answer}</ReadMore>
+              </small>
+            </td>
+            <td>{data.questionType}</td>
+            <td>{data.questionSubject}</td>
+            <td className="text-center">
+              <div className="dropdown">
+                <button
+                  className="dropdown__button"
+                  onClick={() =>
+                    handleDropdownClick(data._id)
+                  }>
+                  <BiDotsVerticalRounded />
+                </button>
+                {data._id === isOpen && (
+                  <div
+                    style={{ left: "-44px" }}
+                    className="dropdown__popup">
+                    <ul className="dropdown__list">
+                      <li
+                        onClick={() =>
+                          handleUpdateClick(data)
+                        }>
+                        Edit
+                      </li>
+                      <li
+                        onClick={() =>
+                          handleDeleteClick(data._id)
+                        }>
+                        Delete
+                      </li>
+                    </ul>
+                  </div>
+                )}
+              </div>
+            </td>
+          </tr>
+        );
+      })}
+    </tbody>
+  </table>
+</div>
+                      )}
+                    
                       <Pagination
                         count={3}
                         page={currentPage}
