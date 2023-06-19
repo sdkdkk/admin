@@ -13,8 +13,10 @@ const initialState = {
     errorMessage: ''
 }
 
-export const tutorspayment = createAsyncThunk('tutors/Tutorspayment', async (page, { rejectWithValue }) => {
+export const tutorspayment = createAsyncThunk('tutors/Tutorspayment', async ( { rejectWithValue }) => {
+
     const token = localStorage.getItem('token')
+    const isPaymentDone =0
     try {
         const response = await axios.post(`${url}/admin/tutorspayment`, { token });
         return response.data;

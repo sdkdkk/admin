@@ -8,14 +8,20 @@ import { tutorspayment } from "../../Redux/Loginpages/tutorspaymentSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RotatingLines } from "react-loader-spinner";
 import { FaCopy } from "react-icons/fa";
+import axios from "axios";
+import { toast } from "react-toastify";
+
+const url = process.env.REACT_APP_API_BASE_URL;
 
 const Tutorspayment = () => {
-  const tutorpayment = useSelector((state) => state.tutorpayment.data.info);
+  const tutorpayment = useSelector((state) => state.tutorpayment.data.transaction);
+console.log(tutorpayment);
   const isLoading = useSelector((state) => state.tutorpayment.isLoading);
   const dispatch = useDispatch();
   const [clicked, setClicked] = useState(false);
-
+const [data, setData]= useState([])
   useEffect(() => {
+    let token =localStorage.getItem("token")
     dispatch(tutorspayment());
   }, []);
 
@@ -29,6 +35,63 @@ const Tutorspayment = () => {
     navigator.clipboard.writeText(name);
   };
 
+  // const isPaymentDone = async () => {
+   
+  //   let token= localStorage.getItem("token")
+  
+  //   const tutorsObjData = {
+  //     token: token,
+  //     isPaymentDone: 0,
+  //   };
+
+  //   dispatch(tutorspayment(tutorsObjData))
+   
+  // };
+
+
+  // const isPaymentDone = async () => {
+  //   let token = localStorage.getItem("token")
+  //   console.log(token)
+  //   try {
+  //     const { data } = await axios.post(
+  //       `${url}/admin/tutorspayment?isPaymentDone=${1}`,
+  //       {token}
+  //     );
+  //     console.log(data)
+  //     setData(data)
+  //     if (data.message) {
+  //       toast.success(data.message);
+  //     } else {
+  //       toast.error(data.error);
+  //     }
+  //   } catch (error) {
+  //     toast.error(error.response.data.error);
+  //   }
+  // };
+
+   let token = localStorage.getItem("token")
+// const isPaymentpending = async () => {
+   
+//     let token = localStorage.getItem("token")
+//     console.log(token)
+//     try {
+//       const { data } = await axios.post(
+//         `${url}/admin/tutorspayment?isPaymentDone=${0}`,
+//         {token}
+//       );
+//       console.log(data)
+//        setData(data)
+//       if (data.message) {
+//         toast.success(data.message);
+//       } else {
+//         toast.error(data.error);
+//       }
+//     } catch (error) {
+//       toast.error(error.response.data.error);
+//     }
+   
+//   };
+//  console.log(data)
   return (
     <div className="container-scroller">
       <Navbar />
@@ -63,7 +126,13 @@ const Tutorspayment = () => {
               <div className="row">
                 <div className="col-md-12 grid-margin">
                   <div className="card new-table">
-                    <div className="card-body">
+                      <div className="card-body">
+                        
+                        <div className="my-5 text-end">
+                          <Button className="mx-2 btn-success ">Paid</Button>
+                           <Button className="btn-warning"> Pending</Button>
+
+                        </div>
                       <table className="table v-top">
                         <thead>
                           <tr>
@@ -72,9 +141,12 @@ const Tutorspayment = () => {
                             <th scope="col">BALANCE</th>
                             <th scope="col">ACTION</th>
                           </tr>
-                        </thead>
-                        {tutorpayment &&
-                          tutorpayment.map((value, index) => {
+                          </thead>
+                        
+
+                     {
+                          tutorpayment?.map((value, index) => {
+                            console.log(value.transaction?.[0]?.bankdetails?.[0])
                             return (
                               <tbody key={index}>
                                 <tr
@@ -86,12 +158,12 @@ const Tutorspayment = () => {
                                   }>
                                   <td>{index + 1}</td>
                                   <td>
-                                    {value.name}
+                                    {value.transaction[0].name}
                                     {clicked === index ? (
                                       <>
                                         <span className="list-group-item mt-2 ">
                                           <b>Bank Name</b>:
-                                          {value.bankdetails?.bankName || ""}
+                                          {value.transaction?.[0]?.bankdetails?.[0].bankName || ""}
                                           <Button
                                             style={{ border: "none" }}
                                             variant="outline-primary"
@@ -99,7 +171,23 @@ const Tutorspayment = () => {
                                             className="ml-2"
                                             onClick={() =>
                                               handleCopy(
-                                                value.bankdetails.bankName || ""
+                                               value.transaction?.[0]?.bankdetails?.[0].bankName || ""
+                                              )
+                                            }>
+                                            <FaCopy />
+                                          </Button>
+                                        </span>
+                                         <span className="list-group-item mt-2 ">
+                                          <b>Bank country</b>:
+                                          {value.transaction?.[0]?.bankdetails?.[0]?.bankcountry || ""}
+                                          <Button
+                                            style={{ border: "none" }}
+                                            variant="outline-primary"
+                                            size="sm"
+                                            className="ml-2"
+                                            onClick={() =>
+                                              handleCopy(
+                                                value.transaction?.[0]?.bankdetails?.[0]?.bankcountry || ""
                                               )
                                             }>
                                             <FaCopy />
@@ -107,7 +195,7 @@ const Tutorspayment = () => {
                                         </span>
                                         <span className="list-group-item mt-2 ">
                                           <b>A/c No</b>.
-                                          {value.bankdetails?.accountNumber ||
+                                          { value.transaction?.[0]?.bankdetails?.[0]?.accountNumber ||
                                             ""}
                                           <Button
                                             style={{ border: "none" }}
@@ -116,8 +204,7 @@ const Tutorspayment = () => {
                                             className="ml-2"
                                             onClick={() =>
                                               handleCopy(
-                                                value.bankdetails
-                                                  .accountNumber || ""
+                                                 value.transaction?.[0]?.bankdetails?.[0]?.accountNumber || ""
                                               )
                                             }>
                                             <FaCopy />
@@ -125,7 +212,7 @@ const Tutorspayment = () => {
                                         </span>
                                         <span className="list-group-item mt-2 ">
                                           <b>IFSC Code</b> :
-                                          {value.bankdetails?.IFSCCode || ""}
+                                          { value.transaction?.[0]?.bankdetails?.[0]?.IFSCCode || ""}
                                           <Button
                                             style={{ border: "none" }}
                                             variant="outline-primary"
@@ -133,7 +220,7 @@ const Tutorspayment = () => {
                                             className="ml-2"
                                             onClick={() =>
                                               handleCopy(
-                                                value.bankdetails.IFSCCode || ""
+                                                 value.transaction?.[0]?.bankdetails?.[0]?.IFSCCode || ""
                                               )
                                             }>
                                             <FaCopy />
@@ -141,7 +228,7 @@ const Tutorspayment = () => {
                                         </span>
                                         <span className="list-group-item mt-2 ">
                                           <b>Account Type</b> :
-                                          {value.bankdetails?.accountType || ""}
+                                          { value.transaction?.[0]?.bankdetails?.[0]?.accountType || ""}
                                           <Button
                                             style={{ border: "none" }}
                                             variant="outline-primary"
@@ -149,8 +236,7 @@ const Tutorspayment = () => {
                                             className="ml-2"
                                             onClick={() =>
                                               handleCopy(
-                                                value.bankdetails.accountType ||
-                                                  ""
+                                                value.transaction?.[0]?.bankdetails?.[0]?.accountType || ""
                                               )
                                             }>
                                             <FaCopy />
@@ -158,7 +244,7 @@ const Tutorspayment = () => {
                                         </span>
                                         <span className="list-group-item mt-2 ">
                                           <b>Pan Card</b> :
-                                          {value.bankdetails?.panCard || ""}
+                                          { value.transaction?.[0]?.bankdetails?.[0]?.panCard || ""}
                                           <Button
                                             style={{ border: "none" }}
                                             variant="outline-primary"
@@ -166,7 +252,7 @@ const Tutorspayment = () => {
                                             className="ml-2"
                                             onClick={() =>
                                               handleCopy(
-                                                value.bankdetails.panCard || ""
+                                                 value.transaction?.[0]?.bankdetails?.[0]?.panCard || ""
                                               )
                                             }>
                                             <FaCopy />
@@ -176,7 +262,7 @@ const Tutorspayment = () => {
                                     ) : null}
                                   </td>
                                   <td className="text-success">
-                                    {value.balance || ""}
+                                    {value.transaction[0].amount || ""}
                                   </td>
                                   <td>
                                     <Button className="bg-white bg-opacity-25 text-primary border border-primary btn-sm">
@@ -186,7 +272,8 @@ const Tutorspayment = () => {
                                 </tr>
                               </tbody>
                             );
-                          })}
+                          })}   
+
                       </table>
                     </div>
                   </div>
