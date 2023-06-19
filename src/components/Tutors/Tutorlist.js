@@ -157,14 +157,14 @@ const Tutorlist = () => {
             (name && name.includes(searchTerm.toLowerCase())))
         );
       } else {
-        return true;
+        // Handle no date selection
+        return searchTerm === "" || (name && name.includes(searchTerm.toLowerCase()));
       }
     });
 
     setCurrentData(filteredData);
     setCurrentPage(1);
   };
-
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
@@ -275,7 +275,7 @@ const Tutorlist = () => {
                                 onChange={setValues}
                                 range
                                 render={<InputIcon />}
-                                // width={100}
+                              // width={100}
                               />
                             </div>
 
@@ -307,7 +307,7 @@ const Tutorlist = () => {
                             </div>
                           ) : (
                             <>
-                              { displayUsers && displayUsers.length === 0 ? (
+                              {displayUsers && displayUsers.length === 0 ? (
                                 <div className="no-tutor-found text-center text-danger ">
                                   No tutor found
                                 </div>
@@ -349,17 +349,17 @@ const Tutorlist = () => {
                                         <td>{data.mobileNo || "-"}</td>
                                         <td>
                                           {data.subjects &&
-                                          data.subjects?.length > 0
+                                            data.subjects?.length > 0
                                             ? data.subjects
-                                                .slice(0, 2)
-                                                .join(", ")
+                                              .slice(0, 2)
+                                              .join(", ")
                                             : "-"}
                                         </td>
                                         <td>
                                           {data.balance
                                             ? parseFloat(data.balance).toFixed(
-                                                2
-                                              )
+                                              2
+                                            )
                                             : "-"}
                                         </td>
                                         {activeButton === 2 && (
