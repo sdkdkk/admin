@@ -455,6 +455,14 @@ const Sidebar = () => {
               <i className="icon-screen-desktop menu-icon"></i>
             </Link>
           </li>
+
+          <li className={`nav-item ${activeLink === '/postingguideline' ? 'active' : ''}`}>
+            <Link className="nav-link" to="/answerguideline">
+              <span className="menu-title">Answer Guideline</span>
+              <i className="icon-screen-desktop menu-icon"></i>
+            </Link>
+          </li>
+
           {/*Sign out*/}
           <li className="nav-item">
             <Link className="nav-link" to="/logout">

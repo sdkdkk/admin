@@ -80,6 +80,7 @@ import Transactiondetailshow from "./components/Wallet/Transactiondetailshow";
 
 import Thoughts from "./components/Tutorexam/Thoughts";
 import Tutorexampopup from "./components/Tutorexam/Tutorexampopup";
+import AnswerGuideline from "./components/Pages/AnswerGuideline";
 import PostingGuideLine from "./components/Pages/PostingGuideLine";
 import AdminPageSetting from "./components/Services/AdminPageSetting";
 
@@ -579,6 +580,7 @@ function App() {
         />
         <Route path="/adminpagesetting" element={<AdminPageSetting />} />
 
+         <Route path="/answerguideline" element={<AnswerGuideline /> } />
          <Route path="/postingguideline" element={<PostingGuideLine /> } />
         <Route path="/transactiondetailshow" element={<Transactiondetailshow /> } />
         <Route path="/questionanswer/:id" element={<Questionanswer />} />
