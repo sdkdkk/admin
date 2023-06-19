@@ -247,9 +247,11 @@ const Tutorlist = () => {
               <div>
                 <>
                   <div className="row">
-                    <div className="col-12 grid-margin stretch-card">
+                    <div className=" col-12 grid-margin stretch-card">
                       <div className="card">
-                        <div className="card-body">
+
+                         <div className="card-body">
+
                           <div className="row">
                             <div className="col-md-6">
                               <Form>
@@ -281,13 +283,13 @@ const Tutorlist = () => {
 
                             <div className="col-md-2">
                               <Button
-                                className="btn-search"
+                                className="btn-search "
                                 onClick={searchItem}>
                                 Search
                               </Button>
                             </div>
                           </div>
-                        </div>
+                        </div> 
                       </div>
                     </div>
                   </div>

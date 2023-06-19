@@ -231,7 +231,7 @@ const Tutordetails = () => {
                   height: "100vh",
                 }}>
                 <RotatingLines
-                  strokeColor="grey"
+                  strokeColor="pink"
                   strokeWidth="5"
                   animationDuration="0.75"
                   width="50"
