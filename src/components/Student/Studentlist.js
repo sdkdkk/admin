@@ -79,28 +79,22 @@ const Studentlist = () => {
         const itemDate = new Date(item.createdAt);
         const name = item.name ? item.name.toLowerCase() : null;
 
-        if (values.length === 1) {
-          // Handle single date selection
-          const selectedDate = values[0].toDate();
-          return (
-            itemDate.getDate() === selectedDate.getDate() &&
-            itemDate.getMonth() === selectedDate.getMonth() &&
-            itemDate.getFullYear() === selectedDate.getFullYear() &&
-            (!searchTerm || name.includes(searchTerm.toLowerCase()))
-          );
-        } else if (values.length === 2) {
-          // Handle range selection
-          const firstDate = values[0].toDate();
-          const lastDate = values[1].toDate();
-          return (
-            itemDate >= firstDate &&
-            itemDate <= lastDate &&
-            (!searchTerm || name.includes(searchTerm.toLowerCase()))
-          );
-        } else {
-          // Handle no date selection (show all data)
-          return true;
-        }
+        // Check if item matches date range filter
+        const dateMatch =
+          (values.length === 1 &&
+            itemDate.getDate() === values[0].toDate().getDate() &&
+            itemDate.getMonth() === values[0].toDate().getMonth() &&
+            itemDate.getFullYear() === values[0].toDate().getFullYear()) ||
+          (values.length === 2 &&
+            itemDate >= values[0].toDate() &&
+            itemDate <= values[1].toDate()) ||
+          values.length === 0;
+
+        // Check if item matches search term filter
+        const searchMatch =
+          !searchTerm || (name && name.includes(searchTerm.toLowerCase()));
+
+        return dateMatch && searchMatch;
       });
 
       setCurrentData(filteredData);
