@@ -19,15 +19,8 @@ const Addnewrole = () => {
   const getAdminPageSlice = useSelector(
     (state) => state.getAdminPage?.data?.document
   );
-  const {
-    register,
-    handleSubmit,
-    watch,
-    formState: { errors },
-    reset,
-  } = useForm({});
+  const {register, handleSubmit, reset } = useForm({});
 
-  const password = watch("password");
   const navigate = useNavigate();
   const notify = (data) => toast(data);
 
