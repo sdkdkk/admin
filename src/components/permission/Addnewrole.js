@@ -7,7 +7,6 @@ import "./permission.css";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { resourcesList } from "../../helpers/helper";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 import { useDispatch, useSelector } from "react-redux";
 import { getAdminPagesApi } from "../../Redux/Loginpages/getAdminPageSlice";
