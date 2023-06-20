@@ -437,9 +437,9 @@ const Tutordetails = () => {
                                       </span>
                                     )}
                                   </td>
-                                  <td className="border-0">
-                                    <img src={like} alt="img"/>
-                                    <img src={thumbdown} alt="img"/>
+                                  <td>
+                                    <img src={like} alt="img" className="rounded-0"/>
+                                    <img src={thumbdown} alt="img" className="rounded-0"/>
                                   </td>
                                 </tr>
                               ))}
