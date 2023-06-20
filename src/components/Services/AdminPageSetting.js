@@ -39,8 +39,7 @@ const AdminPageSetting = () => {
   const { register, handleSubmit, reset } = useForm({});
 
   const onSubmit = async (data) => {
-    console.log(data);
-    console.log(fields);
+   
 
     const formattedAnswerData = fields.map((item) => item.value);
     const subpages = formattedAnswerData.filter((value) => value.trim() !== "");
@@ -55,7 +54,7 @@ const AdminPageSetting = () => {
         `${url}/admin/adminpages`,
         timingObjData
       );
-      console.log(data);
+     
       if (data.status === 1) {
         toast.success(data.message);
         reset();
@@ -65,12 +64,12 @@ const AdminPageSetting = () => {
         toast.error(data.error);
       }
     } catch (error) {
-      console.log(error);
+    
       toast.error(error.response.data.error);
     }
     fetchData();
   };
-  console.log(data);
+ 
   const handleUpdateClick = (data) => {
     setIsEditMode(true);
     reset({
@@ -88,11 +87,11 @@ const AdminPageSetting = () => {
       const response = await axios.post(`${url}/admin/getadminpages`, {
         token: token,
       });
-      console.log(response.data.document);
+     
       setData(response.data.document);
       setLoading(false);
     } catch (error) {
-      console.log(error);
+    
       setLoading(false);
     }
   };

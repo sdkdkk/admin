@@ -44,8 +44,7 @@ const Reanswerque = () => {
             const response = await axios.get(`${url}/getquestiontype`, {token }
             );
             setQueTypeList(response?.data?.data);
-            console.log(response?.data?.data);
-        } catch (error) {
+            } catch (error) {
             // notify("Invalid refresh token!");
         }
     };

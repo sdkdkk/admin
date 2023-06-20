@@ -10,20 +10,40 @@ import { RotatingLines } from "react-loader-spinner";
 import { FaCopy } from "react-icons/fa";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { Pagination } from "@mui/material";
+import { Link, useLocation, useParams } from "react-router-dom";
+import { BsFillPatchCheckFill } from "react-icons/bs"
+import { tutorpaynowApi } from "../../Redux/Loginpages/tutorpaynowSlice";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Tutorspayment = () => {
   const tutorpayment = useSelector((state) => state.tutorpayment.data.transaction);
-console.log(tutorpayment);
+
   const isLoading = useSelector((state) => state.tutorpayment.isLoading);
   const dispatch = useDispatch();
   const [clicked, setClicked] = useState(false);
-const [data, setData]= useState([])
+ const [selectedFilter, setSelectedFilter] = useState('');
+ let token = localStorage.getItem("token")
+  const [selectedPayment, setSelectedPayment] = useState(null);
+ 
+
+  const tutorId = selectedPayment?.transaction?.[0]?.tutorId
+  
+  const onClickPayment = () => {
+   const paymentId = {
+      token: token,
+      balance: selectedPayment?.transaction?.[0].amount,
+      paymentId:selectedPayment?._id
+    }
+  
+   dispatch(tutorpaynowApi(paymentId,tutorId))
+  
+  }
+
   useEffect(() => {
-    let token =localStorage.getItem("token")
-    dispatch(tutorspayment());
-  }, []);
+       dispatch(tutorspayment({ token }));
+     }, []);
 
   const toggle = (index) => {
     if (clicked === index) {
@@ -35,69 +55,105 @@ const [data, setData]= useState([])
     navigator.clipboard.writeText(name);
   };
 
-  // const isPaymentDone = async () => {
+const [filteredData, setFilteredData] = useState(tutorpayment);
+   const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(8);
+  const indexOfLastPage = Math.min(currentPage * postsPerPage, tutorpayment?.length);
+  const indexOfFirstPage = (currentPage - 1) * postsPerPage;
+  const displayUsers = tutorpayment?.slice(indexOfFirstPage, indexOfLastPage);
+  const pageCount = Math.ceil(tutorpayment?.length / postsPerPage);
+ 
+  const location = useLocation();
+
+
+   const handleChange = (event, value) => {
+    setCurrentPage(value);
+    const searchParams = new URLSearchParams(location.search);
+    searchParams.set("page", value);
+    window.history.replaceState({}, "", `${location.pathname}?${searchParams.toString()}`);
+  };
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const pageParam = searchParams.get("page");
+    const initialPage = pageParam ? parseInt(pageParam) : 1;
+    setCurrentPage(initialPage);
+  }, [location.search]);
+
+
+  const handleFilter = (e) => {
+    setSelectedFilter(e.target.value)
    
-  //   let token= localStorage.getItem("token")
+  if (selectedFilter === '') {
+   
+    setFilteredData(displayUsers);
+  } else {
+      const filteredData = displayUsers?.filter((value) => value.date === e.target.value);
+    setFilteredData(filteredData);
   
-  //   const tutorsObjData = {
-  //     token: token,
-  //     isPaymentDone: 0,
-  //   };
+  }
+  };
+  useEffect(() => {
+  if (selectedFilter === '') {
+    setFilteredData(tutorpayment); // Show all data when "All" option is selected
+  } else {
+    const filteredData = tutorpayment.filter((value) => value.date === selectedFilter);
+    setFilteredData(filteredData);
+    }
+}, [selectedFilter, tutorpayment]);
 
-  //   dispatch(tutorspayment(tutorsObjData))
-   
-  // };
-
-
-  // const isPaymentDone = async () => {
-  //   let token = localStorage.getItem("token")
-  //   console.log(token)
-  //   try {
-  //     const { data } = await axios.post(
-  //       `${url}/admin/tutorspayment?isPaymentDone=${1}`,
-  //       {token}
-  //     );
-  //     console.log(data)
-  //     setData(data)
-  //     if (data.message) {
-  //       toast.success(data.message);
-  //     } else {
-  //       toast.error(data.error);
-  //     }
-  //   } catch (error) {
-  //     toast.error(error.response.data.error);
-  //   }
-  // };
-
-   let token = localStorage.getItem("token")
-// const isPaymentpending = async () => {
-   
-//     let token = localStorage.getItem("token")
-//     console.log(token)
-//     try {
-//       const { data } = await axios.post(
-//         `${url}/admin/tutorspayment?isPaymentDone=${0}`,
-//         {token}
-//       );
-//       console.log(data)
-//        setData(data)
-//       if (data.message) {
-//         toast.success(data.message);
-//       } else {
-//         toast.error(data.error);
-//       }
-//     } catch (error) {
-//       toast.error(error.response.data.error);
-//     }
-   
-//   };
-//  console.log(data)
   return (
+    <>
     <div className="container-scroller">
       <Navbar />
       <div className="container-fluid page-body-wrapper">
         <Sidebar />
-        {isLoading ? (
+         
+     
+          <div className="main-panel">
+            <div className="content-wrapper">
+              <div className="page-header">
+                <h3 className="page-title">Tutors Payment</h3>
+                </div>
+                   <div className="row">
+                  <div className="col-12 grid-margin stretch-card">
+                    <div className="card">
+                      <div className="card-body">
+                        <div className="row">
+                         
+                          
+                        <div className="col-6">
+                            <div className="filter-select rbt-modern-select ">
+                              <div className="dropdown react-bootstrap-select w-100">
+                         <select
+                              className="w-100 form-select mt-1"
+                              id="displayname"
+                              value={selectedFilter}
+                              onChange={handleFilter}>
+                              <option value="">All</option>
+                              {tutorpayment?.map((value, index) => (
+                                <option key={index} value={value.date}>
+                                  {value.date}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                          
+                        </div></div>
+                         <div className="text-end col-6">
+                          <Button className="mx-2 btn-success"onClick={() => dispatch(tutorspayment({ isPaymentDone: 1 }))}>Paid</Button>
+                           <Button className="btn-warning" onClick={() => dispatch(tutorspayment({ isPaymentDone: 0 }))}> Pending</Button>
+
+                        </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              <div className="row">
+                <div className="col-md-12 grid-margin">
+                  <div className="card new-table">
+                        {isLoading ? (
           <div
             style={{
               marginLeft: "auto",
@@ -117,22 +173,9 @@ const [data, setData]= useState([])
               />
             </div>
           </div>
-        ) : (
-          <div className="main-panel">
-            <div className="content-wrapper">
-              <div className="page-header">
-                <h3 className="page-title">Tutors Payment</h3>
-              </div>
-              <div className="row">
-                <div className="col-md-12 grid-margin">
-                  <div className="card new-table">
-                      <div className="card-body">
+        ) : ( <div className="card-body">
                         
-                        <div className="my-5 text-end">
-                          <Button className="mx-2 btn-success ">Paid</Button>
-                           <Button className="btn-warning"> Pending</Button>
-
-                        </div>
+                      
                       <table className="table v-top">
                         <thead>
                           <tr>
@@ -144,21 +187,19 @@ const [data, setData]= useState([])
                           </thead>
                         
 
-                     {
-                          tutorpayment?.map((value, index) => {
-                            console.log(value.transaction?.[0]?.bankdetails?.[0])
+                     { filteredData?.map((value, index) => {
+                        
                             return (
                               <tbody key={index}>
-                                <tr
-                                  onClick={() => toggle(index)}
+                                <tr>
+                                  <td>{index + 1}</td>
+                                  <td    onClick={() => toggle(index)}
                                   className={
                                     clicked === index
                                       ? "toggle-close"
                                       : "bg-white"
                                   }>
-                                  <td>{index + 1}</td>
-                                  <td>
-                                    {value.transaction[0].name}
+                                   <b>{value.transaction[0].name}</b>
                                     {clicked === index ? (
                                       <>
                                         <span className="list-group-item mt-2 ">
@@ -265,7 +306,9 @@ const [data, setData]= useState([])
                                     {value.transaction[0].amount || ""}
                                   </td>
                                   <td>
-                                    <Button className="bg-white bg-opacity-25 text-primary border border-primary btn-sm">
+                                    <Button className="bg-white bg-opacity-25 text-primary border border-primary btn-sm " data-bs-toggle="modal"
+                                      disabled={value.transaction[0].isPaymentDone === 1}
+                                data-bs-target="#thankyoupopup"   onClick={() => (setSelectedPayment(value))}>
                                       Pay Now
                                     </Button>
                                   </td>
@@ -274,17 +317,90 @@ const [data, setData]= useState([])
                             );
                           })}   
 
-                      </table>
-                    </div>
+                        </table>
+                        
+                         <div className="table-pagination my-4 float-end">
+                           <Pagination
+                                count={pageCount}
+                                page={currentPage}
+                                onChange={handleChange}
+                                shape="rounded"
+                                variant="outlined"
+                               
+                              />
+                 
+                 </div>
+                      </div>
+                        )}
                   </div>
                 </div>
               </div>
             </div>
             <Footer />
           </div>
-        )}
+     
       </div>
     </div>
+
+    {/* modal become a tutor */}
+   
+      <div
+        className="modal fade"
+        id="thankyoupopup"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabIndex={-1}
+        aria-labelledby="re-answerpopup"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-dialog-centered">
+
+          <div className="modal-content">
+            
+              <div className="modal-header border-bottom-0">
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+             />
+            </div>
+            <div className="modal-body">
+              <div className="text-center">
+                <h1 className="mt-0 mb-3 text-success">
+                  <BsFillPatchCheckFill /></h1>
+               
+                <h4 className="mt--20 mb--20">Confirm Payment</h4>
+                <p className="mb--20">You are about to make a payment of <span className="text-primary">Rs.{selectedPayment?.transaction?.[0].amount}/-</span>
+                </p>
+                  <p className="mb--20"> Are you sure you want to proceed?
+                  </p>
+                  <div className="d-flex justify-content-center">
+                  <Button
+                   onClick={onClickPayment}
+                    to="#"
+                    className="rbt-btn bg-success btn-sm mr--10 mr_sm--0 mb_sm--10">
+                    YES
+                  </Button>
+                  <button
+                    // onClick={() => alert(setSelectedItemId(_id))}
+                    to="#"
+                    className="rbt-btn bg-danger hover-icon-reverse btn-sm"
+                    data-bs-dismiss="modal"
+                     
+                  >
+                    <span className="icon-reverse-wrapper">
+                      <span className="btn-text">NO</span>
+                     
+                     
+                    </span>
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div></>
   );
 };
 

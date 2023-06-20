@@ -37,7 +37,7 @@ const Tutorque = () => {
       });
       setSubjectList(response?.data?.data);
     } catch (error) {
-      console.log(error);
+      // console.log(error);
     }
   };
 
@@ -64,7 +64,7 @@ const Tutorque = () => {
       })
       .catch((error) => {
         setIsLoading(false);
-        console.log(error);
+       
       });
   };
 

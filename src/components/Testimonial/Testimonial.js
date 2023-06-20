@@ -57,8 +57,7 @@ const Testimonial = () => {
     dispatch(Testimoniald(tokens))
       .then(() => setIsLoading(false))
       .catch((error) => {
-        setIsLoading(false);
-        console.log("Error fetching testimonials:", error);
+        setIsLoading(false); 
       });
   }, []);
 

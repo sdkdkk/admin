@@ -26,7 +26,7 @@ const Addnewrole = () => {
     formState: { errors },
     reset,
   } = useForm({});
-  console.log("getAdminPageSlice", getAdminPageSlice);
+
   const password = watch("password");
   const navigate = useNavigate();
   const notify = (data) => toast(data);

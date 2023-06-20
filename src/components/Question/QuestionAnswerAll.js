@@ -20,8 +20,7 @@ const QuestionAnswerAll = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const postAdminQuestions = useSelector((state) => state.postAdminQuestions);
-  console.log(postAdminQuestions);
-
+ 
   const [showModal, setShowModal] = useState(false);
   const [modalImageSrc, setModalImageSrc] = useState("");
   const handleImageClick = (src) => {
@@ -37,7 +36,7 @@ const QuestionAnswerAll = () => {
   const dispatch = useDispatch();
   const token = localStorage.getItem("token");
   const [fields, setFields] = useState([{ value: "" }, { value: "" }]);
-  console.log(fields);
+
 
   const handleAddField = () => {
     setFields([...fields, { value: "" }]);
@@ -118,7 +117,7 @@ const QuestionAnswerAll = () => {
   const filterData = getAdminQuestionsState?.data?.transactions?.filter(
     (item) => item._id === id
   );
-  console.log(filterData?.[0]);
+  
 
   const questionPhoto = filterData?.[0]?.questionPhoto;
   const selectType = filterData?.[0]?.questionType;
@@ -156,8 +155,7 @@ const QuestionAnswerAll = () => {
   }, [filterData?.[0]]);
 
   const onSubmit = (data) => {
-    console.log(data);
-
+  
     const formattedAnswerData = answerData.map((item) => ({
       id: item.id,
       value: item.value,

@@ -13,18 +13,37 @@ const initialState = {
     errorMessage: ''
 }
 
-export const tutorspayment = createAsyncThunk('tutors/Tutorspayment', async ( { rejectWithValue }) => {
+export const tutorspayment = createAsyncThunk('tutors/Tutorspayment', async ({ isPaymentDone, rejectWithValue }) => {
+  const token = localStorage.getItem('token');
+  let url = `${process.env.REACT_APP_API_BASE_URL}/admin/tutorspayment`;
 
-    const token = localStorage.getItem('token')
-    const isPaymentDone =0
-    try {
-        const response = await axios.post(`${url}/admin/tutorspayment`, { token });
-        return response.data;
-    } catch (error) {
-        logoutIfInvalidToken(error.response)
-        return rejectWithValue(error.message);
-    }
-})
+  // Check if isPaymentDone is provided
+  if (isPaymentDone !== null && isPaymentDone !== undefined) {
+    url += `?isPaymentDone=${isPaymentDone}`;
+  }
+
+  try {
+    const response = await axios.post(url, { token });
+    return response.data;
+  } catch (error) {
+    logoutIfInvalidToken(error.response);
+    return rejectWithValue(error.message);
+  }
+});
+
+
+// export const tutorspayment = createAsyncThunk('tutors/Tutorspayment', async ( { isPaymentDone,rejectWithValue }) => {
+
+//     const token = localStorage.getItem('token')
+//     //  const isPaymentDone =0
+//     try {
+//         const response = await axios.post(`${url}/admin/tutorspayment?isPaymentDone=${isPaymentDone}`, { token });
+//         return response.data;
+//     } catch (error) {
+//         logoutIfInvalidToken(error.response)
+//         return rejectWithValue(error.message);
+//     }
+// })
 
 
 export const tutorspaymentSlice = createSlice({

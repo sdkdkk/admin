@@ -189,7 +189,7 @@ const Addnew = () => {
   const token = localStorage.getItem("token");
 
   const onSubmit = (data) => {
-    console.log(data);
+  
     if (
       selectedOption === "MatchTheFollowing-more5" ||
       selectedOption === "MatchTheFollowing-less5"
