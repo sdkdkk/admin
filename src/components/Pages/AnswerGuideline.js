@@ -53,7 +53,7 @@ const AnswerGuideline = () => {
 
     const handleDownloadPDF = () => {
 
-        window.open('https://vaidik-backend.onrender.com/api/v1/download/answeringguideline', '_blank');
+        window.open(`${url}/download/answeringguideline`, '_blank');
     };
     return (
         <>

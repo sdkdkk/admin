@@ -58,7 +58,7 @@ const Thoughts = () => {
     try {
       setLoading1(true);
       const response = await axios.post(
-        `https://vaidik-backend.onrender.com/api/v1/admin/getthought`,
+        `${url}/admin/getthought`,
         {
           token: token,
         }

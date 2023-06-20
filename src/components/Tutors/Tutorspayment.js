@@ -15,13 +15,14 @@ const url = process.env.REACT_APP_API_BASE_URL;
 
 const Tutorspayment = () => {
   const tutorpayment = useSelector((state) => state.tutorpayment.data.transaction);
-console.log(tutorpayment);
+  console.log(tutorpayment);
   const isLoading = useSelector((state) => state.tutorpayment.isLoading);
   const dispatch = useDispatch();
   const [clicked, setClicked] = useState(false);
-const [data, setData]= useState([])
+  const [data, setData] = useState([])
+  
   useEffect(() => {
-    let token =localStorage.getItem("token")
+    let token = localStorage.getItem("token")
     dispatch(tutorspayment());
   }, []);
 
@@ -36,16 +37,16 @@ const [data, setData]= useState([])
   };
 
   // const isPaymentDone = async () => {
-   
+
   //   let token= localStorage.getItem("token")
-  
+
   //   const tutorsObjData = {
   //     token: token,
   //     isPaymentDone: 0,
   //   };
 
   //   dispatch(tutorspayment(tutorsObjData))
-   
+
   // };
 
 
@@ -69,30 +70,31 @@ const [data, setData]= useState([])
   //   }
   // };
 
-   let token = localStorage.getItem("token")
-// const isPaymentpending = async () => {
-   
-//     let token = localStorage.getItem("token")
-//     console.log(token)
-//     try {
-//       const { data } = await axios.post(
-//         `${url}/admin/tutorspayment?isPaymentDone=${0}`,
-//         {token}
-//       );
-//       console.log(data)
-//        setData(data)
-//       if (data.message) {
-//         toast.success(data.message);
-//       } else {
-//         toast.error(data.error);
-//       }
-//     } catch (error) {
-//       toast.error(error.response.data.error);
-//     }
-   
-//   };
-//  console.log(data)
+  let token = localStorage.getItem("token")
+  // const isPaymentpending = async () => {
+
+  //     let token = localStorage.getItem("token")
+  //     console.log(token)
+  //     try {
+  //       const { data } = await axios.post(
+  //         `${url}/admin/tutorspayment?isPaymentDone=${0}`,
+  //         {token}
+  //       );
+  //       console.log(data)
+  //        setData(data)
+  //       if (data.message) {
+  //         toast.success(data.message);
+  //       } else {
+  //         toast.error(data.error);
+  //       }
+  //     } catch (error) {
+  //       toast.error(error.response.data.error);
+  //     }
+
+  //   };
+  //  console.log(data)
   return (
+
     <div className="container-scroller">
       <Navbar />
       <div className="container-fluid page-body-wrapper">
@@ -126,13 +128,13 @@ const [data, setData]= useState([])
               <div className="row">
                 <div className="col-md-12 grid-margin">
                   <div className="card new-table">
-                      <div className="card-body">
-                        
-                        <div className="my-5 text-end">
-                          <Button className="mx-2 btn-success ">Paid</Button>
-                           <Button className="btn-warning"> Pending</Button>
+                    <div className="card-body">
 
-                        </div>
+                      <div className="my-5 text-end">
+                        <Button className="mx-2 btn-success ">Paid</Button>
+                        <Button className="btn-warning"> Pending</Button>
+
+                      </div>
                       <table className="table v-top">
                         <thead>
                           <tr>
@@ -141,10 +143,10 @@ const [data, setData]= useState([])
                             <th scope="col">BALANCE</th>
                             <th scope="col">ACTION</th>
                           </tr>
-                          </thead>
-                        
+                        </thead>
 
-                     {
+
+                        {
                           tutorpayment?.map((value, index) => {
                             console.log(value.transaction?.[0]?.bankdetails?.[0])
                             return (
@@ -171,13 +173,13 @@ const [data, setData]= useState([])
                                             className="ml-2"
                                             onClick={() =>
                                               handleCopy(
-                                               value.transaction?.[0]?.bankdetails?.[0].bankName || ""
+                                                value.transaction?.[0]?.bankdetails?.[0].bankName || ""
                                               )
                                             }>
                                             <FaCopy />
                                           </Button>
                                         </span>
-                                         <span className="list-group-item mt-2 ">
+                                        <span className="list-group-item mt-2 ">
                                           <b>Bank country</b>:
                                           {value.transaction?.[0]?.bankdetails?.[0]?.bankcountry || ""}
                                           <Button
@@ -195,7 +197,7 @@ const [data, setData]= useState([])
                                         </span>
                                         <span className="list-group-item mt-2 ">
                                           <b>A/c No</b>.
-                                          { value.transaction?.[0]?.bankdetails?.[0]?.accountNumber ||
+                                          {value.transaction?.[0]?.bankdetails?.[0]?.accountNumber ||
                                             ""}
                                           <Button
                                             style={{ border: "none" }}
@@ -204,7 +206,7 @@ const [data, setData]= useState([])
                                             className="ml-2"
                                             onClick={() =>
                                               handleCopy(
-                                                 value.transaction?.[0]?.bankdetails?.[0]?.accountNumber || ""
+                                                value.transaction?.[0]?.bankdetails?.[0]?.accountNumber || ""
                                               )
                                             }>
                                             <FaCopy />
@@ -212,7 +214,7 @@ const [data, setData]= useState([])
                                         </span>
                                         <span className="list-group-item mt-2 ">
                                           <b>IFSC Code</b> :
-                                          { value.transaction?.[0]?.bankdetails?.[0]?.IFSCCode || ""}
+                                          {value.transaction?.[0]?.bankdetails?.[0]?.IFSCCode || ""}
                                           <Button
                                             style={{ border: "none" }}
                                             variant="outline-primary"
@@ -220,7 +222,7 @@ const [data, setData]= useState([])
                                             className="ml-2"
                                             onClick={() =>
                                               handleCopy(
-                                                 value.transaction?.[0]?.bankdetails?.[0]?.IFSCCode || ""
+                                                value.transaction?.[0]?.bankdetails?.[0]?.IFSCCode || ""
                                               )
                                             }>
                                             <FaCopy />
@@ -228,7 +230,7 @@ const [data, setData]= useState([])
                                         </span>
                                         <span className="list-group-item mt-2 ">
                                           <b>Account Type</b> :
-                                          { value.transaction?.[0]?.bankdetails?.[0]?.accountType || ""}
+                                          {value.transaction?.[0]?.bankdetails?.[0]?.accountType || ""}
                                           <Button
                                             style={{ border: "none" }}
                                             variant="outline-primary"
@@ -244,7 +246,7 @@ const [data, setData]= useState([])
                                         </span>
                                         <span className="list-group-item mt-2 ">
                                           <b>Pan Card</b> :
-                                          { value.transaction?.[0]?.bankdetails?.[0]?.panCard || ""}
+                                          {value.transaction?.[0]?.bankdetails?.[0]?.panCard || ""}
                                           <Button
                                             style={{ border: "none" }}
                                             variant="outline-primary"
@@ -252,7 +254,7 @@ const [data, setData]= useState([])
                                             className="ml-2"
                                             onClick={() =>
                                               handleCopy(
-                                                 value.transaction?.[0]?.bankdetails?.[0]?.panCard || ""
+                                                value.transaction?.[0]?.bankdetails?.[0]?.panCard || ""
                                               )
                                             }>
                                             <FaCopy />
@@ -272,7 +274,7 @@ const [data, setData]= useState([])
                                 </tr>
                               </tbody>
                             );
-                          })}   
+                          })}
 
                       </table>
                     </div>
