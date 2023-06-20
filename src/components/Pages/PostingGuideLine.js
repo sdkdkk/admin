@@ -53,7 +53,7 @@ const PostingGuideLine = () => {
 
   const handleDownloadPDF = () => {
    
-    window.open('https://vaidik-backend.onrender.com/api/v1/download/postingguideline', '_blank');
+    window.open(`${url}/download/postingguideline`, '_blank');
   };
     return (
         <>

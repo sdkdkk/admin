@@ -184,8 +184,7 @@ const [filteredData, setFilteredData] = useState(tutorpayment);
                             <th scope="col">BALANCE</th>
                             <th scope="col">ACTION</th>
                           </tr>
-                          </thead>
-                        
+                        </thead>
 
                      { filteredData?.map((value, index) => {
                         
@@ -212,13 +211,13 @@ const [filteredData, setFilteredData] = useState(tutorpayment);
                                             className="ml-2"
                                             onClick={() =>
                                               handleCopy(
-                                               value.transaction?.[0]?.bankdetails?.[0].bankName || ""
+                                                value.transaction?.[0]?.bankdetails?.[0].bankName || ""
                                               )
                                             }>
                                             <FaCopy />
                                           </Button>
                                         </span>
-                                         <span className="list-group-item mt-2 ">
+                                        <span className="list-group-item mt-2 ">
                                           <b>Bank country</b>:
                                           {value.transaction?.[0]?.bankdetails?.[0]?.bankcountry || ""}
                                           <Button
@@ -236,7 +235,7 @@ const [filteredData, setFilteredData] = useState(tutorpayment);
                                         </span>
                                         <span className="list-group-item mt-2 ">
                                           <b>A/c No</b>.
-                                          { value.transaction?.[0]?.bankdetails?.[0]?.accountNumber ||
+                                          {value.transaction?.[0]?.bankdetails?.[0]?.accountNumber ||
                                             ""}
                                           <Button
                                             style={{ border: "none" }}
@@ -245,7 +244,7 @@ const [filteredData, setFilteredData] = useState(tutorpayment);
                                             className="ml-2"
                                             onClick={() =>
                                               handleCopy(
-                                                 value.transaction?.[0]?.bankdetails?.[0]?.accountNumber || ""
+                                                value.transaction?.[0]?.bankdetails?.[0]?.accountNumber || ""
                                               )
                                             }>
                                             <FaCopy />
@@ -253,7 +252,7 @@ const [filteredData, setFilteredData] = useState(tutorpayment);
                                         </span>
                                         <span className="list-group-item mt-2 ">
                                           <b>IFSC Code</b> :
-                                          { value.transaction?.[0]?.bankdetails?.[0]?.IFSCCode || ""}
+                                          {value.transaction?.[0]?.bankdetails?.[0]?.IFSCCode || ""}
                                           <Button
                                             style={{ border: "none" }}
                                             variant="outline-primary"
@@ -261,7 +260,7 @@ const [filteredData, setFilteredData] = useState(tutorpayment);
                                             className="ml-2"
                                             onClick={() =>
                                               handleCopy(
-                                                 value.transaction?.[0]?.bankdetails?.[0]?.IFSCCode || ""
+                                                value.transaction?.[0]?.bankdetails?.[0]?.IFSCCode || ""
                                               )
                                             }>
                                             <FaCopy />
@@ -269,7 +268,7 @@ const [filteredData, setFilteredData] = useState(tutorpayment);
                                         </span>
                                         <span className="list-group-item mt-2 ">
                                           <b>Account Type</b> :
-                                          { value.transaction?.[0]?.bankdetails?.[0]?.accountType || ""}
+                                          {value.transaction?.[0]?.bankdetails?.[0]?.accountType || ""}
                                           <Button
                                             style={{ border: "none" }}
                                             variant="outline-primary"
@@ -285,7 +284,7 @@ const [filteredData, setFilteredData] = useState(tutorpayment);
                                         </span>
                                         <span className="list-group-item mt-2 ">
                                           <b>Pan Card</b> :
-                                          { value.transaction?.[0]?.bankdetails?.[0]?.panCard || ""}
+                                          {value.transaction?.[0]?.bankdetails?.[0]?.panCard || ""}
                                           <Button
                                             style={{ border: "none" }}
                                             variant="outline-primary"
@@ -293,7 +292,7 @@ const [filteredData, setFilteredData] = useState(tutorpayment);
                                             className="ml-2"
                                             onClick={() =>
                                               handleCopy(
-                                                 value.transaction?.[0]?.bankdetails?.[0]?.panCard || ""
+                                                value.transaction?.[0]?.bankdetails?.[0]?.panCard || ""
                                               )
                                             }>
                                             <FaCopy />
@@ -315,7 +314,7 @@ const [filteredData, setFilteredData] = useState(tutorpayment);
                                 </tr>
                               </tbody>
                             );
-                          })}   
+                          })}
 
                         </table>
                         
