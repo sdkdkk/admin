@@ -16,6 +16,8 @@ import { Button, ToastContainer } from "react-bootstrap";
 import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
 import { toast } from "react-toastify";
 import { relativeTimeRounding } from "moment";
+import like from "../Image/like.png"
+import thumbdown from "../Image/thumbdown.png"
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
@@ -396,6 +398,7 @@ const Tutordetails = () => {
                                 <th scope="col">Question Subject</th>
                                 <th scope="col">tutor Price</th>
                                 <th scope="col">status</th>
+                                <th scope="col">Votes OF Que</th>
                               </tr>
                             </thead>
                             <tbody>
@@ -433,6 +436,10 @@ const Tutordetails = () => {
                                         {data.allQuestions.status.toLowerCase()}
                                       </span>
                                     )}
+                                  </td>
+                                  <td className="border-0">
+                                    <img src={like} alt="img"/>
+                                    <img src={thumbdown} alt="img"/>
                                   </td>
                                 </tr>
                               ))}
