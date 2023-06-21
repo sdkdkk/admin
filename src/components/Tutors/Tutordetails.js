@@ -286,6 +286,11 @@ const Tutordetails = () => {
                               <strong>Bank Country:</strong>
                               {data.bankdetails?.bankcountry || ""}
                             </div>
+                            <div>
+                             
+                              {active === "1" || active === "2" ? <Button className="rbt-btn btn-gradient btn-sm my-3 w-50" >Pay Now</Button> : ""}
+
+                            </div>
                           </div>
                           <div className="col Subject">
                             <h5 className="mt-2">Subject </h5>
@@ -436,10 +441,6 @@ const Tutordetails = () => {
                                         {data.allQuestions.status.toLowerCase()}
                                       </span>
                                     )}
-                                  </td>
-                                  <td>
-                                    <img src={like} alt="img" className="rounded-0"/>
-                                    <img src={thumbdown} alt="img" className="rounded-0"/>
                                   </td>
                                 </tr>
                               ))}

@@ -130,55 +130,50 @@ const Tutorlist = () => {
     setCurrentPage(initialPage);
   }, [location.search]);
 
+  
   const searchItem = () => {
-    const firstDate = values?.length > 0 ? new Date(values[0]) : null;
-    const lastDate =
-      values?.length > 1 ? new Date(values[values.length - 1]) : null;
+  const firstDate = values?.length > 0 ? new Date(values[0]) : null;
+  const lastDate = values?.length > 1 ? new Date(values[values.length - 1]) : null;
 
-    const filteredData = currentData.filter((item) => {
-      const itemDate = new Date(item.updatedAt);
-      const name = item.name ? item.name.toLowerCase() : null;
+  const filteredData = currentData.filter((item) => {
+    const itemDate = new Date(item.updatedAt);
+    const name = item.name ? item.name.toLowerCase() : null;
+    const email = item.email ? item.email.toLowerCase() : null;
 
-      if (firstDate && lastDate) {
-        // Handle range selection
-        return (
-          itemDate >= firstDate &&
-          itemDate <= lastDate &&
-          (searchTerm === "" ||
-            (name && name.includes(searchTerm.toLowerCase())))
-        );
-      } else if (firstDate) {
-        // Handle single date selection
-        return (
-          itemDate.getDate() === firstDate.getDate() &&
-          itemDate.getMonth() === firstDate.getMonth() &&
-          itemDate.getFullYear() === firstDate.getFullYear() &&
-          (searchTerm === "" ||
-            (name && name.includes(searchTerm.toLowerCase())))
-        );
-      } else {
-        // Handle no date selection
-        return searchTerm === "" || (name && name.includes(searchTerm.toLowerCase()));
-      }
-    });
+    if (firstDate && lastDate) {
+      // Handle range selection
+      return (
+        itemDate >= firstDate &&
+        itemDate <= lastDate &&
+        (searchTerm === "" ||
+          (name && name.includes(searchTerm.toLowerCase())) ||
+          (email && email.includes(searchTerm.toLowerCase())))
+      );
+    } else if (firstDate) {
+      // Handle single date selection
+      return (
+        itemDate.getDate() === firstDate.getDate() &&
+        itemDate.getMonth() === firstDate.getMonth() &&
+        itemDate.getFullYear() === firstDate.getFullYear() &&
+        (searchTerm === "" ||
+          (name && name.includes(searchTerm.toLowerCase())) ||
+          (email && email.includes(searchTerm.toLowerCase())))
+      );
+    } else {
+      // Handle no date selection
+      return (
+        searchTerm === "" ||
+        (name && name.includes(searchTerm.toLowerCase())) ||
+        (email && email.includes(searchTerm.toLowerCase()))
+      );
+    }
+  });
 
-    setCurrentData(filteredData);
-    setCurrentPage(1);
-  };
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  setCurrentData(filteredData);
+  setCurrentPage(1);
+};
 
-  const handleStartDateChange = (event) => {
-    setStartDate(event.target.value);
-  };
 
-  const handleEndDateChange = (event) => {
-    setEndDate(event.target.value);
-  };
-
-  const handleSearch = (event) => {
-    event.preventDefault();
-  };
 
   return (
     <div>

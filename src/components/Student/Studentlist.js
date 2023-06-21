@@ -73,33 +73,40 @@ const Studentlist = () => {
     };
   }, [studentists]);
 
+
   const searchItem = () => {
-    if (studentists) {
-      const filteredData = studentists.filter((item) => {
-        const itemDate = new Date(item.createdAt);
-        const name = item.name ? item.name.toLowerCase() : null;
+  if (studentists) {
+    const filteredData = studentists.filter((item) => {
+      const itemDate = new Date(item.createdAt);
+      const name = item.name ? item.name.toLowerCase() : null;
+      const email = item.email ? item.email.toLowerCase() : null;
 
-        // Check if item matches date range filter
-        const dateMatch =
-          (values.length === 1 &&
-            itemDate.getDate() === values[0].toDate().getDate() &&
-            itemDate.getMonth() === values[0].toDate().getMonth() &&
-            itemDate.getFullYear() === values[0].toDate().getFullYear()) ||
-          (values.length === 2 &&
-            itemDate >= values[0].toDate() &&
-            itemDate <= values[1].toDate()) ||
-          values.length === 0;
+      // Check if item matches date range filter
+      const dateMatch =
+        (values.length === 1 &&
+          itemDate.getDate() === values[0].toDate().getDate() &&
+          itemDate.getMonth() === values[0].toDate().getMonth() &&
+          itemDate.getFullYear() === values[0].toDate().getFullYear()) ||
+        (values.length === 2 &&
+          itemDate >= values[0].toDate() &&
+          itemDate <= values[1].toDate()) ||
+        values.length === 0;
 
-        // Check if item matches search term filter
-        const searchMatch =
-          !searchTerm || (name && name.includes(searchTerm.toLowerCase()));
+      // Check if item matches search term filter
+      const searchMatch =
+        (!searchTerm ||
+          (name && name.includes(searchTerm.toLowerCase())) ||
+          (email && email.includes(searchTerm.toLowerCase())));
 
-        return dateMatch && searchMatch;
-      });
+      return dateMatch && searchMatch;
+    });
 
-      setCurrentData(filteredData);
-    }
-  };
+    setCurrentData(filteredData);
+  }
+};
+
+
+
 
   return (
     <div>
