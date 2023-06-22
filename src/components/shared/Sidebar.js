@@ -7,12 +7,13 @@ const Sidebar = () => {
   const navMenusState = useSelector((state) => state.auth?.user?.actions) || [];
   const navMenusStateLocal = localStorage.getItem("menusItem");
   const navMenusStateLocalParsedObject = JSON.parse(navMenusStateLocal);
-  const navMenusStateList = !!navMenusState && navMenusState.length
-    ? navMenusState.map((a) => a.name)
-    : navMenusStateLocalParsedObject.map((a) => a.name);
-  
+  const navMenusStateList =
+    !!navMenusState && navMenusState.length
+      ? navMenusState.map((a) => a.name)
+      : navMenusStateLocalParsedObject.map((a) => a.name);
+
   useEffect(() => {
-    if(navMenusState.length){
+    if (navMenusState.length) {
       localStorage.setItem("menusItem", JSON.stringify(navMenusState));
     }
   }, [navMenusState]);
@@ -87,37 +88,7 @@ const Sidebar = () => {
           )}
 
           {/* Student */}
-<<<<<<< Updated upstream
-          <li className="nav-item">
-            <a
-              className="nav-link"
-              data-toggle="collapse"
-              href="#student-menu"
-              aria-expanded="false"
-              aria-controls="student-menu"
-            >
-              <span className="menu-title">Student</span>
-              <i className="icon-layers menu-icon"></i>
-            </a>
-            <div className="collapse" id="student-menu">
-              <ul className="nav flex-column sub-menu">
-                <li className="nav-item">
-                  <Link className={`nav-link ${activeLink === '/studentlist' ? 'active' : ''}`} to="/studentlist">
-                    Student List
-                  </Link>
-                </li>
-                      {/*StudentRegitserBonus */}
-             <li className={`nav-item ${activeLink === '/studentregitserbonus' ? 'active' : ''}`}>
-            <Link className="nav-link" to="/studentregitserbonus">
-              <span className="menu-title">Student Regitser Bonus</span>
-              <i className="icon-screen-desktop menu-icon"></i>
-            </Link>
-          </li>
 
-              </ul>
-            </div>
-          </li>
-=======
           {navMenusStateList.includes("Student") && (
             <li className="nav-item">
               <a
@@ -142,11 +113,21 @@ const Sidebar = () => {
                       Student List
                     </Link>
                   </li>
+                  {/*StudentRegitserBonus */}
+                  <li
+                    className={`nav-item ${
+                      activeLink === "/studentregitserbonus" ? "active" : ""
+                    }`}
+                  >
+                    <Link className="nav-link" to="/studentregitserbonus">
+                      <span className="menu-title">Student Regitser Bonus</span>
+                      <i className="icon-screen-desktop menu-icon"></i>
+                    </Link>
+                  </li>
                 </ul>
               </div>
             </li>
           )}
->>>>>>> Stashed changes
 
           {/*wallet*/}
           {navMenusStateList.includes("Wallet") && (
