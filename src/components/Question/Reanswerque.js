@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { getAdminQuestions } from "../../Redux/Loginpages/getAdminQuestionSlice";
 import { Link, useNavigate } from "react-router-dom";
+import { RotatingLines } from "react-loader-spinner";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
@@ -24,10 +25,16 @@ const Reanswerque = () => {
   const [questionType, setQuestionType] = useState("");
   const [whomtoAsk, setWhomtoAsk] = useState("reanswer");
   const [isOpen, setIsOpen] = useState("");
+  
   const [currentPage, setCurrentPage] = useState(1);
-
+  const [isLoading, setIsLoading] = useState(false);
   const { transactions = [] } = getAdminQuestionsState?.data || {};
+  const [postsPerPage] = useState(4);
+  const indexOfLastPage = currentPage * postsPerPage;
+  const indexOfFirstPage = indexOfLastPage - postsPerPage;
+  const displayUsers = transactions.slice(indexOfFirstPage, indexOfLastPage);
 
+  const totalPages = Math.ceil(transactions.length / postsPerPage);
   const fetchSubjectData = async () => {
     try {
       const response = await axios.post(`${url}/getquestionsubject`, {
@@ -142,9 +149,7 @@ const Reanswerque = () => {
                   <div className="card new-table">
                     <div className="card-body">
                       <div className="table-responsive">
-                        <table
-                          className={`table ${getAdminQuestionsState?.isLoading && "table-loading"
-                            }`}>
+                        <table className="table">
                           <thead>
                             <tr>
                               <th scope="col">Sr.No</th>
@@ -155,7 +160,25 @@ const Reanswerque = () => {
                               <th scope="col">Action</th>
                             </tr>
                           </thead>
-                          <tbody>
+                           {getAdminQuestionsState?.isLoading ? ( // Condition for displaying loader
+        <tbody>
+          <tr>
+            <td colSpan="6" className="text-center">
+              <div className="loader-container"> {/* Wrap loader code inside this div */}
+                <div className="loader">
+                  <RotatingLines
+                    strokeColor="#d63384"
+                    strokeWidth="5"
+                    animationDuration="0.75"
+                    width="50"
+                    visible={true}
+                  />
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      ) :<tbody>
                             {transactions.length === 0 ? (
                               <tr>
                                 <td colSpan="6" className="fw-3 fw-bolder text-center">No Question found</td>
@@ -188,16 +211,16 @@ const Reanswerque = () => {
                                 </td>
                               </tr>
                             ))}
-                          </tbody>
+                          </tbody>}
                         </table>
                       </div>
                       <div className="table-pagination">
                         <Pagination
-                          page={currentPage}
-                          onChange={handleChange}
-                          count={4}
-                          shape="rounded"
-                          variant="outlined"
+                                count={totalPages}
+                                 page={currentPage}
+                                                          onChange={handleChange}
+                                                          shape="rounded"
+                                                          variant="outlined"
                         />
                       </div>
                     </div>

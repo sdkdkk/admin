@@ -79,23 +79,7 @@ const TransactionDetails = () => {
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table mt-4">
                     <div className="card-body">
-                      {isLoading ? (
-                        <div className="loader-container">
-                          <RotatingLines
-                            strokeColor="grey"
-                            strokeWidth="5"
-                            animationDuration="0.75"
-                            width="50"
-                            visible={true}
-                          />
-                        </div>
-                      ) : (
-                        <table
-                          className={
-                            getTransactionHistoryState.isLoading
-                              ? `table table-loading`
-                              : "table"
-                          }>
+                        <table className="table">
                           <thead>
                             <tr>
                               <th scope="col">Sr.No.</th>
@@ -108,7 +92,25 @@ const TransactionDetails = () => {
                               <th scope="col">Action</th>
                             </tr>
                           </thead>
+                             {getTransactionHistoryState.isLoading ? ( // Condition for displaying loader
                           <tbody>
+                            <tr>
+                              <td colSpan="8" className="text-center">
+                                <div className="loader-container"> {/* Wrap loader code inside this div */}
+                                  <div className="loader">
+                                    <RotatingLines
+                                      strokeColor="#d63384"
+                                      strokeWidth="5"
+                                      animationDuration="0.75"
+                                      width="50"
+                                      visible={true}
+                                    />
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        ) :<tbody>
                             {walletTransactions &&
                               [...walletTransactions].map((value, pos) => {
                                 return (
@@ -134,9 +136,9 @@ const TransactionDetails = () => {
                                   </tr>
                                 );
                               })}
-                          </tbody>
+                          </tbody>}
                         </table>
-                      )}
+                    
 
                       <Pagination
                         count={3}

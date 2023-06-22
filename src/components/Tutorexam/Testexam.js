@@ -8,24 +8,23 @@ import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { admintutorexamverify } from "../../Redux/Loginpages/admintutorexamverifySlice";
 import Moment from "react-moment";
-import { ColorRing } from "react-loader-spinner";
+import {  RotatingLines } from "react-loader-spinner";
 
 const Testexam = () => {
 
   const testexam = useSelector((state) => state.admintutorexamverify.data.data);
+  const isLoading = useSelector((state) => state.admintutorexamverify.isLoading);
   const dispatch = useDispatch();
   let navigate = useNavigate();
-  const [isLoading, setIsLoading] = useState(false);
-
-
+  
   useEffect(() => {
-    setIsLoading(true);
-    dispatch(admintutorexamverify());
-    setIsLoading(false);
-  }, [dispatch]);
+      dispatch(admintutorexamverify());
+    }, [dispatch]);
 
   const toComponentB = (data) => {
+   
     navigate("/examdetails", { state: { data } });
+   
   };
 
   return (
@@ -35,19 +34,7 @@ const Testexam = () => {
         <div className="container-fluid page-body-wrapper">
           <Sidebar />
 
-          {isLoading ? (
-            <div style={{ marginLeft: "450px", marginTop: "50px" }}>
-              <ColorRing
-                visible={true}
-                height="80"
-                width="80"
-                ariaLabel="blocks-loading"
-                wrapperStyle={{}}
-                wrapperclassName="blocks-wrapper"
-                colors={["black"]}
-              />
-            </div>
-          ) : (
+         
             <div className="main-panel">
               <div className="content-wrapper">
                 <div className="Title">
@@ -67,13 +54,32 @@ const Testexam = () => {
                               <th>Status</th>
                             </tr>
                           </thead>
+                              {isLoading ? ( // Condition for displaying loader
+                          <tbody>
+                            <tr>
+                              <td colSpan="5" className="text-center">
+                                <div className="loader-container"> {/* Wrap loader code inside this div */}
+                                  <div className="loader">
+                                    <RotatingLines
+                                      strokeColor="#d63384"
+                                      strokeWidth="5"
+                                      animationDuration="0.75"
+                                      width="50"
+                                      visible={true}
+                                    />
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        ) : <tbody>
                             {testexam?.length === 0 ? (
                               <tr>
                                 <td colSpan="5" className="fw-3 fw-bolder text-center">No Question found</td>
                               </tr>) :testexam &&
-                            testexam.map((data) => (
-                              <tbody>
-                                <tr>
+                            testexam.map((data, id) => (
+                            
+                                <tr key={id}>
                                   <td>
                                     <Moment format="D MMM YYYY" withTitle>
                                       {data.examDate}
@@ -91,8 +97,9 @@ const Testexam = () => {
                                     </button>
                                   </td>
                                 </tr>
-                              </tbody>
+                             
                             ))}
+                               </tbody>}
                         </table>
                       </div>
                     </div>
@@ -101,7 +108,7 @@ const Testexam = () => {
               </div>
               <Footer />
             </div>
-          )}
+       
         </div>
       </div>
     </>

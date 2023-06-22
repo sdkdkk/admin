@@ -215,7 +215,7 @@ const QuestionAnswerAll = () => {
                       {isLoading ? (
                         <div className="loader-container">
                           <RotatingLines
-                            strokeColor="pink"
+                            strokeColor="#d63384"
                             strokeWidth="5"
                             animationDuration="0.75"
                             width="50"
@@ -286,14 +286,14 @@ const QuestionAnswerAll = () => {
                           </div>
 
                           {selectType === "ShortAnswer" ||
-                          selectType === "CaseStudy-less3" ||
+                          selectType === "CaseStudy-less3"|| 
                           selectType === "ShortAnswer-exp" ||
                           selectType === "Definations" ||
                           selectType === "Writing" ||
                           selectType === "LongAnswer" ||
                           selectType === "ProblemSolving" ||
                           selectType === "CaseStudy-more3" ||
-                          selectType === "Theory" ? (
+                              selectType === "Theory" ? (
                             <Col md={12}>
                               <div>
                                 <p className="mx-1">Answer</p>

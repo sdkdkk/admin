@@ -164,17 +164,7 @@ const Studentlist = () => {
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table">
                     <div className="card-body">
-                      {isLoading ? (
-                        <div className="loader-container">
-                          <RotatingLines
-                            strokeColor="pink"
-                            strokeWidth="5"
-                            animationDuration="0.75"
-                            width="50"
-                            visible={true}
-                          />
-                        </div>
-                      ) : (
+                     
                         <table className="table v-top">
                           <thead>
                             <tr>
@@ -186,12 +176,31 @@ const Studentlist = () => {
                               <th scope="col">Min Balance</th>
                               <th scope="col">Action</th>
                             </tr>
-                          </thead>
+                        </thead>
+                         {isLoading ? ( // Condition for displaying loader
+        <tbody>
+          <tr>
+            <td colSpan="7" className="text-center">
+              <div className="loader-container"> {/* Wrap loader code inside this div */}
+                <div className="loader">
+                  <RotatingLines
+                    strokeColor="#d63384"
+                    strokeWidth="5"
+                    animationDuration="0.75"
+                    width="50"
+                    visible={true}
+                  />
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      ) :<tbody>
                           {displayUsers && displayUsers.length > 0 ? (
                             displayUsers &&
                             displayUsers.map((data) => (
-                              <tbody key={data._id}>
-                                <tr>
+                             
+                                <tr  key={data._id}>
                                   <td>
                                     {data.createdAt ? (
                                       <Moment format="DD MMM YYYY" withTitle>
@@ -218,7 +227,7 @@ const Studentlist = () => {
                                     </Link>
                                   </td>
                                 </tr>
-                              </tbody>
+                             
                             ))
                           ) : (
                             <tbody>
@@ -231,8 +240,9 @@ const Studentlist = () => {
                               </tr>
                             </tbody>
                           )}
+                           </tbody>}
                         </table>
-                      )}
+                 
 
                       <div className="table-pagination">
                         <Pagination

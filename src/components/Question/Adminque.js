@@ -9,6 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { getAdminQuestions } from "../../Redux/Loginpages/getAdminQuestionSlice";
 import { Link, useNavigate } from "react-router-dom";
+import { RotatingLines } from "react-loader-spinner";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
@@ -27,10 +28,15 @@ const Adminque = () => {
    
     const [whomtoAsk, setWhomtoAsk] = useState("admin");
     const [isOpen, setIsOpen] = useState("");
-    const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(false);
+  const { transactions = [] } = getAdminQuestionsState?.data || {};
+  const [postsPerPage] = useState(4);
+  const indexOfLastPage = currentPage * postsPerPage;
+  const indexOfFirstPage = indexOfLastPage - postsPerPage;
+  const displayUsers = transactions.slice(indexOfFirstPage, indexOfLastPage);
 
-    const { transactions = [] } = getAdminQuestionsState?.data || {};
-
+  const totalPages = Math.ceil(transactions.length / postsPerPage);
     const fetchSubjectData = async () => {
         try {
             const response = await axios.post(`${url}/getquestionsubject`, { token: token, }
@@ -173,9 +179,7 @@ const Adminque = () => {
                                     <div className="card new-table">
                                         <div className="card-body">
                                             <div className="table-responsive">
-                                                <table
-                                                    className={`table ${getAdminQuestionsState?.isLoading && "table-loading"
-                                                        }`}>
+                                                <table className="table">
                                                     <thead>
                                                         <tr>
                                                             <th scope="col">Sr.No</th>
@@ -186,12 +190,30 @@ const Adminque = () => {
                                                             <th scope="col">Action</th>
                                                         </tr>
                                                     </thead>
-                                                    <tbody>
-                                                        {transactions.length === 0 ? (
+                                                     {getAdminQuestionsState?.isLoading ? ( // Condition for displaying loader
+        <tbody>
+          <tr>
+            <td colSpan="6" className="text-center">
+              <div className="loader-container"> {/* Wrap loader code inside this div */}
+                <div className="loader">
+                  <RotatingLines
+                    strokeColor="#d63384"
+                    strokeWidth="5"
+                    animationDuration="0.75"
+                    width="50"
+                    visible={true}
+                  />
+                </div>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      ) :<tbody>
+                                                        {displayUsers.length === 0 ? (
                                                             <tr>
                                                                 <td colSpan="6" className="fw-3 fw-bolder text-center">No Question found</td>
                                                              </tr>
-                                                        ) : transactions.map((a, index) =>  (
+                                                        ) : displayUsers.map((a, index) =>  (
                                                             <tr key={index}>
                                                                 <td>{index + 1}</td>
                                                                 <td><p className="question">{a.question}</p></td>
@@ -220,14 +242,14 @@ const Adminque = () => {
                                                                 </td>
                                                             </tr>
                                                         ))}
-                                                    </tbody>
+                                                    </tbody>}
                                                 </table>
                                             </div>
                                             <div className="table-pagination">
                                                 <Pagination
+                                                    count={totalPages}
                                                     page={currentPage}
                                                     onChange={handleChange}
-                                                    count={4}
                                                     shape="rounded"
                                                     variant="outlined"
                                                 />

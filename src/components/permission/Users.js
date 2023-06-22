@@ -83,17 +83,7 @@ const Users = () => {
                         </div>
                         <div className="col-lg-12 mt-4">
                           <div className="table-responsive">
-                            {loading1 ? (
-                              <p className="loader-container">
-                                <RotatingLines
-                                  strokeColor="pink"
-                                  strokeWidth="5"
-                                  animationDuration="0.75"
-                                  width="50"
-                                  visible={true}
-                                />
-                              </p>
-                            ) : (
+                           
                               <table className="table">
                                 <thead>
                                   <tr>
@@ -104,11 +94,30 @@ const Users = () => {
                                     <th>Role</th>
                                     <th>Action</th>
                                   </tr>
-                                </thead>
+                              </thead>
+                                 {loading1 ? ( // Condition for displaying loader
+                          <tbody>
+                            <tr>
+                              <td colSpan="6" className="text-center">
+                                <div className="loader-container"> {/* Wrap loader code inside this div */}
+                                  <div className="loader">
+                                    <RotatingLines
+                                      strokeColor="#d63384"
+                                      strokeWidth="5"
+                                      animationDuration="0.75"
+                                      width="50"
+                                      visible={true}
+                                    />
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        ) : <tbody >
                                 {data.map((value, index) => {
                                   return (
-                                    <tbody key={index}>
-                                      <tr>
+                                   
+                                      <tr key={index}>
                                         <td>{index + 1}</td>
                                         <td>{value.username}</td>
                                         <td>{value.email}</td>
@@ -135,11 +144,12 @@ const Users = () => {
                                           </Button>
                                         </td>
                                       </tr>
-                                    </tbody>
+                                   
                                   );
                                 })}
+                                       </tbody>}
                               </table>
-                            )}
+                         
                           </div>
                         </div>
                       </div>

@@ -60,18 +60,7 @@ const IssueQuestion = () => {
                       <div className="card-body my-4">
                         <h3>Issue Question</h3>
                         <div className="table-container my-4">
-                          {loading1 ? (
-                            <p className="loader-container">
-                             <RotatingLines
-                            strokeColor="pink"
-                            strokeWidth="5"
-                            animationDuration="0.75"
-                            width="50"
-                            visible={true}
-                          />
-                            </p>
-                          ) : (
-                            <>
+                          
                               <Table
                                 striped
                                 bordered
@@ -92,7 +81,25 @@ const IssueQuestion = () => {
                                   </tr>
                                 </thead>
 
-                                <tbody>
+                              {loading1 ? ( // Condition for displaying loader
+                          <tbody>
+                            <tr>
+                              <td colSpan="8" className="text-center">
+                                <div className="loader-container"> {/* Wrap loader code inside this div */}
+                                  <div className="loader">
+                                    <RotatingLines
+                                      strokeColor="#d63384"
+                                      strokeWidth="5"
+                                      animationDuration="0.75"
+                                      width="50"
+                                      visible={true}
+                                    />
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        ) : <tbody>
                                   {data.map((item, id) => (
                                     <tr key={id}>
                                       <td>{id + 1}</td>
@@ -124,7 +131,7 @@ const IssueQuestion = () => {
                                       </td>
                                     </tr>
                                   ))}
-                                </tbody>
+                                </tbody>}
                               </Table>
                               <div className="table-pagination">
                                 <Pagination
@@ -136,8 +143,7 @@ const IssueQuestion = () => {
                                 // showFirstButton
                                 />
                               </div>
-                            </>
-                          )}
+                            
                         </div>
                       </div>
                     </div>

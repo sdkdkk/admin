@@ -186,18 +186,7 @@ const AddMobile = () => {
                   <div className="card new-table">
                     <div className="card-body">
                       <div className="table-container">
-                        {loading1 ? (
-                          <p className="loader-container">
-                            <RotatingLines
-                            strokeColor="pink"
-                            strokeWidth="5"
-                            animationDuration="0.75"
-                            width="50"
-                            visible={true}
-                          />
-                          </p>
-                        ) : (
-                          <>
+                       
                             <Table
                               striped
                               bordered
@@ -211,7 +200,25 @@ const AddMobile = () => {
                                   <th>Action</th>
                                 </tr>
                               </thead>
-                              <tbody>
+                                {loading1 ? ( // Condition for displaying loader
+                          <tbody>
+                            <tr>
+                              <td colSpan="3" className="text-center">
+                                <div className="loader-container"> {/* Wrap loader code inside this div */}
+                                  <div className="loader">
+                                    <RotatingLines
+                                      strokeColor="#d63384"
+                                      strokeWidth="5"
+                                      animationDuration="0.75"
+                                      width="50"
+                                      visible={true}
+                                    />
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        ) : <tbody>
                                 {displayUsers?.map((data, index, _id) => (
                                   <tr key={index}>
                                     <td>
@@ -235,7 +242,7 @@ const AddMobile = () => {
                                     </td>
                                   </tr>
                                 ))}
-                              </tbody>
+                              </tbody>}
                             </Table>
                             <div className="table-pagination">
                               <Pagination
@@ -246,8 +253,7 @@ const AddMobile = () => {
                                 variant="outlined"
                               />
                             </div>
-                          </>
-                        )}
+                         
                       </div>
                     </div>
                   </div>

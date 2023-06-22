@@ -233,7 +233,7 @@ const Tutordetails = () => {
                   height: "100vh",
                 }}>
                 <RotatingLines
-                  strokeColor="pink"
+                  strokeColor="#d63384"
                   strokeWidth="5"
                   animationDuration="0.75"
                   width="50"
@@ -403,7 +403,6 @@ const Tutordetails = () => {
                                 <th scope="col">Question Subject</th>
                                 <th scope="col">tutor Price</th>
                                 <th scope="col">status</th>
-                                <th scope="col">Votes OF Que</th>
                               </tr>
                             </thead>
                             <tbody>

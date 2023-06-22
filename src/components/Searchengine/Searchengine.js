@@ -71,17 +71,7 @@ const Searchengine = () => {
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table">
                     <div className="card-body">
-                      {isLoading ? (
-                        <div className="loader-container">
-                          <RotatingLines
-                            strokeColor="pink"
-                            strokeWidth="5"
-                            animationDuration="0.75"
-                            width="50"
-                            visible={true}
-                          />
-                        </div>
-                      ) : (
+                      
                         <table className="table reponsive">
                           <thead>
                             <tr>
@@ -93,7 +83,25 @@ const Searchengine = () => {
                               <th scope="col">status</th>
                             </tr>
                           </thead>
+                          {isLoading ? ( // Condition for displaying loader
                           <tbody>
+                            <tr>
+                              <td colSpan="6" className="text-center">
+                                <div className="loader-container"> {/* Wrap loader code inside this div */}
+                                  <div className="loader">
+                                    <RotatingLines
+                                      strokeColor="#d63384"
+                                      strokeWidth="5"
+                                      animationDuration="0.75"
+                                      width="50"
+                                      visible={true}
+                                    />
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        ) : <tbody>
                             {searchengineData.map((data, index) => {
                               const serialNumber =
                                 (currentPage - 1) * itemsPerPage + index + 1;
@@ -133,9 +141,9 @@ const Searchengine = () => {
                                 </tr>
                               );
                             })}
-                          </tbody>
+                          </tbody>}
                         </table>
-                      )}
+                    
 
                       <div className="table-pagination">
                         <button

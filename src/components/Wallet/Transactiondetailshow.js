@@ -52,7 +52,7 @@ const Transactiondetailshow = () => {
                     {isLoading ? (
                       <div className="loader-container">
                         <RotatingLines
-                          strokeColor="grey"
+                          strokeColor="#d63384"
                           strokeWidth="5"
                           animationDuration="0.75"
                           width="50"

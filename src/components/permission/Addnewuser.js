@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
-import { ColorRing } from "react-loader-spinner";
+import { ColorRing, RotatingLines } from "react-loader-spinner";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
 const url = process.env.REACT_APP_API_BASE_URL;
@@ -149,16 +149,14 @@ const Addnewuser = () => {
                     <div className="card-body">
                       {loading1 ? (
                         <p className="loader-container">
-                          <ColorRing
+                          <RotatingLines
+                            strokeColor="#d63384"
+                            strokeWidth="5"
+                            animationDuration="0.75"
+                            width="50"
                             visible={true}
-                            height="80"
-                            width="80"
-                            ariaLabel="blocks-loading"
-                            wrapperStyle={{}}
-                            wrapperclassName="blocks-wrapper"
-                            colors={["black"]}
                           />
-                        </p>
+                     </p>
                       ) : (
                         <form
                           className="user-form"

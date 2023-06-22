@@ -258,18 +258,7 @@ const Questionpricing = () => {
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table">
                     <div className="card-body">
-                      {loading ? (
-                        <p style={{ marginLeft: "400px", marginTop: "50px" }}>
-                          <RotatingLines
-                            strokeColor="grey"
-                            strokeWidth="5"
-                            animationDuration="0.75"
-                            width="50"
-                            visible={true}
-                          />
-                        </p>
-                      ) : (
-                        <>
+                      
                           <Table
                             striped
                             bordered
@@ -285,7 +274,25 @@ const Questionpricing = () => {
                                 <th>Action</th>
                               </tr>
                             </thead>
-                            <tbody>
+                           {loading ? ( // Condition for displaying loader
+                          <tbody>
+                            <tr>
+                              <td colSpan="6" className="text-center">
+                                <div className="loader-container"> {/* Wrap loader code inside this div */}
+                                  <div className="loader">
+                                    <RotatingLines
+                                      strokeColor="#d63384"
+                                      strokeWidth="5"
+                                      animationDuration="0.75"
+                                      width="50"
+                                      visible={true}
+                                    />
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        ) :  <tbody>
                               {displayUsers.map((data, index, _id) => (
                                 <tr key={index}>
                                   <td>{index + indexOfFirstPage + 1}</td>
@@ -310,7 +317,7 @@ const Questionpricing = () => {
                                   </td>
                                 </tr>
                               ))}
-                            </tbody>
+                            </tbody>}
                           </Table>
                           <div className="table-pagination">
                             <Pagination
@@ -321,8 +328,7 @@ const Questionpricing = () => {
                               variant="outlined"
                             />
                           </div>
-                        </>
-                      )}
+                        
                     </div>
                   </div>
                 </div>

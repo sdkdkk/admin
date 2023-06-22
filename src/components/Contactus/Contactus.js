@@ -17,6 +17,8 @@ const Contactus = () => {
   );
   const tutorcontact = useSelector((state) => state.tutorcontact.data.document);
 
+  const studentloader = useSelector((state) => state.studentcontact.isLoading);
+  const tutorLoader =useSelector((state) => state.tutorcontact.isLoading)
   const [selectedStatus, setSelectedStatus] = useState("studentcontact");
   const [searchName, setSearchName] = useState("");
   const [status, setStatus] = useState({
@@ -28,33 +30,33 @@ const Contactus = () => {
   const [currentData, setCurrentData] = useState(status[selectedStatus]);
   const [activeButton, setActiveButton] = useState(1);
   const dispatch = useDispatch();
-  const [Loader, setLoader] = useState(true);
+
 
   useEffect(() => {
     setStatus({
       studentcontact: studentcontact,
       tutorcontact: tutorcontact,
     });
-    setLoader(false);
+
   }, [studentcontact, tutorcontact]);
 
   useEffect(() => {
-    dispatch(getstudentcontact()).then(() => setLoader(false));
+    dispatch(getstudentcontact());
   }, []);
 
   const fetchData1 = async () => {
     setActiveButton(1);
     setStatus({ ...status, selectedStatus: "all" });
-    setLoader(true);
-    dispatch(getstudentcontact("all")).then(() => setLoader(false));
+   
+    dispatch(getstudentcontact("all"));
     setSearchName("");
   };
 
   const fetchData2 = async () => {
     setActiveButton(2);
     setStatus({ ...status, selectedStatus: "all" });
-    setLoader(true);
-    dispatch(gettutorcontact("all")).then(() => setLoader(false));
+    
+    dispatch(gettutorcontact("all"));
   };
 
   useEffect(() => {
@@ -214,17 +216,7 @@ const Contactus = () => {
                 <div className="row">
                   <div className="col-12 grid-margin stretch-card">
                     <div className="card new-table">
-                      {Loader ? (
-                        <div className="loader-container">
-                           <RotatingLines
-                            strokeColor="pink"
-                            strokeWidth="5"
-                            animationDuration="0.75"
-                            width="50"
-                            visible={true}
-                          />
-                        </div>
-                      ) : (
+                      
                         <div className="card-body">
                           <table className="table v-top">
                             <thead>
@@ -236,11 +228,36 @@ const Contactus = () => {
                                 <th scope="col">Message</th>
                                 <th scope="col">Action</th>
                               </tr>
-                            </thead>
-                            {displayUsers && displayUsers.length > 0 ? (
-                              displayUsers.map((data, id) => (
-                                <tbody key={data._id}>
-                                  <tr>
+                          </thead>
+                            {tutorLoader || studentloader ? (
+                            <tbody>
+                              <tr>
+                                <td colSpan="6" className="text-center">
+                                  <div className="loader-container">
+                                    <div className="loader">
+                                      <RotatingLines
+                                        strokeColor="#d63384"
+                                        strokeWidth="5"
+                                        animationDuration="0.75"
+                                        width="50"
+                                        visible={true}
+                                      />
+                                    </div>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          ) : (
+                            <tbody>
+                              {displayUsers?.length === 0 ? (
+                                <tr>
+                                  <td colSpan="6" className="text-center">
+                                    No data
+                                  </td>
+                                </tr>
+                              ) : (
+                                displayUsers?.map((data, id) => (
+                                  <tr key={data._id}>
                                     <td>{id + 1}</td>
                                     <td>{data.fullname || "-"}</td>
                                     <td>{data.email.substring(0, 20)}</td>
@@ -251,22 +268,17 @@ const Contactus = () => {
                                         className="btn btn-primary btn-sm"
                                         onClick={() => {
                                           toComponentB(data);
-                                        }}>
+                                        }}
+                                      >
                                         click
                                       </button>
                                     </td>
                                   </tr>
-                                </tbody>
-                              ))
-                            ) : (
-                              <tbody>
-                                <tr>
-                                  <td colSpan="8">
-                                    <h4>No contact Found ...</h4>
-                                  </td>
-                                </tr>
-                              </tbody>
-                            )}
+                                ))
+                              )}
+                            </tbody>
+                          )}
+
                           </table>
                           <div className="table-pagination">
                             <Pagination
@@ -278,7 +290,7 @@ const Contactus = () => {
                             />
                           </div>
                         </div>
-                      )}
+                     
                     </div>
                   </div>
                 </div>

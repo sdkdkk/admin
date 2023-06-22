@@ -182,7 +182,14 @@ td.text-right.font-weight-bold {
   } */
 
 
-
+.table thead th {
+    border-top: 0;
+    border-bottom-width: 1px;
+    font-family: "Open Sans", sans-serif;
+    font-weight: 600;
+    
+     /* font-weight: initial; */
+}
 
   /* logo css */
 @media (max-width: 991px) {
@@ -197,4 +204,4 @@ td.text-right.font-weight-bold {
     }
   }
 
-  
+

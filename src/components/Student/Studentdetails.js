@@ -105,7 +105,7 @@ const Studentdetails = () => {
                   }}>
                   <div className="loader-container">
                     <RotatingLines
-                      strokeColor="pink"
+                      strokeColor="#d63384"
                       strokeWidth="5"
                       animationDuration="0.75"
                       width="50"

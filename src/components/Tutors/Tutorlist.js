@@ -292,18 +292,7 @@ const Tutorlist = () => {
                     <div className="col-12 grid-margin stretch-card">
                       <div className="card new-table">
                         <div className="card-body">
-                          {isLoadinguser ? (
-                            <div className="loader-container">
-                              <RotatingLines
-                                strokeColor="pink"
-                                strokeWidth="5"
-                                animationDuration="0.75"
-                                width="50"
-                                visible={true}
-                              />
-                            </div>
-                          ) : (
-                            <>
+                        
                               {displayUsers && displayUsers.length === 0 ? (
                                 <div className="no-tutor-found text-center text-danger ">
                                   No tutor found
@@ -327,7 +316,25 @@ const Tutorlist = () => {
                                       <th scope="col">Action</th>
                                     </tr>
                                   </thead>
-                                  <tbody>
+                                   {isLoadinguser ? ( 
+                                                        <tbody>
+                                                        <tr>
+                                                            <td colSpan="8" className="text-center">
+                                                            <div className="loader-container"> 
+                                                                <div className="loader">
+                                                                <RotatingLines
+                                                                    strokeColor="#d63384"
+                                                                    strokeWidth="5"
+                                                                    animationDuration="0.75"
+                                                                    width="50"
+                                                                    visible={true}
+                                                                />
+                                                                </div>
+                                                            </div>
+                                                            </td>
+                                                        </tr>
+                                                        </tbody>
+                                                    ) :  <tbody>
                                     {displayUsers?.map((data, id) => (
                                       <tr key={id}>
                                         {data.updatedAt ? (
@@ -379,11 +386,10 @@ const Tutorlist = () => {
                                         </td>
                                       </tr>
                                     ))}
-                                  </tbody>
+                                  </tbody>}
                                 </table>
                               )}
-                            </>
-                          )}
+                           
 
                           <div className="table-pagination">
                             <Pagination

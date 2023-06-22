@@ -56,7 +56,7 @@ const Dashboard = () => {
               height: "100vh",
             }}>
             <RotatingLines
-              strokeColor="pink"
+              strokeColor="#d63384"
               strokeWidth="5"
               animationDuration="0.75"
               width="50"

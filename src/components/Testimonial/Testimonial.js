@@ -156,27 +156,8 @@ const Testimonial = () => {
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table">
                     <div className="card-body">
-                      {isLoading ? (
-                        <div className="loader-container">
-                          <RotatingLines
-                            strokeColor="pink"
-                            strokeWidth="5"
-                            animationDuration="0.75"
-                            width="50"
-                            visible={true}
-                          />
-                        </div>
-                      ) : (
-                        <>
-                          {" "}
-                          <table
-                            className={`table ${
-                              (testimonial.loading ||
-                                testimonialstatus.loading ||
-                                testimonialform.loading ||
-                                testimonialUserDeleteState.isLoading) &&
-                              "table-loading"
-                            }`}>
+                      
+                         <table className="table">
                             <thead>
                               <tr>
                                 <th scope="col">Sr No.</th>
@@ -187,7 +168,28 @@ const Testimonial = () => {
                                 <th scope="col"></th>
                               </tr>
                             </thead>
+                             {testimonial.loading ||
+                                testimonialstatus.loading ||
+                                testimonialform.loading ||
+                                testimonialUserDeleteState.isLoading ? ( // Condition for displaying loader
                             <tbody>
+                              <tr>
+                                <td colSpan="6" className="text-center">
+                                  <div className="loader-container"> {/* Wrap loader code inside this div */}
+                                    <div className="loader">
+                                      <RotatingLines
+                                        strokeColor="#d63384"
+                                        strokeWidth="5"
+                                        animationDuration="0.75"
+                                        width="50"
+                                        visible={true}
+                                      />
+                                    </div>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          ) : <tbody>
                               <>
                                 {testimonial.user &&
                                   testimonial.user?.testimonial
@@ -258,10 +260,10 @@ const Testimonial = () => {
                                       </tr>
                                     ))}
                               </>
-                            </tbody>
+                            </tbody>}
                           </table>
-                        </>
-                      )}
+                    
+               
 
                       <div
                         className="table-pagination"

@@ -159,25 +159,9 @@ const Pages = () => {
               <div className="row mt-3">
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table">
-                    {isLoading ? (
-                      <p className="loader-container">
-                         <RotatingLines
-                            strokeColor="pink"
-                            strokeWidth="5"
-                            animationDuration="0.75"
-                            width="50"
-                            visible={true}
-                          />
-                      </p>
-                    ) : (
+                    
                       <div className="card-body">
-                        <table
-                          className={`table ${
-                            (getPageListState.isLoading ||
-                              updatePageDataState.isLoading ||
-                              postPageDataState?.isLoading) &&
-                            "table-loading"
-                          }`}>
+                        <table className="table">
                           <thead>
                             <tr>
                               <th scope="col">Sr. No</th>
@@ -185,12 +169,31 @@ const Pages = () => {
                               <th scope="col">Page Name</th>
                               <th scope="col">ACTION</th>
                             </tr>
-                          </thead>
+                        </thead>
+                           {isLoading ? ( // Condition for displaying loader
+                          <tbody>
+                            <tr>
+                              <td colSpan="4" className="text-center">
+                                <div className="loader-container"> {/* Wrap loader code inside this div */}
+                                  <div className="loader">
+                                    <RotatingLines
+                                      strokeColor="#d63384"
+                                      strokeWidth="5"
+                                      animationDuration="0.75"
+                                      width="50"
+                                      visible={true}
+                                    />
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        ) : <tbody >
                           {[...document]
                             .slice((currentPage - 1) * 5, currentPage * 5)
                             .map((data, index) => (
-                              <tbody key={index}>
-                                <tr>
+                             
+                                <tr key={index}>
                                   <td>{(currentPage - 1) * 5 + index + 1}</td>
                                   <td>{data.sortOrder}</td>
                                   <td>{data.pageName}</td>
@@ -240,8 +243,9 @@ const Pages = () => {
                                     </div>
                                   </td>
                                 </tr>
-                              </tbody>
+                            
                             ))}
+                            </tbody>}
                         </table>
                         {document.length > 0 && (
                           <div className="table-pagination">
@@ -253,9 +257,9 @@ const Pages = () => {
                               variant="outlined"
                             />
                           </div>
-                        )}{" "}
+                        )}
                       </div>
-                    )}
+                    
                   </div>
                 </div>
               </div>

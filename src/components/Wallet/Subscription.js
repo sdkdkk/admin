@@ -9,7 +9,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "react-hook-form";
 import { ToastContainer, toast } from "react-toastify";
 import axios from "axios";
-import { ColorRing } from "react-loader-spinner";
+import { ColorRing, RotatingLines } from "react-loader-spinner";
 import { questiontypePriceApi } from "../../Redux/Loginpages/questiontypePriceSlice";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
@@ -27,12 +27,12 @@ const Subscription = () => {
 
   let token = localStorage.getItem("token");
   useEffect(() => {
-    setLoading1(true);
+ //   setLoading1(true);
     let token = localStorage.getItem("token");
     dispatch(questiontypeApi(token));
     dispatch(questiontypePriceApi());
     fetchData();
-    setLoading1(false);
+    //setLoading1(false);
   }, []);
   var [isActive, setIsActive] = useState(true);
  
@@ -197,23 +197,7 @@ const Subscription = () => {
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table">
                     <div className="card-body">
-                      {/* Loading spinner while data is being fetched */}
-                      {loading1 ? (
-                        <p style={{ marginLeft: "400px", marginTop: "50px" }}>
-                          <ColorRing
-                            visible={true}
-                            height="80"
-                            width="80"
-                            ariaLabel="blocks-loading"
-                            wrapperStyle={{}}
-                            wrapperclassName="blocks-wrapper"
-                            colors={["black"]}
-                          />
-                        </p>
-                      ) : (
-                        /* Table to display existing subscription plans */
-                        <>
-                          <Table
+                      <Table
                             striped
                             bordered
                             responsive // Make table responsive
@@ -228,7 +212,25 @@ const Subscription = () => {
                                 <th>Action</th>
                               </tr>
                             </thead>
-                            <tbody>
+                             {loading1 ? ( // Condition for displaying loader
+                          <tbody>
+                            <tr>
+                              <td colSpan="5" className="text-center">
+                                <div className="loader-container"> {/* Wrap loader code inside this div */}
+                                  <div className="loader">
+                                    <RotatingLines
+                                      strokeColor="#d63384"
+                                      strokeWidth="5"
+                                      animationDuration="0.75"
+                                      width="50"
+                                      visible={true}
+                                    />
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        ) : <tbody>
                               {/* Map over subscription plan data and display in table rows */}
                               {data?.map((data, index) => (
                                 <tr key={index}>
@@ -263,10 +265,9 @@ const Subscription = () => {
                                   </td>
                                 </tr>
                               ))}
-                            </tbody>
+                            </tbody>}
                           </Table>
-                        </>
-                      )}
+                        
                     </div>
                   </div>
                 </div>

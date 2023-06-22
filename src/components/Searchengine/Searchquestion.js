@@ -99,17 +99,7 @@ const Searchquestion = () => {
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table">
                     <div className="card-body">
-                      {isLoading ? (
-                        <div className="loader-container">
-                          <RotatingLines
-                            strokeColor="pink"
-                            strokeWidth="5"
-                            animationDuration="0.75"
-                            width="50"
-                            visible={true}
-                          />
-                        </div>
-                      ) : (
+                    
                         <table className="table v-top">
                           <thead>
                             <tr>
@@ -120,7 +110,25 @@ const Searchquestion = () => {
                               <th scope="col">status</th>
                             </tr>
                           </thead>
+                          {isLoading ? ( // Condition for displaying loader
                           <tbody>
+                            <tr>
+                              <td colSpan="5" className="text-center">
+                                <div className="loader-container"> {/* Wrap loader code inside this div */}
+                                  <div className="loader">
+                                    <RotatingLines
+                                      strokeColor="#d63384"
+                                      strokeWidth="5"
+                                      animationDuration="0.75"
+                                      width="50"
+                                      visible={true}
+                                    />
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        ) : <tbody>
                             {searchPerformed && searchResults.length > 0 ? (
                               searchResults.map((data, id) => (
                                 <tr key={id}>
@@ -129,7 +137,7 @@ const Searchquestion = () => {
                                     onClick={() => {
                                       toComponentB(data);
                                     }}>
-                                    {" "}
+                                    
                                     {data.question
                                       .split(" ")
                                       .slice(0, 5)
@@ -161,10 +169,10 @@ const Searchquestion = () => {
                               <h4 className="information text-danger">
                                 {SearchError}
                               </h4>
-                            ) : null}{" "}
-                          </tbody>
+                            ) : null}
+                          </tbody>}
                         </table>
-                      )}
+                      
 
                       <div className="table-pagination">
                         <button

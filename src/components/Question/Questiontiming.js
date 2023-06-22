@@ -495,18 +495,7 @@ const Questiontiming = () => {
                   <div className="card new-table">
                     <div className="card-body">
                       <div className="table-container col-12">
-                        {loading ? (
-                          <p style={{ marginLeft: "400px", marginTop: "50px" }}>
-                            <RotatingLines
-                            strokeColor="pink"
-                            strokeWidth="5"
-                            animationDuration="0.75"
-                            width="50"
-                            visible={true}
-                          />
-                          </p>
-                        ) : (
-                          <>
+                       
                             <Table
                               striped
                               bordered
@@ -527,7 +516,25 @@ const Questiontiming = () => {
                                   <th>Action</th>
                                 </tr>
                               </thead>
-                              <tbody>
+                              {loading ? ( // Condition for displaying loader
+                          <tbody>
+                            <tr>
+                              <td colSpan="10" className="text-center">
+                                <div className="loader-container"> {/* Wrap loader code inside this div */}
+                                  <div className="loader">
+                                    <RotatingLines
+                                      strokeColor="#d63384"
+                                      strokeWidth="5"
+                                      animationDuration="0.75"
+                                      width="50"
+                                      visible={true}
+                                    />
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        ) : <tbody>
                                 {displayUsers.map((data, index, _id) => (
                                   <tr key={index}>
                                     <td>{index + indexOfFirstPage + 1}</td>
@@ -559,7 +566,7 @@ const Questiontiming = () => {
                                     </td>
                                   </tr>
                                 ))}
-                              </tbody>
+                              </tbody>}
                             </Table>
                             <div className="table-pagination">
                               <Pagination
@@ -572,8 +579,7 @@ const Questiontiming = () => {
                                 showLastButton
                               />
                             </div>
-                          </>
-                        )}
+                        
                       </div>
                     </div>
                   </div>

@@ -153,27 +153,7 @@ const [filteredData, setFilteredData] = useState(tutorpayment);
               <div className="row">
                 <div className="col-md-12 grid-margin">
                   <div className="card new-table">
-                        {isLoading ? (
-          <div
-            style={{
-              marginLeft: "auto",
-              marginRight: "auto",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "100vh",
-            }}>
-            <div className="loader-container">
-              <RotatingLines
-                strokeColor="pink"
-                strokeWidth="5"
-                animationDuration="0.75"
-                width="50"
-                visible={true}
-              />
-            </div>
-          </div>
-        ) : ( <div className="card-body">
+           <div className="card-body">
                         
                       
                       <table className="table v-top">
@@ -185,12 +165,28 @@ const [filteredData, setFilteredData] = useState(tutorpayment);
                             <th scope="col">ACTION</th>
                           </tr>
                         </thead>
-
-                     { filteredData?.map((value, index) => {
-                        
-                            return (
-                              <tbody key={index}>
-                                <tr>
+                        {isLoading ? ( // Condition for displaying loader
+                          <tbody>
+                            <tr>
+                              <td colSpan="4" className="text-center">
+                                <div className="loader-container"> {/* Wrap loader code inside this div */}
+                                  <div className="loader">
+                                    <RotatingLines
+                                      strokeColor="#d63384"
+                                      strokeWidth="5"
+                                      animationDuration="0.75"
+                                      width="50"
+                                      visible={true}
+                                    />
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        ) :<tbody >
+                        { filteredData?.map((value, index) => {                        
+                            return (                            
+                                <tr key={index}>
                                   <td>{index + 1}</td>
                                   <td    onClick={() => toggle(index)}
                                   className={
@@ -312,10 +308,10 @@ const [filteredData, setFilteredData] = useState(tutorpayment);
                                     </Button>
                                   </td>
                                 </tr>
-                              </tbody>
+                             
                             );
                           })}
-
+                        </tbody>}
                         </table>
                         
                          <div className="table-pagination my-4 float-end">
@@ -325,12 +321,10 @@ const [filteredData, setFilteredData] = useState(tutorpayment);
                                 onChange={handleChange}
                                 shape="rounded"
                                 variant="outlined"
-                               
                               />
-                 
-                 </div>
-                      </div>
-                        )}
+                            </div>
+                         </div>
+                     
                   </div>
                 </div>
               </div>

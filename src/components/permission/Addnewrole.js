@@ -10,21 +10,21 @@ import axios from "axios";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 import { useDispatch, useSelector } from "react-redux";
 import { getAdminPagesApi } from "../../Redux/Loginpages/getAdminPageSlice";
+import { RotatingLines } from "react-loader-spinner";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Addnewrole = () => {
   const dispatch = useDispatch();
-  const getAdminPageSlice = useSelector(
-    (state) => state.getAdminPage?.data?.document
-  );
+  const getAdminPageSlice = useSelector((state) => state.getAdminPage?.data?.document);
+  const isLoading = useSelector((state) => state.getAdminPage?.isLoading);
   const {register, handleSubmit, reset } = useForm({});
 
   const navigate = useNavigate();
   const notify = (data) => toast(data);
 
   const [loading, setLoading] = useState(false);
-  const [loading1, setLoading1] = useState(false);
+  
   const [data, setData] = useState([]);
   const [resourceData, setResourceData] = useState([]);
 
@@ -36,7 +36,7 @@ const Addnewrole = () => {
 
   const onSubmit = async (data) => {
     try {
-      setLoading(true);
+     
       const requestUrl = `${url}/admin/adminrole`;
 
       var response;
@@ -72,7 +72,6 @@ const Addnewrole = () => {
       notify(error.response.data.error);
     }
 
-    setLoading(false);
   };
 
   useEffect(() => {
@@ -81,16 +80,15 @@ const Addnewrole = () => {
 
   const fetchData = async () => {
     try {
-      setLoading1(true);
-
+    
       const response = await axios.post(`${url}/admin/getadminrole`, {
         token: token,
       });
       setData(response.data.document);
-      setLoading1(false);
+      
     } catch (error) {
       logoutIfInvalidToken(error.response);
-      setLoading1(false);
+     
     }
   };
   const [searchParams] = useSearchParams();
@@ -149,15 +147,13 @@ const Addnewrole = () => {
               <div className="row mt-3 justify-content-center">
                 <div className="col-md-8 col-lg-6 grid-margin stretch-card">
                   <div className="card new-table">
-                    <div
-                      className={`card-body ${loading1 ? "table-loading" : ""}`}
-                    >
+                    <div className="card-body" >
                       <form
                         onSubmit={handleSubmit(onSubmit)}
                         className="user-form"
                       >
                         <div className="form-group">
-                          <label for="username">Role Name</label>
+                          <label htmlFor="username">Role Name</label>
                           <input
                             type="text"
                             className="form-control"
@@ -168,11 +164,30 @@ const Addnewrole = () => {
                           />
                         </div>
                         <div className="form-group">
-                          <label for="email">Resources</label>
+                          <label htmlFor="email">Resources</label>
                           <div className="main-scroll">
-                            <div className="scroll-table">
-                            {getAdminPageSlice?.map((page) => (
-                                <div className="table-block">
+                              {isLoading ? (
+            <div
+            className="loader-container"
+            style={{
+              marginLeft: "auto",
+              marginRight: "auto",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "50vh",
+            }}>
+            <RotatingLines
+              strokeColor="#d63384"
+              strokeWidth="5"
+              animationDuration="0.75"
+              width="50"
+              visible={true}
+            />
+          </div>
+          ) :<div className="scroll-table">
+                            {getAdminPageSlice?.map((page, id) => (
+                                <div className="table-block" key={id}>
                                   <table className="table-body-cell">
                                     <tbody>
                                       <tr>
@@ -204,8 +219,8 @@ const Addnewrole = () => {
                                     </tbody>
                                   </table>
                                   {!!page?.subpages?.length && <div className="table-block">
-                                    {page?.subpages.map((subMenu) =>(
-                                      <table className="table-body-cell">
+                                    {page?.subpages.map((subMenu,id) =>(
+                                      <table className="table-body-cell" key={id}>
                                       <tbody>
                                         <tr>
                                           <td>
@@ -242,7 +257,7 @@ const Addnewrole = () => {
                                   </div>}
                                 </div>
                             ))}
-                            </div>
+                            </div>}
                             <Link
                               id="ContentPlaceHolder1_tView_SkipLink"
                               href=""
