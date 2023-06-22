@@ -26,6 +26,7 @@ const authSlice = createSlice({
             state.token = payload.token;
             state.error = null;
             localStorage.setItem("token", state.token);
+            localStorage.setItem("menusItem", JSON.stringify(payload.actions));
         },
         signInFailure: (state, { payload }) => {
             state.loading = false;
