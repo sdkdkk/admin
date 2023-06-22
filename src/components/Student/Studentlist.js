@@ -75,35 +75,35 @@ const Studentlist = () => {
 
 
   const searchItem = () => {
-  if (studentists) {
-    const filteredData = studentists.filter((item) => {
-      const itemDate = new Date(item.createdAt);
-      const name = item.name ? item.name.toLowerCase() : null;
-      const email = item.email ? item.email.toLowerCase() : null;
+    if (studentists) {
+      const filteredData = studentists.filter((item) => {
+        const itemDate = new Date(item.createdAt);
+        const name = item.name ? item.name.toLowerCase() : null;
+        const email = item.email ? item.email.toLowerCase() : null;
 
-      // Check if item matches date range filter
-      const dateMatch =
-        (values.length === 1 &&
-          itemDate.getDate() === values[0].toDate().getDate() &&
-          itemDate.getMonth() === values[0].toDate().getMonth() &&
-          itemDate.getFullYear() === values[0].toDate().getFullYear()) ||
-        (values.length === 2 &&
-          itemDate >= values[0].toDate() &&
-          itemDate <= values[1].toDate()) ||
-        values.length === 0;
+        // Check if item matches date range filter
+        const dateMatch =
+          (values.length === 1 &&
+            itemDate.getDate() === values[0].toDate().getDate() &&
+            itemDate.getMonth() === values[0].toDate().getMonth() &&
+            itemDate.getFullYear() === values[0].toDate().getFullYear()) ||
+          (values.length === 2 &&
+            itemDate >= values[0].toDate() &&
+            itemDate <= values[1].toDate()) ||
+          values.length === 0;
 
-      // Check if item matches search term filter
-      const searchMatch =
-        (!searchTerm ||
-          (name && name.includes(searchTerm.toLowerCase())) ||
-          (email && email.includes(searchTerm.toLowerCase())));
+        // Check if item matches search term filter
+        const searchMatch =
+          (!searchTerm ||
+            (name && name.includes(searchTerm.toLowerCase())) ||
+            (email && email.includes(searchTerm.toLowerCase())));
 
-      return dateMatch && searchMatch;
-    });
+        return dateMatch && searchMatch;
+      });
 
-    setCurrentData(filteredData);
-  }
-};
+      setCurrentData(filteredData);
+    }
+  };
 
 
 
@@ -164,70 +164,67 @@ const Studentlist = () => {
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table">
                     <div className="card-body">
-                     
-                        <table className="table v-top">
-                          <thead>
-                            <tr>
-                              <th scope="col">Reg.Date</th>
-                              <th scope="col">User Name</th>
-                              <th scope="col">Email</th>
-                              <th scope="col">Mobil No</th>
-                              <th scope="col">Question Ask</th>
-                              <th scope="col">Min Balance</th>
-                              <th scope="col">Action</th>
-                            </tr>
+
+                      <table className="table v-top">
+                        <thead>
+                          <tr>
+                            <th scope="col">Reg.Date</th>
+                            <th scope="col">User Name</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Mobil No</th>
+                            <th scope="col">Question Ask</th>
+                            <th scope="col">Min Balance</th>
+                            <th scope="col">Action</th>
+                          </tr>
                         </thead>
-                         {isLoading ? ( // Condition for displaying loader
-        <tbody>
-          <tr>
-            <td colSpan="7" className="text-center">
-              <div className="loader-container"> {/* Wrap loader code inside this div */}
-                <div className="loader">
-                  <RotatingLines
-                    strokeColor="#d63384"
-                    strokeWidth="5"
-                    animationDuration="0.75"
-                    width="50"
-                    visible={true}
-                  />
-                </div>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      ) :<tbody>
+                        {isLoading ? ( // Condition for displaying loader
+                          <tbody>
+                            <tr>
+                              <td colSpan="7" className="text-center">
+                                <div className="loader-container"> {/* Wrap loader code inside this div */}
+                                  <div className="loader">
+                                    <RotatingLines
+                                      strokeColor="#d63384"
+                                      strokeWidth="5"
+                                      animationDuration="0.75"
+                                      width="50"
+                                      visible={true}
+                                    />
+                                  </div>
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        ) : <tbody>
                           {displayUsers && displayUsers.length > 0 ? (
                             displayUsers &&
                             displayUsers.map((data) => (
-                             
-                                <tr  key={data._id}>
-                                  <td>
-                                    {data.createdAt ? (
-                                      <Moment format="DD MMM YYYY" withTitle>
-                                        {data.createdAt}
-                                      </Moment>
-                                    ) : (
-                                      "-"
-                                    )}
-                                  </td>
-                                  <td>{data.name || "-"}</td>
-                                  <td>{data.email.substring(0, 25)}</td>
-                                  <td>{data.mobileNo || "-"}</td>
-                                  <td>{data.questions}</td>
-                                  <td>
-                                    {data.balance
-                                      ? parseFloat(data.balance).toFixed(4)
-                                      : "-"}
-                                  </td>
-                                  <td>
-                                    <Link to={`/studentdetails/${data._id}`}>
-                                      <button className="btn btn-primary btn-sm">
-                                        See Details
-                                      </button>
-                                    </Link>
-                                  </td>
-                                </tr>
-                             
+
+                              <tr key={data._id}>
+                                <td>
+                                  {data.createdAt ? (
+                                    <Moment format="DD MMM YYYY" withTitle>
+                                      {data.createdAt}
+                                    </Moment>
+                                  ) : (
+                                    "-"
+                                  )}
+                                </td>
+                                <td>{data.name || "-"}</td>
+                                <td>{data.email.substring(0, 25)}</td>
+                                <td>{data.mobileNo || "-"}</td>
+                                <td>{data.questions}</td>
+                                <td>$  {data.balance ? parseFloat(data.balance).toFixed(2) : "0"}
+                                </td>
+                                <td>
+                                  <Link to={`/studentdetails/${data._id}`}>
+                                    <button className="btn btn-primary btn-sm">
+                                      See Details
+                                    </button>
+                                  </Link>
+                                </td>
+                              </tr>
+
                             ))
                           ) : (
                             <tbody>
@@ -240,9 +237,9 @@ const Studentlist = () => {
                               </tr>
                             </tbody>
                           )}
-                           </tbody>}
-                        </table>
-                 
+                        </tbody>}
+                      </table>
+
 
                       <div className="table-pagination">
                         <Pagination
