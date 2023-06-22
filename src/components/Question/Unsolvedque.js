@@ -204,7 +204,6 @@ const Unsolvedque = () => {
                                                                                 <ul className="dropdown__list">
                                                                                     <Link
                                                                                         to={`/questionanswerall/${a._id}`}>
-                                                                                        {" "}
                                                                                         <li>Answer</li>
                                                                                     </Link>
                                                                                 </ul>
