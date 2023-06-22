@@ -35,7 +35,7 @@ const ForgotpassWord = () => {
         <main className="d-lg-flex align-items-center justify-content-center d-block h-100">
           <div className="container">
             <div className="row">
-              <div className="col-lg-10 mx-auto ">
+              <div className="col-lg-10 mx-auto border rounded  my-5 ">
                 <div className="logo pt--20 pb--20 text-center">
                   <Link to="/">
                     <img src={Logo} alt="img" className="logo-img-forgot" />

@@ -201,7 +201,7 @@ const Reanswerque = () => {
                                     {a._id === isOpen && (
                                       <div className="dropdown__popup">
                                         <ul className="dropdown__list">
-                                            <Link to={`/questionanswerall/${a._id}`}>  <li>
+                                            <Link to={`/questionanswerall/${a._id}`}><li>
                                                                                         Answer
                                                                                     </li></Link>
                                         </ul>

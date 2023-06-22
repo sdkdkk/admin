@@ -138,7 +138,7 @@ const StudentRegitserBonus = () => {
                       <form onSubmit={handleSubmit((data) => onSubmit(data))}>
                         <div className="row mt-4">
                           <div className="col-lg-2 col-md-4 mt-2">
-                            <h6> Student Class</h6>
+                            <h6> Student Bonus</h6>
                           </div>
                           <div className="col-lg-4 col-md-8">
                             <div className="mb-3">
@@ -146,12 +146,12 @@ const StudentRegitserBonus = () => {
                                 type="number"
                                 className="form-control me-2"
                                 id="hoursInput"
-                                name="studentClass"
+                                name="price"
                                 {...register("price", {
                                   required: true,
                                 })}
                               />
-                              {errors.studentClass && (
+                              {errors.price && (
                                 <p className="error text-right text-danger">
                                   Please Enter a Student Bonus
                                 </p>
@@ -199,7 +199,7 @@ const StudentRegitserBonus = () => {
                               <thead>
                                 <tr>
                                   <th>Sr. No</th>
-                                  <th>Student Class</th>
+                                  <th>Student Bonus</th>
                                   <th>Action</th>
                                 </tr>
                               </thead>

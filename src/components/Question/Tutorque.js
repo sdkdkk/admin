@@ -257,9 +257,7 @@ const Tutorque = () => {
                                           <div className="dropdown__popup">
                                             <ul className="dropdown__list">
                                               <Link
-                                                to={`/questionanswerall/${a._id}`}>
-                                                {" "}
-                                                <li>Answer</li>
+                                                to={`/questionanswerall/${a._id}`}><li>Answer</li>
                                               </Link>
                                             </ul>
                                           </div>
