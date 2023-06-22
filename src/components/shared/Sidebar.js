@@ -79,6 +79,14 @@ const Sidebar = () => {
                     Student List
                   </Link>
                 </li>
+                      {/*StudentRegitserBonus */}
+             <li className={`nav-item ${activeLink === '/studentregitserbonus' ? 'active' : ''}`}>
+            <Link className="nav-link" to="/studentregitserbonus">
+              <span className="menu-title">Student Regitser Bonus</span>
+              <i className="icon-screen-desktop menu-icon"></i>
+            </Link>
+          </li>
+
               </ul>
             </div>
           </li>
