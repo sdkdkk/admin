@@ -10,7 +10,7 @@ const Sidebar = () => {
   const navMenusStateList =
     !!navMenusState && navMenusState.length
       ? navMenusState.map((a) => a.name)
-      : navMenusStateLocalParsedObject.map((a) => a.name);
+      : navMenusStateLocalParsedObject?.map((a) => a.name);
 
   useEffect(() => {
     if (navMenusState.length) {
@@ -37,7 +37,7 @@ const Sidebar = () => {
             <span className="nav-link">Dashboard</span>
           </li>
 
-          {navMenusStateList.includes("Dashboard") && (
+          {navMenusStateList?.includes("Dashboard") && (
             <li className="nav-item">
               <Link
                 className={`nav-link ${activeLink === "/" ? "active" : ""}`}
@@ -50,7 +50,7 @@ const Sidebar = () => {
           )}
 
           {/* Tutors */}
-          {navMenusStateList.includes("Tutors") && (
+          {navMenusStateList?.includes("Tutors") && (
             <li className="nav-item">
               <a
                 className="nav-link"
@@ -89,7 +89,7 @@ const Sidebar = () => {
 
           {/* Student */}
 
-          {navMenusStateList.includes("Student") && (
+          {navMenusStateList?.includes("Student") && (
             <li className="nav-item">
               <a
                 className="nav-link"
@@ -130,7 +130,7 @@ const Sidebar = () => {
           )}
 
           {/*wallet*/}
-          {navMenusStateList.includes("Wallet") && (
+          {navMenusStateList?.includes("Wallet") && (
             <li
               className={`nav-item ${activeLink === "/wallet" ? "active" : ""}`}
             >
@@ -150,7 +150,7 @@ const Sidebar = () => {
           </li> */}
 
           {/*Tutor Subject*/}
-          {navMenusStateList.includes("Question Subject") && (
+          {navMenusStateList?.includes("Question Subject") && (
             <li
               className={`nav-item ${
                 activeLink === "/tutorsubject" ? "active" : ""
@@ -164,7 +164,7 @@ const Sidebar = () => {
           )}
 
           {/*Student Class */}
-          {navMenusStateList.includes("Student Class") && (
+          {navMenusStateList?.includes("Student Class") && (
             <li
               className={`nav-item ${
                 activeLink === "studentclass" ? "active" : ""
@@ -178,7 +178,7 @@ const Sidebar = () => {
           )}
 
           {/*Adminquetype*/}
-          {navMenusStateList.includes("Question Type") && (
+          {navMenusStateList?.includes("Question Type") && (
             <li
               className={`nav-item ${
                 activeLink === "/questiontype" ? "active" : ""
@@ -192,7 +192,7 @@ const Sidebar = () => {
           )}
 
           {/*curruncy */}
-          {navMenusStateList.includes("Curruncy") && (
+          {navMenusStateList?.includes("Curruncy") && (
             <li
               className={`nav-item ${
                 activeLink === "/curruncy" ? "active" : ""
@@ -206,14 +206,14 @@ const Sidebar = () => {
           )}
 
           {/*Question Answer*/}
-          {navMenusStateList.includes("Curruncy") && (
+          {navMenusStateList?.includes("Curruncy") && (
             <li className="nav-item nav-category">
               <span className="nav-link">Question Answer</span>
             </li>
           )}
 
           {/*Searchengine*/}
-          {navMenusStateList.includes("Searchengine") && (
+          {navMenusStateList?.includes("Searchengine") && (
             <li
               className={`nav-item ${
                 activeLink === "/searchengine" ? "active" : ""
@@ -226,7 +226,7 @@ const Sidebar = () => {
             </li>
           )}
           {/* Student */}
-          {navMenusStateList.includes("Issue Question") && (
+          {navMenusStateList?.includes("Issue Question") && (
             <li
               className={`nav-item ${
                 activeLink === "/issuequestion" ? "active" : ""
@@ -259,7 +259,7 @@ const Sidebar = () => {
           )}
 
           {/*Questions*/}
-          {navMenusStateList.includes("Questions") && (
+          {navMenusStateList?.includes("Questions") && (
             <li className="nav-item">
               <a
                 className="nav-link"
@@ -319,14 +319,14 @@ const Sidebar = () => {
           )}
 
           {/*Question Setting*/}
-          {navMenusStateList.includes("Question Setting") && (
+          {navMenusStateList?.includes("Question Setting") && (
             <li className="nav-item nav-category">
               <span className="nav-link">Question Setting</span>
             </li>
           )}
 
           {/*Question timing*/}
-          {navMenusStateList.includes("Question timing") && (
+          {navMenusStateList?.includes("Question timing") && (
             <li
               className={`nav-item ${
                 activeLink === "/questiontiming" ? "active" : ""
@@ -340,7 +340,7 @@ const Sidebar = () => {
           )}
 
           {/*Question Pricing*/}
-          {navMenusStateList.includes("Question Pricing") && (
+          {navMenusStateList?.includes("Question Pricing") && (
             <li
               className={`nav-item ${
                 activeLink === "/questionpricing" ? "active" : ""
@@ -354,7 +354,7 @@ const Sidebar = () => {
           )}
 
           {/*Question Reanswer Choice*/}
-          {navMenusStateList.includes("Question Reanswer") && (
+          {navMenusStateList?.includes("Question Reanswer") && (
             <li
               className={`nav-item ${
                 activeLink === "/questionreanswer" ? "active" : ""
@@ -368,14 +368,14 @@ const Sidebar = () => {
           )}
 
           {/*Tutor Exam*/}
-          {navMenusStateList.includes("Tutor Exam") && (
+          {navMenusStateList?.includes("Tutor Exam") && (
             <li className="nav-item nav-category">
               <span className="nav-link">Tutor Exam</span>
             </li>
           )}
 
           {/*Tutor exam*/}
-          {navMenusStateList.includes("Tutor Exam Questions") && (
+          {navMenusStateList?.includes("Tutor Exam Questions") && (
             <li
               className={`nav-item ${
                 activeLink === "/tutorexam" ? "active" : ""
@@ -389,7 +389,7 @@ const Sidebar = () => {
           )}
 
           {/*Test Exam*/}
-          {navMenusStateList.includes("Tutor Exam Checking") && (
+          {navMenusStateList?.includes("Tutor Exam Checking") && (
             <li
               className={`nav-item ${
                 activeLink === "/testexam" ? "active" : ""
@@ -403,7 +403,7 @@ const Sidebar = () => {
           )}
 
           {/*Tutorexamconfig*/}
-          {navMenusStateList.includes("Tutor Exam Configuration") && (
+          {navMenusStateList?.includes("Tutor Exam Configuration") && (
             <li
               className={`nav-item ${
                 activeLink === "/tutorexamconfig" ? "active" : ""
@@ -417,14 +417,14 @@ const Sidebar = () => {
           )}
 
           {/*Bonus Section*/}
-          {navMenusStateList.includes("Bonus Section") && (
+          {navMenusStateList?.includes("Bonus Section") && (
             <li className="nav-item nav-category">
               <span className="nav-link">Bonus Section</span>
             </li>
           )}
 
           {/*Bonus Section*/}
-          {navMenusStateList.includes("Student Referral") && (
+          {navMenusStateList?.includes("Student Referral") && (
             <li
               className={`nav-item ${
                 activeLink === "/studentreferral" ? "active" : ""
@@ -438,7 +438,7 @@ const Sidebar = () => {
           )}
 
           {/*Bonus Section*/}
-          {navMenusStateList.includes("Student Posting Streak") && (
+          {navMenusStateList?.includes("Student Posting Streak") && (
             <li
               className={`nav-item ${
                 activeLink === "/studentpostingstreak" ? "active" : ""
@@ -452,7 +452,7 @@ const Sidebar = () => {
           )}
 
           {/*Bonus Section*/}
-          {navMenusStateList.includes("Tutor Referral") && (
+          {navMenusStateList?.includes("Tutor Referral") && (
             <li
               className={`nav-item ${
                 activeLink === "/tutorreferral" ? "active" : ""
@@ -466,7 +466,7 @@ const Sidebar = () => {
           )}
 
           {/*Tutorexamconfig*/}
-          {navMenusStateList.includes("Tutor Posting Streak") && (
+          {navMenusStateList?.includes("Tutor Posting Streak") && (
             <li
               className={`nav-item ${
                 activeLink === "/tutorpostingstreak" ? "active" : ""
@@ -480,14 +480,14 @@ const Sidebar = () => {
           )}
 
           {/*pages*/}
-          {navMenusStateList.includes("Pages") && (
+          {navMenusStateList?.includes("Pages") && (
             <li className="nav-item nav-category">
               <span className="nav-link">Pages</span>
             </li>
           )}
 
           {/*testimonial*/}
-          {navMenusStateList.includes("Testimonial") && (
+          {navMenusStateList?.includes("Testimonial") && (
             <li
               className={`nav-item ${
                 activeLink === "/testimonial" ? "active" : ""
@@ -501,7 +501,7 @@ const Sidebar = () => {
           )}
 
           {/*Pages*/}
-          {navMenusStateList.includes("Pages") && (
+          {navMenusStateList?.includes("Pages") && (
             <li
               className={`nav-item ${activeLink === "/pages" ? "active" : ""}`}
             >
@@ -513,7 +513,7 @@ const Sidebar = () => {
           )}
 
           {/*Features*/}
-          {navMenusStateList.includes("Features") && (
+          {navMenusStateList?.includes("Features") && (
             <li className="nav-item">
               <Link className="nav-link" to="/">
                 <span className="menu-title">Features</span>
@@ -523,7 +523,7 @@ const Sidebar = () => {
           )}
 
           {/*Services*/}
-          {navMenusStateList.includes("Services") && (
+          {navMenusStateList?.includes("Services") && (
             <li className="nav-item">
               <Link className="nav-link" to="/">
                 <span className="menu-title">Services</span>
@@ -533,14 +533,14 @@ const Sidebar = () => {
           )}
 
           {/*Offer*/}
-          {navMenusStateList.includes("Offer") && (
+          {navMenusStateList?.includes("Offer") && (
             <li className="nav-item nav-category">
               <span className="nav-link">Offer</span>
             </li>
           )}
 
           {/*coupon*/}
-          {navMenusStateList.includes("Coupon") && (
+          {navMenusStateList?.includes("Coupon") && (
             <li
               className={`nav-item ${activeLink === "/coupon" ? "active" : ""}`}
             >
@@ -552,14 +552,14 @@ const Sidebar = () => {
           )}
 
           {/*permission*/}
-          {navMenusStateList.includes("Permission") && (
+          {navMenusStateList?.includes("Permission") && (
             <li className="nav-item nav-category">
               <span className="nav-link">Permission</span>
             </li>
           )}
 
           {/*User*/}
-          {navMenusStateList.includes("Users") && (
+          {navMenusStateList?.includes("Users") && (
             <li
               className={`nav-item ${activeLink === "/users" ? "active" : ""}`}
             >
@@ -570,7 +570,7 @@ const Sidebar = () => {
             </li>
           )}
           {/*Role*/}
-          {navMenusStateList.includes("Roles") && (
+          {navMenusStateList?.includes("Roles") && (
             <li
               className={`nav-item ${activeLink === "/roles" ? "active" : ""}`}
             >
@@ -582,13 +582,13 @@ const Sidebar = () => {
           )}
 
           {/* My Account*/}
-          {navMenusStateList.includes("My Account") && (
+          {navMenusStateList?.includes("My Account") && (
             <li className="nav-item nav-category">
               <span className="nav-link"> My Account</span>
             </li>
           )}
           {/*Profile*/}
-          {navMenusStateList.includes("Profile") && (
+          {navMenusStateList?.includes("Profile") && (
             <li className="nav-item">
               <Link className="nav-link" to="/">
                 <span className="menu-title">Profile</span>
@@ -598,7 +598,7 @@ const Sidebar = () => {
           )}
 
           {/*Settings*/}
-          {navMenusStateList.includes("Settings") && (
+          {navMenusStateList?.includes("Settings") && (
             <li className="nav-item">
               <a
                 className="nav-link"
@@ -637,7 +637,7 @@ const Sidebar = () => {
           )}
 
           {/*mobileNo*/}
-          {navMenusStateList.includes("Add Mobile No") && (
+          {navMenusStateList?.includes("Add Mobile No") && (
             <li
               className={`nav-item ${
                 activeLink === "/addmobile" ? "active" : ""
@@ -651,7 +651,7 @@ const Sidebar = () => {
           )}
 
           {/*contact us*/}
-          {navMenusStateList.includes("Contact us") && (
+          {navMenusStateList?.includes("Contact us") && (
             <li
               className={`nav-item ${
                 activeLink === "/contactus" ? "active" : ""
@@ -665,7 +665,7 @@ const Sidebar = () => {
           )}
 
           {/*Thoughts*/}
-          {navMenusStateList.includes("Thoughts") && (
+          {navMenusStateList?.includes("Thoughts") && (
             <li
               className={`nav-item ${
                 activeLink === "/thoughts" ? "active" : ""
@@ -679,7 +679,7 @@ const Sidebar = () => {
           )}
 
           {/*Thoughts Popup*/}
-          {navMenusStateList.includes("Tutor Exam Popup") && (
+          {navMenusStateList?.includes("Tutor Exam Popup") && (
             <li
               className={`nav-item ${
                 activeLink === "/tutorexampopup" ? "active" : ""
@@ -693,7 +693,7 @@ const Sidebar = () => {
           )}
 
           {/*Thoughts*/}
-          {navMenusStateList.includes("Posting Guideline") && (
+          {navMenusStateList?.includes("Posting Guideline") && (
             <li
               className={`nav-item ${
                 activeLink === "/postingguideline" ? "active" : ""
@@ -706,7 +706,7 @@ const Sidebar = () => {
             </li>
           )}
 
-          {navMenusStateList.includes("Answer Guideline") && (
+          {navMenusStateList?.includes("Answer Guideline") && (
             <li
               className={`nav-item ${
                 activeLink === "/postingguideline" ? "active" : ""
@@ -720,7 +720,7 @@ const Sidebar = () => {
           )}
 
           {/*Sign out*/}
-          {navMenusStateList.includes("Sign out") && (
+          {navMenusStateList?.includes("Sign out") && (
             <li className="nav-item">
               <Link className="nav-link" to="/logout">
                 <span className="menu-title">Sign out</span>

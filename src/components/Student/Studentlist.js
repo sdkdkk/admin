@@ -198,7 +198,7 @@ const Studentlist = () => {
                         ) : <tbody>
                           {displayUsers && displayUsers.length > 0 ? (
                             displayUsers &&
-                            displayUsers.map((data) => (
+                            displayUsers?.map((data) => (
 
                               <tr key={data._id}>
                                 <td>
@@ -214,7 +214,10 @@ const Studentlist = () => {
                                 <td>{data.email.substring(0, 25)}</td>
                                 <td>{data.mobileNo || "-"}</td>
                                 <td>{data.questions}</td>
-                                <td>$  {data.balance ? parseFloat(data.balance).toFixed(2) : "0"}
+                                <td>$ 
+                                  {data.balance
+                                    ? parseFloat(data.balance).toFixed(2)
+                                    : "0"}
                                 </td>
                                 <td>
                                   <Link to={`/studentdetails/${data._id}`}>
