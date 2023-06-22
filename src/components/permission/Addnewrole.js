@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
@@ -14,20 +14,22 @@ import { RotatingLines } from "react-loader-spinner";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
-const Addnewrole = () => {
+const Addnewrole = memo(() => {
   const dispatch = useDispatch();
-  const getAdminPageSlice = useSelector((state) => state.getAdminPage?.data?.document);
+  const getAdminPageSlice = useSelector(
+    (state) => state.getAdminPage?.data?.document
+  );
   const isLoading = useSelector((state) => state.getAdminPage?.isLoading);
-  const {register, handleSubmit, reset } = useForm({});
+  const { register, handleSubmit, reset, setValue } = useForm({});
 
   const navigate = useNavigate();
   const notify = (data) => toast(data);
 
   const [loading, setLoading] = useState(false);
-  
+
   const [data, setData] = useState([]);
   const [resourceData, setResourceData] = useState([]);
-
+  console.log("resourceData", resourceData);
   let token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -36,7 +38,6 @@ const Addnewrole = () => {
 
   const onSubmit = async (data) => {
     try {
-     
       const requestUrl = `${url}/admin/adminrole`;
 
       var response;
@@ -71,7 +72,6 @@ const Addnewrole = () => {
       logoutIfInvalidToken(error.response);
       notify(error.response.data.error);
     }
-
   };
 
   useEffect(() => {
@@ -80,15 +80,12 @@ const Addnewrole = () => {
 
   const fetchData = async () => {
     try {
-    
       const response = await axios.post(`${url}/admin/getadminrole`, {
         token: token,
       });
       setData(response.data.document);
-      
     } catch (error) {
       logoutIfInvalidToken(error.response);
-     
     }
   };
   const [searchParams] = useSearchParams();
@@ -101,10 +98,16 @@ const Addnewrole = () => {
   function onlyUnique(value, index, array) {
     return array.indexOf(value) === index;
   }
-  
 
   const handleResourceChange = (index) => {
-    setResourceData((prev) => ([...prev, index].filter(onlyUnique)))
+    const tempResourceData = [...resourceData];
+    const newResourceData = [...tempResourceData, index].filter(onlyUnique);
+    if(tempResourceData.includes(index)){
+      setResourceData(newResourceData.filter((a) => a !== index));
+    }else{
+      setResourceData(newResourceData);
+    }
+    
     // const allSubmunus = resourcesList
     //   .map((a) => a.id)
     //   .filter((a) => Math.floor(a) === index);
@@ -127,10 +130,12 @@ const Addnewrole = () => {
 
   useEffect(() => {
     if (filtrData?.[0]?.action?.length) {
-      const selectedRoles = filtrData?.[0]?.action?.map((a) => a._id)
+      setValue("rolename", filtrData?.[0]?.rolename);
+      setValue("_id", filtrData?.[0]?._id);
+      const selectedRoles = filtrData?.[0]?.action?.map((a) => a._id);
       setResourceData(selectedRoles);
     }
-  }, [reset, data, roleValue]);
+  }, [filtrData.length]);
 
   return (
     <>
@@ -147,7 +152,7 @@ const Addnewrole = () => {
               <div className="row mt-3 justify-content-center">
                 <div className="col-md-8 col-lg-6 grid-margin stretch-card">
                   <div className="card new-table">
-                    <div className="card-body" >
+                    <div className="card-body">
                       <form
                         onSubmit={handleSubmit(onSubmit)}
                         className="user-form"
@@ -166,98 +171,110 @@ const Addnewrole = () => {
                         <div className="form-group">
                           <label htmlFor="email">Resources</label>
                           <div className="main-scroll">
-                              {isLoading ? (
-            <div
-            className="loader-container"
-            style={{
-              marginLeft: "auto",
-              marginRight: "auto",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "50vh",
-            }}>
-            <RotatingLines
-              strokeColor="#d63384"
-              strokeWidth="5"
-              animationDuration="0.75"
-              width="50"
-              visible={true}
-            />
-          </div>
-          ) :<div className="scroll-table">
-                            {getAdminPageSlice?.map((page, id) => (
-                                <div className="table-block" key={id}>
-                                  <table className="table-body-cell">
-                                    <tbody>
-                                      <tr>
-                                        <td>
-                                          <div className="images-box" />
-                                        </td>
-                                        <td>
-                                          <Link>
-                                            <img
-                                              className="table-body-cell"
-                                              src="./img/WebResource (1).jpg"
-                                              alt="Collapse Sarees"
-                                            />
-                                          </Link>
-                                        </td>
-                                        <td>
-                                          <input
-                                            type="checkbox"
-                                            checked={resourceData?.includes(page._id)}
-                                            onChange={() =>
-                                              handleResourceChange(page._id)
-                                            }
-                                          />
-                                          <Link className="box-text">
-                                            {page.name}
-                                          </Link>
-                                        </td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
-                                  {!!page?.subpages?.length && <div className="table-block">
-                                    {page?.subpages.map((subMenu,id) =>(
-                                      <table className="table-body-cell" key={id}>
+                            {isLoading ? (
+                              <div
+                                className="loader-container"
+                                style={{
+                                  marginLeft: "auto",
+                                  marginRight: "auto",
+                                  display: "flex",
+                                  justifyContent: "center",
+                                  alignItems: "center",
+                                  height: "50vh",
+                                }}
+                              >
+                                <RotatingLines
+                                  strokeColor="#d63384"
+                                  strokeWidth="5"
+                                  animationDuration="0.75"
+                                  width="50"
+                                  visible={true}
+                                />
+                              </div>
+                            ) : (
+                              <div className="scroll-table">
+                                {getAdminPageSlice?.map((page, id) => (
+                                  <div className="table-block" key={id}>
+                                    <table className="table-body-cell">
                                       <tbody>
                                         <tr>
                                           <td>
                                             <div className="images-box" />
                                           </td>
                                           <td>
-                                            <div className="img-style">
+                                            <Link>
                                               <img
-                                                src="./img/WebResource2.jpg"
-                                                alt="img"
+                                                className="table-body-cell"
+                                                src="./img/WebResource (1).jpg"
+                                                alt="Collapse Sarees"
                                               />
-                                            </div>
-                                          </td>
-                                          <td>
-                                            <img
-                                              className="webresource"
-                                              src="./img/WebResource.jpg"
-                                              alt="img"
-                                            />
+                                            </Link>
                                           </td>
                                           <td>
                                             <input
                                               type="checkbox"
-                                              checked={resourceData?.includes(page._id)}
+                                              checked={resourceData?.includes(
+                                                page._id
+                                              )}
+                                              onChange={() =>
+                                                handleResourceChange(page._id)
+                                              }
                                             />
                                             <Link className="box-text">
-                                              {subMenu}
+                                              {page.name}
                                             </Link>
                                           </td>
                                         </tr>
                                       </tbody>
                                     </table>
-                                    ))}
-                                  </div>}
-                                </div>
-                            ))}
-                            </div>}
+                                    {!!page?.subpages?.length && (
+                                      <div className="table-block">
+                                        {page?.subpages.map((subMenu, id) => (
+                                          <table
+                                            className="table-body-cell"
+                                            key={id}
+                                          >
+                                            <tbody>
+                                              <tr>
+                                                <td>
+                                                  <div className="images-box" />
+                                                </td>
+                                                <td>
+                                                  <div className="img-style">
+                                                    <img
+                                                      src="./img/WebResource2.jpg"
+                                                      alt="img"
+                                                    />
+                                                  </div>
+                                                </td>
+                                                <td>
+                                                  <img
+                                                    className="webresource"
+                                                    src="./img/WebResource.jpg"
+                                                    alt="img"
+                                                  />
+                                                </td>
+                                                <td>
+                                                  <input
+                                                    type="checkbox"
+                                                    checked={resourceData?.includes(
+                                                      page._id
+                                                    )}
+                                                  />
+                                                  <Link className="box-text">
+                                                    {subMenu}
+                                                  </Link>
+                                                </td>
+                                              </tr>
+                                            </tbody>
+                                          </table>
+                                        ))}
+                                      </div>
+                                    )}
+                                  </div>
+                                ))}
+                              </div>
+                            )}
                             <Link
                               id="ContentPlaceHolder1_tView_SkipLink"
                               href=""
@@ -303,6 +320,6 @@ const Addnewrole = () => {
       </div>
     </>
   );
-};
+});
 
 export default Addnewrole;
