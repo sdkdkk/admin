@@ -35,14 +35,14 @@ const ForgotpassWord = () => {
         <main className="d-lg-flex align-items-center justify-content-center d-block h-100">
           <div className="container">
             <div className="row">
-              <div className="col-lg-10 mx-auto border rounded  my-5 ">
+              <div className="col-lg-10 mx-auto  ">
                 <div className="logo pt--20 pb--20 text-center">
                   <Link to="/">
                     <img src={Logo} alt="img" className="logo-img-forgot" />
                   </Link>
                 </div>
-                <div className="rbt-contact-form contact-form-style-1 rbt-shadow-box mb-0 mx-2">
-                  <div className="row align-items-center">
+                <div className="rbt-contact-form contact-form-style-1 rbt-shadow-box mb-0 mx-2 ">
+                  <div className="row align-items-center  border rounded p-3">
                     <div className="col-lg-5 mb_md--30 mb_sm--30 text-center">
                       <h4 className="fw-bold">
                         Get One Step Closer To <br />
