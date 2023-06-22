@@ -191,6 +191,12 @@ td.text-right.font-weight-bold {
      /* font-weight: initial; */
 }
 
+.search-icon{
+    position: relative;
+    right: 20px;
+    top: 10px;
+}
+
   /* logo css */
 @media (max-width: 991px) {
     .navbar .navbar-brand-wrapper .navbar-brand.brand-logo {

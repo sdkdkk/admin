@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
 import "../Tutors/Tutorlist.css";
@@ -10,14 +10,12 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { tutordetail } from "../../Redux/Loginpages/tutordetailSlice";
-import { ColorRing, RotatingLines } from "react-loader-spinner";
+import { RotatingLines } from "react-loader-spinner";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
-import { Button, ToastContainer } from "react-bootstrap";
+import { Button, Form, InputGroup, ToastContainer } from "react-bootstrap";
 import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
 import { toast } from "react-toastify";
-import { relativeTimeRounding } from "moment";
-import like from "../Image/like.png"
-import thumbdown from "../Image/thumbdown.png"
+import { BiSearch } from 'react-icons/bi';
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
@@ -166,14 +164,34 @@ const Tutordetails = () => {
       toast.error(error.response.data.error);
     }
   };
+  const [searchQuery, setSearchQuery] = useState("");
+  const [filteredQuestions, setFilteredQuestions] = useState([]);
+
+
+const filteredData = useMemo(() => {
+  if (searchQuery.trim() === "") {
+    return data; // No search query, return all data
+  } else {
+    const query = searchQuery.toLowerCase();
+    return data.filter((item) =>
+      item.allQuestions.question.toLowerCase().includes(query)
+    );
+  }
+}, [data, searchQuery]);
+
+// const indexOfLastPage = currentPage * postsPerPage;
+// const indexOfFirstPage = indexOfLastPage - postsPerPage;
+// const displayData = filteredData.slice(indexOfFirstPage, indexOfLastPage);
+// const totalPages = Math.ceil(filteredData.length / postsPerPage);
+
 
   let navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(8);
   const indexOfLastPage = currentPage * postsPerPage;
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
-  const displayUsers = data && data.slice(indexOfFirstPage, indexOfLastPage);
-  const totalPages = Math.ceil(data.length / postsPerPage);
+  const displayUsers = filteredData.slice(indexOfFirstPage, indexOfLastPage);
+const totalPages = Math.ceil(filteredData.length / postsPerPage);
 
   const location = useLocation();
 
@@ -186,6 +204,7 @@ const Tutordetails = () => {
       "",
       `${location.pathname}?${searchParams.toString()}`
     );
+    
   };
 
   useEffect(() => {
@@ -214,6 +233,11 @@ const Tutordetails = () => {
     navigate("/tutorquestiondetails", { state: { data, _id, active } });
   };
 
+
+// const displayData = filteredQuestions.length > 0 ? filteredQuestions : displayUsers;
+
+  console.log(displayUsers);
+console.log(filteredQuestions);
   return (
     <>
       <div className="container-scroller">
@@ -390,6 +414,44 @@ const Tutordetails = () => {
                   </div>
                   <div className=" text-start heading-main mt-5">
                     <h4>Answer Given</h4>
+                    </div>
+                      <div className="row">
+                    <div className=" col-12 grid-margin stretch-card">
+                      <div className="card">
+
+                         <div className="card-body">
+
+                          <div className="row " >
+                            <div className="col-md-12">
+                              
+                                <Form className="d-flex"> 
+                              
+                                <Form.Control
+                                  type="search"
+                                  id="fname"
+                                  className="form-control "
+                                    placeholder="Search Questions"
+                                    
+                                  aria-label="Search"
+                                  name="fname"
+                                  value={searchQuery}
+                                  onChange={(e) => setSearchQuery(e.target.value)}
+                                  />
+                                  <div className="search-icon">
+                                    <BiSearch className="" />
+                                  </div>
+                              </Form>
+                            </div>
+
+                            {/* <div className="col-md-2">
+                              <Button className="btn-search btn-success p-2 w-100"  onClick={filteredData}>
+                                Search
+                              </Button>
+                            </div> */}
+                          </div>
+                        </div> 
+                      </div>
+                    </div>
                   </div>
                   <div className="row">
                     <div className="col-12 grid-margin stretch-card">
@@ -406,7 +468,15 @@ const Tutordetails = () => {
                               </tr>
                             </thead>
                             <tbody>
-                              {displayUsers.map((data, id) => (
+                                {
+                                  displayUsers.length === 0 ? 
+                                  <tr>
+                                    <td colSpan="5" className="text-center">
+                                      No matching questions found.
+                                    </td>
+                                  </tr>
+                                 : 
+                                  displayUsers.map((data, id) => (
                                 <tr key={id}>
                                   <td
                                     style={{ cursor: "pointer" }}

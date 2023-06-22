@@ -83,6 +83,7 @@ import Tutorexampopup from "./components/Tutorexam/Tutorexampopup";
 import AnswerGuideline from "./components/Pages/AnswerGuideline";
 import PostingGuideLine from "./components/Pages/PostingGuideLine";
 import AdminPageSetting from "./components/Services/AdminPageSetting";
+import StudentRegitserBonus from "./components/Student/StudentRegitserBonus";
 
 
 function RequireAuth({ children }) {
@@ -578,7 +579,8 @@ function App() {
             </RequireAuth>
           }
         />
-        <Route path="/adminpagesetting" element={<AdminPageSetting />} />
+        <Route path="/adminpagesetting" element={<AdminPageSetting />} /> 
+        <Route path="studentregitserbonus" element={<StudentRegitserBonus />} />
 
          <Route path="/answerguideline" element={<AnswerGuideline /> } />
          <Route path="/postingguideline" element={<PostingGuideLine /> } />
