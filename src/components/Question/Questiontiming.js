@@ -535,7 +535,15 @@ const Questiontiming = () => {
                             </tr>
                           </tbody>
                         ) : <tbody>
-                                {displayUsers.map((data, index, _id) => (
+                                {displayUsers.length === 0 ? (
+                                <tr>
+                                  <td
+                                    colSpan="10"
+                                    className="fw-3 fw-bolder text-center">
+                                    No Timing found
+                                  </td>
+                                </tr>
+                              ) :displayUsers.map((data, index, _id) => (
                                   <tr key={index}>
                                     <td>{index + indexOfFirstPage + 1}</td>
                                     <td>{data.Type}</td>

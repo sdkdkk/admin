@@ -191,7 +191,15 @@ const Testimonial = () => {
                             </tbody>
                           ) : <tbody>
                               <>
-                                {testimonial.user &&
+                                {testimonial?.length === 0 ? (
+                                <tr>
+                                  <td
+                                    colSpan="4"
+                                    className="fw-3 fw-bolder text-center">
+                                    No Data found
+                                  </td>
+                                </tr>
+                              ) :testimonial.user &&
                                   testimonial.user?.testimonial
                                     .slice(
                                       (currentPage - 1) * 5,

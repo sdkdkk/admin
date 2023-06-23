@@ -183,7 +183,15 @@ const Unsolvedque = () => {
                                                         </tr>
                                                         </tbody>
                                                     ) :   <tbody>
-                                                        {displayUsers.map((a, index) => (
+                                                        {displayUsers.length === 0 ? (
+                                <tr>
+                                  <td
+                                    colSpan="6"
+                                    className="fw-3 fw-bolder text-center">
+                                    No Question found
+                                  </td>
+                                </tr>
+                              ) :displayUsers.map((a, index) => (
                                                             <tr key={index}>
                                                                 <td>{index + 1}</td>
                                                                 <td><p className="question">{a.question}</p></td>

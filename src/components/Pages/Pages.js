@@ -189,7 +189,15 @@ const Pages = () => {
                             </tr>
                           </tbody>
                         ) : <tbody >
-                          {[...document]
+                          {[...document]?.length === 0 ? (
+                                <tr>
+                                  <td
+                                    colSpan="4"
+                                    className="fw-3 fw-bolder text-center">
+                                    No Data found
+                                  </td>
+                                </tr>
+                              ) :[...document]
                             .slice((currentPage - 1) * 5, currentPage * 5)
                             .map((data, index) => (
                              
@@ -247,7 +255,7 @@ const Pages = () => {
                             ))}
                             </tbody>}
                         </table>
-                        {document.length > 0 && (
+                   
                           <div className="table-pagination">
                             <Pagination
                               count={Math.ceil(document.length / 5)}
@@ -257,7 +265,7 @@ const Pages = () => {
                               variant="outlined"
                             />
                           </div>
-                        )}
+                      
                       </div>
                     
                   </div>

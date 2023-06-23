@@ -114,7 +114,15 @@ const Users = () => {
                             </tr>
                           </tbody>
                         ) : <tbody >
-                                {data.map((value, index) => {
+                                {data?.length === 0 ? (
+                                <tr>
+                                  <td
+                                    colSpan="4"
+                                    className="fw-3 fw-bolder text-center">
+                                    No Users found
+                                  </td>
+                                </tr>
+                              ) :data.map((value, index) => {
                                   return (
                                    
                                       <tr key={index}>

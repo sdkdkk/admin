@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
 import {RotatingLines } from "react-loader-spinner";
 import { Button } from "react-bootstrap";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 import "./permission.css";
+import { Pagination } from "@mui/material";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
@@ -19,7 +20,28 @@ const Roles = () => {
   const [loading1, setLoading1] = useState(false);
   const [data, setData] = useState([]);
   let token = localStorage.getItem("token");
+ const [currentPage, setCurrentPage] = useState(1);
+  const [postsPerPage] = useState(8);
+  const indexOfLastPage = currentPage * postsPerPage;
+  const indexOfFirstPage = indexOfLastPage - postsPerPage;
+  const displayUsers = data.slice(indexOfFirstPage, indexOfLastPage);
+  const totalPages = Math.ceil(data.length / postsPerPage);
 
+  const location = useLocation();
+
+  const handleChange = (event, value) => {
+    setCurrentPage(value);
+    const searchParams = new URLSearchParams(location.search);
+    searchParams.set("page", value);
+    window.history.replaceState({}, "", `${location.pathname}?${searchParams.toString()}`);
+  };
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    const pageParam = searchParams.get("page");
+    const initialPage = pageParam ? parseInt(pageParam) : 1;
+    setCurrentPage(initialPage);
+  }, [location.search]);
   useEffect(() => {
     fetchData();
   }, []);
@@ -113,7 +135,15 @@ const Roles = () => {
                             </tr>
                           </tbody>
                         ) : <tbody>
-                                  {data.map((rowData, index) => (
+                                  {displayUsers?.length === 0 ? (
+                                <tr>
+                                  <td
+                                    colSpan="3"
+                                    className="fw-3 fw-bolder text-center">
+                                    No Data found
+                                  </td>
+                                </tr>
+                              ) :displayUsers.map((rowData, index) => (
                                     <tr key={rowData?._id}>
                                       <td>{index + 1}</td>
                                       <td>{rowData.rolename}</td>
@@ -138,7 +168,15 @@ const Roles = () => {
                                   ))}
                                 </tbody>}
                               </table>
-                           
+                            <div className="table-pagination">
+                              <Pagination
+                                count={totalPages}
+                                page={currentPage}
+                                onChange={handleChange}
+                                shape="rounded"
+                                variant="outlined"
+                              />
+                            </div>
                           </div>
                         </div>
                       </div>

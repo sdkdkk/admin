@@ -184,7 +184,10 @@ const [filteredData, setFilteredData] = useState(tutorpayment);
                             </tr>
                           </tbody>
                         ) :<tbody >
-                        { filteredData?.map((value, index) => {                        
+                            {filteredData?.length === 0 ?
+                              <tr>
+                                  <td colSpan="4" className="fw-2 fw-bolder text-center"> No Data Found </td>
+                              </tr>  : filteredData?.map((value, index) => {                        
                             return (                            
                                 <tr key={index}>
                                   <td>{index + 1}</td>

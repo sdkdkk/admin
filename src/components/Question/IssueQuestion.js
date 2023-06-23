@@ -100,7 +100,10 @@ const IssueQuestion = () => {
                             </tr>
                           </tbody>
                         ) : <tbody>
-                                  {data.map((item, id) => (
+                              {data?.length === 0 ?
+                                  <tr>
+                                    <td colSpan="8" className="fw-2 fw-bolder text-center"> No Question Found </td>
+                                  </tr>:data?.map((item, id) => (
                                     <tr key={id}>
                                       <td>{id + 1}</td>
                                       <td>{item.allQuestions.question}</td>

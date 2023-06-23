@@ -274,7 +274,15 @@ const Coupon = () => {
                             </tr>
                           </tbody>
                         ) : <tbody>
-                                {displayUsers.map((data, index) => (
+                                {displayUsers?.length === 0 ? (
+                                <tr>
+                                  <td
+                                    colSpan="4"
+                                    className="fw-3 fw-bolder text-center">
+                                    No Coupon found
+                                  </td>
+                                </tr>
+                              ) :displayUsers.map((data, index) => (
                                   <tr key={index}>
                                     <td>
                                       {index +

@@ -204,7 +204,15 @@ const Studentpostingstreak = () => {
                             </tr>
                           </tbody>
                         ) : <tbody>
-                                {displayUsers.map((data, index, _id) => (
+                                {displayUsers?.length === 0 ? (
+                                <tr>
+                                  <td
+                                    colSpan="4"
+                                    className="fw-3 fw-bolder text-center">
+                                    No data found
+                                  </td>
+                                </tr>
+                              ) :displayUsers.map((data, index, _id) => (
                                   <tr key={index}>
                                     <td>
                                       {index +

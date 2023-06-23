@@ -142,7 +142,10 @@ const Wallet = () => {
                             </tr>
                           </tbody>
                         ) :<tbody>
-                            {walletTransactions &&
+                            {walletTransactions?.length === 0 ?
+                              <tr>
+                                  <td colSpan="8" className="fw-2 fw-bolder text-center"> No Data Found </td>
+                              </tr> : walletTransactions &&
                               [...walletTransactions].map((value, pos) => {
                                 return (
                                   <tr key={value._id}>

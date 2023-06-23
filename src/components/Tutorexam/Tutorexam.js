@@ -557,7 +557,15 @@ const Tutorexam = () => {
                             </tr>
                           </tbody>
                         ) : <tbody className="text-capitalize text-sm-start">
-      {[...tutorexamquestionData].map((data, id) => {
+                      {[...tutorexamquestionData]?.length === 0 ? (
+                                <tr>
+                                  <td
+                                    colSpan="4"
+                                    className="fw-3 fw-bolder text-center">
+                                    No Question found
+                                  </td>
+                                </tr>
+                              ) :[...tutorexamquestionData]?.map((data, id) => {
         return (
           <tr key={data._id}>
             <td className="d-flex flex-column">

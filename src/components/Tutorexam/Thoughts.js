@@ -224,7 +224,15 @@ const Thoughts = () => {
                             </tr>
                           </tbody>
                         ) :  <tbody>
-                                {displayUsers.map((data, index, _id) => (
+                                {displayUsers?.length === 0 ? (
+                                <tr>
+                                  <td
+                                    colSpan="3"
+                                    className="fw-3 fw-bolder text-center">
+                                    No Thoughts 
+                                  </td>
+                                </tr>
+                              ) :displayUsers.map((data, index, _id) => (
                                   <tr key={data._id}>
                                     <td>
                                       {index +

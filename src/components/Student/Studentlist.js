@@ -196,8 +196,12 @@ const Studentlist = () => {
                             </tr>
                           </tbody>
                         ) : <tbody>
-                          {displayUsers && displayUsers.length > 0 ? (
-                            displayUsers &&
+                            {
+                          displayUsers?.length === 0 ?
+                              <tr>
+                                  <td colSpan="7" className="fw-2 fw-bolder text-center"> No Student Found </td>
+                              </tr> :
+                              displayUsers &&
                             displayUsers?.map((data) => (
 
                               <tr key={data._id}>
@@ -229,17 +233,9 @@ const Studentlist = () => {
                               </tr>
 
                             ))
-                          ) : (
-                            <tbody>
-                              <tr>
-                                <td colSpan="8">
-                                  <h4 className="information mt-3 text-danger">
-                                    No Student Found
-                                  </h4>
-                                </td>
-                              </tr>
-                            </tbody>
-                          )}
+                           }
+                           
+                          
                         </tbody>}
                       </table>
 

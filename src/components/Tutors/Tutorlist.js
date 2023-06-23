@@ -334,7 +334,7 @@ const Tutorlist = () => {
                                 {displayUsers && displayUsers.length === 0 ? (
                               
                                     <tr>
-                                       <td colSpan="6" className="fw-3 fw-bolder text-center"> No tutor found </td>
+                                       <td colSpan="8" className="fw-2 fw-bolder text-center"> No tutor found </td>
                                     </tr>
                                    
                               ) : displayUsers?.map((data, id) => (

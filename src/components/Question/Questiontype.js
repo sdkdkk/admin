@@ -221,7 +221,10 @@ const Questiontype = () => {
                             </tr>
                           </tbody>
                         ) : <tbody>
-                                {displayUsers.map((data, index, _id) => (
+                                {displayUsers?.length === 0 ?
+                                  <tr>
+                                    <td colSpan="3" className="fw-2 fw-bolder text-center"> No Data Found </td>
+                                  </tr> : displayUsers.map((data, index, _id) => (
                                   <tr key={data._id}>
                                     <td>
                                       {index +

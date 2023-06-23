@@ -252,7 +252,7 @@ const Contactus = () => {
                               {displayUsers?.length === 0 ? (
                                 <tr>
                                   <td colSpan="6" className="text-center">
-                                    No data
+                                    No data Found
                                   </td>
                                 </tr>
                               ) : (

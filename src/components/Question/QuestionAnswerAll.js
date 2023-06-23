@@ -202,15 +202,10 @@ const QuestionAnswerAll = () => {
               <div className="oneline">
                 <h3 className="main-text">All Question Answer</h3>
               </div>
-              <div className="row  ">
+              <div className="row">
                 <div className="col-md-12 grid-margin stretch-card questionanstext">
                   <div
-                    className={`card ${
-                      getAdminQuestions?.isLoading ||
-                      postAdminQuestions?.isLoading
-                        ? "table-loading"
-                        : ""
-                    }`}>
+                    className="card">
                     <div className="card-body">
                       {isLoading ? (
                         <div className="loader-container">
