@@ -293,11 +293,7 @@ const Tutorlist = () => {
                       <div className="card new-table">
                         <div className="card-body">
                         
-                              {displayUsers && displayUsers.length === 0 ? (
-                                <div className="no-tutor-found text-center text-danger ">
-                                  No tutor found
-                                </div>
-                              ) : (
+                        
                                 <table className="table v-top">
                                   <thead>
                                     <tr>
@@ -335,7 +331,13 @@ const Tutorlist = () => {
                                                         </tr>
                                                         </tbody>
                                                     ) :  <tbody>
-                                    {displayUsers?.map((data, id) => (
+                                {displayUsers && displayUsers.length === 0 ? (
+                              
+                                    <tr>
+                                       <td colSpan="6" className="fw-3 fw-bolder text-center"> No tutor found </td>
+                                    </tr>
+                                   
+                              ) : displayUsers?.map((data, id) => (
                                       <tr key={id}>
                                         {data.updatedAt ? (
                                           <td>
@@ -388,7 +390,7 @@ const Tutorlist = () => {
                                     ))}
                                   </tbody>}
                                 </table>
-                              )}
+                             
                            
 
                           <div className="table-pagination">

@@ -123,7 +123,7 @@ const QuestionAnswerAll = () => {
   const selectType = filterData?.[0]?.questionType;
 
   const [whomtoAsk, setWhomtoAsk] = useState(
-    "tutor" || "admin" || "reanswer" || "unsolved"
+    "tutor" && "admin" && "reanswer" && "unsolved"
   );
 
   const [questionSubject, setQuestionSubject] = useState("");
