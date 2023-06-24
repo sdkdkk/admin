@@ -42,7 +42,7 @@ const Tutorque = () => {
       });
       setSubjectList(response?.data?.data);
     } catch (error) {
-      // console.log(error);
+  
     }
   };
 

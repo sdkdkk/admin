@@ -55,7 +55,7 @@ const StudentRegitserBonus = () => {
     try {
       setLoading1(true);
         const response = await axios.post(`${url}/admin/getstudentregisterbonus`, { token: token, });
-        console.log(response.data.document);
+       
       setStudentBonus(response.data.document);
       setLoading1(false);
     } catch (error) {

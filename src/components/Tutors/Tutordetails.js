@@ -16,6 +16,7 @@ import { Button, Form, InputGroup, ToastContainer } from "react-bootstrap";
 import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
 import { toast } from "react-toastify";
 import { BiSearch } from 'react-icons/bi';
+import { BsCheck2Circle } from "react-icons/bs";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
@@ -179,12 +180,6 @@ const filteredData = useMemo(() => {
   }
 }, [data, searchQuery]);
 
-// const indexOfLastPage = currentPage * postsPerPage;
-// const indexOfFirstPage = indexOfLastPage - postsPerPage;
-// const displayData = filteredData.slice(indexOfFirstPage, indexOfLastPage);
-// const totalPages = Math.ceil(filteredData.length / postsPerPage);
-
-
   let navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(8);
@@ -208,7 +203,7 @@ const totalPages = Math.ceil(filteredData.length / postsPerPage);
   };
 
   useEffect(() => {
-    // Retrieve the "page" query parameter from the URL
+ 
     const searchParams = new URLSearchParams(location.search);
     const pageParam = searchParams.get("page");
     const initialPage = pageParam ? parseInt(pageParam) : 1;
@@ -234,10 +229,6 @@ const totalPages = Math.ceil(filteredData.length / postsPerPage);
   };
 
 
-// const displayData = filteredQuestions.length > 0 ? filteredQuestions : displayUsers;
-
-  console.log(displayUsers);
-console.log(filteredQuestions);
   return (
     <>
       <div className="container-scroller">
@@ -276,7 +267,7 @@ console.log(filteredQuestions);
                         <div
                           className="row"
                           style={{ backgroundColor: "#c0d7ff" }}>
-                          <div className="col">
+                          <div className="col ">
                             <div className="profile">
                               <div className="profile-img mt-2">
                                 <img src={data.profilephoto} alt=" " />
@@ -288,7 +279,7 @@ console.log(filteredQuestions);
                               </div>
                             </div>
                           </div>
-                          <div className="col bankdetails">
+                          <div className="col bankdetails col-md-6 col-lg-6">
                             <h5 className="mt-2">Bank Details</h5>
                             <div>
                               <strong>Bank Name:</strong>
@@ -310,9 +301,10 @@ console.log(filteredQuestions);
                               <strong>Bank Country:</strong>
                               {data.bankdetails?.bankcountry || ""}
                             </div>
-                            <div>
+                            <div className="">
                              
-                              {active === "1" || active === "2" ? <Button className="rbt-btn btn-gradient btn-sm my-3 w-50" >Pay Now</Button> : ""}
+                              {active === "1" || active === "2" ? <Button className="rbt-btn btn-gradient btn-sm my-3 "   data-bs-toggle="modal"
+                                data-bs-target="#pay-now">Pay Now</Button> : ""}
 
                             </div>
                           </div>
@@ -634,6 +626,61 @@ console.log(filteredQuestions);
         </div>
       </div>
       <ToastContainer />
+
+      {/* modal */}
+         <div
+        className="modal fade"
+        id="pay-now"
+        data-bs-backdrop="static"
+        data-bs-keyboard="false"
+        tabIndex={-1}
+        aria-labelledby="pay-now"
+        aria-hidden="true"
+      >
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-header border-bottom-0">
+              <button
+                type="button"
+                className="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              />
+            </div>
+            <div className="modal-body">
+              <div className="text-center">
+              
+  
+               <h1 className="mt-0 mb-3 fw-2 text-success">
+                  <BsCheck2Circle className="" /></h1>
+
+                <h4 className="mt--20 mb--20">Pay For Tutor's</h4>
+                <p>This payment is only for downvoting tutors.</p>
+
+                <div className="my-2 mb-4"><label className="mr-3">Amount: </label><input  type="number"/></div>
+                <div className="d-flex justify-content-center">
+                  <Button className="rbt-btn btn-sm mr--10 mr_sm--0 mb_sm--10">
+                    YES
+                  </Button>
+                  <Button className="rbt-btn btn-gradient hover-icon-reverse btn-sm"
+                    data-bs-dismiss="modal"
+                  >
+                    <span className="icon-reverse-wrapper">
+                      <span className="btn-text">NO</span>
+                      <span className="btn-icon">
+                        <i className="feather-arrow-right" />
+                      </span>
+                      <span className="btn-icon">
+                        <i className="feather-arrow-right" />
+                      </span>
+                    </span>
+                  </Button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </>
   );
 };

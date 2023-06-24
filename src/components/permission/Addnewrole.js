@@ -29,7 +29,7 @@ const Addnewrole = memo(() => {
 
   const [data, setData] = useState([]);
   const [resourceData, setResourceData] = useState([]);
-  console.log("resourceData", resourceData);
+
   let token = localStorage.getItem("token");
 
   useEffect(() => {
