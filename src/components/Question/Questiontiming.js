@@ -147,7 +147,6 @@ const Questiontiming = () => {
       unsolvedhours: Math.floor(data.unsolved_time / 60),
       unsolvedminutes: Math.floor(data.unsolved_time % 60),
     });
-    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   function handleDeleteClick(_id) {
