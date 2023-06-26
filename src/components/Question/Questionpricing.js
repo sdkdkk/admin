@@ -23,9 +23,9 @@ const Questionpricing = () => {
     register,
     handleSubmit,
     reset,
-    formState: { errors },
+    formState: { errors },setValue
   } = useForm({});
-
+const [typeValue, setTypeValue] = useState("")
   const dispatch = useDispatch();
   const questiontypeTime = useSelector((state) => state.questiontypetime);
   const questiontypePrice = useSelector((state) => state.questiontypeprice);
@@ -125,11 +125,20 @@ const Questionpricing = () => {
     setCurrentPage(initialPage);
   }, [location.search]);
 
+
+
   const handleUpdateClick = (data) => {
     setIsEditMode(true);
     reset(data);
+   setTypeValue(data.Type);
+
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+  
+ useEffect(() => {
+    setValue("Type", typeValue); // Manually set the value of the "Type" field in the form
+  }, [typeValue]);
+
 
   function handleDeleteClick(_id) {
     axios
@@ -164,10 +173,9 @@ const Questionpricing = () => {
                             <h6>Question Type</h6>
                           </div>
                           <div className="col-lg-4 col-md-8">
-                            <Form.Select
-                              {...register("Type", { required: true })}>
-                              <option value="">
-                                Please Select Question Type
+                            <Form.Select {...register("Type", { required:!isEditMode ? true : false })}>
+                              <option value={typeValue}>
+                             {!isEditMode ? "Please Select Question Type" : typeValue}   
                               </option>
                               {questiontypePrice.user &&
                                 questiontypePrice.user.data.map((item) => (
@@ -176,11 +184,11 @@ const Questionpricing = () => {
                                   </option>
                                 ))}
                             </Form.Select>
-                            {errors.Type && (
+                            {!isEditMode ? errors.Type && (
                               <span className="text-danger">
                                 Please select an option
                               </span>
-                            )}
+                            ) : ""}
                           </div>
                         </div>
                         <div className="row mt-4">

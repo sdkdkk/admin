@@ -22,7 +22,7 @@ const Testexam = () => {
     }, [dispatch]);
 
   const toComponentB = (data) => {
-   console.log(data)
+
     navigate("/examdetails", { state: { data } });
    
   };

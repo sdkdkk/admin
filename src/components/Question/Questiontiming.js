@@ -29,7 +29,7 @@ const Questiontiming = () => {
     fetchData();
   }, []);
 
-  const { register, handleSubmit, reset } = useForm({});
+  const { register, handleSubmit, reset, setValue } = useForm({});
 
   const onSubmit = async (data) => {
     let token = localStorage.getItem("token");
@@ -100,7 +100,7 @@ const Questiontiming = () => {
   const pageCount = Math.ceil(data.length / postsPerPage);
   let token = localStorage.getItem("token");
   const location = useLocation();
-
+const [typeValue, setTypeValue] = useState("")
   const handleChange = (event, value) => {
     setCurrentPage(value);
     const searchParams = new URLSearchParams(location.search);
@@ -128,10 +128,12 @@ const Questiontiming = () => {
     }
   };
   const handleUpdateClick = (data) => {
+    console.log(data);
     setIsEditMode(true);
     reset({
       ...data,
       id: data._id,
+      type:data.Type,
       firstminutes: data.first_time % 60,
       firsthours: Math.floor(data.first_time / 60), 
       secondminutes: data.second_time % 60, 
@@ -147,8 +149,14 @@ const Questiontiming = () => {
       unsolvedhours: Math.floor(data.unsolved_time / 60),
       unsolvedminutes: Math.floor(data.unsolved_time % 60),
     });
+     setTypeValue(data.Type);
+
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+useEffect(() => {
+    setValue("Type", typeValue); // Manually set the value of the "Type" field in the form
+  }, [typeValue]);
 
   function handleDeleteClick(_id) {
     axios
@@ -187,7 +195,8 @@ const Questiontiming = () => {
                               aria-label="Default select example"
                               {...register("Type", { required: true })}
                             >
-                              <option value="">Open this select menu</option>
+                               <option value={typeValue}>
+                             {!isEditMode ? "Please Select Question Type" : typeValue}   </option>
                               {questiontypeTime.user &&
                                 questiontypeTime.user.data.map((item) => (
                                   <option key={item} value={item}>
