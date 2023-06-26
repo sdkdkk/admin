@@ -66,6 +66,7 @@ const Wallet = () => {
   };
 
   useEffect(() => {
+    let token=localStorage.getItem("token")
     getWalletDataApi();
   }, [currentPage]);
 
@@ -91,13 +92,13 @@ const Wallet = () => {
                 <div className="col-md-12">
                   <div className="d-grid gap-2 d-md-flex justify-content-md-end">
                     <button
-                      onClick={() => getWalletDataApi("Student")}
+                      onClick={() =>( getWalletDataApi("Student"))}
                       className="btn btn-primary me-md-2"
                       type="button">
                       Student
                     </button>
                     <button
-                      onClick={() => getWalletDataApi("Tutor")}
+                      onClick={() => (getWalletDataApi("Tutor"))}
                       className="btn btn-primary"
                       type="button">
                       Tutor
@@ -150,7 +151,7 @@ const Wallet = () => {
                                     console.log(value)
                                 return (
                                   <tr key={value._id}>
-                                    <td>{pos + 1}</td>
+                                    <td>{pos+ indexOfFirstPage + 1}</td>
                                     <td>
                                       {moment(value?.date).format("DD-MM-YYYY")}
                                     </td>
@@ -159,24 +160,15 @@ const Wallet = () => {
                                     <td>  {value.category === 'Tutor' ? `Rs ${value.amount} ` : `$ ${value.amount} `} </td>
                                     <td>{value.category}</td>
                                     <td>
-                                    {value.status === "Success" ? (
-                                      <span className="badge text-bg-success">
-                                        {value.status}
-                                      </span>
-                                    ) : value.status === "Pending" ? (
-                                      <span className="badge text-bg-warning">
-                                        {value.status}
-                                      </span>
-                                    ) : value.status === "Failed" ? (
-                                      <span className="badge text-bg-danger">
-                                        {value.status}
-                                      </span>
-                                    ) : (
-                                      <span className="badge text-bg-info">
-                                        {value.status}
-                                      </span>
-                                    )}
-
+                                      {value.status === "Success" ? (
+                                        <span className="badge text-bg-success">
+                                          {value.status}
+                                        </span>
+                                      ) : (
+                                        <span className="badge text-bg-warning">
+                                          {value.status}
+                                        </span>
+                                      )}
                                     </td>
                                     <td>
                                       <button
