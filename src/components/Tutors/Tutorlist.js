@@ -130,48 +130,48 @@ const Tutorlist = () => {
     setCurrentPage(initialPage);
   }, [location.search]);
 
-  
+
   const searchItem = () => {
-  const firstDate = values?.length > 0 ? new Date(values[0]) : null;
-  const lastDate = values?.length > 1 ? new Date(values[values.length - 1]) : null;
+    const firstDate = values?.length > 0 ? new Date(values[0]) : null;
+    const lastDate = values?.length > 1 ? new Date(values[values.length - 1]) : null;
 
-  const filteredData = currentData.filter((item) => {
-    const itemDate = new Date(item.updatedAt);
-    const name = item.name ? item.name.toLowerCase() : null;
-    const email = item.email ? item.email.toLowerCase() : null;
+    const filteredData = currentData.filter((item) => {
+      const itemDate = new Date(item.updatedAt);
+      const name = item.name ? item.name.toLowerCase() : null;
+      const email = item.email ? item.email.toLowerCase() : null;
 
-    if (firstDate && lastDate) {
-      // Handle range selection
-      return (
-        itemDate >= firstDate &&
-        itemDate <= lastDate &&
-        (searchTerm === "" ||
+      if (firstDate && lastDate) {
+        // Handle range selection
+        return (
+          itemDate >= firstDate &&
+          itemDate <= lastDate &&
+          (searchTerm === "" ||
+            (name && name.includes(searchTerm.toLowerCase())) ||
+            (email && email.includes(searchTerm.toLowerCase())))
+        );
+      } else if (firstDate) {
+        // Handle single date selection
+        return (
+          itemDate.getDate() === firstDate.getDate() &&
+          itemDate.getMonth() === firstDate.getMonth() &&
+          itemDate.getFullYear() === firstDate.getFullYear() &&
+          (searchTerm === "" ||
+            (name && name.includes(searchTerm.toLowerCase())) ||
+            (email && email.includes(searchTerm.toLowerCase())))
+        );
+      } else {
+        // Handle no date selection
+        return (
+          searchTerm === "" ||
           (name && name.includes(searchTerm.toLowerCase())) ||
-          (email && email.includes(searchTerm.toLowerCase())))
-      );
-    } else if (firstDate) {
-      // Handle single date selection
-      return (
-        itemDate.getDate() === firstDate.getDate() &&
-        itemDate.getMonth() === firstDate.getMonth() &&
-        itemDate.getFullYear() === firstDate.getFullYear() &&
-        (searchTerm === "" ||
-          (name && name.includes(searchTerm.toLowerCase())) ||
-          (email && email.includes(searchTerm.toLowerCase())))
-      );
-    } else {
-      // Handle no date selection
-      return (
-        searchTerm === "" ||
-        (name && name.includes(searchTerm.toLowerCase())) ||
-        (email && email.includes(searchTerm.toLowerCase()))
-      );
-    }
-  });
+          (email && email.includes(searchTerm.toLowerCase()))
+        );
+      }
+    });
 
-  setCurrentData(filteredData);
-  setCurrentPage(1);
-};
+    setCurrentData(filteredData);
+    setCurrentPage(1);
+  };
 
 
 
@@ -245,7 +245,7 @@ const Tutorlist = () => {
                     <div className=" col-12 grid-margin stretch-card">
                       <div className="card">
 
-                         <div className="card-body">
+                        <div className="card-body">
 
                           <div className="row">
                             <div className="col-md-6">
@@ -284,7 +284,7 @@ const Tutorlist = () => {
                               </Button>
                             </div>
                           </div>
-                        </div> 
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -292,106 +292,106 @@ const Tutorlist = () => {
                     <div className="col-12 grid-margin stretch-card">
                       <div className="card new-table">
                         <div className="card-body">
-                        
-                        
-                                <table className="table v-top">
-                                  <thead>
-                                    <tr>
-                                      <th scope="col">Reg.Date</th>
-                                      <th scope="col">User Name</th>
-                                      <th scope="col">Email</th>
-                                      <th scope="col">Moble No</th>
-                                      <th scope="col">Subject</th>
-                                      <th scope="col">Balance</th>
-                                      {activeButton === 2 && (
-                                        <th scope="col">No. of warning Que</th>
-                                      )}
-                                      {activeButton === 5 && (
-                                        <th scope="col">No. of reaming day</th>
-                                      )}
-                                      <th scope="col">Action</th>
-                                    </tr>
-                                  </thead>
-                                   {isLoadinguser ? ( 
-                                                        <tbody>
-                                                        <tr>
-                                                            <td colSpan="8" className="text-center">
-                                                            <div className="loader-container"> 
-                                                                <div className="loader">
-                                                                <RotatingLines
-                                                                    strokeColor="#d63384"
-                                                                    strokeWidth="5"
-                                                                    animationDuration="0.75"
-                                                                    width="50"
-                                                                    visible={true}
-                                                                />
-                                                                </div>
-                                                            </div>
-                                                            </td>
-                                                        </tr>
-                                                        </tbody>
-                                                    ) :  <tbody>
-                                {displayUsers && displayUsers.length === 0 ? (
-                              
-                                    <tr>
-                                       <td colSpan="8" className="fw-2 fw-bolder text-center"> No tutor found </td>
-                                    </tr>
-                                   
+
+
+                          <table className="table v-top">
+                            <thead>
+                              <tr>
+                                <th scope="col">Reg.Date</th>
+                                <th scope="col">User Name</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Moble No</th>
+                                <th scope="col">Subject</th>
+                                <th scope="col">Balance</th>
+                                {activeButton === 2 && (
+                                  <th scope="col">No. of warning Que</th>
+                                )}
+                                {activeButton === 5 && (
+                                  <th scope="col">No. of reaming day</th>
+                                )}
+                                <th scope="col">Action</th>
+                              </tr>
+                            </thead>
+                            {isLoadinguser ? (
+                              <tbody>
+                                <tr>
+                                  <td colSpan="8" className="text-center">
+                                    <div className="loader-container">
+                                      <div className="loader">
+                                        <RotatingLines
+                                          strokeColor="#d63384"
+                                          strokeWidth="5"
+                                          animationDuration="0.75"
+                                          width="50"
+                                          visible={true}
+                                        />
+                                      </div>
+                                    </div>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            ) : <tbody>
+                              {displayUsers && displayUsers.length === 0 ? (
+
+                                <tr>
+                                  <td colSpan="8" className="fw-2 fw-bolder text-center"> No tutor found </td>
+                                </tr>
+
                               ) : displayUsers?.map((data, id) => (
-                                      <tr key={id}>
-                                        {data.updatedAt ? (
-                                          <td>
-                                            <Moment
-                                              format="DD MMM YYYY"
-                                              withTitle>
-                                              {data.updatedAt || null}
-                                            </Moment>
-                                          </td>
-                                        ) : (
-                                          <td>-</td>
-                                        )}
-                                        <td>{data.name || "-"}</td>
-                                        <td>{data.email.substring(0, 20)}</td>
-                                        <td>{data.mobileNo || "-"}</td>
-                                        <td>
-                                          {data.subjects &&
-                                            data.subjects?.length > 0
-                                            ? data.subjects
-                                              .slice(0, 2)
-                                              .join(", ")
-                                            : "-"}
-                                        </td>
-                                        <td>
-                                          {data.balance
-                                            ? parseFloat(data.balance).toFixed(
-                                              2
-                                            )
-                                            : "-"}
-                                        </td>
-                                        {activeButton === 2 && (
-                                          <td className="text-center">
-                                            {data.warningQuestions}
-                                          </td>
-                                        )}
-                                        {activeButton === 5 && (
-                                          <td className="text-center">
-                                            {data.daysRemaining}
-                                          </td>
-                                        )}
-                                        <td>
-                                          <Link
-                                            to={`/tutordetails/${data._id}/${activeButton}`}>
-                                            <Button className="btn btn-primary btn-sm">
-                                              See Details
-                                            </Button>
-                                          </Link>
-                                        </td>
-                                      </tr>
-                                    ))}
-                                  </tbody>}
-                                </table>
-                             
-                           
+                                <tr key={id}>
+                                  {data.updatedAt ? (
+                                    <td>
+                                      <Moment
+                                        format="DD MMM YYYY"
+                                        withTitle>
+                                        {data.updatedAt || null}
+                                      </Moment>
+                                    </td>
+                                  ) : (
+                                    <td>-</td>
+                                  )}
+                                  <td>{data.name || "-"}</td>
+                                  <td>{data.email.substring(0, 20)}</td>
+                                  <td>{data.mobileNo || "-"}</td>
+                                  <td>
+                                    {data.subjects &&
+                                      data.subjects?.length > 0
+                                      ? data.subjects
+                                        .slice(0, 2)
+                                        .join(", ")
+                                      : "-"}
+                                  </td>
+                                  <td>
+                                    {data.balance
+                                      ? parseFloat(data.balance).toFixed(
+                                        2
+                                      )
+                                      : "-"}
+                                  </td>
+                                  {activeButton === 2 && (
+                                    <td className="text-center">
+                                      {data.warningQuestions}
+                                    </td>
+                                  )}
+                                  {activeButton === 5 && (
+                                    <td className="text-center">
+                                      {data.daysRemaining}
+                                    </td>
+                                  )}
+                                  <td>
+                                    <Link
+                                      to={`/tutordetails/${data._id}/${activeButton}`}>
+                                      <Button className="btn btn-primary btn-sm">
+                                        See Details
+                                      </Button>
+                                    </Link>
+                                  </td>
+                                </tr>
+                              ))}
+                            </tbody>}
+                          </table>
+
+
 
                           <div className="table-pagination">
                             <Pagination

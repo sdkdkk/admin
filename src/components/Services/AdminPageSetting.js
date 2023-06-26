@@ -79,6 +79,8 @@ const AdminPageSetting = () => {
     });
 
     setFields(data.subpages.map((subpage) => ({ value: subpage })));
+      // Scroll to the top of the page
+      window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const fetchData = async () => {
@@ -129,6 +131,7 @@ const AdminPageSetting = () => {
     const initialPage = pageParam ? parseInt(pageParam) : 1;
     setCurrentPage(initialPage);
   }, [location.search]);
+
   return (
     <div>
       <div className="container-scroller">
@@ -211,8 +214,6 @@ const AdminPageSetting = () => {
                   <div className="col-12 grid-margin stretch-card">
                     <div className="card new-table">
                       <div className="card-body">
-                       
-                         
                             <div className="table-container">
                               <Table
                                 striped
@@ -228,7 +229,7 @@ const AdminPageSetting = () => {
                                     <th>Action</th>
                                   </tr>
                                 </thead>
-                                  {loading ? ( // Condition for displaying loader
+                           {loading ? ( // Condition for displaying loader
                           <tbody>
                             <tr>
                               <td colSpan="4" className="text-center">
