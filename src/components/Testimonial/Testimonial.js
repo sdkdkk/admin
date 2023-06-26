@@ -137,7 +137,7 @@ const Testimonial = () => {
     setIsOpen(false);
     setDefaultValues(data);
     SetisActive(data.isactive);
-    // Scroll to the top of the page
+    // Scroll to the middle of the page
     window.scrollTo({ top: middlePosition, behavior: "smooth" });
   };
 
