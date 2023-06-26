@@ -32,6 +32,10 @@ const Testimonial = () => {
   const [submitted, setSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
+  const windowHeight = window.innerHeight;
+  const documentHeight = document.documentElement.scrollHeight;
+  const middlePosition = documentHeight / 2 - windowHeight / 2;
+
   var [isActive, SetisActive] = useState(true);
 
   const [isOpen, setIsOpen] = useState("");
@@ -57,7 +61,7 @@ const Testimonial = () => {
     dispatch(Testimoniald(tokens))
       .then(() => setIsLoading(false))
       .catch((error) => {
-        setIsLoading(false); 
+        setIsLoading(false);
       });
   }, []);
 
@@ -133,6 +137,8 @@ const Testimonial = () => {
     setIsOpen(false);
     setDefaultValues(data);
     SetisActive(data.isactive);
+    // Scroll to the top of the page
+    window.scrollTo({ top: middlePosition, behavior: "smooth" });
   };
 
   const handleDeleteClick = (id) => {
@@ -156,42 +162,44 @@ const Testimonial = () => {
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table">
                     <div className="card-body">
-                      
-                         <table className="table">
-                            <thead>
-                              <tr>
-                                <th scope="col">Sr No.</th>
-                                <th scope="col">Sort Order</th>
-                                <th scope="col">Profile Img</th>
-                                <th scope="col">User</th>
-                                <th scope="col">Action</th>
-                                <th scope="col"></th>
-                              </tr>
-                            </thead>
-                             {testimonial.loading ||
-                                testimonialstatus.loading ||
-                                testimonialform.loading ||
-                                testimonialUserDeleteState.isLoading ? ( // Condition for displaying loader
-                            <tbody>
-                              <tr>
-                                <td colSpan="6" className="text-center">
-                                  <div className="loader-container"> {/* Wrap loader code inside this div */}
-                                    <div className="loader">
-                                      <RotatingLines
-                                        strokeColor="#d63384"
-                                        strokeWidth="5"
-                                        animationDuration="0.75"
-                                        width="50"
-                                        visible={true}
-                                      />
-                                    </div>
+                      <table className="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">Sr No.</th>
+                            <th scope="col">Sort Order</th>
+                            <th scope="col">Profile Img</th>
+                            <th scope="col">User</th>
+                            <th scope="col">Action</th>
+                            <th scope="col"></th>
+                          </tr>
+                        </thead>
+                        {testimonial.loading ||
+                        testimonialstatus.loading ||
+                        testimonialform.loading ||
+                        testimonialUserDeleteState.isLoading ? ( // Condition for displaying loader
+                          <tbody>
+                            <tr>
+                              <td colSpan="6" className="text-center">
+                                <div className="loader-container">
+                                  {" "}
+                                  {/* Wrap loader code inside this div */}
+                                  <div className="loader">
+                                    <RotatingLines
+                                      strokeColor="#d63384"
+                                      strokeWidth="5"
+                                      animationDuration="0.75"
+                                      width="50"
+                                      visible={true}
+                                    />
                                   </div>
-                                </td>
-                              </tr>
-                            </tbody>
-                          ) : <tbody>
-                              <>
-                                {testimonial?.length === 0 ? (
+                                </div>
+                              </td>
+                            </tr>
+                          </tbody>
+                        ) : (
+                          <tbody>
+                            <>
+                              {testimonial?.length === 0 ? (
                                 <tr>
                                   <td
                                     colSpan="4"
@@ -199,79 +207,77 @@ const Testimonial = () => {
                                     No Data found
                                   </td>
                                 </tr>
-                              ) :testimonial.user &&
-                                  testimonial.user?.testimonial
-                                    .slice(
-                                      (currentPage - 1) * 5,
-                                      currentPage * 5
-                                    )
-                                    .map((data, index) => (
-                                      <tr key={data.id}>
-                                        <td>
-                                          {(currentPage - 1) * 5 + index + 1}
-                                        </td>
-                                        <td>{data.sortOrder}</td>
-                                        <td>
-                                          <img
-                                            src={data.profileimage}
-                                            className="cardresto-img-top mx-4"
-                                            alt="..."
+                              ) : (
+                                testimonial.user &&
+                                testimonial.user?.testimonial
+                                  .slice((currentPage - 1) * 5, currentPage * 5)
+                                  .map((data, index) => (
+                                    <tr key={data.id}>
+                                      <td>
+                                        {(currentPage - 1) * 5 + index + 1}
+                                      </td>
+                                      <td>{data.sortOrder}</td>
+                                      <td>
+                                        <img
+                                          src={data.profileimage}
+                                          className="cardresto-img-top mx-4"
+                                          alt="..."
+                                        />
+                                      </td>
+                                      <td>{data.name}</td>
+                                      <td>
+                                        <div className="form-check form-switch">
+                                          <input
+                                            className="form-check-input"
+                                            type="checkbox"
+                                            id="flexSwitchCheckChecked"
+                                            defaultChecked={data.isactive}
+                                            onChange={(e) =>
+                                              changestatus(
+                                                e.target.value,
+                                                data.id,
+                                                index
+                                              )
+                                            }
                                           />
-                                        </td>
-                                        <td>{data.name}</td>
-                                        <td>
-                                          <div className="form-check form-switch">
-                                            <input
-                                              className="form-check-input"
-                                              type="checkbox"
-                                              id="flexSwitchCheckChecked"
-                                              defaultChecked={data.isactive}
-                                              onChange={(e) =>
-                                                changestatus(
-                                                  e.target.value,
-                                                  data.id,
-                                                  index
-                                                )
-                                              }
-                                            />
-                                          </div>
-                                        </td>
-                                        <td>
-                                          <div className="dropdown">
-                                            <button
-                                              className="dropdown__button"
-                                              onClick={() =>
-                                                handleDropdownClick(data.id)
-                                              }>
-                                              ...
-                                            </button>
-                                            {data.id === isOpen && (
-                                              <div className="dropdown__popup">
-                                                <ul className="dropdown__list">
-                                                  <li
-                                                    onClick={() =>
-                                                      handleEditClick(data)
-                                                    }>
-                                                    Edit
-                                                  </li>
-                                                  <li
-                                                    onClick={() =>
-                                                      handleDeleteClick(data.id)
-                                                    }>
-                                                    Delete
-                                                  </li>
-                                                </ul>
-                                              </div>
-                                            )}
-                                          </div>
-                                        </td>
-                                      </tr>
-                                    ))}
-                              </>
-                            </tbody>}
-                          </table>
-                    
-               
+                                        </div>
+                                      </td>
+                                      <td>
+                                        <div className="dropdown">
+                                          <button
+                                            className="dropdown__button"
+                                            onClick={() =>
+                                              handleDropdownClick(data.id)
+                                            }>
+                                            ...
+                                          </button>
+                                          {data.id === isOpen && (
+                                            <div className="dropdown__popup">
+                                              <ul className="dropdown__list">
+                                                <li
+                                                  onClick={() =>
+                                                    handleEditClick(data)
+                                                  }>
+                                                  Edit
+                                                </li>
+                                                <li
+                                                  onClick={() =>
+                                                    handleDeleteClick(data.id)
+                                                  }>
+                                                  Delete
+                                                </li>
+                                              </ul>
+                                            </div>
+                                          )}
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  ))
+                              )}
+                            </>
+                          </tbody>
+                        )}
+                      </table>
 
                       <div
                         className="table-pagination"
@@ -291,8 +297,6 @@ const Testimonial = () => {
                           onChange={handleChange}
                           shape="rounded"
                           variant="outlined"
-                          // showFirstButton
-                          // showLastButton
                         />
                       </div>
                     </div>

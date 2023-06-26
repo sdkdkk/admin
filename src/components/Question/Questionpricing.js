@@ -128,6 +128,7 @@ const Questionpricing = () => {
   const handleUpdateClick = (data) => {
     setIsEditMode(true);
     reset(data);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   function handleDeleteClick(_id) {

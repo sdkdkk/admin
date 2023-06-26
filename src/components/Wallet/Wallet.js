@@ -19,6 +19,7 @@ const Wallet = () => {
   //Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
+  const [type, setType] = useState("Student");
   const [postsPerPage] = useState(8);
   const indexOfLastPage = currentPage * postsPerPage;
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
@@ -44,8 +45,12 @@ const Wallet = () => {
     setCurrentPage(initialPage);
   }, [location.search]);
 
-  const getWalletDataApi = (category = "Student") => {
-    const params = `?category=${category}&limit=10&skip=${
+  const getWalletDataApi = (category) => {
+    if(category){
+      setType(category)
+    }
+    const cat = category || type;
+    const params = `?category=${cat}&limit=10&skip=${
       (currentPage - 1) * 10
     }`;
     setIsLoading(true);
