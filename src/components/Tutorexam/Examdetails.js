@@ -16,6 +16,7 @@ const Examdetails = () => {
   const admintutorexamresponseState = useSelector(
     (state) => state.admintutorexamresponse
   );
+  console.log(admintutorexamresponseState)
 
   const [currentIndex, setCurrentIndex] = useState(0);
   const [examInfo, setExamInfo] = useState({});
@@ -34,7 +35,7 @@ const Examdetails = () => {
   }, [examInfo, location.state?.data]);
 
   useEffect(() => {
-    if (admintutorexamresponseState?.isSuccess) {
+    if (admintutorexamresponseState?.status === 1) {
 
       dispatch(reset());
 
