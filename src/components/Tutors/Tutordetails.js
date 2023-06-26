@@ -279,7 +279,7 @@ const totalPages = Math.ceil(filteredData.length / postsPerPage);
                               </div>
                             </div>
                           </div>
-                          <div className="col bankdetails col-md-6 col-lg-6">
+                          <div className="col bankdetails ">
                             <h5 className="mt-2">Bank Details</h5>
                             <div>
                               <strong>Bank Name:</strong>
