@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Pagination } from "@mui/material";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
@@ -41,6 +41,7 @@ const Pages = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
+  const formRef = useRef(null);
 
   const handleChange = (event, value) => {
     setCurrentPage(value);
@@ -101,6 +102,7 @@ const Pages = () => {
   const handleEditClick = (data) => {
     setDefaultValue(data);
     setIsOpen("");
+    formRef.current.scrollIntoView({ behavior: "smooth" });
   };
 
   useEffect(() => {
@@ -134,7 +136,6 @@ const Pages = () => {
       delete data.updatedAt;
       delete data.createdAt;
       delete data.__v;
-      // formData.append("id", defaultValues?.id);
     }
 
     dispatch(postPageDataApi({ ...data, status: true }));
@@ -159,22 +160,21 @@ const Pages = () => {
               <div className="row mt-3">
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table">
-                    
-                      <div className="card-body">
-                        <table className="table">
-                          <thead>
-                            <tr>
-                              <th scope="col">Sr. No</th>
-                              <th scope="col">Sort Order</th>
-                              <th scope="col">Page Name</th>
-                              <th scope="col">ACTION</th>
-                            </tr>
+                    <div className="card-body">
+                      <table className="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">Sr. No</th>
+                            <th scope="col">Sort Order</th>
+                            <th scope="col">Page Name</th>
+                            <th scope="col">ACTION</th>
+                          </tr>
                         </thead>
-                           {isLoading ? ( // Condition for displaying loader
+                        {isLoading ? (
                           <tbody>
                             <tr>
                               <td colSpan="4" className="text-center">
-                                <div className="loader-container"> {/* Wrap loader code inside this div */}
+                                <div className="loader-container">
                                   <div className="loader">
                                     <RotatingLines
                                       strokeColor="#d63384"
@@ -188,86 +188,86 @@ const Pages = () => {
                               </td>
                             </tr>
                           </tbody>
-                        ) : <tbody >
-                          {[...document]?.length === 0 ? (
-                                <tr>
-                                  <td
-                                    colSpan="4"
-                                    className="fw-3 fw-bolder text-center">
-                                    No Data found
-                                  </td>
-                                </tr>
-                              ) :[...document]
-                            .slice((currentPage - 1) * 5, currentPage * 5)
-                            .map((data, index) => (
-                             
-                                <tr key={index}>
-                                  <td>{(currentPage - 1) * 5 + index + 1}</td>
-                                  <td>{data.sortOrder}</td>
-                                  <td>{data.pageName}</td>
-                                  <td>
-                                    <div className="form-check form-switch">
-                                      <input
-                                        className="form-check-input"
-                                        type="checkbox"
-                                        id="flexSwitchCheckChecked"
-                                        onChange={(e) => {
-                                          changePageStatus(
-                                            data._id,
-                                            e.target.checked
-                                          );
-                                        }}
-                                        defaultChecked={data?.isactive}
-                                      />
-                                    </div>
-                                  </td>
-                                  <td>
-                                    <div className="dropdown">
-                                      <button
-                                        className="dropdown__button"
-                                        onClick={() =>
-                                          handleDropdownClick(data._id)
-                                        }>
-                                        ...
-                                      </button>
-                                      {data._id === isOpen && (
-                                        <div className="dropdown__popup">
-                                          <ul className="dropdown__list">
-                                            <li
-                                              onClick={() =>
-                                                handleEditClick(data)
-                                              }>
-                                              Edit
-                                            </li>
-                                            <li
-                                              onClick={() =>
-                                                handleDeleteClick(data._id)
-                                              }>
-                                              Delete
-                                            </li>
-                                          </ul>
-                                        </div>
-                                      )}
-                                    </div>
-                                  </td>
-                                </tr>
-                            
-                            ))}
-                            </tbody>}
-                        </table>
-                   
-                          <div className="table-pagination">
-                            <Pagination
-                              count={Math.ceil(document.length / 5)}
-                              page={currentPage}
-                              onChange={handleChange}
-                              shape="rounded"
-                              variant="outlined"
-                            />
-                          </div>
-                      
+                        ) : (
+                          <tbody>
+                            {[...document]?.length === 0 ? (
+                              <tr>
+                                <td
+                                  colSpan="4"
+                                  className="fw-3 fw-bolder text-center">
+                                  No Data found
+                                </td>
+                              </tr>
+                            ) : (
+                              [...document]
+                                .slice((currentPage - 1) * 5, currentPage * 5)
+                                .map((data, index) => (
+                                  <tr key={index}>
+                                    <td>{(currentPage - 1) * 5 + index + 1}</td>
+                                    <td>{data.sortOrder}</td>
+                                    <td>{data.pageName}</td>
+                                    <td>
+                                      <div className="form-check form-switch">
+                                        <input
+                                          className="form-check-input"
+                                          type="checkbox"
+                                          id="flexSwitchCheckChecked"
+                                          onChange={(e) => {
+                                            changePageStatus(
+                                              data._id,
+                                              e.target.checked
+                                            );
+                                          }}
+                                          defaultChecked={data?.isactive}
+                                        />
+                                      </div>
+                                    </td>
+                                    <td>
+                                      <div className="dropdown">
+                                        <button
+                                          className="dropdown__button"
+                                          onClick={() =>
+                                            handleDropdownClick(data._id)
+                                          }>
+                                          ...
+                                        </button>
+                                        {data._id === isOpen && (
+                                          <div className="dropdown__popup">
+                                            <ul className="dropdown__list">
+                                              <li
+                                                onClick={() =>
+                                                  handleEditClick(data)
+                                                }>
+                                                Edit
+                                              </li>
+                                              <li
+                                                onClick={() =>
+                                                  handleDeleteClick(data._id)
+                                                }>
+                                                Delete
+                                              </li>
+                                            </ul>
+                                          </div>
+                                        )}
+                                      </div>
+                                    </td>
+                                  </tr>
+                                ))
+                            )}
+                          </tbody>
+                        )}
+                      </table>
+
+                      <div className="table-pagination">
+                        <Pagination
+                          count={Math.ceil(document.length / 5)}
+                          page={currentPage}
+                          onChange={handleChange}
+                          shape="rounded"
+                          variant="outlined"
+                        />
                       </div>
-                    
+                    </div>
                   </div>
                 </div>
               </div>
@@ -275,7 +275,7 @@ const Pages = () => {
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card">
                     <div className="card-body">
-                      <Form onSubmit={handleSubmit(onSubmit)}>
+                      <Form ref={formRef} onSubmit={handleSubmit(onSubmit)}>
                         <div className="row">
                           <div className="col-md-12">
                             <Form.Group
