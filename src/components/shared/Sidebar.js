@@ -9,8 +9,8 @@ const Sidebar = () => {
   const navMenusStateLocalParsedObject = JSON.parse(navMenusStateLocal);
   const navMenusStateList =
     !!navMenusState && navMenusState.length
-      ? navMenusState.map((a) => a.name)
-      : navMenusStateLocalParsedObject?.map((a) => a.name);
+      ? navMenusState?.map((a) => a.name)
+      : navMenusStateLocalParsedObject?.map((a) => a.name) || [];
 
   useEffect(() => {
     if (navMenusState.length) {
