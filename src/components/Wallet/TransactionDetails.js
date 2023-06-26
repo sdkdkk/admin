@@ -124,7 +124,7 @@ const TransactionDetails = () => {
                                     </td>
                                     <td>{value.name}</td>
                                     <td>{value.transactionId}</td>
-                                    <td>Rs.{value.amount}</td>
+                                    <td>{value.amount}</td>
                                     <td>{value.category}</td>
                                     <td>{value.status}</td>
                                     <td>

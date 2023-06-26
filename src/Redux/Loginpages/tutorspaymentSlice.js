@@ -13,22 +13,22 @@ const initialState = {
     errorMessage: ''
 }
 
-export const tutorspayment = createAsyncThunk('tutors/Tutorspayment', async ({ isPaymentDone, rejectWithValue }) => {
-  const token = localStorage.getItem('token');
-  let url = `${process.env.REACT_APP_API_BASE_URL}/admin/tutorspayment`;
+export const tutorspayment = createAsyncThunk('tutors/Tutorspayment', async({ isPaymentDone, rejectWithValue }) => {
+    const token = localStorage.getItem('token');
+    let url = `${process.env.REACT_APP_API_BASE_URL}/admin/tutorspayment`;
 
-  // Check if isPaymentDone is provided
-  if (isPaymentDone !== null && isPaymentDone !== undefined) {
-    url += `?isPaymentDone=${isPaymentDone}`;
-  }
+    // Check if isPaymentDone is provided
+    if (isPaymentDone !== null && isPaymentDone !== undefined) {
+        url += `?isPaymentDone=${isPaymentDone}`;
+    }
 
-  try {
-    const response = await axios.post(url, { token });
-    return response.data;
-  } catch (error) {
-    logoutIfInvalidToken(error.response);
-    return rejectWithValue(error.message);
-  }
+    try {
+        const response = await axios.post(url, { token });
+        return response.data;
+    } catch (error) {
+        logoutIfInvalidToken(error.response);
+        return rejectWithValue(error.message);
+    }
 });
 
 

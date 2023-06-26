@@ -147,6 +147,7 @@ const Wallet = () => {
                                   <td colSpan="8" className="fw-2 fw-bolder text-center"> No Data Found </td>
                               </tr> : walletTransactions &&
                               [...walletTransactions].map((value, pos) => {
+                                    console.log(value)
                                 return (
                                   <tr key={value._id}>
                                     <td>{pos + 1}</td>
@@ -155,18 +156,27 @@ const Wallet = () => {
                                     </td>
                                     <td>{value.name}</td>
                                     <td>{value.transactionId}</td>
-                                    <td>Rs.{value.amount}</td>
+                                    <td>  {value.category === 'Tutor' ? `Rs ${value.amount} ` : `$ ${value.amount} `} </td>
                                     <td>{value.category}</td>
                                     <td>
-                                      {value.status === "Success" ? (
-                                        <span className="badge text-bg-success">
-                                          {value.status}
-                                        </span>
-                                      ) : (
-                                        <span className="badge text-bg-warning">
-                                          {value.status}
-                                        </span>
-                                      )}
+                                    {value.status === "Success" ? (
+                                      <span className="badge text-bg-success">
+                                        {value.status}
+                                      </span>
+                                    ) : value.status === "Pending" ? (
+                                      <span className="badge text-bg-warning">
+                                        {value.status}
+                                      </span>
+                                    ) : value.status === "Failed" ? (
+                                      <span className="badge text-bg-danger">
+                                        {value.status}
+                                      </span>
+                                    ) : (
+                                      <span className="badge text-bg-info">
+                                        {value.status}
+                                      </span>
+                                    )}
+
                                     </td>
                                     <td>
                                       <button

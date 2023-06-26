@@ -117,15 +117,36 @@ const QuestionAnswerAll = () => {
   const filterData = getAdminQuestionsState?.data?.transactions?.filter(
     (item) => item._id === id
   );
-  
 
+  console.log(filterData);
+
+  const whomto_ask = filterData?.[0]?.whomto_ask || "";
+
+
+
+useEffect(() => {
+  if (whomto_ask) {
+    setWhomtoAsk(whomto_ask);
+  }
+}, [whomto_ask]);
+// const options = ["unsolved", "tutor", "admin", "reanswer"];
+// const initialWhomtoAsk = "tutor"; // Set the initial value to "tutor"
+
+const [whomtoAsk, setWhomtoAsk] = useState("");
+
+useEffect(() => {
+  localStorage.setItem("whomtoAsk", whomtoAsk);
+}, [whomtoAsk]);
+// const [whomtoAsk, setWhomtoAsk] = useState(initialWhomtoAsk);
   const questionPhoto = filterData?.[0]?.questionPhoto;
-  const selectType = filterData?.[0]?.questionType;
-
-  const [whomtoAsk, setWhomtoAsk] = useState(
-    "tutor" && "admin" && "reanswer" && "unsolved"
-  );
-
+  const selectType = filterData?.[0]?.questionType ||"";
+useEffect(() => {
+  localStorage.setItem("selectType", selectType);
+}, [selectType]);
+  // const [whomtoAsk, setWhomtoAsk] = useState(
+  //  "unsolved", "tutor", "admin", "reanswer"
+  // );
+//&& "admin" && "reanswer" && "unsolved"
   const [questionSubject, setQuestionSubject] = useState("");
   const [questionType, setQuestionType] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
