@@ -234,13 +234,14 @@ const Unsolvedque = () => {
                           )}
                         </table>
                       </div>
-                      <div className="table-pagination">
+                      <div className="table-pagination float-end">
                         <Pagination
                           count={totalPages}
                           page={currentPage}
                           onChange={handleChange}
                           shape="rounded"
                           variant="outlined"
+                          siblingCount={0}
                         />
                       </div>
                     </div>

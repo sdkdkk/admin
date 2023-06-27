@@ -261,13 +261,14 @@ const Pages = () => {
                         )}
                       </table>
 
-                      <div className="table-pagination">
+                      <div className="table-pagination float-end">
                         <Pagination
                           count={Math.ceil(document.length / 5)}
                           page={currentPage}
                           onChange={handleChange}
                           shape="rounded"
                           variant="outlined"
+                          siblingCount={0}
                         />
                       </div>
                     </div>

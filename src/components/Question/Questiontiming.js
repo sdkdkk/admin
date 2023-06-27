@@ -588,15 +588,14 @@ useEffect(() => {
                                 ))}
                               </tbody>}
                             </Table>
-                            <div className="table-pagination">
+                            <div className="table-pagination float-end">
                               <Pagination
                                 count={pageCount}
                                 page={currentPage}
                                 onChange={handleChange}
                                 shape="rounded"
                                 variant="outlined"
-                                showFirstButton
-                                showLastButton
+                                siblingCount={0}
                               />
                             </div>
                         

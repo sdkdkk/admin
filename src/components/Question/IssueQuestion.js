@@ -60,51 +60,57 @@ const IssueQuestion = () => {
                       <div className="card-body my-4">
                         <h3>Issue Question</h3>
                         <div className="table-container my-4">
-                          
-                              <Table
-                                striped
-                                bordered
-                                hover
-                                responsive
-                                className="single-color"
-                              >
-                                <thead>
-                                  <tr>
-                                    <th scope="col">No.</th>
-                                    <th scope="col">Questions</th>
-                                    <th scope="col">Question Photo</th>
-                                    <th scope="col">Subject</th>
-                                    <th scope="col">Type </th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">newreason</th>
-                                    <th scope="col">Action</th>
-                                  </tr>
-                                </thead>
+                          <Table
+                            striped
+                            bordered
+                            hover
+                            responsive
+                            className="single-color">
+                            <thead>
+                              <tr>
+                                <th scope="col">No.</th>
+                                <th scope="col">Questions</th>
+                                <th scope="col">Question Photo</th>
+                                <th scope="col">Subject</th>
+                                <th scope="col">Type </th>
+                                <th scope="col">Status</th>
+                                <th scope="col">newreason</th>
+                                <th scope="col">Action</th>
+                              </tr>
+                            </thead>
 
-                              {loading1 ? ( // Condition for displaying loader
-                          <tbody>
-                            <tr>
-                              <td colSpan="8" className="text-center">
-                               <div className="loader-container">
-                                        <div className="loader">
-                                          <RotatingLines
-                                            strokeColor="#d63384"
-                                            strokeWidth="5"
-                                            animationDuration="0.75"
-                                            width="50"
-                                            visible={true}
-                                          />
-                                        </div>
-                                        <div className="mobile-loader-text"></div>
+                            {loading1 ? ( // Condition for displaying loader
+                              <tbody>
+                                <tr>
+                                  <td colSpan="8" className="text-center">
+                                    <div className="loader-container">
+                                      <div className="loader">
+                                        <RotatingLines
+                                          strokeColor="#d63384"
+                                          strokeWidth="5"
+                                          animationDuration="0.75"
+                                          width="50"
+                                          visible={true}
+                                        />
                                       </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        ) : <tbody>
-                              {data?.length === 0 ?
+                                      <div className="mobile-loader-text"></div>
+                                    </div>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            ) : (
+                              <tbody>
+                                {data?.length === 0 ? (
                                   <tr>
-                                    <td colSpan="8" className="fw-2 fw-bolder text-center"> No Question Found </td>
-                                  </tr>:data?.map((item, id) => (
+                                    <td
+                                      colSpan="8"
+                                      className="fw-2 fw-bolder text-center">
+                                      {" "}
+                                      No Question Found{" "}
+                                    </td>
+                                  </tr>
+                                ) : (
+                                  data?.map((item, id) => (
                                     <tr key={id}>
                                       <td>{id + 1}</td>
                                       <td>{item.allQuestions.question}</td>
@@ -126,28 +132,28 @@ const IssueQuestion = () => {
                                       <td>
                                         <Link
                                           to={`/issueinfo/${id}`}
-                                          state={{ issueData: item }}
-                                        >
+                                          state={{ issueData: item }}>
                                           <Button className="btn-info">
                                             View
                                           </Button>
                                         </Link>
                                       </td>
                                     </tr>
-                                  ))}
-                                </tbody>}
-                              </Table>
-                              <div className="table-pagination">
-                                <Pagination
-                                  count={totalPages}
-                                  page={currentPage}
-                                  onChange={handleChange}
-                                  shape="rounded"
-                                  variant="outlined"
-                                // showFirstButton
-                                />
-                              </div>
-                            
+                                  ))
+                                )}
+                              </tbody>
+                            )}
+                          </Table>
+                          <div className="table-pagination float-end ">
+                            <Pagination
+                              count={totalPages}
+                              page={currentPage}
+                              onChange={handleChange}
+                              shape="rounded"
+                              variant="outlined"
+                              siblingCount={0}
+                            />
+                          </div>
                         </div>
                       </div>
                     </div>

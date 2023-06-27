@@ -18,7 +18,7 @@ const Contactus = () => {
   const tutorcontact = useSelector((state) => state.tutorcontact.data.document);
 
   const studentloader = useSelector((state) => state.studentcontact.isLoading);
-  const tutorLoader =useSelector((state) => state.tutorcontact.isLoading)
+  const tutorLoader = useSelector((state) => state.tutorcontact.isLoading);
   const [selectedStatus, setSelectedStatus] = useState("studentcontact");
   const [searchName, setSearchName] = useState("");
   const [status, setStatus] = useState({
@@ -31,13 +31,11 @@ const Contactus = () => {
   const [activeButton, setActiveButton] = useState(1);
   const dispatch = useDispatch();
 
-
   useEffect(() => {
     setStatus({
       studentcontact: studentcontact,
       tutorcontact: tutorcontact,
     });
-
   }, [studentcontact, tutorcontact]);
 
   useEffect(() => {
@@ -47,7 +45,7 @@ const Contactus = () => {
   const fetchData1 = async () => {
     setActiveButton(1);
     setStatus({ ...status, selectedStatus: "all" });
-   
+
     dispatch(getstudentcontact("all"));
     setSearchName("");
   };
@@ -55,7 +53,7 @@ const Contactus = () => {
   const fetchData2 = async () => {
     setActiveButton(2);
     setStatus({ ...status, selectedStatus: "all" });
-    
+
     dispatch(gettutorcontact("all"));
   };
 
@@ -216,24 +214,23 @@ const Contactus = () => {
                 <div className="row">
                   <div className="col-12 grid-margin stretch-card">
                     <div className="card new-table">
-                      
-                        <div className="card-body">
-                          <table className="table v-top">
-                            <thead>
-                              <tr>
-                                <th scope="col">Sr. No</th>
-                                <th scope="col">Full Name</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Mobile No</th>
-                                <th scope="col">Message</th>
-                                <th scope="col">Action</th>
-                              </tr>
+                      <div className="card-body">
+                        <table className="table v-top">
+                          <thead>
+                            <tr>
+                              <th scope="col">Sr. No</th>
+                              <th scope="col">Full Name</th>
+                              <th scope="col">Email</th>
+                              <th scope="col">Mobile No</th>
+                              <th scope="col">Message</th>
+                              <th scope="col">Action</th>
+                            </tr>
                           </thead>
-                            {tutorLoader || studentloader ? (
+                          {tutorLoader || studentloader ? (
                             <tbody>
                               <tr>
                                 <td colSpan="6" className="text-center">
-                                 <div className="d-flex justify-content-center align-items-center">
+                                  <div className="d-flex justify-content-center align-items-center">
                                     <div className="loader-container">
                                       <div className="loader">
                                         <RotatingLines
@@ -271,8 +268,7 @@ const Contactus = () => {
                                         className="btn btn-primary btn-sm"
                                         onClick={() => {
                                           toComponentB(data);
-                                        }}
-                                      >
+                                        }}>
                                         click
                                       </button>
                                     </td>
@@ -281,19 +277,18 @@ const Contactus = () => {
                               )}
                             </tbody>
                           )}
-
-                          </table>
-                          <div className="table-pagination">
-                            <Pagination
-                              count={totalPages}
-                              page={currentPage}
-                              onChange={handleChange}
-                              shape="rounded"
-                              variant="outlined"
-                            />
-                          </div>
+                        </table>
+                        <div className="table-pagination float-end">
+                          <Pagination
+                            count={totalPages}
+                            page={currentPage}
+                            onChange={handleChange}
+                            shape="rounded"
+                            variant="outlined"
+                            siblingCount={0}
+                          />
                         </div>
-                     
+                      </div>
                     </div>
                   </div>
                 </div>

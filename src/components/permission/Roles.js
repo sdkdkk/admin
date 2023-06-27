@@ -5,7 +5,7 @@ import Sidebar from "../shared/Sidebar";
 import { Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import axios from "axios";
-import {RotatingLines } from "react-loader-spinner";
+import { RotatingLines } from "react-loader-spinner";
 import { Button } from "react-bootstrap";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 import "./permission.css";
@@ -20,7 +20,7 @@ const Roles = () => {
   const [loading1, setLoading1] = useState(false);
   const [data, setData] = useState([]);
   let token = localStorage.getItem("token");
- const [currentPage, setCurrentPage] = useState(1);
+  const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(8);
   const indexOfLastPage = currentPage * postsPerPage;
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
@@ -33,7 +33,11 @@ const Roles = () => {
     setCurrentPage(value);
     const searchParams = new URLSearchParams(location.search);
     searchParams.set("page", value);
-    window.history.replaceState({}, "", `${location.pathname}?${searchParams.toString()}`);
+    window.history.replaceState(
+      {},
+      "",
+      `${location.pathname}?${searchParams.toString()}`
+    );
   };
 
   useEffect(() => {
@@ -107,74 +111,80 @@ const Roles = () => {
                         </div>
                         <div className="col-lg-12 mt-4">
                           <div className="table-responsive">
-                            
-                              <table className="table">
-                                <thead>
-                                  <tr>
-                                    <th>Sr.No</th>
-                                    <th>Role</th>
-                                    <th>Action</th>
-                                  </tr>
-                                </thead>
-                                  {loading1 ? ( // Condition for displaying loader
-                          <tbody>
-                            <tr>
-                              <td colSpan="3" className="text-center">
-                                <div className="loader-container"> {/* Wrap loader code inside this div */}
-                                  <div className="loader">
-                                    <RotatingLines
-                                      strokeColor="#d63384"
-                                      strokeWidth="5"
-                                      animationDuration="0.75"
-                                      width="50"
-                                      visible={true}
-                                    />
-                                  </div>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        ) : <tbody>
-                                  {displayUsers?.length === 0 ? (
+                            <table className="table">
+                              <thead>
                                 <tr>
-                                  <td
-                                    colSpan="3"
-                                    className="fw-3 fw-bolder text-center">
-                                    No Data found
-                                  </td>
+                                  <th>Sr.No</th>
+                                  <th>Role</th>
+                                  <th>Action</th>
                                 </tr>
-                              ) :displayUsers.map((rowData, index) => (
-                                    <tr key={rowData?._id}>
-                                      <td>{index + 1}</td>
-                                      <td>{rowData.rolename}</td>
-                                      <td>
-                                        <Link
-                                          to={`/addnewrole?id=${rowData._id}`}>
-                                          <Button variant="success">
-                                            Edit
-                                          </Button>
-                                        </Link>
-                                        <Button
-                                          className="mx-2"
-                                          variant="danger"
-                                          disabled={deleteLoading}
-                                          onClick={() =>
-                                            handleDeleteClick(rowData._id)
-                                          }>
-                                          Delete
-                                        </Button>
+                              </thead>
+                              {loading1 ? ( // Condition for displaying loader
+                                <tbody>
+                                  <tr>
+                                    <td colSpan="3" className="text-center">
+                                      <div className="loader-container">
+                                        {" "}
+                                        {/* Wrap loader code inside this div */}
+                                        <div className="loader">
+                                          <RotatingLines
+                                            strokeColor="#d63384"
+                                            strokeWidth="5"
+                                            animationDuration="0.75"
+                                            width="50"
+                                            visible={true}
+                                          />
+                                        </div>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              ) : (
+                                <tbody>
+                                  {displayUsers?.length === 0 ? (
+                                    <tr>
+                                      <td
+                                        colSpan="3"
+                                        className="fw-3 fw-bolder text-center">
+                                        No Data found
                                       </td>
                                     </tr>
-                                  ))}
-                                </tbody>}
-                              </table>
-                            <div className="table-pagination">
+                                  ) : (
+                                    displayUsers.map((rowData, index) => (
+                                      <tr key={rowData?._id}>
+                                        <td>{index + 1}</td>
+                                        <td>{rowData.rolename}</td>
+                                        <td>
+                                          <Link
+                                            to={`/addnewrole?id=${rowData._id}`}>
+                                            <Button variant="success">
+                                              Edit
+                                            </Button>
+                                          </Link>
+                                          <Button
+                                            className="mx-2"
+                                            variant="danger"
+                                            disabled={deleteLoading}
+                                            onClick={() =>
+                                              handleDeleteClick(rowData._id)
+                                            }>
+                                            Delete
+                                          </Button>
+                                        </td>
+                                      </tr>
+                                    ))
+                                  )}
+                                </tbody>
+                              )}
+                            </table>
+                            <div className="table-pagination float-end">
                               <Pagination
                                 count={totalPages}
                                 page={currentPage}
                                 onChange={handleChange}
                                 shape="rounded"
                                 variant="outlined"
+                                siblingCount={0}
                               />
                             </div>
                           </div>

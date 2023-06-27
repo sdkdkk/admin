@@ -201,13 +201,14 @@ const Studentdetails = () => {
                         </>
                       </tbody>
                     </table>
-                    <div className="table-pagination">
+                    <div className="table-pagination float-end">
                       <Pagination
                         count={totalPage}
                         page={currentPage1}
                         onChange={handleChange1}
                         shape="rounded"
                         variant="outlined"
+                        siblingCount={0}
                       />
                     </div>
                   </div>
@@ -283,13 +284,14 @@ const Studentdetails = () => {
                               ))}
                             </tbody>
                           </table>
-                          <div className="table-pagination">
+                          <div className="table-pagination float-end">
                             <Pagination
                               count={totalPages}
                               page={currentPage}
                               onChange={handleChange}
                               shape="rounded"
                               variant="outlined"
+                              siblingCount={0}
                             />
                           </div>
                         </>

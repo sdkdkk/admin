@@ -286,13 +286,14 @@ const AdminPageSetting = () => {
                                   })}
                                 </tbody>}
                               </Table>
-                              <div className="table-pagination float-right my-4">
+                              <div className="table-pagination float-end my-4">
                                 <Pagination
                                   count={pageCount}
                                   page={currentPage}
                                   onChange={handleChange}
                                   shape="rounded"
                                   variant="outlined"
+                                  siblingCount={0}
                                 />
                               </div>
                             </div>

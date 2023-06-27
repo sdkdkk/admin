@@ -281,7 +281,7 @@ const Testimonial = () => {
                       </table>
 
                       <div
-                        className="table-pagination"
+                        className="table-pagination float-end"
                         style={{
                           marginTop: `${
                             testimonial.loading ||
@@ -298,6 +298,7 @@ const Testimonial = () => {
                           onChange={handleChange}
                           shape="rounded"
                           variant="outlined"
+                          siblingCount={0}
                         />
                       </div>
                     </div>

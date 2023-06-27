@@ -8,7 +8,7 @@ import { getWalletData } from "../../Redux/Loginpages/getWalletDataSlice";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { useLocation, useNavigate } from "react-router-dom";
-import {RotatingLines } from "react-loader-spinner";
+import { RotatingLines } from "react-loader-spinner";
 
 const Wallet = () => {
   const dispatch = useDispatch();
@@ -46,13 +46,11 @@ const Wallet = () => {
   }, [location.search]);
 
   const getWalletDataApi = (category) => {
-    if(category){
-      setType(category)
+    if (category) {
+      setType(category);
     }
     const cat = category || type;
-    const params = `?category=${cat}&limit=10&skip=${
-      (currentPage - 1) * 10
-    }`;
+    const params = `?category=${cat}&limit=10&skip=${(currentPage - 1) * 10}`;
     setIsLoading(true);
     dispatch(getWalletData(params))
       .then(() => {
@@ -71,7 +69,7 @@ const Wallet = () => {
   };
 
   useEffect(() => {
-    let token=localStorage.getItem("token")
+    let token = localStorage.getItem("token");
     getWalletDataApi();
   }, [currentPage]);
 
@@ -97,13 +95,13 @@ const Wallet = () => {
                 <div className="col-md-12">
                   <div className="d-grid gap-2 d-md-flex justify-content-md-end">
                     <button
-                      onClick={() =>( getWalletDataApi("Student"))}
+                      onClick={() => getWalletDataApi("Student")}
                       className="btn btn-primary me-md-2"
                       type="button">
                       Student
                     </button>
                     <button
-                      onClick={() => (getWalletDataApi("Tutor"))}
+                      onClick={() => getWalletDataApi("Tutor")}
                       className="btn btn-primary"
                       type="button">
                       Tutor
@@ -115,54 +113,66 @@ const Wallet = () => {
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table">
                     <div className="card-body">
-                      
-                        <table className="table">
-                          <thead>
-                            <tr>
-                              <th scope="col">Sr.No.</th>
-                              <th scope="col">Date</th>
-                              <th scope="col">Name</th>
-                              <th scope="col">Transaction id</th>
-                              <th scope="col">Amount</th>
-                              <th scope="col">Category</th>
-                              <th scope="col">Status</th>
-                              <th scope="col">Action</th>
-                            </tr>
-                          </thead>
-                            { getWalletDataState.isLoading ? ( // Condition for displaying loader
+                      <table className="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">Sr.No.</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Transaction id</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Action</th>
+                          </tr>
+                        </thead>
+                        {getWalletDataState.isLoading ? ( // Condition for displaying loader
                           <tbody>
                             <tr>
                               <td colSpan="8" className="text-center">
                                 <div className="loader-container">
-                                        <div className="loader">
-                                          <RotatingLines
-                                            strokeColor="#d63384"
-                                            strokeWidth="5"
-                                            animationDuration="0.75"
-                                            width="50"
-                                            visible={true}
-                                          />
-                                        </div>
-                                        <div className="mobile-loader-text"></div>
-                                      </div>
+                                  <div className="loader">
+                                    <RotatingLines
+                                      strokeColor="#d63384"
+                                      strokeWidth="5"
+                                      animationDuration="0.75"
+                                      width="50"
+                                      visible={true}
+                                    />
+                                  </div>
+                                  <div className="mobile-loader-text"></div>
+                                </div>
                               </td>
                             </tr>
                           </tbody>
-                        ) :<tbody>
-                            {walletTransactions?.length === 0 ?
+                        ) : (
+                          <tbody>
+                            {walletTransactions?.length === 0 ? (
                               <tr>
-                                  <td colSpan="8" className="fw-2 fw-bolder text-center"> No Data Found </td>
-                              </tr> : walletTransactions &&
+                                <td
+                                  colSpan="8"
+                                  className="fw-2 fw-bolder text-center">
+                                  {" "}
+                                  No Data Found{" "}
+                                </td>
+                              </tr>
+                            ) : (
+                              walletTransactions &&
                               [...walletTransactions].map((value, pos) => {
                                 return (
                                   <tr key={value._id}>
-                                    <td>{pos+ indexOfFirstPage + 1}</td>
+                                    <td>{pos + indexOfFirstPage + 1}</td>
                                     <td>
                                       {moment(value?.date).format("DD-MM-YYYY")}
                                     </td>
                                     <td>{value.name}</td>
                                     <td>{value.transactionId}</td>
-                                    <td>  {value.category === 'Tutor' ? `Rs ${value.amount} ` : `$ ${value.amount} `} </td>
+                                    <td>
+                                      {" "}
+                                      {value.category === "Tutor"
+                                        ? `Rs ${value.amount} `
+                                        : `$ ${value.amount} `}{" "}
+                                    </td>
                                     <td>{value.category}</td>
                                     <td>
                                       {value.status === "Success" ? (
@@ -186,17 +196,21 @@ const Wallet = () => {
                                     </td>
                                   </tr>
                                 );
-                              })}
-                          </tbody>}
-                        </table>
-                    
-                      <Pagination
-                        count={3}
-                        page={currentPage}
-                        onChange={handleChange}
-                        shape="rounded"
-                        variant="outlined"
-                      />
+                              })
+                            )}
+                          </tbody>
+                        )}
+                      </table>
+                      <div className="table-pagination float-end">
+                        <Pagination
+                          count={3}
+                          page={currentPage}
+                          onChange={handleChange}
+                          shape="rounded"
+                          variant="outlined"
+                          siblingCount={0}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>

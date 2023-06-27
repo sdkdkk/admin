@@ -17,14 +17,18 @@ import { useNavigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import { TutorExam } from "../../Redux/Loginpages/authSlice";
 import { getTutorQuestionsListApi } from "../../Redux/Loginpages/getTutorQuestionListSlice";
-import { postTutorQuestionApi, reset as resetPostTutorQuestionApi, } from "../../Redux/Loginpages/postTutorQuestionListSlice";
-import { deleteTutorQuestion, reset as resetDeleteTutorQuestion, } from "../../Redux/Loginpages/deleteTutorQuestionSlice";
+import {
+  postTutorQuestionApi,
+  reset as resetPostTutorQuestionApi,
+} from "../../Redux/Loginpages/postTutorQuestionListSlice";
+import {
+  deleteTutorQuestion,
+  reset as resetDeleteTutorQuestion,
+} from "../../Redux/Loginpages/deleteTutorQuestionSlice";
 import { updateTutorQuestionApi } from "../../Redux/Loginpages/updateTutorQuestionSlice";
 import axios from "axios";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 import { RotatingLines } from "react-loader-spinner";
-
-
 
 const url = process.env.REACT_APP_API_BASE_URL;
 const ReadMore = ({ children }) => {
@@ -107,7 +111,7 @@ const Tutorexam = () => {
       setLoading(false);
     } catch (error) {
       logoutIfInvalidToken(error.response);
-      
+
       // notify("Invalid refresh token!");
     }
   };
@@ -240,27 +244,32 @@ const Tutorexam = () => {
                       <div className="row">
                         <div className="col-md-12">
                           <div className="dropdown react-bootstrap-select w-100">
-                            <label htmlFor="questionType" className="form-label">
+                            <label
+                              htmlFor="questionType"
+                              className="form-label">
                               Select Subject
                             </label>
                             <select
-                            id="questionSubject"
-                            className="w-50 form-control"
-                            name="questionSubject"
-                            {...register("questionSubject", { required: true })}
-                            >
-                            <option value="">Select your Subject</option>
-                             {subjectList.map((a) => (
+                              id="questionSubject"
+                              className="w-50 form-control"
+                              name="questionSubject"
+                              {...register("questionSubject", {
+                                required: true,
+                              })}>
+                              <option value="">Select your Subject</option>
+                              {subjectList.map((a) => (
                                 <option key={a._id} value={a.questionSubject}>
                                   {a.questionSubject}
                                 </option>
                               ))}
-                          </select>
-                          {errors.questionSubject && (
-                            <p className=" text-danger">Please select questionType</p>
+                            </select>
+                            {errors.questionSubject && (
+                              <p className=" text-danger">
+                                Please select questionType
+                              </p>
                             )}
-                            </div>
-                         </div>
+                          </div>
+                        </div>
                       </div>
                       <Form onSubmit={handleSubmit(onSubmit)}>
                         <div className="row pt-4">
@@ -305,7 +314,9 @@ const Tutorexam = () => {
                                 name="questionType"
                                 id="questionSubject"
                                 className="w-50 form-control"
-                                {...register("questionType", {required: true})}
+                                {...register("questionType", {
+                                  required: true,
+                                })}
                                 onClick={(e) => {
                                   setValue("questionType", e.target.value);
                                   setFormValue({
@@ -318,7 +329,7 @@ const Tutorexam = () => {
                               </select>
                               {errors.questionType && (
                                 <p className="text-danger">
-                                 Please select a question type
+                                  Please select a question type
                                 </p>
                               )}
                             </div>
@@ -526,41 +537,40 @@ const Tutorexam = () => {
                 <div className="col-md-12 grid-margin stretch-card">
                   <div className="card">
                     <div className="card-body">
-
-                    
-  <div className="table-responsive">
-  <table className="table">
-    <thead className="text-uppercase">
-      <tr>
-        <th scope="col">Question</th>
-        <th scope="col">Question Type</th>
-        <th scope="col">Question Subject</th>
-        {/* <th scope="col">Action</th> */}
-      </tr>
-    </thead>
-             {loading ? ( // Condition for displaying loader
-                          <tbody>
+                      <div className="table-responsive">
+                        <table className="table">
+                          <thead className="text-uppercase">
                             <tr>
-                              <td colSpan="3" className="text-center">
-                                  <div className="d-flex justify-content-center align-items-center">
-                                      <div className="loader-container ">
-                                        <div className="loader">
-                                          <RotatingLines
-                                            strokeColor="#d63384"
-                                            strokeWidth="5"
-                                            animationDuration="0.75"
-                                            width="50"
-                                            visible={true}
-                                          />
-                                        </div>
-                                        <div className="mobile-loader-text ml-5 mr-4"></div>
-                                      </div>
-                                    </div>
-                              </td>
+                              <th scope="col">Question</th>
+                              <th scope="col">Question Type</th>
+                              <th scope="col">Question Subject</th>
+                              {/* <th scope="col">Action</th> */}
                             </tr>
-                          </tbody>
-                        ) : <tbody className="text-capitalize text-sm-start">
-                      {[...tutorexamquestionData]?.length === 0 ? (
+                          </thead>
+                          {loading ? ( // Condition for displaying loader
+                            <tbody>
+                              <tr>
+                                <td colSpan="3" className="text-center">
+                                  <div className="d-flex justify-content-center align-items-center">
+                                    <div className="loader-container ">
+                                      <div className="loader">
+                                        <RotatingLines
+                                          strokeColor="#d63384"
+                                          strokeWidth="5"
+                                          animationDuration="0.75"
+                                          width="50"
+                                          visible={true}
+                                        />
+                                      </div>
+                                      <div className="mobile-loader-text ml-5 mr-4"></div>
+                                    </div>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          ) : (
+                            <tbody className="text-capitalize text-sm-start">
+                              {[...tutorexamquestionData]?.length === 0 ? (
                                 <tr>
                                   <td
                                     colSpan="4"
@@ -568,75 +578,80 @@ const Tutorexam = () => {
                                     No Question found
                                   </td>
                                 </tr>
-                              ) :[...tutorexamquestionData]?.map((data, id) => {
-        return (
-          <tr key={data._id}>
-            <td className="d-flex flex-column">
-              <small className="text-muted">
-                <Badge
-                  pill
-                  color="primary"
-                  className="bg-opacity-25 text-primary">
-                  {data.questionType}
-                </Badge>
-                {data.questionSubject}
-              </small>
-              <small>
-                <p className="question">
-                  {data.question}
-                </p>
-              </small>
-              <small>
-                <ReadMore>{data.answer}</ReadMore>
-              </small>
-            </td>
-            <td>{data.questionType}</td>
-            <td>{data.questionSubject}</td>
-            <td className="text-center">
-              <div className="dropdown">
-                <button
-                  className="dropdown__button"
-                  onClick={() =>
-                    handleDropdownClick(data._id)
-                  }>
-                  <BiDotsVerticalRounded />
-                </button>
-                {data._id === isOpen && (
-                  <div
-                    style={{ left: "-44px" }}
-                    className="dropdown__popup">
-                    <ul className="dropdown__list">
-                      <li
-                        onClick={() =>
-                          handleUpdateClick(data)
-                        }>
-                        Edit
-                      </li>
-                      <li
-                        onClick={() =>
-                          handleDeleteClick(data._id)
-                        }>
-                        Delete
-                      </li>
-                    </ul>
-                  </div>
-                )}
-              </div>
-            </td>
-          </tr>
-        );
-      })}
-    </tbody>}
-  </table>
-</div>
-                    
-                      <Pagination
-                        count={3}
-                        page={currentPage}
-                        onChange={handleChange}
-                        shape="rounded"
-                        variant="outlined"
-                      />
+                              ) : (
+                                [...tutorexamquestionData]?.map((data, id) => {
+                                  return (
+                                    <tr key={data._id}>
+                                      <td className="d-flex flex-column">
+                                        <small className="text-muted">
+                                          <Badge
+                                            pill
+                                            color="primary"
+                                            className="bg-opacity-25 text-primary">
+                                            {data.questionType}
+                                          </Badge>
+                                          {data.questionSubject}
+                                        </small>
+                                        <small>
+                                          <p className="question">
+                                            {data.question}
+                                          </p>
+                                        </small>
+                                        <small>
+                                          <ReadMore>{data.answer}</ReadMore>
+                                        </small>
+                                      </td>
+                                      <td>{data.questionType}</td>
+                                      <td>{data.questionSubject}</td>
+                                      <td className="text-center">
+                                        <div className="dropdown">
+                                          <button
+                                            className="dropdown__button"
+                                            onClick={() =>
+                                              handleDropdownClick(data._id)
+                                            }>
+                                            <BiDotsVerticalRounded />
+                                          </button>
+                                          {data._id === isOpen && (
+                                            <div
+                                              style={{ left: "-44px" }}
+                                              className="dropdown__popup">
+                                              <ul className="dropdown__list">
+                                                <li
+                                                  onClick={() =>
+                                                    handleUpdateClick(data)
+                                                  }>
+                                                  Edit
+                                                </li>
+                                                <li
+                                                  onClick={() =>
+                                                    handleDeleteClick(data._id)
+                                                  }>
+                                                  Delete
+                                                </li>
+                                              </ul>
+                                            </div>
+                                          )}
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  );
+                                })
+                              )}
+                            </tbody>
+                          )}
+                        </table>
+                      </div>
+                      <div className="table-pagination float-end">
+                        <Pagination
+                          count={3}
+                          page={currentPage}
+                          onChange={handleChange}
+                          shape="rounded"
+                          variant="outlined"
+                          siblingCount={0}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>
