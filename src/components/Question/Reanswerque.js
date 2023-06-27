@@ -18,14 +18,16 @@ const Reanswerque = () => {
   const history = useNavigate();
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
-  const getAdminQuestionsState = useSelector((state) => state.getAdminQuestions);
+  const getAdminQuestionsState = useSelector(
+    (state) => state.getAdminQuestions
+  );
   const [queTypeList, setQueTypeList] = useState([]);
   const [subjectList, setSubjectList] = useState([]);
   const [questionSubject, setQuestionSubject] = useState("");
   const [questionType, setQuestionType] = useState("");
   const [whomtoAsk, setWhomtoAsk] = useState("reanswer");
   const [isOpen, setIsOpen] = useState("");
-  
+
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const { transactions = [] } = getAdminQuestionsState?.data || {};
@@ -47,23 +49,26 @@ const Reanswerque = () => {
   };
 
   const fetchQueTypeData = async () => {
-        try {
-            const response = await axios.get(`${url}/getquestiontype`, {token }
-            );
-            setQueTypeList(response?.data?.data);
-            } catch (error) {
-            // notify("Invalid refresh token!");
-        }
-    };
+    try {
+      const response = await axios.get(`${url}/getquestiontype`, { token });
+      setQueTypeList(response?.data?.data);
+    } catch (error) {
+      // notify("Invalid refresh token!");
+    }
+  };
 
   const getQuestionList = () => {
-
-    const payload = { questionType, questionSubject, whomto_ask: whomtoAsk, limit: 5, skip: (currentPage - 1) * 5, };
+    const payload = {
+      questionType,
+      questionSubject,
+      whomto_ask: whomtoAsk,
+      limit: 5,
+      skip: (currentPage - 1) * 5,
+    };
 
     dispatch(getAdminQuestions(payload));
   };
 
-  
   const handleDropdownClick = (id) => {
     setIsOpen(isOpen === id ? "" : id);
   };
@@ -78,7 +83,7 @@ const Reanswerque = () => {
 
   useEffect(() => {
     fetchSubjectData();
-    fetchQueTypeData()
+    fetchQueTypeData();
   }, []);
 
   return (
@@ -131,14 +136,18 @@ const Reanswerque = () => {
                     <label>Question Type :</label>
                     <div className="dropdown react-bootstrap-select w-100">
                       <select
-                        onChange={(e) => setQuestionType(e.target.value)} 
-                        className="w-100 form-select" id="displayname">
+                        onChange={(e) => setQuestionType(e.target.value)}
+                        className="w-100 form-select"
+                        id="displayname">
                         {queTypeList?.map((a, id) => {
                           return (
-                            <option key={id} value={a.questionType}> {a.questionType}</option>
-                                                    );
-                                                })}
-                                            </select>
+                            <option key={id} value={a.questionType}>
+                              {" "}
+                              {a.questionType}
+                            </option>
+                          );
+                        })}
+                      </select>
                     </div>
                   </div>
                 </div>
@@ -160,67 +169,80 @@ const Reanswerque = () => {
                               <th scope="col">Action</th>
                             </tr>
                           </thead>
-                           {getAdminQuestionsState?.isLoading ? ( // Condition for displaying loader
-        <tbody>
-          <tr>
-            <td colSpan="6" className="text-center">
-              <div className="loader-container"> {/* Wrap loader code inside this div */}
-                <div className="loader">
-                  <RotatingLines
-                    strokeColor="#d63384"
-                    strokeWidth="5"
-                    animationDuration="0.75"
-                    width="50"
-                    visible={true}
-                  />
-                </div>
-              </div>
-            </td>
-          </tr>
-        </tbody>
-      ) :<tbody>
-                            {transactions.length === 0 ? (
+                          {getAdminQuestionsState?.isLoading ? ( // Condition for displaying loader
+                            <tbody>
                               <tr>
-                                <td colSpan="6" className="fw-3 fw-bolder text-center">No Question found</td>
-                              </tr>) :transactions.map((a, index) => (
-                              <tr key={index}>
-                                <td>{index + 1}</td>
-                                <td><p className="question">{a.question}</p></td>
-                                <td>{a.questionType}</td>
-                                <td>{a.questionSubject}</td>
-                                <td>{a.status}</td>
-                                <td>
-                                  <div className="dropdown">
-                                    <button
-                                      className="dropdown__button"
-                                      onClick={() =>
-                                        handleDropdownClick(a._id)
-                                      }>
-                                      ...
-                                    </button>
-                                    {a._id === isOpen && (
-                                      <div className="dropdown__popup">
-                                        <ul className="dropdown__list">
-                                            <Link to={`/questionanswerall/${a._id}`}><li>
-                                                                                        Answer
-                                                                                    </li></Link>
-                                        </ul>
-                                      </div>
-                                    )}
+                                <td colSpan="6" className="text-center">
+                                <div className="loader-container">
+                                    <div className="loader">
+                                      <RotatingLines
+                                        strokeColor="#d63384"
+                                        strokeWidth="5"
+                                        animationDuration="0.75"
+                                        width="50"
+                                        visible={true}
+                                      />
+                                    </div>
+                                    <div className="mobile-loader-text"></div>
                                   </div>
                                 </td>
                               </tr>
-                            ))}
-                          </tbody>}
+                            </tbody>
+                          ) : (
+                            <tbody>
+                              {transactions.length === 0 ? (
+                                <tr>
+                                  <td
+                                    colSpan="6"
+                                    className="fw-3 fw-bolder text-center">
+                                    No Question found
+                                  </td>
+                                </tr>
+                              ) : (
+                                transactions.map((a, index) => (
+                                  <tr key={index}>
+                                    <td>{index + 1}</td>
+                                    <td>
+                                      <p className="question">{a.question}</p>
+                                    </td>
+                                    <td>{a.questionType}</td>
+                                    <td>{a.questionSubject}</td>
+                                    <td>{a.status}</td>
+                                    <td>
+                                      <div className="dropdown">
+                                        <button
+                                          className="dropdown__button"
+                                          onClick={() =>
+                                            handleDropdownClick(a._id)
+                                          }>
+                                          ...
+                                        </button>
+                                        {a._id === isOpen && (
+                                          <div className="dropdown__popup">
+                                            <ul className="dropdown__list">
+                                              <Link
+                                                to={`/questionanswerall/${a._id}`}>
+                                                <li>Answer</li>
+                                              </Link>
+                                            </ul>
+                                          </div>
+                                        )}
+                                      </div>
+                                    </td>
+                                  </tr>
+                                ))
+                              )}
+                            </tbody>
+                          )}
                         </table>
                       </div>
                       <div className="table-pagination">
                         <Pagination
-                                count={totalPages}
-                                 page={currentPage}
-                                                          onChange={handleChange}
-                                                          shape="rounded"
-                                                          variant="outlined"
+                          count={totalPages}
+                          page={currentPage}
+                          onChange={handleChange}
+                          shape="rounded"
+                          variant="outlined"
                         />
                       </div>
                     </div>

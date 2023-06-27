@@ -41,9 +41,7 @@ const Tutorque = () => {
         token: token,
       });
       setSubjectList(response?.data?.data);
-    } catch (error) {
-  
-    }
+    } catch (error) {}
   };
 
   const fetchQueTypeData = async () => {
@@ -69,7 +67,6 @@ const Tutorque = () => {
       })
       .catch((error) => {
         setIsLoading(false);
-       
       });
   };
 
@@ -177,39 +174,39 @@ const Tutorque = () => {
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table">
                     <div className="card-body">
-                    
-                        <div className="table-responsive">
-                          <table
-                            className={`table `}>
-                            <thead>
+                      <div className="table-responsive">
+                        <table className={`table `}>
+                          <thead>
+                            <tr>
+                              <th scope="col">Sr.No</th>
+                              <th scope="col">Question</th>
+                              <th scope="col">Question Type</th>
+                              <th scope="col">Question Subject</th>
+                              <th scope="col">Status</th>
+                              <th scope="col">Action</th>
+                            </tr>
+                          </thead>
+                          {getAdminQuestionsState?.isLoading ? ( // Condition for displaying loader
+                            <tbody>
                               <tr>
-                                <th scope="col">Sr.No</th>
-                                <th scope="col">Question</th>
-                                <th scope="col">Question Type</th>
-                                <th scope="col">Question Subject</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Action</th>
+                                <td colSpan="6" className="text-center">
+                                  <div className="loader-container">
+                                    <div className="loader">
+                                      <RotatingLines
+                                        strokeColor="#d63384"
+                                        strokeWidth="5"
+                                        animationDuration="0.75"
+                                        width="50"
+                                        visible={true}
+                                      />
+                                    </div>
+                                    <div className="mobile-loader-text"></div>
+                                  </div>
+                                </td>
                               </tr>
-                            </thead>
-                              {getAdminQuestionsState?.isLoading ? ( // Condition for displaying loader
-                                  <tbody>
-                                    <tr>
-                                      <td colSpan="6" className="text-center">
-                                        <div className="loader-container"> {/* Wrap loader code inside this div */}
-                                          <div className="loader">
-                                            <RotatingLines
-                                              strokeColor="#d63384"
-                                              strokeWidth="5"
-                                              animationDuration="0.75"
-                                              width="50"
-                                              visible={true}
-                                            />
-                                          </div>
-                                        </div>
-                                      </td>
-                                    </tr>
-                                  </tbody>
-                                ) :<tbody>
+                            </tbody>
+                          ) : (
+                            <tbody>
                               {displayUsers.length === 0 ? (
                                 <tr>
                                   <td
@@ -257,7 +254,8 @@ const Tutorque = () => {
                                           <div className="dropdown__popup">
                                             <ul className="dropdown__list">
                                               <Link
-                                                to={`/questionanswerall/${a._id}`}><li>Answer</li>
+                                                to={`/questionanswerall/${a._id}`}>
+                                                <li>Answer</li>
                                               </Link>
                                             </ul>
                                           </div>
@@ -267,19 +265,19 @@ const Tutorque = () => {
                                   </tr>
                                 ))
                               )}
-                            </tbody>}
-                          </table>
-                        </div>
-                  
+                            </tbody>
+                          )}
+                        </table>
+                      </div>
 
                       <div className="table-pagination">
-                         <Pagination
-                                count={totalPages}
-                                page={currentPage}
-                                onChange={handleChange}
-                                shape="rounded"
-                                variant="outlined"
-                              />
+                        <Pagination
+                          count={totalPages}
+                          page={currentPage}
+                          onChange={handleChange}
+                          shape="rounded"
+                          variant="outlined"
+                        />
                       </div>
                     </div>
                   </div>
