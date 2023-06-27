@@ -20,14 +20,14 @@ const QuestionAnswerAll = () => {
   const { id } = useParams();
   const navigate = useNavigate();
   const postAdminQuestions = useSelector((state) => state.postAdminQuestions);
- 
+   const getAdminQuestionsState = useSelector((state) => state.getAdminQuestions);
   const [showModal, setShowModal] = useState(false);
   const [modalImageSrc, setModalImageSrc] = useState("");
   const handleImageClick = (src) => {
     setModalImageSrc(src);
     setShowModal(true);
   };
- const [filterdata, setFilterData] = useState(null);
+
 
   const [editorHtml, setEditorHtml] = useState("");
   const [isLoading, setIsLoading] = useState(false);
@@ -106,19 +106,29 @@ const QuestionAnswerAll = () => {
     "image",
     "video",
   ];
-  const getAdminQuestionsState = useSelector((state) => state.getAdminQuestions);
-  const filterData = getAdminQuestionsState?.data?.transactions?.filter(
-    (item) => item._id === id
-  );
+ const filterData = getAdminQuestionsState?.data?.transactions?.filter(
+  (item) => item._id === id
+);
 
-  useEffect(() =>{
-    if(!getAdminQuestionsState?.data?.transactions?.length && !filterData?.length){
-      navigate("/tutorque")
+const [storedFilterData, setStoredFilterData] = useState(filterData);
+
+useEffect(() => {
+  const storedData = localStorage.getItem('filterData');
+   if (storedData) {
+    try {
+      setStoredFilterData(JSON.parse(storedData));
+    } catch (error) {
+      console.error('Error parsing stored data:', error);
     }
+  }
+}, []);
 
-  },[filterData])
+useEffect(() => {
+  // Save data to localStorage whenever the storedFilterData state changes
+  localStorage.setItem('filterData', JSON.stringify(storedFilterData));
+}, [storedFilterData]);
 
-  const whomto_ask = filterData?.[0]?.whomto_ask ;
+  const whomto_ask = storedFilterData?.[0]?.whomto_ask ;
 
 useEffect(() => {
   if (whomto_ask) {
@@ -133,8 +143,9 @@ useEffect(() => {
   localStorage.setItem("whomtoAsk", whomtoAsk);
 }, [whomtoAsk]);
   
-  const questionPhoto = filterData?.[0]?.questionPhoto;
-  const selectType = filterData?.[0]?.questionType ||"";
+  const questionPhoto = storedFilterData?.[0]?.questionPhoto || "";
+  const selectType = storedFilterData?.[0]?.questionType || "";
+
 useEffect(() => {
   localStorage.setItem("selectType", selectType);
 }, [selectType]);
@@ -142,32 +153,8 @@ useEffect(() => {
   const [questionSubject, setQuestionSubject] = useState("");
   const [questionType, setQuestionType] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-
-  const getQuestionList =  () => {
-    setIsLoading(true);
-    const payload = {
-      questionType,
-      questionSubject,
-      whomto_ask: whomtoAsk,
-      limit: 5,
-      skip: (currentPage - 1) * 5,
-    };
-     dispatch(getAdminQuestions(payload));
-    setIsLoading(false);
-  };
-
-  useEffect(() => {
-    getQuestionList();
-  }, [questionSubject, questionType, currentPage, whomtoAsk]);
-  
-
-  useEffect(() => {
  
-    reset(filterData?.[0]);
-
-  }, [filterData?.[0]]);
-
-  const onSubmit = (data) => {
+ const onSubmit = (data) => {
   
     const formattedAnswerData = answerData.map((item) => ({
       id: item.id,
@@ -205,19 +192,23 @@ useEffect(() => {
     }
   };
 
-  useEffect(() => {
-  if (filterdata) {
-    localStorage.setItem('filterdata', JSON.stringify(filterdata));
-  }
-  }, [filterdata]);
-  
-useEffect(() => {
-  const storedFilterData = localStorage.getItem('filterdata');
-  if (storedFilterData) {
-    setFilterData(JSON.parse(storedFilterData));
-  }
-}, []);
+  const getQuestionList =  () => {
+    setIsLoading(true);
+    const payload = {
+      questionType,
+      questionSubject,
+      whomto_ask: whomtoAsk,
+      limit: 5,
+      skip: (currentPage - 1) * 5,
+    };
+     dispatch(getAdminQuestions(payload));
+    setIsLoading(false);
+  };
 
+  useEffect(() => {
+    getQuestionList();
+  }, [questionSubject, questionType, currentPage, whomtoAsk]);
+  
   return (
     <div>
       <div className="container-scroller">
@@ -253,7 +244,8 @@ useEffect(() => {
                               Questions
                             </label>
                             <input
-                              className="form-control"
+                                className="form-control"
+                                defaultValue={storedFilterData?.[0]?.question}
                               type="text"
                               name="question"
                               {...register("question")}
@@ -263,7 +255,7 @@ useEffect(() => {
                               <img
                                 src={questionPhoto?.[0]}
                                 onClick={() =>
-                                  handleImageClick(questionPhoto[0])
+                                  handleImageClick(questionPhoto?.[0])
                                 }
                                 alt=""
                                 className="my-3"
@@ -286,7 +278,8 @@ useEffect(() => {
                             </label>
                             <input
                               className="form-control"
-                              type="text"
+                                type="text"
+                                defaultValue={storedFilterData?.[0]?.questionType}
                               name="questionType"
                               {...register("questionType")}
                               readOnly
@@ -300,7 +293,8 @@ useEffect(() => {
                             </label>
                             <input
                               className="form-control"
-                              type="text"
+                                type="text"
+                                defaultValue={storedFilterData?.[0]?.questionSubject}
                               name="questionSubject"
                               {...register("questionSubject")}
                               readOnly
