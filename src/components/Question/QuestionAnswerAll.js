@@ -118,7 +118,12 @@ const QuestionAnswerAll = () => {
     (item) => item._id === id
   );
 
-  console.log(filterData);
+  useEffect(() =>{
+    if(!getAdminQuestionsState?.data?.transactions?.length && !filterData?.length){
+      navigate("/tutorque")
+    }
+
+  },[filterData])
 
   const whomto_ask = filterData?.[0]?.whomto_ask || "";
 
