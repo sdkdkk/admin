@@ -213,7 +213,7 @@ const Sidebar = () => {
           )}
 
           {/*Searchengine*/}
-          {navMenusStateList?.includes("Searchengine") && (
+          {navMenusStateList?.includes("Searhchengine") && (
             <li
               className={`nav-item ${
                 activeLink === "/searchengine" ? "active" : ""
