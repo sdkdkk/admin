@@ -154,7 +154,6 @@ const Wallet = () => {
                                   <td colSpan="8" className="fw-2 fw-bolder text-center"> No Data Found </td>
                               </tr> : walletTransactions &&
                               [...walletTransactions].map((value, pos) => {
-                                    console.log(value)
                                 return (
                                   <tr key={value._id}>
                                     <td>{pos+ indexOfFirstPage + 1}</td>

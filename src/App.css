@@ -2,7 +2,9 @@ button.btn.btn-secondary {
     margin-left: 10px;
 }
 
+
 /*Sidebar icon*/
+
 .sidebar .nav .nav-item .nav-link i.menu-icon {
     font-size: 1.125rem;
     line-height: 1;
@@ -69,7 +71,6 @@ td.text-right.font-weight-bold {
     }
 }
 
-
 .profile {
     display: flex;
     align-items: center;
@@ -100,30 +101,25 @@ td.text-right.font-weight-bold {
     .profile-info {
         margin-left: 10px;
     }
-
     .profile {
         display: flex;
         align-items: center;
         border-bottom: 1px solid;
     }
-
     .col.bankdetails {
         border-bottom: 1px solid;
         padding-bottom: 10px;
     }
-
     .col.Subject {
         border-bottom: 1px solid;
         padding-bottom: 10px;
     }
-
     .profile-img img {
         margin-top: 20px;
         width: 80px;
         height: 80px;
         border-radius: 7px;
     }
-
     .profile-img {
         margin-right: 0;
         margin-bottom: 10px;
@@ -181,56 +177,75 @@ td.text-right.font-weight-bold {
     }
   } */
 
-
 .table thead th {
     border-top: 0;
     border-bottom-width: 1px;
     font-family: "Open Sans", sans-serif;
     font-weight: 600;
-    
-     /* font-weight: initial; */
+    /* font-weight: initial; */
 }
 
-.search-icon{
+.search-icon {
     position: relative;
     right: 20px;
     top: 10px;
 }
 
-  /* logo css */
+
+/* logo css */
+
 @media (max-width: 991px) {
     .navbar .navbar-brand-wrapper .navbar-brand.brand-logo {
-      display: inline-block;
+        display: inline-block;
     }
-  }
-  
-  @media (max-width: 480px) {
-    .navbar .navbar-brand-wrapper {
-      width: 100px;
-    }
-  }
+}
 
+@media (max-width: 480px) {
+    .navbar .navbar-brand-wrapper {
+        width: 100px;
+    }
+}
 
 @media (max-width: 375px) {
-  .loader-container {
-    /* Adjust the size and position of the loader container for mobile */
-    width: 100%;
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
+    .loader-container {
+        /* Adjust the size and position of the loader container for mobile */
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .loader {
+        /* Adjust the size of the loader for mobile */
+        width: 40px;
+        height: 40px;
+    }
+    .mobile-loader-text {
+        /* Adjust the font size and position of the loading text for mobile */
+        font-size: 14px;
+        margin-top: 10px;
+        margin-left: 60%;
+    }
+}
 
-  .loader {
-    /* Adjust the size of the loader for mobile */
-    width: 40px;
-    height: 40px;
-  }
-
-  .mobile-loader-text {
-    /* Adjust the font size and position of the loading text for mobile */
-    font-size: 14px;
-    margin-top: 10px;
-    margin-left: 60%;
-  }
+@media (max-width: 425px) {
+    .loader-container {
+        /* Adjust the size and position of the loader container for mobile */
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .loader {
+        /* Adjust the size of the loader for mobile */
+        width: 40px;
+        height: 40px;
+    }
+    .mobile-loader-text {
+        /* Adjust the font size and position of the loading text for mobile */
+        font-size: 14px;
+        margin-top: 10px;
+        margin-left: 50%;
+    }
 }

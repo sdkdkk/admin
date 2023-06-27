@@ -12,8 +12,14 @@ import { logoutIfInvalidToken } from "../../helpers/handleError";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Addnewuser = () => {
-
-  const { register, handleSubmit, watch, formState: { errors }, reset, setValue } = useForm({});
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+    reset,
+    setValue,
+  } = useForm({});
   const password = watch("password");
   const navigate = useNavigate();
   const notify = (data) => toast(data);
@@ -77,7 +83,7 @@ const Addnewuser = () => {
         notify(data.error);
       }
     } catch (error) {
-      logoutIfInvalidToken(error.response)
+      logoutIfInvalidToken(error.response);
       notify(error.response.data.error);
     }
 
@@ -91,12 +97,11 @@ const Addnewuser = () => {
 
   const adminrolename = async () => {
     try {
-      const response = await axios.post(`${url}/admin/role`, {token: token,}
-      );
+      const response = await axios.post(`${url}/admin/role`, { token: token });
       setRoleData(response.data.data);
       setLoading1(false);
     } catch (error) {
-      logoutIfInvalidToken(error.response)
+      logoutIfInvalidToken(error.response);
       setLoading1(false);
     }
   };
@@ -105,16 +110,13 @@ const Addnewuser = () => {
     try {
       setLoading1(true);
 
-      const response = await axios.post(
-        `${url}/admin/getadmin`,
-        {
-          token: token,
-        }
-      );
+      const response = await axios.post(`${url}/admin/getadmin`, {
+        token: token,
+      });
       setData(response.data.document);
       setLoading1(false);
     } catch (error) {
-      logoutIfInvalidToken(error.response)
+      logoutIfInvalidToken(error.response);
       setLoading1(false);
     }
   };
@@ -126,10 +128,10 @@ const Addnewuser = () => {
   const defaultRoleId = roleData?.find((a) => a.rolename === roleValue)?._id;
 
   useEffect(() => {
-    if (!filtrData?.[0] || !defaultRoleId) return
+    if (!filtrData?.[0] || !defaultRoleId) return;
     const defaultData = { ...filtrData?.[0], role: defaultRoleId };
     reset(defaultData);
-    setValue("isactive", filtrData?.[0]?.isactive.toString())
+    setValue("isactive", filtrData?.[0]?.isactive.toString());
   }, [data, defaultRoleId]);
   return (
     <>
@@ -148,7 +150,7 @@ const Addnewuser = () => {
                   <div className="card new-table">
                     <div className="card-body">
                       {loading1 ? (
-                        <p className="loader-container">
+                        <p className="loader-container mt-2">
                           <RotatingLines
                             strokeColor="#d63384"
                             strokeWidth="5"
@@ -156,12 +158,11 @@ const Addnewuser = () => {
                             width="50"
                             visible={true}
                           />
-                     </p>
+                        </p>
                       ) : (
                         <form
                           className="user-form"
-                          onSubmit={handleSubmit(onSubmit)}
-                        >
+                          onSubmit={handleSubmit(onSubmit)}>
                           <div className="form-group">
                             <label htmlFor="username">User Name</label>
                             <input
@@ -250,16 +251,14 @@ const Addnewuser = () => {
                               className="form-control"
                               id="user-role"
                               defaultValue={defaultRoleId}
-                              {...register("role", { required: true })}
-                            >
+                              {...register("role", { required: true })}>
                               {roleData &&
                                 roleData.map((value) => {
                                   return (
                                     <option
                                       value={value._id}
                                       key={value._id}
-                                      selected={roleValue}
-                                    >
+                                      selected={roleValue}>
                                       {value.rolename}
                                     </option>
                                   );
@@ -277,8 +276,9 @@ const Addnewuser = () => {
                             </label>
                             <div className="form-check">
                               <input
-                                className={`form-check-input ${errors.accountStatus ? "is-invalid" : ""
-                                  }`}
+                                className={`form-check-input ${
+                                  errors.accountStatus ? "is-invalid" : ""
+                                }`}
                                 type="radio"
                                 name="account-status"
                                 id="isactive"
@@ -289,15 +289,15 @@ const Addnewuser = () => {
                               />
                               <label
                                 className="form-check-label"
-                                htmlFor="isactive"
-                              >
+                                htmlFor="isactive">
                                 Active
                               </label>
                             </div>
                             <div className="form-check">
                               <input
-                                className={`form-check-input ${errors.accountStatus ? "is-invalid" : ""
-                                  }`}
+                                className={`form-check-input ${
+                                  errors.accountStatus ? "is-invalid" : ""
+                                }`}
                                 type="radio"
                                 name="account-status"
                                 id="disabled"
@@ -308,8 +308,7 @@ const Addnewuser = () => {
                               />
                               <label
                                 className="form-check-label"
-                                htmlFor="disabled"
-                              >
+                                htmlFor="disabled">
                                 Disabled
                               </label>
                             </div>
@@ -340,8 +339,7 @@ const Addnewuser = () => {
                             <button
                               disabled={loading}
                               type="submit"
-                              className="btn btn-primary"
-                            >
+                              className="btn btn-primary">
                               {!loading ? (
                                 <>{data._id ? "Update" : "Submit"}</>
                               ) : (
