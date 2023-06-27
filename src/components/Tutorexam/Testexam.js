@@ -44,63 +44,68 @@ const Testexam = () => {
                   <div className="col-md-12 grid-margin stretch-card">
                     <div className="card">
                       <div className="card-body">
-                        <table className="table v-top">
-                          <thead>
-                            <tr>
-                              <th>Date</th>
-                              <th>Tutor Name</th>
-                              <th>Email</th>
-                              <th>Subject</th>
-                              <th>Status</th>
-                            </tr>
-                          </thead>
-                              {isLoading ? ( // Condition for displaying loader
-                          <tbody>
-                            <tr>
-                              <td colSpan="5" className="text-center">
-                                <div className="loader-container"> {/* Wrap loader code inside this div */}
-                                  <div className="loader">
-                                    <RotatingLines
-                                      strokeColor="#d63384"
-                                      strokeWidth="5"
-                                      animationDuration="0.75"
-                                      width="50"
-                                      visible={true}
-                                    />
-                                  </div>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        ) : <tbody>
-                            {testexam?.length === 0 ? (
+                       <div className="table-responsive">
+                          <table className="table v-top">
+                            <thead>
                               <tr>
-                                <td colSpan="5" className="fw-3 fw-bolder text-center">No Question found</td>
-                              </tr>) :testexam &&
-                            testexam.map((data, id) => (
-                            
-                                <tr key={id}>
-                                  <td>
-                                    <Moment format="D MMM YYYY" withTitle>
-                                      {data.examDate}
-                                    </Moment>
-                                  </td>
-                                  <td>{data.name}</td>
-                                  <td>{data.email}</td>
-                                  <td>{data.examSubject}</td>
-                                  <td>
-                                    <button
-                                      onClick={() => {
-                                        toComponentB(data);
-                                      }}>
-                                      Check
-                                    </button>
+                                <th>Date</th>
+                                <th>Tutor Name</th>
+                                <th>Email</th>
+                                <th>Subject</th>
+                                <th>Status</th>
+                              </tr>
+                            </thead>
+                            {isLoading ? (
+                              <tbody>
+                                <tr>
+                                  <td colSpan="5" className="text-center">
+                                
+                                    <div className="loader-container">
+                                      <div className="loader">
+                                        <RotatingLines
+                                          strokeColor="#d63384"
+                                          strokeWidth="5"
+                                          animationDuration="0.75"
+                                          width="50"
+                                          visible={true}
+                                        />
+                                      </div>
+                                      <div className="mobile-loader-text ml-5 mr-5"></div>
+                                    </div>
+                                
                                   </td>
                                 </tr>
-                             
-                            ))}
-                               </tbody>}
-                        </table>
+                              </tbody>
+                            ) : (
+                              <tbody>
+                                {testexam?.length === 0 ? (
+                                  <tr>
+                                    <td colSpan="5" className="fw-3 fw-bolder text-center">
+                                      No Question found
+                                    </td>
+                                  </tr>
+                                ) : (
+                                  testexam &&
+                                  testexam.map((data, id) => (
+                                    <tr key={id}>
+                                      <td>
+                                        <Moment format="D MMM YYYY" withTitle>
+                                          {data.examDate}
+                                        </Moment>
+                                      </td>
+                                      <td>{data.name}</td>
+                                      <td>{data.email}</td>
+                                      <td>{data.examSubject}</td>
+                                      <td>
+                                        <button onClick={() => toComponentB(data)}>Check</button>
+                                      </td>
+                                    </tr>
+                                  ))
+                                )}
+                              </tbody>
+                            )}
+                          </table>
+                        </div>
                       </div>
                     </div>
                   </div>

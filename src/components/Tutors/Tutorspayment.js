@@ -120,32 +120,34 @@ const [filteredData, setFilteredData] = useState(tutorpayment);
                     <div className="card">
                       <div className="card-body">
                         <div className="row">
-                         
-                          
-                        <div className="col-6">
-                            <div className="filter-select rbt-modern-select ">
-                              <div className="dropdown react-bootstrap-select w-100">
-                         <select
-                              className="w-100 form-select mt-1"
-                              id="displayname"
-                              value={selectedFilter}
-                              onChange={handleFilter}>
-                              <option value="">All</option>
-                              {tutorpayment?.map((value, index) => (
-                                <option key={index} value={value.date}>
-                                  {value.date}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
-                          
-                        </div></div>
-                         <div className="text-end col-6">
-                          <Button className="mx-2 btn-success"onClick={() => dispatch(tutorspayment({ isPaymentDone: 1 }))}>Paid</Button>
-                           <Button className="btn-warning" onClick={() => dispatch(tutorspayment({ isPaymentDone: 0 }))}> Pending</Button>
-
+                          <div className="d-flex flex-column flex-md-row">
+                              <div className="filter-select rbt-modern-select col-md-6 mb-3">
+                                <div className="dropdown react-bootstrap-select w-100">
+                                  <select
+                                    className="w-100 form-select"
+                                    id="displayname"
+                                    value={selectedFilter}
+                                    onChange={handleFilter}
+                                  >
+                                    <option value="">All</option>
+                                    {tutorpayment?.map((value, index) => (
+                                      <option key={index} value={value.date}>
+                                        {value.date}
+                                      </option>
+                                    ))}
+                                  </select>
+                                </div>
+                              </div>
+                              <div className="text-md-end col-md-6">
+                                <Button className="mx-2 btn-success" onClick={() => dispatch(tutorspayment({ isPaymentDone: 1 }))}>
+                                  Paid
+                                </Button>
+                                <Button className="btn-warning" onClick={() => dispatch(tutorspayment({ isPaymentDone: 0 }))}>
+                                  Pending
+                                </Button>
+                              </div>
                         </div>
-                        </div>
+                      </div>
                       </div>
                     </div>
                   </div>

@@ -101,7 +101,7 @@ const Questionanswer = () => {
                 <div className="row">
                   <div className="col-md-12 col-lg-12 mb--20">
                     <h5>Question</h5>
-                    <div className="p--20 rbt-border radius-6 w-100 bg-primary-opacity">
+                    <div className="">
                       <input
                         className="p--20 rbt-border radius-6 w-100 bg-primary-opacity"
                         defaultValue={question}

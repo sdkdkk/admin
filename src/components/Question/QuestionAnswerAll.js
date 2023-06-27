@@ -27,6 +27,8 @@ const QuestionAnswerAll = () => {
     setModalImageSrc(src);
     setShowModal(true);
   };
+ const [filterdata, setFilterData] = useState(null);
+
   const [editorHtml, setEditorHtml] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [answerData, setAnswerData] = useState([
@@ -63,14 +65,7 @@ const QuestionAnswerAll = () => {
     updatedAnswerData[index][key] = value;
     setAnswerData(updatedAnswerData);
   };
-  const {
-    register,
-    handleSubmit,
-    control,
-    editorRef,
-    reset,
-    formState: { errors },
-  } = useForm({});
+  const { register, handleSubmit, control, editorRef, reset, formState: { errors }} = useForm({});
 
   const modules = {
     toolbar: [
@@ -111,47 +106,39 @@ const QuestionAnswerAll = () => {
     "image",
     "video",
   ];
-  const getAdminQuestionsState = useSelector(
-    (state) => state.getAdminQuestions
-  );
+  const getAdminQuestionsState = useSelector((state) => state.getAdminQuestions);
   const filterData = getAdminQuestionsState?.data?.transactions?.filter(
     (item) => item._id === id
   );
 
   console.log(filterData);
 
-  const whomto_ask = filterData?.[0]?.whomto_ask || "";
-
-
+  const whomto_ask = filterData?.[0]?.whomto_ask ;
 
 useEffect(() => {
   if (whomto_ask) {
     setWhomtoAsk(whomto_ask);
   }
 }, [whomto_ask]);
-// const options = ["unsolved", "tutor", "admin", "reanswer"];
-// const initialWhomtoAsk = "tutor"; // Set the initial value to "tutor"
 
-const [whomtoAsk, setWhomtoAsk] = useState("");
+
+const [whomtoAsk, setWhomtoAsk] = useState(whomto_ask);
 
 useEffect(() => {
   localStorage.setItem("whomtoAsk", whomtoAsk);
 }, [whomtoAsk]);
-// const [whomtoAsk, setWhomtoAsk] = useState(initialWhomtoAsk);
+  
   const questionPhoto = filterData?.[0]?.questionPhoto;
   const selectType = filterData?.[0]?.questionType ||"";
 useEffect(() => {
   localStorage.setItem("selectType", selectType);
 }, [selectType]);
-  // const [whomtoAsk, setWhomtoAsk] = useState(
-  //  "unsolved", "tutor", "admin", "reanswer"
-  // );
-//&& "admin" && "reanswer" && "unsolved"
+
   const [questionSubject, setQuestionSubject] = useState("");
   const [questionType, setQuestionType] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
 
-  const getQuestionList = async () => {
+  const getQuestionList =  () => {
     setIsLoading(true);
     const payload = {
       questionType,
@@ -160,13 +147,13 @@ useEffect(() => {
       limit: 5,
       skip: (currentPage - 1) * 5,
     };
-    await dispatch(getAdminQuestions(payload));
+     dispatch(getAdminQuestions(payload));
     setIsLoading(false);
   };
 
   useEffect(() => {
     getQuestionList();
-  }, [questionSubject, questionType, whomtoAsk]);
+  }, [questionSubject, questionType, currentPage, whomtoAsk]);
   
 
   useEffect(() => {
@@ -181,6 +168,7 @@ useEffect(() => {
       id: item.id,
       value: item.value,
     }));
+      localStorage.setItem('formData', JSON.stringify(data));
     const formDataObj = {
       token: token,
       questionId: id,
@@ -199,18 +187,31 @@ useEffect(() => {
       postAdminQuestions?.data?.message === "Answer Submitted Successfully."
     ) {
       navigate(
-        whomtoAsk === "tutor"
+        whomto_ask === "tutor"
           ? "/tutorque"
-          : whomtoAsk === "admin"
+          : whomto_ask === "admin"
           ? "/adminque"
-          : whomtoAsk === "reanswer"
+          : whomto_ask === "reanswer"
           ? "/reanswer"
-          : whomtoAsk === "unsolved"
+          : whomto_ask === "unsolved"
           ? "/unsolved"
           : ""
       );
     }
   };
+
+  useEffect(() => {
+  if (filterdata) {
+    localStorage.setItem('filterdata', JSON.stringify(filterdata));
+  }
+  }, [filterdata]);
+  
+useEffect(() => {
+  const storedFilterData = localStorage.getItem('filterdata');
+  if (storedFilterData) {
+    setFilterData(JSON.parse(storedFilterData));
+  }
+}, []);
 
   return (
     <div>

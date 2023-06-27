@@ -580,12 +580,12 @@ const totalPages = Math.ceil(filteredData.length / postsPerPage);
                     ""
                   )}
                   <div
-                    className="gap-2 d-md-flex"
+                    className="gap-2 d-md-flex "
                     style={{ justifyContent: "end" }}>
                     {active === "5" ? (
                       <Link to="/tutorlist">
                         <button
-                          className="btn btn-outline-primary"
+                          className="btn btn-outline-primary my-2"
                           type="button"
                           onClick={Reactive}>
                           Reactive
@@ -597,7 +597,7 @@ const totalPages = Math.ceil(filteredData.length / postsPerPage);
                     {active === "2" ? (
                       <Link to="/tutorlist">
                         <button
-                          className="btn btn-outline-primary"
+                          className="btn btn-outline-primary my-2"
                           type="button"
                           onClick={Suspend}>
                           Suspend
@@ -608,13 +608,13 @@ const totalPages = Math.ceil(filteredData.length / postsPerPage);
                     )}
                     <Link to={`/professionaldetails/${_id}`}>
                       <button
-                        className="btn btn-outline-primary mx-1"
+                        className="btn btn-outline-primary mx-1  my-2"
                         type="button">
                         Edit User
                       </button>
                     </Link>
                     <Link to={`/tutorlist`}>
-                      <button className="btn btn-primary mx-1" type="button">
+                      <button className="btn btn-primary mx-1 my-2" type="button">
                         Back to List
                       </button>
                     </Link>

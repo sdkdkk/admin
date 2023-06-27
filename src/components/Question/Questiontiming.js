@@ -529,18 +529,20 @@ useEffect(() => {
                               {loading ? ( // Condition for displaying loader
                           <tbody>
                             <tr>
-                              <td colSpan="10" className="text-center">
-                                <div className="loader-container"> {/* Wrap loader code inside this div */}
-                                  <div className="loader">
-                                    <RotatingLines
-                                      strokeColor="#d63384"
-                                      strokeWidth="5"
-                                      animationDuration="0.75"
-                                      width="50"
-                                      visible={true}
-                                    />
-                                  </div>
-                                </div>
+                              <td colSpan="10" className="text-center ">
+                                    <div className="loader-container">
+                                      <div className="loader">
+                                        <RotatingLines
+                                          strokeColor="#d63384"
+                                          strokeWidth="5"
+                                          animationDuration="0.75"
+                                          width="50"
+                                          visible={true}
+                                        />
+                                      </div>
+                                      <div className="mobile-loader-text"></div>
+                                    </div>
+                                 
                               </td>
                             </tr>
                           </tbody>

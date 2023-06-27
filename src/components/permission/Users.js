@@ -99,17 +99,20 @@ const Users = () => {
                           <tbody>
                             <tr>
                               <td colSpan="6" className="text-center">
-                                <div className="loader-container"> {/* Wrap loader code inside this div */}
-                                  <div className="loader">
-                                    <RotatingLines
-                                      strokeColor="#d63384"
-                                      strokeWidth="5"
-                                      animationDuration="0.75"
-                                      width="50"
-                                      visible={true}
-                                    />
+                              <div className="d-flex justify-content-center align-items-center">
+                                    <div className="loader-container">
+                                      <div className="loader">
+                                        <RotatingLines
+                                          strokeColor="#d63384"
+                                          strokeWidth="5"
+                                          animationDuration="0.75"
+                                          width="50"
+                                          visible={true}
+                                        />
+                                      </div>
+                                      <div className="mobile-loader-text ml-5 mr-5"></div>
+                                    </div>
                                   </div>
-                                </div>
                               </td>
                             </tr>
                           </tbody>
