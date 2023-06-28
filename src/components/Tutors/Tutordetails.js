@@ -17,6 +17,7 @@ import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
 import { toast } from "react-toastify";
 import { BiSearch } from 'react-icons/bi';
 import { BsCheck2Circle } from "react-icons/bs";
+import { useForm } from "react-hook-form";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
@@ -26,13 +27,13 @@ const Tutordetails = () => {
   useEffect(() => {
     dispatch(tutordetail(_id));
   }, [dispatch, _id]);
-
+console.log(_id)
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
   const [transation, setTransation] = useState([]);
   const [tutorpaydetails, setTutorpaydetails] = useState([]);
   const [Loader, setLoader] = useState(true);
-
+const {register, handleSubmit,reset}= useForm({})
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -66,7 +67,8 @@ const Tutordetails = () => {
 
     fetchData();
   }, []);
-
+  console.log(transation)
+  console.log(data);
   const approveTutors = async () => {
     const tutorsObjData = {
       token: token,
@@ -228,6 +230,36 @@ const totalPages = Math.ceil(filteredData.length / postsPerPage);
     navigate("/tutorquestiondetails", { state: { data, _id, active } });
   };
 
+// const questionId = displayUsers.find((item) => {item.allQuestions.questionId === _id})
+  const questionId = displayUsers.map((item) => item.allQuestions.questionId)
+
+  const filterQuestionId = questionId.filter((id) => id)
+  const questionIdObject = filterQuestionId[0] ;
+  console.log(questionIdObject);
+  console.log(filterQuestionId);
+  console.log(questionId);
+
+  const onSubmit = async (data) => {  
+    console.log(data);
+    const priceData = {
+      token: token,
+      questionId:questionIdObject,
+    price: parseInt(data.price)
+    }
+    console.log(priceData);
+    try {const { data } = await axios.post(`${url}/admin/tutordownvotequestionpayment/${ _id}`,priceData);
+     
+      if (data.status === 1) {
+        toast.success(data.message);
+        reset();
+      } else {
+        toast.error(data.error);
+      }
+    } catch (error) {
+          toast.error(error.response.data.error);
+    }
+   
+  };
 
   return (
     <>
@@ -303,7 +335,8 @@ const totalPages = Math.ceil(filteredData.length / postsPerPage);
                             </div>
                             <div className="">
                              
-                              {active === "1" || active === "2" ? <Button className="rbt-btn btn-gradient btn-sm my-3 "   data-bs-toggle="modal"
+                              {active === "1" || active === "2" ?
+                                <Button className="rbt-btn btn-gradient btn-sm my-3 " data-bs-toggle="modal"
                                 data-bs-target="#pay-now">Pay Now</Button> : ""}
 
                             </div>
@@ -659,10 +692,14 @@ const totalPages = Math.ceil(filteredData.length / postsPerPage);
 
                 <h4 className="mt--20 mb--20">Pay For Tutor's</h4>
                 <p>This payment is only for downvoting tutors.</p>
-
-                <div className="my-2 mb-4"><label className="mr-3">Amount: </label><input  type="number"/></div>
+                  <form onSubmit={handleSubmit(onSubmit)}>
+                  <div className="my-2 mb-4">
+                    <label className="mr-3">Amount: </label>
+                    <input type="number" required {...register("price")} />
+                  </div>
+                 
                 <div className="d-flex justify-content-center">
-                  <Button className="rbt-btn btn-sm mr--10 mr_sm--0 mb_sm--10">
+                  <Button className="rbt-btn btn-sm mr--10 mr_sm--0 mb_sm--10" type="submit">
                     YES
                   </Button>
                   <Button className="rbt-btn btn-gradient hover-icon-reverse btn-sm"
@@ -677,8 +714,10 @@ const totalPages = Math.ceil(filteredData.length / postsPerPage);
                         <i className="feather-arrow-right" />
                       </span>
                     </span>
-                  </Button>
-                </div>
+                    </Button>
+                  
+                  </div>
+                     </form>
               </div>
             </div>
           </div>
