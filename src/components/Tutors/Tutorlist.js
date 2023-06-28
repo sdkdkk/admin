@@ -332,8 +332,8 @@ const Tutorlist = () => {
                                     <td
                                       colSpan="8"
                                       className="fw-2 fw-bolder text-center">
-                                      {" "}
-                                      No tutor found{" "}
+                                      
+                                      No tutor found
                                     </td>
                                   </tr>
                                 ) : (

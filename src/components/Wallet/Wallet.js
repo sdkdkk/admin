@@ -152,8 +152,8 @@ const Wallet = () => {
                                 <td
                                   colSpan="8"
                                   className="fw-2 fw-bolder text-center">
-                                  {" "}
-                                  No Data Found{" "}
+                                  
+                                  No Data Found
                                 </td>
                               </tr>
                             ) : (
@@ -168,10 +168,10 @@ const Wallet = () => {
                                     <td>{value.name}</td>
                                     <td>{value.transactionId}</td>
                                     <td>
-                                      {" "}
+                                      
                                       {value.category === "Tutor"
                                         ? `Rs ${value.amount} `
-                                        : `$ ${value.amount} `}{" "}
+                                        : `$ ${value.amount} `}
                                     </td>
                                     <td>{value.category}</td>
                                     <td>

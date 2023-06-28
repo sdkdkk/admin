@@ -37,7 +37,7 @@ const FillupsSearchengine = () => {
                 
                   <div className="p--20 rbt-border radius-6 bg-primary-opacity">
                   <h5>Question:</h5>
-                    Q 01.{" "}
+                    Q 01.
                     <span
                       dangerouslySetInnerHTML={{
                         __html: location.state.data.question,

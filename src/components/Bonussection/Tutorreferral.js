@@ -196,7 +196,7 @@ const Tutorreferral = () => {
                               <tr>
                                 <td colSpan="4" className="text-center">
                                   <div className="loader-container">
-                                    {" "}
+                                    
                                     {/* Wrap loader code inside this div */}
                                     <div className="loader">
                                       <RotatingLines

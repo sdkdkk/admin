@@ -27,7 +27,6 @@ const Tutordetails = () => {
   useEffect(() => {
     dispatch(tutordetail(_id));
   }, [dispatch, _id]);
-console.log(_id)
   const [isLoading, setIsLoading] = useState(false);
   const [data, setData] = useState([]);
   const [transation, setTransation] = useState([]);
@@ -67,8 +66,7 @@ const {register, handleSubmit,reset}= useForm({})
 
     fetchData();
   }, []);
-  console.log(transation)
-  console.log(data);
+  
   const approveTutors = async () => {
     const tutorsObjData = {
       token: token,
@@ -235,18 +233,14 @@ const totalPages = Math.ceil(filteredData.length / postsPerPage);
 
   const filterQuestionId = questionId.filter((id) => id)
   const questionIdObject = filterQuestionId[0] ;
-  console.log(questionIdObject);
-  console.log(filterQuestionId);
-  console.log(questionId);
 
   const onSubmit = async (data) => {  
-    console.log(data);
-    const priceData = {
+       const priceData = {
       token: token,
       questionId:questionIdObject,
     price: parseInt(data.price)
     }
-    console.log(priceData);
+   
     try {const { data } = await axios.post(`${url}/admin/tutordownvotequestionpayment/${ _id}`,priceData);
      
       if (data.status === 1) {
@@ -510,7 +504,7 @@ const totalPages = Math.ceil(filteredData.length / postsPerPage);
                                       toComponentB(data);
                                     }}>
                                     <p className="question">
-                                      {" "}
+                                      
                                       {data.allQuestions.question
                                         .split(" ")
                                         .slice(0, 3)

@@ -16,8 +16,6 @@ const Examdetails = () => {
   const admintutorexamresponseState = useSelector(
     (state) => state.admintutorexamresponse
   );
-  console.log(admintutorexamresponseState)
-
   const [currentIndex, setCurrentIndex] = useState(0);
   const [examInfo, setExamInfo] = useState({});
   const [selectedValue, setSelectedValue] = useState([]);

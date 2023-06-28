@@ -198,8 +198,8 @@ const Studentlist = () => {
                                 <td
                                   colSpan="7"
                                   className="fw-2 fw-bolder text-center">
-                                  {" "}
-                                  No Student Found{" "}
+                                  
+                                  No Student Found
                                 </td>
                               </tr>
                             ) : (

@@ -105,8 +105,8 @@ const IssueQuestion = () => {
                                     <td
                                       colSpan="8"
                                       className="fw-2 fw-bolder text-center">
-                                      {" "}
-                                      No Question Found{" "}
+                                      
+                                      No Question Found
                                     </td>
                                   </tr>
                                 ) : (

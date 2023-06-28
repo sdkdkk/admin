@@ -124,7 +124,7 @@ const Roles = () => {
                                   <tr>
                                     <td colSpan="3" className="text-center">
                                       <div className="loader-container">
-                                        {" "}
+                                        
                                         {/* Wrap loader code inside this div */}
                                         <div className="loader">
                                           <RotatingLines

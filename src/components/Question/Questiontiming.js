@@ -128,7 +128,6 @@ const [typeValue, setTypeValue] = useState("")
     }
   };
   const handleUpdateClick = (data) => {
-    console.log(data);
     setIsEditMode(true);
     reset({
       ...data,

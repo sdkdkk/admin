@@ -183,7 +183,7 @@ const Tutorspayment = () => {
                             <tr>
                               <td colSpan="4" className="text-center">
                                 <div className="loader-container">
-                                  {" "}
+                                  
                                   {/* Wrap loader code inside this div */}
                                   <div className="loader">
                                     <RotatingLines
@@ -205,8 +205,8 @@ const Tutorspayment = () => {
                                 <td
                                   colSpan="4"
                                   className="fw-2 fw-bolder text-center">
-                                  {" "}
-                                  No Data Found{" "}
+                                  
+                                  No Data Found
                                 </td>
                               </tr>
                             ) : (
@@ -419,7 +419,7 @@ const Tutorspayment = () => {
 
                 <h4 className="mt--20 mb--20">Confirm Payment</h4>
                 <p className="mb--20">
-                  You are about to make a payment of{" "}
+                  You are about to make a payment of
                   <span className="text-primary">
                     Rs.{selectedPayment?.transaction?.[0].amount}/-
                   </span>

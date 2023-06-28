@@ -142,7 +142,7 @@ const Reanswerque = () => {
                         {queTypeList?.map((a, id) => {
                           return (
                             <option key={id} value={a.questionType}>
-                              {" "}
+                              
                               {a.questionType}
                             </option>
                           );
