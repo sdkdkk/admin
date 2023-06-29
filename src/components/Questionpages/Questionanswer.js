@@ -145,20 +145,23 @@ const Questionanswer = () => {
                     <Button
                       className="border-edit-btn btn-sm me-lg-3"
                       onClick={() => setEditing(!isEditing)}
-                      style={{ width: "100px", height: "40px" }}>
+                      style={{ width: "100px", height: "40px" }} 
+                    >
                       {!isEditing && <i className="fa fa-pen" />}
                       {!isEditing ? "Edit" : "Cancel"}
                     </Button>
                     <Button
                       className="btn-success btn-sm me-lg-3 mt-lg-0"
                       type="submit"
-                      style={{ width: "100px", height: "40px" }}>
+                      style={{ width: "100px", height: "40px" }} 
+                    >
                       Update
                     </Button>
                     <Button
                       className="btn-danger btn-sm  mt-lg-0"
                       onClick={handleDeleteClick}
-                      style={{ width: "100px", height: "40px" }}>
+                      style={{ width: "100px", height: "40px" }} 
+                    >
                       Delete
                     </Button>
                   </div>

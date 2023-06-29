@@ -116,6 +116,7 @@ const Curruncy = () => {
                                   <Button
                                     className="mx-2"
                                     id="update-btn"
+                                    style={{ marginTop: "-3px" }}
                                     variant="primary"
                                     type="submit"
                                     disabled={loadingpost}>

@@ -70,7 +70,7 @@ const PostingGuideLine = () => {
                                 <div className="col-12 grid-margin stretch-card">
                                     <div className="card new-table">
                                         <div className="card-body">
-                                            <form onSubmit={handleSubmit(onSubmit)} enctype="multipart/form-data">
+                                            <form onSubmit={handleSubmit(onSubmit)} encType="multipart/form-data">
                                                 <div className="row mt-4">
                                                     <div className="col-lg-3 col-md-4 mt-2">
                                                         <h6>Upload PDF</h6>
