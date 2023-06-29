@@ -99,22 +99,21 @@ const Searchquestion = () => {
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table">
                     <div className="card-body">
-                    
-                        <table className="table v-top">
-                          <thead>
-                            <tr>
-                              <th scope="col">Question</th>
-                              <th scope="col">Question Type</th>
-                              <th scope="col">Question Subject</th>
-                              <th scope="col">Question Price</th>
-                              <th scope="col">status</th>
-                            </tr>
-                          </thead>
-                          {isLoading ? ( // Condition for displaying loader
+                      <table className="table v-top">
+                        <thead>
+                          <tr>
+                            <th scope="col">Question</th>
+                            <th scope="col">Question Type</th>
+                            <th scope="col">Question Subject</th>
+                            <th scope="col">Question Price</th>
+                            <th scope="col">status</th>
+                          </tr>
+                        </thead>
+                        {isLoading ? ( // Condition for displaying loader
                           <tbody>
                             <tr>
                               <td colSpan="5" className="text-center">
-                                <div className="loader-container"> {/* Wrap loader code inside this div */}
+                                <div className="loader-container">
                                   <div className="loader">
                                     <RotatingLines
                                       strokeColor="#d63384"
@@ -124,11 +123,13 @@ const Searchquestion = () => {
                                       visible={true}
                                     />
                                   </div>
+                                  <div className="mobile-loader-text" ></div>
                                 </div>
                               </td>
                             </tr>
                           </tbody>
-                        ) : <tbody>
+                        ) : (
+                          <tbody>
                             {searchPerformed && searchResults.length > 0 ? (
                               searchResults.map((data, id) => (
                                 <tr key={id}>
@@ -137,7 +138,6 @@ const Searchquestion = () => {
                                     onClick={() => {
                                       toComponentB(data);
                                     }}>
-                                    
                                     {data.question
                                       .split(" ")
                                       .slice(0, 5)
@@ -170,9 +170,9 @@ const Searchquestion = () => {
                                 {SearchError}
                               </h4>
                             ) : null}
-                          </tbody>}
-                        </table>
-                      
+                          </tbody>
+                        )}
+                      </table>
 
                       <div className="table-pagination">
                         <button

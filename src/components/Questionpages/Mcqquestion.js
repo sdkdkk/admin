@@ -11,7 +11,6 @@ import { toast } from "react-toastify";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Mcqquestion = () => {
-
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -39,7 +38,6 @@ const Mcqquestion = () => {
     setShow(true);
     setImageSrc(url);
   };
-
 
   const onSubmit = async (data) => {
     try {
@@ -156,8 +154,7 @@ const Mcqquestion = () => {
                               />
                               <label
                                 className="form-check-label"
-                                htmlFor="rbt-radio-1"
-                              >
+                                htmlFor="rbt-radio-1">
                                 A)
                               </label>
                             </div>
@@ -181,7 +178,7 @@ const Mcqquestion = () => {
                               />
                               <label
                                 className="form-check-label"
-                              // htmlFor="rbt-radio-2"
+                                // htmlFor="rbt-radio-2"
                               >
                                 B)
                               </label>
@@ -206,8 +203,7 @@ const Mcqquestion = () => {
                               />
                               <label
                                 className="form-check-label"
-                                htmlFor="rbt-radio-1"
-                              >
+                                htmlFor="rbt-radio-1">
                                 C)
                               </label>
                             </div>
@@ -231,8 +227,7 @@ const Mcqquestion = () => {
                               />
                               <label
                                 className="form-check-label"
-                                htmlFor="rbt-radio-1"
-                              >
+                                htmlFor="rbt-radio-1">
                                 D)
                               </label>
                             </div>
@@ -243,9 +238,9 @@ const Mcqquestion = () => {
                   )}
                 </div>
                 {questionType === "MCQ-exp" ||
-                  questionType === "TrueFalse-exp" ||
-                  questionType === "FillInBlanks-exp" ||
-                  questionType === "ShortAnswer-exp" ? (
+                questionType === "TrueFalse-exp" ||
+                questionType === "FillInBlanks-exp" ||
+                questionType === "ShortAnswer-exp" ? (
                   <div className="col-md-12 col-lg-12 mb--20">
                     <h5>Explanation</h5>
                     <input
@@ -260,22 +255,28 @@ const Mcqquestion = () => {
                 )}
 
                 {location.state.data.allQuestions.status === "Answered" ? (
-                  <div className="Personal-Settings-button col-lg-6">
-                    {/* Render the edit/update/delete buttons based on the editing state */}
-                    <Button
-                      className="border-edit-btn"
-                      size="lg"
-                      onClick={() => setEditing(!isEditing)}
-                    >
-                      {!isEditing && <i className="fa fa-pen" />}
-                      {!isEditing ? "Edit" : "Cancel"}
-                    </Button>
-                    <Button className="btn-success mx-4" type="submit">
-                      Update
-                    </Button>
-                    <Button className="btn-danger" onClick={handleDeleteClick}>
-                      Delete
-                    </Button>
+                  <div className="Personal-Settings-button col-lg-6 col-md-12">
+                    <div className="d-flex justify-content-center justify-content-lg-start">
+                      <Button
+                        className="border-edit-btn btn-sm me-lg-3"
+                        onClick={() => setEditing(!isEditing)}
+                        style={{ width: "100px", height: "40px" }}>
+                        {!isEditing && <i className="fa fa-pen" />}
+                        {!isEditing ? "Edit" : "Cancel"}
+                      </Button>
+                      <Button
+                        className="btn-success btn-sm me-lg-3 mt-lg-0"
+                        type="submit"
+                        style={{ width: "100px", height: "40px" }}>
+                        Update
+                      </Button>
+                      <Button
+                        className="btn-danger btn-sm  mt-lg-0"
+                        onClick={handleDeleteClick}
+                        style={{ width: "100px", height: "40px" }}>
+                        Delete
+                      </Button>
+                    </div>
                   </div>
                 ) : (
                   ""

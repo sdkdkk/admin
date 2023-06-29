@@ -71,23 +71,22 @@ const Searchengine = () => {
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table">
                     <div className="card-body">
-                      
-                        <table className="table reponsive">
-                          <thead>
-                            <tr>
-                              <th scope="col">Sr. No</th>
-                              <th scope="col">Question</th>
-                              <th scope="col">Question Type</th>
-                              <th scope="col">Question Subject</th>
-                              <th scope="col">Question Price</th>
-                              <th scope="col">status</th>
-                            </tr>
-                          </thead>
-                          {isLoading ? ( // Condition for displaying loader
+                      <table className="table reponsive">
+                        <thead>
+                          <tr>
+                            <th scope="col">Sr. No</th>
+                            <th scope="col">Question</th>
+                            <th scope="col">Question Type</th>
+                            <th scope="col">Question Subject</th>
+                            <th scope="col">Question Price</th>
+                            <th scope="col">status</th>
+                          </tr>
+                        </thead>
+                        {isLoading ? ( // Condition for displaying loader
                           <tbody>
                             <tr>
                               <td colSpan="6" className="text-center">
-                                <div className="loader-container"> {/* Wrap loader code inside this div */}
+                                <div className="loader-container">
                                   <div className="loader">
                                     <RotatingLines
                                       strokeColor="#d63384"
@@ -97,11 +96,13 @@ const Searchengine = () => {
                                       visible={true}
                                     />
                                   </div>
+                                  <div className="mobile-loader-text"></div>
                                 </div>
                               </td>
                             </tr>
                           </tbody>
-                        ) : <tbody>
+                        ) : (
+                          <tbody>
                             {searchengineData.map((data, index) => {
                               const serialNumber =
                                 (currentPage - 1) * itemsPerPage + index + 1;
@@ -141,9 +142,9 @@ const Searchengine = () => {
                                 </tr>
                               );
                             })}
-                          </tbody>}
-                        </table>
-                    
+                          </tbody>
+                        )}
+                      </table>
 
                       <div className="table-pagination">
                         <button
