@@ -55,7 +55,6 @@ const Curruncy = () => {
       if (response.data.status === 1) {
         fetchData();
         notify("Currency Conversion Rate Updated Successfully");
-
         reset();
       }
     } catch (error) {
@@ -116,6 +115,7 @@ const Curruncy = () => {
                                   <Button
                                     className="mx-2"
                                     id="update-btn"
+                                    style={{ marginTop: "-3px" }}
                                     variant="primary"
                                     type="submit"
                                     disabled={loadingpost}>

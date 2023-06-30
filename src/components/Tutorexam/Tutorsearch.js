@@ -1,38 +1,36 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
 import { getTutorQuestionsListApi } from "../../Redux/Loginpages/getTutorQuestionListSlice";
 import { useDispatch, useSelector } from "react-redux";
-import { ColorRing } from "react-loader-spinner";
+import { RotatingLines } from "react-loader-spinner";
 
 const Tutorsearch = () => {
-
   const dispatch = useDispatch();
   const [currentPage, setCurrentPage] = useState(1);
   const [searchParams, setSearchParams] = useState("");
-  const getTutorQuestionsListData = useSelector((state) => state.getTutorQuestionsList);
-
+  const getTutorQuestionsListData = useSelector(
+    (state) => state.getTutorQuestionsList
+  );
   const { tutorexamquestion = [] } = getTutorQuestionsListData.data || [];
   const tutorexamquestionData = tutorexamquestion || [];
 
   const getSearchQuestion = () => {
-    const searchQuery = `&search=${searchParams}`
+    const searchQuery = `&search=${searchParams}`;
     const payload = {
       questionSubject: "",
       questionType: "",
       limit: 6,
       skip: (currentPage - 1) * 6,
-      searchParams: searchQuery
+      searchParams: searchQuery,
     };
     dispatch(getTutorQuestionsListApi(payload));
-  }
+  };
 
   useEffect(() => {
     getSearchQuestion();
-  }, [currentPage])
-
+  }, [currentPage]);
 
   return (
     <>
@@ -60,12 +58,6 @@ const Tutorsearch = () => {
                           className=" btn btn-primary mx-4">
                           Search
                         </button>
-                        {/* <ul>
-                          {searchResults &&
-                            searchResults.map((result) => (
-                              <li key={result._id}>{result.question}</li>
-                            ))}
-                        </ul> */}
                       </div>
                     </div>
                   </div>
@@ -75,7 +67,6 @@ const Tutorsearch = () => {
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card">
                     <div className="card-body">
-
                       <div className="table-responsive">
                         <table className="table v-top">
                           <thead>
@@ -86,31 +77,48 @@ const Tutorsearch = () => {
                             </tr>
                           </thead>
                           <tbody>
-                            {getTutorQuestionsListData.isLoading ?
+                            {getTutorQuestionsListData.isLoading ? (
                               <div>
-                                <div style={{ marginLeft: "450px", marginTop: "50px" }}>
-                                  <ColorRing
-                                    visible={true}
-                                    height="80"
-                                    width="80"
-                                    ariaLabel="blocks-loading"
-                                    wrapperStyle={{}}
-                                    wrapperclassName="blocks-wrapper"
-                                    colors={["black"]}
-                                  />
+                                <div
+                                  style={{
+                                    marginLeft: "450px",
+                                    marginTop: "50px",
+                                  }}>
+                                    <div className="loader-container">
+                                      <div className="loader">
+                                        <RotatingLines
+                                          strokeColor="#d63384"
+                                          strokeWidth="5"
+                                          animationDuration="0.75"
+                                          width="50"
+                                          visible={true}
+                                        />
+                                      </div>
+                                      <div className="mobile-loader-text ml-5 mr-5"></div>
+                                    </div>
                                 </div>
-                              </div> :
+                              </div>
+                            ) : (
                               <>
                                 {tutorexamquestionData.length === 0 ? (
-                                  <tr>
-                                    <td colSpan="6" className="fw-3 fw-bolder text-center">No Question found</td>
+                                  <tr key="no-question">
+                                    <td
+                                      colSpan="6"
+                                      className="fw-3 fw-bolder text-center">
+                                      No Question found
+                                    </td>
                                   </tr>
-                                ) : tutorexamquestionData.map((q) => (<tr>
-                                  <td>{q.question}</td>
-                                  <td>{q.questionType}</td>
-                                  <td>{q.questionSubject}</td>
-                                </tr>))}
-                              </>}
+                                ) : (
+                                  tutorexamquestionData.map((q) => (
+                                    <tr key={q.question}>
+                                      <td>{q.question}</td>
+                                      <td>{q.questionType}</td>
+                                      <td>{q.questionSubject}</td>
+                                    </tr>
+                                  ))
+                                )}
+                              </>
+                            )}
                           </tbody>
                         </table>
                       </div>
@@ -141,8 +149,7 @@ const Tutorsearch = () => {
         </div>
       </div>
     </>
-  )
-
-}
+  );
+};
 
 export default Tutorsearch;

@@ -19,7 +19,6 @@ import { Tutortrial } from "../../Redux/Loginpages/tutortrialSlice";
 import { Tutorsuspend } from "../../Redux/Loginpages/tutorSuspendSlice";
 
 const Tutorlist = () => {
-  //table
   const users = useSelector((state) => state.user.data.document);
   const warning = useSelector((state) => state.warning.data.document);
   const working = useSelector((state) => state.working.data.document);
@@ -35,13 +34,10 @@ const Tutorlist = () => {
     suspend: [],
     trial: [],
   });
-
   const [searchTerm, setSearchTerm] = useState("");
   const [currentData, setCurrentData] = useState([]);
   const [activeButton, setActiveButton] = useState(1);
   const dispatch = useDispatch();
-  const [Loader, setLoader] = useState(true);
-
   useEffect(() => {
     setStatus({
       users: users,
@@ -50,7 +46,6 @@ const Tutorlist = () => {
       suspend: suspend,
       trial: trial,
     });
-    setLoader(false);
   }, [users, warning, working, suspend, trial]);
 
   useEffect(() => {
@@ -100,7 +95,6 @@ const Tutorlist = () => {
     new DateObject().add(4, "days"),
   ]);
 
-  //Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(8);
   const indexOfLastPage = currentPage * postsPerPage;
@@ -141,7 +135,6 @@ const Tutorlist = () => {
       const email = item.email ? item.email.toLowerCase() : null;
 
       if (firstDate && lastDate) {
-        // Handle range selection
         return (
           itemDate >= firstDate &&
           itemDate <= lastDate &&
@@ -150,7 +143,6 @@ const Tutorlist = () => {
             (email && email.includes(searchTerm.toLowerCase())))
         );
       } else if (firstDate) {
-        // Handle single date selection
         return (
           itemDate.getDate() === firstDate.getDate() &&
           itemDate.getMonth() === firstDate.getMonth() &&
@@ -160,7 +152,6 @@ const Tutorlist = () => {
             (email && email.includes(searchTerm.toLowerCase())))
         );
       } else {
-        // Handle no date selection
         return (
           searchTerm === "" ||
           (name && name.includes(searchTerm.toLowerCase())) ||
@@ -168,7 +159,6 @@ const Tutorlist = () => {
         );
       }
     });
-
     setCurrentData(filteredData);
     setCurrentPage(1);
   };
@@ -268,7 +258,6 @@ const Tutorlist = () => {
                                 onChange={setValues}
                                 range
                                 render={<InputIcon />}
-                                // width={100}
                               />
                             </div>
 
@@ -332,7 +321,6 @@ const Tutorlist = () => {
                                     <td
                                       colSpan="8"
                                       className="fw-2 fw-bolder text-center">
-                                      
                                       No tutor found
                                     </td>
                                   </tr>

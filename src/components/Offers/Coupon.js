@@ -12,33 +12,37 @@ import { RotatingLines } from "react-loader-spinner";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 import { useLocation } from "react-router";
 
-
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Coupon = () => {
-  const { register, handleSubmit, reset, formState: { errors },} = useForm({});
-
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({});
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const token = localStorage.getItem("token");
   const notify = (data) => toast(data);
   const [conversionRate, setConversionRate] = useState([]);
-
-  //table
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(8);
   const indexOfLastPage = currentPage * postsPerPage;
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
   const displayUsers = conversionRate.slice(indexOfFirstPage, indexOfLastPage);
   const totalPages = Math.ceil(conversionRate.length / postsPerPage);
-
   const location = useLocation();
 
   const handleChange = (event, value) => {
     setCurrentPage(value);
     const searchParams = new URLSearchParams(location.search);
     searchParams.set("page", value);
-    window.history.replaceState({}, "", `${location.pathname}?${searchParams.toString()}`);
+    window.history.replaceState(
+      {},
+      "",
+      `${location.pathname}?${searchParams.toString()}`
+    );
   };
 
   useEffect(() => {
@@ -51,12 +55,13 @@ const Coupon = () => {
   const fetchData = async () => {
     try {
       setLoading1(true);
-      const response = await axios.post(`${url}/admin/getcoupons`, {token: token,}
-      );
+      const response = await axios.post(`${url}/admin/getcoupons`, {
+        token: token,
+      });
       setConversionRate(response.data.data);
       setLoading1(false);
     } catch (error) {
-      logoutIfInvalidToken(error.response)
+      logoutIfInvalidToken(error.response);
       setLoading1(false);
     }
   };
@@ -93,13 +98,13 @@ const Coupon = () => {
         notify(response.data.message);
         reset({
           couponCode: "",
-          discount: "", 
+          discount: "",
           validityDate: "",
         });
         fetchData();
       }
     } catch (error) {
-      logoutIfInvalidToken(error.response)
+      logoutIfInvalidToken(error.response);
       notify(error.response.data.error);
     } finally {
       setLoading(false);
@@ -111,19 +116,14 @@ const Coupon = () => {
     coupon.validityDate = null;
     coupon.validityDate = date.toISOString().substring(0, 10);
     reset(coupon);
-
-    // Scroll to the top of the page
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   function handleDelet(_id) {
     axios
-      .post(
-        `${url}/admin/deletecouponcode/${_id}`,
-        {
-          token: token,
-        }
-      )
+      .post(`${url}/admin/deletecouponcode/${_id}`, {
+        token: token,
+      })
       .then((response) => {
         fetchData();
         toast.success(response.data.message);
@@ -232,34 +232,31 @@ const Coupon = () => {
                   </div>
                 </div>
               </div>
-
               <div className="row mt-3">
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table">
                     <div className="card-body">
                       <div className="table-container">
-                       
-                            <Table
-                              striped
-                              bordered
-                              hover
-                              responsive
-                              className="single-color">
-                              <thead>
-                                <tr>
-                                  <th>Sr. No</th>
-                                  <th>Coupon Code</th>
-                                  <th>Discount (Percent) </th>
-                                  <th>Valid Date</th>
-                                  <th>Action</th>
-                                </tr>
-                              </thead>
-
-                                {loading1 ? ( // Condition for displaying loader
-                          <tbody>
+                        <Table
+                          striped
+                          bordered
+                          hover
+                          responsive
+                          className="single-color">
+                          <thead>
                             <tr>
-                              <td colSpan="5" className="text-center">
-                                <div className="d-flex justify-content-center align-items-center">
+                              <th>Sr. No</th>
+                              <th>Coupon Code</th>
+                              <th>Discount (Percent) </th>
+                              <th>Valid Date</th>
+                              <th>Action</th>
+                            </tr>
+                          </thead>
+                          {loading1 ? (
+                            <tbody>
+                              <tr>
+                                <td colSpan="5" className="text-center">
+                                  <div className="d-flex justify-content-center align-items-center">
                                     <div className="loader-container">
                                       <div className="loader">
                                         <RotatingLines
@@ -273,11 +270,12 @@ const Coupon = () => {
                                       <div className="mobile-loader-text ml-5 mr-5"></div>
                                     </div>
                                   </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        ) : <tbody>
-                                {displayUsers?.length === 0 ? (
+                                </td>
+                              </tr>
+                            </tbody>
+                          ) : (
+                            <tbody>
+                              {displayUsers?.length === 0 ? (
                                 <tr>
                                   <td
                                     colSpan="4"
@@ -285,7 +283,8 @@ const Coupon = () => {
                                     No Coupon found
                                   </td>
                                 </tr>
-                              ) :displayUsers.map((data, index) => (
+                              ) : (
+                                displayUsers.map((data, index) => (
                                   <tr key={index}>
                                     <td>
                                       {index +
@@ -297,8 +296,8 @@ const Coupon = () => {
                                     <td>
                                       {data.validityDate
                                         ? new Date(data.validityDate)
-                                          .toISOString()
-                                          .substring(0, 10)
+                                            .toISOString()
+                                            .substring(0, 10)
                                         : "-"}
                                     </td>
                                     <td>
@@ -315,20 +314,21 @@ const Coupon = () => {
                                       </Button>
                                     </td>
                                   </tr>
-                                ))}
-                              </tbody>}
-                            </Table>
-                            <div className="table-pagination float-end">
-                              <Pagination
-                                count={totalPages}
-                                page={currentPage}
-                                onChange={handleChange}
-                                shape="rounded"
-                                variant="outlined"
-                                siblingCount={0}
-                              />
-                            </div>
-                          
+                                ))
+                              )}
+                            </tbody>
+                          )}
+                        </Table>
+                        <div className="table-pagination float-end">
+                          <Pagination
+                            count={totalPages}
+                            page={currentPage}
+                            onChange={handleChange}
+                            shape="rounded"
+                            variant="outlined"
+                            siblingCount={0}
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>

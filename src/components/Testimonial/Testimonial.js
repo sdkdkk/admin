@@ -31,13 +31,10 @@ const Testimonial = () => {
   );
   const [submitted, setSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-
   const windowHeight = window.innerHeight;
   const documentHeight = document.documentElement.scrollHeight;
   const middlePosition = documentHeight / 2 - windowHeight / 2;
-
   var [isActive, SetisActive] = useState(true);
-
   const [isOpen, setIsOpen] = useState("");
 
   const handleDropdownClick = (id) => {
@@ -45,7 +42,7 @@ const Testimonial = () => {
   };
 
   const activeForm = () => {
-    SetisActive((prevIsActive) => !prevIsActive); // Toggle the value of isActive
+    SetisActive((prevIsActive) => !prevIsActive); 
   };
   var tokens = localStorage.getItem("token");
 
@@ -85,7 +82,6 @@ const Testimonial = () => {
 
   const onSubmit = async (data) => {
     const formData = new FormData();
-
     formData.append("sortOrder", data.sortOrder);
     formData.append("profileimage", data.profileimage[0]);
     formData.append("name", data.name);
@@ -96,25 +92,23 @@ const Testimonial = () => {
       formData.append("id", defaultValues?.id);
     }
     await dispatch(testimonialformapi(formData));
-    setSubmitted(true); // Set the submitted state to true
+    setSubmitted(true); 
     reset();
   };
 
-  const changestatus = async (value, id, index) => {
+  const changestatus = async ( id, index) => {
     var st;
-
     if (testimonial.user?.testimonial[index].isactive === true) {
       st = false;
     } else {
       st = true;
     }
     await dispatch(Statuschange(st, id));
-    // notify();
   };
 
   const location = useLocation();
 
-  const handleChange = (event, value) => {
+  const handleChange = ( value) => {
     setCurrentPage(value);
     const searchParams = new URLSearchParams(location.search);
     searchParams.set("page", value);
@@ -129,7 +123,6 @@ const Testimonial = () => {
     const searchParams = new URLSearchParams(location.search);
     const pageParam = searchParams.get("page");
     const initialPage = pageParam ? parseInt(pageParam) : 1;
-
     setCurrentPage(initialPage);
   }, [location.search]);
 
@@ -137,7 +130,6 @@ const Testimonial = () => {
     setIsOpen(false);
     setDefaultValues(data);
     SetisActive(data.isactive);
-    // Scroll to the middle of the page
     window.scrollTo({ top: middlePosition, behavior: "smooth" });
   };
 
@@ -145,7 +137,6 @@ const Testimonial = () => {
     dispatch(testimonialUserDelete(id));
   };
 
-  //pagenation
 
   return (
     <div>
@@ -176,7 +167,7 @@ const Testimonial = () => {
                         {testimonial.loading ||
                         testimonialstatus.loading ||
                         testimonialform.loading ||
-                        testimonialUserDeleteState.isLoading ? ( // Condition for displaying loader
+                        testimonialUserDeleteState.isLoading ? ( 
                           <tbody>
                             <tr>
                               <td colSpan="6" className="text-center">
@@ -279,7 +270,6 @@ const Testimonial = () => {
                           </tbody>
                         )}
                       </table>
-
                       <div
                         className="table-pagination float-end"
                         style={{
@@ -302,7 +292,6 @@ const Testimonial = () => {
                         />
                       </div>
                     </div>
-                    <div>{/* <ToastContainer /> */}</div>
                   </div>
                 </div>
               </div>
@@ -399,10 +388,7 @@ const Testimonial = () => {
                                     type="checkbox"
                                     id="flexSwitchCheckChecked"
                                     onChange={() => activeForm()}
-                                    checked={isActive} // Use the isActive value as the checked state of the checkbox
-                                    // disabled={
-                                    //   Object.keys(defaultValues).length !== 0
-                                    // } // Disable the checkbox during edit
+                                    checked={isActive}                            
                                   />
                                 </div>
                               </div>

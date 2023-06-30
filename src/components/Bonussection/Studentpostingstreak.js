@@ -13,16 +13,17 @@ import { logoutIfInvalidToken } from "../../helpers/handleError";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Studentpostingstreak = () => {
-
-  const { register, handleSubmit, reset, formState: { errors }, } = useForm({});
-
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({});
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [extrasum, setExtrasum] = useState([]);
   const token = localStorage.getItem("token");
   const notify = (data) => toast(data);
-
-  //table
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(4);
   const indexOfLastPage = currentPage * postsPerPage;
@@ -37,7 +38,9 @@ const Studentpostingstreak = () => {
   const fetchData = async () => {
     try {
       setLoading1(true);
-      const response = await axios.post(`${url}/admin/getstudentpostingstreak`, { token: token, }
+      const response = await axios.post(
+        `${url}/admin/getstudentpostingstreak`,
+        { token: token }
       );
       setExtrasum(response.data.document);
       setLoading1(false);
@@ -170,41 +173,41 @@ const Studentpostingstreak = () => {
                   <div className="card new-table">
                     <div className="card-body">
                       <div className="table-container">
-                      
-                            <Table
-                              striped
-                              bordered
-                              hover
-                              responsive
-                              className="single-color">
-                              <thead>
-                                <tr>
-                                  <th>Sr. No</th>
-                                  <th>Initial</th>
-                                  <th>Extrasum</th>
-                                  <th>Action</th>
-                                </tr>
-                              </thead>
-                                {loading1 ? ( // Condition for displaying loader
-                          <tbody>
+                        <Table
+                          striped
+                          bordered
+                          hover
+                          responsive
+                          className="single-color">
+                          <thead>
                             <tr>
-                              <td colSpan="4" className="text-center">
-                                <div className="loader-container"> {/* Wrap loader code inside this div */}
-                                  <div className="loader">
-                                    <RotatingLines
-                                      strokeColor="#d63384"
-                                      strokeWidth="5"
-                                      animationDuration="0.75"
-                                      width="50"
-                                      visible={true}
-                                    />
-                                  </div>
-                                </div>
-                              </td>
+                              <th>Sr. No</th>
+                              <th>Initial</th>
+                              <th>Extrasum</th>
+                              <th>Action</th>
                             </tr>
-                          </tbody>
-                        ) : <tbody>
-                                {displayUsers?.length === 0 ? (
+                          </thead>
+                          {loading1 ? (
+                            <tbody>
+                              <tr>
+                                <td colSpan="4" className="text-center">
+                                  <div className="loader-container">
+                                    <div className="loader">
+                                      <RotatingLines
+                                        strokeColor="#d63384"
+                                        strokeWidth="5"
+                                        animationDuration="0.75"
+                                        width="50"
+                                        visible={true}
+                                      />
+                                    </div>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          ) : (
+                            <tbody>
+                              {displayUsers?.length === 0 ? (
                                 <tr>
                                   <td
                                     colSpan="4"
@@ -212,7 +215,8 @@ const Studentpostingstreak = () => {
                                     No data found
                                   </td>
                                 </tr>
-                              ) :displayUsers.map((data, index, _id) => (
+                              ) : (
+                                displayUsers.map((data, index, _id) => (
                                   <tr key={index}>
                                     <td>
                                       {index +
@@ -229,20 +233,21 @@ const Studentpostingstreak = () => {
                                       </Button>
                                     </td>
                                   </tr>
-                                ))}
-                              </tbody>}
-                            </Table>
-                            <div className="table-pagination float-end ">
-                              <Pagination
-                                count={totalPages}
-                                page={currentPage}
-                                onChange={handleChange}
-                                shape="rounded"
-                                variant="outlined"
-                                siblingCount={0}
-                              />
-                            </div>
-                        
+                                ))
+                              )}
+                            </tbody>
+                          )}
+                        </Table>
+                        <div className="table-pagination float-end ">
+                          <Pagination
+                            count={totalPages}
+                            page={currentPage}
+                            onChange={handleChange}
+                            shape="rounded"
+                            variant="outlined"
+                            siblingCount={0}
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>

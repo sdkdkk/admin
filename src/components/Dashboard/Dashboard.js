@@ -7,7 +7,7 @@ import Person2OutlinedIcon from "@mui/icons-material/Person2Outlined";
 import StickyNote2OutlinedIcon from "@mui/icons-material/StickyNote2Outlined";
 import { Button } from "react-bootstrap";
 import axios from "axios";
-import { ColorRing, RotatingLines } from "react-loader-spinner";
+import { RotatingLines } from "react-loader-spinner";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
 const url = process.env.REACT_APP_API_BASE_URL;
@@ -15,8 +15,6 @@ const url = process.env.REACT_APP_API_BASE_URL;
 const Dashboard = () => {
   const [loading1, setLoading1] = useState(false);
   const [data, setData] = useState([]);
-
-  let token = localStorage.getItem("token");
 
   useEffect(() => {
     fetchData();
@@ -46,23 +44,23 @@ const Dashboard = () => {
           <Sidebar />
           {loading1 ? (
             <div
-            className="loader-container"
-            style={{
-              marginLeft: "auto",
-              marginRight: "auto",
-              display: "flex",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "100vh",
-            }}>
-            <RotatingLines
-              strokeColor="#d63384"
-              strokeWidth="5"
-              animationDuration="0.75"
-              width="50"
-              visible={true}
-            />
-          </div>
+              className="loader-container"
+              style={{
+                marginLeft: "auto",
+                marginRight: "auto",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                height: "100vh",
+              }}>
+              <RotatingLines
+                strokeColor="#d63384"
+                strokeWidth="5"
+                animationDuration="0.75"
+                width="50"
+                visible={true}
+              />
+            </div>
           ) : (
             <>
               <div className="main-panel">

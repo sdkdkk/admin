@@ -15,7 +15,6 @@ import "react-quill/dist/quill.snow.css";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
-import { TutorExam } from "../../Redux/Loginpages/authSlice";
 import { getTutorQuestionsListApi } from "../../Redux/Loginpages/getTutorQuestionListSlice";
 import {
   postTutorQuestionApi,
@@ -52,7 +51,6 @@ const ReadMore = ({ children }) => {
 };
 
 const Tutorexam = () => {
-  //Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
   const [postsPerPage] = useState(8);
@@ -84,8 +82,6 @@ const Tutorexam = () => {
   const handleChange = (event, value) => {
     setCurrentPage(value);
   };
-
-  const auth = useSelector((state) => state.auth);
   const token = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -111,8 +107,6 @@ const Tutorexam = () => {
       setLoading(false);
     } catch (error) {
       logoutIfInvalidToken(error.response);
-
-      // notify("Invalid refresh token!");
     }
   };
 
@@ -162,7 +156,6 @@ const Tutorexam = () => {
     reset,
     formats,
     control,
-    values,
     getValues,
     setValue,
     modules,
@@ -222,11 +215,6 @@ const Tutorexam = () => {
               </div>
               <div className="page-header mt-4">
                 <div className="mb-2 mt-2">
-                  {/* <Link to="/addnew">
-                    <Button variant="primary" size="lg">
-                      Add New
-                    </Button>
-                   </Link>*/}
                   <Link to="/tutorsearch">
                     <Button
                       className="search-btn mx-2"
@@ -291,10 +279,8 @@ const Tutorexam = () => {
                                         "Please Enter A Valid Question!",
                                     })}
                                     onChange={(value) => setEditorHtml(value)}
-                                    // value={answer || ""}
                                     modules={modules}
                                     formats={formats}
-                                    // onChange={handleAnswerChange}
                                     bounds={"#root"}
                                     placeholder="type Here...."
                                     ref={editorRef}
@@ -430,12 +416,10 @@ const Tutorexam = () => {
                                 <Controller
                                   name="answer"
                                   control={control}
-                                  // defaultValue={editorHtml}
                                   render={({ field }) => (
                                     <ReactQuill
                                       theme="snow"
                                       onChange={handleChange}
-                                      //onChange={(value) => setEditorHtml(value)}
                                       value={field.value}
                                       name="answer"
                                       {...register("answer", {
@@ -544,10 +528,9 @@ const Tutorexam = () => {
                               <th scope="col">Question</th>
                               <th scope="col">Question Type</th>
                               <th scope="col">Question Subject</th>
-                              {/* <th scope="col">Action</th> */}
                             </tr>
                           </thead>
-                          {loading ? ( // Condition for displaying loader
+                          {loading ? (
                             <tbody>
                               <tr>
                                 <td colSpan="3" className="text-center">

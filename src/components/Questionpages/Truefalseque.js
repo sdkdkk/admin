@@ -10,7 +10,6 @@ import { Button, Modal } from "react-bootstrap";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Truefalseque = () => {
-
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -38,7 +37,6 @@ const Truefalseque = () => {
   };
 
   const onSubmit = async (data) => {
-
     try {
       const response = await axios.post(
         `${url}/admin/updatetutorquestionanswer`,
@@ -156,8 +154,7 @@ const Truefalseque = () => {
                                   />
                                   <label
                                     className="form-check-label mx-2"
-                                    htmlFor="rbt-radio-1"
-                                  >
+                                    htmlFor="rbt-radio-1">
                                     True
                                   </label>
                                 </>
@@ -183,8 +180,7 @@ const Truefalseque = () => {
                                   />
                                   <label
                                     className="form-check-label mx-2"
-                                    htmlFor="rbt-radio-2"
-                                  >
+                                    htmlFor="rbt-radio-2">
                                     False
                                   </label>
                                 </>
@@ -198,9 +194,9 @@ const Truefalseque = () => {
                 )}
 
                 {questionType === "MCQ-exp" ||
-                  questionType === "TrueFalse-exp" ||
-                  questionType === "FillInBlanks-exp" ||
-                  questionType === "ShortAnswer-exp" ? (
+                questionType === "TrueFalse-exp" ||
+                questionType === "FillInBlanks-exp" ||
+                questionType === "ShortAnswer-exp" ? (
                   <div className="col-md-12 col-lg-12 mb--20">
                     <h5>Explanation</h5>
                     <input
@@ -218,21 +214,28 @@ const Truefalseque = () => {
               </div>
 
               {location.state.data.allQuestions.status === "Answered" ? (
-                <div className="Personal-Settings-button col-lg-6">
-                  <Button
-                    className="border-edit-btn"
-                    size="lg"
-                    onClick={() => setEditing(!isEditing)}
-                  >
-                    {!isEditing && <i className="fa fa-pen" />}
-                    {!isEditing ? "Edit" : "Cancel"}
-                  </Button>
-                  <Button className="btn-success mx-4" type="submit">
-                    Update
-                  </Button>
-                  <Button className="btn-danger" onClick={handleDeleteClick}>
-                    Delete
-                  </Button>
+                <div className="Personal-Settings-button col-lg-6 col-md-12">
+                  <div className="d-flex justify-content-center justify-content-lg-start">
+                    <Button
+                      className="border-edit-btn btn-sm me-lg-3"
+                      onClick={() => setEditing(!isEditing)}
+                      style={{ width: "100px", height: "40px" }}>
+                      {!isEditing && <i className="fa fa-pen" />}
+                      {!isEditing ? "Edit" : "Cancel"}
+                    </Button>
+                    <Button
+                      className="btn-success btn-sm me-lg-3 mt-lg-0"
+                      type="submit"
+                      style={{ width: "100px", height: "40px" }}>
+                      Update
+                    </Button>
+                    <Button
+                      className="btn-danger btn-sm  mt-lg-0"
+                      onClick={handleDeleteClick}
+                      style={{ width: "100px", height: "40px" }}>
+                      Delete
+                    </Button>
+                  </div>
                 </div>
               ) : (
                 ""

@@ -25,7 +25,8 @@ const Fillups = () => {
   const active = location.state.active;
   const questionType = location.state.data.allQuestions.questionType;
   const handleRemoveField = (id) => {
-    const updatedAnswer = editedAnswer.filter((_, index) => index !== id); setEditedAnswer(updatedAnswer);
+    const updatedAnswer = editedAnswer.filter((_, index) => index !== id);
+    setEditedAnswer(updatedAnswer);
   };
 
   const handleAddField = () => {
@@ -152,8 +153,7 @@ const Fillups = () => {
                             <button
                               type="button"
                               className="remove-field rbt-btn btn-sm btn-border-gradient mt-2 mx-1 "
-                              onClick={() => handleRemoveField(id)}
-                            >
+                              onClick={() => handleRemoveField(id)}>
                               Remove
                             </button>
                           </div>
@@ -162,16 +162,15 @@ const Fillups = () => {
                     <button
                       type="button"
                       className="rbt-btn btn-sm add-field"
-                      onClick={handleAddField}
-                    >
+                      onClick={handleAddField}>
                       Add field
                     </button>
                   </div>
 
                   {questionType === "MCQ-exp" ||
-                    questionType === "TrueFalse-exp" ||
-                    questionType === "FillInBlanks-exp" ||
-                    questionType === "ShortAnswer-exp" ? (
+                  questionType === "TrueFalse-exp" ||
+                  questionType === "FillInBlanks-exp" ||
+                  questionType === "ShortAnswer-exp" ? (
                     <div className="col-md-12 col-lg-12 mb--20">
                       <h5>Explanation</h5>
                       <input
@@ -189,24 +188,28 @@ const Fillups = () => {
                 </div>
 
                 {location.state.data.allQuestions.status === "Answered" ? (
-                  <div className="Personal-Settings-button col-lg-6 my-3">
-                    <Button
-                      className="border-edit-btn"
-                      size="lg"
-                      onClick={() => setEditing(!isEditing)}
-                    >
-                      {!isEditing && <i className="fa fa-pen" />}
-                      {!isEditing ? "Edit" : "Cancel"}
-                    </Button>
-                    <Button className="btn-success mx-1" type="submit">
-                      Update
-                    </Button>
-                    <Button
-                      className="btn-danger mx-1"
-                      onClick={handleDeleteClick}
-                    >
-                      Delete
-                    </Button>
+                  <div className="Personal-Settings-button col-lg-6 col-md-12">
+                    <div className="d-flex justify-content-center justify-content-lg-start">
+                      <Button
+                        className="border-edit-btn btn-sm me-lg-3"
+                        onClick={() => setEditing(!isEditing)}
+                        style={{ width: "100px", height: "40px" }}>
+                        {!isEditing && <i className="fa fa-pen" />}
+                        {!isEditing ? "Edit" : "Cancel"}
+                      </Button>
+                      <Button
+                        className="btn-success btn-sm me-lg-3 mt-lg-0"
+                        type="submit"
+                        style={{ width: "100px", height: "40px" }}>
+                        Update
+                      </Button>
+                      <Button
+                        className="btn-danger btn-sm  mt-lg-0"
+                        onClick={handleDeleteClick}
+                        style={{ width: "100px", height: "40px" }}>
+                        Delete
+                      </Button>
+                    </div>
                   </div>
                 ) : (
                   ""

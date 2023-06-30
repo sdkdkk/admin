@@ -16,7 +16,6 @@ import { useLocation } from "react-router";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Questiontiming = () => {
-
   const [loading, setLoading] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
   const notify = (data) => toast(data);
@@ -58,7 +57,9 @@ const Questiontiming = () => {
     const admin_time = adminhours * 60 + adminminutes;
 
     const unsolvedhours = data.unsolvedhours ? parseInt(data.unsolvedhours) : 0;
-    const unsolvedminutes = data.unsolvedminutes ? parseInt(data.unsolvedminutes) : 0;
+    const unsolvedminutes = data.unsolvedminutes
+      ? parseInt(data.unsolvedminutes)
+      : 0;
     const unsolved_time = unsolvedhours * 60 + unsolvedminutes;
 
     let timingObjData = {
@@ -75,8 +76,10 @@ const Questiontiming = () => {
     };
 
     try {
-      const { data } = await axios.post(`${url}/admin/setquestiontiming`, timingObjData);
-
+      const { data } = await axios.post(
+        `${url}/admin/setquestiontiming`,
+        timingObjData
+      );
       if (data.status === 1) {
         notify(data.message);
         reset();
@@ -90,8 +93,6 @@ const Questiontiming = () => {
     }
   };
 
-  //table
-
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(8);
   const indexOfLastPage = Math.min(currentPage * postsPerPage, data.length);
@@ -100,12 +101,16 @@ const Questiontiming = () => {
   const pageCount = Math.ceil(data.length / postsPerPage);
   let token = localStorage.getItem("token");
   const location = useLocation();
-const [typeValue, setTypeValue] = useState("")
+  const [typeValue, setTypeValue] = useState("");
   const handleChange = (event, value) => {
     setCurrentPage(value);
     const searchParams = new URLSearchParams(location.search);
     searchParams.set("page", value);
-    window.history.replaceState({}, "", `${location.pathname}?${searchParams.toString()}`);
+    window.history.replaceState(
+      {},
+      "",
+      `${location.pathname}?${searchParams.toString()}`
+    );
   };
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
@@ -113,7 +118,7 @@ const [typeValue, setTypeValue] = useState("")
     const initialPage = pageParam ? parseInt(pageParam) : 1;
     setCurrentPage(initialPage);
   }, [location.search]);
-  
+
   const fetchData = async () => {
     let token = localStorage.getItem("token");
     try {
@@ -132,10 +137,10 @@ const [typeValue, setTypeValue] = useState("")
     reset({
       ...data,
       id: data._id,
-      type:data.Type,
+      type: data.Type,
       firstminutes: data.first_time % 60,
-      firsthours: Math.floor(data.first_time / 60), 
-      secondminutes: data.second_time % 60, 
+      firsthours: Math.floor(data.first_time / 60),
+      secondminutes: data.second_time % 60,
       secondhours: Math.floor(data.second_time / 60),
       skiphours: Math.floor(data.skip_time / 60),
       skipminutes: Math.floor(data.skip_time % 60),
@@ -148,18 +153,18 @@ const [typeValue, setTypeValue] = useState("")
       unsolvedhours: Math.floor(data.unsolved_time / 60),
       unsolvedminutes: Math.floor(data.unsolved_time % 60),
     });
-     setTypeValue(data.Type);
+    setTypeValue(data.Type);
 
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-useEffect(() => {
-    setValue("Type", typeValue); // Manually set the value of the "Type" field in the form
+  useEffect(() => {
+    setValue("Type", typeValue);
   }, [typeValue]);
 
   function handleDeleteClick(_id) {
     axios
-      .post(`${url}/admin/questiontiming/${_id}`, { token: token, })
+      .post(`${url}/admin/questiontiming/${_id}`, { token: token })
       .then((response) => {
         fetchData();
         toast.success(response.data.message);
@@ -192,10 +197,12 @@ useEffect(() => {
                           <div className="col-lg-6">
                             <Form.Select
                               aria-label="Default select example"
-                              {...register("Type", { required: true })}
-                            >
-                               <option value={typeValue}>
-                             {!isEditMode ? "Please Select Question Type" : typeValue}   </option>
+                              {...register("Type", { required: true })}>
+                              <option value={typeValue}>
+                                {!isEditMode
+                                  ? "Please Select Question Type"
+                                  : typeValue}{" "}
+                              </option>
                               {questiontypeTime.user &&
                                 questiontypeTime.user.data.map((item) => (
                                   <option key={item} value={item}>
@@ -213,8 +220,7 @@ useEffect(() => {
                             <div className="mb-3">
                               <label
                                 htmlFor="hoursInput"
-                                className="form-label"
-                              >
+                                className="form-label">
                                 Hours:
                               </label>
                               <input
@@ -230,8 +236,7 @@ useEffect(() => {
                             <div className="mb-3">
                               <label
                                 htmlFor="minutesOutput"
-                                className="form-label"
-                              >
+                                className="form-label">
                                 Minutes:
                               </label>
                               <input
@@ -252,8 +257,7 @@ useEffect(() => {
                             <div className="mb-3">
                               <label
                                 htmlFor="hoursInput"
-                                className="form-label"
-                              >
+                                className="form-label">
                                 Hours:
                               </label>
                               <input
@@ -269,8 +273,7 @@ useEffect(() => {
                             <div className="mb-3">
                               <label
                                 htmlFor="minutesOutput"
-                                className="form-label"
-                              >
+                                className="form-label">
                                 Minutes:
                               </label>
                               <input
@@ -291,8 +294,7 @@ useEffect(() => {
                             <div className="mb-3">
                               <label
                                 htmlFor="hoursInput"
-                                className="form-label"
-                              >
+                                className="form-label">
                                 Hours:
                               </label>
                               <input
@@ -308,8 +310,7 @@ useEffect(() => {
                             <div className="mb-3">
                               <label
                                 htmlFor="minutesOutput"
-                                className="form-label"
-                              >
+                                className="form-label">
                                 Minutes:
                               </label>
                               <input
@@ -330,8 +331,7 @@ useEffect(() => {
                             <div className="mb-3">
                               <label
                                 htmlFor="hoursInput"
-                                className="form-label"
-                              >
+                                className="form-label">
                                 Hours:
                               </label>
                               <input
@@ -347,8 +347,7 @@ useEffect(() => {
                             <div className="mb-3">
                               <label
                                 htmlFor="minutesOutput"
-                                className="form-label"
-                              >
+                                className="form-label">
                                 Minutes:
                               </label>
                               <input
@@ -369,8 +368,7 @@ useEffect(() => {
                             <div className="mb-3">
                               <label
                                 htmlFor="hoursInput"
-                                className="form-label"
-                              >
+                                className="form-label">
                                 Hours:
                               </label>
                               <input
@@ -386,8 +384,7 @@ useEffect(() => {
                             <div className="mb-3">
                               <label
                                 htmlFor="minutesOutput"
-                                className="form-label"
-                              >
+                                className="form-label">
                                 Minutes:
                               </label>
                               <input
@@ -408,8 +405,7 @@ useEffect(() => {
                             <div className="mb-3">
                               <label
                                 htmlFor="hoursInput"
-                                className="form-label"
-                              >
+                                className="form-label">
                                 Hours:
                               </label>
                               <input
@@ -425,8 +421,7 @@ useEffect(() => {
                             <div className="mb-3">
                               <label
                                 htmlFor="minutesOutput"
-                                className="form-label"
-                              >
+                                className="form-label">
                                 Minutes:
                               </label>
                               <input
@@ -447,8 +442,7 @@ useEffect(() => {
                             <div className="mb-3">
                               <label
                                 htmlFor="hoursInput"
-                                className="form-label"
-                              >
+                                className="form-label">
                                 Hours:
                               </label>
                               <input
@@ -464,8 +458,7 @@ useEffect(() => {
                             <div className="mb-3">
                               <label
                                 htmlFor="minutesOutput"
-                                className="form-label"
-                              >
+                                className="form-label">
                                 Minutes:
                               </label>
                               <input
@@ -489,8 +482,8 @@ useEffect(() => {
                                   ? "Loading..."
                                   : "Update"
                                 : loading
-                                  ? "Loading..."
-                                  : "Add"}
+                                ? "Loading..."
+                                : "Add"}
                             </Button>
                           </div>
                         </div>
@@ -504,49 +497,47 @@ useEffect(() => {
                   <div className="card new-table">
                     <div className="card-body">
                       <div className="table-container col-12">
-                       
-                            <Table
-                              striped
-                              bordered
-                              responsive
-                              className="single-color table "
-                            >
-                              <thead>
-                                <tr>
-                                  <th>Sr.No</th>
-                                  <th>Question Type</th>
-                                  <th>Question Time</th>
-                                  <th>Second Time</th>
-                                  <th>Skip Time</th>
-                                  <th>Total Time</th>
-                                  <th>Tutor Time</th>
-                                  <th>Admin Time</th>
-                                  <th>Unsolved Time</th>
-                                  <th>Action</th>
-                                </tr>
-                              </thead>
-                              {loading ? ( // Condition for displaying loader
-                          <tbody>
+                        <Table
+                          striped
+                          bordered
+                          responsive
+                          className="single-color table ">
+                          <thead>
                             <tr>
-                              <td colSpan="10" className="text-center ">
-                                    <div className="loader-container">
-                                      <div className="loader">
-                                        <RotatingLines
-                                          strokeColor="#d63384"
-                                          strokeWidth="5"
-                                          animationDuration="0.75"
-                                          width="50"
-                                          visible={true}
-                                        />
-                                      </div>
-                                      <div className="mobile-loader-text"></div>
-                                    </div>
-                                 
-                              </td>
+                              <th>Sr.No</th>
+                              <th>Question Type</th>
+                              <th>Question Time</th>
+                              <th>Second Time</th>
+                              <th>Skip Time</th>
+                              <th>Total Time</th>
+                              <th>Tutor Time</th>
+                              <th>Admin Time</th>
+                              <th>Unsolved Time</th>
+                              <th>Action</th>
                             </tr>
-                          </tbody>
-                        ) : <tbody>
-                                {displayUsers.length === 0 ? (
+                          </thead>
+                          {loading ? (
+                            <tbody>
+                              <tr>
+                                <td colSpan="10" className="text-center ">
+                                  <div className="loader-container">
+                                    <div className="loader">
+                                      <RotatingLines
+                                        strokeColor="#d63384"
+                                        strokeWidth="5"
+                                        animationDuration="0.75"
+                                        width="50"
+                                        visible={true}
+                                      />
+                                    </div>
+                                    <div className="mobile-loader-text"></div>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          ) : (
+                            <tbody>
+                              {displayUsers.length === 0 ? (
                                 <tr>
                                   <td
                                     colSpan="10"
@@ -554,7 +545,8 @@ useEffect(() => {
                                     No Timing found
                                   </td>
                                 </tr>
-                              ) :displayUsers.map((data, index, _id) => (
+                              ) : (
+                                displayUsers.map((data, index, _id) => (
                                   <tr key={index}>
                                     <td>{index + indexOfFirstPage + 1}</td>
                                     <td>{data.Type}</td>
@@ -565,12 +557,10 @@ useEffect(() => {
                                     <td>{data.tutor_time}</td>
                                     <td>{data.admin_time}</td>
                                     <td>{data.unsolved_time}</td>
-
                                     <td>
                                       <Button
                                         variant="success"
-                                        onClick={() => handleUpdateClick(data)}
-                                      >
+                                        onClick={() => handleUpdateClick(data)}>
                                         Edit
                                       </Button>
                                       <Button
@@ -578,26 +568,26 @@ useEffect(() => {
                                         variant="danger"
                                         onClick={() =>
                                           handleDeleteClick(data._id)
-                                        }
-                                      >
+                                        }>
                                         Delete
                                       </Button>
                                     </td>
                                   </tr>
-                                ))}
-                              </tbody>}
-                            </Table>
-                            <div className="table-pagination float-end">
-                              <Pagination
-                                count={pageCount}
-                                page={currentPage}
-                                onChange={handleChange}
-                                shape="rounded"
-                                variant="outlined"
-                                siblingCount={0}
-                              />
-                            </div>
-                        
+                                ))
+                              )}
+                            </tbody>
+                          )}
+                        </Table>
+                        <div className="table-pagination float-end">
+                          <Pagination
+                            count={pageCount}
+                            page={currentPage}
+                            onChange={handleChange}
+                            shape="rounded"
+                            variant="outlined"
+                            siblingCount={0}
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>

@@ -11,37 +11,31 @@ import { Pagination } from "@mui/material";
 import { studentlistd } from "../../Redux/Loginpages/studentlistSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useLocation } from "react-router-dom";
-import { ColorRing, RotatingLines } from "react-loader-spinner";
+import { RotatingLines } from "react-loader-spinner";
 import Moment from "react-moment";
 
 const Studentlist = () => {
   const studentists = useSelector((state) => state.studentlist.data.document);
   const isLoading = useSelector((state) => state.studentlist.isLoading);
-
   const [searchTerm, setSearchTerm] = useState("");
   const [currentData, setCurrentData] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(10);
-
   const indexOfLastPage = currentPage * postsPerPage;
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
   const displayUsers =
     currentData && currentData.slice(indexOfFirstPage, indexOfLastPage);
 
   const dispatch = useDispatch();
-
   const totalPages = currentData
     ? Math.ceil(currentData.length / postsPerPage)
     : 0;
 
-  //date picker
   const [values, setValues] = useState([
     new DateObject().subtract(4, "days"),
     new DateObject().add(4, "days"),
   ]);
-
   const location = useLocation();
-
   const handleChange = (event, value) => {
     setCurrentPage(value);
     const searchParams = new URLSearchParams(location.search);
@@ -54,11 +48,9 @@ const Studentlist = () => {
   };
 
   useEffect(() => {
-    // Retrieve the "page" query parameter from the URL
     const searchParams = new URLSearchParams(location.search);
     const pageParam = searchParams.get("page");
     const initialPage = pageParam ? parseInt(pageParam) : 1;
-
     setCurrentPage(initialPage);
   }, [location.search]);
 
@@ -79,8 +71,6 @@ const Studentlist = () => {
         const itemDate = new Date(item.createdAt);
         const name = item.name ? item.name.toLowerCase() : null;
         const email = item.email ? item.email.toLowerCase() : null;
-
-        // Check if item matches date range filter
         const dateMatch =
           (values.length === 1 &&
             itemDate.getDate() === values[0].toDate().getDate() &&
@@ -90,8 +80,6 @@ const Studentlist = () => {
             itemDate >= values[0].toDate() &&
             itemDate <= values[1].toDate()) ||
           values.length === 0;
-
-        // Check if item matches search term filter
         const searchMatch =
           !searchTerm ||
           (name && name.includes(searchTerm.toLowerCase())) ||
@@ -99,7 +87,6 @@ const Studentlist = () => {
 
         return dateMatch && searchMatch;
       });
-
       setCurrentData(filteredData);
     }
   };
@@ -110,7 +97,6 @@ const Studentlist = () => {
         <Navbar />
         <div className="container-fluid page-body-wrapper">
           <Sidebar />
-
           <div className="main-panel">
             <div className="content-wrapper">
               <div className="page-header">
@@ -172,7 +158,7 @@ const Studentlist = () => {
                             <th scope="col">Action</th>
                           </tr>
                         </thead>
-                        {isLoading ? ( // Condition for displaying loader
+                        {isLoading ? (
                           <tbody>
                             <tr>
                               <td colSpan="7" className="text-center">
@@ -198,7 +184,6 @@ const Studentlist = () => {
                                 <td
                                   colSpan="7"
                                   className="fw-2 fw-bolder text-center">
-                                  
                                   No Student Found
                                 </td>
                               </tr>

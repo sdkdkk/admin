@@ -5,7 +5,7 @@ import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
 import Form from "react-bootstrap/Form";
 import FloatingLabel from "react-bootstrap/FloatingLabel";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useForm, Controller } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Button, Col } from "react-bootstrap";
@@ -26,20 +26,14 @@ import { RotatingLines } from "react-loader-spinner";
 const Pages = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
-  const auth = useSelector((state) => state.auth);
-  const token = useSelector((state) => state.auth.token);
   const [isOpen, setIsOpen] = useState("");
   const [defaultValue, setDefaultValue] = useState({});
-
   const postPageDataState = useSelector((state) => state.postPageData);
   const pagesListDeleteState = useSelector((state) => state.pagesListDelete);
   const getPageListState = useSelector((state) => state.getPageList);
   const updatePageDataState = useSelector((state) => state.updatePageData);
-
   const { document = [] } = getPageListState?.data || {};
-
   const dispatch = useDispatch();
-  const navigate = useNavigate();
   const location = useLocation();
   const formRef = useRef(null);
 
@@ -174,20 +168,20 @@ const Pages = () => {
                           <tbody>
                             <tr>
                               <td colSpan="4" className="text-center">
-                             <div className="d-flex justify-content-center align-items-center">
-                                    <div className="loader-container">
-                                      <div className="loader">
-                                        <RotatingLines
-                                          strokeColor="#d63384"
-                                          strokeWidth="5"
-                                          animationDuration="0.75"
-                                          width="50"
-                                          visible={true}
-                                        />
-                                      </div>
-                                      <div className="mobile-loader-text ml-5"></div>
+                                <div className="d-flex justify-content-center align-items-center">
+                                  <div className="loader-container">
+                                    <div className="loader">
+                                      <RotatingLines
+                                        strokeColor="#d63384"
+                                        strokeWidth="5"
+                                        animationDuration="0.75"
+                                        width="50"
+                                        visible={true}
+                                      />
                                     </div>
+                                    <div className="mobile-loader-text ml-5"></div>
                                   </div>
+                                </div>
                               </td>
                             </tr>
                           </tbody>
@@ -260,7 +254,6 @@ const Pages = () => {
                           </tbody>
                         )}
                       </table>
-
                       <div className="table-pagination float-end">
                         <Pagination
                           count={Math.ceil(document.length / 5)}

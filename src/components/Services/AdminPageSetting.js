@@ -39,8 +39,6 @@ const AdminPageSetting = () => {
   const { register, handleSubmit, reset } = useForm({});
 
   const onSubmit = async (data) => {
-   
-
     const formattedAnswerData = fields.map((item) => item.value);
     const subpages = formattedAnswerData.filter((value) => value.trim() !== "");
     const timingObjData = {
@@ -54,7 +52,7 @@ const AdminPageSetting = () => {
         `${url}/admin/adminpages`,
         timingObjData
       );
-     
+
       if (data.status === 1) {
         toast.success(data.message);
         reset();
@@ -64,12 +62,11 @@ const AdminPageSetting = () => {
         toast.error(data.error);
       }
     } catch (error) {
-    
       toast.error(error.response.data.error);
     }
     fetchData();
   };
- 
+
   const handleUpdateClick = (data) => {
     setIsEditMode(true);
     reset({
@@ -77,10 +74,8 @@ const AdminPageSetting = () => {
       pagename: data.name,
       subpages: data.subpages,
     });
-
     setFields(data.subpages.map((subpage) => ({ value: subpage })));
-      // Scroll to the top of the page
-      window.scrollTo({ top: 0, behavior: "smooth" });
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   const fetchData = async () => {
@@ -89,11 +84,10 @@ const AdminPageSetting = () => {
       const response = await axios.post(`${url}/admin/getadminpages`, {
         token: token,
       });
-     
+
       setData(response.data.document);
       setLoading(false);
     } catch (error) {
-    
       setLoading(false);
     }
   };
@@ -162,7 +156,6 @@ const AdminPageSetting = () => {
                             />
                           </div>
                         </div>
-
                         <div className="row mt-4">
                           <div className="multi-field-wrapper">
                             <h5> Add SubPage</h5>
@@ -179,7 +172,6 @@ const AdminPageSetting = () => {
                                       setFields(valuesCopy);
                                     }}
                                   />
-
                                   {index !== 0 && (
                                     <button
                                       type="button"
@@ -190,7 +182,6 @@ const AdminPageSetting = () => {
                                   )}
                                 </div>
                               ))}
-
                               <button
                                 type="button"
                                 className="btn btn-primary  add-field mt-2"
@@ -199,7 +190,6 @@ const AdminPageSetting = () => {
                               </button>
                             </div>
                           </div>
-
                           <div className="mt-4">
                             <Button type="submit" className="btn btn-success">
                               {isEditMode ? "Update" : "Submit"}
@@ -214,90 +204,91 @@ const AdminPageSetting = () => {
                   <div className="col-12 grid-margin stretch-card">
                     <div className="card new-table">
                       <div className="card-body">
-                            <div className="table-container">
-                              <Table
-                                striped
-                                bordered
-                                hover
-                                responsive
-                                className="single-color">
-                                <thead>
-                                  <tr>
-                                    <th>Sr. No</th>
-                                    <th>Page</th>
-                                    <th>SubPage</th>
-                                    <th>Action</th>
-                                  </tr>
-                                </thead>
-                           {loading ? ( // Condition for displaying loader
-                          <tbody>
-                            <tr>
-                              <td colSpan="4" className="text-center">
-                                <div className="loader-container"> {/* Wrap loader code inside this div */}
-                                  <div className="loader">
-                                    <RotatingLines
-                                      strokeColor="#d63384"
-                                      strokeWidth="5"
-                                      animationDuration="0.75"
-                                      width="50"
-                                      visible={true}
-                                    />
-                                  </div>
-                                </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        ) : <tbody>
-                                  {displayUsers.map((value, index) => {
-                                    return (
-                                      <tr key={index}>
-                                        <td>{index + indexOfFirstPage + 1}</td>
-                                        <td>{value.name}</td>
-                                        <td>
-                                          {value.subpages.map((page, index) => {
-                                            return (
-                                              <p key={index}>
-                                                <span>
-                                                  {index + 1}: {page}
-                                                  <br />
-                                                </span>
-                                              </p>
-                                            );
-                                          })}
-                                        </td>
-                                        <td>
-                                          <Button
-                                            onClick={() =>
-                                              handleUpdateClick(value)
-                                            }>
-                                            Edit
-                                          </Button>
-                                          <Button
-                                            className="mx-2"
-                                            variant="danger"
-                                            onClick={() =>
-                                              handleDeleteClick(value._id)
-                                            }>
-                                            Delete
-                                          </Button>
-                                        </td>
-                                      </tr>
-                                    );
-                                  })}
-                                </tbody>}
-                              </Table>
-                              <div className="table-pagination float-end my-4">
-                                <Pagination
-                                  count={pageCount}
-                                  page={currentPage}
-                                  onChange={handleChange}
-                                  shape="rounded"
-                                  variant="outlined"
-                                  siblingCount={0}
-                                />
-                              </div>
-                            </div>
-                         
+                        <div className="table-container">
+                          <Table
+                            striped
+                            bordered
+                            hover
+                            responsive
+                            className="single-color">
+                            <thead>
+                              <tr>
+                                <th>Sr. No</th>
+                                <th>Page</th>
+                                <th>SubPage</th>
+                                <th>Action</th>
+                              </tr>
+                            </thead>
+                            {loading ? (
+                              <tbody>
+                                <tr>
+                                  <td colSpan="4" className="text-center">
+                                    <div className="loader-container">
+                                      <div className="loader">
+                                        <RotatingLines
+                                          strokeColor="#d63384"
+                                          strokeWidth="5"
+                                          animationDuration="0.75"
+                                          width="50"
+                                          visible={true}
+                                        />
+                                      </div>
+                                    </div>
+                                  </td>
+                                </tr>
+                              </tbody>
+                            ) : (
+                              <tbody>
+                                {displayUsers.map((value, index) => {
+                                  return (
+                                    <tr key={index}>
+                                      <td>{index + indexOfFirstPage + 1}</td>
+                                      <td>{value.name}</td>
+                                      <td>
+                                        {value.subpages.map((page, index) => {
+                                          return (
+                                            <p key={index}>
+                                              <span>
+                                                {index + 1}: {page}
+                                                <br />
+                                              </span>
+                                            </p>
+                                          );
+                                        })}
+                                      </td>
+                                      <td>
+                                        <Button
+                                          onClick={() =>
+                                            handleUpdateClick(value)
+                                          }>
+                                          Edit
+                                        </Button>
+                                        <Button
+                                          className="mx-2"
+                                          variant="danger"
+                                          onClick={() =>
+                                            handleDeleteClick(value._id)
+                                          }>
+                                          Delete
+                                        </Button>
+                                      </td>
+                                    </tr>
+                                  );
+                                })}
+                              </tbody>
+                            )}
+                          </Table>
+                          <div className="table-pagination float-end my-4">
+                            <Pagination
+                              count={pageCount}
+                              page={currentPage}
+                              onChange={handleChange}
+                              shape="rounded"
+                              variant="outlined"
+                              siblingCount={0}
+                            />
+                          </div>
+                        </div>
                       </div>
                     </div>
                   </div>

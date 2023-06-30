@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import { Table, Button } from "react-bootstrap";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { ColorRing, RotatingLines } from "react-loader-spinner";
+import { RotatingLines } from "react-loader-spinner";
 import { Pagination } from "@mui/material";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 import { useLocation } from "react-router";
@@ -183,47 +183,45 @@ const Tutorexampopup = () => {
                   </div>
                 </div>
               </div>
-
               <div className="row mt-3">
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table">
                     <div className="card-body">
                       <div className="table-container">
-                       
-                          
-                            <Table
-                              striped
-                              bordered
-                              hover
-                              responsive
-                              className="single-color">
-                              <thead>
-                                <tr>
-                                  <th>Sr. No</th>
-                                  <th>Content</th>
-                                  <th>Action</th>
-                                </tr>
-                              </thead>
-                                {loading1 ? ( // Condition for displaying loader
-                          <tbody>
+                        <Table
+                          striped
+                          bordered
+                          hover
+                          responsive
+                          className="single-color">
+                          <thead>
                             <tr>
-                              <td colSpan="3" className="text-center">
-                                <div className="loader-container"> {/* Wrap loader code inside this div */}
-                                  <div className="loader">
-                                    <RotatingLines
-                                      strokeColor="#d63384"
-                                      strokeWidth="5"
-                                      animationDuration="0.75"
-                                      width="50"
-                                      visible={true}
-                                    />
-                                  </div>
-                                </div>
-                              </td>
+                              <th>Sr. No</th>
+                              <th>Content</th>
+                              <th>Action</th>
                             </tr>
-                          </tbody>
-                        ) : <tbody>
-                                {displayUsers?.length === 0 ? (
+                          </thead>
+                          {loading1 ? (
+                            <tbody>
+                              <tr>
+                                <td colSpan="3" className="text-center">
+                                  <div className="loader-container">
+                                    <div className="loader">
+                                      <RotatingLines
+                                        strokeColor="#d63384"
+                                        strokeWidth="5"
+                                        animationDuration="0.75"
+                                        width="50"
+                                        visible={true}
+                                      />
+                                    </div>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          ) : (
+                            <tbody>
+                              {displayUsers?.length === 0 ? (
                                 <tr>
                                   <td
                                     colSpan="4"
@@ -231,7 +229,8 @@ const Tutorexampopup = () => {
                                     No Data found
                                   </td>
                                 </tr>
-                              ) :displayUsers?.map((data, index, _id) => (
+                              ) : (
+                                displayUsers?.map((data, index, _id) => (
                                   <tr key={data._id}>
                                     <td>
                                       {index +
@@ -253,20 +252,21 @@ const Tutorexampopup = () => {
                                       </Button>
                                     </td>
                                   </tr>
-                                ))}
-                              </tbody>}
-                            </Table>
-                            <div className="table-pagination float-end">
-                              <Pagination
-                                count={totalPages}
-                                page={currentPage}
-                                onChange={handleChange}
-                                shape="rounded"
-                                variant="outlined"
-                                siblingCount={0}
-                              />
-                            </div>
-                         
+                                ))
+                              )}
+                            </tbody>
+                          )}
+                        </Table>
+                        <div className="table-pagination float-end">
+                          <Pagination
+                            count={totalPages}
+                            page={currentPage}
+                            onChange={handleChange}
+                            shape="rounded"
+                            variant="outlined"
+                            siblingCount={0}
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>

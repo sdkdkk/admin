@@ -83,82 +83,85 @@ const Users = () => {
                         </div>
                         <div className="col-lg-12 mt-4">
                           <div className="table-responsive">
-                           
-                              <table className="table">
-                                <thead>
-                                  <tr>
-                                    <th>Sr.No</th>
-                                    <th>User Name</th>
-                                    <th>Email</th>
-                                    <th>Status</th>
-                                    <th>Role</th>
-                                    <th>Action</th>
-                                  </tr>
-                              </thead>
-                                 {loading1 ? ( // Condition for displaying loader
-                          <tbody>
-                            <tr>
-                              <td colSpan="6" className="text-center">
-                              <div className="d-flex justify-content-center align-items-center">
-                                    <div className="loader-container">
-                                      <div className="loader">
-                                        <RotatingLines
-                                          strokeColor="#d63384"
-                                          strokeWidth="5"
-                                          animationDuration="0.75"
-                                          width="50"
-                                          visible={true}
-                                        />
-                                      </div>
-                                      <div className="mobile-loader-text ml-5 mr-5"></div>
-                                    </div>
-                                  </div>
-                              </td>
-                            </tr>
-                          </tbody>
-                        ) : <tbody >
-                                {data?.length === 0 ? (
+                            <table className="table">
+                              <thead>
                                 <tr>
-                                  <td
-                                    colSpan="4"
-                                    className="fw-3 fw-bolder text-center">
-                                    No Users found
-                                  </td>
+                                  <th>Sr.No</th>
+                                  <th>User Name</th>
+                                  <th>Email</th>
+                                  <th>Status</th>
+                                  <th>Role</th>
+                                  <th>Action</th>
                                 </tr>
-                              ) :data.map((value, index) => {
-                                  return (                                   
-                                      <tr key={index}>
-                                        <td>{index + 1}</td>
-                                        <td>{value.username}</td>
-                                        <td>{value.email}</td>
-                                        <td>{value.isactive}</td>
-                                        <td>
-                                          {typeof value.role === "object"
-                                            ? value.role?.rolename
-                                            : value.role}
-                                        </td>
-                                        <td>
-                                          <Link to={`/addnewuser/${value._id}`}>
-                                            <Button variant="success">
-                                              Edit
+                              </thead>
+                              {loading1 ? (
+                                <tbody>
+                                  <tr>
+                                    <td colSpan="6" className="text-center">
+                                      <div className="d-flex justify-content-center align-items-center">
+                                        <div className="loader-container">
+                                          <div className="loader">
+                                            <RotatingLines
+                                              strokeColor="#d63384"
+                                              strokeWidth="5"
+                                              animationDuration="0.75"
+                                              width="50"
+                                              visible={true}
+                                            />
+                                          </div>
+                                          <div className="mobile-loader-text ml-5 mr-5"></div>
+                                        </div>
+                                      </div>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              ) : (
+                                <tbody>
+                                  {data?.length === 0 ? (
+                                    <tr>
+                                      <td
+                                        colSpan="4"
+                                        className="fw-3 fw-bolder text-center">
+                                        No Users found
+                                      </td>
+                                    </tr>
+                                  ) : (
+                                    data.map((value, index) => {
+                                      return (
+                                        <tr key={index}>
+                                          <td>{index + 1}</td>
+                                          <td>{value.username}</td>
+                                          <td>{value.email}</td>
+                                          <td>{value.isactive}</td>
+                                          <td>
+                                            {typeof value.role === "object"
+                                              ? value.role.rolename
+                                              : value.role}
+                                          </td>
+                                          <td>
+                                            <Link
+                                              to={`/addnewuser/${value._id}`}>
+                                              <Button variant="success">
+                                                Edit
+                                              </Button>
+                                            </Link>
+                                            <Button
+                                              className="mx-2"
+                                              variant="danger"
+                                              disabled={deleteLoading}
+                                              onClick={() =>
+                                                handleDeleteClick(value._id)
+                                              }>
+                                              Delete
                                             </Button>
-                                          </Link>
-                                          <Button
-                                            className="mx-2"
-                                            variant="danger"
-                                            disabled={deleteLoading}
-                                            onClick={() =>
-                                              handleDeleteClick(value._id)
-                                            }>
-                                            Delete
-                                          </Button>
-                                        </td>
-                                      </tr>                                   
-                                  );
-                                })}
-                                       </tbody>}
-                              </table>
-                         
+                                          </td>
+                                        </tr>
+                                      );
+                                    })
+                                  )}
+                                </tbody>
+                              )}
+                            </table>
                           </div>
                         </div>
                       </div>

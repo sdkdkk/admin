@@ -15,18 +15,13 @@ const Wallet = () => {
   const history = useNavigate();
   const getWalletDataState = useSelector((state) => state.getWalletData);
   const walletTransactions = getWalletDataState?.data?.transactions;
-
-  //Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [type, setType] = useState("Student");
   const [postsPerPage] = useState(8);
   const indexOfLastPage = currentPage * postsPerPage;
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
-  //const displayUsers = Buttons.slice(indexOfFirstPage, indexOfLastPage);
-
   const location = useLocation();
-
   const handleChange = (event, value) => {
     setCurrentPage(value);
     const searchParams = new URLSearchParams(location.search);
@@ -69,7 +64,6 @@ const Wallet = () => {
   };
 
   useEffect(() => {
-    let token = localStorage.getItem("token");
     getWalletDataApi();
   }, [currentPage]);
 
@@ -126,7 +120,7 @@ const Wallet = () => {
                             <th scope="col">Action</th>
                           </tr>
                         </thead>
-                        {getWalletDataState.isLoading ? ( // Condition for displaying loader
+                        {getWalletDataState.isLoading ? (
                           <tbody>
                             <tr>
                               <td colSpan="8" className="text-center">
@@ -152,7 +146,6 @@ const Wallet = () => {
                                 <td
                                   colSpan="8"
                                   className="fw-2 fw-bolder text-center">
-                                  
                                   No Data Found
                                 </td>
                               </tr>
@@ -168,7 +161,6 @@ const Wallet = () => {
                                     <td>{value.name}</td>
                                     <td>{value.transactionId}</td>
                                     <td>
-                                      
                                       {value.category === "Tutor"
                                         ? `Rs ${value.amount} `
                                         : `$ ${value.amount} `}

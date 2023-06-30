@@ -7,7 +7,7 @@ import { Form, Button } from "react-bootstrap";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
 import axios from "axios";
-import {RotatingLines } from "react-loader-spinner";
+import { RotatingLines } from "react-loader-spinner";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
 const url = process.env.REACT_APP_API_BASE_URL;
@@ -57,7 +57,6 @@ const Socialmediasetting = () => {
   const fetchData = async () => {
     try {
       setLoading1(true);
-
       const response = await axios.post(`${url}/admin/getsocialmedia`, {
         token: token,
       });

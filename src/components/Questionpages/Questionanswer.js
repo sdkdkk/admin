@@ -11,7 +11,6 @@ import { toast } from "react-toastify";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Questionanswer = () => {
-
   const location = useLocation();
   const navigate = useNavigate();
 
@@ -141,21 +140,31 @@ const Questionanswer = () => {
               </div>
 
               {location.state.data.allQuestions.status === "Answered" ? (
-                <div className="Personal-Settings-button col-lg-6">
-                  <Button
-                    className="border-edit-btn"
-                    size="lg"
-                    onClick={() => setEditing(!isEditing)}
-                  >
-                    {!isEditing && <i className="fa fa-pen" />}
-                    {!isEditing ? "Edit" : "Cancel"}
-                  </Button>
-                  <Button className="btn-success mx-4" type="submit">
-                    Update
-                  </Button>
-                  <Button className="btn-danger" onClick={handleDeleteClick}>
-                    Delete
-                  </Button>
+                <div className="Personal-Settings-button col-lg-6 col-md-12">
+                  <div className="d-flex justify-content-center justify-content-lg-start">
+                    <Button
+                      className="border-edit-btn btn-sm me-lg-3"
+                      onClick={() => setEditing(!isEditing)}
+                      style={{ width: "100px", height: "40px" }} 
+                    >
+                      {!isEditing && <i className="fa fa-pen" />}
+                      {!isEditing ? "Edit" : "Cancel"}
+                    </Button>
+                    <Button
+                      className="btn-success btn-sm me-lg-3 mt-lg-0"
+                      type="submit"
+                      style={{ width: "100px", height: "40px" }} 
+                    >
+                      Update
+                    </Button>
+                    <Button
+                      className="btn-danger btn-sm  mt-lg-0"
+                      onClick={handleDeleteClick}
+                      style={{ width: "100px", height: "40px" }} 
+                    >
+                      Delete
+                    </Button>
+                  </div>
                 </div>
               ) : (
                 ""

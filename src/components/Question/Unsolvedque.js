@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from "react";
-// import axios from "axios";
-import { Button } from "react-bootstrap";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
@@ -9,13 +7,12 @@ import { Pagination } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { getAdminQuestions } from "../../Redux/Loginpages/getAdminQuestionSlice";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { RotatingLines } from "react-loader-spinner";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Unsolvedque = () => {
-  const history = useNavigate();
   const dispatch = useDispatch();
   const token = useSelector((state) => state.auth.token);
   const getAdminQuestionsState = useSelector(
@@ -27,15 +24,12 @@ const Unsolvedque = () => {
   const [questionType, setQuestionType] = useState("");
   const [whomtoAsk, setWhomtoAsk] = useState("unsolved");
   const [isOpen, setIsOpen] = useState("");
-
   const [currentPage, setCurrentPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
   const { transactions = [] } = getAdminQuestionsState?.data || {};
   const [postsPerPage] = useState(4);
   const indexOfLastPage = currentPage * postsPerPage;
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
   const displayUsers = transactions.slice(indexOfFirstPage, indexOfLastPage);
-
   const totalPages = Math.ceil(transactions.length / postsPerPage);
 
   const fetchSubjectData = async () => {
@@ -44,17 +38,13 @@ const Unsolvedque = () => {
         token: token,
       });
       setSubjectList(response?.data?.data);
-    } catch (error) {
-      // notify("Invalid refresh token!");
-    }
+    } catch (error) {}
   };
   const fetchQueTypeData = async () => {
     try {
       const response = await axios.get(`${url}/getquestiontype`, { token });
       setQueTypeList(response?.data?.data);
-    } catch (error) {
-      // notify("Invalid refresh token!");
-    }
+    } catch (error) {}
   };
   const getQuestionList = () => {
     const payload = {
@@ -150,7 +140,6 @@ const Unsolvedque = () => {
                   </div>
                 </div>
               </div>
-
               <div className="row mt-4">
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table">
