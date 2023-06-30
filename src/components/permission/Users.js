@@ -126,8 +126,7 @@ const Users = () => {
                                   </td>
                                 </tr>
                               ) :data.map((value, index) => {
-                                  return (
-                                   
+                                  return (                                   
                                       <tr key={index}>
                                         <td>{index + 1}</td>
                                         <td>{value.username}</td>
@@ -135,7 +134,7 @@ const Users = () => {
                                         <td>{value.isactive}</td>
                                         <td>
                                           {typeof value.role === "object"
-                                            ? value.role.rolename
+                                            ? value.role?.rolename
                                             : value.role}
                                         </td>
                                         <td>
@@ -154,8 +153,7 @@ const Users = () => {
                                             Delete
                                           </Button>
                                         </td>
-                                      </tr>
-                                   
+                                      </tr>                                   
                                   );
                                 })}
                                        </tbody>}

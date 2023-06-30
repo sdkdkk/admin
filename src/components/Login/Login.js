@@ -1,5 +1,4 @@
 import React, { useEffect } from "react";
-// import { Link } from "react-router-dom";
 import "../Css/Tutorlist.css";
 import {
   MDBContainer,
@@ -15,16 +14,11 @@ import { useDispatch, useSelector } from "react-redux";
 import { signIn, resetAuthAction } from "../../Redux/Loginpages/authSlice";
 import { useNavigate } from "react-router-dom";
 
-
-
 const Login = () => {
-  const auth = useSelector((state) => state.auth);
-  const token = useSelector((state) => state.auth.token);
+  const auth = useSelector((state) => state.auth); 
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-
-  // sign in form validation
   const {
     register: register1,
     handleSubmit: handleSubmit1,
@@ -40,7 +34,6 @@ const Login = () => {
   },[auth?.isSuccess])
   
   const onSubmit1 = (data) => {
-    // localStorage.setItem("token", token);
     dispatch(signIn(data));
     
   };
@@ -52,13 +45,10 @@ const Login = () => {
           <MDBCol col="12">
             <MDBCard className="bg-white my-5 mx-auto">
               <MDBCardBody className="p-5 w-100 d-flex flex-column">
-                {/* <h2 className="fw-bold mb-2 text-center">Sign in</h2> */}
+              
                 <div className="login-logo" align="center">
                   <img src={Logo} alt="img" className="logo-img-login" />
                 </div>
-                <p className="text-white-50 mb-3">
-                  Please enter your login and password!
-                </p>
                 <form
                   onSubmit={handleSubmit1(onSubmit1)}
                   action="#"
@@ -73,11 +63,7 @@ const Login = () => {
                         type="email"
                          className="form-control"
                         {...register1("email", {
-                          required: "Please Enter A Valid Email!",
-                          // pattern: {
-                          //     value:
-                          //         /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i,
-                          // },
+                          required: "Please Enter A Valid Email!"                         
                         })}
                       />
                       <p className="text-danger">

@@ -106,26 +106,7 @@ const Addnewrole = memo(() => {
       setResourceData(newResourceData.filter((a) => a !== index));
     }else{
       setResourceData(newResourceData);
-    }
-    
-    // const allSubmunus = resourcesList
-    //   .map((a) => a.id)
-    //   .filter((a) => Math.floor(a) === index);
-    // if (resourceData?.includes(index)) {
-    //   if (allSubmunus.length) {
-    //     const tempData = resourceData.filter((a) => !allSubmunus.includes(a));
-    //     setResourceData(tempData);
-    //   } else {
-    //     const tempData = resourceData.filter((a) => a !== index);
-    //     setResourceData(tempData);
-    //   }
-    // } else {
-    //   if (allSubmunus.length) {
-    //     setResourceData((prev) => [...prev, ...allSubmunus]);
-    //   } else {
-    //     setResourceData((prev) => [...prev, index]);
-    //   }
-    // }
+    }    
   };
 
   useEffect(() => {
