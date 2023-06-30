@@ -60,7 +60,7 @@ const Tutorspayment = () => {
   );
   const indexOfFirstPage = (currentPage - 1) * postsPerPage;
   const displayUsers = tutorpayment?.slice(indexOfFirstPage, indexOfLastPage);
-  const pageCount = Math.ceil(tutorpayment?.length / postsPerPage);
+  const pageCount = Math.ceil((tutorpayment?.length || 0) / postsPerPage);
 
   const location = useLocation();
 
