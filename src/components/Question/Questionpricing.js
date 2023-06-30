@@ -23,20 +23,16 @@ const Questionpricing = () => {
     register,
     handleSubmit,
     reset,
-    formState: { errors },setValue
+    formState: { errors },
+    setValue,
   } = useForm({});
-const [typeValue, setTypeValue] = useState("")
+  const [typeValue, setTypeValue] = useState("");
   const dispatch = useDispatch();
-  const questiontypeTime = useSelector((state) => state.questiontypetime);
   const questiontypePrice = useSelector((state) => state.questiontypeprice);
-
   const [loading, setLoading] = useState(false);
   const [isEditMode, setIsEditMode] = useState(false);
-
   const [data, setData] = useState([]);
-
   let token = localStorage.getItem("token");
-
   useEffect(() => {
     let token = localStorage.getItem("token");
     dispatch(questiontypeApi(token));
@@ -78,9 +74,7 @@ const [typeValue, setTypeValue] = useState("")
       logoutIfInvalidToken(error.response);
       notify(error.response.data.error);
     }
-
     fetchData();
-
     setLoading(false);
   };
 
@@ -104,9 +98,7 @@ const [typeValue, setTypeValue] = useState("")
   const indexOfFirstPage = (currentPage - 1) * postsPerPage;
   const displayUsers = data.slice(indexOfFirstPage, indexOfLastPage);
   const pageCount = Math.ceil(data.length / postsPerPage);
-
   const location = useLocation();
-
   const handleChange = (event, value) => {
     setCurrentPage(value);
     const searchParams = new URLSearchParams(location.search);
@@ -125,20 +117,17 @@ const [typeValue, setTypeValue] = useState("")
     setCurrentPage(initialPage);
   }, [location.search]);
 
-
-
   const handleUpdateClick = (data) => {
     setIsEditMode(true);
     reset(data);
-   setTypeValue(data.Type);
+    setTypeValue(data.Type);
 
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
-  
- useEffect(() => {
-    setValue("Type", typeValue); // Manually set the value of the "Type" field in the form
-  }, [typeValue]);
 
+  useEffect(() => {
+    setValue("Type", typeValue);
+  }, [typeValue]);
 
   function handleDeleteClick(_id) {
     axios
@@ -173,9 +162,14 @@ const [typeValue, setTypeValue] = useState("")
                             <h6>Question Type</h6>
                           </div>
                           <div className="col-lg-4 col-md-8">
-                            <Form.Select {...register("Type", { required:!isEditMode ? true : false })}>
+                            <Form.Select
+                              {...register("Type", {
+                                required: !isEditMode ? true : false,
+                              })}>
                               <option value={typeValue}>
-                             {!isEditMode ? "Please Select Question Type" : typeValue}   
+                                {!isEditMode
+                                  ? "Please Select Question Type"
+                                  : typeValue}
                               </option>
                               {questiontypePrice.user &&
                                 questiontypePrice.user.data.map((item) => (
@@ -184,11 +178,13 @@ const [typeValue, setTypeValue] = useState("")
                                   </option>
                                 ))}
                             </Form.Select>
-                            {!isEditMode ? errors.Type && (
-                              <span className="text-danger">
-                                Please select an option
-                              </span>
-                            ) : ""}
+                            {!isEditMode
+                              ? errors.Type && (
+                                  <span className="text-danger">
+                                    Please select an option
+                                  </span>
+                                )
+                              : ""}
                           </div>
                         </div>
                         <div className="row mt-4">
@@ -267,53 +263,54 @@ const [typeValue, setTypeValue] = useState("")
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table">
                     <div className="card-body">
-                      
-                          <Table
-                            striped
-                            bordered
-                            responsive
-                            className="single-color table ">
-                            <thead>
-                              <tr>
-                                <th>Sr.No</th>
-                                <th>Question Type</th>
-                                <th>Question Pricing</th>
-                                <th>Tutor Pricing</th>
-                                <th>Admin Pricing</th>
-                                <th>Action</th>
-                              </tr>
-                            </thead>
-                           {loading ? ( // Condition for displaying loader
+                      <Table
+                        striped
+                        bordered
+                        responsive
+                        className="single-color table ">
+                        <thead>
+                          <tr>
+                            <th>Sr.No</th>
+                            <th>Question Type</th>
+                            <th>Question Pricing</th>
+                            <th>Tutor Pricing</th>
+                            <th>Admin Pricing</th>
+                            <th>Action</th>
+                          </tr>
+                        </thead>
+                        {loading ? (
                           <tbody>
                             <tr>
                               <td colSpan="6" className="text-center">
-                                 <div className="d-flex justify-content-center align-items-center">
-                                    <div className="loader-container">
-                                      <div className="loader">
-                                        <RotatingLines
-                                          strokeColor="#d63384"
-                                          strokeWidth="5"
-                                          animationDuration="0.75"
-                                          width="50"
-                                          visible={true}
-                                        />
-                                      </div>
-                                      <div className="mobile-loader-text"></div>
+                                <div className="d-flex justify-content-center align-items-center">
+                                  <div className="loader-container">
+                                    <div className="loader">
+                                      <RotatingLines
+                                        strokeColor="#d63384"
+                                        strokeWidth="5"
+                                        animationDuration="0.75"
+                                        width="50"
+                                        visible={true}
+                                      />
                                     </div>
+                                    <div className="mobile-loader-text"></div>
                                   </div>
+                                </div>
                               </td>
                             </tr>
                           </tbody>
-                        ) :  <tbody>
-                              {displayUsers.length === 0 ? (
-                                <tr>
-                                  <td
-                                    colSpan="6"
-                                    className="fw-3 fw-bolder text-center">
-                                    No Price found
-                                  </td>
-                                </tr>
-                              ) :displayUsers.map((data, index, _id) => (
+                        ) : (
+                          <tbody>
+                            {displayUsers.length === 0 ? (
+                              <tr>
+                                <td
+                                  colSpan="6"
+                                  className="fw-3 fw-bolder text-center">
+                                  No Price found
+                                </td>
+                              </tr>
+                            ) : (
+                              displayUsers.map((data, index, _id) => (
                                 <tr key={index}>
                                   <td>{index + indexOfFirstPage + 1}</td>
                                   <td>{data.Type}</td>
@@ -336,20 +333,21 @@ const [typeValue, setTypeValue] = useState("")
                                     </Button>
                                   </td>
                                 </tr>
-                              ))}
-                            </tbody>}
-                          </Table>
-                          <div className="table-pagination float-end">
-                            <Pagination
-                              count={pageCount}
-                              page={currentPage}
-                              onChange={handleChange}
-                              shape="rounded"
-                              variant="outlined"
-                              siblingCount={0}
-                            />
-                          </div>
-                        
+                              ))
+                            )}
+                          </tbody>
+                        )}
+                      </Table>
+                      <div className="table-pagination float-end">
+                        <Pagination
+                          count={pageCount}
+                          page={currentPage}
+                          onChange={handleChange}
+                          shape="rounded"
+                          variant="outlined"
+                          siblingCount={0}
+                        />
+                      </div>
                     </div>
                   </div>
                 </div>

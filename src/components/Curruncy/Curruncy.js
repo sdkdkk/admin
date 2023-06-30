@@ -55,7 +55,6 @@ const Curruncy = () => {
       if (response.data.status === 1) {
         fetchData();
         notify("Currency Conversion Rate Updated Successfully");
-
         reset();
       }
     } catch (error) {

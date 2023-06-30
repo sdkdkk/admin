@@ -9,7 +9,7 @@ import moment from "moment";
 import { getTransactionHistory } from "../../Redux/Loginpages/getTransactionHistorySlice";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
-import {RotatingLines } from "react-loader-spinner";
+import { RotatingLines } from "react-loader-spinner";
 
 const TransactionDetails = () => {
   const dispatch = useDispatch();
@@ -21,17 +21,16 @@ const TransactionDetails = () => {
   const walletTransactionsFilter = walletTransactions?.filter(
     (item) => item._id
   );
-  //Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [isLoading, setIsLoading] = useState(false);
   const [postsPerPage] = useState(8);
   const indexOfLastPage = currentPage * postsPerPage;
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
 
-  const handleChange = (event, value) => {
+  const handleChange = (value) => {
     setCurrentPage(value);
   };
-
+  
   const getWalletDataApi = (category = "Student") => {
     const params = location.search;
     setIsLoading(true);
@@ -79,43 +78,51 @@ const TransactionDetails = () => {
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table mt-4">
                     <div className="card-body">
-                        <table className="table">
-                          <thead>
-                            <tr>
-                              <th scope="col">Sr.No.</th>
-                              <th scope="col">Date</th>
-                              <th scope="col">Name</th>
-                              <th scope="col">Transaction id</th>
-                              <th scope="col">Amount</th>
-                              <th scope="col">Category</th>
-                              <th scope="col">Status</th>
-                              <th scope="col">Action</th>
-                            </tr>
-                          </thead>
-                             {getTransactionHistoryState.isLoading ? ( // Condition for displaying loader
+                      <table className="table">
+                        <thead>
+                          <tr>
+                            <th scope="col">Sr.No.</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Transaction id</th>
+                            <th scope="col">Amount</th>
+                            <th scope="col">Category</th>
+                            <th scope="col">Status</th>
+                            <th scope="col">Action</th>
+                          </tr>
+                        </thead>
+                        {getTransactionHistoryState.isLoading ? (
                           <tbody>
                             <tr>
                               <td colSpan="8" className="text-center">
                                 <div className="loader-container">
-                                        <div className="loader">
-                                          <RotatingLines
-                                            strokeColor="#d63384"
-                                            strokeWidth="5"
-                                            animationDuration="0.75"
-                                            width="50"
-                                            visible={true}
-                                          />
-                                        </div>
-                                        <div className="mobile-loader-text"></div>
-                                      </div>
+                                  <div className="loader">
+                                    <RotatingLines
+                                      strokeColor="#d63384"
+                                      strokeWidth="5"
+                                      animationDuration="0.75"
+                                      width="50"
+                                      visible={true}
+                                    />
+                                  </div>
+                                  <div className="mobile-loader-text"></div>
+                                </div>
                               </td>
                             </tr>
                           </tbody>
-                        ) :<tbody>
-                            { walletTransactions?.length === 0 ?
+                        ) : (
+                          <tbody>
+                            {walletTransactions?.length === 0 ? (
                               <tr>
-                                  <td colSpan="4" className="fw-2 fw-bolder text-center"> No Data Found </td>
-                              </tr>: walletTransactions &&
+                                <td
+                                  colSpan="4"
+                                  className="fw-2 fw-bolder text-center">
+                                  {" "}
+                                  No Data Found{" "}
+                                </td>
+                              </tr>
+                            ) : (
+                              walletTransactions &&
                               [...walletTransactions].map((value, pos) => {
                                 return (
                                   <tr key={value._id}>
@@ -139,11 +146,11 @@ const TransactionDetails = () => {
                                     </td>
                                   </tr>
                                 );
-                              })}
-                          </tbody>}
-                        </table>
-                    
-
+                              })
+                            )}
+                          </tbody>
+                        )}
+                      </table>
                       <Pagination
                         count={3}
                         page={currentPage}

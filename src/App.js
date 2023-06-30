@@ -4,7 +4,6 @@ import "bootstrap/dist/css/bootstrap.css";
 import Dashboard from "./components/Dashboard/Dashboard";
 import Navbar from "./components/shared/Navbar";
 import Tutorlist from "./components/Tutors/Tutorlist";
-
 import Tutorspayment from "./components/Tutors/Tutorspayment";
 import Studentlist from "./components/Student/Studentlist";
 import Studentpayment from "./components/Student/Studentpayment";
@@ -19,7 +18,6 @@ import Socialmediasetting from "./components/Services/Socialmediasetting";
 import Login from "./components/Login/Login";
 import Scroll from "./components/Scroll/Scroll";
 import Tutorexam from "./components/Tutorexam/Tutorexam";
-
 import Tutordetails from "./components/Tutors/Tutordetails";
 import Studentdetails from "./components/Student/Studentdetails";
 import Testexam from "./components/Tutorexam/Testexam";
@@ -27,7 +25,6 @@ import Examdetails from "./components/Tutorexam/Examdetails";
 import Searchenginequedetail from "./components/Searchengine/Searchenginequedetail";
 import Logout from "./components/Logout/Logout";
 import Contactus from "./components/Contactus/Contactus";
-
 import Questiontiming from "./components/Question/Questiontiming";
 import Questionpricing from "./components/Question/Questionpricing";
 import Questionreasnwer from "./components/Question/Questionreasnwer";
@@ -37,21 +34,16 @@ import Tutorsubject from "./components/Tutorsub/Tutorsubject";
 import Tutorexamconfig from "./components/Tutorconfig/Tutorexamconfig";
 import Tutorsearch from "./components/Tutorexam/Tutorsearch";
 import Questiontype from "./components/Question/Questiontype";
-
-
 import Tutorque from "./components/Question/Tutorque";
 import Adminque from "./components/Question/Adminque";
 import Reanswerque from "./components/Question/Reanswerque";
 import Unsolvedque from "./components/Question/Unsolvedque";
-
 import Mcqquestion from "./components/Questionpages/Mcqquestion";
 import Truefalseque from "./components/Questionpages/Truefalseque";
 import Fillups from "./components/Questionpages/Fillups";
-
 import Matchfollow from "./components/Questionpages/Matchfollow";
 import Tutorquestiondetails from "./components/Tutors/Tutorquestiondetails";
 import Studentquestiondetails from "./components/Student/Studentquestiondetails";
-
 import FillupsSearchengine from "./components/QuestionpageSearchengine/FillupsSearchengine";
 import MatchfollowSearchengine from "./components/QuestionpageSearchengine/MatchfollowSearchengine";
 import McqquestionSearchengine from "./components/QuestionpageSearchengine/McqquestionSearchengine";
@@ -77,7 +69,6 @@ import Subscription from "./components/Wallet/Subscription";
 import Questionanswer from "./components/Questionpages/Questionanswer";
 import QuestionAnswerAll from "./components/Question/QuestionAnswerAll";
 import Transactiondetailshow from "./components/Wallet/Transactiondetailshow";
-
 import Thoughts from "./components/Tutorexam/Thoughts";
 import Tutorexampopup from "./components/Tutorexam/Tutorexampopup";
 import AnswerGuideline from "./components/Pages/AnswerGuideline";
@@ -85,14 +76,11 @@ import PostingGuideLine from "./components/Pages/PostingGuideLine";
 import AdminPageSetting from "./components/Services/AdminPageSetting";
 import StudentRegitserBonus from "./components/Student/StudentRegitserBonus";
 
-
 function RequireAuth({ children }) {
   let auth = isLoggedIn();
-
   if (!auth) {
     return <Navigate to="/login" />;
   }
-
   return children;
 }
 
@@ -124,7 +112,6 @@ function App() {
             </RequireAuth>
           }
         />
-
 
         <Route
           path="tutorspayment"
@@ -406,7 +393,6 @@ function App() {
           }
         />
 
-
         <Route path="/tutorque" element={<Tutorque />} />
         <Route path="/adminque" element={<Adminque />} />
         <Route path="/reanswerque" element={<Reanswerque />} />
@@ -579,12 +565,14 @@ function App() {
             </RequireAuth>
           }
         />
-        <Route path="/adminpagesetting" element={<AdminPageSetting />} /> 
+        <Route path="/adminpagesetting" element={<AdminPageSetting />} />
         <Route path="studentregitserbonus" element={<StudentRegitserBonus />} />
-
-         <Route path="/answerguideline" element={<AnswerGuideline /> } />
-         <Route path="/postingguideline" element={<PostingGuideLine /> } />
-        <Route path="/transactiondetailshow" element={<Transactiondetailshow /> } />
+        <Route path="/answerguideline" element={<AnswerGuideline />} />
+        <Route path="/postingguideline" element={<PostingGuideLine />} />
+        <Route
+          path="/transactiondetailshow"
+          element={<Transactiondetailshow />}
+        />
         <Route path="/questionanswer/:id" element={<Questionanswer />} />
         <Route path="/addmobile" element={<AddMobile />} />
         <Route path="/contactdetails" element={<Contactdetails />} />

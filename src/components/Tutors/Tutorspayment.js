@@ -8,14 +8,10 @@ import { tutorspayment } from "../../Redux/Loginpages/tutorspaymentSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RotatingLines } from "react-loader-spinner";
 import { FaCopy } from "react-icons/fa";
-import axios from "axios";
-import { toast } from "react-toastify";
 import { Pagination } from "@mui/material";
-import { Link, useLocation, useParams } from "react-router-dom";
+import {  useLocation } from "react-router-dom";
 import { BsFillPatchCheckFill } from "react-icons/bs";
 import { tutorpaynowApi } from "../../Redux/Loginpages/tutorpaynowSlice";
-
-const url = process.env.REACT_APP_API_BASE_URL;
 
 const Tutorspayment = () => {
   const tutorpayment = useSelector(
@@ -100,7 +96,7 @@ const Tutorspayment = () => {
   };
   useEffect(() => {
     if (selectedFilter === "") {
-      setFilteredData(tutorpayment); // Show all data when "All" option is selected
+      setFilteredData(tutorpayment); 
     } else {
       const filteredData = tutorpayment.filter(
         (value) => value.date === selectedFilter
@@ -178,13 +174,11 @@ const Tutorspayment = () => {
                             <th scope="col">ACTION</th>
                           </tr>
                         </thead>
-                        {isLoading ? ( // Condition for displaying loader
+                        {isLoading ? ( 
                           <tbody>
                             <tr>
                               <td colSpan="4" className="text-center">
                                 <div className="loader-container">
-                                  
-                                  {/* Wrap loader code inside this div */}
                                   <div className="loader">
                                     <RotatingLines
                                       strokeColor="#d63384"
@@ -370,7 +364,6 @@ const Tutorspayment = () => {
                           </tbody>
                         )}
                       </table>
-
                       <div className="table-pagination float-end">
                         <Pagination
                           count={pageCount}
@@ -392,7 +385,6 @@ const Tutorspayment = () => {
       </div>
 
       {/* modal become a tutor */}
-
       <div
         className="modal fade"
         id="thankyoupopup"
@@ -433,7 +425,6 @@ const Tutorspayment = () => {
                     YES
                   </Button>
                   <button
-                    // onClick={() => alert(setSelectedItemId(_id))}
                     to="#"
                     className="rbt-btn bg-danger hover-icon-reverse btn-sm"
                     data-bs-dismiss="modal">

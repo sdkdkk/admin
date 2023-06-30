@@ -14,7 +14,6 @@ const url = process.env.REACT_APP_API_BASE_URL;
 const IssueQuestion = () => {
   const [loading1, setLoading1] = useState(false);
   const [data, setData] = useState([]);
-
   let token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -36,7 +35,6 @@ const IssueQuestion = () => {
 
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(8);
-
   const indexOfLastPage = currentPage * postsPerPage;
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
   const displayUsers = data?.slice(indexOfFirstPage, indexOfLastPage);
@@ -78,8 +76,7 @@ const IssueQuestion = () => {
                                 <th scope="col">Action</th>
                               </tr>
                             </thead>
-
-                            {loading1 ? ( // Condition for displaying loader
+                            {loading1 ? (
                               <tbody>
                                 <tr>
                                   <td colSpan="8" className="text-center">
@@ -105,7 +102,6 @@ const IssueQuestion = () => {
                                     <td
                                       colSpan="8"
                                       className="fw-2 fw-bolder text-center">
-                                      
                                       No Question Found
                                     </td>
                                   </tr>
@@ -126,7 +122,6 @@ const IssueQuestion = () => {
                                         {item.allQuestions.questionSubject}
                                       </td>
                                       <td>{item.allQuestions.questionType}</td>
-
                                       <td>{item.allQuestions.status}</td>
                                       <td>{item.newreason}</td>
                                       <td>

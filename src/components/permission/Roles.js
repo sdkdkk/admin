@@ -119,13 +119,11 @@ const Roles = () => {
                                   <th>Action</th>
                                 </tr>
                               </thead>
-                              {loading1 ? ( // Condition for displaying loader
+                              {loading1 ? ( 
                                 <tbody>
                                   <tr>
                                     <td colSpan="3" className="text-center">
-                                      <div className="loader-container">
-                                        
-                                        {/* Wrap loader code inside this div */}
+                                      <div className="loader-container">                                                                          
                                         <div className="loader">
                                           <RotatingLines
                                             strokeColor="#d63384"

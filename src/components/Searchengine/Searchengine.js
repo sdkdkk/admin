@@ -13,7 +13,6 @@ import { RotatingLines } from "react-loader-spinner";
 const Searchengine = () => {
   const searchengineState = useSelector((state) => state.searchengine);
   const [isLoading, setIsLoading] = useState(false);
-
   let navigate = useNavigate();
   const dispatch = useDispatch();
   const location = useLocation();
@@ -82,7 +81,7 @@ const Searchengine = () => {
                             <th scope="col">status</th>
                           </tr>
                         </thead>
-                        {isLoading ? ( // Condition for displaying loader
+                        {isLoading ? (
                           <tbody>
                             <tr>
                               <td colSpan="6" className="text-center">

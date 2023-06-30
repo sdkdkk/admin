@@ -25,7 +25,6 @@ const Tutorreferral = () => {
   const [extrasum, setExtrasum] = useState([]);
   const token = localStorage.getItem("token");
   const notify = (data) => toast(data);
-
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(4);
   const indexOfLastPage = currentPage * postsPerPage;
@@ -153,7 +152,6 @@ const Tutorreferral = () => {
                             </div>
                           </div>
                         </div>
-
                         <div className="row mt-2">
                           <div className="col-lg-3 col-md-4">
                             <h6>&nbsp;</h6>
@@ -191,13 +189,11 @@ const Tutorreferral = () => {
                               <th>Action</th>
                             </tr>
                           </thead>
-                          {loading1 ? ( // Condition for displaying loader
+                          {loading1 ? (
                             <tbody>
                               <tr>
                                 <td colSpan="4" className="text-center">
                                   <div className="loader-container">
-                                    
-                                    {/* Wrap loader code inside this div */}
                                     <div className="loader">
                                       <RotatingLines
                                         strokeColor="#d63384"

@@ -18,11 +18,9 @@ Quill.register("modules/imageResize", ImageResize);
 
 const Addnew = () => {
   const [images, setImages] = useState([]);
-
   const [questionTypes, setQuestionTypes] = useState([]);
   const [questionSubject, setQuestionSubject] = useState([]);
   const [editorHtml, setEditorHtml] = useState("");
-
   const navigate = useNavigate();
   const [optionsArray, setOptionsArray] = useState([]);
   const [selectedOption, setSelectedOption] = useState("");
@@ -138,8 +136,7 @@ const Addnew = () => {
         logoutIfInvalidToken(error.response);
         if (error.response) {
         } else if (error.request) {
-        } else {
-        }
+        } 
       }
     };
 
@@ -169,7 +166,6 @@ const Addnew = () => {
         logoutIfInvalidToken(error.response1);
         if (error.response1) {
         } else if (error.request1) {
-        } else {
         }
       }
     };
@@ -187,9 +183,7 @@ const Addnew = () => {
   };
 
   const token = localStorage.getItem("token");
-
   const onSubmit = (data) => {
-  
     if (
       selectedOption === "MatchTheFollowing-more5" ||
       selectedOption === "MatchTheFollowing-less5"
@@ -389,7 +383,6 @@ const Addnew = () => {
                             </p>
                           )}
                         </div>
-
                         {selectedOption === "ShortAnswer" ||
                         selectedOption === "ShortAnswer-exp" ||
                         selectedOption === "Definations" ||
@@ -473,7 +466,7 @@ const Addnew = () => {
                                       )}
                                     />
                                     <label className="form-check-label">
-                                      {/* htmlFor="rbt-radio-2" */}B)
+                                    B)
                                     </label>
                                   </div>
                                 </div>

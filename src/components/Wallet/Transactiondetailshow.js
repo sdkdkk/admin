@@ -1,39 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
 import "../Css/Tutorlist.css";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useForm } from "react-hook-form";
 import { getTransactionHistory } from "../../Redux/Loginpages/getTransactionHistorySlice";
-import { ColorRing, RotatingLines } from "react-loader-spinner";
+import { RotatingLines } from "react-loader-spinner";
 
 const Transactiondetailshow = () => {
-  const getTransactionHistoryState = useSelector((state) => state.getTransactionHistory);  
-    const isLoading = useSelector((state) => state.getTransactionHistory.isLoading);
+  const getTransactionHistoryState = useSelector(
+    (state) => state.getTransactionHistory
+  );
+  const isLoading = useSelector(
+    (state) => state.getTransactionHistory.isLoading
+  );
   const location = useLocation();
-  
-  
-     const dispatch = useDispatch();
-    
-      const getWalletDataApi = (category = "Student") => {
-          const params = location.search;
-     
-         dispatch(getTransactionHistory(params));
-         
-        };
+  const dispatch = useDispatch();
+  const getWalletDataApi = (category = "Student") => {
+    const params = location.search;
+    dispatch(getTransactionHistory(params));
+  };
 
   useEffect(() => {
-   
     getWalletDataApi();
-  
-       }, []);
-    
-    const filterData = getTransactionHistoryState?.data?.transactions?.filter((item) =>item);
- 
+  }, []);
 
-    
+  const filterData = getTransactionHistoryState?.data?.transactions?.filter(
+    (item) => item
+  );
+
   return (
     <div>
       <div className="container-scroller">
@@ -48,7 +44,6 @@ const Transactiondetailshow = () => {
               <div className="row  ">
                 <div className="col-md-12 grid-margin stretch-card questionanstext">
                   <div className="card">
-                    
                     {isLoading ? (
                       <div className="loader-container">
                         <RotatingLines
@@ -59,21 +54,50 @@ const Transactiondetailshow = () => {
                           visible={true}
                         />
                       </div>
-                        
-                    ) : <div className="card-body ">
-                        
-                      <div className="my-2"><span className="mx-2 fw-6 fw-bolder">Name:</span><span>{filterData?.[0]?.name}</span></div>
-                      <div className="my-2"><span className="mx-2 fw-6 fw-bolder">Type:</span><span>{filterData?.[0]?.type}</span></div>
-                      <div className="my-2"><span className="mx-2 fw-6 fw-bolder">Category:</span><span>{filterData?.[0]?.category}</span></div>
-                      <div className="my-2"><span className="mx-2 fw-6 fw-bolder">Balance:</span><span>{filterData?.[0]?.balance}</span></div>
-                      <div className="my-2"><span className="mx-2 fw-6 fw-bolder">Amount:</span><span>{filterData?.[0]?.amount}</span></div>
-                      <div className="my-2"><span className="mx-2 fw-6 fw-bolder">Date:</span><span>{filterData?.[0]?.date}</span></div>
-                      <div><span className="mx-2 fw-6 fw-bolder">Status:</span><span>{filterData?.[0]?.status}</span></div>
-                      <div className="my-2"><span className="mx-2 fw-6 fw-bolder">transactionId:</span><span>{filterData?.[0]?.transactionId}</span></div>
-                      <div className="my-2"><span className="mx-2 fw-6 fw-bolder">Description:</span><span>{filterData?.[0]?.description}</span></div>
-                    </div>
-                    }
-                    
+                    ) : (
+                      <div className="card-body ">
+                        <div className="my-2">
+                          <span className="mx-2 fw-6 fw-bolder">Name:</span>
+                          <span>{filterData?.[0]?.name}</span>
+                        </div>
+                        <div className="my-2">
+                          <span className="mx-2 fw-6 fw-bolder">Type:</span>
+                          <span>{filterData?.[0]?.type}</span>
+                        </div>
+                        <div className="my-2">
+                          <span className="mx-2 fw-6 fw-bolder">Category:</span>
+                          <span>{filterData?.[0]?.category}</span>
+                        </div>
+                        <div className="my-2">
+                          <span className="mx-2 fw-6 fw-bolder">Balance:</span>
+                          <span>{filterData?.[0]?.balance}</span>
+                        </div>
+                        <div className="my-2">
+                          <span className="mx-2 fw-6 fw-bolder">Amount:</span>
+                          <span>{filterData?.[0]?.amount}</span>
+                        </div>
+                        <div className="my-2">
+                          <span className="mx-2 fw-6 fw-bolder">Date:</span>
+                          <span>{filterData?.[0]?.date}</span>
+                        </div>
+                        <div>
+                          <span className="mx-2 fw-6 fw-bolder">Status:</span>
+                          <span>{filterData?.[0]?.status}</span>
+                        </div>
+                        <div className="my-2">
+                          <span className="mx-2 fw-6 fw-bolder">
+                            transactionId:
+                          </span>
+                          <span>{filterData?.[0]?.transactionId}</span>
+                        </div>
+                        <div className="my-2">
+                          <span className="mx-2 fw-6 fw-bolder">
+                            Description:
+                          </span>
+                          <span>{filterData?.[0]?.description}</span>
+                        </div>
+                      </div>
+                    )}
                   </div>
                 </div>
               </div>

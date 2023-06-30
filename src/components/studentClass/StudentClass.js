@@ -15,18 +15,13 @@ import { useLocation } from "react-router";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const StudentClass = () => {
-
   const { register, handleSubmit, reset, formState: { errors }, } = useForm({});
-
   const [isEditMode, setIsEditMode] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [studentClass, setStudentClass] = useState([]);
-
   const token = localStorage.getItem("token");
-
   const notify = (data) => toast(data);
-
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(8);
   const indexOfLastPage = currentPage * postsPerPage;
@@ -47,7 +42,6 @@ const StudentClass = () => {
     const searchParams = new URLSearchParams(location.search);
     const pageParam = searchParams.get("page");
     const initialPage = pageParam ? parseInt(pageParam) : 1;
-  
     setCurrentPage(initialPage);
   }, [location.search]);
 
@@ -184,7 +178,6 @@ const StudentClass = () => {
                   </div>
                 </div>
               </div>
-
               <div className="row mt-3">
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table">
@@ -204,11 +197,11 @@ const StudentClass = () => {
                                   <th>Action</th>
                                 </tr>
                               </thead>
-                             {loading1 ? ( // Condition for displaying loader
+                             {loading1 ? ( 
                           <tbody>
                             <tr>
                               <td colSpan="3" className="text-center">
-                                <div className="loader-container"> {/* Wrap loader code inside this div */}
+                                <div className="loader-container"> 
                                   <div className="loader">
                                     <RotatingLines
                                       strokeColor="#d63384"
@@ -260,8 +253,7 @@ const StudentClass = () => {
                                 variant="outlined"
                                 siblingCount={0}
                               />
-                            </div>
-                         
+                            </div>  
                       </div>
                     </div>
                   </div>

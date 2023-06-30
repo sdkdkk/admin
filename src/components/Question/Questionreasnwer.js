@@ -11,8 +11,11 @@ import { logoutIfInvalidToken } from "../../helpers/handleError";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Questionreasnwer = () => {
-  const { register, handleSubmit, formState: { errors }, } = useForm({});
-
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({});
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [conversionRate, setConversionRate] = useState([]);
@@ -62,7 +65,7 @@ const Questionreasnwer = () => {
       logoutIfInvalidToken(error.response);
       notify(error.response.data.error);
     } finally {
-      setLoading(false); 
+      setLoading(false);
     }
   };
 
@@ -116,7 +119,6 @@ const Questionreasnwer = () => {
                               <label
                                 htmlFor="hoursInput"
                                 className="form-label">
-
                                 Hours:
                               </label>
                               <input
@@ -128,10 +130,10 @@ const Questionreasnwer = () => {
                                   loading1 || conversionRate.length === 0
                                     ? ""
                                     : String(
-                                      Math.floor(
-                                        conversionRate.reanswer_time / 60
+                                        Math.floor(
+                                          conversionRate.reanswer_time / 60
+                                        )
                                       )
-                                    )
                                 }
                                 {...register("hours")}
                               />
@@ -147,7 +149,6 @@ const Questionreasnwer = () => {
                               <label
                                 htmlFor="minutesOutput"
                                 className="form-label">
-
                                 Minutes:
                               </label>
                               <input
@@ -166,9 +167,7 @@ const Questionreasnwer = () => {
                           </div>
                         </div>
                         <div className="row mt-2">
-                          <div className="col-lg-2 col-md-4">
-                            {/* <h6> & nbsp; </h6> */}
-                          </div>
+                          <div className="col-lg-2 col-md-4"></div>
                           <div className="col-lg-4 col-md-8 mb-2 text-md-end">
                             <Button variant="primary" type="submit">
                               Submit

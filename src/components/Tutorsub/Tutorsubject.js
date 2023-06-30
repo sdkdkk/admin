@@ -6,45 +6,48 @@ import { useForm } from "react-hook-form";
 import { Table, Button } from "react-bootstrap";
 import { toast } from "react-toastify";
 import axios from "axios";
-import { ColorRing, RotatingLines } from "react-loader-spinner";
+import { RotatingLines } from "react-loader-spinner";
 import { Pagination } from "@mui/material";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 import { useLocation } from "react-router";
 
 const url = process.env.REACT_APP_API_BASE_URL;
-
 const Tutorsubject = () => {
-  const { register, handleSubmit, reset, formState: { errors }, } = useForm({});
-
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm({});
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [conversionRate, setConversionRate] = useState([]);
   const token = localStorage.getItem("token");
-
   const notify = (data) => toast(data);
-
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(8);
   const indexOfLastPage = currentPage * postsPerPage;
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
   const displayUsers = conversionRate.slice(indexOfFirstPage, indexOfLastPage);
   const totalPages = Math.ceil(conversionRate.length / postsPerPage);
-
   const location = useLocation();
 
   const handleChange = (event, value) => {
     setCurrentPage(value);
     const searchParams = new URLSearchParams(location.search);
     searchParams.set("page", value);
-    window.history.replaceState({}, "", `${location.pathname}?${searchParams.toString()}`);
+    window.history.replaceState(
+      {},
+      "",
+      `${location.pathname}?${searchParams.toString()}`
+    );
   };
 
   useEffect(() => {
-    // Retrieve the "page" query parameter from the URL
     const searchParams = new URLSearchParams(location.search);
     const pageParam = searchParams.get("page");
     const initialPage = pageParam ? parseInt(pageParam) : 1;
-  
+
     setCurrentPage(initialPage);
   }, [location.search]);
 
@@ -176,49 +179,55 @@ const Tutorsubject = () => {
                   </div>
                 </div>
               </div>
-
               <div className="row mt-3">
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table">
                     <div className="card-body">
                       <div className="table-container">
-                      
-                            <Table
-                              striped
-                              bordered
-                              hover
-                              responsive
-                              className="single-color">
-                              <thead>
-                                <tr>
-                                  <th>Sr. No</th>
-                                  <th>Subject Name</th>
-                                  <th>Action</th>
-                                </tr>
-                              </thead>
-                             {loading1 ? ( // Condition for displaying loader
-                          <tbody>
+                        <Table
+                          striped
+                          bordered
+                          hover
+                          responsive
+                          className="single-color">
+                          <thead>
                             <tr>
-                              <td colSpan="3" className="text-center">
-                                <div className="loader-container"> {/* Wrap loader code inside this div */}
-                                  <div className="loader">
-                                    <RotatingLines
-                                      strokeColor="#d63384"
-                                      strokeWidth="5"
-                                      animationDuration="0.75"
-                                      width="50"
-                                      visible={true}
-                                    />
-                                  </div>
-                                </div>
-                              </td>
+                              <th>Sr. No</th>
+                              <th>Subject Name</th>
+                              <th>Action</th>
                             </tr>
-                          </tbody>
-                        ) :  <tbody>
-                                {displayUsers?.length === 0 ?
-                                  <tr>
-                                    <td colSpan="3" className="fw-2 fw-bolder text-center"> No Subject Found </td>
-                                  </tr> :displayUsers.map((data, index, _id) => (
+                          </thead>
+                          {loading1 ? (
+                            <tbody>
+                              <tr>
+                                <td colSpan="3" className="text-center">
+                                  <div className="loader-container">
+                                    <div className="loader">
+                                      <RotatingLines
+                                        strokeColor="#d63384"
+                                        strokeWidth="5"
+                                        animationDuration="0.75"
+                                        width="50"
+                                        visible={true}
+                                      />
+                                    </div>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          ) : (
+                            <tbody>
+                              {displayUsers?.length === 0 ? (
+                                <tr>
+                                  <td
+                                    colSpan="3"
+                                    className="fw-2 fw-bolder text-center">
+                                    {" "}
+                                    No Subject Found{" "}
+                                  </td>
+                                </tr>
+                              ) : (
+                                displayUsers.map((data, index, _id) => (
                                   <tr key={data._id}>
                                     <td>
                                       {index +
@@ -240,19 +249,21 @@ const Tutorsubject = () => {
                                       </Button>
                                     </td>
                                   </tr>
-                                ))}
-                              </tbody>}
-                            </Table>
-                            <div className="table-pagination float-end">
-                              <Pagination
-                                count={totalPages}
-                                page={currentPage}
-                                onChange={handleChange}
-                                shape="rounded"
-                                variant="outlined"
-                                siblingCount={0}
-                              />
-                            </div>                         
+                                ))
+                              )}
+                            </tbody>
+                          )}
+                        </Table>
+                        <div className="table-pagination float-end">
+                          <Pagination
+                            count={totalPages}
+                            page={currentPage}
+                            onChange={handleChange}
+                            shape="rounded"
+                            variant="outlined"
+                            siblingCount={0}
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>

@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import axios from "axios";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -12,11 +12,12 @@ import { logoutIfInvalidToken } from "../../helpers/handleError";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Tutorexamconfig = () => {
-
-  const { register, handleSubmit, formState: { errors }, } = useForm({});
-
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm({});
   const token = localStorage.getItem("token");
-
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [conversionRate, setConversionRate] = useState([]);
@@ -28,12 +29,13 @@ const Tutorexamconfig = () => {
     const fetchData = async () => {
       try {
         setLoading1(true);
-        const response = await axios.post(`${url}/admin/gettutorexamdetail`, { token: token, });
+        const response = await axios.post(`${url}/admin/gettutorexamdetail`, {
+          token: token,
+        });
         await setConversionRate(response.data.data);
         setLoading1(false);
       } catch (error) {
-        logoutIfInvalidToken(error.response)
-        // notify("Invalid refresh token!");
+        logoutIfInvalidToken(error.response);
         setLoading(false);
       }
     };
@@ -43,14 +45,11 @@ const Tutorexamconfig = () => {
   const onSubmit = async (data, e) => {
     try {
       setLoading(true);
-      const response = await axios.post(
-        `${url}/admin/tutorexamdetail`,
-        {
-          MCQ: parseInt(data.MCQ),
-          theory: parseInt(data.theory),
-          token: token,
-        }
-      );
+      const response = await axios.post(`${url}/admin/tutorexamdetail`, {
+        MCQ: parseInt(data.MCQ),
+        theory: parseInt(data.theory),
+        token: token,
+      });
       if (response.data.status === 1) {
         notify(response.data.message);
         setUpdatedConversionRate({
@@ -59,10 +58,10 @@ const Tutorexamconfig = () => {
         });
       }
     } catch (error) {
-      logoutIfInvalidToken(error.response)
+      logoutIfInvalidToken(error.response);
       notify(error.response.data.error);
     } finally {
-      setLoading(false); // set loading to false when API call is complete
+      setLoading(false);
     }
   };
 
@@ -82,22 +81,20 @@ const Tutorexamconfig = () => {
                   <div className="card new-table">
                     <div className="card-body">
                       {loading1 ? (
-                       
-                       <div className="d-flex justify-content-center align-items-center">
-                                    <div className="loader-container">
-                                      <div className="loader">
-                                        <RotatingLines
-                                          strokeColor="#d63384"
-                                          strokeWidth="5"
-                                          animationDuration="0.75"
-                                          width="50"
-                                          visible={true}
-                                        />
-                                      </div> 
-                                      <div className="mobile-loader-text ml-5"></div>
-                                    </div>
+                        <div className="d-flex justify-content-center align-items-center">
+                          <div className="loader-container">
+                            <div className="loader">
+                              <RotatingLines
+                                strokeColor="#d63384"
+                                strokeWidth="5"
+                                animationDuration="0.75"
+                                width="50"
+                                visible={true}
+                              />
+                            </div>
+                            <div className="mobile-loader-text ml-5"></div>
                           </div>
-                          
+                        </div>
                       ) : (
                         <>
                           <form onSubmit={handleSubmit(onSubmit)}>

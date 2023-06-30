@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { Button } from "react-bootstrap";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
@@ -32,7 +31,6 @@ const Tutorque = () => {
   const indexOfLastPage = currentPage * postsPerPage;
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
   const displayUsers = transactions.slice(indexOfFirstPage, indexOfLastPage);
-
   const totalPages = Math.ceil(transactions.length / postsPerPage);
 
   const fetchSubjectData = async () => {
@@ -169,7 +167,6 @@ const Tutorque = () => {
                   </div>
                 </div>
               </div>
-
               <div className="row mt-4">
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table">
@@ -186,7 +183,7 @@ const Tutorque = () => {
                               <th scope="col">Action</th>
                             </tr>
                           </thead>
-                          {getAdminQuestionsState?.isLoading ? ( // Condition for displaying loader
+                          {getAdminQuestionsState?.isLoading ? (
                             <tbody>
                               <tr>
                                 <td colSpan="6" className="text-center">
@@ -269,7 +266,6 @@ const Tutorque = () => {
                           )}
                         </table>
                       </div>
-
                       <div className="table-pagination float-end">
                         <Pagination
                           count={totalPages}

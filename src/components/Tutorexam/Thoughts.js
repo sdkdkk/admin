@@ -20,7 +20,6 @@ const Thoughts = () => {
     reset,
     formState: { errors },
   } = useForm({});
-
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [conversionRate, setConversionRate] = useState([]);
@@ -33,7 +32,6 @@ const Thoughts = () => {
   const displayUsers =
     conversionRate && conversionRate.slice(indexOfFirstPage, indexOfLastPage);
   const totalPages = Math.ceil(conversionRate.length / postsPerPage);
-
   const location = useLocation();
 
   const handleChange = (event, value) => {
@@ -57,12 +55,9 @@ const Thoughts = () => {
   const fetchData = async () => {
     try {
       setLoading1(true);
-      const response = await axios.post(
-        `${url}/admin/getthought`,
-        {
-          token: token,
-        }
-      );
+      const response = await axios.post(`${url}/admin/getthought`, {
+        token: token,
+      });
       setConversionRate(response.data.document);
       setLoading1(false);
     } catch (error) {
@@ -185,54 +180,54 @@ const Thoughts = () => {
                   </div>
                 </div>
               </div>
-
               <div className="row mt-3">
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table">
                     <div className="card-body">
                       <div className="table-container">
-                      
-                            <Table
-                              striped
-                              bordered
-                              hover
-                              responsive
-                              className="single-color">
-                              <thead>
-                                <tr>
-                                  <th>Sr. No</th>
-                                  <th>Thought</th>
-                                  <th>Action</th>
-                                </tr>
-                              </thead>
-                               {loading1 ? ( // Condition for displaying loader
-                          <tbody>
+                        <Table
+                          striped
+                          bordered
+                          hover
+                          responsive
+                          className="single-color">
+                          <thead>
                             <tr>
-                              <td colSpan="3" className="text-center">
-                                <div className="loader-container"> {/* Wrap loader code inside this div */}
-                                  <div className="loader">
-                                    <RotatingLines
-                                      strokeColor="#d63384"
-                                      strokeWidth="5"
-                                      animationDuration="0.75"
-                                      width="50"
-                                      visible={true}
-                                    />
-                                  </div>
-                                </div>
-                              </td>
+                              <th>Sr. No</th>
+                              <th>Thought</th>
+                              <th>Action</th>
                             </tr>
-                          </tbody>
-                        ) :  <tbody>
-                                {displayUsers?.length === 0 ? (
+                          </thead>
+                          {loading1 ? (
+                            <tbody>
+                              <tr>
+                                <td colSpan="3" className="text-center">
+                                  <div className="loader-container">
+                                    <div className="loader">
+                                      <RotatingLines
+                                        strokeColor="#d63384"
+                                        strokeWidth="5"
+                                        animationDuration="0.75"
+                                        width="50"
+                                        visible={true}
+                                      />
+                                    </div>
+                                  </div>
+                                </td>
+                              </tr>
+                            </tbody>
+                          ) : (
+                            <tbody>
+                              {displayUsers?.length === 0 ? (
                                 <tr>
                                   <td
                                     colSpan="3"
                                     className="fw-3 fw-bolder text-center">
-                                    No Thoughts 
+                                    No Thoughts
                                   </td>
                                 </tr>
-                              ) :displayUsers.map((data, index, _id) => (
+                              ) : (
+                                displayUsers.map((data, index, _id) => (
                                   <tr key={data._id}>
                                     <td>
                                       {index +
@@ -254,20 +249,21 @@ const Thoughts = () => {
                                       </Button>
                                     </td>
                                   </tr>
-                                ))}
-                              </tbody>}
-                            </Table>
-                            <div className="table-pagination float-end">
-                              <Pagination
-                                count={totalPages}
-                                page={currentPage}
-                                onChange={handleChange}
-                                shape="rounded"
-                                variant="outlined"
-                                siblingCount={0}
-                              />
-                            </div>
-                          
+                                ))
+                              )}
+                            </tbody>
+                          )}
+                        </Table>
+                        <div className="table-pagination float-end">
+                          <Pagination
+                            count={totalPages}
+                            page={currentPage}
+                            onChange={handleChange}
+                            shape="rounded"
+                            variant="outlined"
+                            siblingCount={0}
+                          />
+                        </div>
                       </div>
                     </div>
                   </div>

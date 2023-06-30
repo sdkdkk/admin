@@ -60,8 +60,6 @@ const Contactus = () => {
   useEffect(() => {
     setCurrentData(status[selectedStatus]);
   }, [selectedStatus, status[selectedStatus]]);
-
-  //Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [postsPerPage] = useState(8);
   const indexOfLastPage = currentPage * postsPerPage;
@@ -69,9 +67,7 @@ const Contactus = () => {
   let displayUsers =
     currentData && currentData.slice(indexOfFirstPage, indexOfLastPage);
   const totalPages = Math.ceil((currentData?.length || 0) / postsPerPage);
-
   const location = useLocation();
-
   const handleChange = (event, value) => {
     setCurrentPage(value);
     const searchParams = new URLSearchParams(location.search);

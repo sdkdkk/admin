@@ -15,14 +15,9 @@ const Searchquestion = () => {
   const [searchResults, setSearchResults] = useState([]);
   const [searchPerformed, setSearchPerformed] = useState(false);
   const [SearchError, setSearchError] = useState("");
-
   const token = localStorage.getItem("token");
-
   const [isLoading, setIsLoading] = useState(false);
-
   let navigate = useNavigate();
-
-  //Pagination
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(5);
 
@@ -109,7 +104,7 @@ const Searchquestion = () => {
                             <th scope="col">status</th>
                           </tr>
                         </thead>
-                        {isLoading ? ( // Condition for displaying loader
+                        {isLoading ? (
                           <tbody>
                             <tr>
                               <td colSpan="5" className="text-center">
@@ -123,7 +118,7 @@ const Searchquestion = () => {
                                       visible={true}
                                     />
                                   </div>
-                                  <div className="mobile-loader-text" ></div>
+                                  <div className="mobile-loader-text"></div>
                                 </div>
                               </td>
                             </tr>
@@ -162,7 +157,6 @@ const Searchquestion = () => {
                                       </span>
                                     )}
                                   </td>
-                                  {/* <td>{data.status.toLowerCase()}</td> */}
                                 </tr>
                               ))
                             ) : SearchError ? (

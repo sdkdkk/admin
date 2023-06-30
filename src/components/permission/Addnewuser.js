@@ -6,7 +6,7 @@ import { useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useNavigate, useParams } from "react-router-dom";
-import { ColorRing, RotatingLines } from "react-loader-spinner";
+import { RotatingLines } from "react-loader-spinner";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
 const url = process.env.REACT_APP_API_BASE_URL;
@@ -23,19 +23,16 @@ const Addnewuser = () => {
   const password = watch("password");
   const navigate = useNavigate();
   const notify = (data) => toast(data);
-
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [data, setData] = useState([]);
   const [roleData, setRoleData] = useState([]);
-
   let token = localStorage.getItem("token");
 
   const onSubmit = async (data) => {
     try {
       setLoading(true);
       const requestUrl = `${url}/admin/newuser`;
-
       var response;
       if (data._id) {
         if (data.password) {
@@ -86,7 +83,6 @@ const Addnewuser = () => {
       logoutIfInvalidToken(error.response);
       notify(error.response.data.error);
     }
-
     setLoading(false);
   };
 
@@ -109,7 +105,6 @@ const Addnewuser = () => {
   const fetchData = async () => {
     try {
       setLoading1(true);
-
       const response = await axios.post(`${url}/admin/getadmin`, {
         token: token,
       });
@@ -121,9 +116,7 @@ const Addnewuser = () => {
     }
   };
   const { id } = useParams();
-
   const filtrData = data.filter((item) => item._id === id);
-
   const roleValue = filtrData?.[0]?.role?.rolename;
   const defaultRoleId = roleData?.find((a) => a.rolename === roleValue)?._id;
 
@@ -133,6 +126,7 @@ const Addnewuser = () => {
     reset(defaultData);
     setValue("isactive", filtrData?.[0]?.isactive.toString());
   }, [data, defaultRoleId]);
+
   return (
     <>
       <div className="container-scrolsler">
@@ -144,7 +138,6 @@ const Addnewuser = () => {
               <div className="page-header">
                 <h3 className="page-title ">Add new user</h3>
               </div>
-
               <div className="row mt-3 justify-content-center">
                 <div className="col-md-8 col-lg-6 grid-margin stretch-card">
                   <div className="card new-table">
@@ -318,7 +311,6 @@ const Addnewuser = () => {
                               </div>
                             )}
                           </div>
-
                           <div className="text-title mt-4">
                             <h5>Current User Identity Verification</h5>
                             <div className="form-group">

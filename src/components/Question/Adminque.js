@@ -8,17 +8,14 @@ import { Pagination } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import axios from "axios";
 import { getAdminQuestions } from "../../Redux/Loginpages/getAdminQuestionSlice";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { RotatingLines } from "react-loader-spinner";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Adminque = () => {
-  const history = useNavigate();
   const dispatch = useDispatch();
-
   const token = useSelector((state) => state.auth.token);
-
   const getAdminQuestionsState = useSelector(
     (state) => state.getAdminQuestions
   );
@@ -26,11 +23,9 @@ const Adminque = () => {
   const [subjectList, setSubjectList] = useState([]);
   const [questionSubject, setQuestionSubject] = useState("");
   const [questionType, setQuestionType] = useState("");
-
   const [whomtoAsk, setWhomtoAsk] = useState("admin");
   const [isOpen, setIsOpen] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
-  const [isLoading, setIsLoading] = useState(false);
   const { transactions = [] } = getAdminQuestionsState?.data || {};
   const [postsPerPage] = useState(4);
   const indexOfLastPage = currentPage * postsPerPage;
@@ -44,18 +39,14 @@ const Adminque = () => {
         token: token,
       });
       setSubjectList(response?.data?.data);
-    } catch (error) {
-      // notify("Invalid refresh token!");
-    }
+    } catch (error) {}
   };
 
   const fetchQueTypeData = async () => {
     try {
       const response = await axios.get(`${url}/getquestiontype`, { token });
       setQueTypeList(response?.data?.data);
-    } catch (error) {
-      // notify("Invalid refresh token!");
-    }
+    } catch (error) {}
   };
 
   const getQuestionList = () => {
@@ -100,13 +91,6 @@ const Adminque = () => {
               <div className="page-header">
                 <div className="col-md-12">
                   <div className="d-grid gap-2 d-md-flex justify-content-md-end">
-                    {/* <button
-                                            // className="btn btn-primary me-md-2 active"
-                                            type="button"
-                                            onClick={() => setWhomtoAsk("tutor")}
-                                            style={{ borderRadius: "4px" }}>
-                                            Tutor
-                                        </button> */}
                     <button
                       className="btn btn-light"
                       type="button"
@@ -114,20 +98,6 @@ const Adminque = () => {
                       style={{ borderRadius: "4px" }}>
                       Admin
                     </button>
-                    {/* <button
-                                            // className="btn btn-primary"
-                                            type="button"
-                                            onClick={() => setWhomtoAsk("reanswer")}
-                                            style={{ borderRadius: "4px" }}>
-                                            Reanswer
-                                        </button> */}
-                    {/* <button
-                                            // className="btn btn-primary"
-                                            type="button"
-                                            onClick={() => setWhomtoAsk("unsolved")}
-                                            style={{ borderRadius: "4px" }}>
-                                            Unsolved
-                                        </button> */}
                   </div>
                 </div>
               </div>
@@ -189,7 +159,7 @@ const Adminque = () => {
                               <th scope="col">Action</th>
                             </tr>
                           </thead>
-                          {getAdminQuestionsState?.isLoading ? ( // Condition for displaying loader
+                          {getAdminQuestionsState?.isLoading ? (
                             <tbody>
                               <tr>
                                 <td colSpan="6" className="text-center">
