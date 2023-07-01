@@ -37,17 +37,6 @@ h5.exam-que {
     margin-left: calc(var(--bs-gutter-x) * -.5);
 }
 
-
-/* radio-btn */
-
-
-/* @media screen and (max-width: 600px) {
-    label {
-      display: block;
-      margin-bottom: 10px;
-    }
-  } */
-
 .radio-btn {
     display: flex;
     justify-content: end;

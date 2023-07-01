@@ -9,13 +9,8 @@ import Matchfollow from "../Questionpages/Matchfollow";
 import Questionanswer from "../Questionpages/Questionanswer";
 import Fillups from "../Questionpages/Fillups";
 
-
-
 const Studentquestiondetails = () => {
-
   const location = useLocation();
-  const getresponse = location.state.data.allQuestions;
-
   return (
     <>
       <div className="container-scroller">
@@ -77,7 +72,6 @@ const Studentquestiondetails = () => {
           </div>
         </div>
       </div>
-      {/* image show modal */}
     </>
   );
 };

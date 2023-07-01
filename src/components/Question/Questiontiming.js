@@ -578,7 +578,7 @@ const Questiontiming = () => {
                             </tbody>
                           )}
                         </Table>
-                        <div className="table-pagination float-end">
+                        <div className="table-pagination float-end mt-2">
                           <Pagination
                             count={pageCount}
                             page={currentPage}

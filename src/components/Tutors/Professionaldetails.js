@@ -9,15 +9,13 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
-import { ColorRing, RotatingLines } from "react-loader-spinner";
+import { RotatingLines } from "react-loader-spinner";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Professionaldetails = () => {
   const { _id } = useParams();
-
-  //  for profile-image
   const [isLoading, setIsLoading] = useState(false);
   const [loading, setLoading] = useState(false);
   const [myimage, setMyImage] = useState(null);
@@ -31,18 +29,10 @@ const Professionaldetails = () => {
       img.onload = () => {
         const canvas = document.createElement("canvas");
         const ctx = canvas.getContext("2d");
-
-        // Set the canvas width and height to match the image
         canvas.width = img.width;
         canvas.height = img.height;
-
-        // Draw the image on the canvas
         ctx.drawImage(img, 0, 0);
-
-        // get the resized image as a data URL
         const dataUrl = canvas.toDataURL();
-
-        // update the state with the new image
         setMyImage(dataUrl);
       };
       img.src = event.target.result;
@@ -80,7 +70,6 @@ const Professionaldetails = () => {
     setIsLoading(true);
     const formData = new FormData();
     const file = dataURLtoFile(myimage, "profilephoto.png");
-
     formData.append("token", token);
     formData.append("profilephoto", file);
     formData.append("name", data.name);
@@ -122,7 +111,7 @@ const Professionaldetails = () => {
       })
   };
 
-  // Helper function to convert data URL to file
+ 
   function dataURLtoFile(dataurl, filename) {
     const arr = dataurl.split(",");
     const mime = arr[0].match(/:(.*?);/)[1];

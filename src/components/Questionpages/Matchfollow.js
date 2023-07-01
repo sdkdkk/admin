@@ -50,7 +50,7 @@ const Matchfollow = () => {
           question: data.question ? data.question : question,
           answer: data.editedAnswer
             ? data.editedAnswer
-            : JSON.stringify(editedAnswer), // Convert the answer array to a JSON string
+            : JSON.stringify(editedAnswer), 
           explanation: data.explanation ? data.explanation : explanation,
         }
       );
@@ -137,7 +137,7 @@ const Matchfollow = () => {
                           <span className="mx-3">{data.id}</span>
                           <input
                             className="p--20 rbt-border radius-6 "
-                            value={data.value} // Use the value prop instead of defaultValue
+                            value={data.value}
                             onChange={(e) => {
                               const updatedAnswer = [...editedAnswer];
                               updatedAnswer[index].value = e.target.value;
@@ -204,7 +204,6 @@ const Matchfollow = () => {
           </div>
         </div>
       </div>
-      {/* image show modal */}
       <Modal show={show} onHide={() => setShow(false)}>
         <Modal.Header closeButton className="border-0"></Modal.Header>
         <Modal.Body className="text-center">

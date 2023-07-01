@@ -14,9 +14,6 @@
     margin: 50px auto;
 }
 
-
-/* Media query for responsive design */
-
 @media screen and (max-width: 768px) {
     .add-user-btn {
         width: 100%;
@@ -25,7 +22,6 @@
 }
 
 img.webresource {
-    /* margin-top: 5px; */
     margin-top: -6px;
 }
 

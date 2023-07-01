@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Que.css";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import Moment from "react-moment";
 import axios from "axios";
@@ -123,12 +123,7 @@ const Mcqquestion = () => {
                           alt=""
                         />
                       )
-                    )}
-                    {/*<span
-                    dangerouslySetInnerHTML={{
-                      __html: location.state.data.allQuestions.question,
-                    }}
-                  />*/}
+                    )}          
                   </div>
                   {answer && (
                     <div className="col-md-12 col-lg-12 mb--20">
@@ -177,8 +172,7 @@ const Mcqquestion = () => {
                                 )}
                               />
                               <label
-                                className="form-check-label"
-                                // htmlFor="rbt-radio-2"
+                                className="form-check-label"                           
                               >
                                 B)
                               </label>

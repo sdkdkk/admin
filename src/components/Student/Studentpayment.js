@@ -7,8 +7,6 @@ import "../Css/Tutorlist.css";
 import { Button } from "react-bootstrap";
 
 const Studentpayment = () => {
-
-  //table
   const [clicked, setClicked] = useState(false);
   const [teamData, setTeamData] = useState([]);
   const nbaData = async () => {
@@ -22,7 +20,6 @@ const Studentpayment = () => {
 
   const toggle = (index) => {
     if (clicked === index) {
-      //if clicked question is already active, then close it
       return setClicked(null);
     }
     setClicked(index);

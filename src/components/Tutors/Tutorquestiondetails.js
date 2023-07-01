@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
@@ -9,9 +9,7 @@ import Fillups from "../Questionpages/Fillups";
 import Matchfollow from "../Questionpages/Matchfollow";
 import Questionanswer from "../Questionpages/Questionanswer";
 
-
 const Tutorquestiondetails = () => {
-
   const location = useLocation();
 
   return (
@@ -34,30 +32,25 @@ const Tutorquestiondetails = () => {
                                 <div>
                                   {location.state.data.allQuestions
                                     .questionType === "TrueFalse-exp" ||
-                                    location.state.data.allQuestions
-                                      .questionType === "TrueFalse" ? (
+                                  location.state.data.allQuestions
+                                    .questionType === "TrueFalse" ? (
                                     <Truefalseque />
                                   ) : location.state.data.allQuestions
-                                    .questionType === "MCQ-exp" ||
+                                      .questionType === "MCQ-exp" ||
                                     location.state.data.allQuestions
                                       .questionType === "MCQ" ? (
-                                    <Mcqquestion
-                                    // question={
-                                    //   location.state.data.allQuestions
-                                    //     .question
-                                    // }
-                                    />
+                                    <Mcqquestion />
                                   ) : location.state.data.allQuestions
-                                    .questionType === "FillInBlanks-exp" ||
+                                      .questionType === "FillInBlanks-exp" ||
                                     location.state.data.allQuestions
                                       .questionType === "FillInBlanks" ? (
                                     <Fillups />
                                   ) : location.state.data.allQuestions
-                                    .questionType ===
-                                    "MatchTheFollowing-less5" ||
+                                      .questionType ===
+                                      "MatchTheFollowing-less5" ||
                                     location.state.data.allQuestions
                                       .questionType ===
-                                    "MatchTheFollowing-more5" ? (
+                                      "MatchTheFollowing-more5" ? (
                                     <Matchfollow />
                                   ) : (
                                     <Questionanswer />

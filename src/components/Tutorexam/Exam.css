@@ -37,13 +37,6 @@ h5.exam-que {
     margin-left: calc(var(--bs-gutter-x) * -.5);
 }
 
-/* radio-btn */
-/* @media screen and (max-width: 600px) {
-    label {
-      display: block;
-      margin-bottom: 10px;
-    }
-  } */
 .radio-btn {
     display: flex;
     justify-content: end;
@@ -68,27 +61,35 @@ label.true-btn {
 
 
 /* tutor Exam  */
+
 .radius-6 {
     border-radius: 6px !important;
 }
+
 .rbt-border {
     border: 1px solid var(--color-border) !important;
 }
+
 .p--20 {
     padding: 20px !important;
 }
+
 .bg-primary-opacity {
     background: var(--primary-opacity) !important;
 }
+
 .rbt-form-check {
     display: inline-block;
 }
+
 .p--10 {
     padding: 10px !important;
 }
+
 .form-check-input[type=radio] {
     border-radius: 50%;
 }
+
 .form-check-input {
     width: 1em;
     height: 1em;
@@ -98,26 +99,29 @@ label.true-btn {
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
-    border: 1px solid rgba(0,0,0,.25);
+    border: 1px solid rgba(0, 0, 0, .25);
     -webkit-appearance: none;
     -moz-appearance: none;
     appearance: none;
     -webkit-print-color-adjust: exact;
     color-adjust: exact;
 }
-input[type=checkbox]~label, input[type=radio]~label {
+
+input[type=checkbox]~label,
+input[type=radio]~label {
     position: relative;
     font-size: 15px;
     line-height: 25px;
     color: var(--body-color);
     font-weight: 400;
-    /* padding-left: 26px; */
     cursor: pointer;
     margin-bottom: 0;
 }
+
 label {
     display: inline-block;
 }
+
 input[type=radio]~label::before {
     border-radius: 50%;
 }

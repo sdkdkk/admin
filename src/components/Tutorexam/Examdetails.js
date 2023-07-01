@@ -28,7 +28,6 @@ const Examdetails = () => {
 
   useEffect(() => {
     if (Object.keys(examInfo).length === 0 && !location.state?.data) {
-      // history("/testexam");
     }
   }, [examInfo, location.state?.data]);
 
@@ -80,9 +79,6 @@ const Examdetails = () => {
       setCurrentIndex(currentIndex - 1);
     }
   };
-
-  //radio-btn
-
   const setOptionValue = (value) => {
     const tempSelectedValue = [...selectedValue];
     tempSelectedValue[currentIndex] = value;

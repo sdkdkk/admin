@@ -5,13 +5,10 @@ import Moment from "react-moment";
 import DOMPurify from 'dompurify';
 
 const TruefalsequeSearchengine = () => {
-
   const location = useLocation();
   const answer = DOMPurify.sanitize(location.state.data.answer, {
     ALLOWED_TAGS: [],
   });
-  const getresponse = location.state.data;
-
   return (
     <>
       <div className="container-scroller">

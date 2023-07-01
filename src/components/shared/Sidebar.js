@@ -113,7 +113,6 @@ const Sidebar = () => {
                       Student List
                     </Link>
                   </li>
-                  {/*StudentRegitserBonus */}
                   <li
                     className={`nav-item ${
                       activeLink === "/studentregitserbonus" ? "active" : ""
@@ -128,8 +127,6 @@ const Sidebar = () => {
               </div>
             </li>
           )}
-
-          {/*wallet*/}
           {navMenusStateList?.includes("Wallet") && (
             <li
               className={`nav-item ${activeLink === "/wallet" ? "active" : ""}`}
@@ -140,15 +137,6 @@ const Sidebar = () => {
               </Link>
             </li>
           )}
-
-          {/*Subscription*/}
-          {/* <li className="nav-item">
-            <Link className="nav-link" to="/subscription">
-              <span className="menu-title">Subscription</span>
-              <i className="icon-screen-desktop menu-icon"></i>
-            </Link>
-          </li> */}
-
           {/*Tutor Subject*/}
           {navMenusStateList?.includes("Question Subject") && (
             <li

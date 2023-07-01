@@ -18,9 +18,7 @@ import "../Css/Tutorlist.css";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const AddMobile = () => {
-
   const { handleSubmit, reset, control, formState: { errors }, } = useForm({});
-
   const [loading, setLoading] = useState(false);
   const [loading1, setLoading1] = useState(false);
   const [data, setData] = useState([]);
@@ -180,7 +178,6 @@ const AddMobile = () => {
                   </div>
                 </div>
               </div>
-
               <div className="row mt-3">
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table">
@@ -200,11 +197,11 @@ const AddMobile = () => {
                                   <th>Action</th>
                                 </tr>
                               </thead>
-                                {loading1 ? ( // Condition for displaying loader
+                                {loading1 ? ( 
                           <tbody>
                             <tr>
                               <td colSpan="3" className="text-center">
-                                <div className="loader-container"> {/* Wrap loader code inside this div */}
+                                <div className="loader-container"> 
                                   <div className="loader">
                                     <RotatingLines
                                       strokeColor="#d63384"
@@ -252,8 +249,7 @@ const AddMobile = () => {
                                 shape="rounded"
                                 variant="outlined"
                               />
-                            </div>
-                         
+                            </div>                       
                       </div>
                     </div>
                   </div>

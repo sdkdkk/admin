@@ -383,8 +383,6 @@ const Tutorspayment = () => {
           </div>
         </div>
       </div>
-
-      {/* modal become a tutor */}
       <div
         className="modal fade"
         id="thankyoupopup"
