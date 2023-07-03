@@ -33,16 +33,19 @@ const Questionpricing = () => {
   const [isEditMode, setIsEditMode] = useState(false);
   const [data, setData] = useState([]);
   let token = localStorage.getItem("token");
+
   useEffect(() => {
     let token = localStorage.getItem("token");
     dispatch(questiontypeApi(token));
+    setLoading(true)
     dispatch(questiontypePriceApi());
-    fetchData();
+       fetchData();  
+     setLoading(false)
   }, []);
 
   const onSubmit = async (data) => {
     try {
-      setLoading(true);
+     
       const requestUrl = `${url}/admin/setquestionpricing`;
       var response;
       if (data._id) {
@@ -63,10 +66,12 @@ const Questionpricing = () => {
           admin_price: data.admin_price,
         });
       }
+    setLoading(true);
       if (response.data.message) {
         notify(response.data.message);
         reset();
         fetchData();
+         setLoading(false);
       } else {
         notify(data.error);
       }
@@ -75,7 +80,7 @@ const Questionpricing = () => {
       notify(error.response.data.error);
     }
     fetchData();
-    setLoading(false);
+   setLoading(false)
   };
 
   const fetchData = async () => {
@@ -156,13 +161,39 @@ const Questionpricing = () => {
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table">
                     <div className="card-body">
-                      <Form onSubmit={handleSubmit(onSubmit)}>
+                        {loading ?
+                        <div className="loader-container">
+                             <div className="loader">
+                                      <RotatingLines
+                                        strokeColor="#d63384"
+                                        strokeWidth="5"
+                                        animationDuration="0.75"
+                                        width="50"
+                                        visible={true}
+                                      />
+                                    </div>
+                                    <div className="mobile-loader-text"></div>
+                                  </div>
+                              :<Form onSubmit={handleSubmit(onSubmit)}>
                         <div className="row">
                           <div className="col-lg-2 col-md-4 mt-2">
                             <h6>Question Type</h6>
                           </div>
                           <div className="col-lg-4 col-md-8">
-                            <Form.Select
+                              {loading ?
+                        <div className="loader-container">
+                             <div className="loader">
+                                      <RotatingLines
+                                        strokeColor="#d63384"
+                                        strokeWidth="5"
+                                        animationDuration="0.75"
+                                        width="50"
+                                        visible={true}
+                                      />
+                                    </div>
+                                    <div className="mobile-loader-text"></div>
+                                  </div>
+                              :<Form.Select
                               {...register("Type", {
                                 required: !isEditMode ? true : false,
                               })}>
@@ -177,7 +208,7 @@ const Questionpricing = () => {
                                     {item}
                                   </option>
                                 ))}
-                            </Form.Select>
+                            </Form.Select>}
                             {!isEditMode
                               ? errors.Type && (
                                   <span className="text-danger">
@@ -254,7 +285,7 @@ const Questionpricing = () => {
                             </Button>
                           </div>
                         </div>
-                      </Form>
+                      </Form>}
                     </div>
                   </div>
                 </div>

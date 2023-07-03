@@ -1,25 +1,45 @@
 import React, { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import "./Sidebar.css";
 import { useSelector } from "react-redux";
 
 const Sidebar = () => {
+  // const navMenusState = useSelector((state) => state.auth?.user?.actions) || [];
+  // const navMenusStateLocal = localStorage.getItem("menusItem");
+  // const navMenusStateLocalParsedObject = JSON.parse(navMenusStateLocal) ;
+
+
+
   const navMenusState = useSelector((state) => state.auth?.user?.actions) || [];
   const navMenusStateLocal = localStorage.getItem("menusItem");
-  const navMenusStateLocalParsedObject = JSON.parse(navMenusStateLocal);
+  let navMenusStateLocalParsedObject;
+
+  try {
+    navMenusStateLocalParsedObject = JSON?.parse(navMenusStateLocal || '{}');
+  } catch (error) {
+    console.error('Error parsing JSON from localStorage:', error);
+    navMenusStateLocalParsedObject = {}; // Provide a default empty object in case of parsing error
+  }
+
   const navMenusStateList =
     !!navMenusState && navMenusState.length
-      ? navMenusState?.map((a) => a.name)
-      : navMenusStateLocalParsedObject?.map((a) => a.name) || [];
+      ? navMenusState.map((a) => a.name)
+      : Array.isArray(navMenusStateLocalParsedObject) // Check if it's an array
+      ? navMenusStateLocalParsedObject.map((a) => a.name)
+      : [];
 
   useEffect(() => {
-    if (navMenusState.length) {
+    if (navMenusState?.length) {
       localStorage.setItem("menusItem", JSON.stringify(navMenusState));
     }
   }, [navMenusState]);
 
   const [activeLink, setActiveLink] = useState("");
+const location = useLocation(); // Get the current location
 
+  useEffect(() => {
+    setActiveLink(location.pathname); // Update the activeLink state when the location changes
+  }, [location.pathname, setActiveLink]);
   useEffect(() => {
     setActiveLink(window.location.pathname);
   }, [setActiveLink]);
@@ -89,6 +109,9 @@ const Sidebar = () => {
 
           {/* Student */}
 
+
+         
+
           {navMenusStateList?.includes("Student") && (
             <li className="nav-item">
               <a
@@ -113,7 +136,6 @@ const Sidebar = () => {
                       Student List
                     </Link>
                   </li>
-                  {/*StudentRegitserBonus */}
                   <li
                     className={`nav-item ${
                       activeLink === "/studentregitserbonus" ? "active" : ""
@@ -206,14 +228,14 @@ const Sidebar = () => {
           )}
 
           {/*Question Answer*/}
-          {navMenusStateList?.includes("Curruncy") && (
+         
             <li className="nav-item nav-category">
               <span className="nav-link">Question Answer</span>
             </li>
-          )}
+         
 
           {/*Searchengine*/}
-          {navMenusStateList?.includes("Searhchengine") && (
+          {navMenusStateList?.includes("Searchengine") && (
             <li
               className={`nav-item ${
                 activeLink === "/searchengine" ? "active" : ""
@@ -649,6 +671,8 @@ const Sidebar = () => {
               </Link>
             </li>
           )}
+
+        
 
           {/*contact us*/}
           {navMenusStateList?.includes("Contact us") && (

@@ -97,7 +97,7 @@ const Dashboard = () => {
                                   Total Distrubution
                                 </span>
                                 <h4>
-                                  Rs. {data?.totalMoneyDistributed?.[0].total}
+                                  Rs. {data?.totalMoneyDistributed?.[0]?.total}
                                 </h4>
                               </div>
                               <Button className="inner-card-icon bg-primary">

@@ -5,12 +5,13 @@ import Sidebar from "../shared/Sidebar";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import "./permission.css";
 import { useForm } from "react-hook-form";
-import { toast } from "react-toastify";
+
 import axios from "axios";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 import { useDispatch, useSelector } from "react-redux";
 import { getAdminPagesApi } from "../../Redux/Loginpages/getAdminPageSlice";
 import { RotatingLines } from "react-loader-spinner";
+import { toast } from "react-toastify";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
@@ -23,7 +24,7 @@ const Addnewrole = memo(() => {
   const { register, handleSubmit, reset, setValue } = useForm({});
 
   const navigate = useNavigate();
-  const notify = (data) => toast(data);
+ 
 
   const [loading, setLoading] = useState(false);
 
@@ -59,18 +60,18 @@ const Addnewrole = memo(() => {
         });
       }
       if (response.data.message) {
-        notify(response.data.message);
+        toast.success(response.data.message);
         reset();
         setTimeout(() => {
           navigate("/roles");
         }, 1000);
         fetchData();
       } else {
-        notify(data.error);
+        toast.error(data.error);
       }
     } catch (error) {
       logoutIfInvalidToken(error.response);
-      notify(error.response.data.error);
+      toast.error(error.response.data.error);
     }
   };
 

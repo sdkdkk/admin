@@ -14,8 +14,7 @@ const initialState = {
 
 
 export const admintutorexamverify = createAsyncThunk('user/getUserList', async (page, { rejectWithValue }) => {
-    const token = localStorage.getItem('token')
-    try {
+   try {
         const token = localStorage.getItem('token')
         const response = await axios.post(`${url}/admin/admintutorexamverify`, { token });
         return response.data;

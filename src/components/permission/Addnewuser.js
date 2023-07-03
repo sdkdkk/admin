@@ -126,7 +126,10 @@ const Addnewuser = () => {
     reset(defaultData);
     setValue("isactive", filtrData?.[0]?.isactive.toString());
   }, [data, defaultRoleId]);
-
+  console.log(filtrData?.[0]);
+  useEffect(() => {
+  reset(filtrData?.[0])
+  }, [reset])
   return (
     <>
       <div className="container-scrolsler">
@@ -166,7 +169,7 @@ const Addnewuser = () => {
                               {...register("username", {
                                 required: "Please Enter your name!",
                               })}
-                              value={data.username}
+                              value={filtrData?.[0]?.username}
                             />
                             <p className="text-danger">
                               {errors.username && errors.username.message}
@@ -177,7 +180,8 @@ const Addnewuser = () => {
                             <input
                               type="email"
                               className="form-control"
-                              id="email"
+                                id="email"
+                                defaultValue={filtrData?.[0]?.email}
                               placeholder="Enter email"
                               {...register("email", {
                                 required: "Please Enter A Valid Email!",
@@ -196,7 +200,8 @@ const Addnewuser = () => {
                             <input
                               type="password"
                               className="form-control"
-                              id="password"
+                                id="password"
+                                value={filtrData?.[0]?.password}
                               autoComplete="new-password"
                               placeholder="Enter password"
                               {...register("password", {
@@ -221,7 +226,8 @@ const Addnewuser = () => {
                             </label>
                             <input
                               type="password"
-                              className="form-control"
+                                className="form-control"
+                                value={filtrData?.[0]?.cpassword}
                               id="confirm-password"
                               placeholder="Confirm password"
                               {...register("cpassword", {

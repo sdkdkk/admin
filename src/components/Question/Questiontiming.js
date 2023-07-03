@@ -23,6 +23,7 @@ const Questiontiming = () => {
   const questiontypeTime = useSelector((state) => state.questiontypetime);
   const [data, setData] = useState([]);
   useEffect(() => {
+
     let token = localStorage.getItem("token");
     dispatch(questiontypeApi(token));
     fetchData();
@@ -31,6 +32,7 @@ const Questiontiming = () => {
   const { register, handleSubmit, reset, setValue } = useForm({});
 
   const onSubmit = async (data) => {
+
     let token = localStorage.getItem("token");
     const hours = data.firsthours ? parseInt(data.firsthours) : 0;
     const minutes = data.firstminutes ? parseInt(data.firstminutes) : 0;
@@ -80,6 +82,7 @@ const Questiontiming = () => {
         `${url}/admin/setquestiontiming`,
         timingObjData
       );
+            setLoading(true);
       if (data.status === 1) {
         notify(data.message);
         reset();
@@ -91,6 +94,7 @@ const Questiontiming = () => {
       logoutIfInvalidToken(error.response);
       notify(error.response.data.error);
     }
+          setLoading(false);
   };
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -189,7 +193,20 @@ const Questiontiming = () => {
                 <div className="col-12 grid-margin stretch-card">
                   <div className="card new-table">
                     <div className="card-body">
-                      <Form onSubmit={handleSubmit(onSubmit)}>
+                      {loading ?
+                        <div className="loader-container">
+                             <div className="loader">
+                                      <RotatingLines
+                                        strokeColor="#d63384"
+                                        strokeWidth="5"
+                                        animationDuration="0.75"
+                                        width="50"
+                                        visible={true}
+                                      />
+                                    </div>
+                                    <div className="mobile-loader-text"></div>
+                                  </div>
+                              : <Form onSubmit={handleSubmit(onSubmit)}>
                         <div className="row">
                           <div className="col-lg-2 mt-2">
                             <h6>Question Type</h6>
@@ -487,7 +504,7 @@ const Questiontiming = () => {
                             </Button>
                           </div>
                         </div>
-                      </Form>
+                      </Form>}
                     </div>
                   </div>
                 </div>
