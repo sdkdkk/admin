@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Que.css";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate} from "react-router-dom";
 import Moment from "react-moment";
 import { Controller, useForm } from "react-hook-form";
 import axios from "axios";
@@ -44,7 +44,7 @@ const Truefalseque = () => {
           token: token,
           questionId: questionId,
           question: data.question ? data.question : question,
-          answer: data.answer ? data.answer : answer, // Include the answer field in the form data
+          answer: data.answer ? data.answer : answer, 
           explanation: data.explanation ? data.explanation : explanation,
         }
       );
@@ -125,11 +125,6 @@ const Truefalseque = () => {
                       />
                     )
                   )}
-                  {/*<span
-                    dangerouslySetInnerHTML={{
-                      __html: location.state.data.allQuestions.question,
-                    }}
-                  />*/}
                 </div>
                 {answer && (
                   <div className="col-md-12 col-lg-12 mb--20">
@@ -150,7 +145,7 @@ const Truefalseque = () => {
                                     id="true"
                                     value="true"
                                     disabled={!isEditing}
-                                    checked={field.value === "true"} // Set the checked state based on the field value
+                                    checked={field.value === "true"} 
                                   />
                                   <label
                                     className="form-check-label mx-2"
@@ -176,7 +171,7 @@ const Truefalseque = () => {
                                     id="false"
                                     value="false"
                                     disabled={!isEditing}
-                                    checked={field.value === "false"} // Set the checked state based on the field value
+                                    checked={field.value === "false"} 
                                   />
                                   <label
                                     className="form-check-label mx-2"
@@ -244,7 +239,6 @@ const Truefalseque = () => {
           </div>
         </div>
       </div>
-      {/* image show modal */}
       <Modal show={show} onHide={() => setShow(false)}>
         <Modal.Header closeButton className="border-0"></Modal.Header>
         <Modal.Body className="text-center">

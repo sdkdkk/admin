@@ -35,7 +35,6 @@ const Questionanswer = () => {
   const onSubmit = async (data) => {
     const token = localStorage.getItem("token");
     try {
-      // setLoading1(true);
       const response = await axios.post(
         `${url}/admin/updatetutorquestionanswer`,
         {
@@ -173,7 +172,6 @@ const Questionanswer = () => {
           </div>
         </div>
       </div>
-      {/* image show modal */}
       <Modal show={show} onHide={() => setShow(false)}>
         <Modal.Header closeButton className="border-0"></Modal.Header>
         <Modal.Body className="text-center">

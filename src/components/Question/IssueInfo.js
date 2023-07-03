@@ -11,8 +11,6 @@ import { Button } from "react-bootstrap";
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const IssueInfo = () => {
-  const [data, setData] = useState([]);
-
   const [questionSubject, setQuestionSubject] = useState("");
 
   const [subjectList, setSubjectList] = useState([]);
@@ -20,7 +18,7 @@ const IssueInfo = () => {
   const { issueData } = location.state;
   const token = localStorage.getItem("token");
 
-  const { register, handleSubmit, reset, watch, formState: { errors },} = useForm({});
+  const { register, handleSubmit, reset} = useForm({});
 
   const onSubmit = async (data) => {
     const issueSubData = { token: token, questionId: issueData.allQuestions.questionId, questionSubject: data.questionSubject,};
@@ -52,7 +50,6 @@ const IssueInfo = () => {
       });
       setSubjectList(response?.data?.data);
     } catch (error) {
-      // notify("Invalid refresh token!");
     }
   };
 
@@ -64,7 +61,6 @@ const IssueInfo = () => {
     try {
       const response = await axios.post(`${url}/admin/issuesolve`, issueSolve);
     } catch (error) {
-      // notify("Invalid refresh token!");
     }
   };
   return (

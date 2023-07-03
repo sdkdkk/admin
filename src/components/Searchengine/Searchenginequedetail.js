@@ -1,10 +1,9 @@
-import React, { useState } from "react";
+
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
 import "./Searchengine.css";
 import { useLocation } from "react-router-dom";
-import Modal from "react-bootstrap/Modal";
 import FillupsSearchengine from "../QuestionpageSearchengine/FillupsSearchengine";
 import MatchfollowSearchengine from "../QuestionpageSearchengine/MatchfollowSearchengine";
 import McqquestionSearchengine from "../QuestionpageSearchengine/McqquestionSearchengine";
@@ -12,10 +11,7 @@ import QuestionanswerSearchengine from "../QuestionpageSearchengine/Questionansw
 import TruefalsequeSearchengine from "../QuestionpageSearchengine/TruefalsequeSearchengine";
 
 const Searchenginequedetail = () => {
-
   const location = useLocation();
-  const getresponse = location.state.data;
-
   return (
     <>
       <div className="container-scroller">

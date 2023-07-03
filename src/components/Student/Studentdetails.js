@@ -94,7 +94,7 @@ const Studentdetails = () => {
           {Loader ? (
             <div className="loader-end text-center">
               {Loader ? (
-                <p
+                <div
                   style={{
                     marginLeft: "auto",
                     marginRight: "auto",
@@ -112,7 +112,7 @@ const Studentdetails = () => {
                       visible={true}
                     />
                   </div>
-                </p>
+                </div>
               ) : null}
             </div>
           ) : (

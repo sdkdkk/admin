@@ -53,7 +53,7 @@ const Fillups = () => {
           question: data.question ? data.question : question,
           answer: data.editedAnswer
             ? data.editedAnswer
-            : JSON.stringify(editedAnswer), // Convert the array to a JSON string
+            : JSON.stringify(editedAnswer),
           explanation: data.explanation ? data.explanation : explanation,
         }
       );

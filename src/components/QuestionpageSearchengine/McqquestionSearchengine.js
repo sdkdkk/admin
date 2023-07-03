@@ -80,7 +80,7 @@ const McqquestionSearchengine = () => {
                               name="rbt-radio"
                               id="rbt-radio-1"
                               value="a"
-                              checked={answer === "a"} // Set the checked state based on the answer
+                              checked={answer === "a"} 
                             />
                             <label
                               className="form-check-label"
@@ -97,7 +97,7 @@ const McqquestionSearchengine = () => {
                               name="rbt-radio"
                               id="rbt-radio-2"
                               value="b"
-                              checked={answer === "b"} // Set the checked state based on the answer
+                              checked={answer === "b"} 
                             />
                             <label
                               className="form-check-label"
@@ -114,7 +114,7 @@ const McqquestionSearchengine = () => {
                               name="rbt-radio"
                               id="rbt-radio-3"
                               value="c"
-                              checked={answer === "c"} // Set the checked state based on the answer
+                              checked={answer === "c"} 
                             />
                             <label
                               className="form-check-label"
@@ -131,7 +131,7 @@ const McqquestionSearchengine = () => {
                               name="rbt-radio"
                               id="rbt-radio-4"
                               value="d"
-                              checked={answer === "d"} // Set the checked state based on the answer
+                              checked={answer === "d"} 
                             />
                             <label
                               className="form-check-label"
@@ -162,7 +162,6 @@ const McqquestionSearchengine = () => {
           </div>
         </div>
       </div>
-      {/* image show modal */}
       <Modal show={show} onHide={() => setShow(false)}>
         <Modal.Header closeButton className="border-0"></Modal.Header>
         <Modal.Body className="text-center">

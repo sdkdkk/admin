@@ -12,10 +12,10 @@ import { useParams } from "react-router-dom";
 import { tutordetail } from "../../Redux/Loginpages/tutordetailSlice";
 import { RotatingLines } from "react-loader-spinner";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
-import { Button, Form, InputGroup, ToastContainer } from "react-bootstrap";
+import { Button, Form, ToastContainer } from "react-bootstrap";
 import { AiOutlineCheck, AiOutlineClose } from "react-icons/ai";
 import { toast } from "react-toastify";
-import { BiSearch } from 'react-icons/bi';
+import { BiSearch } from "react-icons/bi";
 import { BsCheck2Circle } from "react-icons/bs";
 import { useForm } from "react-hook-form";
 
@@ -32,7 +32,7 @@ const Tutordetails = () => {
   const [transation, setTransation] = useState([]);
   const [tutorpaydetails, setTutorpaydetails] = useState([]);
   const [Loader, setLoader] = useState(true);
-const {register, handleSubmit,reset}= useForm({})
+  const { register, handleSubmit, reset } = useForm({});
   const token = localStorage.getItem("token");
 
   useEffect(() => {
@@ -66,7 +66,7 @@ const {register, handleSubmit,reset}= useForm({})
 
     fetchData();
   }, []);
-  
+
   const approveTutors = async () => {
     const tutorsObjData = {
       token: token,
@@ -109,7 +109,6 @@ const {register, handleSubmit,reset}= useForm({})
     }
   };
 
-  //warningQuestions Api
   const warningQuestions = async () => {
     const tutorsObjData = {
       token: token,
@@ -168,17 +167,16 @@ const {register, handleSubmit,reset}= useForm({})
   const [searchQuery, setSearchQuery] = useState("");
   const [filteredQuestions, setFilteredQuestions] = useState([]);
 
-
-const filteredData = useMemo(() => {
-  if (searchQuery.trim() === "") {
-    return data; // No search query, return all data
-  } else {
-    const query = searchQuery.toLowerCase();
-    return data.filter((item) =>
-      item.allQuestions.question.toLowerCase().includes(query)
-    );
-  }
-}, [data, searchQuery]);
+  const filteredData = useMemo(() => {
+    if (searchQuery.trim() === "") {
+      return data;
+    } else {
+      const query = searchQuery.toLowerCase();
+      return data.filter((item) =>
+        item.allQuestions.question.toLowerCase().includes(query)
+      );
+    }
+  }, [data, searchQuery]);
 
   let navigate = useNavigate();
   const [currentPage, setCurrentPage] = useState(1);
@@ -186,7 +184,7 @@ const filteredData = useMemo(() => {
   const indexOfLastPage = currentPage * postsPerPage;
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
   const displayUsers = filteredData.slice(indexOfFirstPage, indexOfLastPage);
-const totalPages = Math.ceil(filteredData.length / postsPerPage);
+  const totalPages = Math.ceil(filteredData.length / postsPerPage);
 
   const location = useLocation();
 
@@ -199,11 +197,9 @@ const totalPages = Math.ceil(filteredData.length / postsPerPage);
       "",
       `${location.pathname}?${searchParams.toString()}`
     );
-    
   };
 
   useEffect(() => {
- 
     const searchParams = new URLSearchParams(location.search);
     const pageParam = searchParams.get("page");
     const initialPage = pageParam ? parseInt(pageParam) : 1;
@@ -228,21 +224,23 @@ const totalPages = Math.ceil(filteredData.length / postsPerPage);
     navigate("/tutorquestiondetails", { state: { data, _id, active } });
   };
 
-// const questionId = displayUsers.find((item) => {item.allQuestions.questionId === _id})
-  const questionId = displayUsers.map((item) => item.allQuestions.questionId)
+  const questionId = displayUsers.map((item) => item.allQuestions.questionId);
+  const filterQuestionId = questionId.filter((id) => id);
+  const questionIdObject = filterQuestionId[0];
 
-  const filterQuestionId = questionId.filter((id) => id)
-  const questionIdObject = filterQuestionId[0] ;
-
-  const onSubmit = async (data) => {  
-       const priceData = {
+  const onSubmit = async (data) => {
+    const priceData = {
       token: token,
-      questionId:questionIdObject,
-    price: parseInt(data.price)
-    }
-   
-    try {const { data } = await axios.post(`${url}/admin/tutordownvotequestionpayment/${ _id}`,priceData);
-     
+      questionId: questionIdObject,
+      price: parseInt(data.price),
+    };
+
+    try {
+      const { data } = await axios.post(
+        `${url}/admin/tutordownvotequestionpayment/${_id}`,
+        priceData
+      );
+
       if (data.status === 1) {
         toast.success(data.message);
         reset();
@@ -250,9 +248,8 @@ const totalPages = Math.ceil(filteredData.length / postsPerPage);
         toast.error(data.error);
       }
     } catch (error) {
-          toast.error(error.response.data.error);
+      toast.error(error.response.data.error);
     }
-   
   };
 
   return (
@@ -328,11 +325,16 @@ const totalPages = Math.ceil(filteredData.length / postsPerPage);
                               {data.bankdetails?.bankcountry || ""}
                             </div>
                             <div className="">
-                             
-                              {active === "1" || active === "2" ?
-                                <Button className="rbt-btn btn-gradient btn-sm my-3 " data-bs-toggle="modal"
-                                data-bs-target="#pay-now">Pay Now</Button> : ""}
-
+                              {active === "1" || active === "2" ? (
+                                <Button
+                                  className="rbt-btn btn-gradient btn-sm my-3 "
+                                  data-bs-toggle="modal"
+                                  data-bs-target="#pay-now">
+                                  Pay Now
+                                </Button>
+                              ) : (
+                                ""
+                              )}
                             </div>
                           </div>
                           <div className="col Subject">
@@ -434,42 +436,33 @@ const totalPages = Math.ceil(filteredData.length / postsPerPage);
                   </div>
                   <div className=" text-start heading-main mt-5">
                     <h4>Answer Given</h4>
-                    </div>
-                      <div className="row">
+                  </div>
+                  <div className="row">
                     <div className=" col-12 grid-margin stretch-card">
                       <div className="card">
-
-                         <div className="card-body">
-
-                          <div className="row " >
+                        <div className="card-body">
+                          <div className="row ">
                             <div className="col-md-12">
-                              
-                                <Form className="d-flex"> 
-                              
+                              <Form className="d-flex">
                                 <Form.Control
                                   type="search"
                                   id="fname"
                                   className="form-control "
-                                    placeholder="Search Questions"
-                                    
+                                  placeholder="Search Questions"
                                   aria-label="Search"
                                   name="fname"
                                   value={searchQuery}
-                                  onChange={(e) => setSearchQuery(e.target.value)}
-                                  />
-                                  <div className="search-icon">
-                                    <BiSearch className="" />
-                                  </div>
+                                  onChange={(e) =>
+                                    setSearchQuery(e.target.value)
+                                  }
+                                />
+                                <div className="search-icon">
+                                  <BiSearch className="" />
+                                </div>
                               </Form>
                             </div>
-
-                            {/* <div className="col-md-2">
-                              <Button className="btn-search btn-success p-2 w-100"  onClick={filteredData}>
-                                Search
-                              </Button>
-                            </div> */}
                           </div>
-                        </div> 
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -488,51 +481,51 @@ const totalPages = Math.ceil(filteredData.length / postsPerPage);
                               </tr>
                             </thead>
                             <tbody>
-                                {
-                                  displayUsers.length === 0 ? 
-                                  <tr>
-                                    <td colSpan="5" className="text-center">
-                                      No matching questions found.
-                                    </td>
-                                  </tr>
-                                 : 
-                                  displayUsers.map((data, id) => (
-                                <tr key={id}>
-                                  <td
-                                    style={{ cursor: "pointer" }}
-                                    onClick={() => {
-                                      toComponentB(data);
-                                    }}>
-                                    <p className="question">
-                                      
-                                      {data.allQuestions.question
-                                        .split(" ")
-                                        .slice(0, 3)
-                                        .join(" ")}
-                                      ...
-                                    </p>
-                                  </td>
-                                  <td>{data.allQuestions.questionType}</td>
-                                  <td>{data.allQuestions.questionSubject}</td>
-                                  <td>{data.allQuestions.tutorPrice}</td>
-                                  <td>
-                                    {data.allQuestions.status === "Answered" ? (
-                                      <span className="badge text-bg-success badge-status">
-                                        {data.allQuestions.status.toLowerCase()}
-                                      </span>
-                                    ) : data.allQuestions.status ===
-                                      "PENDING" ? (
-                                      <span className="badge text-bg-warning badge-status">
-                                        {data.allQuestions.status.toLowerCase()}
-                                      </span>
-                                    ) : (
-                                      <span className="badge text-bg-info badge-status">
-                                        {data.allQuestions.status.toLowerCase()}
-                                      </span>
-                                    )}
+                              {displayUsers.length === 0 ? (
+                                <tr>
+                                  <td colSpan="5" className="text-center">
+                                    No matching questions found.
                                   </td>
                                 </tr>
-                              ))}
+                              ) : (
+                                displayUsers.map((data, id) => (
+                                  <tr key={id}>
+                                    <td
+                                      style={{ cursor: "pointer" }}
+                                      onClick={() => {
+                                        toComponentB(data);
+                                      }}>
+                                      <p className="question">
+                                        {data.allQuestions.question
+                                          .split(" ")
+                                          .slice(0, 3)
+                                          .join(" ")}
+                                        ...
+                                      </p>
+                                    </td>
+                                    <td>{data.allQuestions.questionType}</td>
+                                    <td>{data.allQuestions.questionSubject}</td>
+                                    <td>{data.allQuestions.tutorPrice}</td>
+                                    <td>
+                                      {data.allQuestions.status ===
+                                      "Answered" ? (
+                                        <span className="badge text-bg-success badge-status">
+                                          {data.allQuestions.status.toLowerCase()}
+                                        </span>
+                                      ) : data.allQuestions.status ===
+                                        "PENDING" ? (
+                                        <span className="badge text-bg-warning badge-status">
+                                          {data.allQuestions.status.toLowerCase()}
+                                        </span>
+                                      ) : (
+                                        <span className="badge text-bg-info badge-status">
+                                          {data.allQuestions.status.toLowerCase()}
+                                        </span>
+                                      )}
+                                    </td>
+                                  </tr>
+                                ))
+                              )}
                             </tbody>
                           </table>
                           <div className="table-pagination float-end">
@@ -644,7 +637,9 @@ const totalPages = Math.ceil(filteredData.length / postsPerPage);
                       </button>
                     </Link>
                     <Link to={`/tutorlist`}>
-                      <button className="btn btn-primary mx-1 my-2" type="button">
+                      <button
+                        className="btn btn-primary mx-1 my-2"
+                        type="button">
                         Back to List
                       </button>
                     </Link>
@@ -658,15 +653,14 @@ const totalPages = Math.ceil(filteredData.length / postsPerPage);
       <ToastContainer />
 
       {/* modal */}
-         <div
+      <div
         className="modal fade"
         id="pay-now"
         data-bs-backdrop="static"
         data-bs-keyboard="false"
         tabIndex={-1}
         aria-labelledby="pay-now"
-        aria-hidden="true"
-      >
+        aria-hidden="true">
         <div className="modal-dialog modal-dialog-centered">
           <div className="modal-content">
             <div className="modal-header border-bottom-0">
@@ -679,39 +673,39 @@ const totalPages = Math.ceil(filteredData.length / postsPerPage);
             </div>
             <div className="modal-body">
               <div className="text-center">
-              
-  
-               <h1 className="mt-0 mb-3 fw-2 text-success">
-                  <BsCheck2Circle className="" /></h1>
+                <h1 className="mt-0 mb-3 fw-2 text-success">
+                  <BsCheck2Circle className="" />
+                </h1>
 
                 <h4 className="mt--20 mb--20">Pay For Tutor's</h4>
                 <p>This payment is only for downvoting tutors.</p>
-                  <form onSubmit={handleSubmit(onSubmit)}>
+                <form onSubmit={handleSubmit(onSubmit)}>
                   <div className="my-2 mb-4">
                     <label className="mr-3">Amount: </label>
                     <input type="number" required {...register("price")} />
                   </div>
-                 
-                <div className="d-flex justify-content-center">
-                  <Button className="rbt-btn btn-sm mr--10 mr_sm--0 mb_sm--10" type="submit">
-                    YES
-                  </Button>
-                  <Button className="rbt-btn btn-gradient hover-icon-reverse btn-sm"
-                    data-bs-dismiss="modal"
-                  >
-                    <span className="icon-reverse-wrapper">
-                      <span className="btn-text">NO</span>
-                      <span className="btn-icon">
-                        <i className="feather-arrow-right" />
-                      </span>
-                      <span className="btn-icon">
-                        <i className="feather-arrow-right" />
-                      </span>
-                    </span>
+
+                  <div className="d-flex justify-content-center">
+                    <Button
+                      className="rbt-btn btn-sm mr--10 mr_sm--0 mb_sm--10"
+                      type="submit">
+                      YES
                     </Button>
-                  
+                    <Button
+                      className="rbt-btn btn-gradient hover-icon-reverse btn-sm"
+                      data-bs-dismiss="modal">
+                      <span className="icon-reverse-wrapper">
+                        <span className="btn-text">NO</span>
+                        <span className="btn-icon">
+                          <i className="feather-arrow-right" />
+                        </span>
+                        <span className="btn-icon">
+                          <i className="feather-arrow-right" />
+                        </span>
+                      </span>
+                    </Button>
                   </div>
-                     </form>
+                </form>
               </div>
             </div>
           </div>

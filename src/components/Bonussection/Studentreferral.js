@@ -6,7 +6,7 @@ import { Table, Button } from "react-bootstrap";
 import axios from "axios";
 import { toast } from "react-toastify";
 import { useForm } from "react-hook-form";
-import { ColorRing, RotatingLines } from "react-loader-spinner";
+import { RotatingLines } from "react-loader-spinner";
 import { Pagination } from "@mui/material";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 
@@ -209,11 +209,11 @@ const Studentreferral = () => {
                                   <th>Action</th>
                                 </tr>
                               </thead>
-                              {loading1 ? ( // Condition for displaying loader
+                              {loading1 ? (
                           <tbody>
                             <tr>
                               <td colSpan="5" className="text-center">
-                                <div className="loader-container"> {/* Wrap loader code inside this div */}
+                                <div className="loader-container"> 
                                   <div className="loader">
                                     <RotatingLines
                                       strokeColor="#d63384"
@@ -263,11 +263,9 @@ const Studentreferral = () => {
                                 page={currentPage}
                                 onChange={handleChange}
                                 shape="rounded"
-                                variant="outlined"
-                              // showFirstButton
+                                variant="outlined"                 
                               />
-                            </div>
-                          
+                            </div>                        
                       </div>
                     </div>
                   </div>

@@ -20,7 +20,6 @@ input.rmdp-input {
 }
 
 .oneline {
-    /* text-align: start; */
     display: contents;
 }
 
@@ -66,7 +65,6 @@ td.d-flex.flex-column {
 
 .button {
     background-color: white;
-    /* border: none; */
     padding: 10px 20px;
     margin-right: 10px;
     cursor: pointer;
@@ -108,9 +106,6 @@ td.d-flex.flex-column {
     .d-grid.gap-2.d-md-flex.justify-content-md-end {
         margin-top: 16%;
     }
-    /* select.form-select {
-        margin-top: 10%;
-    } */
     .page-headers {
         margin-top: 24%;
     }
@@ -139,7 +134,6 @@ td.d-flex.flex-column {
         border: 1px solid #c0c4d6;
         border-radius: 5px;
         height: 40px;
-        /* margin: 10px 0px; */
         padding: 5px 31px 3px 12px;
         font-size: 13px;
     }

@@ -1,20 +1,11 @@
-/* .nav-link.active {
-  border-bottom: 1px solid white;
-} */
-
-/* .sidebar .nav .nav-item.active:not(.navbar-brand-mini-wrapper) {
-  border-bottom: 1px solid white;
-} */
-
-/* logo css */
 @media (max-width: 991px) {
-  .navbar .navbar-brand-wrapper .navbar-brand.brand-logo {
-    display: inline-block;
-  }
+    .navbar .navbar-brand-wrapper .navbar-brand.brand-logo {
+        display: inline-block;
+    }
 }
 
 @media (max-width: 480px) {
-  .navbar .navbar-brand-wrapper {
-    width: 100px;
-  }
+    .navbar .navbar-brand-wrapper {
+        width: 100px;
+    }
 }

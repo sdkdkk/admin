@@ -1,7 +1,6 @@
 import React from "react";
 import "./Que.css";
 import { useLocation } from "react-router-dom";
-import DOMPurify from "dompurify";
 import Moment from "react-moment";
 
 const FillupsSearchengine = () => {
