@@ -59,13 +59,13 @@ const Tutorexam = () => {
   const [questionSubject, setQuestionSubject] = useState("Maths");
   const [questionType, setQuestionType] = useState("MCQ");
   const [mcqoptions, setMcqoptions] = useState([]);
+  const [mcqoptionsValue, setMcqoptionsValue] = useState("");
   const [subjectList, setSubjectList] = useState([]);
   const [editQuestionData, setEditQuestionData] = useState(false);
   const [defaultValues, setDefaultValues] = useState({});
   const [formValue, setFormValue] = useState({});
   const indexOfLastPage = currentPage * postsPerPage;
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
-
   const getTutorQuestionsListData = useSelector(
     (state) => state.getTutorQuestionsList
   );
@@ -184,8 +184,8 @@ const Tutorexam = () => {
 
   const onSubmit = (data) => {
     const rest = data.questionType === "MCQ" ? { mcqoptions: mcqoptions } : {};
-    if (data.questionType === "MCQ" && data?.answer) {
-      delete data.answer;
+    if (data.questionType === "MCQ") {
+      data.answer = mcqoptionsValue;
     }
     if (data.questionType === "Theory" && data?.mcqoptions) {
       delete data.mcqoptions;
@@ -332,6 +332,9 @@ const Tutorexam = () => {
                                         type="radio"
                                         name="rbt-radio"
                                         id="rbt-radio-1"
+                                        onChange={(e) =>{
+                                          setMcqoptionsValue(mcqoptions[0])
+                                        }}
                                       />
                                       <input
                                         className="form-check-label"
@@ -352,6 +355,9 @@ const Tutorexam = () => {
                                         type="radio"
                                         name="rbt-radio"
                                         id="rbt-radio-2"
+                                        onChange={(e) =>{
+                                          setMcqoptionsValue(mcqoptions[1])
+                                        }}
                                       />
                                       <input
                                         className="form-check-label"
@@ -372,6 +378,9 @@ const Tutorexam = () => {
                                         type="radio"
                                         name="rbt-radio"
                                         id="rbt-radio-3"
+                                        onChange={(e) =>{
+                                          setMcqoptionsValue(mcqoptions[2])
+                                        }}
                                       />
                                       <input
                                         className="form-check-label"
@@ -392,6 +401,9 @@ const Tutorexam = () => {
                                         type="radio"
                                         name="rbt-radio"
                                         id="rbt-radio-4"
+                                        onChange={(e) =>{
+                                          setMcqoptionsValue(mcqoptions[3])
+                                        }}
                                       />
                                       <input
                                         className="form-check-label"

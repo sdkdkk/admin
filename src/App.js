@@ -232,7 +232,7 @@ function App() {
           path="/tutorexam"
           element={
             <RequireAuth>
-              <Tutorexam />
+              <Tutorexam /> 
             </RequireAuth>
           }
         />
