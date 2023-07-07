@@ -621,6 +621,7 @@ const Sidebar = () => {
           )} */}
 
           {/*mobileNo*/}
+          {navMenusStateList?.includes("Mobile No") && (
           <li className="nav-item">
             <a
               className="nav-link"
@@ -649,6 +650,7 @@ const Sidebar = () => {
               </ul>
             </div>
           </li>
+          )}
 
           {/*contact us*/}
           {navMenusStateList?.includes("Contact us") && (
