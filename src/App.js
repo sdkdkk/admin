@@ -57,7 +57,6 @@ import TransactionDetails from "./components/Wallet/TransactionDetails";
 import StudentClass from "./components/studentClass/StudentClass";
 import { isLoggedIn } from "./helpers/utility";
 import ForgotpassWord from "./components/ForgotPassWord/ForgotpassWord";
-import AddMobile from "./components/addmobile/AddMobile";
 import Contactdetails from "./components/Contactus/Contactdetails";
 import IssueQuestion from "./components/Question/IssueQuestion";
 import IssueInfo from "./components/Question/IssueInfo";
@@ -75,6 +74,8 @@ import AnswerGuideline from "./components/Pages/AnswerGuideline";
 import PostingGuideLine from "./components/Pages/PostingGuideLine";
 import AdminPageSetting from "./components/Services/AdminPageSetting";
 import StudentRegitserBonus from "./components/Student/StudentRegitserBonus";
+import Studentmobile from "./components/addmobile/Studentmobile";
+import Tutormobile from "./components/addmobile/Tutormobile";
 
 function RequireAuth({ children }) {
   let auth = isLoggedIn();
@@ -574,7 +575,8 @@ function App() {
           element={<Transactiondetailshow />}
         />
         <Route path="/questionanswer/:id" element={<Questionanswer />} />
-        <Route path="/addmobile" element={<AddMobile />} />
+        <Route path="/studentmobile" element={<Studentmobile/>} />
+        <Route path="/tutormobile" element={<Tutormobile/>} />
         <Route path="/contactdetails" element={<Contactdetails />} />
       </Routes>
       <Scroll />

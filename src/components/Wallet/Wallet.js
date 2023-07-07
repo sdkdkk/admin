@@ -21,19 +21,18 @@ const Wallet = () => {
   const [postsPerPage] = useState(8);
   const indexOfLastPage = currentPage * postsPerPage;
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
-  const [activeButton, setActiveButton] = useState(1);
   const location = useLocation();
   const handleChange = (event, value) => {
     setCurrentPage(value);
     const searchParams = new URLSearchParams(location.search);
     searchParams.set("page", value);
-    searchParams.set("category", type); // Add the category parameter
     window.history.replaceState(
       {},
       "",
       `${location.pathname}?${searchParams.toString()}`
     );
   };
+
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     const pageParam = searchParams.get("page");
@@ -41,21 +40,12 @@ const Wallet = () => {
     setCurrentPage(initialPage);
   }, [location.search]);
 
-  useEffect(() => {
-    getWalletDataApi();
-  }, [currentPage]);
-
   const getWalletDataApi = (category) => {
-    setType(category);
-    if (category === "Student") {
-      setActiveButton(1);
-    } else if (category === "Tutor") {
-      setActiveButton(2);
+    if (category) {
+      setType(category);
     }
     const cat = category || type;
-    const params = `?page=${currentPage}&category=${cat}&limit=10&skip=${
-      (currentPage - 1) * 10
-    }`;
+    const params = `?category=${cat}&limit=10&skip=${(currentPage - 1) * 10}`;
     setIsLoading(true);
     dispatch(getWalletData(params))
       .then(() => {
@@ -64,16 +54,6 @@ const Wallet = () => {
       .catch(() => {
         setIsLoading(false);
       });
-
-    // Update the URL query parameter
-    const searchParams = new URLSearchParams(location.search);
-    searchParams.set("page", currentPage); // Update currentPage
-    searchParams.set("category", cat);
-    window.history.replaceState(
-      {},
-      "",
-      `${location.pathname}?${searchParams.toString()}`
-    );
   };
 
   const handleDetailsClick = (data) => {
@@ -110,21 +90,13 @@ const Wallet = () => {
                   <div className="d-grid gap-2 d-md-flex justify-content-md-end">
                     <button
                       onClick={() => getWalletDataApi("Student")}
-                      className={
-                        activeButton === 1
-                          ? "btn btn-primary active"
-                          : "btn btn-light"
-                      }
+                      className="btn btn-primary me-md-2"
                       type="button">
                       Student
                     </button>
                     <button
                       onClick={() => getWalletDataApi("Tutor")}
-                      className={
-                        activeButton === 2
-                          ? "btn btn-primary active"
-                          : "btn btn-light"
-                      }
+                      className="btn btn-primary"
                       type="button">
                       Tutor
                     </button>

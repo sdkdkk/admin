@@ -8,16 +8,14 @@ const Sidebar = () => {
   // const navMenusStateLocal = localStorage.getItem("menusItem");
   // const navMenusStateLocalParsedObject = JSON.parse(navMenusStateLocal) ;
 
-
-
   const navMenusState = useSelector((state) => state.auth?.user?.actions) || [];
   const navMenusStateLocal = localStorage.getItem("menusItem");
   let navMenusStateLocalParsedObject;
 
   try {
-    navMenusStateLocalParsedObject = JSON?.parse(navMenusStateLocal || '{}');
+    navMenusStateLocalParsedObject = JSON?.parse(navMenusStateLocal || "{}");
   } catch (error) {
-    console.error('Error parsing JSON from localStorage:', error);
+    console.error("Error parsing JSON from localStorage:", error);
     navMenusStateLocalParsedObject = {}; // Provide a default empty object in case of parsing error
   }
 
@@ -35,7 +33,7 @@ const Sidebar = () => {
   }, [navMenusState]);
 
   const [activeLink, setActiveLink] = useState("");
-const location = useLocation(); // Get the current location
+  const location = useLocation(); // Get the current location
 
   useEffect(() => {
     setActiveLink(location.pathname); // Update the activeLink state when the location changes
@@ -49,8 +47,7 @@ const location = useLocation(); // Get the current location
       <nav
         className="sidebar sidebar-offcanvas"
         style={{ marginLeft: "-12px" }}
-        id="sidebar"
-      >
+        id="sidebar">
         <ul className="nav">
           {/* Dashboard */}
           <li className="nav-item nav-category">
@@ -61,8 +58,7 @@ const location = useLocation(); // Get the current location
             <li className="nav-item">
               <Link
                 className={`nav-link ${activeLink === "/" ? "active" : ""}`}
-                to="/"
-              >
+                to="/">
                 <span className="menu-title">Dashboard</span>
                 <i className="icon-screen-desktop menu-icon"></i>
               </Link>
@@ -77,8 +73,7 @@ const location = useLocation(); // Get the current location
                 data-toggle="collapse"
                 href="#tutor-menu"
                 aria-expanded="false"
-                aria-controls="tutor-menu"
-              >
+                aria-controls="tutor-menu">
                 <span className="menu-title">Tutors</span>
                 <i className="icon-layers menu-icon"></i>
               </a>
@@ -87,8 +82,7 @@ const location = useLocation(); // Get the current location
                   <li
                     className={`nav-item ${
                       activeLink === "/tutorlist" ? "active" : ""
-                    }`}
-                  >
+                    }`}>
                     <Link className="nav-link" to="/tutorlist">
                       Tutors List
                     </Link>
@@ -96,8 +90,7 @@ const location = useLocation(); // Get the current location
                   <li
                     className={`nav-item ${
                       activeLink === "/tutorspayment" ? "active" : ""
-                    }`}
-                  >
+                    }`}>
                     <Link className="nav-link" to="/tutorspayment">
                       Tutors Payment
                     </Link>
@@ -109,9 +102,6 @@ const location = useLocation(); // Get the current location
 
           {/* Student */}
 
-
-         
-
           {navMenusStateList?.includes("Student") && (
             <li className="nav-item">
               <a
@@ -119,8 +109,7 @@ const location = useLocation(); // Get the current location
                 data-toggle="collapse"
                 href="#student-menu"
                 aria-expanded="false"
-                aria-controls="student-menu"
-              >
+                aria-controls="student-menu">
                 <span className="menu-title">Student</span>
                 <i className="icon-layers menu-icon"></i>
               </a>
@@ -131,16 +120,14 @@ const location = useLocation(); // Get the current location
                       className={`nav-link ${
                         activeLink === "/studentlist" ? "active" : ""
                       }`}
-                      to="/studentlist"
-                    >
+                      to="/studentlist">
                       Student List
                     </Link>
                   </li>
                   <li
                     className={`nav-item ${
                       activeLink === "/studentregitserbonus" ? "active" : ""
-                    }`}
-                  >
+                    }`}>
                     <Link className="nav-link" to="/studentregitserbonus">
                       <span className="menu-title">Student Regitser Bonus</span>
                       <i className="icon-screen-desktop menu-icon"></i>
@@ -152,8 +139,9 @@ const location = useLocation(); // Get the current location
           )}
           {navMenusStateList?.includes("Wallet") && (
             <li
-              className={`nav-item ${activeLink === "/wallet" ? "active" : ""}`}
-            >
+              className={`nav-item ${
+                activeLink === "/wallet" ? "active" : ""
+              }`}>
               <Link className="nav-link" to="/wallet">
                 <span className="menu-title">Wallet</span>
                 <i className="icon-screen-desktop menu-icon"></i>
@@ -165,8 +153,7 @@ const location = useLocation(); // Get the current location
             <li
               className={`nav-item ${
                 activeLink === "/tutorsubject" ? "active" : ""
-              }`}
-            >
+              }`}>
               <Link className="nav-link" to="/tutorsubject">
                 <span className="menu-title">Question Subject</span>
                 <i className="icon-screen-desktop menu-icon"></i>
@@ -179,8 +166,7 @@ const location = useLocation(); // Get the current location
             <li
               className={`nav-item ${
                 activeLink === "studentclass" ? "active" : ""
-              }`}
-            >
+              }`}>
               <Link className="nav-link" to="/studentclass">
                 <span className="menu-title">Student Class</span>
                 <i className="icon-screen-desktop menu-icon"></i>
@@ -193,8 +179,7 @@ const location = useLocation(); // Get the current location
             <li
               className={`nav-item ${
                 activeLink === "/questiontype" ? "active" : ""
-              }`}
-            >
+              }`}>
               <Link className="nav-link" to="/questiontype">
                 <span className="menu-title">Question Type</span>
                 <i className="icon-screen-desktop menu-icon"></i>
@@ -207,8 +192,7 @@ const location = useLocation(); // Get the current location
             <li
               className={`nav-item ${
                 activeLink === "/curruncy" ? "active" : ""
-              }`}
-            >
+              }`}>
               <Link className="nav-link" to="/curruncy">
                 <span className="menu-title">Curruncy </span>
                 <i className="icon-screen-desktop menu-icon"></i>
@@ -217,19 +201,17 @@ const location = useLocation(); // Get the current location
           )}
 
           {/*Question Answer*/}
-         
-            <li className="nav-item nav-category">
-              <span className="nav-link">Question Answer</span>
-            </li>
-         
+
+          <li className="nav-item nav-category">
+            <span className="nav-link">Question Answer</span>
+          </li>
 
           {/*Searchengine*/}
           {navMenusStateList?.includes("Searchengine") && (
             <li
               className={`nav-item ${
                 activeLink === "/searchengine" ? "active" : ""
-              }`}
-            >
+              }`}>
               <Link className="nav-link" to="/searchengine">
                 <span className="menu-title">Searchengine</span>
                 <i className="icon-screen-desktop menu-icon"></i>
@@ -241,15 +223,13 @@ const location = useLocation(); // Get the current location
             <li
               className={`nav-item ${
                 activeLink === "/issuequestion" ? "active" : ""
-              }`}
-            >
+              }`}>
               <a
                 className="nav-link"
                 data-toggle="collapse"
                 href="#student-menu"
                 aria-expanded="false"
-                aria-controls="student-menu"
-              >
+                aria-controls="student-menu">
                 <span className="menu-title">Issue Question</span>
                 <i className="icon-layers menu-icon"></i>
               </a>
@@ -258,8 +238,7 @@ const location = useLocation(); // Get the current location
                   <li
                     className={`nav-item ${
                       activeLink === "/issuequestion" ? "active" : ""
-                    }`}
-                  >
+                    }`}>
                     <Link className="nav-link" to="/issuequestion">
                       Issue Question
                     </Link>
@@ -277,8 +256,7 @@ const location = useLocation(); // Get the current location
                 data-toggle="collapse"
                 href="#question-menu"
                 aria-expanded="false"
-                aria-controls="question-menu"
-              >
+                aria-controls="question-menu">
                 <span className="menu-title">Questions</span>
                 <i className="icon-layers menu-icon"></i>
               </a>
@@ -289,8 +267,7 @@ const location = useLocation(); // Get the current location
                       className={`nav-link ${
                         activeLink === "/tutorque" ? "active" : ""
                       }`}
-                      to="/tutorque"
-                    >
+                      to="/tutorque">
                       Tutor
                     </Link>
                   </li>
@@ -299,8 +276,7 @@ const location = useLocation(); // Get the current location
                       className={`nav-link ${
                         activeLink === "/adminque" ? "active" : ""
                       }`}
-                      to="/adminque"
-                    >
+                      to="/adminque">
                       Admin
                     </Link>
                   </li>
@@ -309,8 +285,7 @@ const location = useLocation(); // Get the current location
                       className={`nav-link ${
                         activeLink === "/reanswerque" ? "active" : ""
                       }`}
-                      to="/reanswerque"
-                    >
+                      to="/reanswerque">
                       Reanswer
                     </Link>
                   </li>
@@ -319,8 +294,7 @@ const location = useLocation(); // Get the current location
                       className={`nav-link ${
                         activeLink === "/unsolvedque" ? "active" : ""
                       }`}
-                      to="/unsolvedque"
-                    >
+                      to="/unsolvedque">
                       UnSolved
                     </Link>
                   </li>
@@ -341,8 +315,7 @@ const location = useLocation(); // Get the current location
             <li
               className={`nav-item ${
                 activeLink === "/questiontiming" ? "active" : ""
-              }`}
-            >
+              }`}>
               <Link className="nav-link" to="/questiontiming">
                 <span className="menu-title">Question timing</span>
                 <i className="icon-screen-desktop menu-icon"></i>
@@ -355,8 +328,7 @@ const location = useLocation(); // Get the current location
             <li
               className={`nav-item ${
                 activeLink === "/questionpricing" ? "active" : ""
-              }`}
-            >
+              }`}>
               <Link className="nav-link" to="/questionpricing">
                 <span className="menu-title">Question Pricing</span>
                 <i className="icon-screen-desktop menu-icon"></i>
@@ -369,8 +341,7 @@ const location = useLocation(); // Get the current location
             <li
               className={`nav-item ${
                 activeLink === "/questionreanswer" ? "active" : ""
-              }`}
-            >
+              }`}>
               <Link className="nav-link" to="/questionreanswer">
                 <span className="menu-title">Question Reanswer</span>
                 <i className="icon-screen-desktop menu-icon"></i>
@@ -390,8 +361,7 @@ const location = useLocation(); // Get the current location
             <li
               className={`nav-item ${
                 activeLink === "/tutorexam" ? "active" : ""
-              }`}
-            >
+              }`}>
               <Link className="nav-link" to="/tutorexam">
                 <span className="menu-title">Tutor Exam Questions</span>
                 <i className="icon-screen-desktop menu-icon"></i>
@@ -404,8 +374,7 @@ const location = useLocation(); // Get the current location
             <li
               className={`nav-item ${
                 activeLink === "/testexam" ? "active" : ""
-              }`}
-            >
+              }`}>
               <Link className="nav-link" to="/testexam">
                 <span className="menu-title">Tutor Exam Checking</span>
                 <i className="icon-screen-desktop menu-icon"></i>
@@ -418,8 +387,7 @@ const location = useLocation(); // Get the current location
             <li
               className={`nav-item ${
                 activeLink === "/tutorexamconfig" ? "active" : ""
-              }`}
-            >
+              }`}>
               <Link className="nav-link" to="/tutorexamconfig">
                 <span className="menu-title">Tutor Exam Configuration</span>
                 <i className="icon-screen-desktop menu-icon"></i>
@@ -439,8 +407,7 @@ const location = useLocation(); // Get the current location
             <li
               className={`nav-item ${
                 activeLink === "/studentreferral" ? "active" : ""
-              }`}
-            >
+              }`}>
               <Link className="nav-link" to="/studentreferral">
                 <span className="menu-title">Student Referral</span>
                 <i className="icon-screen-desktop menu-icon"></i>
@@ -453,8 +420,7 @@ const location = useLocation(); // Get the current location
             <li
               className={`nav-item ${
                 activeLink === "/studentpostingstreak" ? "active" : ""
-              }`}
-            >
+              }`}>
               <Link className="nav-link" to="/studentpostingstreak">
                 <span className="menu-title">Student Posting Streak</span>
                 <i className="icon-screen-desktop menu-icon"></i>
@@ -467,8 +433,7 @@ const location = useLocation(); // Get the current location
             <li
               className={`nav-item ${
                 activeLink === "/tutorreferral" ? "active" : ""
-              }`}
-            >
+              }`}>
               <Link className="nav-link" to="/tutorreferral">
                 <span className="menu-title">Tutor Referral</span>
                 <i className="icon-screen-desktop menu-icon"></i>
@@ -481,8 +446,7 @@ const location = useLocation(); // Get the current location
             <li
               className={`nav-item ${
                 activeLink === "/tutorpostingstreak" ? "active" : ""
-              }`}
-            >
+              }`}>
               <Link className="nav-link" to="/tutorpostingstreak">
                 <span className="menu-title">Tutor Posting Streak</span>
                 <i className="icon-screen-desktop menu-icon"></i>
@@ -502,8 +466,7 @@ const location = useLocation(); // Get the current location
             <li
               className={`nav-item ${
                 activeLink === "/testimonial" ? "active" : ""
-              }`}
-            >
+              }`}>
               <Link className="nav-link" to="/testimonial">
                 <span className="menu-title">Testimonial</span>
                 <i className="icon-screen-desktop menu-icon"></i>
@@ -514,8 +477,7 @@ const location = useLocation(); // Get the current location
           {/*Pages*/}
           {navMenusStateList?.includes("Pages") && (
             <li
-              className={`nav-item ${activeLink === "/pages" ? "active" : ""}`}
-            >
+              className={`nav-item ${activeLink === "/pages" ? "active" : ""}`}>
               <Link className="nav-link" to="/pages">
                 <span className="menu-title">Pages</span>
                 <i className="icon-screen-desktop menu-icon"></i>
@@ -553,8 +515,9 @@ const location = useLocation(); // Get the current location
           {/*coupon*/}
           {navMenusStateList?.includes("Coupon") && (
             <li
-              className={`nav-item ${activeLink === "/coupon" ? "active" : ""}`}
-            >
+              className={`nav-item ${
+                activeLink === "/coupon" ? "active" : ""
+              }`}>
               <Link className="nav-link" to="/coupon">
                 <span className="menu-title">Coupon</span>
                 <i className="icon-screen-desktop menu-icon"></i>
@@ -572,8 +535,7 @@ const location = useLocation(); // Get the current location
           {/*User*/}
           {navMenusStateList?.includes("Users") && (
             <li
-              className={`nav-item ${activeLink === "/users" ? "active" : ""}`}
-            >
+              className={`nav-item ${activeLink === "/users" ? "active" : ""}`}>
               <Link className="nav-link" to="/users">
                 <span className="menu-title">Users</span>
                 <i className="icon-screen-desktop menu-icon"></i>
@@ -583,8 +545,7 @@ const location = useLocation(); // Get the current location
           {/*Role*/}
           {navMenusStateList?.includes("Roles") && (
             <li
-              className={`nav-item ${activeLink === "/roles" ? "active" : ""}`}
-            >
+              className={`nav-item ${activeLink === "/roles" ? "active" : ""}`}>
               <Link className="nav-link" to="/roles">
                 <span className="menu-title">Roles</span>
                 <i className="icon-screen-desktop menu-icon"></i>
@@ -616,8 +577,7 @@ const location = useLocation(); // Get the current location
                 data-toggle="collapse"
                 href="#settings-menu"
                 aria-expanded="false"
-                aria-controls="settings-menu"
-              >
+                aria-controls="settings-menu">
                 <span className="menu-title">Settings</span>
                 <i className="icon-layers menu-icon"></i>
               </a>
@@ -626,8 +586,7 @@ const location = useLocation(); // Get the current location
                   <li
                     className={`nav-item ${
                       activeLink === "/socialmediasetting" ? "active" : ""
-                    }`}
-                  >
+                    }`}>
                     <Link className="nav-link" to="/socialmediasetting">
                       Social Media Setting
                     </Link>
@@ -648,7 +607,7 @@ const location = useLocation(); // Get the current location
           )}
 
           {/*mobileNo*/}
-          {navMenusStateList?.includes("Add Mobile No") && (
+          {/* {navMenusStateList?.includes("Add Mobile No") && (
             <li
               className={`nav-item ${
                 activeLink === "/addmobile" ? "active" : ""
@@ -659,17 +618,44 @@ const location = useLocation(); // Get the current location
                 <i className="icon-screen-desktop menu-icon"></i>
               </Link>
             </li>
-          )}
+          )} */}
 
-        
+          {/*mobileNo*/}
+          <li className="nav-item">
+            <a
+              className="nav-link"
+              data-toggle="collapse"
+              href="#mobile-menu"
+              aria-expanded="false"
+              aria-controls="mobile-menu">
+              <span className="menu-title">Mobile No</span>
+              <i className="icon-layers menu-icon"></i>
+            </a>
+            <div className="collapse" id="mobile-menu">
+              <ul className="nav flex-column sub-menu">
+                <li
+                  className={`nav-item ${
+                    activeLink === "/studentmobile" ? "active" : ""
+                  }`}>
+                  <Link className="nav-link" to="/studentmobile">
+                    Student Mobile No
+                  </Link>
+                </li>
+                <li className="nav-item">
+                  <Link className="nav-link" to="/tutormobile">
+                    Tutor Mobile No
+                  </Link>
+                </li>
+              </ul>
+            </div>
+          </li>
 
           {/*contact us*/}
           {navMenusStateList?.includes("Contact us") && (
             <li
               className={`nav-item ${
                 activeLink === "/contactus" ? "active" : ""
-              }`}
-            >
+              }`}>
               <Link className="nav-link" to="/contactus">
                 <span className="menu-title">Contact us</span>
                 <i className="icon-screen-desktop menu-icon"></i>
@@ -682,8 +668,7 @@ const location = useLocation(); // Get the current location
             <li
               className={`nav-item ${
                 activeLink === "/thoughts" ? "active" : ""
-              }`}
-            >
+              }`}>
               <Link className="nav-link" to="/thoughts">
                 <span className="menu-title">Thoughts</span>
                 <i className="icon-screen-desktop menu-icon"></i>
@@ -696,8 +681,7 @@ const location = useLocation(); // Get the current location
             <li
               className={`nav-item ${
                 activeLink === "/tutorexampopup" ? "active" : ""
-              }`}
-            >
+              }`}>
               <Link className="nav-link" to="/tutorexampopup">
                 <span className="menu-title">Tutor Exam Popup</span>
                 <i className="icon-screen-desktop menu-icon"></i>
@@ -710,8 +694,7 @@ const location = useLocation(); // Get the current location
             <li
               className={`nav-item ${
                 activeLink === "/postingguideline" ? "active" : ""
-              }`}
-            >
+              }`}>
               <Link className="nav-link" to="/postingguideline">
                 <span className="menu-title">Posting Guideline</span>
                 <i className="icon-screen-desktop menu-icon"></i>
@@ -723,8 +706,7 @@ const location = useLocation(); // Get the current location
             <li
               className={`nav-item ${
                 activeLink === "/postingguideline" ? "active" : ""
-              }`}
-            >
+              }`}>
               <Link className="nav-link" to="/answerguideline">
                 <span className="menu-title">Answer Guideline</span>
                 <i className="icon-screen-desktop menu-icon"></i>
