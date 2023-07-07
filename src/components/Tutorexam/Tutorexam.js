@@ -136,6 +136,7 @@ const Tutorexam = () => {
   };
 
   const handleUpdateClick = (data) => {
+    console.log(data);
     if (data?.mcqoptions) {
       setMcqoptions(data.mcqoptions);
     }
@@ -150,17 +151,7 @@ const Tutorexam = () => {
     setIsOpen("");
   };
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formats,
-    control,
-    getValues,
-    setValue,
-    modules,
-    editorRef,
-    formState: { errors },
+  const { register, handleSubmit, reset,formats, control, getValues, setValue,modules,editorRef, formState: { errors },
   } = useForm({ values: defaultValues });
 
   const questionTypeValues = getValues("questionType");
@@ -498,17 +489,20 @@ const Tutorexam = () => {
                   <div className="filter-select rbt-modern-select mb--10">
                     <label>Question Subject :</label>
                     <div className="dropdown react-bootstrap-select w-100">
-                      <select
+                  <select
                         className="w-100 form-select"
                         value={questionSubject}
                         onChange={(e) => setQuestionSubject(e.target.value)}
                         id="displayname">
+                           <option value="">Select your Subject</option>
                         {subjectList.map((a) => (
                           <option key={a._id} value={a.questionSubject}>
                             {a.questionSubject}
                           </option>
                         ))}
-                      </select>
+                      </select> 
+
+                       
                     </div>
                   </div>
                 </div>
@@ -588,12 +582,10 @@ const Tutorexam = () => {
                                           {data.questionSubject}
                                         </small>
                                         <small>
-                                          <p className="question">
-                                            {data.question}
-                                          </p>
+                                         <b> <span className="question " dangerouslySetInnerHTML={{ __html: data.question }} /> </b>                                           
                                         </small>
                                         <small>
-                                          <ReadMore>{data.answer}</ReadMore>
+                                          <ReadMore> <span className="answer" dangerouslySetInnerHTML={{ __html: data.answer }}/></ReadMore>
                                         </small>
                                       </td>
                                       <td>{data.questionType}</td>
