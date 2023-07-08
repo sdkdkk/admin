@@ -621,7 +621,7 @@ const Sidebar = () => {
           )} */}
 
           {/*mobileNo*/}
-          {navMenusStateList?.includes("Mobile No") && (
+          {/* {navMenusStateList?.includes("Mobile No") && (
           <li className="nav-item">
             <a
               className="nav-link"
@@ -650,6 +650,37 @@ const Sidebar = () => {
               </ul>
             </div>
           </li>
+          )} */}
+
+          {navMenusStateList?.includes("Mobile No") && (
+            <li className="nav-item">
+              <a
+                className="nav-link"
+                data-toggle="collapse"
+                href="#mobile-menu"
+                aria-expanded="false"
+                aria-controls="mobile-menu">
+                <span className="menu-title">Mobile No</span>
+                <i className="icon-layers menu-icon"></i>
+              </a>
+              <div className="collapse" id="mobile-menu">
+                <ul className="nav flex-column sub-menu">
+                  <li
+                    className={`nav-item ${
+                      activeLink === "/socialmediasetting" ? "active" : ""
+                    }`}>
+                    <Link className="nav-link" to="/studentmobile">
+                      Student Mobile No
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/tutormobile">
+                      Tutor Mobile No
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </li>
           )}
 
           {/*contact us*/}

@@ -101,9 +101,9 @@ const Studentmobile = () => {
   }
 
   const formatPhoneNumber = (phoneNumber) => {
-    const countryCode = phoneNumber.slice(0, 2);
-    const firstPart = phoneNumber.slice(2, 7);
-    const secondPart = phoneNumber.slice(7, 12);
+    const countryCode = phoneNumber?.slice(0, 2);
+    const firstPart = phoneNumber?.slice(2, 7);
+    const secondPart = phoneNumber?.slice(7, 12);
     return `${countryCode} ${firstPart}-${secondPart}`;
   };
 

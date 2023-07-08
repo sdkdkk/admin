@@ -47,7 +47,7 @@ const Tutormobile = () => {
       setData(response.data.document);
       setLoading1(false);
     } catch (error) {
-      logoutIfInvalidToken(error.response);
+      // logoutIfInvalidToken(error.response);
       setLoading1(false);
     }
   };
@@ -74,7 +74,7 @@ const Tutormobile = () => {
         fetchData();
       }
     } catch (error) {
-      logoutIfInvalidToken(error.response);
+      // logoutIfInvalidToken(error.response);
       toast.error(error.response.data.error);
     } finally {
       setLoading(false);
