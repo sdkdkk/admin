@@ -393,12 +393,7 @@ const Testimonial = () => {
                                 </div>
                               </div>
                             </div>
-                            <div className="testmonial-btn mt-4">
-                              <button
-                                type="submit"
-                                className="btn btn-primary mx-2">
-                                Back
-                              </button>
+                            <div className="testmonial-btn mt-4 text-end">
                               <button
                                 type="submit"
                                 className="btn btn-primary mx-2">

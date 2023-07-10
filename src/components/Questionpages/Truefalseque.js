@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import "./Que.css";
-import { useLocation, useNavigate} from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Moment from "react-moment";
 import { Controller, useForm } from "react-hook-form";
 import axios from "axios";
@@ -44,7 +44,7 @@ const Truefalseque = () => {
           token: token,
           questionId: questionId,
           question: data.question ? data.question : question,
-          answer: data.answer ? data.answer : answer, 
+          answer: data.answer ? data.answer : answer,
           explanation: data.explanation ? data.explanation : explanation,
         }
       );
@@ -145,7 +145,7 @@ const Truefalseque = () => {
                                     id="true"
                                     value="true"
                                     disabled={!isEditing}
-                                    checked={field.value === "true"} 
+                                    checked={field.value === "true"}
                                   />
                                   <label
                                     className="form-check-label mx-2"
@@ -171,7 +171,7 @@ const Truefalseque = () => {
                                     id="false"
                                     value="false"
                                     disabled={!isEditing}
-                                    checked={field.value === "false"} 
+                                    checked={field.value === "false"}
                                   />
                                   <label
                                     className="form-check-label mx-2"
@@ -214,22 +214,30 @@ const Truefalseque = () => {
                     <Button
                       className="border-edit-btn btn-sm me-lg-3"
                       onClick={() => setEditing(!isEditing)}
-                      style={{ width: "100px", height: "40px" }}>
+                      style={{ width: "70px", height: "40px" }}>
                       {!isEditing && <i className="fa fa-pen" />}
                       {!isEditing ? "Edit" : "Cancel"}
                     </Button>
                     <Button
                       className="btn-success btn-sm me-lg-3 mt-lg-0"
                       type="submit"
-                      style={{ width: "100px", height: "40px" }}>
+                      style={{ width: "70px", height: "40px" }}>
                       Update
                     </Button>
                     <Button
                       className="btn-danger btn-sm  mt-lg-0"
                       onClick={handleDeleteClick}
-                      style={{ width: "100px", height: "40px" }}>
+                      style={{ width: "70px", height: "40px" }}>
                       Delete
                     </Button>
+                    <Link to={`/tutordetails/${tutorId}/${active}`}>
+                      <Button
+                        className="btn-primary btn-sm "
+                        style={{ width: "70px", height: "40px" }}
+                        type="button">
+                        Back
+                      </Button>
+                    </Link>
                   </div>
                 </div>
               ) : (

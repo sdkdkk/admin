@@ -7,7 +7,7 @@ import { Pagination } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import moment from "moment";
 import { getTransactionHistory } from "../../Redux/Loginpages/getTransactionHistorySlice";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { RotatingLines } from "react-loader-spinner";
 
@@ -30,7 +30,7 @@ const TransactionDetails = () => {
   const handleChange = (value) => {
     setCurrentPage(value);
   };
-  
+
   const getWalletDataApi = (category = "Student") => {
     const params = location.search;
     setIsLoading(true);
@@ -158,6 +158,16 @@ const TransactionDetails = () => {
                         shape="rounded"
                         variant="outlined"
                       />
+                      <div className="text-end">
+                        <Link to={`/wallet`}>
+                          <Button
+                            className="btn-primary btn-sm "
+                            style={{ width: "70px", height: "40px" }}
+                            type="button">
+                            Back
+                          </Button>
+                        </Link>
+                      </div>
                     </div>
                   </div>
                 </div>

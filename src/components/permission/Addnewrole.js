@@ -12,6 +12,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAdminPagesApi } from "../../Redux/Loginpages/getAdminPageSlice";
 import { RotatingLines } from "react-loader-spinner";
 import { toast } from "react-toastify";
+import { Button } from "react-bootstrap";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
@@ -24,7 +25,6 @@ const Addnewrole = memo(() => {
   const { register, handleSubmit, reset, setValue } = useForm({});
 
   const navigate = useNavigate();
- 
 
   const [loading, setLoading] = useState(false);
 
@@ -103,11 +103,11 @@ const Addnewrole = memo(() => {
   const handleResourceChange = (index) => {
     const tempResourceData = [...resourceData];
     const newResourceData = [...tempResourceData, index].filter(onlyUnique);
-    if(tempResourceData.includes(index)){
+    if (tempResourceData.includes(index)) {
       setResourceData(newResourceData.filter((a) => a !== index));
-    }else{
+    } else {
       setResourceData(newResourceData);
-    }    
+    }
   };
 
   useEffect(() => {
@@ -137,8 +137,7 @@ const Addnewrole = memo(() => {
                     <div className="card-body">
                       <form
                         onSubmit={handleSubmit(onSubmit)}
-                        className="user-form"
-                      >
+                        className="user-form">
                         <div className="form-group">
                           <label htmlFor="username">Role Name</label>
                           <input
@@ -163,8 +162,7 @@ const Addnewrole = memo(() => {
                                   justifyContent: "center",
                                   alignItems: "center",
                                   height: "50vh",
-                                }}
-                              >
+                                }}>
                                 <RotatingLines
                                   strokeColor="#d63384"
                                   strokeWidth="5"
@@ -214,8 +212,7 @@ const Addnewrole = memo(() => {
                                         {page?.subpages.map((subMenu, id) => (
                                           <table
                                             className="table-body-cell"
-                                            key={id}
-                                          >
+                                            key={id}>
                                             <tbody>
                                               <tr>
                                                 <td>
@@ -281,14 +278,23 @@ const Addnewrole = memo(() => {
                           <button
                             disabled={loading}
                             type="submit"
-                            className="btn btn-primary"
-                          >
+                            className="btn btn-primary">
                             {!loading ? (
                               <>{data._id ? "Update" : "Submit"}</>
                             ) : (
                               "Loading..."
                             )}
                           </button>
+                        </div>
+                        <div className="text-end">
+                          <Link to={`/roles`}>
+                            <Button
+                              className="btn-primary btn-sm "
+                              style={{ width: "70px", height: "40px" }}
+                              type="button">
+                              Back
+                            </Button>
+                          </Link>
                         </div>
                       </form>
                     </div>

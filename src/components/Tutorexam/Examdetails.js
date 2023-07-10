@@ -126,7 +126,6 @@ const Examdetails = () => {
               <div className="Title">
                 <h3 className="text">Question</h3>
               </div>
-
               <div className="row">
                 <div className="col-md-12 grid-margin stretch-card">
                   <div className="card">

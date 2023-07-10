@@ -4,7 +4,7 @@ import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
 import Footer from "../shared/Footer";
 import axios from "axios";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Button } from "react-bootstrap";
 
@@ -18,10 +18,14 @@ const IssueInfo = () => {
   const { issueData } = location.state;
   const token = localStorage.getItem("token");
 
-  const { register, handleSubmit, reset} = useForm({});
+  const { register, handleSubmit, reset } = useForm({});
 
   const onSubmit = async (data) => {
-    const issueSubData = { token: token, questionId: issueData.allQuestions.questionId, questionSubject: data.questionSubject,};
+    const issueSubData = {
+      token: token,
+      questionId: issueData.allQuestions.questionId,
+      questionSubject: data.questionSubject,
+    };
     try {
       const { data } = await axios.post(
         `${url}/admin/updateissuesubject`,
@@ -42,15 +46,13 @@ const IssueInfo = () => {
     fetchSubjectData();
   }, []);
 
-
   const fetchSubjectData = async () => {
     try {
       const response = await axios.post(`${url}/getquestionsubject`, {
         token: token,
       });
       setSubjectList(response?.data?.data);
-    } catch (error) {
-    }
+    } catch (error) {}
   };
 
   const adminIssueSolve = async () => {
@@ -60,8 +62,7 @@ const IssueInfo = () => {
     };
     try {
       const response = await axios.post(`${url}/admin/issuesolve`, issueSolve);
-    } catch (error) {
-    }
+    } catch (error) {}
   };
   return (
     <>
@@ -119,14 +120,12 @@ const IssueInfo = () => {
                                       }
                                       className="w-100 form-select"
                                       id="displayname"
-                                      {...register("questionSubject")}
-                                    >
+                                      {...register("questionSubject")}>
                                       {subjectList.map((a) => {
                                         return (
                                           <option
                                             value={a.questionSubject}
-                                            key={a.questionSubject}
-                                          >
+                                            key={a.questionSubject}>
                                             {a.questionSubject}
                                           </option>
                                         );
@@ -149,8 +148,7 @@ const IssueInfo = () => {
                                 <div className="col-lg-8">
                                   <Button
                                     className="btn btn-primary btn-sm w-100 mt-4"
-                                    type="submit"
-                                  >
+                                    type="submit">
                                     Update Question
                                   </Button>
                                 </div>
@@ -158,11 +156,20 @@ const IssueInfo = () => {
                                   <Button
                                     className="btn btn-primary btn-sm w-100 mt-4"
                                     onClick={() => {
-                                      adminIssueSolve()
-                                    }}
-                                  >
+                                      adminIssueSolve();
+                                    }}>
                                     OK
                                   </Button>
+                                </div>
+                                <div className="text-end mt-1">
+                                <Link to={`/issuequestion`}>
+                                  <Button
+                                    className="btn-primary btn-sm "
+                                    style={{ width: "70px", height: "40px" }}
+                                    type="button">
+                                    Back
+                                  </Button>
+                                </Link>
                                 </div>
                               </div>
                             </div>

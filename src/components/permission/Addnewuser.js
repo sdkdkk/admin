@@ -5,9 +5,10 @@ import Sidebar from "../shared/Sidebar";
 import { useForm } from "react-hook-form";
 import axios from "axios";
 import { toast } from "react-toastify";
-import { useNavigate, useParams } from "react-router-dom";
+import { Link, useNavigate, useParams } from "react-router-dom";
 import { RotatingLines } from "react-loader-spinner";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
+import { Button } from "react-bootstrap";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
@@ -128,8 +129,8 @@ const Addnewuser = () => {
   }, [data, defaultRoleId]);
   console.log(filtrData?.[0]);
   useEffect(() => {
-  reset(filtrData?.[0])
-  }, [reset])
+    reset(filtrData?.[0]);
+  }, [reset]);
   return (
     <>
       <div className="container-scrolsler">
@@ -180,8 +181,8 @@ const Addnewuser = () => {
                             <input
                               type="email"
                               className="form-control"
-                                id="email"
-                                defaultValue={filtrData?.[0]?.email}
+                              id="email"
+                              defaultValue={filtrData?.[0]?.email}
                               placeholder="Enter email"
                               {...register("email", {
                                 required: "Please Enter A Valid Email!",
@@ -200,8 +201,8 @@ const Addnewuser = () => {
                             <input
                               type="password"
                               className="form-control"
-                                id="password"
-                                value={filtrData?.[0]?.password}
+                              id="password"
+                              value={filtrData?.[0]?.password}
                               autoComplete="new-password"
                               placeholder="Enter password"
                               {...register("password", {
@@ -226,8 +227,8 @@ const Addnewuser = () => {
                             </label>
                             <input
                               type="password"
-                                className="form-control"
-                                value={filtrData?.[0]?.cpassword}
+                              className="form-control"
+                              value={filtrData?.[0]?.cpassword}
                               id="confirm-password"
                               placeholder="Confirm password"
                               {...register("cpassword", {
@@ -344,6 +345,16 @@ const Addnewuser = () => {
                                 "Loading..."
                               )}
                             </button>
+                          </div>
+                          <div className="text-end">
+                            <Link to={`/users`}>
+                              <Button
+                                className="btn-primary btn-sm "
+                                style={{ width: "70px", height: "40px" }}
+                                type="button">
+                                Back
+                              </Button>
+                            </Link>
                           </div>
                         </form>
                       )}

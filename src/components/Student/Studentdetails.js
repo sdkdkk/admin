@@ -3,13 +3,14 @@ import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
 import "../Tutors/Tutorlist.css";
 import { Pagination } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import { ColorRing, RotatingLines } from "react-loader-spinner";
 import Moment from "react-moment";
 import face3 from "../Image/face3.jpg";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
+import { Button } from "react-bootstrap";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
@@ -299,6 +300,16 @@ const Studentdetails = () => {
                     </div>
                   </div>
                 </div>
+              </div>
+              <div className="text-end">
+              <Link to={`/studentlist`}>
+                <Button
+                  className="btn-primary btn-sm "
+                  style={{ width: "70px", height: "40px" }}
+                  type="button">
+                  Back
+                </Button>
+              </Link>
               </div>
             </div>
           )}

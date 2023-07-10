@@ -1,14 +1,14 @@
 import React from "react";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import Sidebar from "../shared/Sidebar";
 import Navbar from "../shared/Navbar";
 import axios from "axios";
 import { toast } from "react-toastify";
+import { Button } from "react-bootstrap";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const Contactdetails = () => {
-
   const location = useLocation();
   const getcontactdetails = location.state.data;
   const token = localStorage.getItem("token");
@@ -17,7 +17,9 @@ const Contactdetails = () => {
   //Suspend Api
   const Solved = async () => {
     try {
-      const { data } = await axios.post(`${url}/admin/admincontact/${id}`, { token: token, });
+      const { data } = await axios.post(`${url}/admin/admincontact/${id}`, {
+        token: token,
+      });
       if (data.message) {
         toast.success(data.message);
       } else {
@@ -27,7 +29,6 @@ const Contactdetails = () => {
       toast.error(error.response.data.error);
     }
   };
-
 
   return (
     <>
@@ -79,6 +80,16 @@ const Contactdetails = () => {
               ) : (
                 ""
               )}
+            </div>
+            <div className="text-end">
+              <Link to={`/contactus`}>
+                <Button
+                  className="btn-primary btn-sm "
+                  style={{ width: "70px", height: "40px" }}
+                  type="button">
+                  Back
+                </Button>
+              </Link>
             </div>
           </div>
         </div>

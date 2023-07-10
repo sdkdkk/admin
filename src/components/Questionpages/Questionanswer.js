@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Que.css";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import Moment from "react-moment";
 import { Button } from "react-bootstrap";
@@ -139,12 +139,12 @@ const Questionanswer = () => {
               </div>
 
               {location.state.data.allQuestions.status === "Answered" ? (
-                <div className="Personal-Settings-button col-lg-6 col-md-12">
+                <div className="Personal-Settings-button col-lg-6 mx-2 col-md-12">
                   <div className="d-flex justify-content-center justify-content-lg-start">
                     <Button
                       className="border-edit-btn btn-sm me-lg-3"
                       onClick={() => setEditing(!isEditing)}
-                      style={{ width: "100px", height: "40px" }} 
+                      style={{ width: "70px", height: "40px" }} 
                     >
                       {!isEditing && <i className="fa fa-pen" />}
                       {!isEditing ? "Edit" : "Cancel"}
@@ -152,17 +152,25 @@ const Questionanswer = () => {
                     <Button
                       className="btn-success btn-sm me-lg-3 mt-lg-0"
                       type="submit"
-                      style={{ width: "100px", height: "40px" }} 
+                      style={{ width: "70px", height: "40px" }} 
                     >
                       Update
                     </Button>
                     <Button
-                      className="btn-danger btn-sm  mt-lg-0"
+                      className="btn-danger btn-sm me-lg-3  mt-lg-0"
                       onClick={handleDeleteClick}
-                      style={{ width: "100px", height: "40px" }} 
+                      style={{ width: "70px", height: "40px" }} 
                     >
                       Delete
                     </Button>
+                    <Link to={`/tutordetails/${tutorId}/${active}`}>
+                      <Button
+                        className="btn-primary btn-sm "
+                        style={{ width: "70px", height: "40px" }} 
+                        type="button">
+                        Back 
+                      </Button>
+                    </Link>
                   </div>
                 </div>
               ) : (

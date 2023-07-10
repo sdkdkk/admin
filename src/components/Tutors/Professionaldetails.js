@@ -5,7 +5,7 @@ import Sidebar from "../shared/Sidebar";
 import "../Css/Tutorlist.css";
 import Form from "react-bootstrap/Form";
 import Button from "@mui/material/Button";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import axios from "axios";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
@@ -39,7 +39,6 @@ const Professionaldetails = () => {
     };
     reader.readAsDataURL(file);
   };
-
 
   const [user, setUser] = useState();
   const notify = (data) => toast(data);
@@ -108,10 +107,9 @@ const Professionaldetails = () => {
           notify(data.message);
         }
         setIsLoading(false);
-      })
+      });
   };
 
- 
   function dataURLtoFile(dataurl, filename) {
     const arr = dataurl.split(",");
     const mime = arr[0].match(/:(.*?);/)[1];
@@ -140,13 +138,13 @@ const Professionaldetails = () => {
                 alignItems: "center",
                 height: "100vh",
               }}>
-               <RotatingLines
-                    strokeColor="#d63384"
-                    strokeWidth="5"
-                    animationDuration="0.75"
-                    width="50"
-                    visible={true}
-                  />
+              <RotatingLines
+                strokeColor="#d63384"
+                strokeWidth="5"
+                animationDuration="0.75"
+                width="50"
+                visible={true}
+              />
             </p>
           ) : (
             <>
@@ -156,7 +154,7 @@ const Professionaldetails = () => {
                     <h3 className="page-title">Personal Details:</h3>
                   </div>
                   {user &&
-                    user.map((data , index) => {
+                    user.map((data, index) => {
                       return (
                         <Form key={index} onSubmit={handleSubmit(onSubmit)}>
                           <div className="row">
@@ -164,11 +162,14 @@ const Professionaldetails = () => {
                               <div className="card">
                                 <div className="card-body">
                                   <div className="profile-details">
-
                                     <img
                                       type="file"
                                       name="image"
-                                      src={myimage === null ? data.personaldetails.profilephoto : myimage}
+                                      src={
+                                        myimage === null
+                                          ? data.personaldetails.profilephoto
+                                          : myimage
+                                      }
                                       defaultValue={
                                         data.professionaldetails.profilephoto
                                       }
@@ -189,7 +190,10 @@ const Professionaldetails = () => {
                                           onChange={(e) => uploadImage(e)}
                                         />
                                       </Button>
-                                      <Button variant="contained" size="small" onClick={() => setMyImage(null)}>
+                                      <Button
+                                        variant="contained"
+                                        size="small"
+                                        onClick={() => setMyImage(null)}>
                                         Reset
                                       </Button>
                                       <div>
@@ -568,6 +572,16 @@ const Professionaldetails = () => {
                           <Button variant="contained" type="submit">
                             {isLoading ? "Loading..." : "Save"}
                           </Button>
+                          <div className="text-end">
+                            <Link to={`/tutorlist`}>
+                              <Button
+                                className="btn-primary btn-sm "
+                                style={{ width: "70px", height: "40px" }}
+                                type="button">
+                                Back
+                              </Button>
+                            </Link>
+                          </div>
                         </Form>
                       );
                     })}

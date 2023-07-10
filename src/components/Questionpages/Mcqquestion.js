@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./Que.css";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import Modal from "react-bootstrap/Modal";
 import Moment from "react-moment";
 import axios from "axios";
@@ -123,7 +123,7 @@ const Mcqquestion = () => {
                           alt=""
                         />
                       )
-                    )}          
+                    )}
                   </div>
                   {answer && (
                     <div className="col-md-12 col-lg-12 mb--20">
@@ -171,11 +171,7 @@ const Mcqquestion = () => {
                                   />
                                 )}
                               />
-                              <label
-                                className="form-check-label"                           
-                              >
-                                B)
-                              </label>
+                              <label className="form-check-label">B)</label>
                             </div>
                           </div>
                           <div className="col-lg-6">
@@ -254,22 +250,30 @@ const Mcqquestion = () => {
                       <Button
                         className="border-edit-btn btn-sm me-lg-3"
                         onClick={() => setEditing(!isEditing)}
-                        style={{ width: "100px", height: "40px" }}>
+                        style={{ width: "70px", height: "40px" }}>
                         {!isEditing && <i className="fa fa-pen" />}
                         {!isEditing ? "Edit" : "Cancel"}
                       </Button>
                       <Button
                         className="btn-success btn-sm me-lg-3 mt-lg-0"
                         type="submit"
-                        style={{ width: "100px", height: "40px" }}>
+                        style={{ width: "70px", height: "40px" }}>
                         Update
                       </Button>
                       <Button
                         className="btn-danger btn-sm  mt-lg-0"
                         onClick={handleDeleteClick}
-                        style={{ width: "100px", height: "40px" }}>
+                        style={{ width: "70px", height: "40px" }}>
                         Delete
                       </Button>
+                      <Link to={`/tutordetails/${tutorId}/${active}`}>
+                        <Button
+                          className="btn-primary btn-sm "
+                          style={{ width: "70px", height: "40px" }}
+                          type="button">
+                          Back
+                        </Button>
+                      </Link>
                     </div>
                   </div>
                 ) : (

@@ -3,10 +3,11 @@ import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
 import Sidebar from "../shared/Sidebar";
 import "../Css/Tutorlist.css";
-import { useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getTransactionHistory } from "../../Redux/Loginpages/getTransactionHistorySlice";
 import { RotatingLines } from "react-loader-spinner";
+import { Button } from "react-bootstrap";
 
 const Transactiondetailshow = () => {
   const getTransactionHistoryState = useSelector(
@@ -95,6 +96,18 @@ const Transactiondetailshow = () => {
                             Description:
                           </span>
                           <span>{filterData?.[0]?.description}</span>
+                        </div>
+                        <div>
+                          <div className="text-end">
+                            <Link to={`/wallet`}>
+                              <Button
+                                className="btn-primary btn-sm "
+                                style={{ width: "70px", height: "40px" }}
+                                type="button">
+                                Back
+                              </Button>
+                            </Link>
+                          </div>
                         </div>
                       </div>
                     )}
