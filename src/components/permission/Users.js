@@ -135,7 +135,7 @@ const Users = () => {
                                           <td>{value.isactive}</td>
                                           <td>
                                             {typeof value.role === "object"
-                                              ? value.role.rolename
+                                              ? value?.role?.rolename
                                               : value.role}
                                           </td>
                                           <td>

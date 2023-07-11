@@ -129,7 +129,7 @@ const Sidebar = () => {
                       activeLink === "/studentregitserbonus" ? "active" : ""
                     }`}>
                     <Link className="nav-link" to="/studentregitserbonus">
-                      <span className="menu-title">Student Regitser Bonus</span>
+                      <span className="menu-title">Student Register Bonus</span>
                       <i className="icon-screen-desktop menu-icon"></i>
                     </Link>
                   </li>
@@ -188,13 +188,13 @@ const Sidebar = () => {
           )}
 
           {/*curruncy */}
-          {navMenusStateList?.includes("Curruncy") && (
+          {navMenusStateList?.includes("currency") && (
             <li
               className={`nav-item ${
                 activeLink === "/curruncy" ? "active" : ""
               }`}>
               <Link className="nav-link" to="/curruncy">
-                <span className="menu-title">Curruncy </span>
+                <span className="menu-title">currency </span>
                 <i className="icon-screen-desktop menu-icon"></i>
               </Link>
             </li>
