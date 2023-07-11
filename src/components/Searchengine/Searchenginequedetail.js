@@ -34,26 +34,26 @@ const Searchenginequedetail = () => {
                               <div className="row">
                                 <div>
                                   {location.state.data
-                                    .questionType === "TrueFalse-exp" ||
+                                    .questionType === "True False - With Explanation" ||
                                     location.state.data
-                                      .questionType === "TrueFalse" ? (
+                                      .questionType === "True False - Final answer" ? (
                                     <TruefalsequeSearchengine />
                                   ) : location.state.data
-                                    .questionType === "MCQ-exp" ||
+                                    .questionType === "MCQ - With Explanation" ||
                                     location.state.data
-                                      .questionType === "MCQ" ? (
+                                      .questionType === "MCQ - Final answer" ? (
                                     <McqquestionSearchengine />
                                   ) : location.state.data
-                                    .questionType === "FillInBlanks-exp" ||
+                                    .questionType === "Fill in the blanks - With Explanation" ||
                                     location.state.data
-                                      .questionType === "FillInBlanks" ? (
+                                      .questionType === "Fill in the blanks - Final answer" ? (
                                     <FillupsSearchengine />
                                   ) : location.state.data
                                     .questionType ===
-                                    "MatchTheFollowing-less5" ||
+                                    "Match the following - Till 5 question" ||
                                     location.state.data
                                       .questionType ===
-                                    "MatchTheFollowing-more5" ? (
+                                    "Match the following - Above 5 question" ? (
                                     <MatchfollowSearchengine />
                                   ) : (
                                     <QuestionanswerSearchengine />

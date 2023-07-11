@@ -109,7 +109,7 @@ const Tutorexamconfig = () => {
                                       type="number"
                                       className="form-control"
                                       id="mcqHoursInput"
-                                      name="MCQ"
+                                      name="MCQ - Final answer"
                                       defaultValue={
                                         updatedConversionRate.MCQ ||
                                         conversionRate.MCQ
@@ -118,7 +118,7 @@ const Tutorexamconfig = () => {
                                         updatedConversionRate.MCQ ||
                                         conversionRate.MCQ
                                       }
-                                      {...register("MCQ", { required: true })}
+                                      {...register("MCQ - Final answer", { required: true })}
                                     />
                                     <span className="input-group-text">
                                       Question

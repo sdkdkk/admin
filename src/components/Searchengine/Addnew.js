@@ -185,8 +185,8 @@ const Addnew = () => {
   const token = localStorage.getItem("token");
   const onSubmit = (data) => {
     if (
-      selectedOption === "MatchTheFollowing-more5" ||
-      selectedOption === "MatchTheFollowing-less5"
+      selectedOption === "Match the following - Above 5 question" ||
+      selectedOption === "Match the following - Till 5 question"
     ) {
       const formData = new FormData();
       const formattedAnswerData = answerData.map((item) => ({
@@ -219,8 +219,8 @@ const Addnew = () => {
           setIsLoading(false);
         });
     } else if (
-      selectedOption === "FillInBlanks" ||
-      selectedOption === "FillInBlanks-exp"
+      selectedOption === "Fill in the blanks - Final answer" ||
+      selectedOption === "Fill in the blanks - With Explanation"
     ) {
       const formData = new FormData();
       const formattedAnswerData = fields.map((item) => ({
@@ -383,15 +383,15 @@ const Addnew = () => {
                             </p>
                           )}
                         </div>
-                        {selectedOption === "ShortAnswer" ||
-                        selectedOption === "ShortAnswer-exp" ||
+                        {selectedOption === "Short Answer - Final answer" ||
+                        selectedOption === "Short Answer - With Explanation" ||
                         selectedOption === "Definations" ||
-                        selectedOption === "Writing" ||
-                        selectedOption === "LongAnswer" ||
-                        selectedOption === "ProblemSolving" ||
+                        selectedOption === "Writing - Essay, Etc question" ||
+                        selectedOption === "Long Answer Question" ||
+                        selectedOption === "Problem solving based question" ||
                         selectedOption === "Theory" ||
-                        selectedOption === "CaseStudy-less3" ||
-                        selectedOption === "CaseStudy-more3" ? (
+                        selectedOption === "Case Study - Till 3 subtype Q" ||
+                        selectedOption === "Case Study - Above 3 subtype Q" ? (
                           <Col md={12}>
                             <div>
                               <p className="mx-1">Answer</p>
@@ -421,8 +421,8 @@ const Addnew = () => {
                             </div>
                           </Col>
                         ) : null}
-                        {selectedOption === "MCQ" ||
-                        selectedOption === "MCQ-exp" ? (
+                        {selectedOption === "MCQ - Final answer" ||
+                        selectedOption === "MCQ - With Explanation" ? (
                           <div className="p--20 rbt-border radius-6 bg-primary-opacity mt-2">
                             <div className="row">
                               <p className="mx-1">Answer</p>
@@ -519,8 +519,8 @@ const Addnew = () => {
                           </div>
                         ) : null}
 
-                        {selectedOption === "TrueFalse" ||
-                        selectedOption === "TrueFalse-exp"? (
+                        {selectedOption === "True False - Final answer" ||
+                        selectedOption === "True False - With Explanation"? (
                           <div className="p--20 rbt-border radius-6 bg-primary-opacity">
                             <div className="row">
                               <p className="mx-1">Answer</p>
@@ -576,8 +576,8 @@ const Addnew = () => {
                           </div>
                         ) : null}
 
-                        {selectedOption === "MatchTheFollowing-more5" ||
-                        selectedOption === "MatchTheFollowing-less5" ? (
+                        {selectedOption === "Match the following - Above 5 question" ||
+                        selectedOption === "Match the following - Till 5 question" ? (
                           <div className="col-12 col-md-6 col-lg-8 mb-4">
                             <h5>Answer</h5>
                             {answerData.map((data, index) => (
@@ -624,8 +624,8 @@ const Addnew = () => {
                           </div>
                         ) : null}
 
-                        {selectedOption === "FillInBlanks" ||
-                        selectedOption === "FillInBlanks-exp" ? (
+                        {selectedOption === "Fill in the blanks - Final answer" ||
+                        selectedOption === "Fill in the blanks - With Explanation" ? (
                           <div className="multi-field-wrapper">
                             <h5>Answer</h5>
                             <div className="d-flex">
@@ -666,7 +666,8 @@ const Addnew = () => {
                           </div>
                         ) : null}
 
-                        {isExp ? (
+                        {selectedOption === "Fill in the blanks - With Explanation" || selectedOption === "True False - With Explanation" ||
+                        selectedOption === "MCQ - With Explanation" || selectedOption === "Short Answer - With Explanation" ? (
                           <Col md={12}>
                             <div>
                               <p className="mx-1">Explanation</p>

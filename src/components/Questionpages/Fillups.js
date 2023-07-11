@@ -167,10 +167,10 @@ const Fillups = () => {
                     </button>
                   </div>
 
-                  {questionType === "MCQ-exp" ||
-                  questionType === "TrueFalse-exp" ||
-                  questionType === "FillInBlanks-exp" ||
-                  questionType === "ShortAnswer-exp" ? (
+                  {questionType === "MCQ - With Explanation" ||
+                  questionType === "True False - With Explanation" ||
+                  questionType === "Fill in the blanks - With Explanation" ||
+                  questionType === "Short Answer - With Explanation" ? (
                     <div className="col-md-12 col-lg-12 mb--20">
                       <h5>Explanation</h5>
                       <input

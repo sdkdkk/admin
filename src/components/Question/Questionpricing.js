@@ -55,7 +55,7 @@ const Questionpricing = () => {
           question_price: data.question_price,
           tutor_price: data.tutor_price,
           admin_price: data.admin_price,
-          id: data._id,
+          id: data.id,
         });
       } else {
         response = await axios.post(requestUrl, {
