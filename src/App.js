@@ -76,6 +76,7 @@ import AdminPageSetting from "./components/Services/AdminPageSetting";
 import StudentRegitserBonus from "./components/Student/StudentRegitserBonus";
 import Studentmobile from "./components/addmobile/Studentmobile";
 import Tutormobile from "./components/addmobile/Tutormobile";
+import Features from "./components/Tutorexam/Features";
 
 function RequireAuth({ children }) {
   let auth = isLoggedIn();
@@ -385,6 +386,7 @@ function App() {
             </RequireAuth>
           }
         />
+  
         <Route
           path="tutorexampopup"
           element={
@@ -578,6 +580,7 @@ function App() {
         <Route path="/studentmobile" element={<Studentmobile/>} />
         <Route path="/tutormobile" element={<Tutormobile/>} />
         <Route path="/contactdetails" element={<Contactdetails />} />
+        <Route path="/features" element={<Features />} />
       </Routes>
       <Scroll />
     </BrowserRouter>

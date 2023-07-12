@@ -488,7 +488,7 @@ const Sidebar = () => {
           {/*Features*/}
           {navMenusStateList?.includes("Features") && (
             <li className="nav-item">
-              <Link className="nav-link" to="/">
+              <Link className="nav-link" to="/features">
                 <span className="menu-title">Features</span>
                 <i className="icon-screen-desktop menu-icon"></i>
               </Link>
