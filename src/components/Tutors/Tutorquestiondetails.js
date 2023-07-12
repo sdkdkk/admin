@@ -31,26 +31,26 @@ const Tutorquestiondetails = () => {
                               <div className="row">
                                 <div>
                                   {location.state.data.allQuestions
-                                    .questionType === "TrueFalse-exp" ||
+                                    .questionType === "True False - With Explanation" ||
                                   location.state.data.allQuestions
-                                    .questionType === "TrueFalse" ? (
+                                    .questionType === "True False - Final answer" ? (
                                     <Truefalseque />
                                   ) : location.state.data.allQuestions
-                                      .questionType === "MCQ-exp" ||
+                                      .questionType === "MCQ - With Explanation" ||
                                     location.state.data.allQuestions
-                                      .questionType === "MCQ" ? (
+                                      .questionType === "MCQ - Final answer" ? (
                                     <Mcqquestion />
                                   ) : location.state.data.allQuestions
-                                      .questionType === "FillInBlanks-exp" ||
+                                      .questionType === "Fill in the blanks - With Explanation" ||
                                     location.state.data.allQuestions
-                                      .questionType === "FillInBlanks" ? (
+                                      .questionType === "Fill in the blanks - Final answer" ? (
                                     <Fillups />
                                   ) : location.state.data.allQuestions
                                       .questionType ===
-                                      "MatchTheFollowing-less5" ||
+                                      "Match the following - Till 5 question" ||
                                     location.state.data.allQuestions
                                       .questionType ===
-                                      "MatchTheFollowing-more5" ? (
+                                      "Match the following - Above 5 question" ? (
                                     <Matchfollow />
                                   ) : (
                                     <Questionanswer />

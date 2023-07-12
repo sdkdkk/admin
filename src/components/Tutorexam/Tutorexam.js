@@ -57,7 +57,7 @@ const Tutorexam = () => {
   const [editorHtml, setEditorHtml] = useState("");
   const [isOpen, setIsOpen] = useState("");
   const [questionSubject, setQuestionSubject] = useState("Maths");
-  const [questionType, setQuestionType] = useState("MCQ");
+  const [questionType, setQuestionType] = useState("MCQ - Final answer");
   const [mcqoptions, setMcqoptions] = useState([]);
   const [mcqoptionsValue, setMcqoptionsValue] = useState("");
   const [subjectList, setSubjectList] = useState([]);
@@ -174,8 +174,8 @@ const Tutorexam = () => {
   }, [postTutorQuestionData?.isSuccess || updateTutorQuestionData?.isSuccess]);
 
   const onSubmit = (data) => {
-    const rest = data.questionType === "MCQ" ? { mcqoptions: mcqoptions } : {};
-    if (data.questionType === "MCQ") {
+    const rest = data.questionType === "MCQ - Final answer" ? { mcqoptions: mcqoptions } : {};
+    if (data.questionType === "MCQ - Final answer") {
       data.answer = mcqoptionsValue;
     }
     if (data.questionType === "Theory" && data?.mcqoptions) {
@@ -311,7 +311,7 @@ const Tutorexam = () => {
                               )}
                             </div>
                           </div>
-                          {questionTypeValues === "MCQ" && (
+                          {questionTypeValues === "MCQ - Final answer" && (
                             <div className="col-md-12 col-lg-12 mb--20 mt-4">
                               <h5>MCQ</h5>
                               <div className="p--20 rbt-border radius-6 bg-primary-opacity">
@@ -515,7 +515,7 @@ const Tutorexam = () => {
                         value={questionType}
                         onChange={(e) => setQuestionType(e.target.value)}
                         id="displayname">
-                        <option value="MCQ">MCQ</option>
+                        <option value="MCQ - Final answer">MCQ</option>
                         <option value="Theory">Theory</option>
                       </select>
                     </div>

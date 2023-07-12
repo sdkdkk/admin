@@ -165,10 +165,10 @@ useEffect(() => {
       token: token,
       questionId: id,
       answer:
-        selectType === "FillInBlanks" ||
-        selectType === "FillInBlanks-exp" ||
-        selectType === "MatchTheFollowing-more5" ||
-        selectType === "MatchTheFollowing-less5"
+        selectType === "Fill in the blanks - Final answer" ||
+        selectType === "Fill in the blanks - With Explanation" ||
+        selectType === "Match the following - Above 5 question" ||
+        selectType === "Match the following - Till 5 question"
           ? JSON.stringify(formattedAnswerData)
           : data.answer,
       explanation: data.explanation || "",
@@ -301,14 +301,14 @@ useEffect(() => {
                             />
                           </div>
 
-                          {selectType === "ShortAnswer" ||
-                          selectType === "CaseStudy-less3"|| 
-                          selectType === "ShortAnswer-exp" ||
+                          {selectType === "Short Answer - Final answer" ||
+                          selectType === "Case Study - Till 3 subtype Q"|| 
+                          selectType === "Short Answer - With Explanation" ||
                           selectType === "Definations" ||
-                          selectType === "Writing" ||
-                          selectType === "LongAnswer" ||
-                          selectType === "ProblemSolving" ||
-                          selectType === "CaseStudy-more3" ||
+                          selectType === "Writing - Essay, Etc question" ||
+                          selectType === "Long Answer Question" ||
+                          selectType === "Problem solving based question" ||
+                          selectType === "Case Study - Above 3 subtype Q" ||
                               selectType === "Theory" ? (
                             <Col md={12}>
                               <div>
@@ -342,7 +342,7 @@ useEffect(() => {
                             </Col>
                           ) : null}
 
-                          {selectType === "MCQ" || selectType === "MCQ-exp" ? (
+                          {selectType === "MCQ - Final answer" || selectType === "MCQ - With Explanation" ? (
                             <div className="p--20 rbt-border radius-6 bg-primary-opacity mt-2">
                               <div className="row">
                                 <p className="mx-1">Answer</p>
@@ -439,8 +439,8 @@ useEffect(() => {
                             </div>
                           ) : null}
 
-                          {selectType === "TrueFalse" ||
-                          selectType === "TrueFalse-exp" ? (
+                          {selectType === "True False - Final answer" ||
+                          selectType === "True False - With Explanation" ? (
                             <div className="p--20 rbt-border radius-6 bg-primary-opacity">
                               <div className="row">
                                 <p className="mx-1">Answer</p>
@@ -496,8 +496,8 @@ useEffect(() => {
                             </div>
                           ) : null}
 
-                          {selectType === "MatchTheFollowing-more5" ||
-                          selectType === "MatchTheFollowing-less5" ? (
+                          {selectType === "Match the following - Above 5 question" ||
+                          selectType === "Match the following - Till 5 question" ? (
                             <div className="col-12 col-md-6 col-lg-8 mb-4">
                               <h5>Answer</h5>
                               {answerData.map((data, index) => (
@@ -544,8 +544,8 @@ useEffect(() => {
                             </div>
                           ) : null}
 
-                          {selectType === "FillInBlanks" ||
-                          selectType === "FillInBlanks-exp" ? (
+                          {selectType === "Fill in the blanks - Final answer" ||
+                          selectType === "Fill in the blanks - With Explanation" ? (
                             <div className="multi-field-wrapper">
                               <h5>Answer</h5>
                               <div className="d-flex">
@@ -586,10 +586,10 @@ useEffect(() => {
                             </div>
                           ) : null}
 
-                          {selectType === "MCQ-exp" ||
-                          selectType === "FillInBlanks-exp" ||
-                          selectType === "ShortAnswer-exp" ||
-                          selectType === "TrueFalse-exp" ? (
+                          {selectType === "MCQ - With Explanation" ||
+                          selectType === "Fill in the blanks - With Explanation" ||
+                          selectType === "Short Answer - With Explanation" ||
+                          selectType === "True False - With Explanation" ? (
                             <Col md={12}>
                               <div>
                                 <p className="mx-1">Explanation</p>
