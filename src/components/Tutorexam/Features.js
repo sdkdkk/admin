@@ -59,7 +59,6 @@ const Features = () => {
         token: token,
       });
       setConversionRate(response.data.info);
-      console.log(response.data.info);
       setLoading1(false);
     } catch (error) {
       logoutIfInvalidToken(error.response);
@@ -104,9 +103,6 @@ const Features = () => {
       setLoading(false);
     }
   };
-
-  console.log(conversionRate);
-
   const handleUpdate = (coupon) => {
     reset(coupon);
     window.scrollTo({ top: 0, behavior: "smooth" });
