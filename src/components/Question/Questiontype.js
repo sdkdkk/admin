@@ -232,17 +232,18 @@ const Questiontype = () => {
                                         1 +
                                         (currentPage - 1) * postsPerPage}
                                     </td>
-                                    <td>{data.questionType}</td>
+                                    <td>{data.questionType}</td>                                    
                                     <td>
                                       <Button
                                         variant="success"
-                                        onClick={() => handleUpdate(data)}>
+                                        onClick={() => handleUpdate(data)} disabled>
                                         Update
+                                       
                                       </Button>
                                       <Button
                                         className="mx-2"
                                         variant="danger"
-                                        onClick={() => handleDelet(data._id)}>
+                                        onClick={() => handleDelet(data._id)} disabled>
                                         Delete
                                       </Button>
                                     </td>

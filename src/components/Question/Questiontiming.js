@@ -231,7 +231,7 @@ const Questiontiming = () => {
                         </div>
                         <div className="row mt-4">
                           <div className="col-lg-2 mt-2">
-                            <h6>Question Time</h6>
+                            <h6>First Time</h6>
                           </div>
                           <div className="col-lg-3">
                             <div className="mb-3">
@@ -268,7 +268,7 @@ const Questiontiming = () => {
                         </div>
                         <div className="row mt-4">
                           <div className="col-lg-2 mt-2">
-                            <h6>Second Time</h6>
+                            <h6>Decision Time</h6>
                           </div>
                           <div className="col-lg-3">
                             <div className="mb-3">
