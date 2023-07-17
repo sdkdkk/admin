@@ -29,7 +29,7 @@ const Reanswerque = () => {
   const [postsPerPage] = useState(4);
   const indexOfLastPage = currentPage * postsPerPage;
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
-  const displayUsers = transactions.slice(indexOfFirstPage, indexOfLastPage);
+  const displayUsers = transactions?.slice(indexOfFirstPage, indexOfLastPage);
 
   const totalPages = Math.ceil(transactions.length / postsPerPage);
   const fetchSubjectData = async () => {
@@ -191,7 +191,7 @@ const Reanswerque = () => {
                                   <tr key={index}>
                                     <td>{index + 1}</td>
                                     <td>
-                                      <p className="question">{a.question}</p>
+                                      <p className="question"> {a.question?.length > 40 ? a.question?.slice(0, 40) + "..." : a.question}</p>
                                     </td>
                                     <td>{a.questionType}</td>
                                     <td>{a.questionSubject}</td>
