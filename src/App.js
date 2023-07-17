@@ -77,6 +77,8 @@ import StudentRegitserBonus from "./components/Student/StudentRegitserBonus";
 import Studentmobile from "./components/addmobile/Studentmobile";
 import Tutormobile from "./components/addmobile/Tutormobile";
 import Features from "./components/Tutorexam/Features";
+import Studentcounter from "./components/Counter/Studentcounter";
+import Tutorcounter from "./components/Counter/Tutorcounter";
 
 function RequireAuth({ children }) {
   let auth = isLoggedIn();
@@ -581,6 +583,8 @@ function App() {
         <Route path="/tutormobile" element={<Tutormobile/>} />
         <Route path="/contactdetails" element={<Contactdetails />} />
         <Route path="/features" element={<Features />} />
+        <Route path="/studentcounter" element={<Studentcounter />} />
+        <Route path="/tutorcounter" element={<Tutorcounter />} />
       </Routes>
       <Scroll />
     </BrowserRouter>
