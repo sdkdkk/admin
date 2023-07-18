@@ -35,6 +35,7 @@ const Dashboard = () => {
       setLoading1(false);
     }
   };
+  console.log(data);
 
   return (
     <>
@@ -109,6 +110,167 @@ const Dashboard = () => {
                       </div>
                     </div>
                   </div>
+                 <div className="row mt-4">
+                <div className="col-12 grid-margin stretch-card">
+                  <div className="card new-table">
+                    <div className="card-body">
+                      <div className="table-responsive ">
+                         <h4 className="mt-2 font-weight-bold inner-card-text mb-3">
+                            Payment
+                         </h4>
+                         <table className="table">
+                                <tr>
+                                  <th>Student (USD/INR)</th>
+                                  <th>Tutor (INR) (paid /peding)</th>
+                                  <th>Admin payment / disputed</th>
+                                  <th>Disputed payment </th>
+                                </tr>
+                                <tr>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                </tr>
+                              </table>   
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="row mt-4">
+                <div className="col-12 grid-margin stretch-card">
+                  <div className="card new-table">
+                    <div className="card-body">
+                      <div className="table-responsive ">
+                         <h4 className="mt-2 font-weight-bold inner-card-text mb-3">
+                              Post Questions/ Today / LifeTime
+                         </h4>
+                         <table className="table">
+                                <tr>
+                                  <th>Mcq</th>
+                                  <th>Mcq-exp</th>
+                                  <th>T/F</th>
+                                  <th>T/F-exp</th>
+                                  <th>Fillup</th>
+                                  <th>Fillup-exp</th>
+                                  <th>Short Ans</th>
+                                  <th>Short Ans-exp</th>
+                                  <th>Matching-less</th>
+                                  <th>Matching-more</th>
+                                  <th>Def.</th>
+                                  <th>case-study-less</th>
+                                  <th>case-study-more</th>
+                                  <th>Theroy</th>
+                                  <th>Writing</th>
+                                  <th>LongAnswer</th>
+                                  <th>Prob. Solving</th>
+                                  </tr>
+                                <tr>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                 
+                                </tr>
+                              </table>   
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="row mt-4">
+                <div className="col-12 grid-margin stretch-card">
+                  <div className="card new-table">
+                    <div className="card-body">
+                      <div className="table-responsive ">
+                         <div className="mt-2 font-weight-bold inner-card-text mb-3">
+                             Answer/ Today/ LifeTime
+                         </div>
+                         <table className="table">
+                                <tr>
+                                  <th>Mcq</th>
+                                  <th>Mcq-exp</th>
+                                  <th>T/F</th>
+                                  <th>T/F-exp</th>
+                                  <th>Fillup</th>
+                                  <th>Fillup-exp</th>
+                                  <th>Short Answer</th>
+                                  <th>Short Answer-exp</th>
+                                  <th>Matching-less</th>
+                                  <th>Matching-more</th>
+                                  <th>Def.</th>
+                                  <th>case-study-less</th>
+                                  <th>case-study-more</th>
+                                  <th>Theroy</th>
+                                  <th>Writing</th>
+                                  <th>LongAnswer</th>
+                                  <th>Prob. Solving</th>
+                                  </tr>
+                                <tr>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                 
+                                </tr>
+                              </table>   
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                <div className="row mt-4">
+                <div className="col-12 grid-margin stretch-card">
+                  <div className="card new-table">
+                    <div className="card-body">
+                      <div className="table-responsive ">
+                         <h4 className="mt-2 font-weight-bold inner-card-text mb-3">
+                            Summary
+                         </h4>
+                         <table className="table">
+                                <tr>
+                                  <th>Student (USD/INR)</th>
+                                  <th>Tutor (INR) (paid /peding)</th>
+                                  <th>Admin payment / disputed</th>
+                                  <th>Disputed payment </th>
+                                </tr>
+                                <tr>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                                </tr>
+                              </table>   
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
                   <div className="row">
                     <div className="col-md-6 grid-margin stretch-card">
                       <div className="card">

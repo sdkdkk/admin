@@ -683,6 +683,37 @@ const Sidebar = () => {
             </li>
           )}
 
+
+          {/* Counter */}
+          <li className="nav-item">
+              <a
+                className="nav-link"
+                data-toggle="collapse"
+                href="#counter-menu"
+                aria-expanded="false"
+                aria-controls="counter-menu">
+                <span className="menu-title">Counter</span>
+                <i className="icon-layers menu-icon"></i>
+              </a>
+              <div className="collapse" id="counter-menu">
+                <ul className="nav flex-column sub-menu">
+                  <li
+                    className={`nav-item ${
+                      activeLink === "/counter" ? "active" : ""
+                    }`}>
+                    <Link className="nav-link" to="/studentcounter">
+                      Student Counter
+                    </Link>
+                  </li>
+                  <li className="nav-item">
+                    <Link className="nav-link" to="/tutorcounter">
+                      Tutor Counter
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+            </li>
+
           {/*contact us*/}
           {navMenusStateList?.includes("Contact us") && (
             <li
