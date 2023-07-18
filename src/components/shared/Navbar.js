@@ -34,7 +34,7 @@ const Navbar = () => {
                 src={face3}
                 alt=""
               />
-              <span className="font-weight-normal">Vaidik Admin</span>
+              <span className="font-weight-normal">DoubtQ Admin</span>
             </Link>
             <div
               className="dropdown-menu dropdown-menu-right navbar-dropdown"
