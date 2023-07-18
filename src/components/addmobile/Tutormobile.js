@@ -278,7 +278,7 @@ const Tutormobile = () => {
                             variant="primary"
                             type="submit"
                             disabled={loading}>
-                            {loading ? "Loading..." : "Add"}
+                            {loading ? "Loading..." : "Submit"}
                           </Button>
                         </div>
                       </form>
