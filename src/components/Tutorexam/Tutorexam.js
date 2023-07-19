@@ -445,7 +445,7 @@ const Tutorexam = () => {
                             </Col>
                           )}
                           <div className="col-md-12 mt-4">
-                            <Link to="#">
+                            {/* <Link to="#">
                               <button
                                 disabled={
                                   postTutorQuestionData?.isLoading ||
@@ -454,7 +454,7 @@ const Tutorexam = () => {
                                 className="btn btn-primary mx-2">
                                 Back
                               </button>
-                            </Link>
+                            </Link> */}
                             <button
                               disabled={
                                 postTutorQuestionData?.isLoading ||
