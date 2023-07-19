@@ -5,6 +5,7 @@ import Sidebar from "../shared/Sidebar";
 import { getTutorQuestionsListApi } from "../../Redux/Loginpages/getTutorQuestionListSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RotatingLines } from "react-loader-spinner";
+import { Link } from "react-router-dom";
 
 const Tutorsearch = () => {
   const dispatch = useDispatch();
@@ -146,6 +147,13 @@ const Tutorsearch = () => {
                         </button>
                       </div>
                     </div>
+                      <div className="mx-2 mb-4">
+                        <Link to="/tutorexam">
+                          <button className="btn btn-primary mx-2">
+                            Back
+                          </button>
+                        </Link>
+                      </div>
                   </div>
                 </div>
               </div>
