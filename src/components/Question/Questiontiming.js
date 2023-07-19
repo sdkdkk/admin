@@ -500,7 +500,7 @@ const Questiontiming = () => {
                                   : "Update"
                                 : loading
                                 ? "Loading..."
-                                : "Add"}
+                                : "Submit"}
                             </Button>
                           </div>
                         </div>

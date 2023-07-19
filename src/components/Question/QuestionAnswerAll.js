@@ -634,7 +634,7 @@ useEffect(() => {
                               disabled={isLoading}
                               type="submit"
                               className="btn btn-primary">
-                              {isLoading ? "Posting..." : "Add"}
+                              {isLoading ? "Posting..." : "Submit"}
                             </Button>
                           </div>
                         </form>

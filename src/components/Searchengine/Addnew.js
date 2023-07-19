@@ -712,7 +712,7 @@ const Addnew = () => {
                             disabled={isLoading}
                             type="submit"
                             className="btn btn-primary">
-                            {isLoading ? "Posting..." : "Add"}
+                            {isLoading ? "Posting..." : "Submit"}
                           </button>
                         </div>
                       </form>
