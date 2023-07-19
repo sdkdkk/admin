@@ -180,7 +180,8 @@ const Searchquestion = () => {
                         </button>
                         <button
                           className="btn btn-primary"
-                          onClick={() => setCurrentPage(currentPage + 1)}>
+                          onClick={() => setCurrentPage(currentPage + 1)}
+                          disabled={searchResults.length < itemsPerPage}>
                           next
                         </button>
                       </div>

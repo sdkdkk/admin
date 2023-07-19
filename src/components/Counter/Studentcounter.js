@@ -216,7 +216,7 @@ const Studentcounter = () => {
                                   : "Update"
                                 : loading
                                 ? "Loading..."
-                                : "Submit"}
+                                : "Add"}
                             </Button>
                           </div>
                         </div>

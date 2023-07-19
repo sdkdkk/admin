@@ -53,7 +53,7 @@ const ReadMore = ({ children }) => {
 const Tutorexam = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [postsPerPage] = useState(8);
+  const [postsPerPage] = useState(6);
   const [editorHtml, setEditorHtml] = useState("");
   const [isOpen, setIsOpen] = useState("");
   const [questionSubject, setQuestionSubject] = useState("Maths");
@@ -79,9 +79,7 @@ const Tutorexam = () => {
 
   const { tutorexamquestion = [] } = getTutorQuestionsListData.data || [];
   const tutorexamquestionData = tutorexamquestion || [];
-  const handleChange = (event, value) => {
-    setCurrentPage(value);
-  };
+
   const token = useSelector((state) => state.auth.token);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -151,7 +149,17 @@ const Tutorexam = () => {
     setIsOpen("");
   };
 
-  const { register, handleSubmit, reset,formats, control, getValues, setValue,modules,editorRef, formState: { errors },
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formats,
+    control,
+    getValues,
+    setValue,
+    modules,
+    editorRef,
+    formState: { errors },
   } = useForm({ values: defaultValues });
 
   const questionTypeValues = getValues("questionType");
@@ -191,6 +199,12 @@ const Tutorexam = () => {
     setTimeout(() => {
       navigate(" ");
     }, 500);
+  };
+
+  const totalPages = Math.ceil(tutorexamquestionData.length / postsPerPage);
+  console.log(totalPages);
+  const handleChange = (event, value) => {
+    setCurrentPage(value);
   };
 
   return (
@@ -323,8 +337,8 @@ const Tutorexam = () => {
                                         type="radio"
                                         name="rbt-radio"
                                         id="rbt-radio-1"
-                                        onChange={(e) =>{
-                                          setMcqoptionsValue(mcqoptions[0])
+                                        onChange={(e) => {
+                                          setMcqoptionsValue(mcqoptions[0]);
                                         }}
                                       />
                                       <input
@@ -346,8 +360,8 @@ const Tutorexam = () => {
                                         type="radio"
                                         name="rbt-radio"
                                         id="rbt-radio-2"
-                                        onChange={(e) =>{
-                                          setMcqoptionsValue(mcqoptions[1])
+                                        onChange={(e) => {
+                                          setMcqoptionsValue(mcqoptions[1]);
                                         }}
                                       />
                                       <input
@@ -369,8 +383,8 @@ const Tutorexam = () => {
                                         type="radio"
                                         name="rbt-radio"
                                         id="rbt-radio-3"
-                                        onChange={(e) =>{
-                                          setMcqoptionsValue(mcqoptions[2])
+                                        onChange={(e) => {
+                                          setMcqoptionsValue(mcqoptions[2]);
                                         }}
                                       />
                                       <input
@@ -392,8 +406,8 @@ const Tutorexam = () => {
                                         type="radio"
                                         name="rbt-radio"
                                         id="rbt-radio-4"
-                                        onChange={(e) =>{
-                                          setMcqoptionsValue(mcqoptions[3])
+                                        onChange={(e) => {
+                                          setMcqoptionsValue(mcqoptions[3]);
                                         }}
                                       />
                                       <input
@@ -489,20 +503,18 @@ const Tutorexam = () => {
                   <div className="filter-select rbt-modern-select mb--10">
                     <label>Question Subject :</label>
                     <div className="dropdown react-bootstrap-select w-100">
-                  <select
+                      <select
                         className="w-100 form-select"
                         value={questionSubject}
                         onChange={(e) => setQuestionSubject(e.target.value)}
                         id="displayname">
-                           <option value="">Select your Subject</option>
+                        <option value="">Select your Subject</option>
                         {subjectList.map((a) => (
                           <option key={a._id} value={a.questionSubject}>
                             {a.questionSubject}
                           </option>
                         ))}
-                      </select> 
-
-                       
+                      </select>
                     </div>
                   </div>
                 </div>
@@ -582,10 +594,26 @@ const Tutorexam = () => {
                                           {data.questionSubject}
                                         </small>
                                         <small>
-                                         <b> <span className="question " dangerouslySetInnerHTML={{ __html: data.question }} /> </b>                                           
+                                          <b>
+                                            {" "}
+                                            <span
+                                              className="question "
+                                              dangerouslySetInnerHTML={{
+                                                __html: data.question,
+                                              }}
+                                            />{" "}
+                                          </b>
                                         </small>
                                         <small>
-                                          <ReadMore> <span className="answer" dangerouslySetInnerHTML={{ __html: data.answer }}/></ReadMore>
+                                          <ReadMore>
+                                            {" "}
+                                            <span
+                                              className="answer"
+                                              dangerouslySetInnerHTML={{
+                                                __html: data.answer,
+                                              }}
+                                            />
+                                          </ReadMore>
                                         </small>
                                       </td>
                                       <td>{data.questionType}</td>
@@ -631,7 +659,7 @@ const Tutorexam = () => {
                       </div>
                       <div className="table-pagination float-end">
                         <Pagination
-                          count={3}
+                          count={totalPages}
                           page={currentPage}
                           onChange={handleChange}
                           shape="rounded"

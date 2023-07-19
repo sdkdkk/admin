@@ -36,13 +36,14 @@ const Testimonial = () => {
   const middlePosition = documentHeight / 2 - windowHeight / 2;
   var [isActive, SetisActive] = useState(true);
   const [isOpen, setIsOpen] = useState("");
+  const itemsPerPage = 5;
 
   const handleDropdownClick = (id) => {
     setIsOpen(isOpen === id ? "" : id);
   };
 
   const activeForm = () => {
-    SetisActive((prevIsActive) => !prevIsActive); 
+    SetisActive((prevIsActive) => !prevIsActive);
   };
   var tokens = localStorage.getItem("token");
 
@@ -92,11 +93,11 @@ const Testimonial = () => {
       formData.append("id", defaultValues?.id);
     }
     await dispatch(testimonialformapi(formData));
-    setSubmitted(true); 
+    setSubmitted(true);
     reset();
   };
 
-  const changestatus = async ( id, index) => {
+  const changestatus = async (id, index) => {
     var st;
     if (testimonial.user?.testimonial[index].isactive === true) {
       st = false;
@@ -108,7 +109,7 @@ const Testimonial = () => {
 
   const location = useLocation();
 
-  const handleChange = ( value) => {
+  const handleChange = (value) => {
     setCurrentPage(value);
     const searchParams = new URLSearchParams(location.search);
     searchParams.set("page", value);
@@ -137,7 +138,9 @@ const Testimonial = () => {
     dispatch(testimonialUserDelete(id));
   };
 
-
+  const totalTestimonials = testimonial.user?.testimonial.length || 0;
+  const totalPages = Math.ceil(totalTestimonials / itemsPerPage);
+  console.log(testimonial);
   return (
     <div>
       <div className="container-scroller">
@@ -167,34 +170,56 @@ const Testimonial = () => {
                         {testimonial.loading ||
                         testimonialstatus.loading ||
                         testimonialform.loading ||
-                        testimonialUserDeleteState.isLoading ? ( 
+                        testimonialUserDeleteState.isLoading ? (
                           <tbody>
                             <tr>
                               <td colSpan="6" className="text-center">
-                              <div className="d-flex justify-content-center align-items-center">
-                                    <div className="loader-container">
-                                      <div className="loader">
-                                        <RotatingLines
-                                          strokeColor="#d63384"
-                                          strokeWidth="5"
-                                          animationDuration="0.75"
-                                          width="50"
-                                          visible={true}
-                                        />
-                                      </div>
-                                      <div className="mobile-loader-text ml-5 mr-5"></div>
+                                <div className="d-flex justify-content-center align-items-center">
+                                  <div className="loader-container">
+                                    <div className="loader">
+                                      <RotatingLines
+                                        strokeColor="#d63384"
+                                        strokeWidth="5"
+                                        animationDuration="0.75"
+                                        width="50"
+                                        visible={true}
+                                      />
                                     </div>
+                                    <div className="mobile-loader-text ml-5 mr-5"></div>
                                   </div>
+                                </div>
                               </td>
                             </tr>
                           </tbody>
                         ) : (
                           <tbody>
                             <>
-                              {testimonial?.length === 0 ? (
+                              {testimonial.loading ||
+                              testimonialstatus.loading ||
+                              testimonialform.loading ||
+                              testimonialUserDeleteState.isLoading ? (
+                                <tr>
+                                  <td colSpan="6" className="text-center">
+                                    <div className="d-flex justify-content-center align-items-center">
+                                      <div className="loader-container">
+                                        <div className="loader">
+                                          <RotatingLines
+                                            strokeColor="#d63384"
+                                            strokeWidth="5"
+                                            animationDuration="0.75"
+                                            width="50"
+                                            visible={true}
+                                          />
+                                        </div>
+                                        <div className="mobile-loader-text ml-5 mr-5"></div>
+                                      </div>
+                                    </div>
+                                  </td>
+                                </tr>
+                              ) : testimonial.user?.testimonial.length === 0 ? ( // Check if testimonial data is empty
                                 <tr>
                                   <td
-                                    colSpan="4"
+                                    colSpan="6"
                                     className="fw-3 fw-bolder text-center">
                                     No Data found
                                   </td>
@@ -283,7 +308,7 @@ const Testimonial = () => {
                           }`,
                         }}>
                         <Pagination
-                          count={2}
+                          count={totalPages}
                           page={currentPage}
                           onChange={handleChange}
                           shape="rounded"
@@ -388,7 +413,7 @@ const Testimonial = () => {
                                     type="checkbox"
                                     id="flexSwitchCheckChecked"
                                     onChange={() => activeForm()}
-                                    checked={isActive}                            
+                                    checked={isActive}
                                   />
                                 </div>
                               </div>

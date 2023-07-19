@@ -32,6 +32,11 @@ const Tutorsearch = () => {
     getSearchQuestion();
   }, [currentPage]);
 
+  const isNextButtonDisabled = () => {
+    const limit = 6;
+    return tutorexamquestionData.length < limit;
+  };
+
   return (
     <>
       <div className="container-scroller">
@@ -84,18 +89,18 @@ const Tutorsearch = () => {
                                     marginLeft: "450px",
                                     marginTop: "50px",
                                   }}>
-                                    <div className="loader-container">
-                                      <div className="loader">
-                                        <RotatingLines
-                                          strokeColor="#d63384"
-                                          strokeWidth="5"
-                                          animationDuration="0.75"
-                                          width="50"
-                                          visible={true}
-                                        />
-                                      </div>
-                                      <div className="mobile-loader-text ml-5 mr-5"></div>
+                                  <div className="loader-container">
+                                    <div className="loader">
+                                      <RotatingLines
+                                        strokeColor="#d63384"
+                                        strokeWidth="5"
+                                        animationDuration="0.75"
+                                        width="50"
+                                        visible={true}
+                                      />
                                     </div>
+                                    <div className="mobile-loader-text ml-5 mr-5"></div>
+                                  </div>
                                 </div>
                               </div>
                             ) : (
@@ -135,7 +140,8 @@ const Tutorsearch = () => {
                         </button>
                         <button
                           onClick={() => setCurrentPage((prev) => prev + 1)}
-                          className="btn btn-primary">
+                          className="btn btn-primary"
+                          disabled={isNextButtonDisabled()}>
                           next
                         </button>
                       </div>
