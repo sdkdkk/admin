@@ -31,8 +31,9 @@ const Studentcounter = () => {
   const [postsPerPage] = useState(8);
   const indexOfLastPage = currentPage * postsPerPage;
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
-  const displayUsers = studentClass.slice(indexOfFirstPage, indexOfLastPage);
-  const totalPages = Math.ceil(studentClass.length / postsPerPage);
+  const displayUsers = studentClass?.slice(indexOfFirstPage, indexOfLastPage);
+  const totalPages = Math.ceil((studentClass?.length || 0) / postsPerPage);
+
 
   const location = useLocation();
 
@@ -275,7 +276,7 @@ const Studentcounter = () => {
                                   </td>
                                 </tr>
                               ) : (
-                                displayUsers.map((data, index, _id) => (
+                                displayUsers?.map((data, index, _id) => (
                                   <tr key={data._id}>
                                     <td>
                                       {index +
