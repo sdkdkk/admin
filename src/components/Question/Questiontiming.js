@@ -231,7 +231,7 @@ const Questiontiming = () => {
                         </div>
                         <div className="row mt-4">
                           <div className="col-lg-2 mt-2">
-                            <h6>First Time</h6>
+                            <h6>Question Time</h6>
                           </div>
                           <div className="col-lg-3">
                             <div className="mb-3">
@@ -500,7 +500,7 @@ const Questiontiming = () => {
                                   : "Update"
                                 : loading
                                 ? "Loading..."
-                                : "Add"}
+                                : "Submit"}
                             </Button>
                           </div>
                         </div>
@@ -522,7 +522,7 @@ const Questiontiming = () => {
                           <thead>
                             <tr>
                               <th>Sr.No</th>
-                              <th>Question Type</th>
+                              <th>Question Time</th>
                               <th>Question Time</th>
                               <th>Second Time</th>
                               <th>Skip Time</th>

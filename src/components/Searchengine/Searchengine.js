@@ -38,6 +38,7 @@ const Searchengine = () => {
   }, [currentPage, itemsPerPage, dispatch]);
 
   const searchengineData = searchengineState?.user?.data || [];
+  const hasNextPage = searchengineData.length === itemsPerPage;
   return (
     <div>
       <div className="container-scroller">
@@ -165,7 +166,8 @@ const Searchengine = () => {
                           onClick={() => {
                             setCurrentPage(currentPage + 1);
                             navigate(`/Searchengine?page=${currentPage + 1}`);
-                          }}>
+                          }}
+                          disabled={!hasNextPage}>
                           next
                         </button>
                       </div>

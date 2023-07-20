@@ -214,12 +214,12 @@ const Examdetails = () => {
                         </div>
                         <div className="col-lg-12">
                           <div className="radio-btn">
-                            <button
+                            {/* <button
                               className="btn btn-primary mx-2"
                               disabled={currentIndex === 0}
                               onClick={handleBack}>
                               Back
-                            </button>
+                            </button> */}
                             <button
                               className="btn btn-primary mx-2"
                               onClick={handleNext}>

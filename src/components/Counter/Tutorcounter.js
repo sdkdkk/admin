@@ -59,7 +59,6 @@ const Tutorcounter = () => {
       setLoading1(true);
       const response = await axios.get(`${url}/gettutorodometer`);
       setStudentClass(response.data.info);
-      console.log(response.data.info);
       setLoading1(false);
     } catch (error) {
       logoutIfInvalidToken(error.response);
@@ -243,7 +242,7 @@ const Tutorcounter = () => {
                                   : "Update"
                                 : loading
                                 ? "Loading..."
-                                : "Add"}
+                                : "Submit"}
                             </Button>
                           </div>
                         </div>

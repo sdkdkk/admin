@@ -170,7 +170,7 @@ const Tutorsubject = () => {
                               variant="primary"
                               type="submit"
                               disabled={loading}>
-                              {loading ? "Loading..." : "Add"}
+                              {loading ? "Loading..." : "Submit"}
                             </Button>
                           </div>
                         </div>

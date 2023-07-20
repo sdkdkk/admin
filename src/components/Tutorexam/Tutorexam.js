@@ -558,7 +558,7 @@ const Tutorexam = () => {
                         value={questionType}
                         onChange={(e) => setQuestionType(e.target.value)}
                         id="displayname">
-                        <option value="MCQ - Final answer">MCQ </option>
+                        <option value="MCQ - Final answer">MCQ</option>
                         <option value="Theory">Theory</option>
                       </select>
                     </div>

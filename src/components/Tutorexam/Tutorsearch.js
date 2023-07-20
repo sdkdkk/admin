@@ -5,6 +5,7 @@ import Sidebar from "../shared/Sidebar";
 import { getTutorQuestionsListApi } from "../../Redux/Loginpages/getTutorQuestionListSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { RotatingLines } from "react-loader-spinner";
+import { Link } from "react-router-dom";
 
 const Tutorsearch = () => {
   const dispatch = useDispatch();
@@ -31,6 +32,11 @@ const Tutorsearch = () => {
   useEffect(() => {
     getSearchQuestion();
   }, [currentPage]);
+
+  const isNextButtonDisabled = () => {
+    const limit = 6;
+    return tutorexamquestionData.length < limit;
+  };
 
   return (
     <>
@@ -84,18 +90,18 @@ const Tutorsearch = () => {
                                     marginLeft: "450px",
                                     marginTop: "50px",
                                   }}>
-                                    <div className="loader-container">
-                                      <div className="loader">
-                                        <RotatingLines
-                                          strokeColor="#d63384"
-                                          strokeWidth="5"
-                                          animationDuration="0.75"
-                                          width="50"
-                                          visible={true}
-                                        />
-                                      </div>
-                                      <div className="mobile-loader-text ml-5 mr-5"></div>
+                                  <div className="loader-container">
+                                    <div className="loader">
+                                      <RotatingLines
+                                        strokeColor="#d63384"
+                                        strokeWidth="5"
+                                        animationDuration="0.75"
+                                        width="50"
+                                        visible={true}
+                                      />
                                     </div>
+                                    <div className="mobile-loader-text ml-5 mr-5"></div>
+                                  </div>
                                 </div>
                               </div>
                             ) : (
@@ -135,11 +141,19 @@ const Tutorsearch = () => {
                         </button>
                         <button
                           onClick={() => setCurrentPage((prev) => prev + 1)}
-                          className="btn btn-primary">
+                          className="btn btn-primary"
+                          disabled={isNextButtonDisabled()}>
                           next
                         </button>
                       </div>
                     </div>
+                      <div className="mx-2 mb-4">
+                        <Link to="/tutorexam">
+                          <button className="btn btn-primary mx-2">
+                            Back
+                          </button>
+                        </Link>
+                      </div>
                   </div>
                 </div>
               </div>
