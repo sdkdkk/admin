@@ -37,6 +37,40 @@ const Dashboard = () => {
   };
   console.log(data);
 
+   const [selectedOption, setSelectedOption] = useState('today');
+   const [timerang, setTimerange] = useState([])
+   
+   const handleOptionChange = (option) => {
+      setSelectedOption(option);
+    };
+
+
+      const fetchTimerange = async () => {
+  let token = localStorage.getItem("token");
+  try {
+    setLoading1(true);
+
+    const response = await axios.post(`${url}/admin/dashboardstats?timerange=today`, {
+      token: token,
+    });
+    console.log(response);
+    setTimerange(response.data.dashboardStats.questionAskedQuestionType);
+    setLoading1(false);
+  } catch (error) {
+    logoutIfInvalidToken(error.response);
+    setLoading1(false);
+  }
+};
+
+console.log(selectedOption);
+console.log(timerang.mcq)
+
+useEffect(()=>{
+fetchTimerange()
+
+},[])
+
+
   return (
     <>
       <div className="container-scroller">
@@ -144,7 +178,10 @@ const Dashboard = () => {
                     <div className="card-body">
                       <div className="table-responsive ">
                          <h4 className="mt-2 font-weight-bold inner-card-text mb-3">
-                              Post Questions/ Today / LifeTime
+                              Post Questions | <span onClick={() => handleOptionChange('today')}
+      className={`btn ${selectedOption === '/today' ? 'btn-primary' : 'btn-outline-primary'}`}> Today</span> |
+       <span onClick={() => handleOptionChange('lifetime')}
+      className={`btn ${selectedOption === '/lifetime' ? 'btn-primary' : 'btn-outline-primary'}`}> LifeTime </span>
                          </h4>
                          <table className="table">
                                 <tr>
@@ -167,7 +204,7 @@ const Dashboard = () => {
                                   <th>Prob. Solving</th>
                                   </tr>
                                 <tr>
-                                  <td></td>
+                                  <td>{timerang.mcq}</td>
                                   <td></td>
                                   <td></td>
                                   <td></td>
@@ -197,7 +234,11 @@ const Dashboard = () => {
                     <div className="card-body">
                       <div className="table-responsive ">
                          <div className="mt-2 font-weight-bold inner-card-text mb-3">
-                             Answer/ Today/ LifeTime
+                             Answer/ 
+                              <span onClick={() => handleOptionChange('today')}
+      className={`btn ${selectedOption === 'today' ? 'btn-primary' : 'btn-outline-primary'}`}> Today</span> | 
+      <span onClick={() => handleOptionChange('lifetime')}
+      className={`btn ${selectedOption === 'lifetime' ? 'btn-primary' : 'btn-outline-primary'}`}> LifeTime </span>
                          </div>
                          <table className="table">
                                 <tr>
@@ -219,24 +260,28 @@ const Dashboard = () => {
                                   <th>LongAnswer</th>
                                   <th>Prob. Solving</th>
                                   </tr>
-                                <tr>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                 
-                                </tr>
+                               <tbody>
+                                  <tr>
+                                    <td>{timerang?.mcq}</td>
+                                    <td>{timerang?.Mcq_exp}</td>
+                                    <td>{timerang?.TrueFalse}</td>
+                                    <td>{timerang?.TrueFalse_exp}</td>
+                                    <td>{timerang?.Fillup}</td>
+                                    <td>{timerang?.Fillup_exp}</td>
+                                    <td>{timerang?.shortAns}</td>
+                                    <td>{timerang?.shortAns_exp}</td>
+                                    <td>{timerang?.Matching_less}</td>
+                                    <td>{timerang?.Matching_more}</td>
+                                    <td>{timerang?.Def}</td>
+                                    <td>{timerang?.caseStudy_less}</td>
+                                    <td>{timerang?.caseStudy_more}</td>
+                                    <td>{timerang?.Theroy}</td>
+                                    <td>{timerang?.Writing}</td>
+                                    <td>{timerang?.LongAnswer}</td>
+                                    <td>{timerang?.Prob_Solving}</td>
+                                  </tr>
+                                </tbody>
+
                               </table>   
                           </div>
                         </div>
