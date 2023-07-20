@@ -28,6 +28,7 @@ import { updateTutorQuestionApi } from "../../Redux/Loginpages/updateTutorQuesti
 import axios from "axios";
 import { logoutIfInvalidToken } from "../../helpers/handleError";
 import { RotatingLines } from "react-loader-spinner";
+import { defaultFormat } from "moment";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 const ReadMore = ({ children }) => {
@@ -57,7 +58,7 @@ const Tutorexam = () => {
   const [editorHtml, setEditorHtml] = useState("");
   const [isOpen, setIsOpen] = useState("");
   const [questionSubject, setQuestionSubject] = useState("Maths");
-  const [questionType, setQuestionType] = useState("MCQ - Final answer");
+  const [questionType, setQuestionType] = useState("MCQ");
   const [mcqoptions, setMcqoptions] = useState([]);
   const [mcqoptionsValue, setMcqoptionsValue] = useState("");
   const [subjectList, setSubjectList] = useState([]);
@@ -186,17 +187,20 @@ const Tutorexam = () => {
 
   const onSubmit = (data) => {
     console.log(data);
-    const rest = data.questionType === "MCQ - Final answer"? { mcqoptions: mcqoptions } : {};
-    if (data.questionType === "MCQ - Final answer") {
+    const rest = data.questionType === "MCQ"? { mcqoptions: mcqoptions } : {};
+    if (data.questionType === "MCQ") {
       data.answer = mcqoptionsValue;
     }
     if (data.questionType === "Theory" && data?.mcqoptions) {
       delete data.mcqoptions;
     }
     if (defaultValues.id) {
-      dispatch(
-        updateTutorQuestionApi({...data, ...rest, id: defaultValues.id })
-      );
+     const questionSubject=defaultValues.questionSubject;
+     const question=defaultValues.question;
+     const answer =defaultValues.answer;
+     const id = defaultValues.id;
+
+      dispatch( updateTutorQuestionApi({questionSubject, question,answer ,id, ...rest }));
     } else {
       dispatch(postTutorQuestionApi({ ...data, ...rest }));
     }
@@ -217,25 +221,25 @@ const Tutorexam = () => {
   }
 
   // Set mcqoptionsValue if it exists in the data for MCQ type questions
-  // if (data.questionType === "MCQ - Final answer") {
+  // if (data.questionType === "MCQ") {
   //   // Find the selected option value and set it as mcqoptionsValue
   //   const selectedOption = data.mcqoptions.find((option) => option === data.answer);
   //   if (selectedOption) {
   //     setMcqoptionsValue(selectedOption);
   //   }
   // }
-   const rest = data.questionType === "MCQ - Final answer"? { mcqoptions: mcqoptions } : {};
+   const rest = data.questionType === "MCQ"? { mcqoptions: mcqoptions } : {};
     setDefaultValues({
       answer: data.answer,
       questionSubject: data.questionSubject,
       question: data.question,
-      questionType: data.questionType,
+    
       id: data._id,
     });
     setEditQuestionData(true);
     setIsOpen("");
   };
-
+console.log(defaultValues);
   return (
     <div>
       <div className="container-scroller">
@@ -344,7 +348,7 @@ const Tutorexam = () => {
                                   });
                                 }}>
                                 <option value="">Select Type</option>
-                                <option value="MCQ - Final answer">MCQ - Final answer</option>
+                                <option value="MCQ">MCQ - Final answer</option>
                                 <option value="Theory">Theory</option>
                               </select>
                               {errors.questionType && (
@@ -354,7 +358,7 @@ const Tutorexam = () => {
                               )}
                             </div>
                           </div>
-                          {questionTypeValues === "MCQ - Final answer" && (
+                          {questionTypeValues === "MCQ" && (
                             <div className="col-md-12 col-lg-12 mb--20 mt-4">
                               <h5>MCQ - Final answer</h5>
                               <div className="p--20 rbt-border radius-6 bg-primary-opacity">
@@ -558,7 +562,7 @@ const Tutorexam = () => {
                         value={questionType}
                         onChange={(e) => setQuestionType(e.target.value)}
                         id="displayname">
-                        <option value="MCQ - Final answer">MCQ</option>
+                        <option value="MCQ">MCQ</option>
                         <option value="Theory">Theory</option>
                       </select>
                     </div>
