@@ -148,7 +148,7 @@ const Tutorexampopup = () => {
                           </div>
                           <div className="col-lg-4 col-md-8">
                             <div className="mb-3">
-                              <input
+                              <textarea
                                 type="text"
                                 className="form-control me-2"
                                 id="hoursInput"
