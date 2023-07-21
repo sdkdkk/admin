@@ -1,30 +1,38 @@
 import axios from "axios";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Logo from "../Image/doubt-q.png";
 import { ToastContainer, toast } from "react-toastify";
 import "./forgotpw.css";
+import { useState } from "react";
+import { Button } from "react-bootstrap";
+import { LineWave, RotatingLines } from "react-loader-spinner";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
 const ForgotpassWord = () => {
-  const notify = (data) => toast(data);
-
-  const { register, handleSubmit, reset } = useForm({});
+  const [loading1, setLoading1] = useState(false);
+  const [data, setData] =useState([])
+const navigate= useNavigate();
+  const { register, handleSubmit, reset, watch } = useForm({});
+const email = watch("email")
 
   const onSubmit = async (data) => {
-
+ setLoading1(true);
     try {
-      const { response } = await axios.post(`${url}/admin/forgotpassword`,  data );
-
-      if (data.status === 1) {
-        notify(data.message);
-        reset();
+      const response  = await axios.post(`${url}/admin/forgotpassword`,  data ); 
+      if (response.data.status === 1) {
+        setData(response.data)
+         toast.success(response.data.message);
+         reset();
+         navigate("/login")
       } else {
-        notify(data.error);
+         toast.error(data.error);
+          setLoading1(false);
       }
     } catch (error) {
-      notify(error.response.data.error);
+         toast.error(error.response.data.error);
+
     }
   };
 
@@ -125,12 +133,23 @@ const ForgotpassWord = () => {
 
                           <div className="col-lg-12 col-md-12 col-12 text-end">
                             <div className="rbt-form-group">
-                              <button
+                            { loading1 ? 
+                         <div className="text-loader">
+                         <RotatingLines
+                              strokeColor="#d63384"
+                              strokeWidth="5"
+                              animationDuration="0.75"
+                              width="35"
+                              visible={true}
+                        />
+                       </div>
+                           :<Button
                                 className="rbt-btn btn-gradient btn-sm mr--10 text-center w-100"
                                 type="submit"
+                                disabled={!email}
                               >
                                 Reset Password
-                              </button>
+                              </Button>} 
                             </div>
                           </div>
                           <div className="col-lg-12 col-md-12 col-12 text-center mt-4">

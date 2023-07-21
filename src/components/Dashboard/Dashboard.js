@@ -35,7 +35,7 @@ const Dashboard = () => {
       setLoading1(false);
     }
   };
-  console.log(data);
+  
 
    const [selectedOption, setSelectedOption] = useState('today');
    const [timerang, setTimerange] = useState([])
@@ -53,7 +53,7 @@ const Dashboard = () => {
     const response = await axios.post(`${url}/admin/dashboardstats?timerange=today`, {
       token: token,
     });
-    console.log(response);
+  
     setTimerange(response.data.dashboardStats.questionAskedQuestionType);
     setLoading1(false);
   } catch (error) {
@@ -61,9 +61,6 @@ const Dashboard = () => {
     setLoading1(false);
   }
 };
-
-console.log(selectedOption);
-console.log(timerang.mcq)
 
 useEffect(()=>{
 fetchTimerange()

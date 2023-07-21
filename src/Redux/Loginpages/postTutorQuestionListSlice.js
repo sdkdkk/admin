@@ -3,6 +3,7 @@ import axios from 'axios';
 import { createSlice } from "@reduxjs/toolkit";
 
 import { logoutIfInvalidToken } from "../../helpers/handleError";
+import { toast } from "react-toastify";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
@@ -18,9 +19,11 @@ export const postTutorQuestionApi = createAsyncThunk('admin/ask/tutorexamquestio
     const token = localStorage.getItem('token')
     try {
         const response = await axios.post(`${url}/admin/ask/tutorexamquestion`, { token, ...payload });
+        toast.success(response.data.message)
         return response.data;
-    } catch (error) {
+    } catch (error) {      
         logoutIfInvalidToken(error.response)
+        toast.error(error.response.data.error)
         return rejectWithValue(error.response.data.error);
     }
 })

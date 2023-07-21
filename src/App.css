@@ -187,3 +187,11 @@ td.text-right.font-weight-bold {
         margin-left: 50%;
     }
 }
+
+
+.text-loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* height: 100vh; or any other height you want */
+}

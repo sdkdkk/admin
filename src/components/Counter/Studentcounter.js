@@ -59,8 +59,7 @@ const Studentcounter = () => {
     try {
       setLoading1(true);
       const response = await axios.get(`${url}/getstudentodometer`);
-      setStudentClass(response.data.info);
-      console.log(response.data.info);
+      setStudentClass(response.data.info)     
       setLoading1(false);
     } catch (error) {
       logoutIfInvalidToken(error.response);

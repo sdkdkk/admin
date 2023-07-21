@@ -127,7 +127,7 @@ const Addnewuser = () => {
     reset(defaultData);
     setValue("isactive", filtrData?.[0]?.isactive.toString());
   }, [data, defaultRoleId]);
-  console.log(filtrData?.[0]);
+  
   useEffect(() => {
     reset(filtrData?.[0]);
   }, [reset]);

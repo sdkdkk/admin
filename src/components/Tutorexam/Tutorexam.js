@@ -52,9 +52,9 @@ const ReadMore = ({ children }) => {
 };
 
 const Tutorexam = () => {
-  const [currentPage, setCurrentPage] = useState(1);
+ 
   const [loading, setLoading] = useState(false);
-  const [postsPerPage] = useState(8);
+  const [postsPerPage] = useState(10);
   const [editorHtml, setEditorHtml] = useState("");
   const [isOpen, setIsOpen] = useState("");
   const [questionSubject, setQuestionSubject] = useState("Maths");
@@ -65,8 +65,11 @@ const Tutorexam = () => {
   const [editQuestionData, setEditQuestionData] = useState(false);
   const [defaultValues, setDefaultValues] = useState({});
   const [formValue, setFormValue] = useState({});
+  const [currentPage, setCurrentPage] = useState(1);
   const indexOfLastPage = currentPage * postsPerPage;
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
+
+
   const getTutorQuestionsListData = useSelector(
     (state) => state.getTutorQuestionsList
   );
@@ -104,8 +107,7 @@ const Tutorexam = () => {
       const response = await axios.post(`${url}/getquestionsubject`, {
         token: token,
       });
-      setSubjectList(response?.data?.data);
-      console.log(response);
+      setSubjectList(response?.data?.data);     
       setLoading(false);
     } catch (error) {
       logoutIfInvalidToken(error.response);
@@ -138,36 +140,8 @@ const Tutorexam = () => {
   } = useForm({ values: defaultValues });
 
   const questionTypeValues = getValues("questionType");
-  useEffect(() => {
-    const payload = {
-      questionSubject,
-      questionType,
-      limit: 6,
-      skip: (currentPage - 1) * 6,
-    };
-    if (
-      postTutorQuestionData?.isSuccess ||
-      updateTutorQuestionData?.isSuccess
-    ) {
-      reset();
-      setMcqoptions([]);
-      dispatch(getTutorQuestionsListApi(payload));
-      console.log(dispatch(getTutorQuestionsListApi(payload)));
-      dispatch(resetPostTutorQuestionApi());
-    }
 
-    // Initialize the answer field with the value from defaultValues.answer
-    if (defaultValues?.answer) {
-      setValue("answer", defaultValues.answer);
-    }
-  }, [
-    postTutorQuestionData?.isSuccess,
-    updateTutorQuestionData?.isSuccess,
-    defaultValues?.answer,
-  ]);
-
-  const onSubmit = (data) => {
-    console.log(data);
+  const onSubmit = (data) => {   
     const rest = data.questionType === "MCQ" ? { mcqoptions: mcqoptions } : {};
     if (data.questionType === "MCQ") {
       data.answer = mcqoptionsValue;
@@ -176,10 +150,10 @@ const Tutorexam = () => {
       delete data.mcqoptions;
     }
     if (defaultValues.id) {
-      const questionSubject = defaultValues.questionSubject;
-      const question = defaultValues.question;
-      const answer = defaultValues.answer;
-      const id = defaultValues.id;
+      const questionSubject = data.questionSubject;
+      const question = data.question;
+      const answer = data.answer;
+      const id = data.id;
 
       dispatch(
         updateTutorQuestionApi({
@@ -188,6 +162,7 @@ const Tutorexam = () => {
           answer,
           id,
           ...rest,
+          // ...data, id:defaultValues.id
         })
       );
     } else {
@@ -197,33 +172,33 @@ const Tutorexam = () => {
       navigate(" ");
     }, 500);
   };
-  const handleUpdateClick = (data) => {
-    console.log(data);
-    if (data?.mcqoptions) {
-      // Set the mcqoptions state if it exists in the data
-      setMcqoptions(data.mcqoptions);
+   const [selectedMcqOption, setSelectedMcqOption] = useState("");
+   
+  const handleUpdateClick = (data) => {    
+ if (data.questionType === "MCQ") {
+      setMcqoptions(data?.mcqoptions || []);
+      setMcqoptionsValue(data?.answer || "");
+      setSelectedMcqOption(data?.answer || "");
     }
-
-    // Set mcqoptionsValue if it exists in the data for MCQ type questions
-    if (data.questionType === "MCQ") {
-      setMcqoptionsValue(data.answer);
-    }
-
-    const rest = data.questionType === "MCQ" ? { mcqoptions: mcqoptions } : {};
+     setEditorHtml(data.question);
+   
     setDefaultValues({
       answer: data.answer,
       questionSubject: data.questionSubject,
       question: data.question,
-
+      questionType: data.questionType,
+      mcqoptions: data?.mcqoptions || [],
       id: data._id,
     });
     setEditQuestionData(true);
     setIsOpen("");
-  };
-  console.log(defaultValues);
+  }; 
+
+
+  const displayUsers = [...tutorexamquestionData].slice(indexOfFirstPage, indexOfLastPage);
 
   const totalPages = Math.ceil(tutorexamquestionData.length / postsPerPage);
-  console.log(totalPages);
+
 
   return (
     <div>
@@ -331,9 +306,10 @@ const Tutorexam = () => {
                                   setFormValue({
                                     questionType: e.target.value,
                                   });
+                                  
                                 }}>
                                 <option value="">Select Type</option>
-                                <option value="MCQ">MCQ - Final answer</option>
+                                <option value="MCQ">MCQ</option>
                                 <option value="Theory">Theory</option>
                               </select>
                               {errors.questionType && (
@@ -343,9 +319,13 @@ const Tutorexam = () => {
                               )}
                             </div>
                           </div>
+                          <div>
+
+    </div> 
+
                           {questionTypeValues === "MCQ" && (
                             <div className="col-md-12 col-lg-12 mb--20 mt-4">
-                              <h5>MCQ - Final answer</h5>
+                              <h5>MCQ </h5>
                               <div className="p--20 rbt-border radius-6 bg-primary-opacity">
                                 <div className="row">
                                   <div className="col-lg-6">
@@ -354,7 +334,8 @@ const Tutorexam = () => {
                                         className="form-check-input"
                                         type="radio"
                                         name="rbt-radio"
-                                        id="rbt-radio-1"
+                                        id="rbt-radio-0"
+                                        checked={defaultValues.answer ===mcqoptions[0]}
                                         onChange={(e) => {
                                           setMcqoptionsValue(mcqoptions[0]);
                                         }}
@@ -362,7 +343,7 @@ const Tutorexam = () => {
                                       <input
                                         className="form-check-label"
                                         htmlFor="rbt-radio-1"
-                                        onChange={(e) => {
+                                         onChange={(e) => {
                                           const tempmcqoptions = mcqoptions;
                                           tempmcqoptions[0] = e.target.value;
                                           setMcqoptions(tempmcqoptions);
@@ -377,7 +358,8 @@ const Tutorexam = () => {
                                         className="form-check-input"
                                         type="radio"
                                         name="rbt-radio"
-                                        id="rbt-radio-2"
+                                        id="rbt-radio-1"
+                                         checked={defaultValues.answer === mcqoptions[1]}
                                         onChange={(e) => {
                                           setMcqoptionsValue(mcqoptions[1]);
                                         }}
@@ -400,14 +382,15 @@ const Tutorexam = () => {
                                         className="form-check-input"
                                         type="radio"
                                         name="rbt-radio"
-                                        id="rbt-radio-3"
+                                        id="rbt-radio-2"
+                                         checked={defaultValues.answer ===mcqoptions[2]}
                                         onChange={(e) => {
                                           setMcqoptionsValue(mcqoptions[2]);
                                         }}
                                       />
                                       <input
                                         className="form-check-label"
-                                        htmlFor="rbt-radio-1"
+                                        htmlFor="rbt-radio-2"
                                         onChange={(e) => {
                                           const tempmcqoptions = mcqoptions;
                                           tempmcqoptions[2] = e.target.value;
@@ -423,14 +406,15 @@ const Tutorexam = () => {
                                         className="form-check-input"
                                         type="radio"
                                         name="rbt-radio"
-                                        id="rbt-radio-4"
+                                        id="rbt-radio-3"
+                                         checked={defaultValues.answers ===mcqoptions[3]}
                                         onChange={(e) => {
                                           setMcqoptionsValue(mcqoptions[3]);
                                         }}
                                       />
                                       <input
                                         className="form-check-label"
-                                        htmlFor="rbt-radio-1"
+                                        htmlFor="rbt-radio-3"
                                         onChange={(e) => {
                                           const tempmcqoptions = mcqoptions;
                                           tempmcqoptions[3] = e.target.value;
@@ -579,7 +563,7 @@ const Tutorexam = () => {
                             </tbody>
                           ) : (
                             <tbody className="text-capitalize text-sm-start">
-                              {[...tutorexamquestionData]?.length === 0 ? (
+                              {displayUsers?.length === 0 ? (
                                 <tr>
                                   <td
                                     colSpan="4"
@@ -588,7 +572,7 @@ const Tutorexam = () => {
                                   </td>
                                 </tr>
                               ) : (
-                                [...tutorexamquestionData]?.map((data, id) => {
+                                displayUsers?.map((data, id) => {
                                   return (
                                     <tr key={data._id}>
                                       <td className="d-flex flex-column">
@@ -674,6 +658,7 @@ const Tutorexam = () => {
                           variant="outlined"
                           siblingCount={0}
                         />
+                       
                       </div>
                     </div>
                   </div>

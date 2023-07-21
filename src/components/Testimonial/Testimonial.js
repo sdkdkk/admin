@@ -140,7 +140,7 @@ const Testimonial = () => {
 
   const totalTestimonials = testimonial.user?.testimonial.length || 0;
   const totalPages = Math.ceil(totalTestimonials / itemsPerPage);
-  console.log(testimonial);
+ 
   return (
     <div>
       <div className="container-scroller">
