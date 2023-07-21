@@ -146,7 +146,7 @@ const Tutorexampopup = () => {
                           <div className="col-lg-2 col-md-4 mt-2">
                             <h6>Content</h6>
                           </div>
-                          <div className="col-lg-4 col-md-8">
+                          <div className="col-lg-10 col-md-8">
                             <div className="mb-3">
                               <textarea
                                 type="text"
@@ -169,7 +169,7 @@ const Tutorexampopup = () => {
                           <div className="col-lg-2 col-md-4">
                             <h6>&nbsp;</h6>
                           </div>
-                          <div className="col-lg-4 col-md-8 mb-2 text-md-end">
+                          <div className="col-lg-10 col-md-8 mb-2 text-md-end">
                             <Button
                               variant="primary"
                               type="submit"
