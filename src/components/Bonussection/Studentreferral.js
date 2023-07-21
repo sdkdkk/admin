@@ -257,7 +257,7 @@ const Studentreferral = () => {
                                 ))}
                               </tbody>}
                             </Table>
-                            <div className="table-pagination">
+                            <div className="table-pagination float-end">
                               <Pagination
                                 count={totalPages}
                                 page={currentPage}
