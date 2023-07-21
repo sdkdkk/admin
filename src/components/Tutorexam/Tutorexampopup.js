@@ -257,7 +257,7 @@ const Tutorexampopup = () => {
                             </tbody>
                           )}
                         </Table>
-                        <div className="table-pagination float-end">
+                        <div className="table-pagination float-end mt-3">
                           <Pagination
                             count={totalPages}
                             page={currentPage}
