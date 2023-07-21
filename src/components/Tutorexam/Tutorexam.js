@@ -116,19 +116,6 @@ const Tutorexam = () => {
     fetchData();
   }, []);
 
-  // useEffect(() => {
-  //   const payload = {
-  //     questionSubject,
-  //     questionType,
-  //     limit: 6,
-  //     skip: (currentPage - 1) * 6,
-  //   };
-  //   if (deleteTutorQuestionData?.isSuccess) {
-  //     dispatch(getTutorQuestionsListApi(payload));
-  //     dispatch(resetDeleteTutorQuestion());
-  //   }
-  // }, [deleteTutorQuestionData?.isSuccess]);
-
   const handleDropdownClick = (id) => {
     setIsOpen(isOpen === id ? "" : id);
   };
@@ -137,57 +124,51 @@ const Tutorexam = () => {
     dispatch(deleteTutorQuestion(id));
   };
 
- 
-  const { register, handleSubmit, reset,formats, control, getValues, setValue,modules,editorRef, formState: { errors },
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formats,
+    control,
+    getValues,
+    setValue,
+    modules,
+    editorRef,
+    formState: { errors },
   } = useForm({ values: defaultValues });
 
   const questionTypeValues = getValues("questionType");
-  // useEffect(() => {
-  //   const payload = {
-  //     questionSubject,
-  //     questionType,
-  //     limit: 6,
-  //     skip: (currentPage - 1) * 6,
-  //   };
-  //   if (
-  //     postTutorQuestionData?.isSuccess ||
-  //     updateTutorQuestionData?.isSuccess
-  //   ) {
-  //     reset();
-  //     setMcqoptions([]);
-  //     dispatch(getTutorQuestionsListApi(payload));
-  //     dispatch(resetPostTutorQuestionApi());
-  //   }
-  // }, [postTutorQuestionData?.isSuccess || updateTutorQuestionData?.isSuccess]);
-
   useEffect(() => {
-  const payload = {
-    questionSubject,
-    questionType,
-    limit: 6,
-    skip: (currentPage - 1) * 6,
-  };
-  if (
-    postTutorQuestionData?.isSuccess ||
-    updateTutorQuestionData?.isSuccess
-  ) {
-    reset();
-    setMcqoptions([]);
-    dispatch(getTutorQuestionsListApi(payload));
-    console.log(dispatch(getTutorQuestionsListApi(payload)))
-    dispatch(resetPostTutorQuestionApi());
-  }
+    const payload = {
+      questionSubject,
+      questionType,
+      limit: 6,
+      skip: (currentPage - 1) * 6,
+    };
+    if (
+      postTutorQuestionData?.isSuccess ||
+      updateTutorQuestionData?.isSuccess
+    ) {
+      reset();
+      setMcqoptions([]);
+      dispatch(getTutorQuestionsListApi(payload));
+      console.log(dispatch(getTutorQuestionsListApi(payload)));
+      dispatch(resetPostTutorQuestionApi());
+    }
 
-  // Initialize the answer field with the value from defaultValues.answer
-  if (defaultValues?.answer) {
-    setValue("answer", defaultValues.answer);
-  }
-}, [postTutorQuestionData?.isSuccess, updateTutorQuestionData?.isSuccess, defaultValues?.answer]);
-
+    // Initialize the answer field with the value from defaultValues.answer
+    if (defaultValues?.answer) {
+      setValue("answer", defaultValues.answer);
+    }
+  }, [
+    postTutorQuestionData?.isSuccess,
+    updateTutorQuestionData?.isSuccess,
+    defaultValues?.answer,
+  ]);
 
   const onSubmit = (data) => {
     console.log(data);
-    const rest = data.questionType === "MCQ"? { mcqoptions: mcqoptions } : {};
+    const rest = data.questionType === "MCQ" ? { mcqoptions: mcqoptions } : {};
     if (data.questionType === "MCQ") {
       data.answer = mcqoptionsValue;
     }
@@ -195,12 +176,20 @@ const Tutorexam = () => {
       delete data.mcqoptions;
     }
     if (defaultValues.id) {
-     const questionSubject=defaultValues.questionSubject;
-     const question=defaultValues.question;
-     const answer =defaultValues.answer;
-     const id = defaultValues.id;
+      const questionSubject = defaultValues.questionSubject;
+      const question = defaultValues.question;
+      const answer = defaultValues.answer;
+      const id = defaultValues.id;
 
-      dispatch( updateTutorQuestionApi({questionSubject, question,answer ,id, ...rest }));
+      dispatch(
+        updateTutorQuestionApi({
+          questionSubject,
+          question,
+          answer,
+          id,
+          ...rest,
+        })
+      );
     } else {
       dispatch(postTutorQuestionApi({ ...data, ...rest }));
     }
@@ -208,38 +197,34 @@ const Tutorexam = () => {
       navigate(" ");
     }, 500);
   };
- const handleUpdateClick = (data) => {
+  const handleUpdateClick = (data) => {
     console.log(data);
     if (data?.mcqoptions) {
-    // Set the mcqoptions state if it exists in the data
-    setMcqoptions(data.mcqoptions);
-  }
+      // Set the mcqoptions state if it exists in the data
+      setMcqoptions(data.mcqoptions);
+    }
 
-  // Set mcqoptionsValue if it exists in the data for MCQ type questions
-  if (data.questionType === "MCQ") {
-    setMcqoptionsValue(data.answer);
-  }
+    // Set mcqoptionsValue if it exists in the data for MCQ type questions
+    if (data.questionType === "MCQ") {
+      setMcqoptionsValue(data.answer);
+    }
 
-  // Set mcqoptionsValue if it exists in the data for MCQ type questions
-  // if (data.questionType === "MCQ") {
-  //   // Find the selected option value and set it as mcqoptionsValue
-  //   const selectedOption = data.mcqoptions.find((option) => option === data.answer);
-  //   if (selectedOption) {
-  //     setMcqoptionsValue(selectedOption);
-  //   }
-  // }
-   const rest = data.questionType === "MCQ"? { mcqoptions: mcqoptions } : {};
+    const rest = data.questionType === "MCQ" ? { mcqoptions: mcqoptions } : {};
     setDefaultValues({
       answer: data.answer,
       questionSubject: data.questionSubject,
       question: data.question,
-    
+
       id: data._id,
     });
     setEditQuestionData(true);
     setIsOpen("");
   };
-console.log(defaultValues);
+  console.log(defaultValues);
+
+  const totalPages = Math.ceil(tutorexamquestionData.length / postsPerPage);
+  console.log(totalPages);
+
   return (
     <div>
       <div className="container-scroller">
@@ -370,8 +355,8 @@ console.log(defaultValues);
                                         type="radio"
                                         name="rbt-radio"
                                         id="rbt-radio-1"
-                                        onChange={(e) =>{
-                                          setMcqoptionsValue(mcqoptions[0])
+                                        onChange={(e) => {
+                                          setMcqoptionsValue(mcqoptions[0]);
                                         }}
                                       />
                                       <input
@@ -393,8 +378,8 @@ console.log(defaultValues);
                                         type="radio"
                                         name="rbt-radio"
                                         id="rbt-radio-2"
-                                        onChange={(e) =>{
-                                          setMcqoptionsValue(mcqoptions[1])
+                                        onChange={(e) => {
+                                          setMcqoptionsValue(mcqoptions[1]);
                                         }}
                                       />
                                       <input
@@ -416,8 +401,8 @@ console.log(defaultValues);
                                         type="radio"
                                         name="rbt-radio"
                                         id="rbt-radio-3"
-                                        onChange={(e) =>{
-                                          setMcqoptionsValue(mcqoptions[2])
+                                        onChange={(e) => {
+                                          setMcqoptionsValue(mcqoptions[2]);
                                         }}
                                       />
                                       <input
@@ -439,8 +424,8 @@ console.log(defaultValues);
                                         type="radio"
                                         name="rbt-radio"
                                         id="rbt-radio-4"
-                                        onChange={(e) =>{
-                                          setMcqoptionsValue(mcqoptions[3])
+                                        onChange={(e) => {
+                                          setMcqoptionsValue(mcqoptions[3]);
                                         }}
                                       />
                                       <input
@@ -492,16 +477,6 @@ console.log(defaultValues);
                             </Col>
                           )}
                           <div className="col-md-12 mt-4">
-                            <Link to="#">
-                              <button
-                                disabled={
-                                  postTutorQuestionData?.isLoading ||
-                                  updateTutorQuestionData?.isLoading
-                                }
-                                className="btn btn-primary mx-2">
-                                Back
-                              </button>
-                            </Link>
                             <button
                               disabled={
                                 postTutorQuestionData?.isLoading ||
@@ -536,20 +511,18 @@ console.log(defaultValues);
                   <div className="filter-select rbt-modern-select mb--10">
                     <label>Question Subject :</label>
                     <div className="dropdown react-bootstrap-select w-100">
-                  <select
+                      <select
                         className="w-100 form-select"
                         value={questionSubject}
                         onChange={(e) => setQuestionSubject(e.target.value)}
                         id="displayname">
-                           <option value="">Select your Subject</option>
+                        <option value="">Select your Subject</option>
                         {subjectList.map((a) => (
                           <option key={a._id} value={a.questionSubject}>
                             {a.questionSubject}
                           </option>
                         ))}
-                      </select> 
-
-                       
+                      </select>
                     </div>
                   </div>
                 </div>
@@ -629,10 +602,26 @@ console.log(defaultValues);
                                           {data.questionSubject}
                                         </small>
                                         <small>
-                                         <b> <span className="question " dangerouslySetInnerHTML={{ __html: data.question }} /> </b>                                           
+                                          <b>
+                                            {" "}
+                                            <span
+                                              className="question "
+                                              dangerouslySetInnerHTML={{
+                                                __html: data.question,
+                                              }}
+                                            />{" "}
+                                          </b>
                                         </small>
                                         <small>
-                                          <ReadMore> <span className="answer" dangerouslySetInnerHTML={{ __html: data.answer }}/></ReadMore>
+                                          <ReadMore>
+                                            {" "}
+                                            <span
+                                              className="answer"
+                                              dangerouslySetInnerHTML={{
+                                                __html: data.answer,
+                                              }}
+                                            />
+                                          </ReadMore>
                                         </small>
                                       </td>
                                       <td>{data.questionType}</td>
@@ -678,7 +667,7 @@ console.log(defaultValues);
                       </div>
                       <div className="table-pagination float-end">
                         <Pagination
-                          count={3}
+                          count={totalPages}
                           page={currentPage}
                           onChange={handleChange}
                           shape="rounded"

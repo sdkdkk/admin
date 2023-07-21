@@ -403,11 +403,6 @@ const Pages = () => {
                             )}
                           </div>
                           <div className="pages-btn mt-4">
-                            <Button
-                              className="btn btn-primary mx-2"
-                              onClick={() => (window.location.href = "/pages")}>
-                              Back
-                            </Button>
                             <button
                               type="submit"
                               className="btn btn-primary mx-2"
