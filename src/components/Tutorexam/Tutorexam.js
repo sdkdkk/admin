@@ -57,7 +57,7 @@ const Tutorexam = () => {
   const [postsPerPage] = useState(10);
   const [editorHtml, setEditorHtml] = useState("");
   const [isOpen, setIsOpen] = useState("");
-  const [questionSubject, setQuestionSubject] = useState("Maths");
+  const [questionSubject, setQuestionSubject] = useState("Biology");
   const [questionType, setQuestionType] = useState("MCQ");
   const [mcqoptions, setMcqoptions] = useState([]);
   const [mcqoptionsValue, setMcqoptionsValue] = useState("");
