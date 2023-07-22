@@ -95,9 +95,9 @@ function App() {
         <Route
           path="/"
           element={
-            <RequireAuth>
+            // <RequireAuth>
               <Dashboard />
-            </RequireAuth>
+            // </RequireAuth>
           }
         />
         <Route
