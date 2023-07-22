@@ -287,24 +287,34 @@ const Tutorexam = () => {
                               <Controller
                                 name="question"
                                 control={control}
+                                value={editorHtml}
                                 defaultValue={editorHtml}
-                                render={({ field }) => (
-                                  <ReactQuill
-                                    theme="snow"
-                                    name="question"
-                                    {...register("question", {
-                                      required:
-                                        "Please Enter A Valid Question!",
-                                    })}
-                                    onChange={(value) => setEditorHtml(value)}
-                                    modules={modules}
-                                    formats={formats}
-                                    bounds={"#root"}
-                                    placeholder="type Here...."
-                                    ref={editorRef}
-                                    {...field}
-                                  />
-                                )}
+                                render={({ field }) => {
+                                  return (
+                                    <ReactQuill
+                                      theme="snow"
+                                      name="question"
+                                      {...register("question", {
+                                        required:
+                                          "Please Enter A Valid Question!",
+                                      })}
+                                      modules={modules}
+                                      formats={formats}
+                                      bounds={"#root"}
+                                      placeholder="type Here...."
+                                      ref={editorRef}
+                                      {...field}
+                                      value={editorHtml}
+                                      onChange={(value) => {
+                                        setEditorHtml(value);
+                                        setDefaultValues({
+                                          ...defaultValues,
+                                          question: value,
+                                        });
+                                      }}
+                                    />
+                                  );
+                                }}
                               />
                               <p className="error-msg text-danger">
                                 {errors.question && errors.question.message}
@@ -329,6 +339,7 @@ const Tutorexam = () => {
                                   setDefaultValues({
                                     ...defaultValues,
                                     answer: mcqoptions[0],
+                                    questionType: e.target.value,
                                   });
                                 }}
                               >
@@ -518,8 +529,11 @@ const Tutorexam = () => {
                                             name="rbt-radio"
                                             id="rbt-radio-0"
                                             checked={
-                                              defaultValues.answer ===
+                                              defaultValues.answer &&
                                               mcqoptions[0]
+                                                ? defaultValues.answer ===
+                                                  mcqoptions[0]
+                                                : false
                                             }
                                             onChange={(e) => {
                                               setDefaultValues({
@@ -550,8 +564,11 @@ const Tutorexam = () => {
                                             name="rbt-radio"
                                             id="rbt-radio-1"
                                             checked={
-                                              defaultValues.answer ===
+                                              defaultValues.answer &&
                                               mcqoptions[1]
+                                                ? defaultValues.answer ===
+                                                  mcqoptions[1]
+                                                : false
                                             }
                                             onChange={(e) => {
                                               setDefaultValues({
@@ -582,8 +599,11 @@ const Tutorexam = () => {
                                             name="rbt-radio"
                                             id="rbt-radio-2"
                                             checked={
-                                              defaultValues.answer ===
+                                              defaultValues.answer &&
                                               mcqoptions[2]
+                                                ? defaultValues.answer ===
+                                                  mcqoptions[2]
+                                                : false
                                             }
                                             onChange={(e) => {
                                               setDefaultValues({
@@ -614,8 +634,11 @@ const Tutorexam = () => {
                                             name="rbt-radio"
                                             id="rbt-radio-3"
                                             checked={
-                                              defaultValues.answer ===
+                                              defaultValues.answer &&
                                               mcqoptions[3]
+                                                ? defaultValues.answer ===
+                                                  mcqoptions[3]
+                                                : false
                                             }
                                             onChange={(e) => {
                                               setDefaultValues({
