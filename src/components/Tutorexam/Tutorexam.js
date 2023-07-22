@@ -57,7 +57,7 @@ const Tutorexam = () => {
   const [postsPerPage] = useState(10);
   const [editorHtml, setEditorHtml] = useState("");
   const [isOpen, setIsOpen] = useState("");
-  const [questionSubject, setQuestionSubject] = useState("Maths");
+  const [questionSubject, setQuestionSubject] = useState("Biology");
   const [questionType, setQuestionType] = useState("MCQ");
   const [mcqoptions, setMcqoptions] = useState([]);
   const [mcqoptionsValue, setMcqoptionsValue] = useState("");
@@ -74,9 +74,9 @@ const Tutorexam = () => {
     (state) => state.getTutorQuestionsList
   );
   const postTutorQuestionData = useSelector((state) => state.postTutorQuestion);
-  const updateTutorQuestionData = useSelector(
-    (state) => state.updateTutorQuestion
-  );
+  console.log(postTutorQuestionData);
+  const updateTutorQuestionData = useSelector((state) => state.updateTutorQuestion);
+  console.log(updateTutorQuestionData);
   const deleteTutorQuestionData = useSelector(
     (state) => state.deleteTutorQuestion
   );
@@ -140,41 +140,45 @@ const Tutorexam = () => {
   } = useForm({ values: defaultValues });
 
   const questionTypeValues = getValues("questionType");
-
+  const [isEditMode, setIsEditMode] = useState(false);
   const onSubmit = (data) => {   
+     setLoading(true);
     const rest = data.questionType === "MCQ" ? { mcqoptions: mcqoptions } : {};
+    
+    console.log(rest);
     if (data.questionType === "MCQ") {
       data.answer = mcqoptionsValue;
     }
+    console.log(mcqoptionsValue, data.answer);
     if (data.questionType === "Theory" && data?.mcqoptions) {
       delete data.mcqoptions;
     }
-    if (defaultValues.id) {
+    if (data.id) {
       const questionSubject = data.questionSubject;
       const question = data.question;
       const answer = data.answer;
       const id = data.id;
-
-      dispatch(
-        updateTutorQuestionApi({
-          questionSubject,
-          question,
-          answer,
-          id,
-          ...rest,
-          // ...data, id:defaultValues.id
-        })
-      );
-    } else {
-      dispatch(postTutorQuestionApi({ ...data, ...rest }));
+      dispatch(updateTutorQuestionApi({questionSubject,question,answer, id, ...rest}));   
+    } else {      
+      dispatch(postTutorQuestionApi({ ...data, ...rest }));           
     }
+     setLoading(false);
     setTimeout(() => {
       navigate(" ");
     }, 500);
   };
    const [selectedMcqOption, setSelectedMcqOption] = useState("");
    
-  const handleUpdateClick = (data) => {    
+useEffect(()=>{
+if(updateTutorQuestionData.data.status ===1 || postTutorQuestionData.data.status ===1){
+  reset();
+}
+
+},[])
+
+  const handleUpdateClick = (data) => {  
+    setIsEditMode(true)  
+      setLoading(true);
  if (data.questionType === "MCQ") {
       setMcqoptions(data?.mcqoptions || []);
       setMcqoptionsValue(data?.answer || "");
@@ -187,11 +191,13 @@ const Tutorexam = () => {
       questionSubject: data.questionSubject,
       question: data.question,
       questionType: data.questionType,
-      mcqoptions: data?.mcqoptions || [],
+      mcqoptions: data?.mcqoptions,
       id: data._id,
     });
     setEditQuestionData(true);
     setIsOpen("");
+    setIsEditMode(false)
+      setLoading(false);
   }; 
 
 
@@ -325,19 +331,22 @@ const Tutorexam = () => {
                           <div>
 
     </div> 
-                          {questionTypeValues === "MCQ" && (
+    {isEditMode === true ? 
+                          questionTypeValues === "MCQ" && (
                             <div className="col-md-12 col-lg-12 mb--20 mt-4">
                               <h5>MCQ </h5>
                               <div className="p--20 rbt-border radius-6 bg-primary-opacity">
                                 <div className="row">
                                   <div className="col-lg-6">
+
+                    
                                     <div className="rbt-form-check p--10">
                                       <input
                                         className="form-check-input"
                                         type="radio"
                                         name="rbt-radio"
                                         id="rbt-radio-0"
-                                        checked={defaultValues.answer ===mcqoptions[0]}
+                                        // checked={defaultValues.answer ===mcqoptions[0]}
                                         onChange={(e) => {
                                           setDefaultValues({
                                           ...defaultValues,
@@ -348,7 +357,7 @@ const Tutorexam = () => {
                                       />
                                       <input
                                         className="form-check-label"
-                                        htmlFor="rbt-radio-1"
+                                        htmlFor="rbt-radio-0"
                                          onChange={(e) => {
                                           // if(!mcqoptions.length) return
                                            const tempmcqoptions = [...mcqoptions];
@@ -366,7 +375,7 @@ const Tutorexam = () => {
                                         type="radio"
                                         name="rbt-radio"
                                         id="rbt-radio-1"
-                                         checked={defaultValues.answer === mcqoptions[1]}
+                                        // checked={defaultValues.answer === mcqoptions[1]}
                                         onChange={(e) => {
                                           setDefaultValues({
                                             ...defaultValues,
@@ -400,7 +409,7 @@ const Tutorexam = () => {
                                         type="radio"
                                         name="rbt-radio"
                                         id="rbt-radio-2"
-                                         checked={defaultValues.answer ===mcqoptions[2]}
+                                        //  checked={defaultValues.answer ===mcqoptions[2]}
                                         onChange={(e) => {
                                           setDefaultValues({
                                             ...defaultValues,
@@ -434,7 +443,7 @@ const Tutorexam = () => {
                                         type="radio"
                                         name="rbt-radio"
                                         id="rbt-radio-3"
-                                         checked={defaultValues.answer ===mcqoptions[3]}
+                                        //  checked={defaultValues.answer ===mcqoptions[3]}
                                         onChange={(e) => {
                                           setDefaultValues({
                                             ...defaultValues,
@@ -464,7 +473,114 @@ const Tutorexam = () => {
                                 </div>
                               </div>
                             </div>
-                          )}
+                          ):
+                          questionTypeValues === "MCQ" && (
+                            <div className="col-md-12 col-lg-12 mb--20 mt-4">
+                              <h5>MCQ - Final answer</h5>
+                              <div className="p--20 rbt-border radius-6 bg-primary-opacity">
+                                <div className="row">
+                                  <div className="col-lg-6">
+                                    <div className="rbt-form-check p--10">
+                                      <input
+                                        className="form-check-input"
+                                        type="radio"
+                                        name="rbt-radio"
+                                        id="rbt-radio-0"
+                                        checked={defaultValues.answer ===mcqoptions[0]}
+                                        onChange={(e) =>{
+                                          setMcqoptionsValue(mcqoptions[0])
+                                        }}
+                                      />
+                                      <input
+                                        className="form-check-label"
+                                        htmlFor="rbt-radio-1"
+                                        onChange={(e) => {
+                                          const tempmcqoptions = mcqoptions;
+                                          tempmcqoptions[0] = e.target.value;
+                                          setMcqoptions(tempmcqoptions);
+                                        }}
+                                        value={mcqoptions[0]}
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="col-lg-6">
+                                    <div className="rbt-form-check p--10">
+                                      <input
+                                        className="form-check-input"
+                                        type="radio"
+                                        name="rbt-radio"
+                                        id="rbt-radio-1"    
+                                        checked={defaultValues.answer ===mcqoptions[1]}                                    
+                                        onChange={(e) =>{
+                                          setMcqoptionsValue(mcqoptions[1])
+                                        }}
+                                      />
+                                      <input
+                                        className="form-check-label"
+                                        htmlFor="rbt-radio-1"
+                                        onChange={(e) => {
+                                          const tempmcqoptions = mcqoptions;
+                                          tempmcqoptions[1] = e.target.value;
+                                          setMcqoptions(tempmcqoptions);
+                                        }}
+                                        value={mcqoptions[1]}
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="col-lg-6">
+                                    <div className="rbt-form-check p--10">
+                                      <input
+                                        className="form-check-input"
+                                        type="radio"
+                                        name="rbt-radio"
+                                        id="rbt-radio-2"                                        
+                                        checked={defaultValues.answer ===mcqoptions[2]}
+                                        onChange={(e) =>{
+                                          setMcqoptionsValue(mcqoptions[2])
+                                        }}
+                                      />
+                                      <input
+                                        className="form-check-label"
+                                        htmlFor="rbt-radio-1"
+                                        onChange={(e) => {
+                                          const tempmcqoptions = mcqoptions;
+                                          tempmcqoptions[2] = e.target.value;
+                                          setMcqoptions(tempmcqoptions);
+                                        }}
+                                        value={mcqoptions[2]}
+                                      />
+                                    </div>
+                                  </div>
+                                  <div className="col-lg-6">
+                                    <div className="rbt-form-check p--10">
+                                      <input
+                                        className="form-check-input"
+                                        type="radio"
+                                        name="rbt-radio"
+                                        id="rbt-radio-3"
+                                         checked={defaultValues.answer ===mcqoptions[3]}
+                                        onChange={(e) =>{
+                                          setMcqoptionsValue(mcqoptions[3])
+                                        }}
+                                      />   
+                                      <input
+                                        className="form-check-label"
+                                        htmlFor="rbt-radio-1"
+                                        onChange={(e) => {
+                                          const tempmcqoptions = mcqoptions;
+                                          tempmcqoptions[3] = e.target.value;
+                                          setMcqoptions(tempmcqoptions);
+                                        }}
+                                        value={mcqoptions[3]}
+                                      />
+                                    </div>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          )} 
+
+
                           {questionTypeValues === "Theory" && (
                             <Col md={12}>
                               <div>
@@ -577,7 +693,7 @@ const Tutorexam = () => {
                               <th scope="col">Question Subject</th>
                             </tr>
                           </thead>
-                          {loading ? (
+                          {loading || postTutorQuestionData.isLoading ||  updateTutorQuestionData.isLoading ? (
                             <tbody>
                               <tr>
                                 <td colSpan="3" className="text-center">
