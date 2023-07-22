@@ -306,10 +306,10 @@ const Tutorexam = () => {
                                   setFormValue({
                                     questionType: e.target.value,
                                   });
-                                  setDefaultValues({
-                                    ...defaultValues,
-                                    answer:''
-                                  })
+                                  // setDefaultValues({
+                                  //   ...defaultValues,
+                                  //   answer:''
+                                  // })
                                 }}>
                                 <option value="">Select Type</option>
                                 <option value="MCQ">MCQ</option>
@@ -350,7 +350,7 @@ const Tutorexam = () => {
                                         className="form-check-label"
                                         htmlFor="rbt-radio-1"
                                          onChange={(e) => {
-                                          if(!mcqoptions.length) return
+                                          // if(!mcqoptions.length) return
                                            const tempmcqoptions = [...mcqoptions];
                                            tempmcqoptions[0] = e.target.value;
                                           setMcqoptions([...tempmcqoptions]);
@@ -379,7 +379,7 @@ const Tutorexam = () => {
                                         className="form-check-label"
                                         htmlFor="rbt-radio-1"
                                         onChange={(e) => {
-                                          if(!mcqoptions.length) return
+                                          // if(!mcqoptions.length) return
                                            const tempmcqoptions = [...mcqoptions];
                                            tempmcqoptions[1] = e.target.value;
                                           setMcqoptions([...tempmcqoptions]);
@@ -413,7 +413,7 @@ const Tutorexam = () => {
                                         className="form-check-label"
                                         htmlFor="rbt-radio-2"
                                         onChange={(e) => {
-                                          if(!mcqoptions.length) return
+                                          // if(!mcqoptions.length) return
                                            const tempmcqoptions = [...mcqoptions];
                                            tempmcqoptions[2] = e.target.value;
                                           setMcqoptions([...tempmcqoptions]);
@@ -447,7 +447,7 @@ const Tutorexam = () => {
                                         className="form-check-label"
                                         htmlFor="rbt-radio-3"
                                         onChange={(e) => {
-                                          if(!mcqoptions.length) return
+                                          // if(!mcqoptions.length) return
                                            const tempmcqoptions = [...mcqoptions];
                                            tempmcqoptions[3] = e.target.value;
                                           setMcqoptions([...tempmcqoptions]);
