@@ -562,7 +562,7 @@ if(updateTutorQuestionData.data.status ===1 || postTutorQuestionData.data.status
                                         onChange={(e) =>{
                                           setMcqoptionsValue(mcqoptions[3])
                                         }}
-                                      />
+                                      />   
                                       <input
                                         className="form-check-label"
                                         htmlFor="rbt-radio-1"
