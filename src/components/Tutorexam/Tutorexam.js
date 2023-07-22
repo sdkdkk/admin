@@ -312,10 +312,10 @@ if(updateTutorQuestionData.data.status ===1 || postTutorQuestionData.data.status
                                   setFormValue({
                                     questionType: e.target.value,
                                   });
-                                  // setDefaultValues({
-                                  //   ...defaultValues,
-                                  //   answer:''
-                                  // })
+                                  setDefaultValues({
+                                    ...defaultValues,
+                                    answer:mcqoptions[0]
+                                  })
                                 }}>
                                 <option value="">Select Type</option>
                                 <option value="MCQ">MCQ</option>
@@ -488,6 +488,10 @@ if(updateTutorQuestionData.data.status ===1 || postTutorQuestionData.data.status
                                         id="rbt-radio-0"
                                         checked={defaultValues.answer ===mcqoptions[0]}
                                         onChange={(e) =>{
+                                          setDefaultValues({
+                                            ...defaultValues,
+                                            answer:mcqoptions[0]
+                                            })
                                           setMcqoptionsValue(mcqoptions[0])
                                         }}
                                       />
@@ -512,6 +516,10 @@ if(updateTutorQuestionData.data.status ===1 || postTutorQuestionData.data.status
                                         id="rbt-radio-1"    
                                         checked={defaultValues.answer ===mcqoptions[1]}                                    
                                         onChange={(e) =>{
+                                          setDefaultValues({
+                                            ...defaultValues,
+                                            answer:mcqoptions[1]
+                                            })
                                           setMcqoptionsValue(mcqoptions[1])
                                         }}
                                       />
@@ -536,6 +544,10 @@ if(updateTutorQuestionData.data.status ===1 || postTutorQuestionData.data.status
                                         id="rbt-radio-2"                                        
                                         checked={defaultValues.answer ===mcqoptions[2]}
                                         onChange={(e) =>{
+                                          setDefaultValues({
+                                            ...defaultValues,
+                                            answer:mcqoptions[2]
+                                            })
                                           setMcqoptionsValue(mcqoptions[2])
                                         }}
                                       />
@@ -560,6 +572,10 @@ if(updateTutorQuestionData.data.status ===1 || postTutorQuestionData.data.status
                                         id="rbt-radio-3"
                                          checked={defaultValues.answer ===mcqoptions[3]}
                                         onChange={(e) =>{
+                                          setDefaultValues({
+                                            ...defaultValues,
+                                            answer:mcqoptions[3]
+                                            })
                                           setMcqoptionsValue(mcqoptions[3])
                                         }}
                                       />   
