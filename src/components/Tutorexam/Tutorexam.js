@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import Footer from "../shared/Footer";
 import Navbar from "../shared/Navbar";
@@ -126,15 +126,33 @@ const Tutorexam = () => {
     dispatch(deleteTutorQuestion(id));
   };
 
-  const { register, handleSubmit, reset, formats, control, getValues, setValue, modules, editorRef,formState: { errors },
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formats,
+    control,
+    getValues,
+    setValue,
+    modules,
+    editorRef,
+    formState: { errors },
   } = useForm({ values: defaultValues });
 
   const questionTypeValues = getValues("questionType");
   const [isEditMode, setIsEditMode] = useState(false);
+
+  const resetForm = () => {
+    setValue("questionType", "no");
+    setDefaultValues({});
+    setMcqoptions([]);
+    setEditorHtml("");
+    setQuestionType("");
+  };
   const onSubmit = (data) => {
     setLoading(true);
     const rest = data.questionType === "MCQ" ? { mcqoptions: mcqoptions } : {};
-
+    debugger;
     if (data.questionType === "MCQ") {
       data.answer = mcqoptionsValue;
     }
@@ -142,31 +160,37 @@ const Tutorexam = () => {
     if (data.questionType === "Theory" && data?.mcqoptions) {
       delete data.mcqoptions;
     }
+
     if (data.id) {
       const questionSubject = data.questionSubject;
       const question = data.question;
       const answer = data.answer;
       const id = data.id;
       dispatch(
-        updateTutorQuestionApi({questionSubject, question, answer, id,...rest}));
+        updateTutorQuestionApi({
+          questionSubject,
+          question,
+          answer,
+          id,
+          ...rest,
+        })
+      );
     } else {
       dispatch(postTutorQuestionApi({ ...data, ...rest }));
     }
-     
+    resetForm();
+    reset();
     setLoading(false);
     setTimeout(() => {
       navigate(" ");
     }, 500);
-
-  reset()
   };
   const [selectedMcqOption, setSelectedMcqOption] = useState("");
 
   useEffect(() => {
-      if (postTutorQuestionData.data.status === 1) {
-    reset();
-
-  }
+    if (postTutorQuestionData.data.status === 1) {
+      reset();
+    }
   }, []);
 
   const handleUpdateClick = (data) => {
