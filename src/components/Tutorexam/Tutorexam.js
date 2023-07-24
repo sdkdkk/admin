@@ -44,7 +44,8 @@ const ReadMore = ({ children }) => {
       <span
         onClick={toggleReadMore}
         className="read-or-hide"
-        style={{ color: "blue" }}>
+        style={{ color: "blue" }}
+      >
         {isReadMore ? "...read more" : " show less"}
       </span>
     </p>
@@ -52,7 +53,6 @@ const ReadMore = ({ children }) => {
 };
 
 const Tutorexam = () => {
- 
   const [loading, setLoading] = useState(false);
   const [postsPerPage] = useState(10);
   const [editorHtml, setEditorHtml] = useState("");
@@ -69,14 +69,14 @@ const Tutorexam = () => {
   const indexOfLastPage = currentPage * postsPerPage;
   const indexOfFirstPage = indexOfLastPage - postsPerPage;
 
-
   const getTutorQuestionsListData = useSelector(
     (state) => state.getTutorQuestionsList
   );
   const postTutorQuestionData = useSelector((state) => state.postTutorQuestion);
-  console.log(postTutorQuestionData);
-  const updateTutorQuestionData = useSelector((state) => state.updateTutorQuestion);
-  console.log(updateTutorQuestionData);
+  const updateTutorQuestionData = useSelector(
+    (state) => state.updateTutorQuestion
+  );
+
   const deleteTutorQuestionData = useSelector(
     (state) => state.deleteTutorQuestion
   );
@@ -107,7 +107,7 @@ const Tutorexam = () => {
       const response = await axios.post(`${url}/getquestionsubject`, {
         token: token,
       });
-      setSubjectList(response?.data?.data);     
+      setSubjectList(response?.data?.data);
       setLoading(false);
     } catch (error) {
       logoutIfInvalidToken(error.response);
@@ -141,15 +141,14 @@ const Tutorexam = () => {
 
   const questionTypeValues = getValues("questionType");
   const [isEditMode, setIsEditMode] = useState(false);
-  const onSubmit = (data) => {   
-     setLoading(true);
+  const onSubmit = (data) => {
+    setLoading(true);
     const rest = data.questionType === "MCQ" ? { mcqoptions: mcqoptions } : {};
-    
-    console.log(rest);
+
     if (data.questionType === "MCQ") {
       data.answer = mcqoptionsValue;
     }
-    console.log(mcqoptionsValue, data.answer);
+
     if (data.questionType === "Theory" && data?.mcqoptions) {
       delete data.mcqoptions;
     }
@@ -158,34 +157,42 @@ const Tutorexam = () => {
       const question = data.question;
       const answer = data.answer;
       const id = data.id;
-      dispatch(updateTutorQuestionApi({questionSubject,question,answer, id, ...rest}));   
-    } else {      
-      dispatch(postTutorQuestionApi({ ...data, ...rest }));           
+      dispatch(
+        updateTutorQuestionApi({
+          questionSubject,
+          question,
+          answer,
+          id,
+          ...rest,
+        })
+      );
+    } else {
+      dispatch(postTutorQuestionApi({ ...data, ...rest }));
     }
-     setLoading(false);
+    setLoading(false);
     setTimeout(() => {
       navigate(" ");
     }, 500);
   };
    const [selectedMcqOption, setSelectedMcqOption] = useState("");
    
-// useEffect(()=>{
-// if(updateTutorQuestionData.data.status ===1 || postTutorQuestionData.data.status ===1){
-//   reset();
-// }
+useEffect(()=>{
+if(updateTutorQuestionData.data.status ===1 || postTutorQuestionData.data.status ===1){
+  reset();
+}
 
-// },[])
+},[])
 
-  const handleUpdateClick = (data) => {  
-    setIsEditMode(true)  
-      setLoading(true);
- if (data.questionType === "MCQ") {
+  const handleUpdateClick = (data) => {
+    setIsEditMode(true);
+    setLoading(true);
+    if (data.questionType === "MCQ") {
       setMcqoptions(data?.mcqoptions || []);
       setMcqoptionsValue(data?.answer || "");
       setSelectedMcqOption(data?.answer || "");
     }
-     setEditorHtml(data.question);
-   
+    setEditorHtml(data.question);
+
     setDefaultValues({
       answer: data.answer,
       questionSubject: data.questionSubject,
@@ -196,15 +203,16 @@ const Tutorexam = () => {
     });
     setEditQuestionData(true);
     setIsOpen("");
-    setIsEditMode(false)
-      setLoading(false);
-  }; 
+    setIsEditMode(false);
+    setLoading(false);
+  };
 
-
-  const displayUsers = [...tutorexamquestionData].slice(indexOfFirstPage, indexOfLastPage);
+  const displayUsers = [...tutorexamquestionData].slice(
+    indexOfFirstPage,
+    indexOfLastPage
+  );
 
   const totalPages = Math.ceil(tutorexamquestionData.length / postsPerPage);
-
 
   return (
     <div>
@@ -223,7 +231,8 @@ const Tutorexam = () => {
                     <Button
                       className="search-btn mx-2"
                       variant="secondary"
-                      size="lg">
+                      size="lg"
+                    >
                       Search Question
                     </Button>
                   </Link>
@@ -238,7 +247,8 @@ const Tutorexam = () => {
                           <div className="dropdown react-bootstrap-select w-100">
                             <label
                               htmlFor="questionType"
-                              className="form-label">
+                              className="form-label"
+                            >
                               Select Subject
                             </label>
                             <select
@@ -247,7 +257,8 @@ const Tutorexam = () => {
                               name="questionSubject"
                               {...register("questionSubject", {
                                 required: true,
-                              })}>
+                              })}
+                            >
                               <option value="">Select your Subject</option>
                               {subjectList.map((a) => (
                                 <option key={a._id} value={a.questionSubject}>
@@ -268,29 +279,40 @@ const Tutorexam = () => {
                           <div className="col-md-12">
                             <Form.Group
                               className="mb-3 "
-                              controlId="formBasicEmail">
+                              controlId="formBasicEmail"
+                            >
                               <Form.Label>Questions</Form.Label>
                               <Controller
                                 name="question"
                                 control={control}
+                                value={editorHtml}
                                 defaultValue={editorHtml}
-                                render={({ field }) => (
-                                  <ReactQuill
-                                    theme="snow"
-                                    name="question"
-                                    {...register("question", {
-                                      required:
-                                        "Please Enter A Valid Question!",
-                                    })}
-                                    onChange={(value) => setEditorHtml(value)}
-                                    modules={modules}
-                                    formats={formats}
-                                    bounds={"#root"}
-                                    placeholder="type Here...."
-                                    ref={editorRef}
-                                    {...field}
-                                  />
-                                )}
+                                render={({ field }) => {
+                                  return (
+                                    <ReactQuill
+                                      theme="snow"
+                                      name="question"
+                                      {...register("question", {
+                                        required:
+                                          "Please Enter A Valid Question!",
+                                      })}
+                                      modules={modules}
+                                      formats={formats}
+                                      bounds={"#root"}
+                                      placeholder="type Here...."
+                                      ref={editorRef}
+                                      {...field}
+                                      value={editorHtml}
+                                      onChange={(value) => {
+                                        setEditorHtml(value);
+                                        setDefaultValues({
+                                          ...defaultValues,
+                                          question: value,
+                                        });
+                                      }}
+                                    />
+                                  );
+                                }}
                               />
                               <p className="error-msg text-danger">
                                 {errors.question && errors.question.message}
@@ -307,15 +329,15 @@ const Tutorexam = () => {
                                 {...register("questionType", {
                                   required: true,
                                 })}
-                                onClick={(e) => {
+                                onChange={(e) => {
                                   setValue("questionType", e.target.value);
                                   setFormValue({
                                     questionType: e.target.value,
                                   });
-                                  setDefaultValues({
-                                    ...defaultValues,
-                                   answer:'' 
-                                 })
+                                  // setDefaultValues({
+                                  //   ...defaultValues,
+                                  //   answer:''
+                                  // })
                                 }}>
                                 <option value="">Select Type</option>
                                 <option value="MCQ">MCQ</option>
@@ -337,14 +359,16 @@ const Tutorexam = () => {
                               <h5>MCQ </h5>
                               <div className="p--20 rbt-border radius-6 bg-primary-opacity">
                                 <div className="row">
-                                  <div className="col-lg-6">                    
+                                  <div className="col-lg-6">
+
+                    
                                     <div className="rbt-form-check p--10">
                                       <input
                                         className="form-check-input"
                                         type="radio"
                                         name="rbt-radio"
                                         id="rbt-radio-0"
-                                        checked={defaultValues.answer ===mcqoptions[0]}
+                                        // checked={defaultValues.answer ===mcqoptions[0]}
                                         onChange={(e) => {
                                           setDefaultValues({
                                           ...defaultValues,
@@ -373,7 +397,7 @@ const Tutorexam = () => {
                                         type="radio"
                                         name="rbt-radio"
                                         id="rbt-radio-1"
-                                        checked={defaultValues.answer === mcqoptions[1]}
+                                        // checked={defaultValues.answer === mcqoptions[1]}
                                         onChange={(e) => {
                                           setDefaultValues({
                                             ...defaultValues,
@@ -407,7 +431,7 @@ const Tutorexam = () => {
                                         type="radio"
                                         name="rbt-radio"
                                         id="rbt-radio-2"
-                                         checked={defaultValues.answer ===mcqoptions[2]}
+                                        //  checked={defaultValues.answer ===mcqoptions[2]}
                                         onChange={(e) => {
                                           setDefaultValues({
                                             ...defaultValues,
@@ -441,7 +465,7 @@ const Tutorexam = () => {
                                         type="radio"
                                         name="rbt-radio"
                                         id="rbt-radio-3"
-                                         checked={defaultValues.answer ===mcqoptions[3]}
+                                        //  checked={defaultValues.answer ===mcqoptions[3]}
                                         onChange={(e) => {
                                           setDefaultValues({
                                             ...defaultValues,
@@ -491,7 +515,7 @@ const Tutorexam = () => {
                                       />
                                       <input
                                         className="form-check-label"
-                                        htmlFor="rbt-radio-0"
+                                        htmlFor="rbt-radio-1"
                                         onChange={(e) => {
                                           const tempmcqoptions = mcqoptions;
                                           tempmcqoptions[0] = e.target.value;
@@ -539,7 +563,7 @@ const Tutorexam = () => {
                                       />
                                       <input
                                         className="form-check-label"
-                                        htmlFor="rbt-radio-2"
+                                        htmlFor="rbt-radio-1"
                                         onChange={(e) => {
                                           const tempmcqoptions = mcqoptions;
                                           tempmcqoptions[2] = e.target.value;
@@ -556,14 +580,14 @@ const Tutorexam = () => {
                                         type="radio"
                                         name="rbt-radio"
                                         id="rbt-radio-3"
-                                         checked={defaultValues.answer ===mcqoptions[3] }
+                                         checked={defaultValues.answer ===mcqoptions[3]}
                                         onChange={(e) =>{
                                           setMcqoptionsValue(mcqoptions[3])
                                         }}
                                       />   
                                       <input
                                         className="form-check-label"
-                                        htmlFor="rbt-radio-3"
+                                        htmlFor="rbt-radio-1"
                                         onChange={(e) => {
                                           const tempmcqoptions = mcqoptions;
                                           tempmcqoptions[3] = e.target.value;
@@ -577,7 +601,6 @@ const Tutorexam = () => {
                               </div>
                             </div>
                           )} 
-
 
                           {questionTypeValues === "Theory" && (
                             <Col md={12}>
@@ -618,7 +641,8 @@ const Tutorexam = () => {
                                 updateTutorQuestionData?.isLoading
                               }
                               type="submit"
-                              className="btn btn-primary">
+                              className="btn btn-primary"
+                            >
                               {editQuestionData ? (
                                 <>
                                   {updateTutorQuestionData?.isLoading
@@ -650,7 +674,8 @@ const Tutorexam = () => {
                         className="w-100 form-select"
                         value={questionSubject}
                         onChange={(e) => setQuestionSubject(e.target.value)}
-                        id="displayname">
+                        id="displayname"
+                      >
                         <option value="">Select your Subject</option>
                         {subjectList.map((a) => (
                           <option key={a._id} value={a.questionSubject}>
@@ -669,7 +694,8 @@ const Tutorexam = () => {
                         className="w-100 form-select"
                         value={questionType}
                         onChange={(e) => setQuestionType(e.target.value)}
-                        id="displayname">
+                        id="displayname"
+                      >
                         <option value="MCQ">MCQ</option>
                         <option value="Theory">Theory</option>
                       </select>
@@ -691,7 +717,9 @@ const Tutorexam = () => {
                               <th scope="col">Question Subject</th>
                             </tr>
                           </thead>
-                          {loading || postTutorQuestionData.isLoading ||  updateTutorQuestionData.isLoading ? (
+                          {loading ||
+                          postTutorQuestionData.isLoading ||
+                          updateTutorQuestionData.isLoading ? (
                             <tbody>
                               <tr>
                                 <td colSpan="3" className="text-center">
@@ -718,7 +746,8 @@ const Tutorexam = () => {
                                 <tr>
                                   <td
                                     colSpan="4"
-                                    className="fw-3 fw-bolder text-center">
+                                    className="fw-3 fw-bolder text-center"
+                                  >
                                     No Question found
                                   </td>
                                 </tr>
@@ -731,7 +760,8 @@ const Tutorexam = () => {
                                           <Badge
                                             pill
                                             color="primary"
-                                            className="bg-opacity-25 text-primary">
+                                            className="bg-opacity-25 text-primary"
+                                          >
                                             {data.questionType}
                                           </Badge>
                                           {data.questionSubject}
@@ -767,24 +797,28 @@ const Tutorexam = () => {
                                             className="dropdown__button"
                                             onClick={() =>
                                               handleDropdownClick(data._id)
-                                            }>
+                                            }
+                                          >
                                             <BiDotsVerticalRounded />
                                           </button>
                                           {data._id === isOpen && (
                                             <div
                                               style={{ left: "-44px" }}
-                                              className="dropdown__popup">
+                                              className="dropdown__popup"
+                                            >
                                               <ul className="dropdown__list">
                                                 <li
                                                   onClick={() =>
                                                     handleUpdateClick(data)
-                                                  }>
+                                                  }
+                                                >
                                                   Edit
                                                 </li>
                                                 <li
                                                   onClick={() =>
                                                     handleDeleteClick(data._id)
-                                                  }>
+                                                  }
+                                                >
                                                   Delete
                                                 </li>
                                               </ul>
@@ -809,7 +843,6 @@ const Tutorexam = () => {
                           variant="outlined"
                           siblingCount={0}
                         />
-                       
                       </div>
                     </div>
                   </div>
