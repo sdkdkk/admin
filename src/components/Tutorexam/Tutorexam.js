@@ -76,7 +76,7 @@ const Tutorexam = () => {
   const updateTutorQuestionData = useSelector(
     (state) => state.updateTutorQuestion
   );
-
+console.log(postTutorQuestionData.data.status === 1);
   const deleteTutorQuestionData = useSelector(
     (state) => state.deleteTutorQuestion
   );
@@ -126,17 +126,7 @@ const Tutorexam = () => {
     dispatch(deleteTutorQuestion(id));
   };
 
-  const {
-    register,
-    handleSubmit,
-    reset,
-    formats,
-    control,
-    getValues,
-    setValue,
-    modules,
-    editorRef,
-    formState: { errors },
+  const { register, handleSubmit, reset, formats, control, getValues, setValue, modules, editorRef,formState: { errors },
   } = useForm({ values: defaultValues });
 
   const questionTypeValues = getValues("questionType");
@@ -158,31 +148,25 @@ const Tutorexam = () => {
       const answer = data.answer;
       const id = data.id;
       dispatch(
-        updateTutorQuestionApi({
-          questionSubject,
-          question,
-          answer,
-          id,
-          ...rest,
-        })
-      );
+        updateTutorQuestionApi({questionSubject, question, answer, id,...rest}));
     } else {
       dispatch(postTutorQuestionApi({ ...data, ...rest }));
     }
+     
     setLoading(false);
     setTimeout(() => {
       navigate(" ");
     }, 500);
+
+  reset()
   };
   const [selectedMcqOption, setSelectedMcqOption] = useState("");
 
   useEffect(() => {
-    if (
-      updateTutorQuestionData.data.status === 1 ||
-      postTutorQuestionData.data.status === 1
-    ) {
-      reset();
-    }
+      if (postTutorQuestionData.data.status === 1) {
+    reset();
+
+  }
   }, []);
 
   const handleUpdateClick = (data) => {

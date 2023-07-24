@@ -38,34 +38,62 @@ const Dashboard = () => {
   
 
    const [selectedOption, setSelectedOption] = useState('today');
+   const [selectAnswerData, setSelectAnswerData] = useState('today')
    const [timerang, setTimerange] = useState([])
-   
+   const [answerTimerang, setAnswerTimerange] = useState([])
+
+
+
+
    const handleOptionChange = (option) => {
-      setSelectedOption(option);
+      setSelectedOption(option);      
+       fetchTimerange(option);
+    };
+
+    const handleAnswerChange = (option) => {    
+      setSelectAnswerData(option)
+      fetchAnswerTimerange(option)       
+    };
+
+    const fetchAnswerTimerange = async (answerTimerang) => {
+        let token = localStorage.getItem("token");
+        try {
+            setLoading1(true);
+
+          const response = await axios.post(`${url}/admin/getanswerquestionstas?timerange=${selectAnswerData}`, {
+            token: token,
+          });
+  
+          console.log(response);
+        setAnswerTimerange(response.data.answeredQuestionQuestionType);
+        setLoading1(false);
+       } catch (error) {
+          logoutIfInvalidToken(error.response);
+          setLoading1(false);
+       }
+    };
+
+    const fetchTimerange = async () => {
+        let token = localStorage.getItem("token");
+        try {
+            setLoading1(true);
+          const response = await axios.post(`${url}/admin/getpostquestionstats?timerange=${selectedOption}`, {
+            token: token,
+          });
+  
+        setTimerange(response.data.questionAskedQuestionType);
+        setLoading1(false);
+       } catch (error) {
+          logoutIfInvalidToken(error.response);
+          setLoading1(false);
+       }
     };
 
 
-      const fetchTimerange = async () => {
-  let token = localStorage.getItem("token");
-  try {
-    setLoading1(true);
-
-    const response = await axios.post(`${url}/admin/dashboardstats?timerange=today`, {
-      token: token,
-    });
-  
-    setTimerange(response.data.dashboardStats.questionAskedQuestionType);
-    setLoading1(false);
-  } catch (error) {
-    logoutIfInvalidToken(error.response);
-    setLoading1(false);
-  }
-};
-
-useEffect(()=>{
-fetchTimerange()
-
-},[])
+    useEffect(()=>{
+      fetchTimerange()
+      fetchAnswerTimerange()
+    },[])
 
 
   return (
@@ -174,68 +202,11 @@ fetchTimerange()
                   <div className="card new-table">
                     <div className="card-body">
                       <div className="table-responsive ">
-                         <h4 className="mt-2 font-weight-bold inner-card-text mb-3">
-                              Post Questions | <span onClick={() => handleOptionChange('today')}
-      className={`btn ${selectedOption === '/today' ? 'btn-primary' : 'btn-outline-primary'}`}> Today</span> |
-       <span onClick={() => handleOptionChange('lifetime')}
-      className={`btn ${selectedOption === '/lifetime' ? 'btn-primary' : 'btn-outline-primary'}`}> LifeTime </span>
-                         </h4>
-                         <table className="table">
-                                <tr>
-                                  <th>Mcq</th>
-                                  <th>Mcq-exp</th>
-                                  <th>T/F</th>
-                                  <th>T/F-exp</th>
-                                  <th>Fillup</th>
-                                  <th>Fillup-exp</th>
-                                  <th>Short Ans</th>
-                                  <th>Short Ans-exp</th>
-                                  <th>Matching-less</th>
-                                  <th>Matching-more</th>
-                                  <th>Def.</th>
-                                  <th>case-study-less</th>
-                                  <th>case-study-more</th>
-                                  <th>Theroy</th>
-                                  <th>Writing</th>
-                                  <th>LongAnswer</th>
-                                  <th>Prob. Solving</th>
-                                  </tr>
-                                <tr>
-                                  <td>{timerang.mcq}</td>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                  <td></td>
-                                 
-                                </tr>
-                              </table>   
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="row mt-4">
-                <div className="col-12 grid-margin stretch-card">
-                  <div className="card new-table">
-                    <div className="card-body">
-                      <div className="table-responsive ">
                          <div className="mt-2 font-weight-bold inner-card-text mb-3">
-                             Answer/ 
-                              <span onClick={() => handleOptionChange('today')}
-      className={`btn ${selectedOption === 'today' ? 'btn-primary' : 'btn-outline-primary'}`}> Today</span> | 
-      <span onClick={() => handleOptionChange('lifetime')}
-      className={`btn ${selectedOption === 'lifetime' ? 'btn-primary' : 'btn-outline-primary'}`}> LifeTime </span>
+                             PostQuestion |
+                           <span onClick={() => handleOptionChange('today')} className={`btn ${selectedOption === 'today' ? 'btn-primary' : 'btn-outline-primary'}`}> Today</span> |
+                          <span onClick={() => handleOptionChange('lifetime')} className={`btn ${selectedOption === 'lifetime' ? 'btn-primary' : 'btn-outline-primary'}`}> LifeTime </span>
+
                          </div>
                          <table className="table">
                                 <tr>
@@ -276,6 +247,70 @@ fetchTimerange()
                                     <td>{timerang?.Writing}</td>
                                     <td>{timerang?.LongAnswer}</td>
                                     <td>{timerang?.Prob_Solving}</td>
+                                  </tr>
+                                </tbody>
+
+                              </table>   
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="row mt-4">
+                <div className="col-12 grid-margin stretch-card">
+                  <div className="card new-table">
+                    <div className="card-body">
+                      <div className="table-responsive ">
+                         <div className="mt-2 font-weight-bold inner-card-text mb-3">
+                             Answer |
+                           <span onClick={() => handleAnswerChange('today')}
+                            className={`btn ${selectAnswerData === 'today' ? 'btn-primary' : 'btn-outline-primary'}`}>
+                               Today</span> |
+                            <span onClick={() => handleAnswerChange('lifetime')} 
+                            className={`btn ${selectAnswerData === 'lifetime' ? 'btn-primary' : 'btn-outline-primary'}`}>
+                               LifeTime </span>
+
+                         </div>
+                         <table className="table">
+                                <tr>
+                                  <th>Mcq</th>
+                                  <th>Mcq-exp</th>
+                                  <th>T/F</th>
+                                  <th>T/F-exp</th>
+                                  <th>Fillup</th>
+                                  <th>Fillup-exp</th>
+                                  <th>Short Answer</th>
+                                  <th>Short Answer-exp</th>
+                                  <th>Matching-less</th>
+                                  <th>Matching-more</th>
+                                  <th>Def.</th>
+                                  <th>case-study-less</th>
+                                  <th>case-study-more</th>
+                                  <th>Theroy</th>
+                                  <th>Writing</th>
+                                  <th>LongAnswer</th>
+                                  <th>Prob. Solving</th>
+                                  </tr>
+                               <tbody>
+                                  <tr>
+                                    <td>{answerTimerang?.mcq}</td>
+                                    <td>{answerTimerang?.Mcq_exp}</td>
+                                    <td>{answerTimerang?.TrueFalse}</td>
+                                    <td>{answerTimerang?.TrueFalse_exp}</td>
+                                    <td>{answerTimerang?.Fillup}</td>
+                                    <td>{answerTimerang?.Fillup_exp}</td>
+                                    <td>{answerTimerang?.shortAns}</td>
+                                    <td>{answerTimerang?.shortAns_exp}</td>
+                                    <td>{answerTimerang?.Matching_less}</td>
+                                    <td>{answerTimerang?.Matching_more}</td>
+                                    <td>{answerTimerang?.Def}</td>
+                                    <td>{answerTimerang?.caseStudy_less}</td>
+                                    <td>{answerTimerang?.caseStudy_more}</td>
+                                    <td>{answerTimerang?.Theroy}</td>
+                                    <td>{answerTimerang?.Writing}</td>
+                                    <td>{answerTimerang?.LongAnswer}</td>
+                                    <td>{answerTimerang?.Prob_Solving}</td>
                                   </tr>
                                 </tbody>
 
