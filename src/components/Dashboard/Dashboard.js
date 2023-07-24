@@ -62,9 +62,8 @@ const Dashboard = () => {
 
           const response = await axios.post(`${url}/admin/getanswerquestionstas?timerange=${selectAnswerData}`, {
             token: token,
-          });
-  
-          console.log(response);
+          });  
+        
         setAnswerTimerange(response.data.answeredQuestionQuestionType);
         setLoading1(false);
        } catch (error) {

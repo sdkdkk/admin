@@ -76,7 +76,7 @@ const Tutorexam = () => {
   const updateTutorQuestionData = useSelector(
     (state) => state.updateTutorQuestion
   );
-console.log(postTutorQuestionData.data.status === 1);
+
   const deleteTutorQuestionData = useSelector(
     (state) => state.deleteTutorQuestion
   );
