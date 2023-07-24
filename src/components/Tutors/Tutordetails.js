@@ -629,6 +629,21 @@ const Tutordetails = () => {
                     ) : (
                       ""
                     )}
+                     <div
+                    className="gap-2 d-md-flex "
+                    style={{ justifyContent: "end" }}>
+                    { active === "4" ? (
+                      <Link to="/tutorlist">
+                        <button
+                          className="btn btn-outline-primary my-2"
+                          type="button"
+                          onClick={Reactive}>
+                          Verify
+                        </button>
+                      </Link>
+                    ) : (
+                      ""
+                    )}
                     <Link to={`/professionaldetails/${_id}`}>
                       <button
                         className="btn btn-outline-primary mx-1  my-2"
