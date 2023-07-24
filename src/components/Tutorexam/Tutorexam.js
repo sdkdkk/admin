@@ -174,14 +174,16 @@ const Tutorexam = () => {
       navigate(" ");
     }, 500);
   };
-   const [selectedMcqOption, setSelectedMcqOption] = useState("");
-   
-useEffect(()=>{
-if(updateTutorQuestionData.data.status ===1 || postTutorQuestionData.data.status ===1){
-  reset();
-}
+  const [selectedMcqOption, setSelectedMcqOption] = useState("");
 
-},[])
+  useEffect(() => {
+    if (
+      updateTutorQuestionData.data.status === 1 ||
+      postTutorQuestionData.data.status === 1
+    ) {
+      reset();
+    }
+  }, []);
 
   const handleUpdateClick = (data) => {
     setIsEditMode(true);
@@ -334,11 +336,13 @@ if(updateTutorQuestionData.data.status ===1 || postTutorQuestionData.data.status
                                   setFormValue({
                                     questionType: e.target.value,
                                   });
-                                  // setDefaultValues({
-                                  //   ...defaultValues,
-                                  //   answer:''
-                                  // })
-                                }}>
+                                  setDefaultValues({
+                                    ...defaultValues,
+                                    answer: mcqoptions[0],
+                                    questionType: e.target.value,
+                                  });
+                                }}
+                              >
                                 <option value="">Select Type</option>
                                 <option value="MCQ">MCQ</option>
                                 <option value="Theory">Theory</option>
@@ -350,257 +354,317 @@ if(updateTutorQuestionData.data.status ===1 || postTutorQuestionData.data.status
                               )}
                             </div>
                           </div>
-                          <div>
-
-    </div> 
-    {isEditMode === true ? 
-                          questionTypeValues === "MCQ" && (
-                            <div className="col-md-12 col-lg-12 mb--20 mt-4">
-                              <h5>MCQ </h5>
-                              <div className="p--20 rbt-border radius-6 bg-primary-opacity">
-                                <div className="row">
-                                  <div className="col-lg-6">
-
-                    
-                                    <div className="rbt-form-check p--10">
-                                      <input
-                                        className="form-check-input"
-                                        type="radio"
-                                        name="rbt-radio"
-                                        id="rbt-radio-0"
-                                        // checked={defaultValues.answer ===mcqoptions[0]}
-                                        onChange={(e) => {
-                                          setDefaultValues({
-                                          ...defaultValues,
-                                          answer:mcqoptions[0]
-                                          })
-                                          setMcqoptionsValue(mcqoptions[0]);
-                                        }}
-                                      />
-                                      <input
-                                        className="form-check-label"
-                                        htmlFor="rbt-radio-0"
-                                         onChange={(e) => {
-                                          if(!mcqoptions.length) return
-                                           const tempmcqoptions = [...mcqoptions];
-                                           tempmcqoptions[0] = e.target.value;
-                                          setMcqoptions([...tempmcqoptions]);
-                                        }}
-                                        value={mcqoptions[0]}
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="col-lg-6">
-                                    <div className="rbt-form-check p--10">
-                                      <input
-                                        className="form-check-input"
-                                        type="radio"
-                                        name="rbt-radio"
-                                        id="rbt-radio-1"
-                                        // checked={defaultValues.answer === mcqoptions[1]}
-                                        onChange={(e) => {
-                                          setDefaultValues({
-                                            ...defaultValues,
-                                            answer:mcqoptions[1]
-                                            })
-                                          setMcqoptionsValue(mcqoptions[1]);
-                                        }}
-                                      />
-                                      <input
-                                        className="form-check-label"
-                                        htmlFor="rbt-radio-1"
-                                        onChange={(e) => {
-                                          if(!mcqoptions.length) return
-                                           const tempmcqoptions = [...mcqoptions];
-                                           tempmcqoptions[1] = e.target.value;
-                                          setMcqoptions([...tempmcqoptions]);
-                                        }}
-                                        // onChange={(e) => {
-                                        //   const tempmcqoptions = mcqoptions;
-                                        //   tempmcqoptions[1] = e.target.value;
-                                        //   setMcqoptions(tempmcqoptions);
-                                        // }}
-                                        value={mcqoptions[1]}
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="col-lg-6">
-                                    <div className="rbt-form-check p--10">
-                                      <input
-                                        className="form-check-input"
-                                        type="radio"
-                                        name="rbt-radio"
-                                        id="rbt-radio-2"
-                                        //  checked={defaultValues.answer ===mcqoptions[2]}
-                                        onChange={(e) => {
-                                          setDefaultValues({
-                                            ...defaultValues,
-                                            answer:mcqoptions[2]
-                                            })
-                                          setMcqoptionsValue(mcqoptions[2]);
-                                        }}
-                                      />
-                                      <input
-                                        className="form-check-label"
-                                        htmlFor="rbt-radio-2"
-                                        onChange={(e) => {
-                                          if(!mcqoptions.length) return
-                                           const tempmcqoptions = [...mcqoptions];
-                                           tempmcqoptions[2] = e.target.value;
-                                          setMcqoptions([...tempmcqoptions]);
-                                        }}
-                                        // onChange={(e) => {
-                                        //   const tempmcqoptions = mcqoptions;
-                                        //   tempmcqoptions[2] = e.target.value;
-                                        //   setMcqoptions(tempmcqoptions);
-                                        // }}
-                                        value={mcqoptions[2]}
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="col-lg-6">
-                                    <div className="rbt-form-check p--10">
-                                    <input
-                                        className="form-check-input"
-                                        type="radio"
-                                        name="rbt-radio"
-                                        id="rbt-radio-3"
-                                        //  checked={defaultValues.answer ===mcqoptions[3]}
-                                        onChange={(e) => {
-                                          setDefaultValues({
-                                            ...defaultValues,
-                                            answer:mcqoptions[3]
-                                            })
-                                          setMcqoptionsValue(mcqoptions[3]);
-                                        }}
-                                      />
-                                      <input
-                                        className="form-check-label"
-                                        htmlFor="rbt-radio-3"
-                                        onChange={(e) => {
-                                          if(!mcqoptions.length) return
-                                           const tempmcqoptions = [...mcqoptions];
-                                           tempmcqoptions[3] = e.target.value;
-                                          setMcqoptions([...tempmcqoptions]);
-                                        }}
-                                        // onChange={(e) => {
-                                        //   const tempmcqoptions = mcqoptions;
-                                        //   tempmcqoptions[3] = e.target.value;
-                                        //   setMcqoptions(tempmcqoptions);
-                                        // }}
-                                        value={mcqoptions[3]}
-                                      />
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-                          ):
-                          questionTypeValues === "MCQ" && (
-                            <div className="col-md-12 col-lg-12 mb--20 mt-4">
-                              <h5>MCQ - Final answer</h5>
-                              <div className="p--20 rbt-border radius-6 bg-primary-opacity">
-                                <div className="row">
-                                  <div className="col-lg-6">
-                                    <div className="rbt-form-check p--10">
-                                      <input
-                                        className="form-check-input"
-                                        type="radio"
-                                        name="rbt-radio"
-                                        id="rbt-radio-0"
-                                        checked={defaultValues.answer ===mcqoptions[0]}
-                                        onChange={(e) =>{
-                                          setMcqoptionsValue(mcqoptions[0])
-                                        }}
-                                      />
-                                      <input
-                                        className="form-check-label"
-                                        htmlFor="rbt-radio-1"
-                                        onChange={(e) => {
-                                          const tempmcqoptions = mcqoptions;
-                                          tempmcqoptions[0] = e.target.value;
-                                          setMcqoptions(tempmcqoptions);
-                                        }}
-                                        value={mcqoptions[0]}
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="col-lg-6">
-                                    <div className="rbt-form-check p--10">
-                                      <input
-                                        className="form-check-input"
-                                        type="radio"
-                                        name="rbt-radio"
-                                        id="rbt-radio-1"    
-                                        checked={defaultValues.answer ===mcqoptions[1]}                                    
-                                        onChange={(e) =>{
-                                          setMcqoptionsValue(mcqoptions[1])
-                                        }}
-                                      />
-                                      <input
-                                        className="form-check-label"
-                                        htmlFor="rbt-radio-1"
-                                        onChange={(e) => {
-                                          const tempmcqoptions = mcqoptions;
-                                          tempmcqoptions[1] = e.target.value;
-                                          setMcqoptions(tempmcqoptions);
-                                        }}
-                                        value={mcqoptions[1]}
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="col-lg-6">
-                                    <div className="rbt-form-check p--10">
-                                      <input
-                                        className="form-check-input"
-                                        type="radio"
-                                        name="rbt-radio"
-                                        id="rbt-radio-2"                                        
-                                        checked={defaultValues.answer ===mcqoptions[2]}
-                                        onChange={(e) =>{
-                                          setMcqoptionsValue(mcqoptions[2])
-                                        }}
-                                      />
-                                      <input
-                                        className="form-check-label"
-                                        htmlFor="rbt-radio-1"
-                                        onChange={(e) => {
-                                          const tempmcqoptions = mcqoptions;
-                                          tempmcqoptions[2] = e.target.value;
-                                          setMcqoptions(tempmcqoptions);
-                                        }}
-                                        value={mcqoptions[2]}
-                                      />
-                                    </div>
-                                  </div>
-                                  <div className="col-lg-6">
-                                    <div className="rbt-form-check p--10">
-                                      <input
-                                        className="form-check-input"
-                                        type="radio"
-                                        name="rbt-radio"
-                                        id="rbt-radio-3"
-                                         checked={defaultValues.answer ===mcqoptions[3]}
-                                        onChange={(e) =>{
-                                          setMcqoptionsValue(mcqoptions[3])
-                                        }}
-                                      />   
-                                      <input
-                                        className="form-check-label"
-                                        htmlFor="rbt-radio-1"
-                                        onChange={(e) => {
-                                          const tempmcqoptions = mcqoptions;
-                                          tempmcqoptions[3] = e.target.value;
-                                          setMcqoptions(tempmcqoptions);
-                                        }}
-                                        value={mcqoptions[3]}
-                                      />
+                          <div></div>
+                          {isEditMode === true
+                            ? questionTypeValues === "MCQ" && (
+                                <div className="col-md-12 col-lg-12 mb--20 mt-4">
+                                  <h5>MCQ </h5>
+                                  <div className="p--20 rbt-border radius-6 bg-primary-opacity">
+                                    <div className="row">
+                                      <div className="col-lg-6">
+                                        <div className="rbt-form-check p--10">
+                                          <input
+                                            className="form-check-input"
+                                            type="radio"
+                                            name="rbt-radio"
+                                            id="rbt-radio-0"
+                                            // checked={defaultValues.answer ===mcqoptions[0]}
+                                            onChange={(e) => {
+                                              setDefaultValues({
+                                                ...defaultValues,
+                                                answer: mcqoptions[0],
+                                              });
+                                              setMcqoptionsValue(mcqoptions[0]);
+                                            }}
+                                          />
+                                          <input
+                                            className="form-check-label"
+                                            htmlFor="rbt-radio-0"
+                                            onChange={(e) => {
+                                              // if(!mcqoptions.length) return
+                                              const tempmcqoptions = [
+                                                ...mcqoptions,
+                                              ];
+                                              tempmcqoptions[0] =
+                                                e.target.value;
+                                              setMcqoptions([
+                                                ...tempmcqoptions,
+                                              ]);
+                                            }}
+                                            value={mcqoptions[0]}
+                                          />
+                                        </div>
+                                      </div>
+                                      <div className="col-lg-6">
+                                        <div className="rbt-form-check p--10">
+                                          <input
+                                            className="form-check-input"
+                                            type="radio"
+                                            name="rbt-radio"
+                                            id="rbt-radio-1"
+                                            // checked={defaultValues.answer === mcqoptions[1]}
+                                            onChange={(e) => {
+                                              setDefaultValues({
+                                                ...defaultValues,
+                                                answer: mcqoptions[1],
+                                              });
+                                              setMcqoptionsValue(mcqoptions[1]);
+                                            }}
+                                          />
+                                          <input
+                                            className="form-check-label"
+                                            htmlFor="rbt-radio-1"
+                                            onChange={(e) => {
+                                              // if(!mcqoptions.length) return
+                                              const tempmcqoptions = [
+                                                ...mcqoptions,
+                                              ];
+                                              tempmcqoptions[1] =
+                                                e.target.value;
+                                              setMcqoptions([
+                                                ...tempmcqoptions,
+                                              ]);
+                                            }}
+                                            // onChange={(e) => {
+                                            //   const tempmcqoptions = mcqoptions;
+                                            //   tempmcqoptions[1] = e.target.value;
+                                            //   setMcqoptions(tempmcqoptions);
+                                            // }}
+                                            value={mcqoptions[1]}
+                                          />
+                                        </div>
+                                      </div>
+                                      <div className="col-lg-6">
+                                        <div className="rbt-form-check p--10">
+                                          <input
+                                            className="form-check-input"
+                                            type="radio"
+                                            name="rbt-radio"
+                                            id="rbt-radio-2"
+                                            //  checked={defaultValues.answer ===mcqoptions[2]}
+                                            onChange={(e) => {
+                                              setDefaultValues({
+                                                ...defaultValues,
+                                                answer: mcqoptions[2],
+                                              });
+                                              setMcqoptionsValue(mcqoptions[2]);
+                                            }}
+                                          />
+                                          <input
+                                            className="form-check-label"
+                                            htmlFor="rbt-radio-2"
+                                            onChange={(e) => {
+                                              // if(!mcqoptions.length) return
+                                              const tempmcqoptions = [
+                                                ...mcqoptions,
+                                              ];
+                                              tempmcqoptions[2] =
+                                                e.target.value;
+                                              setMcqoptions([
+                                                ...tempmcqoptions,
+                                              ]);
+                                            }}
+                                            // onChange={(e) => {
+                                            //   const tempmcqoptions = mcqoptions;
+                                            //   tempmcqoptions[2] = e.target.value;
+                                            //   setMcqoptions(tempmcqoptions);
+                                            // }}
+                                            value={mcqoptions[2]}
+                                          />
+                                        </div>
+                                      </div>
+                                      <div className="col-lg-6">
+                                        <div className="rbt-form-check p--10">
+                                          <input
+                                            className="form-check-input"
+                                            type="radio"
+                                            name="rbt-radio"
+                                            id="rbt-radio-3"
+                                            //  checked={defaultValues.answer ===mcqoptions[3]}
+                                            onChange={(e) => {
+                                              setDefaultValues({
+                                                ...defaultValues,
+                                                answer: mcqoptions[3],
+                                              });
+                                              setMcqoptionsValue(mcqoptions[3]);
+                                            }}
+                                          />
+                                          <input
+                                            className="form-check-label"
+                                            htmlFor="rbt-radio-3"
+                                            onChange={(e) => {
+                                              // if(!mcqoptions.length) return
+                                              const tempmcqoptions = [
+                                                ...mcqoptions,
+                                              ];
+                                              tempmcqoptions[3] =
+                                                e.target.value;
+                                              setMcqoptions([
+                                                ...tempmcqoptions,
+                                              ]);
+                                            }}
+                                            // onChange={(e) => {
+                                            //   const tempmcqoptions = mcqoptions;
+                                            //   tempmcqoptions[3] = e.target.value;
+                                            //   setMcqoptions(tempmcqoptions);
+                                            // }}
+                                            value={mcqoptions[3]}
+                                          />
+                                        </div>
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
-                              </div>
-                            </div>
-                          )} 
+                              )
+                            : questionTypeValues === "MCQ" && (
+                                <div className="col-md-12 col-lg-12 mb--20 mt-4">
+                                  <h5>MCQ - Final answer</h5>
+                                  <div className="p--20 rbt-border radius-6 bg-primary-opacity">
+                                    <div className="row">
+                                      <div className="col-lg-6">
+                                        <div className="rbt-form-check p--10">
+                                          <input
+                                            className="form-check-input"
+                                            type="radio"
+                                            name="rbt-radio"
+                                            id="rbt-radio-0"
+                                            checked={
+                                              defaultValues.answer &&
+                                              mcqoptions[0]
+                                                ? defaultValues.answer ===
+                                                  mcqoptions[0]
+                                                : false
+                                            }
+                                            onChange={(e) => {
+                                              setDefaultValues({
+                                                ...defaultValues,
+                                                answer: mcqoptions[0],
+                                              });
+                                              setMcqoptionsValue(mcqoptions[0]);
+                                            }}
+                                          />
+                                          <input
+                                            className="form-check-label"
+                                            htmlFor="rbt-radio-1"
+                                            onChange={(e) => {
+                                              const tempmcqoptions = mcqoptions;
+                                              tempmcqoptions[0] =
+                                                e.target.value;
+                                              setMcqoptions(tempmcqoptions);
+                                            }}
+                                            value={mcqoptions[0]}
+                                          />
+                                        </div>
+                                      </div>
+                                      <div className="col-lg-6">
+                                        <div className="rbt-form-check p--10">
+                                          <input
+                                            className="form-check-input"
+                                            type="radio"
+                                            name="rbt-radio"
+                                            id="rbt-radio-1"
+                                            checked={
+                                              defaultValues.answer &&
+                                              mcqoptions[1]
+                                                ? defaultValues.answer ===
+                                                  mcqoptions[1]
+                                                : false
+                                            }
+                                            onChange={(e) => {
+                                              setDefaultValues({
+                                                ...defaultValues,
+                                                answer: mcqoptions[1],
+                                              });
+                                              setMcqoptionsValue(mcqoptions[1]);
+                                            }}
+                                          />
+                                          <input
+                                            className="form-check-label"
+                                            htmlFor="rbt-radio-1"
+                                            onChange={(e) => {
+                                              const tempmcqoptions = mcqoptions;
+                                              tempmcqoptions[1] =
+                                                e.target.value;
+                                              setMcqoptions(tempmcqoptions);
+                                            }}
+                                            value={mcqoptions[1]}
+                                          />
+                                        </div>
+                                      </div>
+                                      <div className="col-lg-6">
+                                        <div className="rbt-form-check p--10">
+                                          <input
+                                            className="form-check-input"
+                                            type="radio"
+                                            name="rbt-radio"
+                                            id="rbt-radio-2"
+                                            checked={
+                                              defaultValues.answer &&
+                                              mcqoptions[2]
+                                                ? defaultValues.answer ===
+                                                  mcqoptions[2]
+                                                : false
+                                            }
+                                            onChange={(e) => {
+                                              setDefaultValues({
+                                                ...defaultValues,
+                                                answer: mcqoptions[2],
+                                              });
+                                              setMcqoptionsValue(mcqoptions[2]);
+                                            }}
+                                          />
+                                          <input
+                                            className="form-check-label"
+                                            htmlFor="rbt-radio-1"
+                                            onChange={(e) => {
+                                              const tempmcqoptions = mcqoptions;
+                                              tempmcqoptions[2] =
+                                                e.target.value;
+                                              setMcqoptions(tempmcqoptions);
+                                            }}
+                                            value={mcqoptions[2]}
+                                          />
+                                        </div>
+                                      </div>
+                                      <div className="col-lg-6">
+                                        <div className="rbt-form-check p--10">
+                                          <input
+                                            className="form-check-input"
+                                            type="radio"
+                                            name="rbt-radio"
+                                            id="rbt-radio-3"
+                                            checked={
+                                              defaultValues.answer &&
+                                              mcqoptions[3]
+                                                ? defaultValues.answer ===
+                                                  mcqoptions[3]
+                                                : false
+                                            }
+                                            onChange={(e) => {
+                                              setDefaultValues({
+                                                ...defaultValues,
+                                                answer: mcqoptions[3],
+                                              });
+                                              setMcqoptionsValue(mcqoptions[3]);
+                                            }}
+                                          />
+                                          <input
+                                            className="form-check-label"
+                                            htmlFor="rbt-radio-1"
+                                            onChange={(e) => {
+                                              const tempmcqoptions = mcqoptions;
+                                              tempmcqoptions[3] =
+                                                e.target.value;
+                                              setMcqoptions(tempmcqoptions);
+                                            }}
+                                            value={mcqoptions[3]}
+                                          />
+                                        </div>
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                              )}
 
                           {questionTypeValues === "Theory" && (
                             <Col md={12}>
