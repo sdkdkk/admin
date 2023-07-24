@@ -605,7 +605,7 @@ const Tutordetails = () => {
                   <div
                     className="gap-2 d-md-flex "
                     style={{ justifyContent: "end" }}>
-                    {active === "5" ? (
+                    {active === "5" || active === "4" ? (
                       <Link to="/tutorlist">
                         <button
                           className="btn btn-outline-primary my-2"

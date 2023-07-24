@@ -59,7 +59,6 @@ const Dashboard = () => {
         let token = localStorage.getItem("token");
         try {
             setLoading1(true);
-
           const response = await axios.post(`${url}/admin/getanswerquestionstas?timerange=${selectAnswerData}`, {
             token: token,
           });  
