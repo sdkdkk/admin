@@ -18,6 +18,7 @@ import { toast } from "react-toastify";
 import { BiSearch } from "react-icons/bi";
 import { BsCheck2Circle } from "react-icons/bs";
 import { useForm } from "react-hook-form";
+import TutorExamResult from "../Tutorexam/TutorExamResult";
 
 const url = process.env.REACT_APP_API_BASE_URL;
 
@@ -283,6 +284,7 @@ const Tutordetails = () => {
                 <div className="heading-main mt-5 text-start mx-3">
                   <h4>Tutor Details</h4>
                 </div>
+                
                 <div className="second-section text-start mt-4 mx-4">
                   {tutorpaydetails.map((data, index) => {
                     return (
@@ -317,7 +319,7 @@ const Tutordetails = () => {
                               {data.bankdetails?.IFSCCode || ""}
                             </div>
                             <div>
-                              <strong>Branch:</strong>
+                              <strong>Branch Name:</strong>
                               {data.bankdetails?.Tutorbankname || ""}
                             </div>
                             <div>
@@ -391,6 +393,9 @@ const Tutordetails = () => {
                       </div>
                     );
                   })}
+                  <div className="heading-main mt-5 text-start">
+                    <TutorExamResult />
+                  </div>
                   <div className="heading-main mt-5 text-start">
                     <h4>Transaction History</h4>
                   </div>

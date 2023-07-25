@@ -178,8 +178,8 @@ const Tutorexam = () => {
     } else {
       dispatch(postTutorQuestionApi({ ...data, ...rest }));
     }
-    resetForm();
-    reset();
+    // resetForm();
+    // reset();
     setLoading(false);
     setTimeout(() => {
       navigate(" ");
@@ -189,6 +189,7 @@ const Tutorexam = () => {
 
   useEffect(() => {
     if (postTutorQuestionData.data.status === 1) {
+     resetForm();
       reset();
     }
   }, []);
