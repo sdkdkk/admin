@@ -1,6 +1,5 @@
 import { combineReducers } from "redux";
 import authReducer from "../Redux/Loginpages/authSlice";
-// import authReducer from "../Redux/Loginpages/authSlice"
 import tutorunverifiedReducer from "../Redux/Loginpages/tutorunverifiedSlice";
 import tutorwarningReducer from "../Redux/Loginpages/tutorwarningSlice";
 import tutorworkingReducer from "../Redux/Loginpages/tutorworkingSlice";

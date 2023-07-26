@@ -31,21 +31,6 @@ export const tutorspayment = createAsyncThunk('tutors/Tutorspayment', async({ is
     }
 });
 
-
-// export const tutorspayment = createAsyncThunk('tutors/Tutorspayment', async ( { isPaymentDone,rejectWithValue }) => {
-
-//     const token = localStorage.getItem('token')
-//     //  const isPaymentDone =0
-//     try {
-//         const response = await axios.post(`${url}/admin/tutorspayment?isPaymentDone=${isPaymentDone}`, { token });
-//         return response.data;
-//     } catch (error) {
-//         logoutIfInvalidToken(error.response)
-//         return rejectWithValue(error.message);
-//     }
-// })
-
-
 export const tutorspaymentSlice = createSlice({
     name: 'user',
     initialState,

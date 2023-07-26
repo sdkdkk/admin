@@ -15,7 +15,6 @@ const tutorpaynowSlice = createSlice({
     status: true,
   },
   reducers: {
-    //Set-info
     tutorpaynowPending: (state) => {
       state.loading = true;
     },
@@ -26,7 +25,6 @@ const tutorpaynowSlice = createSlice({
       state.user = payload;
       state.token = payload.token;
       state.error = null;
-      // localStorage.setItem("token", state.token);
     },
     tutorpaynowFailure: (state, { payload }) => {
       state.loading = false;
@@ -37,8 +35,6 @@ const tutorpaynowSlice = createSlice({
     },
   },
 });
-
-//Testimonial
 
 export const {tutorpaynowPending, tutorpaynowSuccess,tutorpaynowFailure} = tutorpaynowSlice.actions;
 

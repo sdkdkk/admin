@@ -14,7 +14,7 @@ const questiontypePriceSlice = createSlice({
     status: true,
   },
   reducers: {
-    //Set-info
+    
     questiontypepricePending: (state) => {
       state.loading = true;
     },
@@ -25,7 +25,6 @@ const questiontypePriceSlice = createSlice({
       state.user = payload;
       state.token = payload.token;
       state.error = null;
-      // localStorage.setItem("token", state.token);
     },
     questiontypepriceFailure: (state, { payload }) => {
       state.loading = false;
@@ -36,8 +35,6 @@ const questiontypePriceSlice = createSlice({
     },
   },
 });
-
-//Testimonial
 
 export const {
   questiontypepricePending,

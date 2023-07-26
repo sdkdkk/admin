@@ -17,7 +17,7 @@ const testimonialSlice = createSlice({
     },
     reducers: {
 
-        //Set-info
+        
         testimonialPending: (state) => {
             state.loading = true;
         },
@@ -27,7 +27,6 @@ const testimonialSlice = createSlice({
             state.user = payload;
             state.token = payload.token;
             state.error = null;
-            // localStorage.setItem("token", state.token);
         },
         testimonialFailure: (state, { payload }) => {
             state.loading = false;

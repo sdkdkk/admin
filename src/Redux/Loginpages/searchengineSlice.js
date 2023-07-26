@@ -15,7 +15,7 @@ const searchengineSlice = createSlice({
         status: true,
     },
     reducers: {
-        //Set-info
+        
         searchenginePending: (state) => {
             state.loading = true;
         },
@@ -43,7 +43,7 @@ const searchengineSlice = createSlice({
     },
 });
 
-//Set-info
+
 export const {
     searchenginePending,
     searchengineSuccess,
@@ -51,13 +51,6 @@ export const {
     reset,
 } = searchengineSlice.actions;
 
-// export const searchenginereset = (a = 5) => {
-
-//     async(dispatch) => {
-//         dispatch(reset());
-//     }
-
-// }
 export const searchengine =
     (limit = 5, skip = 0, act = 0) =>
         async (dispatch) => {

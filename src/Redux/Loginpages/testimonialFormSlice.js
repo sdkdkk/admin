@@ -18,7 +18,7 @@ const testimonialFormSlice = createSlice({
     },
     reducers: {
 
-        //Set-info
+        
         testimonialFromPending: (state) => {
             state.loading = true;
             state.isAuthenticated = false;
@@ -29,7 +29,6 @@ const testimonialFormSlice = createSlice({
             state.user = payload;
             state.token = payload.token;
             state.error = null;
-            // localStorage.setItem("token", state.token);
         },
         testimonialFormFailure: (state, { payload }) => {
             state.loading = false;

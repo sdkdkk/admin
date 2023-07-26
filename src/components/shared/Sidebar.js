@@ -4,9 +4,6 @@ import "./Sidebar.css";
 import { useSelector } from "react-redux";
 
 const Sidebar = () => {
-  // const navMenusState = useSelector((state) => state.auth?.user?.actions) || [];
-  // const navMenusStateLocal = localStorage.getItem("menusItem");
-  // const navMenusStateLocalParsedObject = JSON.parse(navMenusStateLocal) ;
 
   const navMenusState = useSelector((state) => state.auth?.user?.actions) || [];
   const navMenusStateLocal = localStorage.getItem("menusItem");

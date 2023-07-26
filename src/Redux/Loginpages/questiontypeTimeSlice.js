@@ -14,8 +14,7 @@ const questiontypeTimeSlice = createSlice({
     loading: false,
     status: true,
   },
-  reducers: {
-    //Set-info
+  reducers: {    
     questiontypePending: (state) => {
       state.loading = true;
     },
@@ -26,7 +25,6 @@ const questiontypeTimeSlice = createSlice({
       state.user = payload;
       state.token = payload.token;
       state.error = null;
-      // localStorage.setItem("token", state.token);
     },
     questiontypeFailure: (state, { payload }) => {
       state.loading = false;
@@ -38,7 +36,6 @@ const questiontypeTimeSlice = createSlice({
   },
 });
 
-//Testimonial
 
 export const { questiontypePending, questiontypeSuccess, questiontypeFailure } =
   questiontypeTimeSlice.actions;

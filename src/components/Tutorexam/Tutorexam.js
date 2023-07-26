@@ -178,8 +178,6 @@ const Tutorexam = () => {
     } else {
       dispatch(postTutorQuestionApi({ ...data, ...rest }));
     }
-    // resetForm();
-    // reset();
     setLoading(false);
     setTimeout(() => {
       navigate(" ");
@@ -377,7 +375,6 @@ const Tutorexam = () => {
                                             type="radio"
                                             name="rbt-radio"
                                             id="rbt-radio-0"
-                                            // checked={defaultValues.answer ===mcqoptions[0]}
                                             onChange={(e) => {
                                               setDefaultValues({
                                                 ...defaultValues,
@@ -390,7 +387,6 @@ const Tutorexam = () => {
                                             className="form-check-label"
                                             htmlFor="rbt-radio-0"
                                             onChange={(e) => {
-                                              // if(!mcqoptions.length) return
                                               const tempmcqoptions = [
                                                 ...mcqoptions,
                                               ];
@@ -411,7 +407,6 @@ const Tutorexam = () => {
                                             type="radio"
                                             name="rbt-radio"
                                             id="rbt-radio-1"
-                                            // checked={defaultValues.answer === mcqoptions[1]}
                                             onChange={(e) => {
                                               setDefaultValues({
                                                 ...defaultValues,
@@ -424,7 +419,6 @@ const Tutorexam = () => {
                                             className="form-check-label"
                                             htmlFor="rbt-radio-1"
                                             onChange={(e) => {
-                                              // if(!mcqoptions.length) return
                                               const tempmcqoptions = [
                                                 ...mcqoptions,
                                               ];
@@ -434,11 +428,6 @@ const Tutorexam = () => {
                                                 ...tempmcqoptions,
                                               ]);
                                             }}
-                                            // onChange={(e) => {
-                                            //   const tempmcqoptions = mcqoptions;
-                                            //   tempmcqoptions[1] = e.target.value;
-                                            //   setMcqoptions(tempmcqoptions);
-                                            // }}
                                             value={mcqoptions[1]}
                                           />
                                         </div>
@@ -450,7 +439,6 @@ const Tutorexam = () => {
                                             type="radio"
                                             name="rbt-radio"
                                             id="rbt-radio-2"
-                                            //  checked={defaultValues.answer ===mcqoptions[2]}
                                             onChange={(e) => {
                                               setDefaultValues({
                                                 ...defaultValues,
@@ -463,7 +451,6 @@ const Tutorexam = () => {
                                             className="form-check-label"
                                             htmlFor="rbt-radio-2"
                                             onChange={(e) => {
-                                              // if(!mcqoptions.length) return
                                               const tempmcqoptions = [
                                                 ...mcqoptions,
                                               ];
@@ -473,11 +460,6 @@ const Tutorexam = () => {
                                                 ...tempmcqoptions,
                                               ]);
                                             }}
-                                            // onChange={(e) => {
-                                            //   const tempmcqoptions = mcqoptions;
-                                            //   tempmcqoptions[2] = e.target.value;
-                                            //   setMcqoptions(tempmcqoptions);
-                                            // }}
                                             value={mcqoptions[2]}
                                           />
                                         </div>
@@ -489,7 +471,6 @@ const Tutorexam = () => {
                                             type="radio"
                                             name="rbt-radio"
                                             id="rbt-radio-3"
-                                            //  checked={defaultValues.answer ===mcqoptions[3]}
                                             onChange={(e) => {
                                               setDefaultValues({
                                                 ...defaultValues,
@@ -502,7 +483,6 @@ const Tutorexam = () => {
                                             className="form-check-label"
                                             htmlFor="rbt-radio-3"
                                             onChange={(e) => {
-                                              // if(!mcqoptions.length) return
                                               const tempmcqoptions = [
                                                 ...mcqoptions,
                                               ];
@@ -512,11 +492,6 @@ const Tutorexam = () => {
                                                 ...tempmcqoptions,
                                               ]);
                                             }}
-                                            // onChange={(e) => {
-                                            //   const tempmcqoptions = mcqoptions;
-                                            //   tempmcqoptions[3] = e.target.value;
-                                            //   setMcqoptions(tempmcqoptions);
-                                            // }}
                                             value={mcqoptions[3]}
                                           />
                                         </div>

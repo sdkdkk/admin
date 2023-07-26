@@ -15,7 +15,7 @@ const getQuestiontimeSlice = createSlice({
     status: true,
   },
   reducers: {
-    //Set-info
+    
     gettimingPending: (state) => {
       state.loading = true;
     },
@@ -26,7 +26,6 @@ const getQuestiontimeSlice = createSlice({
       state.user = payload;
       state.token = payload.token;
       state.error = null;
-      // localStorage.setItem("token", state.token);
     },
     gettimingFailure: (state, { payload }) => {
       state.loading = false;
@@ -37,8 +36,6 @@ const getQuestiontimeSlice = createSlice({
     },
   },
 });
-
-//Testimonial
 
 export const { gettimingPending, gettimingFailure, gettimingSuccess } =
   getQuestiontimeSlice.actions;

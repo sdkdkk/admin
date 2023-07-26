@@ -216,7 +216,7 @@ const Testimonial = () => {
                                     </div>
                                   </td>
                                 </tr>
-                              ) : testimonial.user?.testimonial.length === 0 ? ( // Check if testimonial data is empty
+                              ) : testimonial.user?.testimonial.length === 0 ? ( 
                                 <tr>
                                   <td
                                     colSpan="6"

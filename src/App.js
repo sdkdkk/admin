@@ -92,39 +92,10 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
-        <Route
-          path="/"
-          element={
-            // <RequireAuth>
-              <Dashboard />
-            // </RequireAuth>
-          }
-        />
-        <Route
-          path="navbar"
-          element={
-            <RequireAuth>
-              <Navbar />
-            </RequireAuth>
-          }
-        />
-        <Route
-          path="tutorlist"
-          element={
-            <RequireAuth>
-              <Tutorlist />
-            </RequireAuth>
-          }
-        />
-
-        <Route
-          path="tutorspayment"
-          element={
-            <RequireAuth>
-              <Tutorspayment />
-            </RequireAuth>
-          }
-        />
+        <Route path="/" element={<Dashboard /> }/>
+        <Route path="navbar" element={<RequireAuth><Navbar /></RequireAuth>}/>
+        <Route path="tutorlist" element={<RequireAuth><Tutorlist /></RequireAuth>} />
+        <Route path="tutorspayment" element={<RequireAuth><Tutorspayment /></RequireAuth>}/>
         <Route
           path="studentlist"
           element={
@@ -562,8 +533,7 @@ function App() {
         <Route path="/questionanswerall/:id" element={<QuestionAnswerAll />} />
         <Route path="/contactus" element={<Contactus />} />
         <Route path="/forgotpassword" element={<ForgotpassWord />} />
-        <Route
-          path="/logout"
+        <Route path="/logout" 
           element={
             <RequireAuth>
               <Logout />
@@ -574,10 +544,7 @@ function App() {
         <Route path="studentregitserbonus" element={<StudentRegitserBonus />} />
         <Route path="/answerguideline" element={<AnswerGuideline />} />
         <Route path="/postingguideline" element={<PostingGuideLine />} />
-        <Route
-          path="/transactiondetailshow"
-          element={<Transactiondetailshow />}
-        />
+        <Route path="/transactiondetailshow" element={<Transactiondetailshow />}/>
         <Route path="/questionanswer/:id" element={<Questionanswer />} />
         <Route path="/studentmobile" element={<Studentmobile/>} />
         <Route path="/tutormobile" element={<Tutormobile/>} />

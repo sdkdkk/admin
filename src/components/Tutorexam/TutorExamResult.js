@@ -204,8 +204,7 @@ fetchSubject()
                 <p className="mb--20"> Are you sure you want to proceed?</p>
                 <div className="d-flex justify-content-center">
                   <Button
-                  type='submit'
-                    // onClick={onClickPayment}                   
+                  type='submit'              
                     className="rbt-btn bg-success btn-sm mr--10 mr_sm--0 mb_sm--10">
                  Submit
                   </Button>
